@@ -1,0 +1,87 @@
+.post_title, .post_date {
+	border-bottom: 1px solid #DDDDDD;
+}
+
+.post_title {
+	font-weight: bold;
+	font-size: 12px;
+	color: #000000;
+}
+
+.post_date {
+	text-align: right;
+	font-weight: bold;
+}
+
+.post_short {
+	text-align: justify;
+	padding-bottom: 5px;
+}
+
+.comment_title {
+	font-weight: bold;
+}
+
+.comment_text {
+	font-weight: bold;
+	background-color: #FDFDFD;
+	border-bottom: 1px solid #DDDDDD;
+	padding-bottom: 15px;
+}
+
+.comment_title, .comment-text {
+	border-left: 1px solid #DDDDDD;
+}
+
+.comment_info {
+	text-align: right;
+	border-right: 1px solid #DDDDDD;
+}
+
+.comment_title, .comment_info {
+	border-top: 1px solid #DDDDDD;
+	background-color: #EEEEEE;
+}
+
+.selected_group_title { 
+	font-size: 14px;
+	text-align: center;
+}
+/*** Don't remove the class nixhier, this is required for ASP ***/
+.nixhier {
+	display:none;
+}
+
+.loop-header {
+	width: 100%;
+}
+
+.page-header {
+	width: 100%;	
+}
+.post-header {
+	width: 100%;	
+}
+
+.page-left {
+	text-align: left;	
+}
+.page-center {
+	text-align: center;
+}
+
+.page-right {
+	text-align: right;	
+}
+
+.comment-header {
+	width: 100%;
+}
+
+.public-info {
+	text-align: right;
+}
+
+.group-page {
+	text-align: center;
+}
