@@ -147,7 +147,11 @@ function GetFoldersAndFilesCallBack( fckXml )
 		var oFileUrlAtt = oNodes[j].attributes.getNamedItem('url') ;
 		var sFileUrl = oFileUrlAtt != null ? oFileUrlAtt.value : sCurrentFolderUrl + sFileName ;
 
-		oHtml.Append( oListManager.GetFileRowHtml( sFileName, sFileUrl, sFileSize ) ) ;
+		// hide index.php in browse media - added for Website Baker
+		if (sFileName != "index.php") 
+		{
+			oHtml.Append( oListManager.GetFileRowHtml( sFileName, sFileUrl, sFileSize ) ) ;
+		}
 	}
 
 	oHtml.Append( '<\/table>' ) ;

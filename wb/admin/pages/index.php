@@ -90,11 +90,9 @@ function make_list($parent, $editable_pages) {
 			$num_pages = $get_pages->numRows();
 			?>
 			<li class="p<?php echo $page['parent']; ?>">
-			<table class="pages_view" border="0">
+			<table class="pages_view" border="0" cellpadding="0" cellspacing="0">
 			<tr>
-				<td width="30" align="right"><?php echo $page['page_id']; ?></td>
-				<td width="20" style="padding-left: <?php if($page['level'] > 0){ echo $page['level']*20; } else { echo '7'; } ?>px;">
-
+				<td valign="middle" width="20" style="padding-left: <?php if($page['level'] > 0){ echo $page['level']*20; } else { echo '7'; } ?>px;">
 					<?php
 					if($display_plus == true) {
 					?>
@@ -143,7 +141,10 @@ function make_list($parent, $editable_pages) {
 				</td>
 				<?php } ?>
 				<td class="list_menu_title">
-					<font color="#999999"><?php echo ($page['menu_title']); ?></font>
+					<?php echo ($page['menu_title']); ?>
+				</td>
+				<td class="list_page_id">
+					<?php echo $page['page_id']; ?>
 				</td>
 				<td class="list_actions">
 					<?php if($page['visibility'] != 'deleted' AND $page['visibility'] != 'none') { ?>
@@ -267,16 +268,15 @@ if($admin->get_permission('pages_view') == true) {
 	<div class="pages_list">
 	<table cellpadding="0" cellspacing="0" border="0">
 	<tr>
-		<td width="10px">
-			&nbsp;
-		</td>
-		<td class="header_list_page_ID">ID</td>
 		<td class="header_list_page_title">
 			<?php echo $TEXT['VISIBILITY'] .' / ' .$TEXT['PAGE_TITLE']; ?>:
 		</td>
 		<td class="header_list_menu_title">
 			<?php echo $TEXT['MENU_TITLE']; ?>:
 		</td>
+		<td class="header_list_page_id">
+			ID:
+		</td>		
 		<td class="header_list_actions">
 			<?php echo $TEXT['ACTIONS']; ?>:
 		</td>

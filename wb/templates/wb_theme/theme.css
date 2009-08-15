@@ -371,32 +371,20 @@ select option.disabled {
  cursor: pointer;
 }
 
-.jsadmin_drag img:hover {
-/* background-color: lightgrey; */
-}
-
 .modify_link {
  padding-top: 4px;
  padding-left: 7px;
  text-indent: 7px;
 }
 
-.header_list_page_ID {width:15px;text-align:left;}
-.header_list_page_title {width:272px;text-align:left;}
-.header_list_menu_title {width:252px;text-align:left;}
-.header_list_actions {text-align:left;}
+.header_list_page_title {text-align:left;}
+.header_list_menu_title {width:240px; text-align:left;}
+.header_list_page_id {width:40px; text-align:left;}
+.header_list_actions {width:150px; text-align:left;}
 
-.list_page_title {}
-.list_menu_title {width:252px;text-align:left;}
-.list_actions {width:20px;}
-
-
-
-
-
-
-
-
-
+.list_page_title {text-align:left;}
+.list_menu_title {width:240px;text-align:left;}
+.list_page_id {width:40px;text-align:left;}
+.list_actions {width:20px;text-align:left;}
 
 /* Ende */
