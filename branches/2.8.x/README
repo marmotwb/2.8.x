@@ -1,0 +1,46 @@
+General Information
+===================
+Website Baker is a PHP-based content management system
+which enables users to produce websites with ease.
+Features include a template-based front-end, modulated
+and multi-level page support, multi-user administration,
+and much much more!
+
+
+License
+=======
+Website Baker is released under the GNU General Public License,
+Copyright (C) 2004-2009 Ryan Djurovich.
+Please refer to the COPYING file for a copy of the license.
+
+
+Installation
+============
+Please refer to the INSTALL file for instructions on installation.
+
+
+Usage
+=====
+Before using Website Baker please note: you must not remove/change any
+copyright notices in the any code contained in this package.
+Also, it is appreciated if you leave a link somewhere on your website,
+which links to the Website Baker website. (http://www.websitebaker.org/) 
+
+
+Support
+=======
+For information about finding help:
+http://www.websitebaker.org
+
+
+Bugs
+====
+To submit a bug:
+http://www.websitebaker.org
+
+
+Contribute
+==========
+For information about how to contribute (donating, etc):
+http://www.websitebaker.org
+
