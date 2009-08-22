@@ -569,7 +569,7 @@ if($install_tables == true) {
 	$search_header = addslashes('
 <h1>[TEXT_SEARCH]</h1>
 
-<form name="search" action="[WB_URL]/search/index.php" method="get">
+<form name="searchpage" action="[WB_URL]/search/index.php" method="get">
 <table cellpadding="3" cellspacing="0" border="0" width="500">
 <tr>
 <td>
