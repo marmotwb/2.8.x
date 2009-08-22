@@ -10,6 +10,10 @@ Legend:
 # = Bugfix
 ! = Update/Change
 
+------------------------------------- 2.8.1 -------------------------------------
+22-Aug-2009 Ruud Eisinga
+# 	Changed the default searchform name in the installer. (ticket #775)
+#	Fixed the recursive redirect problem when a page is called with a wrong language parm (ticket #780)
 ------------------------------------- 2.8.0 -------------------------------------
 14-Aug-2009 Matthias Gallas
 #	Fixed typo in dutch language file (Thanks to Argos)
