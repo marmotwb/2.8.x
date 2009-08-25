@@ -216,7 +216,7 @@ class wb
 
 	// Get the current users group ids
 	function get_groups_id() {
-		return split(",", $_SESSION['GROUPS_ID']);
+		return explode(",", $_SESSION['GROUPS_ID']);
 	}
 
 	// Get the current users group name
