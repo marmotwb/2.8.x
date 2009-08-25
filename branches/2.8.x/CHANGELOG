@@ -11,6 +11,11 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+25-Aug-2009 Ruud Eisinga
+#	Fixed bug in droplets. Multiple droplets with the same parameter did not extract the new parameter.
+	(problem introduced by code optimisations for WB2.8) 
+#	Fixed usage of the depriciated (PHP 5.3.0) split() function in class.wb. (ticket #772)
+#	Fixed notice ob_end_clean..failed to delete buffer. (ticket #779)
 22-Aug-2009 Ruud Eisinga
 # 	Changed the default searchform name in the installer. (ticket #775)
 #	Fixed the recursive redirect problem when a page is called with a wrong language parm (ticket #780)

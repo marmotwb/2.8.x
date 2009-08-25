@@ -102,7 +102,7 @@ if(file_exists(WB_PATH .'/modules/droplets/droplets.php')) { @require_once(WB_PA
 ob_start();
 require(WB_PATH.'/templates/'.TEMPLATE.'/index.php');
 $output = ob_get_contents();
-ob_end_clean();
+if (ob_get_length() > 0) ob_end_clean();
 
 if(function_exists('evalDroplets')) { $output = evalDroplets($output); }
 if(function_exists('filter_frontend_output')) { $output = filter_frontend_output($output); }

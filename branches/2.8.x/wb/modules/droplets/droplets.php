@@ -3,12 +3,14 @@
 // $Id$
 
 /*
-*	@version	1.0
+*	@version	1.0.2
 *	@author		Ruud Eisinga (Ruud) John (PCWacht)
 *	@date		June 2009
 *
 *	droplets are small codeblocks that are called from anywhere in the template. 
-* 	To call a droplet just use [[dropletname]]. optional parameters for a droplet can be used like [[dropletname?parameter=value&parameter2=value]]
+* 	To call a droplet just use [[dropletname]]. optional parameters for a droplet can be used like [[dropletname?parameter=value&parameter2=value]]\
+*
+*   1.0.2, bugfix. Reused the evalDroplet function so the extracted parameters will be only available within the scope of the eval and cleared when ready.
 */
 
 function evalDroplets ($wb_page_data) {
@@ -37,8 +39,7 @@ function evalDroplets ($wb_page_data) {
 		if ($query_content && $query_content->numRows() > 0){
 			$fetch_content = $query_content->fetchRow();
 			$codedata = ($fetch_content['code']);
-			if(is_array($parameter)) extract($parameter, EXTR_SKIP);
-			$newvalue = eval($codedata);
+			$newvalue = evalDroplet($codedata, $parameter, $wb_page_data);
 			if ($newvalue == "" && !$newvalue === true) 
 				$newvalue = "<font color=\"red\">Error in: $match, no correct returnvalue.</font>";
 			if ($newvalue === true) 
@@ -47,5 +48,10 @@ function evalDroplets ($wb_page_data) {
 		}
 	}
 	return $wb_page_data;
+}
+
+function evalDroplet($droplet, $params, &$wb_page_data) {
+    if(is_array($params)) extract($params, EXTR_SKIP);
+	return eval($droplet);
 }
 ?>
