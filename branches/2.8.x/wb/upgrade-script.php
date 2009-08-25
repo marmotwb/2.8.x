@@ -117,7 +117,7 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 }
 
 echo '<h2>Step 2: Updating database entries</h2>';
-
+define ("DEFAULT_THEME", "wb_theme");
 require_once('config.php');
 require_once(WB_PATH.'/framework/functions.php');
 

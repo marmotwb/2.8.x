@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+25-Aug-2009 Dietrich Roland Pehlke
+#	Fixed bug in upgrate-script. Constant 'DEFAULT_THEME' doesn't exists (ticket #784).
 25-Aug-2009 Ruud Eisinga
 #	Fixed bug in droplets. Multiple droplets with the same parameter did not extract the new parameter.
 	(problem introduced by code optimisations for WB2.8) 
