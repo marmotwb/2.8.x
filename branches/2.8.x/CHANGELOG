@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+15-Sep-2009 Dietrich Roland Pehlke
+#	Fixed bug: group-restrictions and sections (ticket #791).
+#	Fixed bug inside the FCK-Editor wbmodul: displaying the correct page-tree by
+	adding "order by position"
 25-Aug-2009 Dietrich Roland Pehlke
 #	Fixed bug in upgrate-script. Constant 'DEFAULT_THEME' doesn't exists (ticket #784).
 25-Aug-2009 Ruud Eisinga
