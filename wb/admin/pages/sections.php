@@ -280,7 +280,7 @@ if($query_sections->numRows() > 0) {
 							) 
 						);
 			}
-		}
+		} else continue; // user have not the right to edit this section/modul
 			$template->set_var(array(
 							'DISPLAY_DEBUG' => ' style="visibility="visible;"',
 							'TEXT_SID' => 'SID',

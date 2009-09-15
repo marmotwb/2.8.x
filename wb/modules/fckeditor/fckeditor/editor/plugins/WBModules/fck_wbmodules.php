@@ -38,7 +38,7 @@ $template->set_block('page', 'main_block', 'main');
 // Function to generate page list
 function gen_page_list($parent) {
 	global $template, $database, $admin;
-	$get_pages = $database->query("SELECT * FROM ".TABLE_PREFIX."pages WHERE parent = '$parent'");
+	$get_pages = $database->query("SELECT * FROM ".TABLE_PREFIX."pages WHERE parent = '$parent' order by position");
 	while($page = $get_pages->fetchRow()) {
 		// method page_is_visible was introduced with WB 2.7
 		if(method_exists($admin, 'page_is_visible') && !$admin->page_is_visible($page))
@@ -70,7 +70,7 @@ function gen_page_list($parent) {
 // Get pages and put them into the pages list
 $template->set_block('main_block', 'page_list_block', 'page_list');
 $database = new database();
-$get_pages = $database->query("SELECT * FROM ".TABLE_PREFIX."pages WHERE parent = '0'");
+$get_pages = $database->query("SELECT * FROM ".TABLE_PREFIX."pages WHERE parent = '0' order by position");
 if($get_pages->numRows() > 0) {
 	// Loop through pages
 	while($page = $get_pages->fetchRow()) {
