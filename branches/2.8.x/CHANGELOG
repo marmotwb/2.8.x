@@ -11,6 +11,11 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+16-Sep-2009 Dietmar Woellbrink
+#	Fixed bug changed URL_HELP in class.admin.php to http://help.websitebaker.org/ (ticket #801).
+#	Fixed bug: inside the FCK-Editor wbmodul: missing 'OK' button when inserting WB link with Safari/Chrome (ticket #795).
+#	Fixed bug changed png fix and path to jquery-pngFix.js inside footer.htt for backend themes (ticket #786).
+#	Fixed bug: inside the FCK-Editor include.php: add $oFCKeditor->Width  = $width; (ticket #799).
 15-Sep-2009 Dietrich Roland Pehlke
 #	Fixed bug: group-restrictions and sections (ticket #791).
 #	Fixed bug inside the FCK-Editor wbmodul: displaying the correct page-tree by
