@@ -31,8 +31,8 @@
 			//If an anchor (A) object is currently selected, load the properties into the dialog 
 			function LoadSelected()	{
 				var sSelected;
-				
-				if ( oEditor.FCKBrowserInfo.IsGecko ) {
+
+				if ( oEditor.FCKBrowserInfo.IsGecko || oEditor.FCKBrowserInfo.IsSafari || oEditor.FCKBrowserInfo.IsChrome ) {
 					sSelected = FCK.EditorWindow.getSelection();
 				} else {
 					sSelected = FCK.EditorDocument.selection.createRange().text;
