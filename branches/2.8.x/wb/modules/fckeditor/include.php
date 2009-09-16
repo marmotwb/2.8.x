@@ -112,6 +112,7 @@ function show_wysiwyg_editor($name, $id, $content, $width, $height) {
 		.$connectorPath;
 
 	$oFCKeditor->Value = reverse_htmlentities($content);
+    $oFCKeditor->Width  = $width;
 	$oFCKeditor->Height = $height;
 	$oFCKeditor->Create();
 }

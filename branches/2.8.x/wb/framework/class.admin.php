@@ -149,7 +149,7 @@ class admin extends wb {
 													'TITLE_HELP' => $MENU['HELP'],
 													'TITLE_LOGOUT' =>  $MENU['LOGOUT'],
 													'URL_VIEW' => $view_url,
-													'URL_HELP' => 'http://www.websitebaker.org/help/'.WB_VERSION,
+													'URL_HELP' => 'http://help.websitebaker.org/',
 													'BACKEND_MODULE_CSS' => $this->register_backend_modfiles('css'),	// adds backend.css
 													'BACKEND_MODULE_JS'  => $this->register_backend_modfiles('js')		// adds backend.js
 													)
