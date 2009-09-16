@@ -26,6 +26,9 @@
   Authors: P. Widlund, S. Braunewell, M. Gallas (ruebenwurzel), Wouldlouper, C. Sommer (doc)
 	Started to track applied changes in info.php from 27.03.2007 onwards (cs)
  -----------------------------------------------------------------------------------------------------------
+	v2.89 (Aldus, Luishahne Sep 16, 2009)
+		+	fix pagetree order in WB-Link
+        +   fix not shown ok button in WB-Link
 	v2.89 (ruebenwurzel.. Matthias Gallas; Jul 6, 2009)
 		+	update to FCKEditor release v2.6.4.1
 		+	added WB Droplet Plugin
@@ -122,7 +125,7 @@
 $module_directory		= 'fckeditor';
 $module_name			= 'FCKeditor';
 $module_function		= 'WYSIWYG';
-$module_version			= '2.89';
+$module_version			= '2.9';
 $module_platform		= '2.7';
 $module_author 			= 'Christian Sommer, P. Widlund, S. Braunewell, M. Gallas, Wouldlouper';
 $module_license 		= 'GNU General Public License';
