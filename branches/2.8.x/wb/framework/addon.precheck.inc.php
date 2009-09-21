@@ -287,11 +287,12 @@ function preCheckAddon($temp_addon_file)
 			case 'CUSTOM_CHECKS':
 				if (is_array($PRECHECK['CUSTOM_CHECKS'])) {
 					foreach($PRECHECK['CUSTOM_CHECKS'] as $key => $values) {
+						$status = (true === array_key_exists('STATUS', $values )) ? $values['STATUS'] : false;
 						$msg[] = array(
 							'check'		=> $key,
 							'required'	=> $values['REQUIRED'],
 							'actual'	=> $values['ACTUAL'],
-							'status'	=> $values['STATUS']
+							'status'	=> $status
 						);
 					}
 
