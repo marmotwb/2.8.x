@@ -14,6 +14,8 @@
 // prevent this file from being accessed directly
 if(!defined('WB_PATH')) die(header('Location: ../../index.php'));
 
+global $admin;
+
 $table = TABLE_PREFIX .'mod_droplets';
 $database->query("DROP TABLE IF EXISTS `$table`");
 

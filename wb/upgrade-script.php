@@ -355,9 +355,9 @@ echo ($database->query("UPDATE `".TABLE_PREFIX."settings` SET `value` = '$versio
  */
 echo "<br />Install droplets<br />";
 
-$result = mysql_list_tables( DB_NAME );
+$result = $database->query( "SHOW TABLES FROM ".DB_NAME);
 $all_tables = array();
-for($i=0; $i < mysql_num_rows($result); $i++) $all_tables[] = mysql_table_name($result, $i);
+while ($data = $result->fetchRow()) $all_tables[] = $data[0];
 
  $file_name = (!in_array ( TABLE_PREFIX."mod_droplets", $all_tables)) ? "install.php" : "upgrade.php";
  require_once (WB_PATH."/modules/droplets/".$file_name);

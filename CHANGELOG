@@ -11,9 +11,12 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+21-Sep-2009 Dietrrich Roland Pehlke
+#	Missing code inside "framework/addon.precheck.php" (ticket #798).
+#	Changes inside "upgrade-script" to avoid "mysql_list_tables is deprecated" warnings (ticket #800).
+#	Add "global $admin" to the install.php of the droplets-module to avoid (variable isn't declared) warnings. (ticket #800).
 18-Sep-2009 Dietmar Woellbrink
 #   french translation updated for WB 2.8 (tks to Ploc)
-
 16-Sep-2009 Dietmar Woellbrink
 #	Fixed bug changed URL_HELP in class.admin.php to http://help.websitebaker.org/ (ticket #801).
 #	Fixed bug: inside the FCK-Editor wbmodul: missing 'OK' button when inserting WB link with Safari/Chrome (ticket #795).
