@@ -12,6 +12,7 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 21-Sep-2009 Dietrrich Roland Pehlke
+!	Dutch tranlation(-s) for the captcha-control. [Ticket: #777] (Thanks to Argos)
 #	Missing code inside "framework/addon.precheck.php" (ticket #798).
 #	Changes inside "upgrade-script" to avoid "mysql_list_tables is deprecated" warnings (ticket #800).
 #	Add "global $admin" to the install.php of the droplets-module to avoid (variable isn't declared) warnings. (ticket #800).
