@@ -99,10 +99,6 @@ img.page_list_rights {border:none;float:left;margin:0;vertical-align:middle;}
 .sections_list {font-weight:bold;padding-left:10px;}
 .sections_list table {width:900px;}
 
-.header_list_page_title {text-align:left;}
-.header_list_menu_title {width:300px;text-align:left;}
-.header_list_page_id{width:50px;text-align:left;}
-.header_list_actions {text-align:left;width:150px;}
 
 .header_list_type {text-align:left;}
 .header_list_block {text-align:left;width:180px;}
@@ -111,10 +107,26 @@ img.page_list_rights {border:none;float:left;margin:0;vertical-align:middle;}
 .header_list_sections_actions {text-align:left;width:30px;}
 .header_list_section_id {width:30px;text-align:right;}
 
+
+.list_section_id {width:30px;text-align:right;}
+.list_pubdate_start {text-align:left;width:200px;}
+.list_pubdate_end {text-align:left;width:200px;}
+/*
+.header_list_page_title {text-align:left;}
+.header_list_menu_title {width:300px;text-align:left;}
+.header_list_page_id{width:50px;text-align:left;}
 .list_page_title {text-align:left;}
 .list_menu_title {width:300px;text-align:left;}
 .list_page_id {width:50px;text-align:left;}
-.list_section_id {width:30px;text-align:right;}
-.list_actions {width:25px;}
-.list_pubdate_start {text-align:left;width:200px;}
-.list_pubdate_end {text-align:left;width:200px;}
+*/
+.header_list_menu_title {text-align:left;}
+.header_list_page_title {width:300px; text-align:left;}
+.header_list_page_id {width:50px; text-align: right; padding-right:15px;}
+.header_list_actions {width:150px; text-align:left;}
+
+.list_menu_title {text-align:left;}
+.list_page_title {width:300px;text-align:left; }
+
+.list_page_id {width:50px;text-align: right; padding-right:15px;}
+.list_actions {width:25px;text-align:left;}
+

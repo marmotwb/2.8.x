@@ -376,14 +376,15 @@ select option.disabled {
  text-indent: 7px;
 }
 
-.header_list_page_title {text-align:left;}
-.header_list_menu_title {width:240px; text-align:left;}
-.header_list_page_id {width:40px; text-align:left;}
+.header_list_menu_title {text-align:left;}
+.header_list_page_title {width:290px; text-align:left;}
+.header_list_page_id {width:30px; text-align: right;}
 .header_list_actions {width:150px; text-align:left;}
 
-.list_page_title {text-align:left;}
-.list_menu_title {width:240px;text-align:left;}
-.list_page_id {width:40px;text-align:left;}
+.list_menu_title {text-align:left;}
+.list_page_title {width:290px;text-align:left; }
+
+.list_page_id {width:30px;text-align: right; }
 .list_actions {width:20px;text-align:left;}
 
 /* Ende */

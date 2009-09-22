@@ -104,7 +104,7 @@ function make_list($parent, $editable_pages) {
 					?>
 				</td>
 				<?php if($admin->get_permission('pages_modify') == true AND $can_modify == true) { ?>
-				<td class="list_page_title">
+				<td class="list_menu_title">
 					<a href="<?php echo ADMIN_URL; ?>/pages/modify.php?page_id=<?php echo $page['page_id']; ?>" title="<?php echo $TEXT['MODIFY']; ?>">
 						<?php if($page['visibility'] == 'public') { ?>
 							<img src="<?php echo THEME_URL; ?>/images/visible_16.png" alt="<?php echo $TEXT['VISIBILITY']; ?>: <?php echo $TEXT['PUBLIC']; ?>" class="page_list_rights" />
@@ -119,11 +119,11 @@ function make_list($parent, $editable_pages) {
 						<?php } elseif($page['visibility'] == 'deleted') { ?>
 							<img src="<?php echo THEME_URL; ?>/images/deleted_16.png" alt="<?php echo $TEXT['VISIBILITY']; ?>: <?php echo $TEXT['DELETED']; ?>" class="page_list_rights" />
 						<?php } 
-						echo '<span class="modify_link">'.($page['page_title']).'</span>'; ?>
+						echo '<span class="modify_link">'.($page['menu_title']).'</span>'; ?>
 					</a>
 				</td>
 				<?php } else { ?>
-				<td class="list_page_title">
+				<td class="list_menu_title">
 					<?php if($page['visibility'] == 'public') { ?>
 						<img src="<?php echo THEME_URL; ?>/images/visible_16.png" alt="<?php echo $TEXT['VISIBILITY']; ?>: <?php echo $TEXT['PUBLIC']; ?>" class="page_list_rights" />
 					<?php } elseif($page['visibility'] == 'private') { ?>
@@ -137,11 +137,11 @@ function make_list($parent, $editable_pages) {
 					<?php } elseif($page['visibility'] == 'deleted') { ?>
 						<img src="<?php echo THEME_URL; ?>/images/deleted_16.png" alt="<?php echo $TEXT['VISIBILITY']; ?>: <?php echo $TEXT['DELETED']; ?>" class="page_list_rights" />
 					<?php } 
-					echo ($page['page_title']); ?>
+					echo ($page['menu_title']); ?>
 				</td>
 				<?php } ?>
-				<td class="list_menu_title">
-					<?php echo ($page['menu_title']); ?>
+				<td class="list_page_title">
+					<?php echo ($page['page_title']); ?>
 				</td>
 				<td class="list_page_id">
 					<?php echo $page['page_id']; ?>
@@ -268,11 +268,11 @@ if($admin->get_permission('pages_view') == true) {
 	<div class="pages_list">
 	<table cellpadding="0" cellspacing="0" border="0">
 	<tr>
-		<td class="header_list_page_title">
-			<?php echo $TEXT['VISIBILITY'] .' / ' .$TEXT['PAGE_TITLE']; ?>:
-		</td>
 		<td class="header_list_menu_title">
-			<?php echo $TEXT['MENU_TITLE']; ?>:
+			<?php echo $TEXT['VISIBILITY'] .' / ' .$TEXT['MENU_TITLE']; ?>:
+		</td>
+		<td class="header_list_page_title">
+			<?php echo $TEXT['PAGE_TITLE']; ?>:
 		</td>
 		<td class="header_list_page_id">
 			ID:
