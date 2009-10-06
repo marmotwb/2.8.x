@@ -302,9 +302,9 @@ class wb
 		if ( $auto_footer == true ) {
 			if ( method_exists($this, "print_footer") ) {
 				$this->print_footer();
-				exit();
 			}
 		}
+		exit();
 	}
 
 	// Validate send email
