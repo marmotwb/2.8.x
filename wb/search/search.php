@@ -616,7 +616,7 @@ if($search_normal_string != '') {
 				$prepared_query .= " ) ) ) ".$query_end;
 				// Execute query
 				$page_query = $database->query($prepared_query." ".$search_path_SQL." ".$search_language_SQL_t);
-
+				if(!$page_query) continue; // on error, skip the rest of the current loop iteration
 				// Loop through queried items
 				if($page_query->numRows() > 0) {
 					while($page = $page_query->fetchRow()) {
