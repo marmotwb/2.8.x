@@ -12,6 +12,10 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+07-Oct-2009 Dietrich Roland Pehlke
+#	Missing contiue inside search.php to avoid access to an non-object if the query fails. (ticket #793). Thanks to Thorn.
+06-Oct-2009 Dietmar Woellbrink
+#	Security fix - wrong placed "exit()" inside class.wb.
 22-Sep-2009 Dietmar Woellbrink
 #   Fixed: Pagetree changed menu titles instead of page titles (ticket #805) thanks to Ralf (Berlin)
 21-Sep-2009 Dietrrich Roland Pehlke
