@@ -28,12 +28,63 @@ require('../../config.php');
 require_once(WB_PATH."/include/jscalendar/jscalendar-functions.php");
 
 // Get id
-if(!isset($_POST['post_id']) OR !is_numeric($_POST['post_id'])) {
+if(!isset($_POST['post_id']) OR !is_numeric($_POST['post_id']))
+{
 	header("Location: ".ADMIN_URL."/pages/index.php");
-	exit(0);
-} else {
+	exit( 0 );
+}
+else
+{
 	$id = $_POST['post_id'];
 	$post_id = $id;
+}
+
+function create_file($filename, $filetime=NULL )
+{
+global $page_id, $section_id, $post_id;
+
+	// We need to create a new file
+	// First, delete old file if it exists
+	if(file_exists(WB_PATH.PAGES_DIRECTORY.$filename.PAGE_EXTENSION))
+    {
+        $filetime = isset($filetime) ? $filetime :  filectime($filename);
+		unlink(WB_PATH.PAGES_DIRECTORY.$filename.PAGE_EXTENSION);
+	}
+    else {
+        $filetime = isset($filetime) ? $filetime : time();
+    }
+	// The depth of the page directory in the directory hierarchy
+	// '/pages' is at depth 1
+	$pages_dir_depth = count(explode('/',PAGES_DIRECTORY))-1;
+	// Work-out how many ../'s we need to get to the index page
+	$index_location = '../';
+	for($i = 0; $i < $pages_dir_depth; $i++)
+    {
+		$index_location .= '../';
+	}
+
+	// Write to the filename
+	$content = ''.
+'<?php
+$page_id = '.$page_id.';
+$section_id = '.$section_id.';
+$post_id = '.$post_id.';
+define("POST_SECTION", $section_id);
+define("POST_ID", $post_id);
+require("'.$index_location.'config.php");
+require(WB_PATH."/index.php");
+?>';
+	if($handle = fopen($filename, 'w+'))
+    {
+    	fwrite($handle, $content);
+    	fclose($handle);
+        if($filetime)
+        {
+        touch($filename, $filetime);
+        }
+    	change_mode($filename);
+    }
+
 }
 
 // Include WB admin wrapper script
@@ -41,9 +92,12 @@ $update_when_modified = true; // Tells script to update when this page was last 
 require(WB_PATH.'/modules/admin.php');
 
 // Validate all fields
-if($admin->get_post('title') == '' AND $admin->get_post('url') == '') {
+if($admin->get_post('title') == '' AND $admin->get_post('url') == '')
+{
 	$admin->print_error($MESSAGE['GENERIC']['FILL_IN_ALL'], WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.'&section_id='.$section_id.'&post_id='.$id);
-} else {
+}
+else
+{
 	$title = $admin->get_post_escaped('title');
 	$short = $admin->get_post_escaped('short');
 	$long = $admin->get_post_escaped('long');
@@ -68,39 +122,26 @@ $post_link = '/posts/'.page_filename($title).PAGE_SPACER.$post_id;
 // Make sure the post link is set and exists
 // Make news post access files dir
 make_dir(WB_PATH.PAGES_DIRECTORY.'/posts/');
-if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/posts/')) {
+$file_create_time = '';
+if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/posts/'))
+{
 	$admin->print_error($MESSAGE['PAGES']['CANNOT_CREATE_ACCESS_FILE']);
-} elseif($old_link != $post_link OR !file_exists(WB_PATH.PAGES_DIRECTORY.$post_link.PAGE_EXTENSION)) {
+}
+elseif($old_link != $post_link OR !file_exists(WB_PATH.PAGES_DIRECTORY.$post_link.PAGE_EXTENSION))
+{
 	// We need to create a new file
 	// First, delete old file if it exists
-	if(file_exists(WB_PATH.PAGES_DIRECTORY.$old_link.PAGE_EXTENSION)) {
+	if(file_exists(WB_PATH.PAGES_DIRECTORY.$old_link.PAGE_EXTENSION))
+    {
+        $file_create_time = filectime($old_link);
 		unlink(WB_PATH.PAGES_DIRECTORY.$old_link.PAGE_EXTENSION);
 	}
-	// Specify the filename
-	$filename = WB_PATH.PAGES_DIRECTORY.'/'.$post_link.PAGE_EXTENSION;
-	// The depth of the page directory in the directory hierarchy
-	// '/pages' is at depth 1
-	$pages_dir_depth=count(explode('/',PAGES_DIRECTORY))-1;
-	// Work-out how many ../'s we need to get to the index page
-	$index_location = '../';
-	for($i = 0; $i < $pages_dir_depth; $i++) {
-		$index_location .= '../';
-	}
-	// Write to the filename
-	$content = ''.
-'<?php
-$page_id = '.$page_id.';
-$section_id = '.$section_id.';
-$post_id = '.$post_id.';
-define("POST_ID", $post_id);
-require("'.$index_location.'config.php");
-require(WB_PATH."/index.php");
-?>';
-	$handle = fopen($filename, 'w');
-	fwrite($handle, $content);
-	fclose($handle);
-	change_mode($filename);
+
+    // Specify the filename
+    $filename = WB_PATH.PAGES_DIRECTORY.'/'.$post_link.PAGE_EXTENSION;
+    create_file($filename, $file_create_time);
 }
+
 
 // get publisedwhen and publisheduntil
 $publishedwhen = jscalendar_to_timestamp($admin->get_post_escaped('publishdate'));
@@ -114,9 +155,12 @@ if($publisheduntil == '' || $publisheduntil < 1)
 $database->query("UPDATE ".TABLE_PREFIX."mod_news_posts SET group_id = '$group_id', title = '$title', link = '$post_link', content_short = '$short', content_long = '$long', commenting = '$commenting', active = '$active', published_when = '$publishedwhen', published_until = '$publisheduntil', posted_when = '".time()."', posted_by = '".$admin->get_user_id()."' WHERE post_id = '$post_id'");
 
 // Check if there is a db error, otherwise say successful
-if($database->is_error()) {
+if($database->is_error())
+{
 	$admin->print_error($database->get_error(), WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.'&section_id='.$section_id.'&post_id='.$id);
-} else {
+}
+else
+{
 	$admin->print_success($TEXT['SUCCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 }
 

@@ -24,7 +24,10 @@
 */
 
 // Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
+if(defined('WB_PATH') == false)
+{
+  exit("Cannot access this file directly");
+}
 
 //get and remove all php files created for the news section
 $query_details = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_news_posts WHERE section_id = '$section_id'");

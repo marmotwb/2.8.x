@@ -12,6 +12,12 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+09-Oct-2009 Dietmar Woellbrink
+#	Ticket #770, #785, #792, #807, #809, 
+#	fixes and recoded news module
+09-Oct-2009 Dietmar Woellbrink
+#	Ticket #815 Fix Warning: open_basedir restriction in effect. File is in wrong directory in load_module
+#	same fix to load_template
 07-Oct-2009 Dietrich Roland Pehlke
 #	Missing contiue inside search.php to avoid access to an non-object if the query fails. (ticket #793). Thanks to Thorn.
 06-Oct-2009 Dietmar Woellbrink
