@@ -61,19 +61,21 @@ if(!method_exists($admin, 'register_backend_modfiles') && file_exists(WB_PATH ."
 // include the button to edit the optional module CSS files (function added with WB 2.7)
 // Note: CSS styles for the button are defined in backend.css (div class="mod_moduledirectory_edit_css")
 // Place this call outside of any <form></form> construct!!!
-if(function_exists('edit_module_css')) {
+if(function_exists('edit_module_css'))
+{
 	edit_module_css('news');
 }
 ?>
 
 <form name="modify" action="<?php echo WB_URL; ?>/modules/news/save_settings.php" method="post" style="margin: 0;">
 
-	<input type="hidden" name="section_id" value="<?php echo $section_id; ?>">
-	<input type="hidden" name="page_id" value="<?php echo $page_id; ?>">
+	<input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
+	<input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
 
-	<table class="row_a" cellpadding="2" cellspacing="0" border="0" width="100%">
+	<table class="row_a" cellpadding="2" cellspacing="0" width="100%">
 		<tr>
 			<td colspan="2"><strong><?php echo $HEADING['GENERAL_SETTINGS']; ?></strong></td>
+		</tr>
 		<tr>
 			<td class="setting_name"><?php echo $TEXT['HEADER']; ?>:</td>
 			<td class="setting_value">
@@ -111,7 +113,7 @@ if(function_exists('edit_module_css')) {
 					<option value=""><?php echo $TEXT['UNLIMITED']; ?></option>
 					<?php
 					for($i = 1; $i <= 20; $i++) {
-						if($fetch_content['posts_per_page'] == ($i*5)) { $selected = ' selected'; } else { $selected = ''; }
+						if($fetch_content['posts_per_page'] == ($i*5)) { $selected = ' selected="selected"'; } else { $selected = ''; }
 						echo '<option value="'.($i*5).'"'.$selected.'>'.($i*5).'</option>';
 					}
 					?>
@@ -119,7 +121,7 @@ if(function_exists('edit_module_css')) {
 			</td>
 		</tr>
 	</table>
-	<table class="row_a" cellpadding="2" cellspacing="0" border="0" width="100%" style="margin-top: 3px;">
+	<table class="row_a" cellpadding="2" cellspacing="0" width="100%" style="margin-top: 3px;">
 		<tr>
 			<td colspan="2"><strong><?php echo $TEXT['COMMENTS']; ?></strong></td>
 		</tr>
@@ -128,8 +130,8 @@ if(function_exists('edit_module_css')) {
 			<td class="setting_value">
 				<select name="commenting" style="width: 98%;">
 					<option value="none"><?php echo $TEXT['DISABLED']; ?></option>
-					<option value="public" <?php if($fetch_content['commenting'] == 'public') { echo 'selected'; } ?>><?php echo $TEXT['PUBLIC']; ?></option>
-					<option value="private" <?php if($fetch_content['commenting'] == 'private') { echo 'selected'; } ?>><?php echo $TEXT['PRIVATE']; ?></option>
+					<option value="public" <?php if($fetch_content['commenting'] == 'public') { echo ' selected="selected"'; } ?>><?php echo $TEXT['PUBLIC']; ?></option>
+					<option value="private" <?php if($fetch_content['commenting'] == 'private') { echo 'selected="selected"'; } ?>><?php echo $TEXT['PRIVATE']; ?></option>
 				</select>
 			</td>
 		</tr>
@@ -155,7 +157,7 @@ if(function_exists('edit_module_css')) {
 					$SIZES['125'] = '125x125px';
 					$SIZES['150'] = '150x150px';
 					foreach($SIZES AS $size => $size_name) {
-						if($fetch_content['resize'] == $size) { $selected = ' selected'; } else { $selected = ''; }
+						if($fetch_content['resize'] == $size) { $selected = ' selected="selected"'; } else { $selected = ''; }
 						echo '<option value="'.$size.'"'.$selected.'>'.$size_name.'</option>';
 					}
 					?>

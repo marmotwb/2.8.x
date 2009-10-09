@@ -24,9 +24,9 @@
 */
 
 $module_directory = 'news';
-$module_name = 'News';
+$module_name = 'News v3.1';
 $module_function = 'page';
-$module_version = '2.8';
+$module_version = '3.1';
 $module_platform = '2.8';
 $module_author = 'Ryan Djurovich, Rob Smith';
 $module_license = 'GNU General Public License';

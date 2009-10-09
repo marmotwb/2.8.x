@@ -46,10 +46,10 @@ $fetch_content = $query_content->fetchRow();
 
 <form name="modify" action="<?php echo WB_URL; ?>/modules/news/save_comment.php" method="post" style="margin: 0;">
 
-<input type="hidden" name="section_id" value="<?php echo $section_id; ?>">
-<input type="hidden" name="page_id" value="<?php echo $page_id; ?>">
-<input type="hidden" name="post_id" value="<?php echo $fetch_content['post_id']; ?>">
-<input type="hidden" name="comment_id" value="<?php echo $comment_id; ?>">
+<input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
+<input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
+<input type="hidden" name="post_id" value="<?php echo $fetch_content['post_id']; ?>" />
+<input type="hidden" name="comment_id" value="<?php echo $comment_id; ?>" />
 
 <table class="row_a" cellpadding="2" cellspacing="0" border="0" width="100%">
 <tr>
@@ -69,14 +69,14 @@ $fetch_content = $query_content->fetchRow();
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 <tr>
 	<td align="left">
-		<input name="save" type="submit" value="<?php echo $TEXT['SAVE']; ?>" style="width: 100px; margin-top: 5px;"></form>
+		<input name="save" type="submit" value="<?php echo $TEXT['SAVE']; ?>" style="width: 100px; margin-top: 5px;" />
 	</td>
 	<td align="right">
-		<input type="button" value="<?php echo $TEXT['CANCEL']; ?>" onclick="javascript: window.location = '<?php echo WB_URL; ?>/modules/news/modify_post.php?page_id=<?php echo $page_id; ?>&section_id=<?php echo $section_id; ?>&post_id=<?php echo $fetch_content['post_id']; ?>';" style="width: 100px; margin-top: 5px;" />
+		<input type="button" value="<?php echo $TEXT['CANCEL']; ?>" onclick="javascript: window.location = '<?php echo WB_URL; ?>/modules/news/modify_post.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>&amp;post_id=<?php echo $fetch_content['post_id']; ?>';" style="width: 100px; margin-top: 5px;" />
 	</td>
 </tr>
 </table>
-
+</form>
 
 <?php
 

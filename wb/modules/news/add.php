@@ -27,12 +27,12 @@
 if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
 
 $header = '<table cellpadding=\"0\" cellspacing=\"0\" class=\"loop-header\">'."\n";
-$post_loop = '<tr class=\"post_top\">
-<td class=\"post_title\"><a href=\"[LINK]\">[TITLE]</a></td>
-<td class=\"post_date\">[PUBLISHED_TIME], [PUBLISHED_DATE]</td>
+$post_loop = '<tr class=\"post-top\">
+<td class=\"post-title\"><a href=\"[LINK]\">[TITLE]</a></td>
+<td class=\"post-date\">[PUBLISHED_DATE], [PUBLISHED_TIME]</td>
 </tr>
 <tr>
-<td class=\"post_short\" colspan=\"2\">
+<td class=\"post-short\" colspan=\"2\">
 [SHORT]
 <span style=\"visibility:[SHOW_READ_MORE];\"><a href=\"[LINK]\">[TEXT_READ_MORE]</a></span>
 </td>
@@ -67,7 +67,7 @@ $comments_loop = addslashes('<tr>
 <td class="comment_info">[TEXT_BY] [DISPLAY_NAME] [TEXT_ON] [DATE] [TEXT_AT] [TIME]</td>
 </tr>
 <tr>
-<td colspan="2" class="comment_text">[COMMENT]</td>
+<td colspan="2" class="comment-text">[COMMENT]</td>
 </tr>');
 $comments_footer = '</table>
 <br /><a href=\"[ADD_COMMENT_URL]\">[TEXT_ADD_COMMENT]</a>';
@@ -76,6 +76,7 @@ $comments_page = '<h1>[TEXT_COMMENT]</h1>
 <br />';
 $commenting = 'none';
 $use_captcha = true;
+
 $database->query("INSERT INTO ".TABLE_PREFIX."mod_news_settings (section_id,page_id,header,post_loop,footer,post_header,post_footer,comments_header,comments_loop,comments_footer,comments_page,commenting,use_captcha) VALUES ('$section_id','$page_id','$header','$post_loop','$footer','$post_header','$post_footer','$comments_header','$comments_loop','$comments_footer','$comments_page','$commenting','$use_captcha')");
 
 ?>

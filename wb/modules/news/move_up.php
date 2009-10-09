@@ -28,8 +28,9 @@ require('../../config.php');
 // Get id
 if(!isset($_GET['post_id']) OR !is_numeric($_GET['post_id'])) {
 	if(!isset($_GET['group_id']) OR !is_numeric($_GET['group_id'])) {
+
 		header("Location: index.php");
-		exit(0);
+	    exit( 0 );
 	} else {
 		$id = $_GET['group_id'];
 		$id_field = 'group_id';
