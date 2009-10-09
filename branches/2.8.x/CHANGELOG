@@ -1,4 +1,3 @@
-<<<<<<< .mine
 Change Log
 ===============================================================================
 Please note: This change log may not be accurate
@@ -12,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+09-Oct-2009 Dietmar Woellbrink
++	upgrade.php to reset newsfiles to created dates
 09-Oct-2009 Dietmar Woellbrink
 #	Ticket #770, #785, #792, #807, #809, 
 #	fixes and recoded news module
