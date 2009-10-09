@@ -776,16 +776,19 @@ function delete_page($page_id) {
 // Load module into DB
 function load_module($directory, $install = false) {
 	global $database,$admin,$MESSAGE;
-	if(file_exists($directory.'/info.php')) {
+	if(is_dir($directory) AND file_exists($directory.'/info.php'))
+	{
 		require($directory.'/info.php');
-		if(isset($module_name)) {
+		if(isset($module_name))
+	{
 			if(!isset($module_license)) { $module_license = 'GNU General Public License'; }
 			if(!isset($module_platform) AND isset($module_designed_for)) { $module_platform = $module_designed_for; }
 			if(!isset($module_function) AND isset($module_type)) { $module_function = $module_type; }
 			$module_function = strtolower($module_function);
 			// Check that it doesn't already exist
 			$result = $database->query("SELECT addon_id FROM ".TABLE_PREFIX."addons WHERE directory = '".$module_directory."' LIMIT 0,1");
-			if($result->numRows() == 0) {
+			if($result->numRows() == 0)
+			{
 				// Load into DB
 				$query = "INSERT INTO ".TABLE_PREFIX."addons ".
 				"(directory,name,description,type,function,version,platform,author,license) ".
@@ -793,7 +796,8 @@ function load_module($directory, $install = false) {
 				"'$module_function','$module_version','$module_platform','$module_author','$module_license')";
 				$database->query($query);
 				// Run installation script
-				if($install == true) {
+				if($install == true)
+				{
 					if(file_exists($directory.'/install.php')) {
 						require($directory.'/install.php');
 					}
