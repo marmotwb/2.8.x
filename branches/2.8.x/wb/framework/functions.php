@@ -810,7 +810,7 @@ function load_module($directory, $install = false) {
 // Load template into DB
 function load_template($directory) {
 	global $database;
-	if(file_exists($directory.'/info.php')) {
+	if(is_dir($directory) AND file_exists($directory.'/info.php')) {
 		require($directory.'/info.php');
 		if(isset($template_name)) {
 			if(!isset($template_license)) { $template_license = 'GNU General Public License'; }
