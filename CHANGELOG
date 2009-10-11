@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 10-Oct-2009 Dietmar Woellbrink
+!	small update upgrade.php to reset newsfiles to created dates
+10-Oct-2009 Dietmar Woellbrink
 !	Update FCKeditor to Version 2.6.5 Modulversion 2.9.1
 09-Oct-2009 Dietmar Woellbrink
 !	Update FCKeditor to Version 2.6.5 Modulversion 2.9.1
