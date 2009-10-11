@@ -18,6 +18,23 @@
    FCKConfig.Plugins.Add( 'WBModules', 'en,nl,de' ) ;
    FCKConfig.Plugins.Add( 'WBDroplets', 'en,nl,de' ) ;
 
+   // ----------------------
+// Configure Syntax highlighter for 2.0.x
+FCKConfig.Plugins.Add('syntaxhighlight2', 'en');
+// default language options:
+// c++,csharp,css,delphi,java,jscript,php,python,ruby,sql,vb,xhtml
+FCKConfig.SyntaxHighlight2LangDefault = 'php';
+//
+// ----------------------
+
+// FCKConfig.Plugins.Add( 'autogrow' ) ;
+// FCKConfig.Plugins.Add( 'dragresizetable' );
+FCKConfig.AutoGrowMax = 600 ;
+
+// FCKConfig.ProtectedSource.Add( /<%[\s\S]*?%>/g ) ;	// ASP style server side code <%...%>
+// FCKConfig.ProtectedSource.Add( /<\?[\s\S]*?\?>/g ) ;	// PHP style server side code
+// FCKConfig.ProtectedSource.Add( /(<asp:[^\>]+>[\s|\S]*?<\/asp:[^\>]+>)|(<asp:[^\>]+\/>)/gi ) ;	// ASP.Net style tags <asp:control>
+
 // #########################################################################################
 // # FCKEditor: General settings
 // # ---------------------------------------------------------------------------------------
@@ -39,8 +56,9 @@
 
 // specify HTML tag used for ENTER and SHIFT+ENTER key
    FCKConfig.EnterMode 			= 'p' ;		// allowed tags: p | div | br
-   FCKConfig.ShiftEnterMode 		= 'br' ;	// allowed tags: p | div | br
-
+   FCKConfig.ShiftEnterMode 	= 'br' ;	// allowed tags: p | div | br
+   FCKConfig.StylesXmlPath		= FCKConfig.EditorPath + 'fckstyles.xml' ;
+ 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Note: If you miss some options, have a look into fckconfig.js and add the lines below
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -58,8 +76,8 @@
 // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //  Default toolbar set used by Website Baker
 // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-   FCKConfig.ToolbarSets["WBToolbar"] = [
-	['Source'],
+   FCKConfig.ToolbarSets["Original"] = [
+	['Source','Save'],
 	['Cut','Copy','Paste','PasteText','PasteWord','-','SpellCheck'],
 	['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
 	['Smiley','SpecialChar'],
@@ -68,7 +86,7 @@
 	['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
 	['OrderedList','UnorderedList','-','Outdent','Indent'],
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
-	['WBDroplets','WBModules','Link','Unlink','Anchor'],
+	['Link','Unlink','Anchor'],
 	['Image','Flash','Table','Rule'],
 	'/',
 	['Style','FontFormat','FontName','FontSize'],
@@ -78,21 +96,23 @@
 // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //  original FCKEditor toolbar
 // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-   FCKConfig.ToolbarSets["Original"] = [
-	['Source','DocProps','-','Save','NewPage','Preview','-','Templates'],
+   FCKConfig.ToolbarSets["WBToolbar"] = [
+	['Source','DocProps','-','NewPage','Preview','-','Templates'],
 	['Cut','Copy','Paste','PasteText','PasteWord','-','Print','SpellCheck'],
-	['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
+    ['FitWindow','ShowBlocks', '-',/*'SyntaxHighLight2',*/'-','About'],
+	'/',
 	['Form','Checkbox','Radio','TextField','Textarea','Select','Button','ImageButton','HiddenField'],
+    ['TextColor','BGColor'],
+	['WBDroplets','WBModules','Link','Unlink','Anchor'],
+	['Image','Flash','Table','Rule','Smiley','SpecialChar','PageBreak'],
 	'/',
 	['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
 	['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
-	['Link','Unlink','Anchor'],
-	['Image','Flash','Table','Rule','Smiley','SpecialChar','PageBreak'],
+	['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
 	'/',
-	['Style','FontFormat','FontName','FontSize'],
-	['TextColor','BGColor'],
-	['FitWindow','ShowBlocks','-','About']		// No comma for the last row.
+	['Style','FontFormat','FontName','FontSize']  // No comma for the last row.
+
 ] ;
 
 
@@ -122,16 +142,18 @@
 
 // define HTML elements which appear in the FCK "Format" toolbar menu
    FCKConfig.FontFormats	= 'p;div;pre;address;h1;h2;h3;h4;h5;h6' ;
-
 // define font colors which can be set by the user (HEXADECIMAL)
    FCKConfig.FontColors = '000000,993300,333300,003300,003366,000080,333399,333333,800000,FF6600,808000,808080,008080,0000FF,666699,808080,FF0000,FF9900,99CC00,339966,33CCCC,3366FF,800080,999999,FF00FF,FFCC00,FFFF00,00FF00,00FFFF,00CCFF,993366,C0C0C0,FF99CC,FFCC99,FFFF99,CCFFCC,CCFFFF,99CCFF,CC99FF,FFFFFF' ;
-
 // define fonts style and sizes which can be set by the user
-   FCKConfig.FontNames	= 'Arial;Comic Sans MS;Courier New;Tahoma;Times New Roman;Verdana' ;
-   FCKConfig.FontSizes	= 'smaller;larger;xx-small;x-small;small;medium;large;x-large;xx-large' ;
-
+   FCKConfig.FontNames	= 'Arial;Comic Sans MS;Courier New;Tahoma;Times New Roman;Verdana;Wingdings' ;
+//   FCKConfig.FontSizes	= 'smaller;larger;xx-small;x-small;small;medium;large;x-large;xx-large' ;
+   FCKConfig.FontSizes	= '8px;10px;12px;14px;16px;18px;20px;24px;28px;32px;36px;48px;60px;72px' ;
 // make the offic2003 skin the default skin
    FCKConfig.SkinPath = FCKConfig.BasePath + 'skins/office2003/'
+   FCKConfig.ProtectedSource.Add( /<\?[\s\S]*?\?>/g ) ;
+   FCKConfig.TemplateReplaceAll = false;
+   FCKConfig.TemplateReplaceCheckbox = true ;
+//    FCKConfig['StylesXmlPath'] = FCKConfig.BasePath+'/wb_config/wb_fckstyles.xml';
 
 /*
    -----------------------------------------------------------------------------------------

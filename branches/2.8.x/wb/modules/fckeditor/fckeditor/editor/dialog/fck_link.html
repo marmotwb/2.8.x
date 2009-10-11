@@ -205,7 +205,7 @@
 				</tr>
 			</table>
 		</div>
-		<div id="divAttribs" style="display: none">
+		<div id="divAttribs" style="DISPLAY: none">
 			<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
 				<tr>
 					<td valign="top" width="50%">
@@ -260,9 +260,18 @@
 					<td valign="top"></td>
 				</tr>
 				<tr>
-					<td valign="top" width="50%">
-						<span fckLang="DlgGenTitle">Advisory Title</span><br />
-						<input id="txtAttTitle" style="WIDTH: 100%" type="text" />
+					<td nowrap="nowrap">
+						<span fckLang="DlgGenContRel">Advisory Relation</span><br />
+						<select id="cmbAttContentRel"  style="width: 100%">
+							<option value="" fckLang="DlgGenNotSet" selected>&lt;not set&gt;</option>
+							<option value="alternate" fckLang="Alternate">Alternate</option>
+							<option value="copyright" fckLang="copyright">Copyright</option>
+							<option value="designates" fckLang="designates">Designates</option>
+							<option value="nofollow" fckLang="nofollow">Nofollow</option>
+							<option value="lightbox" fckLang="Lightbox">Lightbox</option>
+							<option value="stylesheet" fckLang="stylesheet">Stylesheet</option>
+							<option value="thumbnail" fckLang="Thumbnail">Thumbnail</option>
+						</select>
 					</td>
 					<td width="1">&nbsp;&nbsp;&nbsp;</td>
 					<td valign="top">
@@ -284,21 +293,15 @@
 			</table>
 			<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
 				<tr>
-					<td nowrap="nowrap" >
+					<td>
 						<span fckLang="DlgGenStyle">Style</span><br />
-						<input id="txtAttStyle" style="width: 100%" type="text" />
+						<input id="txtAttStyle" style="WIDTH: 100%" type="text" />
 					</td>
 				</tr>
 				<tr>
-					<td nowrap="nowrap">
-						<span fckLang="DlgGenContRel">Advisory Relation</span><br />
-						<select id="cmbAttContentRel"  style="width: 40%">
-							<option value="" fckLang="DlgGenNotSet" selected>&lt;not set&gt;</option>
-							<option value="lightbox" fckLang="Lightbox">Lightbox</option>
-							<option value="thumbnail" fckLang="Thumbnail">Thumbnail</option>
-							<option value="stylesheet" fckLang="Stylesheet">Stylesheet</option>
-							<option value="alternate" fckLang="Alternate">Alternate</option>
-						</select>
+					<td valign="top" width="100%">
+						<span fckLang="DlgGenTitle">Advisory Title</span><br />
+						<input id="txtAttTitle" style="WIDTH: 100%" type="text" />
 					</td>
 				</tr>
 			</table>

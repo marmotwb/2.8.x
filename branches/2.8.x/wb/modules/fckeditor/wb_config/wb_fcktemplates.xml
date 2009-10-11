@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2008 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2007 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -25,6 +25,19 @@
  * See FCKConfig.TemplatesXmlPath in the configuration file.
 -->
 <Templates imagesBasePath="fck_template/images/">
+	<Template title="Rechtliche Hinweise" image="template1.gif">
+		<Description>Rechtliche Hinweise Links</Description>
+		<Html>
+			<![CDATA[
+                <div class="recht">
+                    <p><b>Rechtliche Hinweise</b><br />
+                    1. Externe Links ( <a class="next" onclick="window.open(this.href,'','resizable=yes,location=no,menubar=no,scrollbars=yes,status=yes,toolbar=no,fullscreen=no,dependent=yes,width=400,height=300,left=150,top=150,status'); return false" href="http://www.disclaimer.de/disclaimer.htm"><font color="#810081">Bitte Disclaimer-Haftungsausschluss lesen</font></a> ) <br />
+                    Die Inhalte externer Links werden nicht gepr&uuml;ft. Sie unterliegen der Haftung der jeweiligen Anbieter.<br />
+                    &nbsp;</p>
+                </div>
+            ]]>
+		</Html>
+	</Template>
 	<Template title="Image and Title" image="template1.gif">
 		<Description>One main image with a title and text that surround the image.</Description>
 		<Html>
@@ -33,6 +46,119 @@
 				<h3>Type the title here</h3>
 				Type the text here
 			]]>
+		</Html>
+	</Template>
+	<Template title="Image and Title" image="yaml33_66.gif">
+		<Description>Subtemplate: 2 Spalten mit 33/66 Teilung nur YAML Framework</Description>
+		<Html>
+			<![CDATA[
+                <!-- Subtemplate: 2 Spalten mit 33/66 Teilung -->
+                <div class="subcolumns">
+                    <div class="c33l">
+                        <div class="subcl">
+                        <!-- Inhalt linker Block -->
+                            <p>Inhalt linker Block...</p>
+
+                        </div>
+                    </div>
+
+                    <div class="c66r">
+                        <div class="subcr">
+                            <!-- Inhalt rechter Block -->
+                            <p>Inhalt rechter Block... </p>
+
+                        </div>
+                    </div>
+                </div>
+            ]]>
+		</Html>
+	</Template>
+	<Template title="Image and Title" image="yaml25_75.gif">
+		<Description>Subtemplate: 2 Spalten mit 25/75 Teilung nur YAML Framework</Description>
+		<Html>
+			<![CDATA[
+              <!-- Subtemplate: 2 Spalten mit 25/75 Teilung -->
+              <div class="subcolumns">
+                <div class="c25l">
+                  <div class="subcl">
+                    <!-- Inhalt linker Block -->
+                    <p>Inhalt linker Block...</p>
+                  </div>
+                </div>
+
+                <div class="c75r">
+                  <div class="subcr">
+                    <!-- Inhalt rechter Block -->
+                    <p>Inhalt rechter Block... </p>
+                  </div>
+                </div>
+              </div>
+            ]]>
+		</Html>
+	</Template>
+    <Template title="Image and Title" image="yaml50_50.gif">
+		<Description>Subtemplate: 2 Spalten mit 50/50 Teilung nur YAML Framework</Description>
+		<Html>
+			<![CDATA[
+                <!-- Subtemplate: 2 Spalten mit 50/50 Teilung -->
+                <div class="subcolumns">
+                    <div class="c50l">
+                        <div class="subcl">
+				            <p>Inhalt linker Block...</p>
+                        </div>
+                    </div>
+                    <div class="c50r">
+                        <div class="subcr">
+				            <p>Inhalt rechter Block... </p>
+                        </div>
+                    </div>
+                </div>
+            ]]>
+		</Html>
+	</Template>
+	<Template title="Image and Title" image="yaml33_33_33.gif">
+		<Description>Subtemplate: 3 Spalten mit 33/33/33 Teilung nur YAML Framework</Description>
+		<Html>
+			<![CDATA[
+                <!-- Subtemplate: 3 Spalten mit 33/33/33 Teilung -->
+                <div class="subcolumns">
+                    <div class="c33l">
+                        <div class="subcl">
+				            <p>Inhalt linker Block...</p>
+                        </div>
+                    </div>
+                    <div class="c33l">
+                        <div class="subcl">
+				            <p>Inhalt mitteler Block...</p>
+                        </div>
+                    </div>
+                    <div class="c33r">
+                        <div class="subcr">
+                            <p>Inhalt rechter Block... </p>
+                        </div>
+                    </div>
+                </div>
+			]]>
+		</Html>
+	</Template>
+	<Template title="Image and Title" image="yaml66_33.gif">
+		<Description>Subtemplate: 2 Spalten mit 66/33 Teilung nur YAML Framework</Description>
+		<Html>
+			<![CDATA[
+                <!-- Subtemplate: 2 Spalten mit 66/33 Teilung -->
+                <div class="subcolumns">
+                    <div class="c66l">
+                        <div class="subcl">
+				            <p>Inhalt linker Block...</p>
+                        </div>
+                    </div>
+                    <div class="c33r">
+                        <div class="subcr">
+				            <p>Inhalt rechter Block... </p>
+                        </div>
+                    </div>
+                </div>
+		]]>
 		</Html>
 	</Template>
 	<Template title="Strange Template" image="template2.gif">

@@ -78,8 +78,8 @@ window.onload = function()
 								border-left: #000000 1px solid; border-bottom: #000000 1px solid">
 								<span fcklang="DlgAboutVersion">version</span>
 								<br />
-								<b>2.6.4.1</b><br />
-								Build 23187</td>
+								<b>2.6.5</b><br />
+								Build 23959</td>
 						</tr>
 					</table>
 				</td>
@@ -111,6 +111,31 @@ window.onload = function()
 					<a href="http://www.fckeditor.net/sponsors/apply" target="_blank">Become a Sponsor</a>
 				</td>
 			</tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td align="center" valign="middle">
+					<span fcklang="DlgAboutModule" style="font-size: 12px" dir="ltr">
+                    Modified for Website Baker Version 2.8<br />
+                    Modulversion 2.9.1
+                    </span>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+				<td align="center" valign="middle">
+					<span style="font-size: 12px" dir="ltr">
+						<b><a href="http://www.websitebaker.org" target="_blank" title="Visit the Website Baker web site">
+							Support <b>Website Baker</b> CMS</a></b> </span>
+					<div style="padding-top:15px">
+						<img alt="" src="fck_about/wb-logo.gif"  />
+					</div>
+				</td>
+                <td></td>
+            </tr>
+
 		</table>
 	</div>
 	<div id="divLicense" style="display: none">
@@ -146,11 +171,11 @@ document.write( '<b>Platform<\/b><br />' + window.navigator.platform + '<br /><b
 var sUserLang = '?' ;
 
 if ( window.navigator.language )
-	sUserLang = window.navigator.language.toLowerCase() ;
+	sUserLang = window.navigator.language ;
 else if ( window.navigator.userLanguage )
-	sUserLang = window.navigator.userLanguage.toLowerCase() ;
+	sUserLang = window.navigator.userLanguage ;
 
-document.write( '<b>User Language<\/b><br />' + sUserLang ) ;
+document.write( '<b>Language<\/b><br />' + sUserLang ) ;
 //-->
 					</script>
 				</td>

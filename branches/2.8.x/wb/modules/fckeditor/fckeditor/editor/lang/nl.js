@@ -187,6 +187,7 @@ DlgGenLongDescr		: "Lange URL-omschrijving",
 DlgGenClass			: "Stylesheet-klassen",
 DlgGenTitle			: "Aanbevolen titel",
 DlgGenContType		: "Aanbevolen content-type",
+DlgGenContRel		: "Relationtyp",
 DlgGenLinkCharset	: "Karakterset van gelinkte bron",
 DlgGenStyle			: "Stijl",
 
@@ -530,5 +531,10 @@ DlgAboutInfo		: "Voor meer informatie ga naar ",
 DlgDivGeneralTab	: "Algemeen",
 DlgDivAdvancedTab	: "Geavanceerd",
 DlgDivStyle		: "Style",
-DlgDivInlineStyle	: "Inline Style"
+DlgDivInlineStyle	: "Inline Style",
+
+ScaytTitle			: "SCAYT",	//MISSING
+ScaytTitleOptions	: "Options",	//MISSING
+ScaytTitleLangs		: "Languages",	//MISSING
+ScaytTitleAbout		: "About"	//MISSING
 };

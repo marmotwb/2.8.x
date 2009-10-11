@@ -29,7 +29,7 @@ global $Config ;
 //		authenticated users can access this file or use some kind of session checking.
 $Config['Enabled'] = false ;
 
-/** 
+/**
 	SECURITY PATCH FOR WEBSITE BAKER (doc)
 	only enable PHP connector if user is authenticated to WB
 	and has at least permissions to view the WB MEDIA folder
@@ -76,9 +76,9 @@ $Config['SecureImageUploads'] = true;
 // What the user can do with this connector.
 // $Config['ConfigAllowedCommands'] = array('QuickUpload', 'FileUpload', 'GetFolders', 'GetFoldersAndFiles', 'CreateFolder') ;
 
-/** 
-   Check WB permissions of the user/group for the MEDIA folder and 
-	enable only those FCKEditor commands the user has permissions for 
+/**
+   Check WB permissions of the user/group for the MEDIA folder and
+	enable only those FCKEditor commands the user has permissions for
 */
 // check if user is allowed to upload files to the media directory
 if(($admin->get_permission('media_upload') === true)) {

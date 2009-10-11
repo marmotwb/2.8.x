@@ -22,10 +22,12 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
  -----------------------------------------------------------------------------------------------------------
-  FCKEditor module for Website Baker v2.6.x
+  FCKEditor module for Website Baker v2.8.x
   Authors: P. Widlund, S. Braunewell, M. Gallas (ruebenwurzel), Wouldlouper, C. Sommer (doc)
 	Started to track applied changes in info.php from 27.03.2007 onwards (cs)
  -----------------------------------------------------------------------------------------------------------
+	v2.9.1 (Luishahne Sep 28, 2009)
+		+	change to new FCKeditor version 2.6.5
 	v2.89 (Aldus, Luishahne Sep 16, 2009)
 		+	fix pagetree order in WB-Link
         +   fix not shown ok button in WB-Link
@@ -123,12 +125,12 @@
 */
 
 $module_directory		= 'fckeditor';
-$module_name			= 'FCKeditor';
+$module_name			= 'FCKeditor 2.6.5 WB Version 2.9.1';
 $module_function		= 'WYSIWYG';
-$module_version			= '2.9';
+$module_version			= '2.9.1';
 $module_platform		= '2.7';
-$module_author 			= 'Christian Sommer, P. Widlund, S. Braunewell, M. Gallas, Wouldlouper';
+$module_author 			= 'Christian Sommer, P. Widlund, S. Braunewell, M. Gallas, Wouldlouper, Aldus, Luisehahne';
 $module_license 		= 'GNU General Public License';
-$module_description 	= 'This module allows you to edit the contents of a page using <a href="http://www.fckeditor.net/" target="_blank">FCKeditor v2.6.4</a>.';
+$module_description 	= 'This module allows you to edit the contents of a page using <a href="http://www.fckeditor.net/" target="_blank">FCKeditor v2.6.5</a>.';
 
 ?>

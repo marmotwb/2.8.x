@@ -27,6 +27,6 @@
 */
 
 // Dansk modulbeskrivelse
-$module_description 	= 'Dette modul muligg&oslash;r redigering af sideindhold ved hj&aelig;lp af  <a href="http://www.fckeditor.net/" target="_blank">FCKeditor v2.6.4</a>.';
+$module_description 	= 'Dette modul muligg&oslash;r redigering af sideindhold ved hj&aelig;lp af  <a href="http://www.fckeditor.net/" target="_blank">FCKeditor v2.6.5</a>.';
 
 ?>
