@@ -1,6 +1,6 @@
 <?php
 
-// $Id: install.php 915 2009-01-21 19:27:01Z Ruebenwurzel $
+// $Id: upgrade.php 1158 2009-10-10 100:07:35Z Luisehahne $
 
 /*
 
