@@ -27,6 +27,6 @@
 */
 
 // Nederlandstalige beschrijving van de module
-$module_description 	= 'Met deze <a href="http://www.fckeditor.net/" target="_blank">FCKeditor v2.6.4</a> module kunt u de inhoud van een pagina wijzigen.';
+$module_description 	= 'Met deze <a href="http://www.fckeditor.net/" target="_blank">FCKeditor v2.6.5</a> module kunt u de inhoud van een pagina wijzigen.';
 
 ?>

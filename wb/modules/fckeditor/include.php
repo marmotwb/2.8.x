@@ -35,7 +35,7 @@ function get_template_name() {
 	// require_once('../../config.php');
 	require_once(WB_PATH. '/framework/class.database.php');
 
-	// work out default editor.css file for FCKEditor
+	// work out default editor.css file for CKeditor
 	if(file_exists(WB_PATH .'/templates/' .DEFAULT_TEMPLATE .'/editor.css')) {
 		$fck_template_dir = DEFAULT_TEMPLATE;
 	} else {
@@ -47,10 +47,10 @@ function get_template_name() {
 		$pageid = (int) $_GET["page_id"];
 
 		// obtain template folder of current page from the database
-		if(!isset($admin)) { 
-			$database = new database(); 
+		if(!isset($admin)) {
+			$database = new database();
 		}
-		$query_page = "SELECT template FROM " .TABLE_PREFIX ."pages WHERE page_id =$pageid"; 
+		$query_page = "SELECT template FROM " .TABLE_PREFIX ."pages WHERE page_id =$pageid";
 		$pagetpl = $database->get_one($query_page);   // if empty, default template is used
 
 		// check if a specific template is defined for current page
@@ -65,7 +65,7 @@ function get_template_name() {
 }
 
 function show_wysiwyg_editor($name, $id, $content, $width, $height) {
-	// create new FCKEditor instance
+	// create new CKeditor instance
 	require_once(WB_PATH.'/modules/fckeditor/fckeditor/fckeditor.php');
 	$oFCKeditor = new FCKeditor($name);
 
@@ -99,7 +99,7 @@ function show_wysiwyg_editor($name, $id, $content, $width, $height) {
 
 	// custom templates can be defined via /wb_config/wb_fcktemplates.xml
 	if(file_exists(WB_PATH .'/modules/fckeditor/wb_config/wb_fcktemplates.xml')) {
-		$oFCKeditor->Config['TemplatesXmlPath'] = WB_URL.'/modules/fckeditor/wb_config/wb_fcktemplates.xml';
+		$oFCKeditor->Config['TemplatesXmlPath'] = WB_URL.'/modules/FCKeditor/wb_config/wb_fcktemplates.xml';
 	}
 
   // set required file connectors (overwrite settings which may be made in fckconfig.js or my_fckconfig.js)

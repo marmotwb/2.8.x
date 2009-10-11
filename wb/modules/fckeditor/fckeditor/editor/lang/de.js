@@ -187,6 +187,7 @@ DlgGenLongDescr		: "Langform URL",
 DlgGenClass			: "Stylesheet Klasse",
 DlgGenTitle			: "Titel Beschreibung",
 DlgGenContType		: "Inhaltstyp",
+DlgGenContRel		: "Relationtyp",
 DlgGenLinkCharset	: "Ziel-Zeichensatz",
 DlgGenStyle			: "Style",
 
@@ -525,10 +526,16 @@ DlgAboutBrowserInfoTab	: "Browser-Info",
 DlgAboutLicenseTab	: "Lizenz",
 DlgAboutVersion		: "Version",
 DlgAboutInfo		: "Für weitere Informationen siehe",
+DlgAboutModule		: "Anpassung für Website Baker<br />Modul Version 2.9.1",
 
 // Div Dialog
 DlgDivGeneralTab	: "Allgemein",
 DlgDivAdvancedTab	: "Erweitert",
 DlgDivStyle		: "Style",
-DlgDivInlineStyle	: "Inline Style"
+DlgDivInlineStyle	: "Inline Style",
+
+ScaytTitle			: "SCAYT",	//MISSING
+ScaytTitleOptions	: "Options",	//MISSING
+ScaytTitleLangs		: "Languages",	//MISSING
+ScaytTitleAbout		: "About"	//MISSING
 };

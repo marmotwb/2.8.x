@@ -27,6 +27,6 @@
 */
 
 //Module Description
-$module_description 	= 'Med denne modulen kan du redigere innholdet p&aring; sidene dine ved &aring; benytte redigeringsverkt&oslash;yet <a href="http://www.fckeditor.net/" target="_blank">FCKeditor v2.6.4</a>.';
+$module_description 	= 'Med denne modulen kan du redigere innholdet p&aring; sidene dine ved &aring; benytte redigeringsverkt&oslash;yet <a href="http://www.fckeditor.net/" target="_blank">FCKeditor v2.6.5</a>.';
 
 ?>
