@@ -100,7 +100,8 @@ $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
 
 // get template used for the displayed page (for displaying block details)
-if (SECTION_BLOCKS) {
+if (SECTION_BLOCKS)
+{
 	$sql = "SELECT `template` from `" . TABLE_PREFIX . "pages` WHERE `page_id` = '$page_id' ";
 	$result = $database->query($sql);
 	if ($result && $result->numRows() == 1) {
@@ -112,32 +113,40 @@ if (SECTION_BLOCKS) {
 		}
 	}
 }
-	
+
 // Get sections for this page
 $module_permissions = $_SESSION['MODULE_PERMISSIONS'];
-$query_sections = $database->query("SELECT section_id, module, block 
+$query_sections = $database->query("SELECT section_id, module, block
 	FROM ".TABLE_PREFIX."sections WHERE page_id = '$page_id' ORDER BY position ASC");
-if($query_sections->numRows() > 0) {
-	while($section = $query_sections->fetchRow()) {
+if($query_sections->numRows() > 0)
+{
+	while($section = $query_sections->fetchRow())
+    {
 		$section_id = $section['section_id'];
 		$module = $section['module'];
 		//Have permission?
-		if(!is_numeric(array_search($module, $module_permissions))) {
+		if(!is_numeric(array_search($module, $module_permissions)))
+        {
 			// Include the modules editing script if it exists
-			if(file_exists(WB_PATH.'/modules/'.$module.'/modify.php')) {
-				echo '<a name="'.$section_id.'"></a>';
+			if(file_exists(WB_PATH.'/modules/'.$module.'/modify.php'))
+            {
+				print '<a name="'.$section_id.'">&nbsp;</a>'."\n";
 				// output block name if blocks are enabled
 				if (SECTION_BLOCKS) {
-					if (isset($block[$section['block']]) && trim(strip_tags(($block[$section['block']]))) != '') {
+					if (isset($block[$section['block']]) && trim(strip_tags(($block[$section['block']]))) != '')
+                    {
 						$block_name = htmlentities(strip_tags($block[$section['block']]));
 					} else {
-						if ($section['block'] == 1) {
+						if ($section['block'] == 1)
+                        {
 							$block_name = $TEXT['MAIN'];
 						} else {
 							$block_name = '#' . (int) $section['block'];
 						}
 					}
-					echo '<b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
+					print '<b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
+					print '<b>  Modul: </b>' . $section['module']." ";
+					print '<b>  ID: </b>' . $section_id."\n";
 				}
 				require(WB_PATH.'/modules/'.$module.'/modify.php');
 			}
