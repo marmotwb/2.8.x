@@ -268,8 +268,10 @@ if (!function_exists('show_content')) {
 	}
 }
 
-if (!function_exists('show_breadcrumbs')) {
-	function show_breadcrumbs($sep=' > ',$tier=1,$links=true,$depth=-1) {
+if (!function_exists('show_breadcrumbs'))
+{
+	function show_breadcrumbs($sep=' &raquo; ',$tier=1,$links=true,$depth=-1, $title='You are here: ')
+    {
 		global $wb;
 		$page_id=$wb->page_id;
 		if ($page_id!=0)
@@ -277,20 +279,27 @@ if (!function_exists('show_breadcrumbs')) {
 	 		global $database;
 			$bca=$wb->page_trail;
 			$counter=0;
+            print '<div class="breadcrumb">'.$title;
+
 			foreach ($bca as $temp)
 			{
 		        if ($counter>=($tier-1) AND ($depth<0 OR $tier+$depth>$counter))
 		        {
-					if ($counter>=$tier) echo $sep;
+					if ($counter>=$tier) print '<span class="separator">'.$sep.'</span>';
 					$query_menu=$database->query("SELECT menu_title,link FROM ".TABLE_PREFIX."pages WHERE page_id=$temp");
 					$page=$query_menu->fetchRow();
 					if ($links==true AND $temp!=$page_id)
-						echo '<a href="'.page_link($page['link']).'">'.$page['menu_title'].'</a>';
+                    {
+						print '<a href="'.page_link($page['link']).'">'.$page['menu_title'].'</a>';
+                    }
 					else
-					    echo $page['menu_title'];
+                    {
+					    print '<span>'.$page['menu_title'].'</span>';
+                    }
 		        }
 	            $counter++;
 			}
+            print "</div>\n";
 		}
 	}
 }

@@ -12,6 +12,14 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 12-Oct-2009 Dietmar Woellbrink
+!	update function show_bread_crumb in framework/frontend.functions.php
+!	replace separator with entities char, add title for multilingual
+!	set breakcrumb in div container class="breadcrumb"
+!	set separator in span tag class="separator"
+12-Oct-2009 Dietmar Woellbrink
+!	update jquery fancybox from 1.0 to 1.2.1 
++	fancybox imagefolder incl. fancybox.css
+12-Oct-2009 Dietmar Woellbrink
 !	shows more details in wysiwyg editor
 10-Oct-2009 Dietmar Woellbrink
 !	small update upgrade.php to reset newsfiles to created dates
