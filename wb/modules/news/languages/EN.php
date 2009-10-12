@@ -40,5 +40,6 @@ $MOD_NEWS['TEXT_COMMENTS'] = 'Comments';
 $MOD_NEWS['TEXT_COMMENT'] = 'Comment';
 $MOD_NEWS['TEXT_ADD_COMMENT'] = 'Add Comment';
 $MOD_NEWS['TEXT_BY'] = 'By';
+$MOD_NEWS['PAGE_NOT_FOUND'] = 'Page not found';
 
 ?>

@@ -12,6 +12,10 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 12-Oct-2009 Dietmar Woellbrink
++	added old version of fancybox.js
+!	rename new version fancybox 
++	added missing language variables in newsmodul
+12-Oct-2009 Dietmar Woellbrink
 #	fixes Bugs headersend errors in some core files
 12-Oct-2009 Dietmar Woellbrink
 !	update function show_bread_crumb in framework/frontend.functions.php
