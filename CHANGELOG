@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+12-Oct-2009 Dietmar Woellbrink
+!	shows more details in wysiwyg editor
 10-Oct-2009 Dietmar Woellbrink
 !	small update upgrade.php to reset newsfiles to created dates
 10-Oct-2009 Dietmar Woellbrink
