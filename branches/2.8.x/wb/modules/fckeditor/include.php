@@ -99,7 +99,7 @@ function show_wysiwyg_editor($name, $id, $content, $width, $height) {
 
 	// custom templates can be defined via /wb_config/wb_fcktemplates.xml
 	if(file_exists(WB_PATH .'/modules/fckeditor/wb_config/wb_fcktemplates.xml')) {
-		$oFCKeditor->Config['TemplatesXmlPath'] = WB_URL.'/modules/FCKeditor/wb_config/wb_fcktemplates.xml';
+		$oFCKeditor->Config['TemplatesXmlPath'] = WB_URL.'/modules/fckeditor/wb_config/wb_fcktemplates.xml';
 	}
 
   // set required file connectors (overwrite settings which may be made in fckconfig.js or my_fckconfig.js)
