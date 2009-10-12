@@ -1,6 +1,6 @@
 <?php
 
-// $Id: upgrade.php 1158 2009-10-10 100:07:35Z Luisehahne $
+// $Id: upgrade.php 1162 2009-10-11 18:49:11Z Luisehahne $
 
 /*
 
