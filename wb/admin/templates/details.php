@@ -26,13 +26,15 @@
 // Include the config file
 require('../../config.php');
 require_once(WB_PATH .'/framework/functions.php');
+require_once(WB_PATH.'/framework/class.admin.php');
+$admin = new admin('Addons', 'templates_view',false);
 
 // Get template name
 if(!isset($_POST['file']) OR $_POST['file'] == "") {
 	header("Location: index.php");
 	exit(0);
 } else {
-	$file = $_POST['file'];
+	$file = $admin->add_slashes($_POST['file']);
 }
 
 // Check if the template exists
@@ -42,7 +44,6 @@ if(!file_exists(WB_PATH.'/templates/'.$file)) {
 }
 
 // Print admin header
-require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Addons', 'templates_view');
 
 // Setup template object
