@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 12-Oct-2009 Dietmar Woellbrink
+#	fixes Bugs headersend errors in some core files
+12-Oct-2009 Dietmar Woellbrink
 !	update function show_bread_crumb in framework/frontend.functions.php
 !	replace separator with entities char, add title for multilingual
 !	set breakcrumb in div container class="breadcrumb"
