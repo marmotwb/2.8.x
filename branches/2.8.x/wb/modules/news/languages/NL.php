@@ -40,5 +40,6 @@ $MOD_NEWS['TEXT_COMMENTS'] = 'Commentaren';
 $MOD_NEWS['TEXT_COMMENT'] = 'Commentaar';
 $MOD_NEWS['TEXT_ADD_COMMENT'] = 'Toevoegen commentaar';
 $MOD_NEWS['TEXT_BY'] = 'door';
+$MOD_NEWS['PAGE_NOT_FOUND'] = 'Page not found';
 
 ?>
