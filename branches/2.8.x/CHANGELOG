@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+13-Oct-2009 Dietrich Roland Pehlke (Aldus)
+#	Fixed typo in the finnish language file (ticket #814).
 12-Oct-2009 Dietmar Woellbrink
 !	security update FCKeditor (tks to Ruebenwurzel)
 12-Oct-2009 Dietmar Woellbrink
