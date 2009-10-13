@@ -101,14 +101,15 @@ function search_highlight($foo='', $arr_string=array()) {
 	$string = str_replace($string_ul_umlaut, $string_ul_regex, $search_string);
 	// the highlighting
 	// match $string, but not inside <style>...</style>, <script>...</script>, <!--...--> or HTML-Tags
+	// Also droplet tags are now excluded from highlighting.
 	// split $string into pieces - "cut away" styles, scripts, comments, HTML-tags and eMail-addresses
 	// we have to cut <pre> and <code> as well.
 	// for HTML-Tags use <(?:[^<]|<.*>)*> which will match strings like <input ... value="<b>value</b>" >
-	$matches = preg_split("~(<style.*</style>|<script.*</script>|<pre.*</pre>|<code.*</code>|<!--.*-->|<(?:[^<]|<.*>)*>|\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,8}\b)~iUs",$foo,-1,(PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY));
+	$matches = preg_split("~(\[\[.*\]\]|<style.*</style>|<script.*</script>|<pre.*</pre>|<code.*</code>|<!--.*-->|<(?:[^<]|<.*>)*>|\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,8}\b)~iUs",$foo,-1,(PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY));
 	if(is_array($matches) && $matches != array()) {
 		$foo = "";
 		foreach($matches as $match) {
-			if($match{0}!="<" && !preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,8}$/i', $match)) {
+			if($match{0}!="<" && !preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,8}$/i', $match) && !preg_match('~\[\[.*\]\]~', $match)) {
 				$match = str_replace(array('&lt;', '&gt;', '&amp;', '&quot;', '&#039;', '&nbsp;'), array('<', '>', '&', '"', '\'', "\xC2\xA0"), $match);
 				$match = preg_replace('~('.$string.')~ui', '_span class=_highlight__$1_/span_',$match);
 				$match = str_replace(array('&', '<', '>', '"', '\'', "\xC2\xA0"), array('&amp;', '&lt;', '&gt;', '&quot;', '&#039;', '&nbsp;'), $match);
