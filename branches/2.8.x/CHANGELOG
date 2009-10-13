@@ -11,8 +11,13 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+<<<<<<< .mine
+13-Oct-2009 Dietmar Woellbrink
++	added forgotten jquery-fancybox.js Version 1.0
+=======
 13-Oct-2009 Dietrich Roland Pehlke (Aldus)
 #	Fixed typo in the finnish language file (ticket #814).
+>>>>>>> .r1169
 12-Oct-2009 Dietmar Woellbrink
 !	security update FCKeditor (tks to Ruebenwurzel)
 12-Oct-2009 Dietmar Woellbrink
