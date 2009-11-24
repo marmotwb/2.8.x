@@ -28,6 +28,11 @@ require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages');
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
+// eggsurplus: add child pages for a specific page
+?>
+<script type="text/javascript" src="<?php print ADMIN_URL; ?>/pages/eggsurplus.js"></script>
+<?php
+
 
 function make_list($parent, $editable_pages) {
 	// Get objects and vars from outside this function
@@ -118,7 +123,7 @@ function make_list($parent, $editable_pages) {
 							<img src="<?php echo THEME_URL; ?>/images/none_16.png" alt="<?php echo $TEXT['VISIBILITY']; ?>: <?php echo $TEXT['NONE']; ?>" class="page_list_rights" />
 						<?php } elseif($page['visibility'] == 'deleted') { ?>
 							<img src="<?php echo THEME_URL; ?>/images/deleted_16.png" alt="<?php echo $TEXT['VISIBILITY']; ?>: <?php echo $TEXT['DELETED']; ?>" class="page_list_rights" />
-						<?php } 
+						<?php }
 						echo '<span class="modify_link">'.($page['menu_title']).'</span>'; ?>
 					</a>
 				</td>
@@ -222,6 +227,20 @@ function make_list($parent, $editable_pages) {
 					</a>
 					<?php } ?>
 				</td>
+				<?php
+				// eggsurplus: Add action to add a page as a child
+				?>
+				<td class="list_actions">
+					<?php if($admin->get_permission('pages_delete') == true AND $can_modify == true) { ?>
+					<a href="javascript:add_child_page('<?php echo $page['page_id']; ?>');" title="<?php echo $TEXT['ADD']; ?>">
+						<img src="<?php echo THEME_URL; ?>/images/plus_16.png" name="addpage_<?php echo $page['page_id']; ?>" border="0" alt="Add Child Page" />
+					</a>
+					<?php } ?>
+				</td>
+				<?php
+				// end [IC] jeggers 2009/10/14: Add action to add a page as a child
+				?>
+
 			</tr>
 			</table>
 			</li>
