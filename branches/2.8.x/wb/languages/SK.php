@@ -382,7 +382,7 @@ $TEXT['LAST_UPDATED_BY'] = 'Posledn&aacute;  zmena:';
 $TEXT['RESULTS_FOR'] = 'V&yacute;sledky pre'; 
 $TEXT['TIME'] = '&#268;as'; 
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG styl'; 
-$TEXT['WYSIWYG_EDITOR'] = WYSIWYG editor; 
+$TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG editor'; 
 $TEXT['SERVER_EMAIL'] = 'Syt&eacute;mov&yacute; e-mail'; 
 $TEXT['MENU'] = 'Menu'; 
 $TEXT['MANAGE_GROUPS'] = 'Spravova&#357; skupiny'; 
@@ -430,14 +430,14 @@ $TEXT['PLEASE_LOGIN'] = 'ProsÃ­m prihl&aacute;ste sa';
 $TEXT['CAP_EDIT_CSS'] = 'Uprav CSS'; 
 $TEXT['HEADING_CSS_FILE'] = 'Actual module file: '; 
 $TEXT['TXT_EDIT_CSS_FILE'] = 'Edit the CSS definitions in the textarea below.'; 
-$TEXT['CODE_SNIPPET'] = Code-snippet; 
-$TEXT['REQUIREMENT'] = Requirement; 
-$TEXT['INSTALLED'] = Nain&#353;talovan&eacute;; 
-$TEXT['NOT_INSTALLED'] = Nenain&#353;talovan&eacute;; 
-$TEXT['ADDON'] = Add-On; 
-$TEXT['EXTENSION'] = Extension; 
-$TEXT['UNZIP_FILE'] = Nahraj a rozba&#318; zip s&uacute;bor; 
-$TEXT['DELETE_ZIP'] = Zmaza&#357; zip s&uacute;bor po rozbalenÃ­; 
+$TEXT['CODE_SNIPPET'] = 'Code-snippet'; 
+$TEXT['REQUIREMENT'] = 'Requirement'; 
+$TEXT['INSTALLED'] = 'Nain&#353;talovan&eacute;'; 
+$TEXT['NOT_INSTALLED'] = 'Nenain&#353;talovan&eacute;'; 
+$TEXT['ADDON'] = 'Add-On'; 
+$TEXT['EXTENSION'] = 'Extension'; 
+$TEXT['UNZIP_FILE'] = 'Nahraj a rozba&#318; zip s&uacute;bor'; 
+$TEXT['DELETE_ZIP'] = 'Zmaza&#357; zip s&uacute;bor po rozbalenÃ­'; 
 
 // Success/error messages 
 $MESSAGE['FRONTEND']['SORRY_NO_VIEWING_PERMISSIONS'] = 'Nem&aacute;te opr&aacute;vnenie prezera&#357; t&uacute;to str&aacute;nku'; 
@@ -456,7 +456,7 @@ $MESSAGE['LOGIN']['AUTHENTICATION_FAILED'] = 'Meno alebo heslo nie je platn&eacu
 
 $MESSAGE['SIGNUP']['NO_EMAIL'] = 'MusÃ­te zada&#357; e-mailovou adresu'; 
 $MESSAGE['SIGNUP2']['SUBJECT_LOGIN_INFO'] = 'Va&#353;e prihlasovacie &uacute;daje...'; 
-$MESSAGE['SIGNUP2']['BODY_LOGIN_INFO'] = <<< EOT 
+$MESSAGE['SIGNUP2']['BODY_LOGIN_INFO'] = '<<< EOT 
 V&aacute;&#382;en&yacute;  {LOGIN_DISPLAY_NAME}, 
 
 Pre Va&#353;e prihl&aacute;senie do '{LOGIN_WEBSITE_TITLE}' pou&#382;ite: 
@@ -467,7 +467,7 @@ Va&#353;e heslo bolo nastaven&eacute; na now&eacute;, uveden&eacute; vy&#353;&#3
 To znamen&aacute;, &#382;e va&#353;e star&eacute; heslo u&#382; nebude fungova&#357;. 
 
 Ak ste t&uacute;to spr&aacute;vu dostali omylom, prosÃ­m, ihne&#271; ho zma&#382;te. 
-EOT; 
+EOT'; 
 
 $MESSAGE['FORGOT_PASS']['NO_DATA'] = 'Zadajte svoju e-mailovou adresu:'; 
 $MESSAGE['FORGOT_PASS']['EMAIL_NOT_FOUND'] = 'Zadan&aacute; e-mailov&aacute; adresa alebola n&aacute;jden&aacute;'; 
@@ -575,9 +575,9 @@ $MESSAGE['GENERIC']['BAD_PERMISSIONS'] = 'Ned&aacute; sa zapisovat do cielov&eac
 $MESSAGE['GENERIC']['INVALID'] = 'Nahr&aacute;van&yacute; s&uacute;bor je neplatn&yacute;'; 
 $MESSAGE['GENERIC']['CANNOT_UNINSTALL_IN_USE'] = 'Ned&aacute; sa odin&#353;talova&#357;: s&uacute;bor je pr&aacute;ve pou&#382;Ã­van&yacute;'; 
 
-$MESSAGE['GENERIC']['CANNOT_UNINSTALL_IN_USE_TMPL'] = <br /><br />{{type}} <b>{{type_name}}</b> ned&aacute; sa odin&#353;talova&#357;, preto&#382;e sa pou&#382;Ã­va na {{pages}}.<br /><br />; 
-$MESSAGE['GENERIC']['CANNOT_UNINSTALL_IN_USE_TMPL_PAGES'] = t&aacute;to str&aacute;nka; tieto str&aacute;nky; 
-$MESSAGE['GENERIC']['CANNOT_UNINSTALL_IS_DEFAULT_TEMPLATE'] = Nem&ocirc;&#382;e&#357;e odin&#353;talova&#357; &#353;abl&oacute;nu <b>{{name}}</b>, preto&#382;e je nastaven&aacute; ako predvolen&aacute; &#353;abl&oacute;na!; 
+$MESSAGE['GENERIC']['CANNOT_UNINSTALL_IN_USE_TMPL'] =' <br /><br />{{type}} <b>{{type_name}}</b> ned&aacute; sa odin&#353;talova&#357;, preto&#382;e sa pou&#382;Ã­va na {{pages}}.<br /><br />'; 
+$MESSAGE['GENERIC']['CANNOT_UNINSTALL_IN_USE_TMPL_PAGES'] = 't&aacute;to str&aacute;nka; tieto str&aacute;nky'; 
+$MESSAGE['GENERIC']['CANNOT_UNINSTALL_IS_DEFAULT_TEMPLATE'] = 'Nem&ocirc;&#382;e&#357;e odin&#353;talova&#357; &#353;abl&oacute;nu <b>{{name}}</b>, preto&#382;e je nastaven&aacute; ako predvolen&aacute; &#353;abl&oacute;na!'; 
 
 $MESSAGE['GENERIC']['WEBSITE_UNDER_CONSTRUCTION'] = 'Str&aacute;nky sa moment&aacute;lne pripravuj&uacute;'; 
 $MESSAGE['GENERIC']['PLEASE_CHECK_BACK_SOON'] = 'ProsÃ­m, nav&#353;tÃ­vte n&aacute;s nesk&ocirc;r...'; 
