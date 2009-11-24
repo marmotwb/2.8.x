@@ -11,9 +11,17 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+24-Nov-2009 Dietmar Woellbrink (Luisehahne)
++	add register_frontend_modfiles('jquery'); adds jquery basis scripts in head
++	add register_frontend_modfiles_body('jquery'); adds jquery basis scripts before body end
++	add jquery_theme.js to choose a ui theme, basis is loaded, can be change 
+24-Nov-2009 Dietmar Woellbrink (Luisehahne)
++	add a child page is cumbersome when the parent dropdown list gets to be too large. (Ticket #821)
+24-Nov-2009 Dietmar Woellbrink (Luisehahne)
+!	validate captcha control
 13-Oct-2009 Ruud Eisinga
 #	fixed breaking droplets by highlighting search-words in search result pages.
-13-Oct-2009 Dietmar Woellbrink
+13-Oct-2009 Dietmar Woellbrink (Luisehahne)
 +	added forgotten jquery-fancybox.js Version 1.0
 13-Oct-2009 Dietrich Roland Pehlke (Aldus)
 #	Fixed typo in the finnish language file (ticket #814).
