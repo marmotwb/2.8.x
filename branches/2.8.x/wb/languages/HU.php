@@ -314,8 +314,8 @@ $TEXT['MEDIA_DIRECTORY'] = 'Média könyvtár';
 $TEXT['FILE_MODE'] = 'File Mód';
 $TEXT['USER'] = 'Felhasználó';
 $TEXT['OTHERS'] = 'Egyebek';
-$TEXT['READ'] = 'Olrás';';
-$TEXT['WRITE'] = '�
+$TEXT['READ'] = 'Olrás';
+$TEXT['WRITE'] = '�';
 $TEXT['EXECUTE'] = 'Végrehajtás';
 $TEXT['SMART_LOGIN'] = 'Okos bejelentkezés';
 $TEXT['REMEMBER_ME'] = 'Emlékezzen';
@@ -353,23 +353,23 @@ $TEXT['SUBMISSIONS_STORED_IN_DATABASE'] = 'Tárolva az adatbázisban';
 $TEXT['EMAIL_ADDRESS'] = 'E-mail Cím';
 $TEXT['CUSTOM'] = 'Egyéni'
 $TEXT['ANONYMOUS'] = 'Névtelen';
-$TEXT['SERVER_OPERATING_SYSTEM'] = 'Szerver Operációs Rendszer
+$TEXT['SERVER_OPERATING_SYSTEM'] = 'Szerver Operációs Rendszer';
 $TEXT['WORLD_WRITEABLE_FILE_PERMISSIONS'] = 'Mindenki által írható file jogok';
 $TEXT['LINUX_UNIX_BASED'] = 'Linux/Unix';
 $TEXT['WINDOWS'] = 'Windows';
-$TEXT['HOME_FOLDER'] = 'Home Könyvtár
+$TEXT['HOME_FOLDER'] = 'Home Könyvtár';
 $TEXT['HOME_FOLDERS'] = 'Home Könyvtárak';
 $TEXT['PAGE_TRASH'] = 'Lap kuka';
 $TEXT['INLINE'] = 'Sorban';
 $TEXT['SEPARATE'] = 'Különálló';
 $TEXT['DELETED'] = 'Törölve'
 $TEXT['VIEW_DELETED_PAGES'] = 'Törölt Lapok megtekintése';
-$TEXT['EMPTY_TRASH'] = 'Kuka ürítés
-$TEXT['TRASH_EMPTIED'] = 'Kuka kiürítve
+$TEXT['EMPTY_TRASH'] = 'Kuka ürítés';
+$TEXT['TRASH_EMPTIED'] = 'Kuka kiürítve';
 $TEXT['ADD_SECTION'] = 'Szakasz hozzáadása';
 $TEXT['POST_HEADER'] = '�zenet fejbléc';
-$TEXT['POST_FOOTER'] = '�zenet lábléc
-$TEXT['POSTS_PER_PAGE'] = '�zenetek laponként';';
+$TEXT['POST_FOOTER'] = '�zenet lábléc';
+$TEXT['POSTS_PER_PAGE'] = '�zenetek laponként';
 $TEXT['RESIZE_IMAGE_TO'] = 'Kép átméretezése';
 $TEXT['UNLIMITED'] = 'Végtelen';
 $TEXT['OF'] = 'összesen:';
@@ -416,7 +416,7 @@ $TEXT['PUBL_START_DATE'] = 'Kezd� dátum';
 $TEXT['PUBL_END_DATE'] = 'Záró dátum';
 $TEXT['CALENDAR'] = 'Naptár';
 $TEXT['DELETE_DATE'] = 'Dátum törlése';
-$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Kérlek add meg az alapértelmezett "Küld� email" címet és a "Küld� személy" mez�t. Ajánlott az alábbi fosználata: <strong>admin@tedomained.hu</strong>. Némely szolgáltató (e.g. <em>mail.com</em>) Visszautasíthatja a leveleket az olyan küld� címt�l mint <@mail.com</em> ez azért van hogy megakadályozzák a SPAM küldést.<br /><br />Az alapértelmezett értékek csak akkor érvényesek,ha nincs más megadva aker-ben. Ha a szervered támogatja <acronym title="Simple mail transfer protocol">SMTP</acronym>protokolt, akkor használhatod ezt az opciót levél küldé;hez.''
+$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Kérlek add meg az alapértelmezett "Küld� email" címet és a "Küld� személy" mez�t. Ajánlott az alábbi fosználata: <strong>admin@tedomained.hu</strong>. Némely szolgáltató (e.g. <em>mail.com</em>) Visszautasíthatja a leveleket az olyan küld� címt�l mint <@mail.com</em> ez azért van hogy megakadályozzák a SPAM küldést.<br /><br />Az alapértelmezett értékek csak akkor érvényesek,ha nincs más megadva aker-ben. Ha a szervered támogatja <acronym title="Simple mail transfer protocol">SMTP</acronym>protokolt, akkor használhatod ezt az opciót levél küldé;hez.';
 $TEXT['WBMAILER_DEFAULT_SENDER_MAIL'] = 'Küld� email';
 $TEXT['WBMAILER_DEFAULT_SENDER_NAME'] = 'Küld� személy';
 $TEXT['WBMAILER_NOTICE'] = '<strong>SMTP Mailer Beállítások:</strong><br />Ezek a beállítások csak akkor szükségesek, ha emailt akarsz küldeni <acro="Simple mail transfer protocol">SMTP</acronym> protokollon keresztül. Ha nem tudod az SMTP kiszolgálódat, vagy nem vagy biztos a követleményekben, akkoszerűen maradj az alap beállításnál: PHP MAIL.';
@@ -589,7 +589,7 @@ $MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = '�rvénytelen Website Baker telepít
 $MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = '�rvénytelen Website Baker nyelvi fájl. Kérlek ellen�rizd a szöveges fájlt.';
 
 $MESSAGE['MOD_FORM']['REQUIRED_FIELDS'] = 'A következ� mez�ket kötelez� kitöltenie';
-$MESSAGE['MOD_FORM']['EXCESS_SUBMISSIONS'] = 'Sajnáljuk, de ez az űrlap túl sokszor lett kitöltve egy óran belül! Kérem próbálja meg egy óra múlva$MESSAGE['MOD_FORM']['INCORRECT_CAPTCHA'] = 'A megadott ellenörz� kód (vagy más néven Captcha) hibás. Ha problémád van elolvasni a Captcha kódot, kümailt ide: '.SERVER_EMAIL.'';
+$MESSAGE['MOD_FORM']['EXCESS_SUBMISSIONS'] = 'Sajnáljuk, de ez az űrlap túl sokszor lett kitöltve egy óran belül! Kérem próbálja meg egy óra múlva$MESSAGE['MOD_FORM']['INCORRECT_CAPTCHA'] = 'A megadott ellenörz� kód (vagy más néven Captcha) hibás. Ha problémád van elolvasni a Captcha kódot, kümailt ide: '.SERVER_EMAIL.';
 
 $MESSAGE['ADDON']['RELOAD'] = 'Adatbázis frissítése Kiegészít� fájlok feltöltése után (pl. FTP-s feltöltés).';
 $MESSAGE['ADDON']['ERROR_RELOAD'] = 'Hiba történt a Kiegészít�k információinak frissítése közben.';
