@@ -11,8 +11,14 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+25-Nov-2009 Dietmar Woellbrink (Luisehahne)
+!	fix show_menu2 include.php, page crashes, if php error_log is disabled
+25-Nov-2009 Dietmar Woellbrink (Luisehahne)
+!	fixes language files HU.php and SK.php
 24-Nov-2009 Dietmar Woellbrink (Luisehahne)
-+ 	add to constants in /framework/initialize.php for later feature in database settings
+!	fixed php 5.3 depricated function in show_menu2
+24-Nov-2009 Dietmar Woellbrink (Luisehahne)
++ 	add two constants in /framework/initialize.php for later feature in database settings
 +	define('EDIT_ONE_SECTION', true) to edit only one section with editor in manage sections
 	modify page will be loading all sections with editor
 +	define('EDITOR_WIDTH', 900) set min width for editor
@@ -31,7 +37,6 @@ Legend:
 +	added forgotten jquery-fancybox.js Version 1.0
 13-Oct-2009 Dietrich Roland Pehlke (Aldus)
 #	Fixed typo in the finnish language file (ticket #814).
->>>>>>> .r1169
 12-Oct-2009 Dietmar Woellbrink
 !	security update FCKeditor (tks to Ruebenwurzel)
 12-Oct-2009 Dietmar Woellbrink
@@ -3180,4 +3185,4 @@ Stefan Braunewell
 +	Added search functionality, with three different "methods":
 	1. Using all words  2. Using any words  3. Exact match
 +	Added native MySQL database support
->>>>>>> .r1147
+
