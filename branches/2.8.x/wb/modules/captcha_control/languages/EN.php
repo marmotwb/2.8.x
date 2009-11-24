@@ -47,7 +47,7 @@ $MOD_CAPTCHA_CONTROL['TTF_IMAGE']         = 'Image with varying fonts and backgr
 $MOD_CAPTCHA_CONTROL['OLD_IMAGE']         = 'Old style (not recommended)';
 $MOD_CAPTCHA_CONTROL['TEXT']              = 'Text-CAPTCHA';
 $MOD_CAPTCHA_CONTROL['CAPTCHA_ENTER_TEXT']= 'Questions and Answers';
-$MOD_CAPTCHA_CONTROL['CAPTCHA_TEXT_DESC'] = 'Delete this all to add your own entries'."\n".'or your changes won\'t be saved!'."\n".'### example ###'."\n".'Here you can enter Questions and Answers.'."\n".'Use:'."\n".'?What\'s <b>Claudia</b> Schiffer\'s <b>first name</b>?'."\n".'!Claudia'."\n".'?Question 2'."\n".'!Answer 2'."\n".''."\n".'if language doesn\'t matter.'."\n".' ... '."\n".'Or, if language do matter, use:'."\n".'?EN:What\'s <b>Claudia</b> Schiffer\'s <b>first name</b>?'."\n".'!Claudia'."\n".'?EN:Question 2'."\n".'!Answer 2'."\n".'?DE:Wie ist der <b>Vorname</b> von <b>Claudia</b> Schiffer?'."\n".'!Claudia'."\n".' ... '."\n".'### example ###'."\n".'';
+$MOD_CAPTCHA_CONTROL['CAPTCHA_TEXT_DESC'] = 'Delete this all to add your own entries'."\n".'or your changes won\'t be saved!'."\n".'### example ###'."\n".'Here you can enter Questions and Answers.'."\n".'Use:'."\n".'?What\'s Claudia Schiffer\'s first name?'."\n".'!Claudia'."\n".'?Question 2'."\n".'!Answer 2'."\n".''."\n".'if language doesn\'t matter.'."\n".' ... '."\n".'Or, if language do matter, use:'."\n".'?EN:What\'s Claudia Schiffer\'s first name?'."\n".'!Claudia'."\n".'?EN:Question 2'."\n".'!Answer 2'."\n".'?DE:Wie ist der Vorname von Claudia Schiffer?'."\n".'!Claudia'."\n".' ... '."\n".'### example ###'."\n".'';
 
 $MOD_CAPTCHA['VERIFICATION']           = 'Verification';
 $MOD_CAPTCHA['ADDITION']               = 'add';
