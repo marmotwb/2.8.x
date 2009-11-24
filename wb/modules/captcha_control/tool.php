@@ -90,7 +90,7 @@ if(isset($_POST['save_settings'])) {
 
 	pics["calc_image"] = new Image();
 	pics["calc_image"].src = "<?php echo WB_URL.'/include/captcha/captchas/calc_image.png'?>";
-	
+
 	pics["calc_ttf_image"] = new Image();
 	pics["calc_ttf_image"].src = "<?php echo WB_URL.'/include/captcha/captchas/calc_ttf_image.png'?>";
 
@@ -146,28 +146,30 @@ if(isset($_POST['save_settings'])) {
 		<td>
 		<select name="captcha_type" id="captcha_type" onchange="load_captcha_image()" style="width: 98%;">
 			<?php foreach($useable_captchas AS $key=>$text) {
-			echo "<option value=\"$key\" ".($captcha_type==$key?'selected':'').">$text</option>";
+			echo "<option value=\"$key\" ".($captcha_type==$key ? ' selected="selected"' : '').">$text</option>";
 			} ?>
 		</select>
 		</td>
 	</tr>
-	<tr height="55px">
+	<tr>
 		<td>&nbsp;</td>
-		<td align="left" width="150px"><img name="captcha_example" id="captcha_example" src="<?php echo WB_URL.'/include/captcha/captchas/'.$captcha_type.'.png'?>" ></td>
+		<td align="left" width="150px">
+            <img alt="captcha_example" id="captcha_example" src="<?php echo WB_URL.'/include/captcha/captchas/'.$captcha_type.'.png'?>" />
+        </td>
 	</tr>
 	<tr id="text_qa" style="display:<?php if($captcha_type=='text') echo ''; else echo 'none'; ;?>;">
 		<td valign="top" class="setting_name"><?php echo $MOD_CAPTCHA_CONTROL['CAPTCHA_ENTER_TEXT'];?>:</td>
 		<td class="setting_value" colspan="2">
-			<textarea name="text_qa" wrap="off" cols="60" rows="10"><?php echo $text_qa; ?></textarea>
+			<textarea name="text_qa" cols="60" rows="10"><?php echo $text_qa; ?></textarea>
 		</td>
 	</tr>
 	<tr>
 		<td><?php echo $MOD_CAPTCHA_CONTROL['USE_SIGNUP_CAPTCHA'];?>:</td>
 		<td>
 			<input type="radio" <?php echo ($enabled_captcha=='1') ?'checked="checked"' :'';?>
-				name="enabled_captcha" value="1"><?php echo $MOD_CAPTCHA_CONTROL['ENABLED'];?>
+				name="enabled_captcha" value="1" /><?php echo $MOD_CAPTCHA_CONTROL['ENABLED'];?>
 			<input type="radio" <?php echo ($enabled_captcha=='0') ?'checked="checked"' :'';?>
-				name="enabled_captcha" value="0"><?php echo $MOD_CAPTCHA_CONTROL['DISABLED'];?>
+				name="enabled_captcha" value="0" /><?php echo $MOD_CAPTCHA_CONTROL['DISABLED'];?>
 		</td>
 	</tr>
 	<tr><td>&nbsp;</td><td style="font-size:smaller;"><?php echo $MOD_CAPTCHA_CONTROL['CAPTCHA_EXP'];?></td></tr>
@@ -176,12 +178,15 @@ if(isset($_POST['save_settings'])) {
 		<td><?php echo $MOD_CAPTCHA_CONTROL['ASP_TEXT'];?>:</td>
 		<td>
 			<input type="radio" <?php echo ($enabled_asp=='1') ?'checked="checked"' :'';?>
-				name="enabled_asp" value="1"><?php echo $MOD_CAPTCHA_CONTROL['ENABLED'];?>
+				name="enabled_asp" value="1" /><?php echo $MOD_CAPTCHA_CONTROL['ENABLED'];?>
 			<input type="radio" <?php echo ($enabled_asp=='0') ?'checked="checked"' :'';?>
-				name="enabled_asp" value="0"><?php echo $MOD_CAPTCHA_CONTROL['DISABLED'];?>
+				name="enabled_asp" value="0" /><?php echo $MOD_CAPTCHA_CONTROL['DISABLED'];?>
 		</td>
 	</tr>
-	<tr><td>&nbsp;</td><td style="font-size:smaller;"><?php echo $MOD_CAPTCHA_CONTROL['ASP_EXP'];?></td></tr>
+	<tr>
+        <td>&nbsp;</td>
+        <td style="font-size:smaller;"><?php echo $MOD_CAPTCHA_CONTROL['ASP_EXP'];?></td>
+    </tr>
 	</table>
 	<input type="submit" name="save_settings" style="margin-top:10px; width:140px;" value="<?php echo $TEXT['SAVE']; ?>" />
 </form>
