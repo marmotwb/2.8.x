@@ -111,6 +111,11 @@ function show_wysiwyg_editor($name, $id, $content, $width, $height) {
   $oFCKeditor->Config['FlashBrowserURL'] = $oFCKeditor->BasePath.'editor/filemanager/browser/default/browser.html?Connector='
 		.$connectorPath;
 
+  if(defined('EDITOR_WIDTH'))
+  {
+    $width = ($width < EDITOR_WIDTH) ? EDITOR_WIDTH : $width;
+  }
+
 	$oFCKeditor->Value = reverse_htmlentities($content);
     $oFCKeditor->Width  = $width;
 	$oFCKeditor->Height = $height;

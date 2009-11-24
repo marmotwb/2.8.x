@@ -194,7 +194,15 @@ if($query_sections->numRows() > 0) {
 			$template->set_var(array(
 			) );
 			if(SECTION_BLOCKS) {
-				$edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'#'.$section['section_id'].'">'.$module_name.'</a>';
+                if(defined('EDIT_ONE_SECTION') and EDIT_ONE_SECTION)
+                {
+				    $edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'&amp;wysiwyg='.$section['section_id'] .'">'.$module_name.'</a>';
+                }
+                else
+                {
+				    $edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'#'.$section['section_id'].'">'.$module_name.'</a>';
+                }
+
 				$input_attribute = 'input_normal';
 				$template->set_var(array(
 						'STYLE_DISPLAY_SECTION_BLOCK' => ' style="visibility:visible;"',
@@ -280,7 +288,7 @@ if($query_sections->numRows() > 0) {
 							) 
 						);
 			}
-		} else continue; // user have not the right to edit this section/modul
+		}
 			$template->set_var(array(
 							'DISPLAY_DEBUG' => ' style="visibility="visible;"',
 							'TEXT_SID' => 'SID',

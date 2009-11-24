@@ -22,16 +22,21 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
- 
+
+//set_include_path(get_include_path() . PATH_SEPARATOR . WB_PATH);
+
+
 if (file_exists(WB_PATH.'/framework/class.database.php')) {
 	
 	require_once(WB_PATH.'/framework/class.database.php');
 		
 	// Create database class
 	$database = new database();
-	
-	set_magic_quotes_runtime(0);
-	
+
+    if   (function_exists("set_magic_quotes_runtime"))
+    {
+        set_magic_quotes_runtime(0);
+	}
 	// Get website settings (title, keywords, description, header, and footer)
 	$query_settings = "SELECT name,value FROM ".TABLE_PREFIX."settings";
 	$get_settings = $database->query($query_settings);
@@ -124,7 +129,12 @@ if (file_exists(WB_PATH.'/framework/class.database.php')) {
 	// Set Theme dir
 	define('THEME_URL', WB_URL.'/templates/'.DEFAULT_THEME);
 	define('THEME_PATH', WB_PATH.'/templates/'.DEFAULT_THEME);
-	
+
+    // extended wb_settings
+	define('EDIT_ONE_SECTION', true);
+
+	define('EDITOR_WIDTH', 900);
+
 }
 
 ?>
