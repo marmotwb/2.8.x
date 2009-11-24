@@ -12,6 +12,12 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 24-Nov-2009 Dietmar Woellbrink (Luisehahne)
++ 	add to constants in /framework/initialize.php for later feature in database settings
++	define('EDIT_ONE_SECTION', true) to edit only one section with editor in manage sections
+	modify page will be loading all sections with editor
++	define('EDITOR_WIDTH', 900) set min width for editor
++	adding more information in editor header 1) block 2) module 3) section_id
+24-Nov-2009 Dietmar Woellbrink (Luisehahne)
 +	add register_frontend_modfiles('jquery'); adds jquery basis scripts in head
 +	add register_frontend_modfiles_body('jquery'); adds jquery basis scripts before body end
 +	add jquery_theme.js to choose a ui theme, basis is loaded, can be change 

@@ -31,6 +31,8 @@ if(!isset($_GET['page_id']) OR !is_numeric($_GET['page_id'])) {
 	$page_id = $_GET['page_id'];
 }
 
+
+
 // Create new admin object
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
@@ -40,6 +42,8 @@ $admin = new admin('Pages', 'pages_modify');
 if(!$admin->get_page_permission($page_id,'admin')) {
 	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
 }
+
+$sectionId = isset($_GET['wysiwyg']) ? htmlspecialchars($admin->get_get('wysiwyg')) : NULL;
 
 // Get page details
 $results_array=$admin->get_page_details($page_id);
@@ -116,8 +120,19 @@ if (SECTION_BLOCKS)
 
 // Get sections for this page
 $module_permissions = $_SESSION['MODULE_PERMISSIONS'];
+// workout for edit only one section for faster pageloading
+// Constant later set in wb_settings, in meantime defined in framework/initialize.php
+if(defined('EDIT_ONE_SECTION') and EDIT_ONE_SECTION and is_numeric($sectionId))
+{
+$query_sections = $database->query("SELECT section_id, module, block
+	FROM ".TABLE_PREFIX."sections WHERE section_id = '$sectionId' ORDER BY position ASC");
+}
+else
+{
 $query_sections = $database->query("SELECT section_id, module, block
 	FROM ".TABLE_PREFIX."sections WHERE page_id = '$page_id' ORDER BY position ASC");
+}
+
 if($query_sections->numRows() > 0)
 {
 	while($section = $query_sections->fetchRow())
@@ -130,7 +145,7 @@ if($query_sections->numRows() > 0)
 			// Include the modules editing script if it exists
 			if(file_exists(WB_PATH.'/modules/'.$module.'/modify.php'))
             {
-				print '<a name="'.$section_id.'">&nbsp;</a>'."\n";
+				print /* '<a name="'.$section_id.'"></a>'. */"\n";
 				// output block name if blocks are enabled
 				if (SECTION_BLOCKS) {
 					if (isset($block[$section['block']]) && trim(strip_tags(($block[$section['block']]))) != '')
@@ -144,9 +159,9 @@ if($query_sections->numRows() > 0)
 							$block_name = '#' . (int) $section['block'];
 						}
 					}
-					print '<b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
+					print '<div id="'.$section['section_id'].'"><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
 					print '<b>  Modul: </b>' . $section['module']." ";
-					print '<b>  ID: </b>' . $section_id."\n";
+					print '<b>  ID: </b>' . $section_id."</div>\n";
 				}
 				require(WB_PATH.'/modules/'.$module.'/modify.php');
 			}
