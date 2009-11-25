@@ -270,7 +270,7 @@ class SM2_Formatter
                 $rgTests[$n] = $this->ifTest($rgMatches[1], $rgMatches[2], $rgMatches[3]);
             }
             else {
-                @error_log("show_menu2 error: conditional expression is invalid!");
+                @error_logs("show_menu2 error: conditional expression is invalid!");
                 $rgTests[$n] = false;
             }
         }
@@ -402,6 +402,20 @@ class SM2_Formatter
     }
 };
 
+function error_logs($error_str)
+{
+                $log_error = true;
+                if ( ! function_exists('error_log') )
+                        $log_error = false;
+
+                $log_file = @ini_get('error_log');
+                if ( !empty($log_file) && ('syslog' != $log_file) && !@is_writable($log_file) )
+                        $log_error = false;
+
+                if ( $log_error )
+                        @error_log($error_str, 0);
+}
+
 function show_menu2(
     $aMenu          = 0,
     $aStart         = SM2_ROOT,
@@ -429,13 +443,13 @@ function show_menu2(
     else {
         $flags = SM2_TRIM;
         $aOptions = array();
-        @error_log('show_menu2 error: $aOptions is invalid. No flags supplied!');
+        @error_logs('show_menu2 error: $aOptions is invalid. No flags supplied!');
     }
     
     // ensure we have our group 1 flag, we don't check for the "exactly 1" part, but
     // we do ensure that they provide at least one.
     if (0 == ($flags & _SM2_GROUP_1)) {
-        @error_log('show_menu2 error: $aOptions is invalid. No flags from group 1 supplied!');
+        @error_logs('show_menu2 error: $aOptions is invalid. No flags from group 1 supplied!');
         $flags |= SM2_TRIM; // default to TRIM
     }
     

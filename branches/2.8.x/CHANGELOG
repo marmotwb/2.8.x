@@ -12,6 +12,12 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 25-Nov-2009 Dietmar Woellbrink (Luisehahne)
+!	more bug fixes language file SK.php
+25-Nov-2009 Dietmar Woellbrink (Luisehahne)
+!	Many hosts disable error_log() in various and sundry ways. 
+	In WB we do something like this to avoid triggering warnings and errors. 
+	Even this is sometimes not sufficient to avoid problems with some hosts, but accommodates most.
+25-Nov-2009 Dietmar Woellbrink (Luisehahne)
 !	fix show_menu2 include.php, page crashes, if php error_log is disabled
 25-Nov-2009 Dietmar Woellbrink (Luisehahne)
 !	fixes language files HU.php and SK.php
