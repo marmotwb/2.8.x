@@ -302,6 +302,10 @@ if($admin->get_permission('pages_view') == true) {
 	</tr>
 	</table>
 	<?php
+    // Work-out if we should check for existing page_code
+    $field_sql = $database->query("DESCRIBE ".TABLE_PREFIX."pages page_code");
+    $field_set = $field_sql->numRows();
+
 	$page_tmp_id = 0;
 	$editable_pages = make_list(0, 0);
 	?>
@@ -434,10 +438,11 @@ if($editable_pages == 0) {
 		$template->parse('group_list2', 'group_list_block2', true);
 	}
 
+
 // Parent page list
 $database = new database();
 function parent_list($parent) {
-	global $admin, $database, $template;
+	global $admin, $database, $template, $field_set;
 	$query = "SELECT * FROM ".TABLE_PREFIX."pages WHERE parent = '$parent' AND visibility!='deleted' ORDER BY position ASC";
 	$get_pages = $database->query($query);
 	while($page = $get_pages->fetchRow()) {
@@ -445,7 +450,7 @@ function parent_list($parent) {
 			continue;
 		// if parent = 0 set flag_icon
 		$template->set_var('FLAG_ROOT_ICON',' none ');
-		if( $page['parent'] == 0 ) {
+		if( $page['parent'] == 0 && $field_set) {
 			$template->set_var('FLAG_ROOT_ICON','url('.THEME_URL.'/images/flags/'.strtolower($page['language']).'.png)');
 		}
 		// Stop users from adding pages with a level of more than the set page level limit
@@ -470,7 +475,9 @@ function parent_list($parent) {
 			for($i = 1; $i <= $page['level']; $i++) { $title_prefix .= ' - '; }
 				$template->set_var(array(
 												'ID' => $page['page_id'],
-												'TITLE' => ($title_prefix.$page['page_title'])
+												'TITLE' => ($title_prefix.$page['menu_title']),
+												'MENU-TITLE' => ($title_prefix.$page['menu_title']),
+												'PAGE-TITLE' => ($title_prefix.$page['page_title'])
 												)
 										);
 				if($can_modify == true) {

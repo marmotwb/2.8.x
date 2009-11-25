@@ -46,6 +46,9 @@ $results_array = $results->fetchRow();
 $old_admin_groups = explode(',', $results_array['admin_groups']);
 $old_admin_users = explode(',', $results_array['admin_users']);
 
+// Work-out if we should check for existing page_code
+$field_sql = $database->query("DESCRIBE ".TABLE_PREFIX."pages page_code");
+$field_set = $field_sql->numRows();
 $in_old_group = FALSE;
 foreach($admin->get_groups_id() as $cur_gid){
 	if (in_array($cur_gid, $old_admin_groups)) {
@@ -254,18 +257,107 @@ if($results_array['visibility'] == 'private' OR $results_array['visibility'] == 
 	$template->set_var('DISPLAY_VIEWERS', 'none');
 }
 
+//-- insert page_code 20090904-->
+$template->set_var('DISPLAY_CODE_PAGE_LIST', ' id="multi_lingual" style="display:none;"');
+// Work-out if page languages feature is enabled
+if((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set)
+{
+	$template->set_var( array(
+            'DISPLAY_CODE_PAGE_LIST' => ' id="multi_lingual"',
+            'TEXT_PAGE_CODE' => '<a href="'.WB_URL.'/modules/mod_multilingual/update_keys.php?page_id='.$page_id.'">'.$TEXT['PAGE_CODE'].'</a>'
+
+        )
+    );
+
+
+	// Page_code list
+	$database = new database();
+	function page_code_list($parent) {
+		global $admin, $database, $template, $results_array, $pageCode;
+		$default_language = DEFAULT_LANGUAGE;
+		$query = "SELECT * FROM ".TABLE_PREFIX."pages WHERE parent = '$parent' AND language = '$default_language' ORDER BY position ASC";
+		$get_pages = $database->query($query);
+		while($page = $get_pages->fetchRow()) {
+			if($admin->page_is_visible($page)==false)
+				continue;
+			$template->set_var('FLAG_CODE_ICON',' none ');
+			if( $page['parent'] == 0 ) {
+				$template->set_var('FLAG_CODE_ICON','url('.THEME_URL.'/images/flags/'.strtolower($page['language']).'.png)');
+			}
+			// If the current page cannot be parent, then its children neither
+			$list_next_level = true;
+			// Stop users from adding pages with a level of more than the set page level limit
+			if($page['level']+1 < PAGE_LEVEL_LIMIT) {
+				// Get user perms
+				$admin_groups = explode(',', str_replace('_', '', $page['admin_groups']));
+				$admin_users = explode(',', str_replace('_', '', $page['admin_users']));
+
+				$in_group = FALSE;
+				foreach($admin->get_groups_id() as $cur_gid){
+					if (in_array($cur_gid, $admin_groups))
+					{
+						$in_group = TRUE;
+					}
+				}
+
+				if(($in_group) OR is_numeric(array_search($admin->get_user_id(), $admin_users))) {
+					$can_modify = true;
+				} else {
+					$can_modify = false;
+				}
+				// Title -'s prefix
+				$title_prefix = '';
+				for($i = 1; $i <= $page['level']; $i++) { $title_prefix .= ' - -  '; }
+				$template->set_var(array(
+										'VALUE' => $page['page_code'],
+										'PAGE_CODE' => ($title_prefix.$page['menu_title'])
+										)
+								);
+				if($results_array['page_code'] == $page['page_code']) {
+					$template->set_var('SELECTED', ' selected="selected"');
+				} elseif($results_array['page_code'] == $page['page_code']) {
+					$template->set_var('SELECTED', ' disabled="disabled" class="disabled"');
+					$list_next_level=false;
+				} elseif($can_modify != true) {
+					$template->set_var('SELECTED', ' disabled="disabled" class="disabled"');
+				} else {
+					$template->set_var('SELECTED', '');
+				}
+				$template->parse('page_code_list', 'page_code_list_block', true);
+			}
+			if ($list_next_level)
+				page_code_list($page['page_id']);
+		}
+	}
+	// Insert code_page values from page to modify
+	$template->set_block('main_block', 'page_code_list_block', 'page_code_list');
+	if($admin->get_permission('pages_add_l0') == true OR $results_array['level'] == 0) {
+		if($results_array['parent'] == 0) { $selected = ' selected'; } else { $selected = ''; }
+		$template->set_var(array(
+									'VALUE' => '',
+									'PAGE_CODE' => $TEXT['NONE'],
+									'SELECTED' => $selected
+								)
+							);
+		$template->parse('page_code_list', 'page_code_list_block', true);
+	}
+	// get pagecode form this page_id
+	page_code_list(0);
+}
+//-- page code -->
+
 // Parent page list
 $database = new database();
 function parent_list($parent) {
-	global $admin, $database, $template, $results_array;
+	global $admin, $database, $template, $results_array,$field_set;
 	$query = "SELECT * FROM ".TABLE_PREFIX."pages WHERE parent = '$parent' ORDER BY position ASC";
 	$get_pages = $database->query($query);
 	while($page = $get_pages->fetchRow()) {
 		if($admin->page_is_visible($page)==false)
 			continue;
-		// if psrent = 0 set flag_icon
+		// if parent = 0 set flag_icon
 		$template->set_var('FLAG_ROOT_ICON',' none ');
-		if( $page['parent'] == 0 ) {
+		if( $page['parent'] == 0  && $field_set) {
 			$template->set_var('FLAG_ROOT_ICON','url('.THEME_URL.'/images/flags/'.strtolower($page['language']).'.png)');
 		}
 		// If the current page cannot be parent, then its children neither
@@ -291,7 +383,9 @@ function parent_list($parent) {
 			for($i = 1; $i <= $page['level']; $i++) { $title_prefix .= ' - '; }
 			$template->set_var(array(
 											'ID' => $page['page_id'],
-											'TITLE' => ($title_prefix.$page['page_title']),
+											'TITLE' => ($title_prefix.$page['menu_title']),
+											'MENU-TITLE' => ($title_prefix.$page['menu_title']),
+											'PAGE-TITLE' => ($title_prefix.$page['page_title']),
 											'FLAG_ICON' => 'none',
 											));
 

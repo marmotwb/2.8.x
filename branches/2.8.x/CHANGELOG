@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 25-Nov-2009 Dietmar Woellbrink (Luisehahne)
+!	change page_title to menu_title for parent dropdown list in index.php and sections.php
+25-Nov-2009 Dietmar Woellbrink (Luisehahne)
 !	more bug fixes language file SK.php
 25-Nov-2009 Dietmar Woellbrink (Luisehahne)
 !	Many hosts disable error_log() in various and sundry ways. 
