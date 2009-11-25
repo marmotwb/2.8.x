@@ -17,26 +17,12 @@
 </div>
 
 <script src="{WB_URL}/include/jquery/jquery-min.js" type="text/javascript"></script>
+<!--
 <script src="{WB_URL}/include/jquery/jquery-ui-min.js" type="text/javascript"></script>
+-->
 <script src="{WB_URL}/include/jquery/jquery-insert.js" type="text/javascript"></script>
 <!--[if lt IE 7]><script type="text/javascript" src="{WB_URL}/include/jquery/plugins/jquery-pngFix.js"></script><![endif]-->
-<script language="javascript" type="text/javascript">
-
-
-        if($(".jcalendar").length) {
-            $.insert("{WB_URL}/include/jscalendar/calendar-system.css");
-          }
-
-        if($(".jsadmin").length) {
-            $.insert("{WB_URL}/modules/jsadmin/backend.css");
-          }
-
-        if($("a[rel^='lightbox']").length) {
-            $.insert("{WB_URL}/include/jquery/plugins/jquery-slimbox2.css");
-            $.insert("{WB_URL}/include/jquery/plugins/jquery-slimbox2-min.js");
-          }
-
-</script>
+<script src="{THEME_URL}/jquery/jquery-plugins.js" type="text/javascript"></script>
 {BACKEND_BODY_MODULE_JS}
 </body>
 </html>

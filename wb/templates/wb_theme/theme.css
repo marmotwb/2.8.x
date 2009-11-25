@@ -80,9 +80,16 @@ div.box {
  margin: -10px 0 0 0;
 }
 
+.header {
+	width: 900px;
+	margin: 0 auto;
+}
+
 .container {
  background: #fff url(images/bgtitle.png);
  background-repeat: repeat-x;
+ width:80%;
+ margin: 0 auto;
 }
  
 .content {
@@ -372,14 +379,14 @@ select option.disabled {
 }
 
 .modify_link {
- padding-top: 4px;
- padding-left: 7px;
- text-indent: 7px;
+	vertical-align: middle;
+	padding-top: 4px;
+	display: inline;
 }
 
 .header_list_menu_title {text-align:left;}
 .header_list_page_title {width:290px; text-align:left;}
-.header_list_page_id {width:30px; text-align: right;}
+.header_list_page_id {width:40px; text-align: left;}
 .header_list_actions {width:150px; text-align:left;}
 
 .list_menu_title {text-align:left;}

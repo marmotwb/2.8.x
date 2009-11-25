@@ -10,8 +10,13 @@
 <link href="{THEME_URL}/theme.css" rel="stylesheet" type="text/css" />
 <link href="{WB_URL}/include/jquery/plugins/jquery-ui.css" rel="stylesheet" type="text/css" />
 {BACKEND_MODULE_CSS}
+<script type="text/javascript">
+var WB_URL = '{WB_URL}';
+var WB_PATH = '{WB_PATH}';
+var THEME_URL = '{THEME_URL}';
+var ADMIN_URL = '{ADMIN_URL}';
+</script>
 {BACKEND_MODULE_JS}
-<script type="text/javascript" src="{WB_URL}/include/editarea/edit_area_full.js"></script>
 <script language="javascript" type="text/javascript">
 function confirm_link(message, url) {
 	if(confirm(message)) location.href = url;
