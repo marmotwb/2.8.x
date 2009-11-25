@@ -14,18 +14,32 @@
  * @version		0.7.2.3 
  * @platform	Website Baker 2.7
 */
+function loader_help()
+{
+?>
+   <script type="text/javascript">
+      var head= document.getElementsByTagName('head')[0];
+      var script= document.createElement('script');
+      script.type= 'text/javascript';
+      script.src= '<?php print WB_URL; ?>/include/editarea/edit_area_full.js';
+      head.appendChild(script);
+   </script>
+<?php
+
+}
 
 if (!function_exists('registerEditArea')) {
 	function registerEditArea($id = 'code_area', $syntax = 'php', $syntax_selection = true
 		, $allow_resize = 'no', $allow_toggle = true, $start_highlight = true
 		, $min_width = 600, $min_height = 300, $toolbar = 'default')
-	{ 
+	{
+
 		// set default toolbar if no user defined was specified
 		if ($toolbar == 'default') {
 			$toolbar = 'search, fullscreen, |, undo, redo, |, select_font, syntax_selection, |, highlight, reset_highlight, |, help';
 			$toolbar = (!$syntax_selection) ? str_replace('syntax_selection,', '', $toolbar) : $toolbar;
 		}
-	
+
 		// check if used Website Baker backend language is supported by EditArea
 		$language = 'en';
 		if (defined('LANGUAGE') && file_exists(dirname(__FILE__) . '/langs/' . strtolower(LANGUAGE) . '.js')) {
@@ -38,9 +52,10 @@ if (!function_exists('registerEditArea')) {
 		// check if resize option is supported by edit_area
 		$allow_resize = in_array($allow_resize, array('no', 'both', 'x', 'y')) ? $allow_resize : 'no';
 
+        loader_help();
 		// return the Javascript code
 		$result = <<< EOT
-		<script language="javascript" type="text/javascript">
+		<script type="text/javascript">
 			editAreaLoader.init({
 				id: 				'$id'
 				,start_highlight:	$start_highlight

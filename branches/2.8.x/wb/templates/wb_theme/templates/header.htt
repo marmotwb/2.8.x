@@ -8,10 +8,14 @@
 <meta name="description" content="{TEXT_ADMINISTRATION}" />
 <meta name="keywords" content="{TEXT_ADMINISTRATION}" />
 <link href="{THEME_URL}/theme.css" rel="stylesheet" type="text/css" />
-<link href="{WB_URL}/include/jquery/plugins/jquery-ui.css" rel="stylesheet" type="text/css" />
 {BACKEND_MODULE_CSS}
+<script type="text/javascript">
+var WB_URL = '{WB_URL}';
+var WB_PATH = '{WB_PATH}';
+var THEME_URL = '{THEME_URL}';
+var ADMIN_URL = '{ADMIN_URL}';
+</script>
 {BACKEND_MODULE_JS}
-<script type="text/javascript" src="{WB_URL}/include/editarea/edit_area_full.js"></script>
 <script language="javascript" type="text/javascript">
 function confirm_link(message, url) {
 	if(confirm(message)) location.href = url;
@@ -19,25 +23,25 @@ function confirm_link(message, url) {
 </script>
 </head>
 <body>
-<table cellpadding="0" cellspacing="0" border="0" width="770" align="center">
+<table class="header">
 <tr>
-	<td width="60" valign="top">
+	<td>
 		<a href="{ADMIN_URL}" title="{TITLE_START}"><img src="{THEME_URL}/images/logo.png" border="0" alt="Logo" /></a>
 	</td>
-	<td width="5">&nbsp;</td>
-	<td style="font-size: 14px;" valign="top" align="right">
+	<td>&nbsp;</td>
+	<td class="menue">
          <a href="{ADMIN_URL}" title="{TITLE_START}"><img src="{THEME_URL}/images/home.png" border="0" alt="{TITLE_START}" /></a>
          &nbsp;&nbsp;<a href="{URL_VIEW}" target="_blank" title="{TITLE_VIEW}"><img src="{THEME_URL}/images/view.png" border="0" alt="{WB_URL}" /></a>
 	&nbsp; <a href="{URL_HELP}" target="_blank" title="{TITLE_HELP}"><img src="{THEME_URL}/images/help.png" border="0" alt="{TITLE_HELP}" /></a>
          &nbsp; <a href="{ADMIN_URL}/logout" title="{TITLE_LOGOUT}"><img src="{THEME_URL}/images/dl.png" border="0" alt="{TITLE_LOGOUT}" /></a>
 </td>
-	<td width="100" align="right" style="padding-top: 10px; padding-right: 15px; color: #000;">
+	<td class="version">
 	Version {VERSION}
 	</td>
 </tr>
 </table>
 
-<table cellpadding="0" cellspacing="0" border="0" width="770" align="center" class="container">
+<table class="container">
 <tr>
 	<td>
 		<ul class="menu">
