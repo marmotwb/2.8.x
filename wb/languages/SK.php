@@ -19,16 +19,16 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Website Baker; if not, write to the Free Software 
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */ 
 
 // use languageedit-module to modify this file 
 
-// Define that this file is loaded 
-if(!defined('LANGUAGE_LOADED')) { 
-        define('LANGUAGE_LOADED', true); 
-} 
+// Define that this file is loaded
+if(!defined('LANGUAGE_LOADED')) {
+define('LANGUAGE_LOADED', true);
+}
 
 // Set the language information 
 $language_code = 'SK'; 
@@ -456,10 +456,10 @@ $MESSAGE['LOGIN']['AUTHENTICATION_FAILED'] = 'Meno alebo heslo nie je platn&eacu
 
 $MESSAGE['SIGNUP']['NO_EMAIL'] = 'MusÃ­te zada&#357; e-mailovou adresu'; 
 $MESSAGE['SIGNUP2']['SUBJECT_LOGIN_INFO'] = 'Va&#353;e prihlasovacie &uacute;daje...'; 
-$MESSAGE['SIGNUP2']['BODY_LOGIN_INFO'] = '<<< EOT 
-V&aacute;&#382;en&yacute;  {LOGIN_DISPLAY_NAME}, 
+$MESSAGE['SIGNUP2']['BODY_LOGIN_INFO'] = <<< EOT
+V&aacute;&#382;en&yacute;  {LOGIN_DISPLAY_NAME},
 
-Pre Va&#353;e prihl&aacute;senie do '{LOGIN_WEBSITE_TITLE}' pou&#382;ite: 
+Pre Va&#353;e prihl&aacute;senie do '{LOGIN_WEBSITE_TITLE}' pou&#382;ite:
 Meno: {LOGIN_NAME} 
 Heslo: {LOGIN_PASSWORD} 
 
@@ -467,7 +467,7 @@ Va&#353;e heslo bolo nastaven&eacute; na now&eacute;, uveden&eacute; vy&#353;&#3
 To znamen&aacute;, &#382;e va&#353;e star&eacute; heslo u&#382; nebude fungova&#357;. 
 
 Ak ste t&uacute;to spr&aacute;vu dostali omylom, prosÃ­m, ihne&#271; ho zma&#382;te. 
-EOT'; 
+EOT;
 
 $MESSAGE['FORGOT_PASS']['NO_DATA'] = 'Zadajte svoju e-mailovou adresu:'; 
 $MESSAGE['FORGOT_PASS']['EMAIL_NOT_FOUND'] = 'Zadan&aacute; e-mailov&aacute; adresa alebola n&aacute;jden&aacute;'; 
