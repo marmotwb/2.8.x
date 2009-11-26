@@ -23,79 +23,70 @@
 
 */
 
-if(!defined('WB_URL')) {
-	header('Location: ../index.php');
-	exit(0);
-}
+if(!defined('WB_URL')) die(header('Location: ../../index.php'));
 
 ?>
 
-<h1>&nbsp;<?php echo $HEADING['MY_SETTINGS']; ?></h1>
+<h2>&nbsp;<?php print $HEADING['MY_SETTINGS']; ?></h2>
 
-<form name="user" action="<?php echo WB_URL.'/account/preferences.php'; ?>" method="post" style="margin-bottom: 5px;">
+<form name="user" action="<?php print WB_URL.'/account/preferences.php'; ?>" method="post" style="margin-bottom: 5px;">
 <input type="hidden" name="user_id" value="{USER_ID}" />
 
 <table cellpadding="5" cellspacing="0" border="0" width="97%">
-	<td width="140"><?php echo $TEXT['DISPLAY_NAME']; ?>:</td>
+<tr>
+	<td width="140"><?php print $TEXT['DISPLAY_NAME']; ?>:</td>
 	<td class="value_input">
-		<input type="text" name="display_name" style="width: 380px;" maxlength="255" value="<?php echo $wb->get_display_name(); ?>" />
+		<input type="text" name="display_name" style="width: 380px;" maxlength="255" value="<?php print $wb->get_display_name(); ?>" />
 	</td>
 </tr>
 <tr>
-	<td><?php echo $TEXT['LANGUAGE']; ?>:</td>
+	<td><?php print $TEXT['LANGUAGE']; ?>:</td>
 	<td>
 		<select name="language" style="width: 380px;">
 		<?php
-		// Insert language values
-		if($handle = opendir(WB_PATH.'/languages/')) {
-		   while (false !== ($file = readdir($handle))) {
-				if($file != '.' AND $file != '..' AND $file != '.svn' AND $file != 'index.php') {
-					// Get language name
-					require(WB_PATH.'/languages/'.$file);
-					// Check if it is selected
-					if(LANGUAGE == $language_code) {
-						?>
-						<option value="<?php echo $language_code; ?>" selected><?php echo $language_name.' ('.$language_code.')'; ?></option>
-						<?php
-					} else {
-						?>
-						<option value="<?php echo $language_code; ?>"><?php echo $language_name.' ('.$language_code.')'; ?></option>
-						<?php
-					}
-				}
+		/**
+		 *
+		 *	Getting the languages from the database. (addons)
+		 *	It's a little bit corious, but the language-shortform is
+		 *	storred in the field "directory" ...
+		 *
+		 */
+		$query = "SELECT directory, name from ".TABLE_PREFIX."addons where type='language' order by 'name'";
+		$result = $database->query($query);
+		if ($result) {
+			$options_html = "";
+			while($data = $result->fetchRow()) {
+				$sel = ($data['directory'] == LANGUAGE) ? " selected=\"selected\" " : "";
+				$options_html .= "<option value=\"".$data['directory']."\" ".$sel.">".$data['name']." (".$data['directory'].")</option>\n";
 			}
-			// Restore language to original file
-			require(WB_PATH.'/languages/'.LANGUAGE.'.php');
+			echo $options_html;
 		}
 		?>
 		</select>
 	</td>
 </tr>
 <tr>
-	<td><?php echo $TEXT['TIMEZONE']; ?>:</td>
+	<td><?php print $TEXT['TIMEZONE']; ?>:</td>
 	<td>
 		<select name="timezone" style="width: 380px;">
-			<option value="-20"><?php echo $TEXT['PLEASE_SELECT']; ?>...</option>
+			<option value="-20"><?php print $TEXT['PLEASE_SELECT']; ?>...</option>
 			<?php
-			// Insert default timezone values
-			require_once(ADMIN_PATH.'/interface/timezones.php');
-			foreach($TIMEZONES AS $hour_offset => $title) {
-				if($wb->get_timezone() == $hour_offset*60*60) {
-					?>
-					<option value="<?php echo $hour_offset; ?>" selected><?php echo $title; ?></option>
-					<?php
-				} else {
-					?>
-					<option value="<?php echo $hour_offset; ?>"><?php echo $title; ?></option>
-					<?php
+				// Insert default timezone values
+				require_once(ADMIN_PATH.'/interface/timezones.php');
+				$test_time = $wb->get_timezone();
+				$options_html = "";
+				foreach($TIMEZONES as $hour_offset => $title) {
+					$sel = ($test_time == $hour_offset*60*60) ? " selected=\"selected\" " : ""; 
+					$options_html .= "<option value=\"".$hour_offset."\" ".$sel.">".$title."</option>\n";
 				}
-			}
-			?>
+				print $options_html;
+?>
+
 		</select>
 	</td>
 </tr>
 <tr>
-	<td><?php echo $TEXT['DATE_FORMAT']; ?>:</td>
+	<td><?php print $TEXT['DATE_FORMAT']; ?>:</td>
 	<td>
 		<select name="date_format" style="width: 98%;">
 			<option value="">Please select...</option>
@@ -111,20 +102,20 @@ if(!defined('WB_URL')) {
 					$value = '';
 				}
 				if(DATE_FORMAT == $format AND !isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) {
-					$selected = ' selected';
+					$selected = ' selected="selected"';
 				} elseif($format == 'system_default' AND isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) {
-					$selected = ' selected';
+					$selected = ' selected="selected"';
 				} else {
 					$selected = '';
 				}
-				echo '<option value="'.$value.'"'.$selected.'>'.$title.'</option>';
+				print '<option value="'.$value.'"'.$selected.'>'.$title.'</option>'."\n";
 			}
-			?>>
+			?>
 		</select>
 	</td>
 </tr>
 <tr>
-	<td><?php echo $TEXT['TIME_FORMAT']; ?>:</td>
+	<td><?php print $TEXT['TIME_FORMAT']; ?>:</td>
 	<td>
 		<select name="time_format" style="width: 98%;">
 			<option value="">Please select...</option>
@@ -132,21 +123,16 @@ if(!defined('WB_URL')) {
 			// Insert time format list
 			$user_time = true;
 			require_once(ADMIN_PATH.'/interface/time_formats.php');
-			foreach($TIME_FORMATS AS $format => $title) {
+			foreach($TIME_FORMATS AS $format => $title)
+            {
 				$format = str_replace('|', ' ', $format); // Add's white-spaces (not able to be stored in array key)
-				if($format != 'system_default') {
-					$value = $format;
-				} else {
-					$value = '';
-				}
-				if(TIME_FORMAT == $format AND !isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) {
-					$selected = ' selected';
-				} elseif($format == 'system_default' AND isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) {
-					$selected = ' selected';
-				} else {
-					$selected = '';
-				}
-				echo '<option value="'.$value.'"'.$selected.'>'.$title.'</option>';
+                $value = ($format != 'system_default') ? $format : '';
+
+                $selected = ((TIME_FORMAT == $format AND ! isset($_SESSION['USE_DEFAULT_TIME_FORMAT']))
+                    OR ($format == 'system_default' AND isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])))
+                	? ' selected="selected"' : '';
+
+				print '<option value="'.$value.'"'.$selected.'>'.$title.'</option>';
 			}
 			?>
 		</select>
@@ -155,38 +141,37 @@ if(!defined('WB_URL')) {
 <tr>
 	<td>&nbsp;</td>
 	<td>
-		<input type="submit" name="submit" value="<?php echo $TEXT['SAVE']; ?>" />
-		<input type="reset" name="reset" value="<?php echo $TEXT['RESET']; ?>" />
+		<input type="submit" name="submit" value="<?php print $TEXT['SAVE']; ?>" />
+		<input type="reset" name="reset" value="<?php print $TEXT['RESET']; ?>" />
 	</td>
 </tr>
 </table>
 
 </form>
 
+<h2>&nbsp;<?php print $HEADING['MY_EMAIL']; ?></h2>
 
-<h1>&nbsp;<?php echo $HEADING['MY_EMAIL']; ?></h1>
-
-<form name="email" action="<?php echo WB_URL.'/account/preferences.php'; ?>" method="post" style="margin-bottom: 5px;">
+<form name="email" action="<?php print WB_URL.'/account/preferences.php'; ?>" method="post" style="margin-bottom: 5px;">
 <input type="hidden" name="user_id" value="{USER_ID}" />
 
 <table cellpadding="5" cellspacing="0" border="0" width="97%">
 <tr>
-	<td width="140"><?php echo $TEXT['CURRENT_PASSWORD']; ?>:</td>
+	<td width="140"><?php print $TEXT['CURRENT_PASSWORD']; ?>:</td>
 	<td>
 		<input type="password" name="current_password" style="width: 380px;" />
 	</td>
 </tr>
 <tr>
-	<td><?php echo $TEXT['EMAIL']; ?>:</td>
+	<td><?php print $TEXT['EMAIL']; ?>:</td>
 	<td class="value_input">
-		<input type="text" name="email" style="width: 380px;" maxlength="255" value="<?php echo $wb->get_email(); ?>" />
+		<input type="text" name="email" style="width: 380px;" maxlength="255" value="<?php print $wb->get_email(); ?>" />
 	</td>
 </tr>
 <tr>
 	<td>&nbsp;</td>
 	<td>
-		<input type="submit" name="submit" value="<?php echo $TEXT['SAVE']; ?>" />
-		<input type="reset" name="reset" value="<?php echo $TEXT['RESET']; ?>" />
+		<input type="submit" name="submit" value="<?php print $TEXT['SAVE']; ?>" />
+		<input type="reset" name="reset" value="<?php print $TEXT['RESET']; ?>" />
 	</td>
 </tr>
 </table>
@@ -194,36 +179,35 @@ if(!defined('WB_URL')) {
 </form>
 
 
-<h1>&nbsp;<?php echo $HEADING['MY_PASSWORD']; ?></h1>
+<h2>&nbsp;<?php print $HEADING['MY_PASSWORD']; ?></h2>
 
-<form name="user" action="<?php echo WB_URL.'/account/preferences.php'; ?>" method="post">
+<form name="user" action="<?php print WB_URL.'/account/preferences.php'; ?>" method="post">
 <input type="hidden" name="user_id" value="{USER_ID}" />
 
 <table cellpadding="5" cellspacing="0" border="0" width="97%">
 <tr>
-	<td width="140"><?php echo $TEXT['CURRENT_PASSWORD']; ?>:</td>
+	<td width="140"><?php print $TEXT['CURRENT_PASSWORD']; ?>:</td>
 	<td>
 		<input type="password" name="current_password" style="width: 380px;" />
 	</td>
 </tr>
 <tr>
-	<td><?php echo $TEXT['NEW_PASSWORD']; ?>:</td>
+	<td><?php print $TEXT['NEW_PASSWORD']; ?>:</td>
 	<td>
 		<input type="password" name="new_password" style="width: 380px;" />
 	</td>
 </tr>
 <tr>
-	<td><?php echo $TEXT['RETYPE_NEW_PASSWORD']; ?>:</td>
+	<td><?php print $TEXT['RETYPE_NEW_PASSWORD']; ?>:</td>
 	<td>
 		<input type="password" name="new_password2" style="width: 380px;" />
 	</td>
 </tr>
-</tr>
 <tr>
 	<td>&nbsp;</td>
 	<td>
-		<input type="submit" name="submit" value="<?php echo $TEXT['SAVE']; ?>" />
-		<input type="reset" name="reset" value="<?php echo $TEXT['RESET']; ?>" />
+		<input type="submit" name="submit" value="<?php print $TEXT['SAVE']; ?>" />
+		<input type="reset" name="reset" value="<?php print $TEXT['RESET']; ?>" />
 	</td>
 </tr>
 </table>

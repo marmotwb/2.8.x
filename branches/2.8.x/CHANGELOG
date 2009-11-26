@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 26-Nov-2009 Dietmar Woellbrink (Luisehahne)
+!	validate some output files
+26-Nov-2009 Dietmar Woellbrink (Luisehahne)
 !	fix some PHP 5.3 deprecated functions 
 25-Nov-2009 Dietmar Woellbrink (Luisehahne)
 !	Fix to load edit_full_area only if needed
