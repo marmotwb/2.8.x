@@ -157,7 +157,7 @@ function get_home_folders() {
 	// Only return home folders is this feature is enabled
 	// and user is not admin
 //	if(HOME_FOLDERS AND ($_SESSION['GROUP_ID']!='1')) {
-	if(HOME_FOLDERS AND (!in_array('1',split(",",$_SESSION['GROUPS_ID'])))) {
+	if(HOME_FOLDERS AND (!in_array('1',explode(",", $_SESSION['GROUPS_ID'])))) {
 
 		$query_home_folders = $database->query("SELECT home_folder FROM ".TABLE_PREFIX."users WHERE home_folder != '".$admin->get_home_folder()."'");
 		if($query_home_folders->numRows() > 0) {

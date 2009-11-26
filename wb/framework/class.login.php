@@ -229,7 +229,7 @@ class login extends admin {
 			$_SESSION['GROUP_NAME'] = array();
 
 			$first_group = true;
-			foreach (split(",", $this->get_session('GROUPS_ID')) as $cur_group_id) {
+			foreach (explode("," $this->get_session('GROUPS_ID')) as $cur_group_id) {
 				$query = "SELECT * FROM ".$this->GROUPS_TABLE." WHERE group_id = '".$cur_group_id."'";
 				$results = $database->query($query);
 				$results_array = $results->fetchRow();

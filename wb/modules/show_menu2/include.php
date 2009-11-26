@@ -506,7 +506,7 @@ function show_menu2(
 
         // create an array of all parents of the current page. As the page_trail
         // doesn't include the theoretical root element 0, we add it ourselves.
-        $rgCurrParents = preg_split ('[,]', '0,'.$wb->page['page_trail']);
+        $rgCurrParents = explode(",", '0,'.$wb->page['page_trail']);
         array_pop($rgCurrParents); // remove the current page
         $rgParent = array();
 
