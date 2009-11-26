@@ -33,7 +33,7 @@ $database = new database();
 
 // Check if the user has already submitted the form, otherwise show it
 if(isset($_POST['email']) && $_POST['email'] != "" &&
-	eregi("^([0-9a-zA-Z]+[-._+&])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$", $_POST['email'])) {
+    preg_match("/([0-9a-zA-Z]+[-._+&])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}/i", $_POST['email'])) {
 	$email = strip_tags($_POST['email']);
 	
 	// Check if the email exists in the database
@@ -129,14 +129,16 @@ if(!isset($message)) {
 		<tr>
 			<td width="165" height="30" align="right"><?php echo $TEXT['EMAIL']; ?>:</td>
 			<td><input type="text" maxlength="255" name="email" value="<?php echo $email; ?>" style="width: 180px;" /></td>
+			<td><input type="submit" name="submit" value="<?php echo $TEXT['SEND_DETAILS']; ?>" style="width: 180px; font-size: 10px; color: #003366; border: 1px solid #336699; background-color: #DDDDDD; padding: 3px; text-transform: uppercase;" /></td>
 		</tr>
-		<tr height="30">
+<!--
+		<tr>
 			<td>&nbsp;</td>
-			<td><input type="submit" name="submit" value="<?php echo $TEXT['SEND_DETAILS']; ?>" style="width: 180px; font-size: 10px; color: #003366; border: 1px solid #336699; background-color: #DDDDDD; padding: 3px; text-transform: uppercase;"></td>
 		</tr>
 		<tr style="display: {DISPLAY_FORM}">
 			<td height="10" colspan="2"></td>
 		</tr>
+-->
 		<?php } ?>
 		</table>
 </form>

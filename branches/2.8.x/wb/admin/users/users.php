@@ -81,7 +81,7 @@ if($_POST['action'] == 'modify') {
 		while($group = $results->fetchRow()) {
 			$template->set_var('ID', $group['group_id']);
 			$template->set_var('NAME', $group['name']);
-			if(in_array($group['group_id'], split(",",$user['groups_id']))) {
+			if(in_array($group['group_id'], explode(",",$user['groups_id']))) {
 				$template->set_var('SELECTED', ' selected="selected"');
 			} else {
 				$template->set_var('SELECTED', '');
@@ -97,7 +97,7 @@ if($_POST['action'] == 'modify') {
 		
 		$in_group = FALSE;
 		foreach($admin->get_groups_id() as $cur_gid){
-		    if (in_array($cur_gid, split(",", $user['groups_id']))) {
+		    if (in_array($cur_gid, explode(",", $user['groups_id']))) {
 		        $in_group = TRUE;
 		    }
 		}

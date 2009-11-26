@@ -33,10 +33,10 @@ if (file_exists(WB_PATH.'/framework/class.database.php')) {
 	// Create database class
 	$database = new database();
 
-    if   (function_exists("set_magic_quotes_runtime"))
+    if(version_compare(PHP_VERSION, '5.3.0', '<'))
     {
-        set_magic_quotes_runtime(0);
-	}
+        set_magic_quotes_runtime(0); // Disable magic_quotes_runtime
+    }
 	// Get website settings (title, keywords, description, header, and footer)
 	$query_settings = "SELECT name,value FROM ".TABLE_PREFIX."settings";
 	$get_settings = $database->query($query_settings);
