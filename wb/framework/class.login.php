@@ -24,8 +24,16 @@
 */
 
 /*
+ * @category   backend
+ * @package    Login class
+ * @author(s)  Dietmar Wöllbrink <Luisehahne>, Dietrich Roland Pehlke <Aldus>
+ * @platform   WB 2.8.x
+ * @require    PHP 5.2.11
+ * @license    http://www.gnu.org/licenses/gpl.html
+ * @link       http://project.websitebaker2.org/browser/branches/2.8.x/wb/pages
+ * @changeset  2009/11/27   fixed parse error ticket #878
 
-Login class
+
 
 This class will be used to with the login application
 
@@ -229,7 +237,8 @@ class login extends admin {
 			$_SESSION['GROUP_NAME'] = array();
 
 			$first_group = true;
-			foreach (explode("," $this->get_session('GROUPS_ID')) as $cur_group_id) {
+			foreach (explode(",", $this->get_session('GROUPS_ID')) as $cur_group_id)
+            {
 				$query = "SELECT * FROM ".$this->GROUPS_TABLE." WHERE group_id = '".$cur_group_id."'";
 				$results = $database->query($query);
 				$results_array = $results->fetchRow();

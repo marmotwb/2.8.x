@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+27-Nov-2009 Dietmar Woellbrink (Luisehahne)
+!	fixed parse error ticket #878 
 26-Nov-2009 Dietmar Woellbrink (Luisehahne)
 !	found and fix some deprecated functions
 26-Nov-2009 Dietmar Woellbrink (Luisehahne)
