@@ -21,6 +21,15 @@
  along with Website Baker; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+ * @category   install
+ * @package    create
+ * @author(s)  Dietmar Wöllbrink <Luisehahne>, Dietrich Roland Pehlke <Aldus>
+ * @platform   WB 2.8.x
+ * @require    PHP 5.2.11
+ * @license    http://www.gnu.org/licenses/gpl.html
+ * @link       http://project.websitebaker2.org/browser/branches/2.8.x/wb/pages
+ * @changeset  2009/11/28 fix deprecated eregi
+
 */
 $debug = true;
 
@@ -273,7 +282,7 @@ if(!isset($_POST['admin_username']) OR $_POST['admin_username'] == '') {
 if(!isset($_POST['admin_email']) OR $_POST['admin_email'] == '') {
 	set_error('Please enter an email for the Administrator account','admin_email');
 } else {
-	if(eregi("^([0-9a-zA-Z]+[-._+&])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$", $_POST['admin_email'])) {
+	if(preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i', $_POST['admin_email'])) {
 		$admin_email = $_POST['admin_email'];
 	} else {
 		set_error('Please enter a valid email address for the Administrator account','admin_email');

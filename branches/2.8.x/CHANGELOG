@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+28-Nov-2009 Dietmar Woellbrink (Luisehahne)
+!	Ticket #828 fix deprecated eregi
 27-Nov-2009 Dietmar Woellbrink (Luisehahne)
 !	fixes language file SK.php
 27-Nov-2009 Dietmar Woellbrink (Luisehahne)
