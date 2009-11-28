@@ -12,6 +12,9 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 28-Nov-2009 Dietmar Woellbrink (Luisehahne)
+!	Ticket #874 add slovak lang in install
+    and validate output
+28-Nov-2009 Dietmar Woellbrink (Luisehahne)
 !	Ticket #880 fixes language file SK.php
 28-Nov-2009 Dietmar Woellbrink (Luisehahne)
 !	Ticket #828 fix deprecated eregi
