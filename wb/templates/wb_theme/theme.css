@@ -174,8 +174,9 @@ div.box {
 }
 
 .pages_list table {
- width: 730px;
- background-color: #f0f0f0;
+ width: 100%;
+ margin: 0 auto;
+ background-color: #DCDCDC;
 }
 
 .pages_list table td {
@@ -306,7 +307,8 @@ img.page_list_rights {
 /* CSS STYLES FOR THE PAGES SECTION */
 
 table.pages_view {
- width: 730px;
+ width: 850px;
+ margin: 0 auto;
  border: 0;
  border-spacing: 0px;
  background-color: #ECF3F7;
@@ -384,13 +386,16 @@ select option.disabled {
 	display: inline;
 }
 
+.header_title {
+	width: 100%;
+}
 .header_list_menu_title {text-align:left;}
-.header_list_page_title {width:290px; text-align:left;}
-.header_list_page_id {width:40px; text-align: left;}
+.header_list_page_title {width:300px; text-align:left;}
+.header_list_page_id {width:50px; text-align: right; padding-right:15px;}
 .header_list_actions {width:150px; text-align:left;}
 
 .list_menu_title {text-align:left;}
-.list_page_title {width:290px;text-align:left; }
+.list_page_title {width:300px;text-align:left; }
 
 .list_page_id {width:30px;text-align: right; }
 .list_actions {width:20px;text-align:left;}

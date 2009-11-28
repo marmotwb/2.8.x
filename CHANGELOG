@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 28-Nov-2009 Dietmar Woellbrink (Luisehahne)
+!	updated theme.css in wb_theme
+28-Nov-2009 Dietmar Woellbrink (Luisehahne)
 !	Ticket #886 fix validation email, check tld between 2-4 letters
 28-Nov-2009 Dietmar Woellbrink (Luisehahne)
 !	Ticket #874 add slovak lang in install
