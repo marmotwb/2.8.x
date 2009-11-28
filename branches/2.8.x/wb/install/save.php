@@ -28,6 +28,7 @@
  * @require    PHP 5.2.11
  * @license    http://www.gnu.org/licenses/gpl.html
  * @link       http://project.websitebaker2.org/browser/branches/2.8.x/wb/pages
+ * @changeset  2009/11/28 Ticket #886 fix validation email, check tld between 2-4 letters
  * @changeset  2009/11/28 fix deprecated eregi
 
 */
@@ -282,7 +283,7 @@ if(!isset($_POST['admin_username']) OR $_POST['admin_username'] == '') {
 if(!isset($_POST['admin_email']) OR $_POST['admin_email'] == '') {
 	set_error('Please enter an email for the Administrator account','admin_email');
 } else {
-	if(preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i', $_POST['admin_email'])) {
+	if(preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/i', $_POST['admin_email'])) {
 		$admin_email = $_POST['admin_email'];
 	} else {
 		set_error('Please enter a valid email address for the Administrator account','admin_email');
