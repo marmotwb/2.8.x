@@ -21,14 +21,16 @@ You should have received a copy of the GNU General Public License
 along with Website Baker; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
- * @category   backend
- * @package    languages
- * @author(s)  Dietmar Wöllbrink <Luisehahne>, Dietrich Roland Pehlke <Aldus>
- * @platform   WB 2.8.x
- * @require    PHP 5.2.11
- * @license    http://www.gnu.org/licenses/gpl.html
- * @link       http://project.websitebaker2.org/browser/branches/2.8.x/wb/pages
- * @changeset  2009/11/26   fixes language file SK.php
+ * @category    backend
+ * @package     languages
+ * @author(s)   Dietmar Wöllbrink <Luisehahne>, Dietrich Roland Pehlke <Aldus>
+ * @platform    WB 2.8.x
+ * @require     PHP 5.2.11
+ * @license     http://www.gnu.org/licenses/gpl.html
+ * @link        http://project.websitebaker2.org/browser/branches/2.8.x/wb/pages
+ * @changeset   2009/11/28   ticket #880 fixes language file SK.php
+                2009/11/26   fixes language file SK.php
+
 */
 
 // use languageedit-module to modify this file
@@ -463,7 +465,7 @@ $MESSAGE['LOGIN']['PASSWORD_TOO_LONG'] = 'Zadan&eacute; heslo je pr&iacute;li&#3
 $MESSAGE['LOGIN']['AUTHENTICATION_FAILED'] = 'Meno alebo heslo nie je platn&eacute;';
 
 $MESSAGE['SIGNUP']['NO_EMAIL'] = 'Mus&iacute;te zada&#357; e-mailovou adresu';
-$MESSAGE['SIGNUP2']['SUBJECT_LOGIN_INFO'] = 'Vase prihlasovacie udaje '.LOGIN_WEBSITE_TITLE.'.';
+$MESSAGE['SIGNUP2']['SUBJECT_LOGIN_INFO'] = 'Vase prihlasovacie udaje...';
 $MESSAGE['SIGNUP2']['BODY_LOGIN_INFO'] = <<< EOT
 V&aacute;&#382;en&yacute;  {LOGIN_DISPLAY_NAME},
 
