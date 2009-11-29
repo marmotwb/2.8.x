@@ -131,7 +131,7 @@
 */
 
 $module_directory		= 'fckeditor';
-$module_name			= 'FCKeditor 2.6.5 WB Version 2.9.1';
+$module_name			= 'FCKeditor';
 $module_function		= 'WYSIWYG';
 $module_version			= '2.9.3';
 $module_guid            = 'ED3B82C1-DB1E-447A-A0FD-E952AFC5F3B9';

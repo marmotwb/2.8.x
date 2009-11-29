@@ -12,6 +12,9 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 29-Nov-2009 Dietmar Woellbrink (Luisehahne)
+!	added missing swobject plugin in FCKeditor
+!	bug fixed in flvplayer
+29-Nov-2009 Dietmar Woellbrink (Luisehahne)
 !	stop working plugin flvplayer in FCKeditor until fixed
 29-Nov-2009 Dietmar Woellbrink (Luisehahne)
 !	fixed an undefined index in settings.php

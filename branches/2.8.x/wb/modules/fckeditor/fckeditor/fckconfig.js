@@ -55,8 +55,9 @@ FCKConfig.PluginsPath = FCKConfig.BasePath + 'plugins/' ;
 FCKConfig.AutoGrowMax = 400 ;
 
 // FCKConfig.ProtectedSource.Add( /<%[\s\S]*?%>/g ) ;	// ASP style server side code <%...%>
-// FCKConfig.ProtectedSource.Add( /<\?[\s\S]*?\?>/g ) ;	// PHP style server side code
 // FCKConfig.ProtectedSource.Add( /(<asp:[^\>]+>[\s|\S]*?<\/asp:[^\>]+>)|(<asp:[^\>]+\/>)/gi ) ;	// ASP.Net style tags <asp:control>
+// FCKConfig.ProtectedSource.Add( /<\?[\s\S]*?\?>/g ) ;	// PHP style server side code
+// FCKConfig.ProtectedSource.Add( /<object[\s|\S]+?<\/object>/gi ) ;
 
 FCKConfig.AutoDetectLanguage	= true ;
 FCKConfig.DefaultLanguage		= 'en' ;
@@ -295,6 +296,11 @@ FCKConfig.FlashBrowser = true ;
 FCKConfig.FlashBrowserURL = FCKConfig.BasePath + 'filemanager/browser/default/browser.html?Type=Flash&Connector=' + encodeURIComponent( FCKConfig.BasePath + 'filemanager/connectors/' + _FileBrowserLanguage + '/connector.' + _FileBrowserExtension ) ;
 FCKConfig.FlashBrowserWindowWidth  = FCKConfig.ScreenWidth * 0.7 ;	//70% ;
 FCKConfig.FlashBrowserWindowHeight = FCKConfig.ScreenHeight * 0.7 ;	//70% ;
+// Added for flv support.
+FCKConfig.MediaBrowser = true ;
+FCKConfig.MediaBrowserURL = FCKConfig.BasePath + 'filemanager/browser/default/browser.html?Type=Media&Connector=' + encodeURIComponent( FCKConfig.BasePath + 'filemanager/connectors/' + _FileBrowserLanguage + '/connector.' + _FileBrowserExtension ) ;
+FCKConfig.MediaBrowserWindowWidth = FCKConfig.ScreenWidth * 0.7 ; //70% ;
+FCKConfig.MediaBrowserWindowHeight = FCKConfig.ScreenHeight * 0.7 ; //70% ;
 
 FCKConfig.LinkUpload = true ;
 FCKConfig.LinkUploadURL = FCKConfig.BasePath + 'filemanager/connectors/' + _QuickUploadLanguage + '/upload.' + _QuickUploadExtension ;
