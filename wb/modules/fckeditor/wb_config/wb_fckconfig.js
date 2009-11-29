@@ -15,8 +15,11 @@
 */
 
 // required settings to make FCKEditor work with Website Baker (do not change them)
-   FCKConfig.Plugins.Add( 'WBModules', 'en,nl,de' ) ;
-   FCKConfig.Plugins.Add( 'WBDroplets', 'en,nl,de' ) ;
+    FCKConfig.Plugins.Add( 'WBModules', 'en,nl,de' ) ;
+    FCKConfig.Plugins.Add( 'WBDroplets', 'en,nl,de' ) ;
+//  FCKConfig.Plugins.Add( 'youtube', 'en,ja,de' );
+    FCKConfig.Plugins.Add( 'swfobject', 'en,es') ;
+    FCKConfig.Plugins.Add( 'flvPlayer','en,de') ;
 
    // ----------------------
 // Configure Syntax highlighter for 2.0.x
@@ -99,7 +102,7 @@ FCKConfig.AutoGrowMax = 600 ;
    FCKConfig.ToolbarSets["WBToolbar"] = [
 	['Source','DocProps','-','NewPage','Preview','-','Templates'],
 	['Cut','Copy','Paste','PasteText','PasteWord','-','Print','SpellCheck'],
-    ['FitWindow','ShowBlocks', '-',/*'SyntaxHighLight2',*/'-','About'],
+    ['FitWindow','ShowBlocks', '-', 'SyntaxHighLight2', 'flvPlayer', '-','About'],
 	'/',
 	['Form','Checkbox','Radio','TextField','Textarea','Select','Button','ImageButton','HiddenField'],
     ['TextColor','BGColor'],
@@ -153,7 +156,7 @@ FCKConfig.AutoGrowMax = 600 ;
    FCKConfig.ProtectedSource.Add( /<\?[\s\S]*?\?>/g ) ;
    FCKConfig.TemplateReplaceAll = false;
    FCKConfig.TemplateReplaceCheckbox = true ;
-//    FCKConfig['StylesXmlPath'] = FCKConfig.BasePath+'/wb_config/wb_fckstyles.xml';
+   FCKConfig['StylesXmlPath'] = FCKConfig.BasePath+'/wb_config/wb_fckstyles.xml';
 
 /*
    -----------------------------------------------------------------------------------------

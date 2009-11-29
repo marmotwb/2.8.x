@@ -38,9 +38,13 @@ $Config['Enabled'] = false ;
 require_once('../../../../../../../config.php');
 require_once(WB_PATH .'/framework/class.admin.php');
 
+$wb_path = str_replace('\\','/', WB_PATH);
+$wb_path = str_replace('//','/', WB_PATH);
+
 // check if user is authenticated if WB and has permission to view MEDIA folder
 $admin = new admin('Media', 'media_view', false, false);
-if(($admin->get_permission('media_view') === true)) {
+if(($admin->get_permission('media_view') === true))
+{
 	// user allowed to view MEDIA folder -> enable PHP connector
 	$Config['Enabled'] = true ;
 	// allow actions to list folders and files
@@ -49,9 +53,9 @@ if(($admin->get_permission('media_view') === true)) {
 
 // Path to user files relative to the document root.
 // $Config['UserFilesPath'] = '/userfiles/' ;
-$Config['UserFilesPath'] = WB_URL .MEDIA_DIRECTORY ;
+$Config['UserFilesPath'] = WB_URL.MEDIA_DIRECTORY.'/' ;
 // use home folder of current user as document root if available
-if(isset($_SESSION['HOME_FOLDER']) && file_exists(WB_PATH .MEDIA_DIRECTORY .$_SESSION['HOME_FOLDER'])){
+if(isset($_SESSION['HOME_FOLDER']) && file_exists($wb_path .MEDIA_DIRECTORY .$_SESSION['HOME_FOLDER'])){
    $Config['UserFilesPath'] = $Config['UserFilesPath'].$_SESSION['HOME_FOLDER'];
 }
 
@@ -60,10 +64,11 @@ if(isset($_SESSION['HOME_FOLDER']) && file_exists(WB_PATH .MEDIA_DIRECTORY .$_SE
 // link or alias. Examples: 'C:\\MySite\\userfiles\\' or '/root/mysite/userfiles/'.
 // Attention: The above 'UserFilesPath' must point to the same directory.
 // $Config['UserFilesAbsolutePath'] = '' ;
-$Config['UserFilesAbsolutePath'] = WB_PATH .MEDIA_DIRECTORY ;
+
+$Config['UserFilesAbsolutePath'] = $wb_path .MEDIA_DIRECTORY.'/' ;
 // use home folder of current user as document root if available
-if(isset($_SESSION['HOME_FOLDER']) && file_exists(WB_PATH .MEDIA_DIRECTORY .$_SESSION['HOME_FOLDER'])){
-   $Config['UserFilesAbsolutePath'] = $Config['UserFilesAbsolutePath'].$_SESSION['HOME_FOLDER'];
+if(isset($_SESSION['HOME_FOLDER']) && file_exists($wb_path .MEDIA_DIRECTORY .$_SESSION['HOME_FOLDER'])){
+   $Config['UserFilesAbsolutePath'] = $Config['UserFilesAbsolutePath'].$_SESSION['HOME_FOLDER'].'/';
 }
 // Due to security issues with Apache modules, it is recommended to leave the
 // following setting enabled.
@@ -104,11 +109,11 @@ $Config['HtmlExtensions'] = array("html", "htm", "xml", "xsd", "txt", "js") ;
 // If possible, it is recommended to set more restrictive permissions, like 0755.
 // Set to 0 to disable this feature.
 // Note: not needed on Windows-based servers.
-$Config['ChmodOnUpload'] = 0777 ;
+$Config['ChmodOnUpload'] = defined('OCTAL_FILE_MODE') ? OCTAL_FILE_MODE : 0777 ;
 
 // See comments above.
 // Used when creating folders that does not exist.
-$Config['ChmodOnFolderCreate'] = 0777 ;
+$Config['ChmodOnFolderCreate'] = defined('OCTAL_DIR_MODE') ? OCTAL_DIR_MODE : 0777 ;
 
 /*
 	Configuration settings for each Resource Type

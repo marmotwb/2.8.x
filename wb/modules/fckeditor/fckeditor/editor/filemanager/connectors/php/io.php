@@ -72,8 +72,9 @@ function ServerMapFolder( $resourceType, $folderPath, $sCommand )
 	$sResourceTypePath = GetResourceTypeDirectory( $resourceType, $sCommand ) ;
 
 	// Ensure that the directory exists.
-	$sErrorMsg = CreateServerFolder( $sResourceTypePath ) ;
+	 $sErrorMsg = CreateServerFolder( $sResourceTypePath ) ;
 	if ( $sErrorMsg != '' )
+   /* if (!file_exists($sResourceTypePath)) */
 		SendError( 1, "Error creating folder \"{$sResourceTypePath}\" ({$sErrorMsg})" ) ;
 
 	// Return the resource type directory combined with the required path.
@@ -125,7 +126,7 @@ function CreateServerFolder( $folderPath, $lastFolder = null )
 		}
 		else
 		{
-			$permissions = 0777 ;
+			$permissions = defined('OCTAL_DIR_MODE') ? OCTAL_DIR_MODE : 0777;
 			if ( isset( $Config['ChmodOnFolderCreate'] ) )
 			{
 				$permissions = $Config['ChmodOnFolderCreate'] ;
