@@ -19,9 +19,9 @@
     FCKConfig.Plugins.Add( 'WBDroplets', 'en,nl,de' ) ;
 //  FCKConfig.Plugins.Add( 'youtube', 'en,ja,de' );
     FCKConfig.Plugins.Add( 'swfobject', 'en,es') ;
-    FCKConfig.Plugins.Add( 'flvPlayer','en,de') ;
+//  FCKConfig.Plugins.Add( 'flvPlayer','en,de') ;
 
-   // ----------------------
+// ----------------------
 // Configure Syntax highlighter for 2.0.x
 FCKConfig.Plugins.Add('syntaxhighlight2', 'en');
 // default language options:
@@ -102,7 +102,7 @@ FCKConfig.AutoGrowMax = 600 ;
    FCKConfig.ToolbarSets["WBToolbar"] = [
 	['Source','DocProps','-','NewPage','Preview','-','Templates'],
 	['Cut','Copy','Paste','PasteText','PasteWord','-','Print','SpellCheck'],
-    ['FitWindow','ShowBlocks', '-', 'SyntaxHighLight2', 'flvPlayer', '-','About'],
+    ['FitWindow','ShowBlocks', '-', 'SyntaxHighLight2', /* 'flvPlayer', */ '-','About'],
 	'/',
 	['Form','Checkbox','Radio','TextField','Textarea','Select','Button','ImageButton','HiddenField'],
     ['TextColor','BGColor'],
