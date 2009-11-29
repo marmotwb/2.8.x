@@ -526,6 +526,7 @@ DlgAboutBrowserInfoTab	: "Browser Info",
 DlgAboutLicenseTab	: "License",
 DlgAboutVersion		: "version",
 DlgAboutInfo		: "For further information go to",
+DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.3",
 
 // Div Dialog
 DlgDivGeneralTab	: "General",

@@ -232,7 +232,8 @@ function FileUpload( $resourceType, $currentFolder, $sCommand )
 							break ;
 						}
 
-						$permissions = 0777;
+			                $permissions = defined('OCTAL_DIR_MODE') ? OCTAL_DIR_MODE : 0777;
+
 
 						if ( isset( $Config['ChmodOnUpload'] ) && $Config['ChmodOnUpload'] )
 						{

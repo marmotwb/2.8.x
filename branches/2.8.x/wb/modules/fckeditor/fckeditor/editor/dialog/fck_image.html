@@ -190,9 +190,57 @@ document.write( FCKTools.GetStyleHtml( GetCommonDialogCss() ) ) ;
 							<option value="_parent" fcklang="DlgLnkTargetParent">Parent Window (_parent)</option>
 						</select>
 					</div>
+					<div>
+						<span fckLang="DlgGenContRel">Advisory Relation</span><br />
+						<select id="cmbAttContentRel">
+							<option value="" fckLang="DlgGenNotSet" selected>&lt;not set&gt;</option>
+							<option value="fancybox" fckLang="Fancybox">Fancybox</option>
+							<option value="prettyPhoto" fckLang="PrettyPhoto">PrettyPhoto</option>
+<!--							<option value="prettyPhoto[gallery]" fckLang="PrettyPhoto Image Gallery">PrettyPhoto Image Gallery</option>
+							<option value="prettyPhoto[flash]" fckLang="PrettyPhoto Flash">PrettyPhoto Flash</option>
+							<option value="prettyPhoto[iframes]" fckLang="PrettyPhoto IFrames">PrettyPhoto IFrames</option>
+							<option value="prettyPhoto[movies]" fckLang="PrettyPhoto Movies">PrettyPhoto Movies</option>
+							<option value="prettyPopin" fckLang="PrettyPopin">Pretty Popin</option>
+							<option value="prettyGallery" fckLang="PrettyGallery">Pretty Gallery</option>   -->
+							<option value="alternate" fckLang="Alternate">Alternate</option>
+							<option value="copyright" fckLang="copyright">Copyright</option>
+							<option value="designates" fckLang="designates">Designates</option>
+							<option value="nofollow" fckLang="nofollow">Nofollow</option>
+							<option value="lightbox" fckLang="Lightbox">Lightbox</option>
+							<option value="stylesheet" fckLang="stylesheet">Stylesheet</option>
+							<option value="thumbnail" fckLang="Thumbnail">Thumbnail</option>
+						</select>
+					</div>
+
 				</td>
 			</tr>
-		</table>
+
+				<tr>
+					<td valign="top">
+						<span fckLang="DlgGenClass">Stylesheet Classes</span><br />
+						<input id="txtAttClasses" style="WIDTH: 100%" type="text" />
+					</td>
+					<td></td>
+					<td valign="top" width="50%">
+						<span fckLang="DlgGenId">Id</span><br />
+						<input id="txtAttId" style="WIDTH: 100%" type="text" />
+					</td>
+				</tr>
+			</table>
+			<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+				<tr>
+					<td>
+						<span fckLang="DlgGenStyle">Style</span><br />
+						<input id="txtAttStyle" style="WIDTH: 100%" type="text" />
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" width="100%">
+						<span fckLang="DlgGenTitle">Advisory Title</span><br />
+						<input id="txtAttTitle" style="WIDTH: 100%" type="text" />
+					</td>
+				</tr>
+			</table>
 	</div>
 	<div id="divAdvanced" style="display: none">
 		<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0">

@@ -26,6 +26,12 @@
   Authors: P. Widlund, S. Braunewell, M. Gallas (ruebenwurzel), Wouldlouper, C. Sommer (doc)
 	Started to track applied changes in info.php from 27.03.2007 onwards (cs)
  -----------------------------------------------------------------------------------------------------------
+	v2.9.3 (Luishahne Oct 21, 2009)
+		+	add linkfeature to mediabrowser
+        +   update flvplayer plugin
+	v2.9.2 (Luishahne Sep 28, 2009)
+		+	add linkfeature to imagebrowser
+        +   add flvplayer plugin
 	v2.9.1 (Luishahne Sep 28, 2009)
 		+	change to new FCKeditor version 2.6.5
 	v2.89 (Aldus, Luishahne Sep 16, 2009)
@@ -127,8 +133,11 @@
 $module_directory		= 'fckeditor';
 $module_name			= 'FCKeditor 2.6.5 WB Version 2.9.1';
 $module_function		= 'WYSIWYG';
-$module_version			= '2.9.1';
+$module_version			= '2.9.3';
+$module_guid            = 'ED3B82C1-DB1E-447A-A0FD-E952AFC5F3B9';
+$module_status          = 'Beta';
 $module_platform		= '2.7';
+$module_requirements    = 'PHP 4.3.11 or higher, WB 2.7 or higher';
 $module_author 			= 'Christian Sommer, P. Widlund, S. Braunewell, M. Gallas, Wouldlouper, Aldus, Luisehahne';
 $module_license 		= 'GNU General Public License';
 $module_description 	= 'This module allows you to edit the contents of a page using <a href="http://www.fckeditor.net/" target="_blank">FCKeditor v2.6.5</a>.';
