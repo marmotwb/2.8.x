@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+29-Nov-2009 Dietmar Woellbrink (Luisehahne)
+!	fixed an undefined index in settings.php
 28-Nov-2009 Dietmar Woellbrink (Luisehahne)
 !	Update FCKeditor Version 2.6.5 to Modulversion 2.9.3
 28-Nov-2009 Dietmar Woellbrink (Luisehahne)

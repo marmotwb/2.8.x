@@ -258,6 +258,7 @@ if($results_array['visibility'] == 'private' OR $results_array['visibility'] == 
 }
 
 //-- insert page_code 20090904-->
+$TEXT['PAGE_CODE'] = empty($TEXT['PAGE_CODE']) ? '' : $TEXT['PAGE_CODE'];
 $template->set_var('DISPLAY_CODE_PAGE_LIST', ' id="multi_lingual" style="display:none;"');
 // Work-out if page languages feature is enabled
 if((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set)
