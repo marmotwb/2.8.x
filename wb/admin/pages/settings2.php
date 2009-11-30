@@ -21,6 +21,15 @@
  along with Website Baker; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+ * @category   backend
+ * @package    pages
+ * @author(s)  Dietmar Wöllbrink <Luisehahne>, Dietrich Roland Pehlke <Aldus>
+ * @platform   WB 2.8.x
+ * @require    PHP 5.2.11
+ * @license    http://www.gnu.org/licenses/gpl.html
+ * @link       http://project.websitebaker2.org/browser/branches/2.8.x/wb/pages
+ * @changeset  2009/11/30 workout for page_code field, ex catchwords and multilangual
+
 */
 
 // Get page id
@@ -44,6 +53,8 @@ $page_title = $admin->get_post_escaped('page_title');
 $page_title = htmlspecialchars($page_title);
 $menu_title = $admin->get_post_escaped('menu_title');
 $menu_title = htmlspecialchars($menu_title);
+$page_code = $admin->get_post_escaped('page_code');
+$page_code = htmlspecialchars($page_code);
 $description = htmlspecialchars($admin->add_slashes($admin->get_post('description')));
 $keywords = htmlspecialchars($admin->add_slashes($admin->get_post('keywords')));
 $parent = $admin->get_post_escaped('parent');
@@ -73,6 +84,10 @@ $old_link = $results_array['link'];
 $old_position = $results_array['position'];
 $old_admin_groups = explode(',', str_replace('_', '', $results_array['admin_groups']));
 $old_admin_users = explode(',', str_replace('_', '', $results_array['admin_users']));
+
+// Work-out if we should check for existing page_code
+$field_sql = $database->query("DESCRIBE ".TABLE_PREFIX."pages page_code");
+$field_set = $field_sql->numRows();
 
 $in_old_group = FALSE;
 foreach($admin->get_groups_id() as $cur_gid){
@@ -126,7 +141,7 @@ if($parent == '0') {
 	// rename menu titles: index && intro to prevent clashes with intro page feature and WB core file /pages/index.php
 	if($link == '/index' || $link == '/intro') {
 		$link .= '_' .$page_id;
-		$filename = WB_PATH.PAGES_DIRECTORY.'/'.page_filename($menu_title).'_'.$page_id .PAGE_EXTENSION; 
+		$filename = WB_PATH.PAGES_DIRECTORY.'/'.page_filename($menu_title).'_'.$page_id .PAGE_EXTENSION;
 	} else {
 		$filename = WB_PATH.PAGES_DIRECTORY.'/'.page_filename($menu_title).PAGE_EXTENSION; 
 	}
@@ -157,7 +172,14 @@ $database->query($query);
 $page_trail = get_page_trail($page_id);
 
 // Update page settings in the pages table
+if((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set )
+{
+$query = "UPDATE ".TABLE_PREFIX."pages SET parent = '$parent', page_title = '$page_title', menu_title = '$menu_title', menu = '$menu', level = '$level', page_trail = '$page_trail', root_parent = '$root_parent', link = '$link', template = '$template', target = '$target', description = '$description', keywords = '$keywords', position = '$position', visibility = '$visibility', searching = '$searching', language = '$language', admin_groups = '$admin_groups', viewing_groups = '$viewing_groups', page_code = '$page_code' WHERE page_id = '$page_id'";
+} else
+{
 $query = "UPDATE ".TABLE_PREFIX."pages SET parent = '$parent', page_title = '$page_title', menu_title = '$menu_title', menu = '$menu', level = '$level', page_trail = '$page_trail', root_parent = '$root_parent', link = '$link', template = '$template', target = '$target', description = '$description', keywords = '$keywords', position = '$position', visibility = '$visibility', searching = '$searching', language = '$language', admin_groups = '$admin_groups', viewing_groups = '$viewing_groups' WHERE page_id = '$page_id'";
+}
+
 $database->query($query);
 
 // Clean old order if needed
