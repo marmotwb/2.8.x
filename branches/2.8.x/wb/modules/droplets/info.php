@@ -17,7 +17,7 @@ $module_function = 'tool';
 $module_version = '1.0.2';
 $module_platform = '2.8.x';
 $module_author = 'Ruud and pcwacht';
-$module_license = 'GPL';
+$module_license = 'GNU General Public License';
 $module_description = 'This tool allows you to manage your local Droplets.';
 
 $module_home = 'http://www.websitebakers.com/pages/droplets/about-droplets.php';
