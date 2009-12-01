@@ -1,6 +1,6 @@
 <?php
 
-// $Id: index.php 1161 2009-10-11 16:45:19Z Luisehahne $
+// $Id$
 
 /*
 
