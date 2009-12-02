@@ -21,6 +21,15 @@
  along with Website Baker; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+ * @category   backend
+ * @package    pages
+ * @author(s)  Dietmar Wöllbrink <Luisehahne>, Dietrich Roland Pehlke <Aldus>
+ * @platform   WB 2.8.x
+ * @require    PHP 5.2.11
+ * @license    http://www.gnu.org/licenses/gpl.html
+ * @link       http://project.websitebaker2.org/browser/branches/2.8.x/wb/pages
+ * @changeset  2009/11/30 workout for page_code field, ex catchwords and multilangial
+
 */
 
 // Get page id
@@ -258,15 +267,15 @@ if($results_array['visibility'] == 'private' OR $results_array['visibility'] == 
 }
 
 //-- insert page_code 20090904-->
-$TEXT['PAGE_CODE'] = empty($TEXT['PAGE_CODE']) ? '' : $TEXT['PAGE_CODE'];
 $template->set_var('DISPLAY_CODE_PAGE_LIST', ' id="multi_lingual" style="display:none;"');
 // Work-out if page languages feature is enabled
 if((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set)
 {
+    // workout field is set but module missing
+    $TEXT['PAGE_CODE'] = empty($TEXT['PAGE_CODE']) ? 'Pagecode' : $TEXT['PAGE_CODE'];
 	$template->set_var( array(
             'DISPLAY_CODE_PAGE_LIST' => ' id="multi_lingual"',
             'TEXT_PAGE_CODE' => '<a href="'.WB_URL.'/modules/mod_multilingual/update_keys.php?page_id='.$page_id.'">'.$TEXT['PAGE_CODE'].'</a>'
-
         )
     );
 
