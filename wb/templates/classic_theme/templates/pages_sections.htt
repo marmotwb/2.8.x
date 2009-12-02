@@ -17,13 +17,13 @@
 
         <form name="section_properties" action="{ADMIN_URL}/pages/sections_save.php?page_id={VAR_PAGE_ID}" method="post">
         <table cellpadding="5" cellspacing="0" align="center" border="0" width="100%">
-                <tr>
+                <tr class="sections_list">
                 	<td valign="middle" width="{NAME_SIZE}">{TEXT_TYPE}:</td>
                 	<td {STYLE_DISPLAY_SECTION_BLOCK}>{TEXT_BLOCK}:</td>
-                	<td valign="middle" align="left">{TEXT_PUBL_START_DATE}:</td>
-                	<td valign="middle" align="left">{TEXT_PUBL_END_DATE}:</td>
-                	<td valign="middle" align="left" colspan="3">{TEXT_ACTIONS}:</td>
-                    <td valign="middle" align="left">{TEXT_SID}</td>
+                	<td class="header_list_pubdate_start">{TEXT_PUBL_START_DATE}:</td>
+                	<td class="header_list_pubdate_end">{TEXT_PUBL_END_DATE}:</td>
+                	<td class="header_list_sections_actions"  colspan="3">{TEXT_ACTIONS}:</td>
+                    <td class="header_list_section_id">{TEXT_SID}</td>
                     <td valign="middle" align="left"{DISPLAY_DEBUG}>{TEXT_PID}</td>
                 </tr>
 <!-- BEGIN section_block -->

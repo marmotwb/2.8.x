@@ -200,7 +200,7 @@ if($query_sections->numRows() > 0) {
                 }
                 else
                 {
-				    $edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'#'.$section['section_id'].'">'.$module_name.'</a>';
+				    $edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'#wb'.$section['section_id'].'">'.$module_name.'</a>';
                 }
 
 				$input_attribute = 'input_normal';

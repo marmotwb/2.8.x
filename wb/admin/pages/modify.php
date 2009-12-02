@@ -159,7 +159,7 @@ if($query_sections->numRows() > 0)
 							$block_name = '#' . (int) $section['block'];
 						}
 					}
-					print '<div id="'.$section['section_id'].'"><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
+					print '<div id="wb'.$section['section_id'].'"><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
 					print '<b>  Modul: </b>' . $section['module']." ";
 					print '<b>  ID: </b>' . $section_id."</div>\n";
 				}
