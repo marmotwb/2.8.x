@@ -20,6 +20,14 @@
  You should have received a copy of the GNU General Public License
  along with Website Baker; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * @category   frontend
+ * @package    outputfilter
+ * @author(s)  Dietmar Wöllbrink <Luisehahne>, Dietrich Roland Pehlke <Aldus>
+ * @platform   WB 2.8.0
+ * @require    PHP 5.2.x
+ * @license    http://www.gnu.org/licenses/gpl.html
+ * @link       http://project.websitebaker2.org/browser/branches/2.8.x/wb/modules/output_filter/filter-routines.php
+ * @changeset   2009/12/03 change searchstring mdcr.js, workout crypt emails
 
 */
 
@@ -71,14 +79,14 @@ if (!function_exists('filter_frontend_output')) {
 
 		// check if non mailto mail addresses needs to be filtered
 		$output_filter_mode = ($filter_settings['email_filter'] == '1') ? 1 : 0;		// 0|1
-		
+
 		// check if mailto mail addresses needs to be filtered
 		if($filter_settings['mailto_filter'] == '1') {
 			$output_filter_mode = $output_filter_mode + 2;								// 0|2
 						
 			// check if Javascript mailto encryption is enabled (call register_frontend_functions in the template)
-			$search = '<script type="text/javascript" src="' .WB_URL .'/modules/output_filter/js/mdcr.js"></script>';
-			$search_droplet = '<script type="text/javascript" src="' .WB_URL .'/modules/droplets/js/mdcr.js"></script>';
+			$search = '<script src="' .WB_URL .'/modules/output_filter/js/mdcr.js" type="text/javascript"></script>';
+			$search_droplet = '<script src="' .WB_URL .'/modules/droplets/js/mdcr.js" type="text/javascript"></script>';
 			if(strpos($content, $search) !== false || strpos($content, $search_droplet) !== false) { 
 				$output_filter_mode = $output_filter_mode + 4;							// 0|4
 			}

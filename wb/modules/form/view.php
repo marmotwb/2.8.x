@@ -21,6 +21,14 @@
  along with Website Baker; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+ * @category   frontend
+ * @package    outputfilter
+ * @author(s)  Dietmar Wöllbrink <Luisehahne>, Dietrich Roland Pehlke <Aldus>
+ * @platform   WB 2.8.0
+ * @require    PHP 5.2.x
+ * @license    http://www.gnu.org/licenses/gpl.html
+ * @link       http://project.websitebaker2.org/browser/branches/2.8.x/wb/modules/form/view.php
+ * @changeset   2009/12/03 comment out ob_end_flush line 259
 */
 
 /*
@@ -32,7 +40,7 @@ for his contributions to this module - adding extra field types
 if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
 
 // check if frontend.css file needs to be included into the <body></body> of view.php
-if((!function_exists('register_frontend_modfiles') || !defined('MOD_FRONTEND_CSS_REGISTERED')) &&  
+if((!function_exists('register_frontend_modfiles') || !defined('MOD_FRONTEND_CSS_REGISTERED')) &&
 	file_exists(WB_PATH .'/modules/form/frontend.css')) {
 	echo '<style type="text/css">';
 	include(WB_PATH .'/modules/form/frontend.css');
@@ -247,8 +255,8 @@ echo $footer;
 	Without ob_end_flush(): emails are rewritten (e.g. name@domain.com --> name(at)domain(dot)com) if output filter is enabled
 	All replacements made by the Output-Filter module will be reverted before the email is send out
 */
-if($filter_settings['email_filter'] && !($filter_settings['at_replacement']=='@' && $filter_settings['dot_replacement']=='.')) { 
-	ob_end_flush();
+if($filter_settings['email_filter'] && !($filter_settings['at_replacement']=='@' && $filter_settings['dot_replacement']=='.')) {
+  /* 	ob_end_flush(); */
 }
 
 // Add form end code
@@ -257,7 +265,7 @@ if($filter_settings['email_filter'] && !($filter_settings['at_replacement']=='@'
 <?php
 
 } else {
-	
+
 	// Check that submission ID matches
 	if(isset($_SESSION['form_submission_id']) AND isset($_POST['submission_id']) AND $_SESSION['form_submission_id'] == $_POST['submission_id']) {
 		
