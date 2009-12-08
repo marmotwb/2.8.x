@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 03-Dez-2009 Dietmar Woellbrink (Luisehahne)
+!	Ticket #890 fixed visability proprty uses non valid value 'none' 
+03-Dez-2009 Dietmar Woellbrink (Luisehahne)
 !	change searchstring mdcr.js, workout crypt emails in output_filter/filter-routines.php
 !	comment out ob_end_flush line 259 in form/view.php
 02-Dez-2009 Dietmar Woellbrink (Luisehahne)

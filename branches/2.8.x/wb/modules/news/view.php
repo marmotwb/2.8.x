@@ -21,6 +21,14 @@
  along with Website Baker; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+ * @category   frontend
+ * @package    modules
+ * @author(s)  Dietmar Wöllbrink <Luisehahne>, Dietrich Roland Pehlke <Aldus>
+ * @platform   WB 2.8.0
+ * @require    PHP 5.2.11
+ * @license    http://www.gnu.org/licenses/gpl.html
+ * @link       http://project.websitebaker2.org/browser/branches/2.8.x/wb/modules/news
+
 */
 
 // Must include code to stop this file being access directly
@@ -313,7 +321,7 @@ if(!defined('POST_ID') OR !is_numeric(POST_ID))
                 {
 					if($post_long_len < 9)
                     {
-						$values = array(PAGE_TITLE, $group_id, $group_title, $group_image, $display_group, $display_image, $post['title'], $short, '#" onclick="javascript:void(0);return false;" style="cursor:no-drop;', $post_date, $post_time, $publ_date, $publ_time, $uid, $users[$uid]['username'], $users[$uid]['display_name'], $users[$uid]['email'], '', 'none');
+						$values = array(PAGE_TITLE, $group_id, $group_title, $group_image, $display_group, $display_image, $post['title'], $short, '#" onclick="javascript:void(0);return false;" style="cursor:no-drop;', $post_date, $post_time, $publ_date, $publ_time, $uid, $users[$uid]['username'], $users[$uid]['display_name'], $users[$uid]['email'], '', 'hidden');
 					}
                     else
                     {
@@ -324,7 +332,7 @@ if(!defined('POST_ID') OR !is_numeric(POST_ID))
                 {
 					if($post_long_len < 9)
                     {
-						$values = array(PAGE_TITLE, $group_id, $group_title, $group_image, $display_group, $display_image, $post['title'], $short, '#" onclick="javascript:void(0);return false;" style="cursor:no-drop;', $post_date, $post_time, $publ_date, $publ_time, '', '', '', '', '','none');
+						$values = array(PAGE_TITLE, $group_id, $group_title, $group_image, $display_group, $display_image, $post['title'], $short, '#" onclick="javascript:void(0);return false;" style="cursor:no-drop;', $post_date, $post_time, $publ_date, $publ_time, '', '', '', '', '','hidden');
 					}
                     else
                     {
