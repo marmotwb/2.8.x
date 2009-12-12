@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+12-DEC-2009 Manuel Lang (MaGnaL)
+#	Ticket #827: Fix false form-parameter when javascript is deactivated
+	on users and groups temps (admintool).
 12-DEC-2009 Manuel Lang	(MaGnaL)
 #	Bugfix of rev. 1211 search_modext.php (ticket #863): Use isset and
 	given unknown-user instead of counting all users. 
