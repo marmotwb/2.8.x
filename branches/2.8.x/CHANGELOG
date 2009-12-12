@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+12-Dez-2009 Dietrich Roland Pehlke (Aldus)
+#	Bugfix inside "search_modext.php" to avoid warings if the search found
+	a page last modified by a user witch has been deleted. (ticket #863)
 03-Dez-2009 Dietmar Woellbrink (Luisehahne)
 !	Ticket #890 fixed visability proprty uses non valid value 'none' 
 03-Dez-2009 Dietmar Woellbrink (Luisehahne)
