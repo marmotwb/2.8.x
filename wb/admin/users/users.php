@@ -35,6 +35,12 @@ if(!isset($_POST['action']) OR ($_POST['action'] != "modify" AND $_POST['action'
 	exit(0);
 }
 
+// Set parameter 'action' as alternative to javascript mechanism
+if(isset($_POST['modify']))
+	$_POST['action'] = "modify";
+if(isset($_POST['delete']))
+	$_POST['action'] = "delete";
+
 // Check if user id is a valid number and doesnt equal 1
 if(!isset($_POST['user_id']) OR !is_numeric($_POST['user_id']) OR $_POST['user_id'] == 1) {
 	header("Location: index.php");
