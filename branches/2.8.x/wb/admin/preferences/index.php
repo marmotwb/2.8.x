@@ -123,7 +123,7 @@ foreach($TIME_FORMATS AS $format => $title) {
 	if(TIME_FORMAT == $format AND !isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) {
 		$template->set_var('SELECTED', ' selected="selected"');
 	} elseif($format == 'system_default' AND isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) {
-		$template->set_var('SELECTED', ' selected="selected"');
+		$template->set_var('SELECTED', 'selected');
 	} else {
 		$template->set_var('SELECTED', '');
 	}
@@ -157,8 +157,7 @@ $template->set_var(array(
 								'TEXT_TIME_FORMAT' => $TEXT['TIME_FORMAT'],
 								'TEXT_CURRENT_PASSWORD' => $TEXT['CURRENT_PASSWORD'],
 								'TEXT_NEW_PASSWORD' => $TEXT['NEW_PASSWORD'],
-								'TEXT_RETYPE_NEW_PASSWORD' => $TEXT['RETYPE_NEW_PASSWORD'],
-								'TEXT_PLEASE_SELECT' => $TEXT['PLEASE_SELECT']
+								'TEXT_RETYPE_NEW_PASSWORD' => $TEXT['RETYPE_NEW_PASSWORD']
 								)
 						);
 
