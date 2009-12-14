@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+14-DEC-2009 Manuel lang (MaGnaL)
+#	Ticket #832: Fix wrong configuration of timezone-handling when saving
+	preferences-form on backend and frontend 
 12-DEC-2009 Manuel Lang (MaGnaL)
 #	Ticket #827: Fix false form-parameter when javascript is deactivated
 	on users and groups temps (admintool).

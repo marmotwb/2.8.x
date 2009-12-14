@@ -1,27 +1,53 @@
 <?php
 
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/****************************************************************************
+* SVN Version information:
+*
+* $Id$
+*
+*****************************************************************************
+*
+*****************************************************************************
+*                          WebsiteBaker
+*
+* WebsiteBaker Project <http://www.websitebaker2.org/>
+* Copyright (C) 2009, Website Baker Org. e.V.
+*         http://start.websitebaker2.org/impressum-datenschutz.php
+* Copyright (C) 2004-2009, Ryan Djurovich
+*
+*                        About WebsiteBaker
+*
+* Website Baker is a PHP-based Content Management System (CMS)
+* designed with one goal in mind: to enable its users to produce websites
+* with ease.
+*
+*****************************************************************************
+*
+*****************************************************************************
+*                   WebsiteBaker Extra Information (where needed)
+*
+* @author       : Ryan Djurovich, stefan, Matthias Gallas, Manuel Lang
+* @platform     : WebsiteBaker 2.8
+*
+*****************************************************************************
+*
+*****************************************************************************
+*                        LICENSE INFORMATION
+*
+* WebsiteBaker is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 2
+* of the License, or (at your option) any later version.
+*
+* WebsiteBaker is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+* See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*****************************************************************************/
 
 // Print admin header
 require('../../config.php');
@@ -45,7 +71,6 @@ if($database->is_error()) {
 	$admin->print_success($MESSAGE['PREFERENCES']['DETAILS_SAVED']);
 	$_SESSION['DISPLAY_NAME'] = $display_name;
 	$_SESSION['LANGUAGE'] = $language;
-	$_SESSION['TIMEZONE'] = $timezone;
 	// Update date format
 	if($date_format != '') {
 		$_SESSION['DATE_FORMAT'] = $date_format;
@@ -61,6 +86,14 @@ if($database->is_error()) {
 	} else {
 		$_SESSION['USE_DEFAULT_TIME_FORMAT'] = true;
 		if(isset($_SESSION['TIME_FORMAT'])) { unset($_SESSION['TIME_FORMAT']); }
+	}
+	// Update timezone
+	if($timezone != '-72000') {
+		$_SESSION['TIMEZONE'] = $timezone;
+		if(isset($_SESSION['USE_DEFAULT_TIMEZONE'])) { unset($_SESSION['USE_DEFAULT_TIMEZONE']); }
+	} else {
+		$_SESSION['USE_DEFAULT_TIMEZONE'] = true;
+		if(isset($_SESSION['TIMEZONE'])) { unset($_SESSION['TIMEZONE']); }
 	}
 }
 
