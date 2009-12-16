@@ -24,15 +24,11 @@
 */
 
 // Check that GET values have been supplied
-if(isset($_GET['page_id']) AND is_numeric($_GET['page_id']))
-{
+if(isset($_GET['page_id']) AND is_numeric($_GET['page_id'])) {
 	$page_id = $_GET['page_id'];
-	define('PAGE_ID', $page_id);
-}
-else
-{
-	header('Location: '.WB_URL);
-	exit( 0 );
+} else {
+	header('Location: /');
+	exit(0);
 }
 if(isset($_GET['group_id']) AND is_numeric($_GET['group_id'])) {
 	$group_id = $_GET['group_id'];
@@ -61,22 +57,21 @@ header("Content-type: text/xml; charset=$charset" );
 // Header info
 // Required by CSS 2.0
 echo '<?xml version="1.0" encoding="'.$charset.'"?>';
-?>
+?> 
 <rss version="2.0">
-<channel>
-<title><?php echo PAGE_TITLE; ?></title>
-<link>http://<?php echo $_SERVER['SERVER_NAME']; ?></link>
-<description> <?php echo PAGE_DESCRIPTION; ?></description>
+	<channel>
+		<title><?php echo PAGE_TITLE; ?></title>
+		<link>http://<?php echo $_SERVER['SERVER_NAME']; ?></link>
+		<description> <?php echo PAGE_DESCRIPTION; ?></description>
 <?php
-// Optional header info
+// Optional header info 
 ?>
-<language><?php echo strtolower(DEFAULT_LANGUAGE); ?></language>
-<copyright><?php $thedate = date('Y'); $websitetitle = WEBSITE_TITLE; echo "Copyright {$thedate}, {$websitetitle}"; ?></copyright>
-<managingEditor><?php echo SERVER_EMAIL; ?></managingEditor>
-<webMaster><?php echo SERVER_EMAIL; ?></webMaster>
-<category><?php echo WEBSITE_TITLE; ?></category>
-<generator>Website Baker Content Management System</generator>
-
+		<language><?php echo strtolower(DEFAULT_LANGUAGE); ?></language>
+		<copyright><?php $thedate = date('Y'); $websitetitle = WEBSITE_TITLE; echo "Copyright {$thedate}, {$websitetitle}"; ?></copyright>
+		<managingEditor><?php echo SERVER_EMAIL; ?></managingEditor>
+		<webMaster><?php echo SERVER_EMAIL; ?></webMaster>
+		<category><?php echo WEBSITE_TITLE; ?></category>
+		<generator>WebsiteBaker Content Management System</generator>
 <?php
 // Get news items from database
 $t = TIME();
@@ -85,21 +80,18 @@ $time_check_str= "(published_when = '0' OR published_when <= ".$t.") AND (publis
 if(isset($group_id)) {
 	$query = "SELECT * FROM ".TABLE_PREFIX."mod_news_posts WHERE group_id=".$group_id." AND page_id = ".$page_id." AND active=1 AND ".$time_check_str." ORDER BY posted_when DESC";
 } else {
-	$query = "SELECT * FROM ".TABLE_PREFIX."mod_news_posts WHERE page_id=".$page_id." AND active=1 AND ".$time_check_str." ORDER BY posted_when DESC";
+	$query = "SELECT * FROM ".TABLE_PREFIX."mod_news_posts WHERE page_id=".$page_id." AND active=1 AND ".$time_check_str." ORDER BY posted_when DESC";	
 }
 $result = $database->query($query);
 
 //Generating the news items
-while($item = $result->fetchRow($result)){ ?>
-
-<item>
-<title><![CDATA[<?php echo stripslashes($item["title"]); ?>]]></title>
-<description><![CDATA[<?php echo stripslashes($item["content_short"]); ?>]]></description>
-<guid><?php echo WB_URL.PAGES_DIRECTORY.$item["link"].PAGE_EXTENSION; ?></guid>
-<link><?php echo WB_URL.PAGES_DIRECTORY.$item["link"].PAGE_EXTENSION; ?></link>
-</item>
-
+while($item = $result->fetchRow()){ ?>
+		<item>
+			<title><![CDATA[<?php echo stripslashes($item["title"]); ?>]]></title>
+			<description><![CDATA[<?php echo stripslashes($item["content_short"]); ?>]]></description>
+			<guid><?php echo WB_URL.PAGES_DIRECTORY.$item["link"].PAGE_EXTENSION; ?></guid>
+			<link><?php echo WB_URL.PAGES_DIRECTORY.$item["link"].PAGE_EXTENSION; ?></link>
+		</item>
 <?php } ?>
-
-</channel>
+	</channel>
 </rss>

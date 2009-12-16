@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+16-Dec-2009 Ruud Eisinga
+#	Ticket #894: Bugfixes in newsmodule > rss.php
 16-DEC-2009 Manuel Lang (MaGnaL)
 #	Minor bugfixes: Use localized messages in preference forms on frontend and backend,
 	correct html/php syntax in upgrade-script.php and NL localization of show_menu2 snippet  
