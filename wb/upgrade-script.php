@@ -1,27 +1,53 @@
 <?php
 
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/****************************************************************************
+* SVN Version information:
+*
+* $Id$
+*
+*****************************************************************************
+*
+*****************************************************************************
+*                          WebsiteBaker
+*
+* WebsiteBaker Project <http://www.websitebaker2.org/>
+* Copyright (C) 2009, Website Baker Org. e.V.
+*         http://start.websitebaker2.org/impressum-datenschutz.php
+* Copyright (C) 2004-2009, Ryan Djurovich
+*
+*                        About WebsiteBaker
+*
+* Website Baker is a PHP-based Content Management System (CMS)
+* designed with one goal in mind: to enable its users to produce websites
+* with ease.
+*
+*****************************************************************************
+*
+*****************************************************************************
+*                   WebsiteBaker Extra Information
+*
+* @author       : thorn, Matthias Gallas, doc, Dietrich Roland Pehlke, Manuel Lang
+* @platform     : WebsiteBaker 2.8
+*
+*****************************************************************************
+*
+*****************************************************************************
+*                        LICENSE INFORMATION
+*
+* WebsiteBaker is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 2
+* of the License, or (at your option) any later version.
+*
+* WebsiteBaker is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+* See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*****************************************************************************/
 
 @include_once('config.php');
 
@@ -103,7 +129,7 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 <h2>Step 1: Backup your files</h2>
 <p>It is highly recommended to <strong>create a manual backup</strong> of the entire <strong>/pages folder</strong> and the <strong>MySQL database</strong> before proceeding.<br /><strong class="error">Note: </strong>The upgrade script alters some settings of your existing database!!! You need to confirm the disclaimer before proceeding.</p>
 
-<form name="send" action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
+<form name="send" action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
 <textarea cols="80" rows="5">DISCLAIMER: The Website Baker upgrade script is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. One needs to confirm that a manual backup of the /pages folder (including all files and subfolders contained in it) and backup of the entire Website Baker MySQL database was created before you can proceed.</textarea>
 <br /><br /><input name="backup_confirmed" type="checkbox" value="confirmed" />&nbsp;I confirm that a manual backup of the /pages folder and the MySQL database was created.
 <br /><br /><input name="send" type="submit" value="Start upgrade script" />
