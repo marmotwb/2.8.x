@@ -260,8 +260,8 @@ class wb
 
 	// Validate supplied email address
 	function validate_email($email) {
-		if(eregi("^([0-9a-zA-Z]+[-._+&])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$", $email)) {
-			return true;
+		if(preg_match('/^([0-9a-zA-Z]+[-._+&])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$/', $email)) {
+		return true;
 		} else {
 			return false;
 		}
