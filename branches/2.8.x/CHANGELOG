@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+16-DEC-2009 Manuel Lang (MaGnaL)
+#	Minor bugfixes: Use localized messages in preference forms on frontend and backend,
+	correct html/php syntax in upgrade-script.php and NL localization of show_menu2 snippet  
 14-DEC-2009 Manuel lang (MaGnaL)
 #	Ticket #832: Fix wrong configuration of timezone-handling when saving
 	preferences-form on backend and frontend 
