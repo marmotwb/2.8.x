@@ -48,6 +48,7 @@ function rm_full_dir($directory)
     }
 
     // Empty the folder
+	if (is_dir($directory)) {
     $dir = dir($directory);
     while (false !== $entry = $dir->read()) {
         // Skip pointers
@@ -66,6 +67,7 @@ function rm_full_dir($directory)
     // Now delete the folder
     $dir->close();
     return rmdir($directory);
+	}
 }
 
 // Function to open a directory and add to a dir list
