@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+21-Dec-2009 Moritz Stapelfeldt
+#	Ticket #896: Bugfix in framework/functions.php > added test is_dir to function rm_full_dir
 16-Dec-2009 Ruud Eisinga
 #	Ticket #894: Bugfixes in newsmodule > rss.php
 16-DEC-2009 Manuel Lang (MaGnaL)
