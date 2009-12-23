@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+23-Dec-2009 Dietmar Woellbrink (Luisehahne)
+!	check if revision $id will be updated
 21-Dec-2009 Moritz Stapelfeldt
 #	Ticket #896: Bugfix in framework/functions.php > added test is_dir to function rm_full_dir
 16-Dec-2009 Ruud Eisinga
