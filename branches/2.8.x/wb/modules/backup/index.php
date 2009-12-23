@@ -1,12 +1,5 @@
 <?php
-/****************************************************************************
-* SVN Version information:
-*
-* $Id$
-*
-*****************************************************************************
-*
-*****************************************************************************
+/***************************************************************************
 *                          WebsiteBaker
 *
 * WebsiteBaker Project <http://www.websitebaker2.org/>
@@ -21,14 +14,7 @@
 * with ease.
 *
 *****************************************************************************
-*
-*****************************************************************************
-*                   WebsiteBaker Extra Information (where needed)
-*
-*
-*
-*****************************************************************************
-*
+
 *****************************************************************************
 *                        LICENSE INFORMATION
 *
@@ -45,7 +31,29 @@
 * You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+****************************************************************************
+
+*****************************************************************************
+*                   WebsiteBaker Extra Information
+*
+*
+*
+*
 *****************************************************************************/
+/**
+*
+* @category     modules
+* @package      backup
+* @author       Ryan Djurovich
+* @copyright    2004-2009, Ryan Djurovich
+* @copyright    2009, Website Baker Org. e.V.
+* @version      $Id$
+* @platform     WebsiteBaker 2.8.x
+* @requirements >= PHP 4.3.4
+* @license      http://www.gnu.org/licenses/gpl.html
+*
+*
+*/
 
 header('Location: ../index.php');
 
