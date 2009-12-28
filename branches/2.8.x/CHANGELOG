@@ -12,6 +12,10 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 28-Dec-2009 Dietmar Woellbrink (Luisehahne)
+#	fix syntax error
+28-Dec-2009 Dietmar Woellbrink (Luisehahne)
+!	update header, check that all tables in WB package are installed 
+28-Dec-2009 Dietmar Woellbrink (Luisehahne)
 !	update header, change variable
 28-Dec-2009 Dietmar Woellbrink (Luisehahne)
 !	update header
