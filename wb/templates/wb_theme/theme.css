@@ -403,7 +403,6 @@ select option.disabled {
 .sections_list {font-weight:bold;padding-left:10px;}
 .sections_list table {width:900px;}
 
-
 .header_list_type {text-align:left;}
 .header_list_block {text-align:left;width:180px;}
 .header_list_pubdate_start {text-align:left;width:200px;}
@@ -411,9 +410,12 @@ select option.disabled {
 .header_list_sections_actions {text-align:left;width:30px;}
 .header_list_section_id {width:30px;text-align:right;}
 
-
 .list_section_id {width:30px;text-align:right;}
 .list_pubdate_start {text-align:left;width:200px;}
 .list_pubdate_end {text-align:left;width:200px;}
 
+.value_page_code {color: #006400; font-weight: 400; width: 240px; }
+.list_page_code { width: 240px; }
+.list_page_language { width: 240px; }
+#multi_lingual { font-weight: bolder; }
 /* Ende */
