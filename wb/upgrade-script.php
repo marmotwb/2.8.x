@@ -1,11 +1,8 @@
 <?php
-
 /****************************************************************************
 * SVN Version information:
 *
-* $Id$
-*
-*****************************************************************************
+* $Id$ 
 *
 *****************************************************************************
 *                          WebsiteBaker
@@ -22,15 +19,7 @@
 * with ease.
 *
 *****************************************************************************
-*
-*****************************************************************************
-*                   WebsiteBaker Extra Information
-*
-* @author       : thorn, Matthias Gallas, doc, Dietrich Roland Pehlke, Manuel Lang
-* @platform     : WebsiteBaker 2.8
-*
-*****************************************************************************
-*
+
 *****************************************************************************
 *                        LICENSE INFORMATION
 *
@@ -47,9 +36,32 @@
 * You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+****************************************************************************
+
+*****************************************************************************
+*                   WebsiteBaker Extra Information
+*
+*  added line 385-386 update postfiles to new format
+*
+*
 *****************************************************************************/
 
-@include_once('config.php');
+/**
+ *
+ * @category     backend
+ * @package      installation
+ * @author       Ryan Djurovich
+ * @copyright    2004-2009, Ryan Djurovich
+ * @copyright    2009, Website Baker Org. e.V.
+ * @version      $Id$
+ * @platform     WebsiteBaker 2.8.x
+ * @requirements >= PHP 4.3.4
+ * @license      http://www.gnu.org/licenses/gpl.html
+ *
+ *
+ */
+
+@require_once('config.php');
 
 // this function checks the basic configurations of an existing WB intallation
 function status_msg($message, $class='check', $element='span') {
@@ -57,6 +69,67 @@ function status_msg($message, $class='check', $element='span') {
 	echo '<'.$element .' class="' .$class .'">' .$message .'</' .$element.'>';
 }
 
+$version = '2.8.1';
+// database tables including in WB package
+$table_list = array (
+    'settings','groups','addons','pages','sections','search','users',
+    'mod_captcha_control','mod_code','mod_droplets','mod_form_fields',
+    'mod_form_settings','mod_form_submissions','mod_jsadmin','mod_menu_link',
+    'mod_news_comments','mod_news_groups','mod_news_posts','mod_news_settings',
+    'mod_output_filter','mod_wrapper','mod_wysiwyg'
+);
+
+// analyze/check database tables
+function mysqlCheckTables( $dbName )
+{
+    global $table_list;
+    $table_prefix = TABLE_PREFIX;
+    $sql = "SHOW TABLES FROM " . $dbName;
+    $result = @mysql_query( $sql );
+    $data = array();
+    $x = 0;
+
+    while( ( $row = @mysql_fetch_array( $result, MYSQL_NUM ) ) == true )
+    {
+        $tmp = str_replace($table_prefix, '', $row[0]);
+
+        if( stristr( $row[0], $table_prefix )&& in_array($tmp,$table_list) )
+        {
+            $sql = "CHECK TABLE " . $dbName . '.' . $row[0];
+            $analyze = @mysql_query( $sql );
+            $rowFetch = @mysql_fetch_array( $analyze, MYSQL_ASSOC );
+            $data[$x]['Op'] = $rowFetch["Op"];
+            $data[$x]['Msg_type'] = $rowFetch["Msg_type"];
+            $msgColor = '<span class="error">';
+            $data[$x]['Table'] = $row[0];
+           // print  " ";
+            $msgColor = ($rowFetch["Msg_text"] == 'OK') ? '<span class="ok">' : '<span class="error">';
+            $data[$x]['Msg_text'] = $msgColor.$rowFetch["Msg_text"].'</span>';
+           // print  "<br />";
+            $x++;
+        }
+    }
+    return $data;
+}
+
+// check existings tables for upgrade or install
+$result = $database->query( "SHOW TABLES FROM ".DB_NAME);
+$all_tables = array();
+while ($data = $result->fetchRow())
+{
+    $tmp = str_replace(TABLE_PREFIX, '', $data[0]);
+    if(in_array($tmp,$table_list))
+    {
+        $all_tables[] = $tmp;
+    }
+}
+
+function show_array($array=array())
+{
+    print '<pre>';
+    print_r ($array);
+    print '</pre>';
+}
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -119,7 +192,7 @@ h3 { font-size: 120%; }
 <img src="templates/wb_theme/images/logo.png" alt="Website Baker Logo" />
 
 <h1>Website Baker Upgrade</h1>
-<p>This script upgrades an existing Website Baker <strong>Version 2.7</strong> installation to the <strong>Version 2.8</strong>. The upgrade script alters the existing WB database to reflect the changes introduced with WB 2.8.</p>
+<p>This script upgrades an existing Website Baker <strong>Version 2.7</strong> installation to the <strong>Version <?php print $version ?></strong>. The upgrade script alters the existing WB database to reflect the changes introduced with WB 2.8.x</p>
 
 <?php
 /**
@@ -143,12 +216,35 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 }
 
 echo '<h2>Step 2: Updating database entries</h2>';
-define ("DEFAULT_THEME", "wb_theme");
-require_once('config.php');
+if(!defined('DEFAULT_THEME')) { define('DEFAULT_THEME', 'wb_theme'); }
+
 require_once(WB_PATH.'/framework/functions.php');
+require_once(WB_PATH.'/framework/class.admin.php');
+$admin = new admin('Addons', 'modules', false, false);
 
 $OK   = '<span class="ok">OK</span>';
 $FAIL = '<span class="error">FAILED</span>';
+$check_text = 'total ';
+$check_tables = mysqlCheckTables( DB_NAME ) ;
+if(sizeof($check_tables) == 22)
+{
+    echo '<h4>NOTICE: Your database '.DB_NAME.' has '.sizeof($check_tables).' '.$check_text.' tables from 22 included in package</h4>';
+}
+else
+{
+    status_msg('<strong>WARNING:</strong><br />can\'t run Upgrade, missing tables', 'warning', 'div');
+	echo '<h4>List missing tables, please check</h4>';
+    $result = array_diff ( $table_list, $all_tables );
+    while ( list ( $key, $val ) = each ( $result ) )
+    {
+        echo TABLE_PREFIX.$val.' '.$FAIL.'<br>';
+    }
+
+	echo '<br /><form action="'. $_SERVER['PHP_SELF'] .'">';
+	echo '<input type="submit" value="kick me back" style="float:left;" />';
+	echo '</form><br /><br />';
+    exit;
+}
 
 // function to add a var/value-pair into settings-table
 function db_add_key_value($key, $value) {
@@ -192,10 +288,10 @@ function db_add_field($field, $table, $desc) {
 	}
 }
 
-
 /**********************************************************
  *  - Adding field sec_anchor to settings table
  */
+
 echo "<br />Adding sec_anchor to settings table<br />";
 $cfg = array(
 	'sec_anchor' => 'wb_'
@@ -203,7 +299,6 @@ $cfg = array(
 foreach($cfg as $key=>$value) {
 	db_add_key_value($key, $value);
 }
-
 
 /**********************************************************
  *  - Adding field default_theme to settings table
@@ -216,7 +311,6 @@ foreach($cfg as $key=>$value) {
 	db_add_key_value($key, $value);
 }
 
-
 /**********************************************************
  *  - Adding redirect timer to settings table
  */
@@ -227,7 +321,6 @@ $cfg = array(
 foreach($cfg as $key=>$value) {
 	db_add_key_value($key, $value);
 }
-
 
 /**********************************************************
  *  - Adding mediasettings to settings table
@@ -240,13 +333,11 @@ foreach($cfg as $key=>$value) {
 	db_add_key_value($key, $value);
 }
 
-
 /**********************************************************
  *  - Add field "redirect_type" to table "mod_menu_link"
  */
 echo "<br />Adding field redirect_type to mod_menu_link table<br />";
 db_add_field('redirect_type', 'mod_menu_link', "INT NOT NULL DEFAULT '302' AFTER `target_page_id`");
-
 
 /**********************************************************
  *  - Update search no results database filed to create
@@ -257,7 +348,6 @@ $search_no_results = addslashes('<tr><td><p>[TEXT_NO_RESULTS]</p></td></tr>');
 $sql = "UPDATE `" . TABLE_PREFIX . "search` SET `value` = '$search_no_results' WHERE `name`= 'no_results'";
 $database->query($sql);
 echo ($database->query($sql)) ? " $OK<br />" : " $FAIL<br />";
-
 
 /**********************************************************
  *  - Update settings of News Modul
@@ -313,79 +403,87 @@ $comments_page = '<h1>[TEXT_COMMENT]</h1>
 <h2>[POST_TITLE]</h2>
 <br />';
 
+if(in_array('mod_news_settings', $all_tables))
+{
+    // Insert default settings into database
+    $query_dates = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_news_settings where section_id != 0 and page_id != 0");
+    while($result = $query_dates->fetchRow())
+    {
 
-// Insert default settings into database
-$query_dates = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_news_settings where section_id != 0 and page_id != 0");
-while($result = $query_dates->fetchRow()) {
-	
-	echo "<br /><u>Add default settings to database for news section_id= ".$result['section_id']."</u><br />";
-	$section_id = $result['section_id'];
+    	echo "<br /><u>Add default settings to database for news section_id= ".$result['section_id']."</u><br />";
+    	$section_id = $result['section_id'];
 
-	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `header` = '$header' WHERE `section_id` = $section_id")) {
-		echo 'Database data header added successfully';
-	}
-	echo mysql_error().'<br />';
-	
-	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `post_loop` = '$post_loop' WHERE `section_id` = $section_id")) {
-		echo 'Database data post_loop added successfully';
-	}
-	echo mysql_error().'<br />';
-	
-	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `footer` = '$footer' WHERE `section_id` = $section_id")) {
-		echo 'Database data footer added successfully';
-	}
-	echo mysql_error().'<br />';
-	
-	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `post_header` = '$post_header' WHERE `section_id` = $section_id")) {
-		echo 'Database data post_header added successfully';
-	}
-	echo mysql_error().'<br />';
-	
-	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `post_footer` = '$post_footer' WHERE `section_id` = $section_id")) {
-		echo 'Database data post_footer added successfully';
-	}
-	echo mysql_error().'<br />';
-	
-	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_header` = '$comments_header' WHERE `section_id` = $section_id")) {
-		echo 'Database data comments_header added successfully';
-	}
-	echo mysql_error().'<br />';
-	
-	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_loop` = '$comments_loop' WHERE `section_id` = $section_id")) {
-		echo 'Database data comments_loop added successfully';
-	}
-	echo mysql_error().'<br />';
-	
-	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_footer` = '$comments_footer' WHERE `section_id` = $section_id")) {
-		echo 'Database data comments_footer added successfully';
-	}
-	echo mysql_error().'<br />';
-	
-	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_page` = '$comments_page' WHERE `section_id` = $section_id")) {
-		echo 'Database data comments_page added successfully';
-	}
-	echo mysql_error().'<br />';
+    	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `header` = '$header' WHERE `section_id` = $section_id")) {
+    		echo 'Database data header added successfully';
+    	}
+    	echo mysql_error().'<br />';
 
+    	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `post_loop` = '$post_loop' WHERE `section_id` = $section_id")) {
+    		echo 'Database data post_loop added successfully';
+    	}
+    	echo mysql_error().'<br />';
+
+    	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `footer` = '$footer' WHERE `section_id` = $section_id")) {
+    		echo 'Database data footer added successfully';
+    	}
+    	echo mysql_error().'<br />';
+
+    	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `post_header` = '$post_header' WHERE `section_id` = $section_id")) {
+    		echo 'Database data post_header added successfully';
+    	}
+    	echo mysql_error().'<br />';
+
+    	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `post_footer` = '$post_footer' WHERE `section_id` = $section_id")) {
+    		echo 'Database data post_footer added successfully';
+    	}
+    	echo mysql_error().'<br />';
+
+    	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_header` = '$comments_header' WHERE `section_id` = $section_id")) {
+    		echo 'Database data comments_header added successfully';
+    	}
+    	echo mysql_error().'<br />';
+
+    	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_loop` = '$comments_loop' WHERE `section_id` = $section_id")) {
+    		echo 'Database data comments_loop added successfully';
+    	}
+    	echo mysql_error().'<br />';
+
+    	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_footer` = '$comments_footer' WHERE `section_id` = $section_id")) {
+    		echo 'Database data comments_footer added successfully';
+    	}
+    	echo mysql_error().'<br />';
+
+    	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_page` = '$comments_page' WHERE `section_id` = $section_id")) {
+    		echo 'Database data comments_page added successfully';
+    	}
+    	echo mysql_error().'<br />';
+
+    }
+}
+else
+{
+    echo 'Missing database table '.TABLE_PREFIX.'mod_news_settings '.$FAIL.'<br />';
 }
 
+if(file_exists(WB_PATH."/modules/news/upgrade.php"))
+{
+    echo '<h4>Upgrade existings postfiles to new format</h4><br />';
+    // change old postfiles to new postfiles
+    require_once(WB_PATH."/modules/news/upgrade.php");
+}
 /**********************************************************
- *  - Set Version to WB 2.8
+ *  - Set Version to WB 2.8.1
  */
-echo "<br />Update database version number to 2.8 : ";
-$version = '2.8';
+echo "<br />Update database version number to 2.8.1 : ";
 echo ($database->query("UPDATE `".TABLE_PREFIX."settings` SET `value` = '$version' WHERE `name` = 'wb_version'")) ? " $OK<br />" : " $FAIL<br />";
-
 
 /**********************************************************
  *  - install droplets
  */
-echo "<br />Install droplets<br />";
+$drops = (!in_array ( "mod_droplets", $all_tables)) ? "<br />Install droplets<br />" : "<br />Upgrade droplets<br />";
+echo $drops;
 
-$result = $database->query( "SHOW TABLES FROM ".DB_NAME);
-$all_tables = array();
-while ($data = $result->fetchRow()) $all_tables[] = $data[0];
-
- $file_name = (!in_array ( TABLE_PREFIX."mod_droplets", $all_tables)) ? "install.php" : "upgrade.php";
+ $file_name = (!in_array ( "mod_droplets", $all_tables)) ? "install.php" : "upgrade.php";
  require_once (WB_PATH."/modules/droplets/".$file_name);
 
 /**********************************************************
