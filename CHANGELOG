@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 28-Dec-2009 Dietmar Woellbrink (Luisehahne)
+#	fix show date if only short content
+28-Dec-2009 Dietmar Woellbrink (Luisehahne)
 !	check if load only one wysiwyg instance
 !	check update svn revision
 28-Dec-2009 Dietmar Woellbrink (Luisehahne)
