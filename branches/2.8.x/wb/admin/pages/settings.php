@@ -1,36 +1,62 @@
 <?php
-
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
- * @category   backend
- * @package    pages
- * @author(s)  Dietmar Wöllbrink <Luisehahne>, Dietrich Roland Pehlke <Aldus>
- * @platform   WB 2.8.x
- * @require    PHP 5.2.11
- * @license    http://www.gnu.org/licenses/gpl.html
- * @link       http://project.websitebaker2.org/browser/branches/2.8.x/wb/pages
- * @changeset  2009/11/30 workout for page_code field, ex catchwords and multilangial
-
-*/
+/****************************************************************************
+* SVN Version information:
+*
+* $Id$
+*
+*****************************************************************************
+*                          WebsiteBaker
+*
+* WebsiteBaker Project <http://www.websitebaker2.org/>
+* Copyright (C) 2009, Website Baker Org. e.V.
+*         http://start.websitebaker2.org/impressum-datenschutz.php
+* Copyright (C) 2004-2009, Ryan Djurovich
+*
+*                        About WebsiteBaker
+*
+* Website Baker is a PHP-based Content Management System (CMS)
+* designed with one goal in mind: to enable its users to produce websites
+* with ease.
+*
+*****************************************************************************
+*
+*****************************************************************************
+*                        LICENSE INFORMATION
+*
+* WebsiteBaker is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 2
+* of the License, or (at your option) any later version.
+*
+* WebsiteBaker is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+* See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+****************************************************************************
+*
+*****************************************************************************
+*                   WebsiteBaker Extra Information
+*
+*
+*
+*
+*****************************************************************************/
+/**
+ * @category    admin
+ * @package     pages
+ * @author      Ryan Djurovich
+ * @copyright   2004-2009, Ryan Djurovich
+ * @copyright   2009, Website Baker Org. e.V.
+ * @version     $Id$
+ * @platform    WebsiteBaker 2.8.x
+ * @requirements >= PHP 4.3.4
+ * @license     http://www.gnu.org/licenses/gpl.html
+ *
+ */
 
 // Get page id
 if(!isset($_GET['page_id']) OR !is_numeric($_GET['page_id'])) {
@@ -69,7 +95,7 @@ if((!$in_old_group) AND !is_numeric(array_search($admin->get_user_id(), $old_adm
 }
 
 // Get page details
-$database = new database();
+/* $database = new database();  */
 $query = "SELECT * FROM ".TABLE_PREFIX."pages WHERE page_id = '$page_id'";
 $results = $database->query($query);
 if($database->is_error()) {
@@ -155,24 +181,6 @@ if($results_array['visibility'] == 'public') {
 									)
 							);
 	$template->parse('group_list', 'group_list_block', true);
-	/*
-	if(!in_array(1, $admin->get_groups_id())) {
-		$users_groups = $admin->get_groups_name();
-		foreach ($admin->get_groups_id() as $users_group_id) {
-			$template->set_var(array(
-										'ID' => $users_group_id,
-										'TOGGLE' => '',
-										'DISABLED' => ' disabled',
-										'LINK_COLOR' => '000000',
-										'CURSOR' => 'default',
-										'NAME' => $users_groups[$users_group_id],
-										'CHECKED' => ' checked'
-										)
-								);
-			$template->parse('group_list', 'group_list_block', true);
-		}
-	}
-	*/
 	while($group = $get_groups->fetchRow()) {
 		// check if the user is a member of this group
 		$flag_disabled = '';
@@ -228,7 +236,6 @@ if($results_array['visibility'] == 'public') {
 							);
 	$template->parse('group_list2', 'group_list_block2', true);
 
-
 	while($group = $get_groups->fetchRow()) {
 		// check if the user is a member of this group
 		$flag_disabled = '';
@@ -269,7 +276,7 @@ if($results_array['visibility'] == 'private' OR $results_array['visibility'] == 
 //-- insert page_code 20090904-->
 $template->set_var('DISPLAY_CODE_PAGE_LIST', ' id="multi_lingual" style="display:none;"');
 // Work-out if page languages feature is enabled
-if((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set)
+if((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set && file_exists(WB_URL.'/modules/mod_multilingual/update_keys.php'))
 {
     // workout field is set but module missing
     $TEXT['PAGE_CODE'] = empty($TEXT['PAGE_CODE']) ? 'Pagecode' : $TEXT['PAGE_CODE'];
@@ -279,9 +286,8 @@ if((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set)
         )
     );
 
-
 	// Page_code list
-	$database = new database();
+   /* 	$database = new database();  */
 	function page_code_list($parent) {
 		global $admin, $database, $template, $results_array, $pageCode;
 		$default_language = DEFAULT_LANGUAGE;
@@ -315,12 +321,14 @@ if((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set)
 				} else {
 					$can_modify = false;
 				}
-				// Title -'s prefix
+
 				$title_prefix = '';
-				for($i = 1; $i <= $page['level']; $i++) { $title_prefix .= ' - -  '; }
+				for($i = 1; $i <= $page['level']; $i++) { $title_prefix .= ' - - &nbsp;'; }
+                // $space = str_repeat('&nbsp;', 3);  $space.'&lt;'..'&gt;'
 				$template->set_var(array(
 										'VALUE' => $page['page_code'],
-										'PAGE_CODE' => ($title_prefix.$page['menu_title'])
+                                        'PAGE_VALUE' => $title_prefix.$page['page_code'],
+										'PAGE_CODE' => $title_prefix.$page['menu_title']
 										)
 								);
 				if($results_array['page_code'] == $page['page_code']) {
@@ -346,6 +354,7 @@ if((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set)
 		$template->set_var(array(
 									'VALUE' => '',
 									'PAGE_CODE' => $TEXT['NONE'],
+                                    'PAGE_VALUE' => '',
 									'SELECTED' => $selected
 								)
 							);
@@ -357,7 +366,7 @@ if((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set)
 //-- page code -->
 
 // Parent page list
-$database = new database();
+/* $database = new database();  */
 function parent_list($parent) {
 	global $admin, $database, $template, $results_array,$field_set;
 	$query = "SELECT * FROM ".TABLE_PREFIX."pages WHERE parent = '$parent' ORDER BY position ASC";

@@ -143,10 +143,10 @@
 <!-- insert page_code 20090904-->
 <tr{DISPLAY_CODE_PAGE_LIST}>
 	<td width="100">{TEXT_PAGE_CODE}:</td>
-	<td width="240">
-		<select name="page_code" style="width: 240px;">
+	<td class="list_page_code">
+		<select name="page_code" class="value_page_code">
 			<!-- BEGIN page_code_list_block -->
-			<option value="{VALUE}"{SELECTED} style="background: {FLAG_CODE_ICON} no-repeat center left; padding-left: 20px;">{PAGE_CODE}</option>
+			<option value="{VALUE}"{SELECTED} style="background: {FLAG_CODE_ICON} no-repeat center left; padding-left: 20px;">{PAGE_VALUE}</option>
 			<!-- END page_code_list_block -->
 		</select>
 	</td>

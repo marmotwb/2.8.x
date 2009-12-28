@@ -130,3 +130,7 @@ img.page_list_rights {border:none;float:left;margin:0;vertical-align:middle;}
 .list_page_id {width:50px;text-align: right; padding-right:15px;}
 .list_actions {width:25px;text-align:left;}
 
+.value_page_code {color: #006400; font-weight: 400; width: 240px; }
+.list_page_code { width: 240px; }
+.list_page_language { width: 240px; }
+#multi_lingual { font-weight: bolder; }
