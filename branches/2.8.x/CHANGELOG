@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+28-Dec-2009 Dietmar Woellbrink (Luisehahne)
+!	change page_title to menu_title in dropdown list
+!	validate code
 23-Dec-2009 Dietmar Woellbrink (Luisehahne)
 !	check if revision $id will be updated
 21-Dec-2009 Moritz Stapelfeldt
