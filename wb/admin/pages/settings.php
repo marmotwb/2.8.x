@@ -276,7 +276,7 @@ if($results_array['visibility'] == 'private' OR $results_array['visibility'] == 
 //-- insert page_code 20090904-->
 $template->set_var('DISPLAY_CODE_PAGE_LIST', ' id="multi_lingual" style="display:none;"');
 // Work-out if page languages feature is enabled
-if((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set && file_exists(WB_URL.'/modules/mod_multilingual/update_keys.php'))
+if((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set && file_exists(WB_PATH.'/modules/mod_multilingual/update_keys.php') )
 {
     // workout field is set but module missing
     $TEXT['PAGE_CODE'] = empty($TEXT['PAGE_CODE']) ? 'Pagecode' : $TEXT['PAGE_CODE'];
