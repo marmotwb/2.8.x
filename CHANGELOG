@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+30-Dec-2009 Dietmar Woellbrink (Luisehahne)
+#	fix Warning: stristr() [function.stristr]
 29-Dec-2009 Dietmar Woellbrink (Luisehahne)
 !	set revision constant to release version
 29-Dec-2009 Dietmar Woellbrink (Luisehahne)
