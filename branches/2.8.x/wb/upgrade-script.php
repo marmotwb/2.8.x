@@ -225,10 +225,10 @@ $admin = new admin('Addons', 'modules', false, false);
 $OK   = '<span class="ok">OK</span>';
 $FAIL = '<span class="error">FAILED</span>';
 $check_text = 'total ';
-$check_tables = mysqlCheckTables( DB_NAME ) ;
-if(sizeof($check_tables) == 22)
+// $check_tables = mysqlCheckTables( DB_NAME ) ;
+if(sizeof($all_tables) == 22)
 {
-    echo '<h4>NOTICE: Your database '.DB_NAME.' has '.sizeof($check_tables).' '.$check_text.' tables from 22 included in package</h4>';
+    echo '<h4>NOTICE: Your database '.DB_NAME.' has '.sizeof($all_tables).' '.$check_text.' tables from '.sizeof($table_list).' included in package</h4>';
 }
 else
 {
