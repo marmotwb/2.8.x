@@ -2,7 +2,7 @@
 /****************************************************************************
 * SVN Version information:
 *
-* frontend.functions.php 1181 2009-11-24 18:42:19Z Luisehahne $
+* $Id$
 *
 *
 *
@@ -57,7 +57,7 @@
  * @author       Ryan Djurovich
  * @copyright    2004-2009, Ryan Djurovich
  * @copyright    2009-2010, Website Baker Org. e.V.
- * @version      frontend.functions.php 1181 2009-11-24 18:42:19Z Luisehahne $
+ * @version      $Id$
  * @platform     WebsiteBaker 2.8.x
  * @requirements >= PHP 4.3.4
  * @license      http://www.gnu.org/licenses/gpl.html
