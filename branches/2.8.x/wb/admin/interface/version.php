@@ -55,7 +55,7 @@
  * @package      version
  * @author       Ryan Djurovich
  * @copyright    2004-2009, Ryan Djurovich
- * @copyright    2009, Website Baker Org. e.V.
+ * @copyright    2009-2010, Website Baker Org. e.V.
  * @version      $Id: version.php 1230 2009-12-28 23:34:48Z Luisehahne $
  * @platform     WebsiteBaker 2.8.x
  * @requirements >= PHP 4.3.4
@@ -70,6 +70,6 @@ if(!defined('WB_URL')) {
 
 // check if defined to avoid errors during installation (redirect to admin panel fails if PHP error/warnings are enabled)
 if(!defined('VERSION')) define('VERSION', '2.8.1');
-if(!defined('REVISION')) define('REVISION', '1232');
+if(!defined('REVISION')) define('REVISION', '1233');
 
 ?>

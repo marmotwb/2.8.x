@@ -1,32 +1,69 @@
 <?php
+/****************************************************************************
+* SVN Version information:
+*
+* frontend.functions.php 1181 2009-11-24 18:42:19Z Luisehahne $
+*
+*
+*
+*****************************************************************************
+*                          WebsiteBaker
+*
+* WebsiteBaker Project <http://www.websitebaker2.org/>
+* Copyright (C) 2009, Website Baker Org. e.V.
+*         http://start.websitebaker2.org/impressum-datenschutz.php
+* Copyright (C) 2004-2009, Ryan Djurovich
+*
+*                        About WebsiteBaker
+*
+* Website Baker is a PHP-based Content Management System (CMS)
+* designed with one goal in mind: to enable its users to produce websites
+* with ease.
+*
+*****************************************************************************
+*
+*****************************************************************************
+*                        LICENSE INFORMATION
+*
+* WebsiteBaker is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 2
+* of the License, or (at your option) any later version.
+*
+* WebsiteBaker is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+* See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+****************************************************************************
+*
+*                   WebsiteBaker Extra Information
+*
+* Version file
+*
+*   This file is purely for ensuring compatibility with 3rd party
+*	contributions made for WB version 2.5.2 or below
+*
+*
+*
+*****************************************************************************/
+/**
+ *
+ * @category     frontend
+ * @package      functions
+ * @author       Ryan Djurovich
+ * @copyright    2004-2009, Ryan Djurovich
+ * @copyright    2009-2010, Website Baker Org. e.V.
+ * @version      frontend.functions.php 1181 2009-11-24 18:42:19Z Luisehahne $
+ * @platform     WebsiteBaker 2.8.x
+ * @requirements >= PHP 4.3.4
+ * @license      http://www.gnu.org/licenses/gpl.html
+ *
+ */
 
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
-
-/*
-	This file is purely for ensuring compatibility with 3rd party
-	contributions made for WB version 2.5.2 or below
-*/
 if(!defined('WB_URL')) {
 	header('Location: ../index.php');
 	exit(0);
@@ -280,31 +317,44 @@ if (!function_exists('show_content')) {
 
 if (!function_exists('show_breadcrumbs'))
 {
-	function show_breadcrumbs($sep=' &raquo; ',$tier=1,$links=true,$depth=-1, $title='You are here: ')
+	function show_breadcrumbs($sep = ' &raquo; ',$level = 0, $links = true, $depth = -1, $title = 'You are here: ')
     {
 		global $wb;
-		$page_id=$wb->page_id;
-		if ($page_id!=0)
+		$page_id = $wb->page_id;
+
+		if ($page_id != 0)
 		{
 	 		global $database;
-			$bca=$wb->page_trail;
-			$counter=0;
+			$counter = 0;
+            // get links as array
+            $bread_crumbs = $wb->page_trail;
+            $count = sizeof($bread_crumbs);
+            // level can't be greater than sum of links
+            $level = ($count <= $level ) ? $count-1 : $level;
+            // set level from which to show, delete indexes in array
+			$crumbs = array_slice($bread_crumbs, $level );
+            // set depth of links -1 or 0 show all links
+            $depth = ($depth <= 0) ? sizeof($crumbs) : $depth;
+            // if empty array, set orginal links
+            $crumbs = (!empty($crumbs)) ?  $crumbs : $wb->page_trail;
+            $total_crumbs = ( ($depth <= 0) OR ($depth > sizeof($crumbs)) ) ? sizeof($crumbs) : $depth;
             print '<div class="breadcrumb">'.$title;
 
-			foreach ($bca as $temp)
-			{
-		        if ($counter>=($tier-1) AND ($depth<0 OR $tier+$depth>$counter))
-		        {
-					if ($counter>=$tier) print '<span class="separator">'.$sep.'</span>';
-					$query_menu=$database->query("SELECT menu_title,link FROM ".TABLE_PREFIX."pages WHERE page_id=$temp");
-					$page=$query_menu->fetchRow();
-					if ($links==true AND $temp!=$page_id)
+			foreach ($crumbs as $temp){
+                if($counter == $depth) { break; }
+                    // set separator
+					$query_menu = $database->query("SELECT menu_title, link FROM ".TABLE_PREFIX."pages WHERE page_id = $temp");
+					$page = $query_menu->fetchRow();
+					if ( ($links == true) AND ($temp != $page_id) ) {
 						print '<a href="'.page_link($page['link']).'">'.$page['menu_title'].'</a>';
-					else
-					    print '<span class="crumb">'.$page['menu_title'].'</span>';
-		        }
+					} else {
+                        print '<span class="crumb">'.$page['menu_title'].'</span>';
+					}
+                    if ( ( $counter <> $total_crumbs-1 ) ) {
+                        print '<span class="separator">'.$sep.'</span>';
+                    }
 	            $counter++;
-			}
+                }
             print "</div>\n";
 		}
 	}

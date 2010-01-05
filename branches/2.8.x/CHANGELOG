@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+05-Jan-2010 Dietmar Woellbrink (Luisehahne)
+!	recoded function show_breadcrumbs
 30-Dec-2009 Dietmar Woellbrink (Luisehahne)
 #	fix Warning: stristr() [function.stristr]
 29-Dec-2009 Dietmar Woellbrink (Luisehahne)
