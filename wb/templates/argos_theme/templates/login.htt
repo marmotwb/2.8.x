@@ -40,7 +40,7 @@
               <input type="password" maxlength="{MAX_PASSWORD_LEN}" name="{PASSWORD_FIELDNAME}" style="width: 180px;" />
             </td>
           </tr>
-          <tr style="display: {DISPLAY_REMEMBER_ME};">
+          <tr style="{DISPLAY_REMEMBER_ME}">
             <td>&nbsp;</td>
             <td>
               <input type="checkbox" name="remember" id="remember" value="true" />

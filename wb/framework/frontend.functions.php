@@ -231,15 +231,23 @@ if (!function_exists('page_content')) {
 		global $database;
 		global $wb;
 		$admin = & $wb;
-		if ($wb->page_access_denied==true) {
+		if ($wb->page_access_denied==true)
+        {
 	        echo $MESSAGE['FRONTEND']['SORRY_NO_VIEWING_PERMISSIONS'];
 			exit();
 		}
-		if ($wb->page_no_active_sections==true) {
+		if ($wb->page_no_active_sections==true)
+        {
 	        echo $MESSAGE['FRONTEND']['SORRY_NO_ACTIVE_SECTIONS'];
 			exit();
 		}
-		if(isset($globals) AND is_array($globals)) { foreach($globals AS $global_name) { global $$global_name; } }
+		if(isset($globals) AND is_array($globals))
+        {
+            foreach($globals AS $global_name)
+            {
+                global $$global_name;
+                }
+        }
 		// Make sure block is numeric
 		if(!is_numeric($block)) { $block = 1; }
 		// Include page content
@@ -303,7 +311,10 @@ if (!function_exists('page_content')) {
 					echo $content;
 				}
 			}
-		} else {
+		}
+        else
+        {
+
 			require(PAGE_CONTENT);
 		}
 	}
@@ -333,28 +344,42 @@ if (!function_exists('show_breadcrumbs'))
             $level = ($count <= $level ) ? $count-1 : $level;
             // set level from which to show, delete indexes in array
 			$crumbs = array_slice($bread_crumbs, $level );
-            // set depth of links -1 or 0 show all links
             $depth = ($depth <= 0) ? sizeof($crumbs) : $depth;
             // if empty array, set orginal links
             $crumbs = (!empty($crumbs)) ?  $crumbs : $wb->page_trail;
             $total_crumbs = ( ($depth <= 0) OR ($depth > sizeof($crumbs)) ) ? sizeof($crumbs) : $depth;
-            print '<div class="breadcrumb">'.$title;
-
-			foreach ($crumbs as $temp){
+            print '<div class="breadcrumb"><span class=" title">'.$title.'</span>';
+          //  print_r($crumbs);
+			foreach ($crumbs as $temp)
+            {
                 if($counter == $depth) { break; }
-                    // set separator
-					$query_menu = $database->query("SELECT menu_title, link FROM ".TABLE_PREFIX."pages WHERE page_id = $temp");
+                    // set links and separator
+					$query_menu = $database->query("SELECT * FROM ".TABLE_PREFIX."pages WHERE page_id = $temp");
 					$page = $query_menu->fetchRow();
-					if ( ($links == true) AND ($temp != $page_id) ) {
-						print '<a href="'.page_link($page['link']).'">'.$page['menu_title'].'</a>';
-					} else {
-                        print '<span class="crumb">'.$page['menu_title'].'</span>';
-					}
-                    if ( ( $counter <> $total_crumbs-1 ) ) {
+
+                    $show_crumb = (($links == true) AND ($temp != $page_id))
+                            ? '<a href="'.page_link($page['link']).'" class="link">'.$page['menu_title'].'</a>'
+                            : '<span class="crumb">'.MENU_TITLE.'</span>';
+
+                    // Permission
+                    switch ($page['visibility'])
+                    {
+                        case 'none' :
+                        case 'hidden' :
+                        // if show, you know there is an error in a hidden page
+                            print $show_crumb.' --- ';
+                        break;
+                        default :
+                            print $show_crumb;
+                        break;
+                    }
+
+                    if ( ( $counter <> $total_crumbs-1 ) )
+                    {
                         print '<span class="separator">'.$sep.'</span>';
                     }
 	            $counter++;
-                }
+            }
             print "</div>\n";
 		}
 	}
