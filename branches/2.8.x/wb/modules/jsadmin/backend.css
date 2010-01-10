@@ -21,7 +21,6 @@ body.jsadmin_failure td.content {
 
 .jsadmin_drag a, .jsadmin_drag input, .jsadmin_drag select {
 	cursor: pointer;
-	cursor: hand;
 }
 
 ul.jsadmin_drag_area {

@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+10-Jan-2010 Dietmar Woellbrink (Luisehahne)
+!	Ticket #903 fix CSS-errors in WB backend
+!	add title class in show_breadcrumbs, now full css styling
 05-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	recoded function show_breadcrumbs
 30-Dec-2009 Dietmar Woellbrink (Luisehahne)
