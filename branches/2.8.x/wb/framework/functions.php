@@ -1,34 +1,67 @@
 <?php
-
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
-
-/*
-
-Website Baker functions file
-This file contains general functions used in Website Baker
-
-*/
+/****************************************************************************
+* SVN Version information:
+*
+* $Id$
+*
+*
+*
+*****************************************************************************
+*                          WebsiteBaker
+*
+* WebsiteBaker Project <http://www.websitebaker2.org/>
+* Copyright (C) 2009, Website Baker Org. e.V.
+*         http://start.websitebaker2.org/impressum-datenschutz.php
+* Copyright (C) 2004-2009, Ryan Djurovich
+*
+*                        About WebsiteBaker
+*
+* Website Baker is a PHP-based Content Management System (CMS)
+* designed with one goal in mind: to enable its users to produce websites
+* with ease.
+*
+*****************************************************************************
+*
+*****************************************************************************
+*                        LICENSE INFORMATION
+*
+* WebsiteBaker is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 2
+* of the License, or (at your option) any later version.
+*
+* WebsiteBaker is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+* See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+****************************************************************************
+*
+*                   WebsiteBaker Extra Information
+*
+* Website Baker functions file
+* This file contains general functions used in Website Baker
+*
+*
+*
+*
+*****************************************************************************/
+/**
+ *
+ * @category     frontend
+ * @package      framework
+ * @author       Ryan Djurovich
+ * @copyright    2004-2009, Ryan Djurovich
+ * @copyright    2009-2010, Website Baker Org. e.V.
+ * @version      $Id$
+ * @platform     WebsiteBaker 2.8.x
+ * @requirements >= PHP 4.3.4
+ * @license      http://www.gnu.org/licenses/gpl.html
+ *
+ */
 
 // Stop this file from being accessed directly
 if(!defined('WB_URL')) {
@@ -48,74 +81,84 @@ function rm_full_dir($directory)
     }
 
     // Empty the folder
-	if (is_dir($directory)) {
-    $dir = dir($directory);
-    while (false !== $entry = $dir->read()) {
-        // Skip pointers
-        if ($entry == '.' || $entry == '..') {
-            continue;
+	if (is_dir($directory))
+    {
+        $dir = dir($directory);
+        while (false !== $entry = $dir->read())
+        {
+            // Skip pointers
+            if ($entry == '.' || $entry == '..') {
+                continue;
+            }
+
+            // Deep delete directories
+            if (is_dir("$directory/$entry")) {
+                rm_full_dir("$directory/$entry");
+            }
+            else
+            {
+                unlink("$directory/$entry");
+            }
         }
 
-        // Deep delete directories      
-        if (is_dir("$directory/$entry")) {
-            rm_full_dir("$directory/$entry");
-        } else {
-            unlink("$directory/$entry");
-        }
-    }
-
-    // Now delete the folder
-    $dir->close();
-    return rmdir($directory);
+        // Now delete the folder
+        $dir->close();
+        return rmdir($directory);
 	}
 }
 
 // Function to open a directory and add to a dir list
-function directory_list($directory) {
-	
+function directory_list($directory)
+{
 	$list = array();
 
-	// Open the directory then loop through its contents
-	$dir = dir($directory);
-	while (false !== $entry = $dir->read()) {
-		// Skip pointers
-		if(substr($entry, 0, 1) == '.' || $entry == '.svn') {
-			continue;
-		}
-		// Add dir and contents to list
-		if (is_dir("$directory/$entry")) {
-			$list = array_merge($list, directory_list("$directory/$entry"));
-			$list[] = "$directory/$entry";
-		}
-	}
+	if (is_dir($directory))
+    {
+    	// Open the directory then loop through its contents
+    	$dir = dir($directory);
+    	while (false !== $entry = $dir->read()) {
+    		// Skip pointers
+    		if(substr($entry, 0, 1) == '.' || $entry == '.svn') {
+    			continue;
+    		}
+    		// Add dir and contents to list
+    		if (is_dir("$directory/$entry")) {
+    			$list = array_merge($list, directory_list("$directory/$entry"));
+    			$list[] = "$directory/$entry";
+    		}
+    	}
 
-	// Now return the list
+        $dir->close();
+    }
+    // Now return the list
 	return $list;
 }
 
 // Function to open a directory and add to a dir list
-function chmod_directory_contents($directory, $file_mode) {
-	
-	// Set the umask to 0
-	$umask = umask(0);
-	
-	// Open the directory then loop through its contents
-	$dir = dir($directory);
-	while (false !== $entry = $dir->read()) {
-		// Skip pointers
-		if(substr($entry, 0, 1) == '.' || $entry == '.svn') {
-			continue;
-		}
-		// Chmod the sub-dirs contents
-		if(is_dir("$directory/$entry")) {
-			chmod_directory_contents("$directory/$entry", $file_mode);
-		}
-		change_mode($directory.'/'.$entry);
-	}
-	
-	// Restore the umask
-	umask($umask);
+function chmod_directory_contents($directory, $file_mode)
+{
+	if (is_dir($directory))
+    {
+    	// Set the umask to 0
+    	$umask = umask(0);
 
+    	// Open the directory then loop through its contents
+    	$dir = dir($directory);
+    	while (false !== $entry = $dir->read()) {
+    		// Skip pointers
+    		if(substr($entry, 0, 1) == '.' || $entry == '.svn') {
+    			continue;
+    		}
+    		// Chmod the sub-dirs contents
+    		if(is_dir("$directory/$entry")) {
+    			chmod_directory_contents("$directory/$entry", $file_mode);
+    		}
+    		change_mode($directory.'/'.$entry);
+    	}
+        $dir->close();
+    	// Restore the umask
+    	umask($umask);
+    }
 }
 
 // Function to open a directory and add to a file list
@@ -124,30 +167,38 @@ function file_list($directory, $skip = array()) {
 	$list = array();
 	$skip_file = false;
 	
-	// Open the directory then loop through its contents
-	$dir = dir($directory);
-	while (false !== $entry = $dir->read()) {
+	if (is_dir($directory))
+    {
+    	// Open the directory then loop through its contents
+    	$dir = dir($directory);
+    }
+	while (false !== $entry = $dir->read())
+    {
 		// Skip pointers
-		if($entry == '.' || $entry == '..') {
+		if($entry == '.' || $entry == '..')
+        {
 			$skip_file = true;
 		}
 		// Check if we to skip anything else
 		if($skip != array()) {
-			foreach($skip AS $skip_name) {
-				if($entry == $skip_name) {
+			foreach($skip AS $skip_name)
+            {
+				if($entry == $skip_name)
+                {
 					$skip_file = true;
 				}
 			}
 		}
 		// Add dir and contents to list
-		if($skip_file != true AND is_file("$directory/$entry")) {
+		if($skip_file != true AND is_file("$directory/$entry"))
+        {
 			$list[] = "$directory/$entry";
 		}
 		
 		// Reset the skip file var
 		$skip_file = false;
 	}
-
+    $dir->close();
 	// Now delete the folder
 	return $list;
 }
@@ -195,8 +246,10 @@ function get_home_folders() {
 }
 
 // Function to create directories
-function make_dir($dir_name, $dir_mode = OCTAL_DIR_MODE) {
-	if(!file_exists($dir_name)) {
+function make_dir($dir_name, $dir_mode = OCTAL_DIR_MODE)
+{
+	if(!is_dir($dir_name))
+    {
 		$umask = umask(0);
 		mkdir($dir_name, $dir_mode);
 		umask($umask);
@@ -208,22 +261,32 @@ function make_dir($dir_name, $dir_mode = OCTAL_DIR_MODE) {
 
 // Function to chmod files and directories
 function change_mode($name) {
-	if(OPERATING_SYSTEM != 'windows') {
+	if(OPERATING_SYSTEM != 'windows')
+    {
 		// Only chmod if os is not windows
-		if(is_dir($name)) {
+		if(is_dir($name))
+        {
 			$mode = OCTAL_DIR_MODE;
-		} else {
+		}
+        else
+        {
 			$mode = OCTAL_FILE_MODE;
 		}
-		if(file_exists($name)) {
+
+		if(file_exists($name))
+        {
 			$umask = umask(0);
 			chmod($name, $mode);
 			umask($umask);
 			return true;
-		} else {
+		}
+        else
+        {
 			return false;	
 		}
-	} else {
+	}
+    else
+    {
 		return true;
 	}
 }
@@ -819,7 +882,7 @@ function load_template($directory) {
 			if(!isset($template_platform) AND isset($template_designed_for)) { $template_platform = $template_designed_for; }
 			if(!isset($template_function)) { $template_function = 'template'; }
 			// Check that it doesn't already exist
-			$result = $database->query("SELECT addon_id FROM ".TABLE_PREFIX."addons WHERE directory = '".$template_directory."' LIMIT 0,1");
+			$result = $database->query("SELECT addon_id FROM ".TABLE_PREFIX."addons WHERE type = 'template' AND directory = '".$template_directory."' LIMIT 0,1");
 			if($result->numRows() == 0) {
 				// Load into DB
 				$query = "INSERT INTO ".TABLE_PREFIX."addons ".

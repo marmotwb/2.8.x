@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 11-Jan-2010 Dietmar Woellbrink (Luisehahne)
+!	Ticket #904 fix if templatename is equal language
+11-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	Ticket #905 fix search.php 'registered' hardcoded
 10-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	Ticket #903 fix CSS-errors in WB backend
