@@ -851,7 +851,7 @@ function load_module($directory, $install = false) {
 			if(!isset($module_function) AND isset($module_type)) { $module_function = $module_type; }
 			$module_function = strtolower($module_function);
 			// Check that it doesn't already exist
-			$result = $database->query("SELECT addon_id FROM ".TABLE_PREFIX."addons WHERE directory = '".$module_directory."' LIMIT 0,1");
+			$result = $database->query("SELECT addon_id FROM ".TABLE_PREFIX."addons WHERE type = 'module' AND directory = '".$module_directory."' LIMIT 0,1");
 			if($result->numRows() == 0)
 			{
 				// Load into DB
@@ -904,7 +904,7 @@ function load_language($file) {
 			if(!isset($language_license)) { $language_license = 'GNU General Public License'; }
 			if(!isset($language_platform) AND isset($language_designed_for)) { $language_platform = $language_designed_for; }
 			// Check that it doesn't already exist
-			$result = $database->query("SELECT addon_id FROM ".TABLE_PREFIX."addons WHERE directory = '".$language_code."' LIMIT 0,1");
+			$result = $database->query("SELECT addon_id FROM ".TABLE_PREFIX."addons WHERE type = 'language' AND directory = '".$language_code."' LIMIT 0,1");
 			if($result->numRows() == 0) {
 				// Load into DB
 				$query = "INSERT INTO ".TABLE_PREFIX."addons ".
