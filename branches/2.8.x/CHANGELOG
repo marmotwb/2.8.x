@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+12-Jan-2010 Dietmar Woellbrink (Luisehahne)
+#	fix open_basedir restriction in effect in save_post.php
 11-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	fix load_module, load_language (tks to Webbird)
 11-Jan-2010 Dietmar Woellbrink (Luisehahne)

@@ -2,7 +2,7 @@
 /****************************************************************************
 * SVN Version information:
 *
-* $Id: version.php 1237 2010-01-11 12:37:12Z Luisehahne $
+* $Id$
 *
 *
 *
@@ -56,7 +56,7 @@
  * @author       Ryan Djurovich
  * @copyright    2004-2009, Ryan Djurovich
  * @copyright    2009-2010, Website Baker Org. e.V.
- * @version      $Id: version.php 1237 2010-01-11 12:37:12Z Luisehahne $
+ * @version      $Id$
  * @platform     WebsiteBaker 2.8.x
  * @requirements >= PHP 4.3.4
  * @license      http://www.gnu.org/licenses/gpl.html
@@ -70,6 +70,6 @@ if(!defined('WB_URL')) {
 
 // check if defined to avoid errors during installation (redirect to admin panel fails if PHP error/warnings are enabled)
 if(!defined('VERSION')) define('VERSION', '2.8.1');
-if(!defined('REVISION')) define('REVISION', '1238');
+if(!defined('REVISION')) define('REVISION', '1239');
 
 ?>
