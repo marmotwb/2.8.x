@@ -11,7 +11,11 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
-12-Jan-2010 Dietmar Woellbrink (Luisehahne)
+13-Jan-2010 Dietmar Woellbrink (Luisehahne)
+#	Ticket #907 js files in backend themes are stored at wrong places
++	add include/jquery/plugins/toggle_zip.js
+-	removed toggle_zip.js in backend themes
+112-Jan-2010 Dietmar Woellbrink (Luisehahne)
 #	fix open_basedir restriction in effect in save_post.php
 11-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	fix load_module, load_language (tks to Webbird)
