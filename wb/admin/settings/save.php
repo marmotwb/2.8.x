@@ -1,30 +1,65 @@
 <?php
-
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/****************************************************************************
+* SVN Version information:
+*
+* $Id$
+*
+*****************************************************************************
+*                          WebsiteBaker
+*
+* WebsiteBaker Project <http://www.websitebaker2.org/>
+* Copyright (C) 2009, Website Baker Org. e.V.
+*         http://start.websitebaker2.org/impressum-datenschutz.php
+* Copyright (C) 2004-2009, Ryan Djurovich
+*
+*                        About WebsiteBaker
+*
+* Website Baker is a PHP-based Content Management System (CMS)
+* designed with one goal in mind: to enable its users to produce websites
+* with ease.
+*
+*****************************************************************************
+*
+*****************************************************************************
+*                        LICENSE INFORMATION
+*
+* WebsiteBaker is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 2
+* of the License, or (at your option) any later version.
+*
+* WebsiteBaker is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+* See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+****************************************************************************
+*
+*                   WebsiteBaker Extra Information
+*
+*
+*
+*
+*****************************************************************************/
+/**
+ *
+ * @category     admin
+ * @package      settings
+ * @author       Ryan Djurovich
+ * @copyright    2004-2009, Ryan Djurovich
+ * @copyright    2009-2010, Website Baker Org. e.V.
+ * @version      $Id$
+ * @platform     WebsiteBaker 2.8.x
+ * @requirements >= PHP 4.3.4
+ * @license      http://www.gnu.org/licenses/gpl.html
+ *
+ */
 
 // prevent this file from being accessed directly in the browser (would set all entries in DB settings table to '')
-if(!isset($_POST['default_language']) || $_POST['default_language'] == '') die(header('Location: index.php'));  
+if(!isset($_POST['default_language']) || $_POST['default_language'] == '') die(header('Location: index.php'));
 
 // Find out if the user was view advanced options or not
 if($_POST['advanced'] == 'yes' ? $advanced = '?advanced=yes' : $advanced = '');
@@ -164,14 +199,20 @@ while($setting = $results->fetchRow()) {
 // Query current search settings in the db, then loop through them and update the db with the new value
 $query = "SELECT name, value FROM ".TABLE_PREFIX."search WHERE extra = ''";
 $results = $database->query($query);
-while($search_setting = $results->fetchRow()) {
+while($search_setting = $results->fetchRow())
+{
 	$old_value = $search_setting['value'];
 	$setting_name = $search_setting['name'];
 	$post_name = 'search_'.$search_setting['name'];
 	if($admin->get_post($post_name) == '')
-		$value = $old_value;
+    {
+        $value = $old_value;
+    }
 	else
-		$value = $admin->get_post($post_name);
+    {
+        $value = $admin->get_post($post_name);
+    }
+
 	$value = $admin->add_slashes($value);
 	$database->query("UPDATE ".TABLE_PREFIX."search SET value = '$value' WHERE name = '$setting_name'");
 }
