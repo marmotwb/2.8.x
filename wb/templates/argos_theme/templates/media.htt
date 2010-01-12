@@ -1,5 +1,5 @@
 <!-- BEGIN main_block -->
-<script src="{THEME_URL}/templates/toggle_zip.js" type="text/javascript"></script>
+<script src="{WB_URL}/include/jquery/plugins/toggle_zip.js" type="text/javascript"></script>
 
 <table cellpadding="0" cellspacing="0" border="0">
   <tr>
