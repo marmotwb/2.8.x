@@ -37,7 +37,8 @@ function confirm_link(message, url) {
          &nbsp; <a href="{ADMIN_URL}/logout" title="{TITLE_LOGOUT}"><img src="{THEME_URL}/images/dl.png" border="0" alt="{TITLE_LOGOUT}" /></a>
 </td>
 	<td width="100" align="right" style="padding-top: 10px; padding-right: 15px; color: #000;">
-	Version {VERSION}
+	Version {VERSION}<br />
+    Revision {REVISION}
 	</td>
 </tr>
 </table>

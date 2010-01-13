@@ -42,10 +42,10 @@
 *
 *                   WebsiteBaker Extra Information
 *
-* Version file
 *
-*   This file is purely for ensuring compatibility with 3rd party
-*	contributions made for WB version 2.5.2 or below
+*
+*
+*
 *
 *
 *
@@ -348,7 +348,7 @@ if (!function_exists('show_breadcrumbs'))
             // if empty array, set orginal links
             $crumbs = (!empty($crumbs)) ?  $crumbs : $wb->page_trail;
             $total_crumbs = ( ($depth <= 0) OR ($depth > sizeof($crumbs)) ) ? sizeof($crumbs) : $depth;
-            print '<div class="breadcrumb"><span class=" title">'.$title.'</span>';
+            print '<div class="breadcrumb"><span class="title">'.$title.'</span>';
           //  print_r($crumbs);
 			foreach ($crumbs as $temp)
             {
@@ -367,7 +367,7 @@ if (!function_exists('show_breadcrumbs'))
                         case 'none' :
                         case 'hidden' :
                         // if show, you know there is an error in a hidden page
-                            print $show_crumb.' --- ';
+                            print $show_crumb.'&nbsp;';
                         break;
                         default :
                             print $show_crumb;
