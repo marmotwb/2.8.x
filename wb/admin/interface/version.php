@@ -69,8 +69,9 @@ if(!defined('WB_URL')) {
 	exit(0);
 }
 
+$tmp_revision = '$Revision';
 // check if defined to avoid errors during installation (redirect to admin panel fails if PHP error/warnings are enabled)
 if(!defined('VERSION')) define('VERSION', '2.8.1');
-if(!defined('REVISION')) define('REVISION', '1243');
+if(!defined('REVISION')) define('REVISION', $tmp_revision);
 
 ?>

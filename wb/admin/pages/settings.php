@@ -142,11 +142,11 @@ $template->set_var(array(
 // Work-out if we should show the "manage sections" link
 $query_sections = $database->query("SELECT section_id FROM ".TABLE_PREFIX."sections WHERE page_id = '$page_id' AND module = 'menu_link'");
 if($query_sections->numRows() > 0) {
-	$template->set_var('DISPLAY_MANAGE_SECTIONS', 'none');
+	$template->set_var('DISPLAY_MANAGE_SECTIONS', 'display:none;');
 } elseif(MANAGE_SECTIONS == 'enabled') {
 	$template->set_var('TEXT_MANAGE_SECTIONS', $HEADING['MANAGE_SECTIONS']);
 } else {
-	$template->set_var('DISPLAY_MANAGE_SECTIONS', 'none');
+	$template->set_var('DISPLAY_MANAGE_SECTIONS', 'display:none;');
 }
 
 // Visibility
@@ -158,7 +158,7 @@ if($results_array['visibility'] == 'public') {
 	$template->set_var('REGISTERED_SELECTED', ' selected="selected"');
 } elseif($results_array['visibility'] == 'hidden') {
 	$template->set_var('HIDDEN_SELECTED', ' selected="selected"');
-} elseif($results_array['visibility'] == 'none') {
+} elseif($results_array['visibility'] == 'display:none;') {
 	$template->set_var('NO_VIS_SELECTED', ' selected="selected"');
 }
 // Group list 1 (admin_groups)
@@ -270,7 +270,7 @@ if($results_array['visibility'] == 'public') {
 if($results_array['visibility'] == 'private' OR $results_array['visibility'] == 'registered') {
 	$template->set_var('DISPLAY_VIEWERS', '');
 } else {
-	$template->set_var('DISPLAY_VIEWERS', 'none');
+	$template->set_var('DISPLAY_VIEWERS', 'display:none;');
 }
 
 //-- insert page_code 20090904-->
@@ -405,7 +405,7 @@ function parent_list($parent) {
 											'TITLE' => ($title_prefix.$page['menu_title']),
 											'MENU-TITLE' => ($title_prefix.$page['menu_title']),
 											'PAGE-TITLE' => ($title_prefix.$page['page_title']),
-											'FLAG_ICON' => 'none',
+											'FLAG_ICON' => ' none ',
 											));
 
 			if($results_array['parent'] == $page['page_id']) {
@@ -468,7 +468,7 @@ if($result->numRows() > 0) {
 
 // Menu list
 if(MULTIPLE_MENUS == false) {
-	$template->set_var('DISPLAY_MENU_LIST', 'none');
+	$template->set_var('DISPLAY_MENU_LIST', 'display:none;');
 }
 // Include template info file (if it exists)
 if($results_array['template'] != '') {
