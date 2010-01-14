@@ -1,6 +1,6 @@
 <!-- BEGIN main_block -->
 
-<h2 style="display: {DISPLAY_EXTRA};">{HEADING_MODIFY_GROUP}</h2>
+<h2 style="{DISPLAY_EXTRA};">{HEADING_MODIFY_GROUP}</h2>
 
 <form name="group" action="{ACTION_URL}" method="post" class="{DISPLAY_ADD}">
 <input type="hidden" name="advanced" value="{ADVANCED}" />
@@ -14,7 +14,7 @@
 	</td>
 </tr>
 </table>
-<table cellpadding="5" cellspacing="0" border="0" width="100%" style="display: {DISPLAY_BASIC}">
+<table cellpadding="5" cellspacing="0" border="0" width="100%" style="{DISPLAY_BASIC}">
 <tr>
 	<td width="150" valign="top">{TEXT_SYSTEM_PERMISSIONS}:</td>
 	<td>
@@ -68,7 +68,7 @@
 	</td>
 </tr>
 </table>
-<table cellpadding="5" cellspacing="0" border="0" width="100%" style="display: {DISPLAY_ADVANCED}">
+<table cellpadding="5" cellspacing="0" border="0" width="100%" style="{DISPLAY_ADVANCED}">
 <tr>
 	<td valign="top">{TEXT_SYSTEM_PERMISSIONS}:</td>
 	<td align="left">
