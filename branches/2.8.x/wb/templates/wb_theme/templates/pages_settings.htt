@@ -13,8 +13,8 @@
 		<b>{PAGE_TITLE}</b>
 		-
 		<a href="{ADMIN_URL}/pages/modify.php?page_id={PAGE_ID}">{TEXT_MODIFY_PAGE}</a>
-		<font style="display: {DISPLAY_MANAGE_SECTIONS}">-</font>
-		<a href="{ADMIN_URL}/pages/sections.php?page_id={PAGE_ID}" style="display: {DISPLAY_MANAGE_SECTIONS}">{TEXT_MANAGE_SECTIONS}</a>
+		<font style="{DISPLAY_MANAGE_SECTIONS}">-</font>
+		<a href="{ADMIN_URL}/pages/sections.php?page_id={PAGE_ID}" style="{DISPLAY_MANAGE_SECTIONS}">{TEXT_MANAGE_SECTIONS}</a>
 		<br />
 		<font style="color: #999999;" class="{DISPLAY_MODIFIED}">
 			{LAST_MODIFIED} {MODIFIED_BY} ({MODIFIED_BY_USERNAME}), {MODIFIED_WHEN}
@@ -45,7 +45,7 @@
 		</ul>
 	</td>
 	<td rowspan="10" valign="top" style="padding-left: 20px; padding-top: 8px;">
-		<div id="allowed_viewers" style="display: {DISPLAY_VIEWERS};">
+		<div id="allowed_viewers" style="{DISPLAY_VIEWERS};">
 			{TEXT_ALLOWED_VIEWERS}:
 			<ul style="list-style-type: none; margin: 0; padding: 0;">
 				<!-- BEGIN group_list_block2 -->
@@ -122,7 +122,7 @@
 		</select>
 	</td>
 </tr>
-<tr style="display: {DISPLAY_MENU_LIST}">
+<tr style="{DISPLAY_MENU_LIST}">
 	<td width="100">{TEXT_MENU}:</td>
 	<td width="240">
 		<select name="menu" style="width: 240px;">
@@ -132,7 +132,7 @@
 		</select>
 	</td>
 </tr>
-<tr style="display: {DISPLAY_LANGUAGE_LIST}">
+<tr style="{DISPLAY_LANGUAGE_LIST}">
 	<td width="100">{TEXT_LANGUAGE}:</td>
 	<td class="list_language">
 		<select name="language" style="width: 240px;">
