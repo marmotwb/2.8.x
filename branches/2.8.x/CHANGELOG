@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 14-Jan-2010 Dietmar Woellbrink (Luisehahne)
++	Ticket #877 add slovak lang in Captcha and Advanced-Spam-Protection
+14-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	update header
 14-Jan-2010 Dietmar Woellbrink (Luisehahne)
 #	Ticket #911 5. continue to fix CSS-errors in WB backend
