@@ -289,7 +289,7 @@ class admin extends wb {
 	
 	function get_page_details($page_id) {
 		global $database;
-		$query = "SELECT page_id,page_title,modified_by,modified_when FROM ".TABLE_PREFIX."pages WHERE page_id = '$page_id'";
+		$query = "SELECT page_id,page_title,menu_title,modified_by,modified_when FROM ".TABLE_PREFIX."pages WHERE page_id = '$page_id'";
 		$results = $database->query($query);
 		if($database->is_error()) {
 			$this->print_header();
