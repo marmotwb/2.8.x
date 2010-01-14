@@ -7,7 +7,7 @@ function toggle_radio(radio_on, radio_off) {
 }
 </script>
 
-<h2 style="display: {DISPLAY_EXTRA};">{HEADING_MODIFY_USER}</h2>
+<h2 style="{{};">{HEADING_MODIFY_USER}</h2>
 
 <form name="user" action="{ACTION_URL}" method="post" class="{DISPLAY_ADD}">
 <input type="hidden" name="user_id" value="{USER_ID}" />
@@ -32,7 +32,7 @@ function toggle_radio(radio_on, radio_off) {
 		<input type="password" name="password2" maxlength="30" />
 	</td>
 </tr>
-<tr style="display: {DISPLAY_EXTRA};">
+<tr style="display: {{};">
 	<td>&nbsp;</td>
 	<td style="font-size: 10px;">
 		{CHANGING_PASSWORD}
