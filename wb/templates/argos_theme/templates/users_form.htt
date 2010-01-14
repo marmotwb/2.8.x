@@ -32,7 +32,7 @@ function toggle_radio(radio_on, radio_off) {
 		<input type="password" name="password2" maxlength="30" />
 	</td>
 </tr>
-<tr style="display: {{};">
+<tr style="{DISPLAY_EXTRA};">
 	<td>&nbsp;</td>
 	<td style="font-size: 10px;">
 		{CHANGING_PASSWORD}
@@ -50,7 +50,7 @@ function toggle_radio(radio_on, radio_off) {
 		<input type="text" name="email" maxlength="255" value="{EMAIL}" />
 	</td>
 </tr>
-<tr style="display: {DISPLAY_HOME_FOLDERS};">
+<tr style="{DISPLAY_HOME_FOLDERS};">
 	<td>{TEXT_HOME_FOLDER}:</td>
 	<td class="value_input">
 		<select name="home_folder">
