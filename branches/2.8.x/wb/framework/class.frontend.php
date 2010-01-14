@@ -1,27 +1,67 @@
 <?php
-
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/****************************************************************************
+* SVN Version information:
+*
+* $Id$
+*
+*
+*
+*****************************************************************************
+*                          WebsiteBaker
+*
+* WebsiteBaker Project <http://www.websitebaker2.org/>
+* Copyright (C) 2009, Website Baker Org. e.V.
+*         http://start.websitebaker2.org/impressum-datenschutz.php
+* Copyright (C) 2004-2009, Ryan Djurovich
+*
+*                        About WebsiteBaker
+*
+* Website Baker is a PHP-based Content Management System (CMS)
+* designed with one goal in mind: to enable its users to produce websites
+* with ease.
+*
+*****************************************************************************
+*
+*****************************************************************************
+*                        LICENSE INFORMATION
+*
+* WebsiteBaker is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 2
+* of the License, or (at your option) any later version.
+*
+* WebsiteBaker is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+* See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+****************************************************************************
+*
+*                   WebsiteBaker Extra Information
+*
+*
+*
+*
+*
+*
+*
+*****************************************************************************/
+/**
+ *
+ * @category     frontend
+ * @package      framework
+ * @author       Ryan Djurovich
+ * @copyright    2004-2009, Ryan Djurovich
+ * @copyright    2009-2010, Website Baker Org. e.V.
+ * @version      $Id$
+ * @platform     WebsiteBaker 2.8.x
+ * @requirements >= PHP 4.3.4
+ * @license      http://www.gnu.org/licenses/gpl.html
+ *
+ */
 
 /*
 
@@ -152,29 +192,29 @@ class frontend extends wb {
 			}
 			// Begin code to set details as either variables of constants
 			// Page ID
-			define('PAGE_ID', $this->page['page_id']);
+			if(!defined('PAGE_ID')) {define('PAGE_ID', $this->page['page_id']);}
 			// Page Title
-			define('PAGE_TITLE', $this->page['page_title']);
+			if(!defined('PAGE_TITLE')) {define('PAGE_TITLE', $this->page['page_title']);}
 			$this->page_title=PAGE_TITLE;
 			// Menu Title
 			$menu_title = $this->page['menu_title'];
 			if($menu_title != '') {
-				define('MENU_TITLE', $menu_title);
+				if(!defined('MENU_TITLE')) {define('MENU_TITLE', $menu_title);}
 			} else {
-				define('MENU_TITLE', PAGE_TITLE);
+				if(!defined('MENU_TITLE')) {define('MENU_TITLE', PAGE_TITLE);}
 			}
-			$this->menu_title=MENU_TITLE;
+			$this->menu_title = MENU_TITLE;
 			// Page parent
-			define('PARENT', $this->page['parent']);
+			if(!defined('PARENT')) {define('PARENT', $this->page['parent']);}
 			$this->parent=$this->page['parent'];
 			// Page root parent
-			define('ROOT_PARENT', $this->page['root_parent']);
+			if(!defined('ROOT_PARENT')) {define('ROOT_PARENT', $this->page['root_parent']);}
 			$this->root_parent=$this->page['root_parent'];
 			// Page level
-			define('LEVEL', $this->page['level']);
+			if(!defined('LEVEL')) {define('LEVEL', $this->page['level']);}
 			$this->level=$this->page['level'];
 			// Page visibility
-			define('VISIBILITY', $this->page['visibility']);
+			if(!defined('VISIBILITY')) {define('VISIBILITY', $this->page['visibility']);}
 			$this->visibility=$this->page['visibility'];
 			// Page trail
 			foreach(explode(',', $this->page['page_trail']) AS $pid) {
