@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 13-Jan-2010 Dietmar Woellbrink (Luisehahne)
+#	Ticket #911 continue to fix CSS-errors in WB backend
+13-Jan-2010 Dietmar Woellbrink (Luisehahne)
 #	Ticket #911 Beginning to fix More CSS-errors in WB backend
 +	add SVN- Revision to backend theme
 12-Jan-2010 Dietmar Woellbrink (Luisehahne)

@@ -31,7 +31,7 @@
 			<![CDATA[
                 <div class="recht">
                     <p><b>Rechtliche Hinweise</b><br />
-                    1. Externe Links ( <a class="next" onclick="window.open(this.href,'','resizable=yes,location=no,menubar=no,scrollbars=yes,status=yes,toolbar=no,fullscreen=no,dependent=yes,width=400,height=300,left=150,top=150,status'); return false" href="http://www.disclaimer.de/disclaimer.htm"><font color="#810081">Bitte Disclaimer-Haftungsausschluss lesen</font></a> ) <br />
+                    1. Externe Links ( <a class="next" onclick="window.open(this.href,'','resizable=yes,location=no,menubar=no,scrollbars=yes,status=yes,toolbar=no,fullscreen=no,dependent=yes,width=600,height=300,left=150,top=150,status'); return false" href="http://www.disclaimer.de/disclaimer.htm"><font color="#810081">Bitte Disclaimer-Haftungsausschluss lesen</font></a> ) <br />
                     Die Inhalte externer Links werden nicht gepr&uuml;ft. Sie unterliegen der Haftung der jeweiligen Anbieter.<br />
                     &nbsp;</p>
                 </div>
@@ -44,7 +44,7 @@
 			<![CDATA[
 				<img style="MARGIN-RIGHT: 10px" height="100" alt="" width="100" align="left"/>
 				<h3>Type the title here</h3>
-				Type the text here
+				<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tatio</p>
 			]]>
 		</Html>
 	</Template>
@@ -57,7 +57,7 @@
                     <div class="c33l">
                         <div class="subcl">
                         <!-- Inhalt linker Block -->
-                            <p>Inhalt linker Block...</p>
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in </p>
 
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                     <div class="c66r">
                         <div class="subcr">
                             <!-- Inhalt rechter Block -->
-                            <p>Inhalt rechter Block... </p>
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in </p>
 
                         </div>
                     </div>
@@ -82,14 +82,14 @@
                 <div class="c25l">
                   <div class="subcl">
                     <!-- Inhalt linker Block -->
-                    <p>Inhalt linker Block...</p>
+                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in </p>
                   </div>
                 </div>
 
                 <div class="c75r">
                   <div class="subcr">
                     <!-- Inhalt rechter Block -->
-                    <p>Inhalt rechter Block... </p>
+                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in </p>
                   </div>
                 </div>
               </div>
@@ -104,12 +104,12 @@
                 <div class="subcolumns">
                     <div class="c50l">
                         <div class="subcl">
-				            <p>Inhalt linker Block...</p>
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in </p>
                         </div>
                     </div>
                     <div class="c50r">
                         <div class="subcr">
-				            <p>Inhalt rechter Block... </p>
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in </p>
                         </div>
                     </div>
                 </div>
@@ -124,17 +124,17 @@
                 <div class="subcolumns">
                     <div class="c33l">
                         <div class="subcl">
-				            <p>Inhalt linker Block...</p>
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in </p>
                         </div>
                     </div>
                     <div class="c33l">
                         <div class="subcl">
-				            <p>Inhalt mitteler Block...</p>
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in </p>
                         </div>
                     </div>
                     <div class="c33r">
                         <div class="subcr">
-                            <p>Inhalt rechter Block... </p>
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in </p>
                         </div>
                     </div>
                 </div>
@@ -149,12 +149,12 @@
                 <div class="subcolumns">
                     <div class="c66l">
                         <div class="subcl">
-				            <p>Inhalt linker Block...</p>
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in </p>
                         </div>
                     </div>
                     <div class="c33r">
                         <div class="subcr">
-				            <p>Inhalt rechter Block... </p>
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in </p>
                         </div>
                     </div>
                 </div>
