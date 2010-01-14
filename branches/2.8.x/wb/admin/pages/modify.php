@@ -1,27 +1,62 @@
 <?php
-
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/****************************************************************************
+* SVN Version information:
+*
+* $Id$
+*
+*****************************************************************************
+*                          WebsiteBaker
+*
+* WebsiteBaker Project <http://www.websitebaker2.org/>
+* Copyright (C) 2009, Website Baker Org. e.V.
+*         http://start.websitebaker2.org/impressum-datenschutz.php
+* Copyright (C) 2004-2009, Ryan Djurovich
+*
+*                        About WebsiteBaker
+*
+* Website Baker is a PHP-based Content Management System (CMS)
+* designed with one goal in mind: to enable its users to produce websites
+* with ease.
+*
+*****************************************************************************
+*
+*****************************************************************************
+*                        LICENSE INFORMATION
+*
+* WebsiteBaker is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 2
+* of the License, or (at your option) any later version.
+*
+* WebsiteBaker is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+* See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+****************************************************************************
+*
+*****************************************************************************
+*                   WebsiteBaker Extra Information
+*
+*
+*
+*
+*****************************************************************************/
+/**
+ * @category    admin
+ * @package     pages
+ * @author      Ryan Djurovich
+ * @copyright   2004-2009, Ryan Djurovich
+ * @copyright   2009-2010, Website Baker Org. e.V.
+ * @version     $Id$
+ * @platform    WebsiteBaker 2.8.x
+ * @requirements >= PHP 4.3.4
+ * @license     http://www.gnu.org/licenses/gpl.html
+ *
+ */
 
 // Get page id
 if(!isset($_GET['page_id']) OR !is_numeric($_GET['page_id'])) {
@@ -30,8 +65,6 @@ if(!isset($_GET['page_id']) OR !is_numeric($_GET['page_id'])) {
 } else {
 	$page_id = $_GET['page_id'];
 }
-
-
 
 // Create new admin object
 require('../../config.php');
@@ -52,11 +85,10 @@ $results_array=$admin->get_page_details($page_id);
 $user=$admin->get_user_details($results_array['modified_by']);
 
 // Convert the unix ts for modified_when to human a readable form
-if($results_array['modified_when'] != 0) {
-	$modified_ts = gmdate(TIME_FORMAT.', '.DATE_FORMAT, $results_array['modified_when']+TIMEZONE);
-} else {
-	$modified_ts = 'Unknown';
-}
+
+$modified_ts = ($results_array['modified_when'] != 0)
+        ? $modified_ts = gmdate(TIME_FORMAT.', '.DATE_FORMAT, $results_array['modified_when']+TIMEZONE)
+        : 'Unknown';
 
 // Include page info script
 $template = new Template(THEME_PATH.'/templates');
@@ -65,6 +97,7 @@ $template->set_block('page', 'main_block', 'main');
 $template->set_var(array(
 								'PAGE_ID' => $results_array['page_id'],
 								'PAGE_TITLE' => ($results_array['page_title']),
+								'MENU_TITLE' => ($results_array['menu_title']),
 								'MODIFIED_BY' => $user['display_name'],
 								'MODIFIED_BY_USERNAME' => $user['username'],
 								'MODIFIED_WHEN' => $modified_ts,
@@ -75,19 +108,19 @@ $template->set_var(array(
 								)
 						);
 if($modified_ts == 'Unknown') {
-	$template->set_var('DISPLAY_MODIFIED', 'hide');
+	$template->set_var('CLASS_DISPLAY_MODIFIED', 'hide');
 } else {
-	$template->set_var('DISPLAY_MODIFIED', '');
+	$template->set_var('CLASS_DISPLAY_MODIFIED', '');
 }
 
 // Work-out if we should show the "manage sections" link
 $query_sections = $database->query("SELECT section_id FROM ".TABLE_PREFIX."sections WHERE page_id = '$page_id' AND module = 'menu_link'");
 if($query_sections->numRows() > 0) {
-	$template->set_var('DISPLAY_MANAGE_SECTIONS', 'none');
+	$template->set_var('DISPLAY_MANAGE_SECTIONS', 'display:none;');
 } elseif(MANAGE_SECTIONS == 'enabled') {
 	$template->set_var('TEXT_MANAGE_SECTIONS', $HEADING['MANAGE_SECTIONS']);
 } else {
-	$template->set_var('DISPLAY_MANAGE_SECTIONS', 'none');
+	$template->set_var('DISPLAY_MANAGE_SECTIONS', 'display:none;');
 }
 
 // Insert language TEXT

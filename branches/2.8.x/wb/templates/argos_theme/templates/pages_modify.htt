@@ -9,9 +9,9 @@
 		<b>{PAGE_TITLE}</b>
 		- 
 		<a href="{ADMIN_URL}/pages/settings.php?page_id={PAGE_ID}">{TEXT_CHANGE_SETTINGS}</a>
-		<font style="display: {DISPLAY_MANAGE_SECTIONS}">-</font>
-		<a href="{ADMIN_URL}/pages/sections.php?page_id={PAGE_ID}" style="display: {DISPLAY_MANAGE_SECTIONS}">{TEXT_MANAGE_SECTIONS}</a>
-		<font style="color:#999;" class="{DISPLAY_MODIFIED}"><br />
+		<font style="{DISPLAY_MANAGE_SECTIONS}">-</font>
+		<a href="{ADMIN_URL}/pages/sections.php?page_id={PAGE_ID}" style="{DISPLAY_MANAGE_SECTIONS}">{TEXT_MANAGE_SECTIONS}</a>
+		<font style="color:#999;" class="{CLASS_DISPLAY_MODIFIED}"><br />
 		{LAST_MODIFIED} {MODIFIED_BY} ({MODIFIED_BY_USERNAME}), {MODIFIED_WHEN}
 		</font>
 	</td>
