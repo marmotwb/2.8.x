@@ -512,15 +512,17 @@ if(!function_exists('register_frontend_modfiles_body'))
     		while($row = $query_modules->fetchRow())
             {
     			// check if page module directory contains a frontend_body.js file
-    			if(file_exists(WB_PATH ."/modules/" .$row['module'] ."/$base_file")) {
+    			if(file_exists(WB_PATH ."/modules/" .$row['module'] ."/$base_file"))
+                {
     			// create link with frontend_body.js source for the current module
     				$tmp_link = str_replace("{MODULE_DIRECTORY}", $row['module'], $base_link);
 
     				// define constant indicating that the register_frontent_files_body was invoked
-    					if(!defined('MOD_FRONTEND_BODY_JAVASCRIPT_REGISTERED')) define('MOD_FRONTEND_BODY_JAVASCRIPT_REGISTERED', true);
+    					if(!defined('MOD_FRONTEND_BODY_JAVASCRIPT_REGISTERED')) { define('MOD_FRONTEND_BODY_JAVASCRIPT_REGISTERED', true);}
 
     				// ensure that frontend_body.js is only added once per module type
-    				if(strpos($body_links, $tmp_link) === false) {
+    				if(strpos($body_links, $tmp_link) === false)
+                    {
     					$body_links .= $tmp_link;
     				}
     			}
@@ -576,23 +578,8 @@ if(!function_exists('register_frontend_modfiles'))
             break;
 		}
 
-		if(!empty($include_head_link_css)) {
-			if(strpos($head_links, $include_head_link_css) === false) {
-				$head_links .= $include_head_link_css;
-			}
-			$include_head_link_css = '';
-		} else {
-			if(!empty($include_head_links)) {
-				if(strpos($head_links, $include_head_links) === false) {
-					$head_links .= $include_head_links;
-				}
-				$include_head_links = '';
-			}
-		}
-
         if( $file_id != 'jquery')
         {
-
     		// gather information for all models embedded on actual page
     		$page_id = $wb->page_id;
     		$query_modules = $database->query("SELECT module FROM " .TABLE_PREFIX ."sections
