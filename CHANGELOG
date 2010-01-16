@@ -12,6 +12,9 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 14-Jan-2010 Dietmar Woellbrink (Luisehahne)
+#	fixed snippets including frontend.css and frontend.js 
+#	without register_frontend_modfiles
+14-Jan-2010 Dietmar Woellbrink (Luisehahne)
 +	Ticket #877 add slovak lang in Captcha and Advanced-Spam-Protection
 14-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	update header
