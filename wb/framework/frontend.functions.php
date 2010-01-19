@@ -445,7 +445,7 @@ function bind_jquery ($file_id='jquery')
             $wbpath = str_replace('\\','/',WB_PATH);  // fixed localhost problem with ie
 			$jquery_links .= "<script type=\"text/javascript\">\n"
                 ."var URL = '".WB_URL."';\n"
-                ."var WB_PATH = '".$wbpath."';\n"
+               /* ."var WB_PATH = '".$wbpath."';\n" */
                 ."var WB_URL = '".WB_URL."';\n"
                 ."var TEMPLATE_DIR = '".TEMPLATE_DIR."';\n"
                 ."</script>\n";
