@@ -45,7 +45,7 @@
 		</ul>
 	</td>
 	<td rowspan="10" valign="top" style="padding-left: 20px; padding-top: 8px;">
-		<div id="allowed_viewers" style="{DISPLAY_VIEWERS};">
+		<div id="allowed_viewers" style="{DISPLAY_VIEWERS}">
 			{TEXT_ALLOWED_VIEWERS}:
 			<ul style="list-style-type: none; margin: 0; padding: 0;">
 				<!-- BEGIN group_list_block2 -->
