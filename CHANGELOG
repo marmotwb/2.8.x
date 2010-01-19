@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 14-Jan-2010 Dietmar Woellbrink (Luisehahne)
+#	fix some more small css-errors in WB Backend (thanks to Ruebenwurzel)
+14-Jan-2010 Dietmar Woellbrink (Luisehahne)
 #	fixed snippets including frontend.css and frontend.js 
 #	without register_frontend_modfiles
 14-Jan-2010 Dietmar Woellbrink (Luisehahne)
