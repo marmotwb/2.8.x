@@ -71,7 +71,7 @@ $(document).ready(function(){
 	</thead>
 	<tbody>
 		<!-- BEGIN list_block -->
-		<tr style="background-color: #{ROW_BG_COLOR};" onmouseover="this.style.backgroundColor = '#F1F8DD'" onmouseout="this.style.backgroundColor = '#{ROW_BG_COLOR}'">
+		<tr style="background-color: #{ROW_BG_COLOR}" onmouseover="this.style.backgroundColor = '#F1F8DD'" onmouseout="this.style.backgroundColor = '#{ROW_BG_COLOR}'">
 			<td style="padding-left: 10px;">
 				<img src="{FILETYPE_ICON}" class="{DISPLAY_ICON}" border="0" alt="" />
 			</td>

@@ -570,31 +570,31 @@
 	</td>
 </tr>
 <!-- MORE ADVANCED SMTP MAILER SETTINGS -->
-<tr id="row_wbmailer_smtp_settings" style="display:{SMTP_VISIBILITY};">
+<tr id="row_wbmailer_smtp_settings" style="display:{SMTP_VISIBILITY}">
 	<td colspan="3" style="padding-top: 10px;">
 			<p style="line-height: 1.4em; margin-top: 0;">{TEXT_WBMAILER_NOTICE}</p>
 	</td>
 </tr>
-<tr id="row_wbmailer_smtp_host" style="display:{SMTP_VISIBILITY};">
+<tr id="row_wbmailer_smtp_host" style="display:{SMTP_VISIBILITY}">
 	<td class="setting_name">{TEXT_WBMAILER_SMTP_HOST}:</td>
 	<td class="setting_value" colspan="2">
 		<input type="text" style="width: 250px" name="wbmailer_smtp_host" value="{WBMAILER_SMTP_HOST}" />
 	</td>
 </tr>
-<tr id="row_wbmailer_smtp_auth_mode" style="display:{SMTP_VISIBILITY};">
+<tr id="row_wbmailer_smtp_auth_mode" style="display:{SMTP_VISIBILITY}">
 	<td class="setting_name">{TEXT_WBMAILER_SMTP_AUTH}:</td>
 	<td class="setting_value" colspan="3">
 		<input type="checkbox" name="wbmailer_smtp_auth" id="wbmailer_smtp_auth" onclick="javascript: toggle_wbmailer_auth();" style="width: 14px; height: 14px;" value="true"{SMTP_AUTH_SELECTED} />
 		<label for="wbmailer_smtp_auth" onclick="javascript: toggle_wbmailer_auth(this.value);">({TEXT_WBMAILER_SMTP_AUTH_NOTICE})</label>
 	</td>
 </tr>
-<tr id="row_wbmailer_smtp_username" style="display:{SMTP_VISIBILITY_AUTH};">
+<tr id="row_wbmailer_smtp_username" style="display:{SMTP_VISIBILITY_AUTH}">
 	<td class="setting_name">{TEXT_WBMAILER_SMTP_USERNAME}:</td>
 	<td class="setting_value" colspan="2">
 		<input type="text" style="width: 250px" name="wbmailer_smtp_username" value="{WBMAILER_SMTP_USERNAME}" />
 	</td>
 </tr>
-<tr id="row_wbmailer_smtp_password" style="display:{SMTP_VISIBILITY_AUTH};">
+<tr id="row_wbmailer_smtp_password" style="display:{SMTP_VISIBILITY_AUTH}">
 	<td class="setting_name">{TEXT_WBMAILER_SMTP_PASSWORD}:</td>
 	<td class="setting_value" colspan="2">
 		<input type="password" style="width: 250px" name="wbmailer_smtp_password" value="{WBMAILER_SMTP_PASSWORD}" />

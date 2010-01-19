@@ -1,6 +1,6 @@
 <!-- BEGIN main_block -->
 
-<h2 style="{DISPLAY_EXTRA};">{HEADING_MODIFY_GROUP}</h2>
+<h2 style="{DISPLAY_EXTRA}">{HEADING_MODIFY_GROUP}</h2>
 
 <form name="group" action="{ACTION_URL}" method="post" class="{DISPLAY_ADD}">
 <input type="hidden" name="advanced" value="{ADVANCED}" />

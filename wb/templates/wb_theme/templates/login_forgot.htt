@@ -31,7 +31,7 @@
 	<input type="hidden" name="url" value="{URL}" />
 		<table cellpadding="5" cellspacing="0" border="0" align="center" width="500">
 		<tr>
-			<td height="40" align="center" style="color: #{MESSAGE_COLOR};" colspan="2">{MESSAGE}</td>
+			<td height="40" align="center" style="color: #{MESSAGE_COLOR}" colspan="2">{MESSAGE}</td>
 		</tr>
 		<tr style="{DISPLAY_FORM}">
 			<td height="10" colspan="2"></td>
