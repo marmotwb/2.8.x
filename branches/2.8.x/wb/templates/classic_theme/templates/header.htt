@@ -12,7 +12,6 @@
 {BACKEND_MODULE_CSS}
 <script type="text/javascript">
 var WB_URL = '{WB_URL}';
-var WB_PATH = '{WB_PATH}';
 var THEME_URL = '{THEME_URL}';
 var ADMIN_URL = '{ADMIN_URL}';
 </script>
