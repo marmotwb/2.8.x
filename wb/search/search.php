@@ -31,6 +31,9 @@
  *
  * @category        frontend
  * @package         search
+ * @author          Ryan Djurovich
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
  * @filesource		$HeadURL$
  * @author          Ryan Djurovich
  * @copyright       2004-2009, Ryan Djurovich
@@ -43,11 +46,11 @@
  * @version         $Id$
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 4.3.4 and higher
- * @lastmodified    $Date: $
+ * @lastmodified    $Date$
  *
  */
 
-if(!defined('WB_URL')) { 
+if(!defined('WB_URL')) {
 	header('Location: index.php');
 	exit(0);
 }
