@@ -1,27 +1,13 @@
 <?php
-/****************************************************************************
-* SVN Version information:
+/*
 *
-* $Id$
-*
-*****************************************************************************
-*                          WebsiteBaker
-*
-* WebsiteBaker Project <http://www.websitebaker2.org/>
-* Copyright (C) 2009, Website Baker Org. e.V.
-*         http://start.websitebaker2.org/impressum-datenschutz.php
-* Copyright (C) 2004-2009, Ryan Djurovich
-*
-*                        About WebsiteBaker
+*                       About WebsiteBaker
 *
 * Website Baker is a PHP-based Content Management System (CMS)
 * designed with one goal in mind: to enable its users to produce websites
 * with ease.
 *
-*****************************************************************************
-*
-*****************************************************************************
-*                        LICENSE INFORMATION
+*                       LICENSE INFORMATION
 *
 * WebsiteBaker is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
@@ -36,25 +22,31 @@
 * You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-****************************************************************************
 *
 *                   WebsiteBaker Extra Information
 *
 *
-*
-*
-*****************************************************************************/
+*/
 /**
  *
- * @category     modules
- * @package      news
- * @author       Ryan Djurovich
- * @copyright    2004-2009, Ryan Djurovich
- * @copyright    2009-2010, Website Baker Org. e.V.
- * @version      $Id$
- * @platform     WebsiteBaker 2.8.x
- * @requirements >= PHP 4.3.4
- * @license      http://www.gnu.org/licenses/gpl.html
+ * @category        modules
+ * @package         news
+ * @author          Ryan Djurovich
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @filesource		$HeadURL$
+ * @author          Ryan Djurovich
+ * @copyright       2004-2009, Ryan Djurovich
+ *
+ * @author          WebsiteBaker Project
+ * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://start.websitebaker2.org/impressum-datenschutz.php
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @version         $Id$
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @lastmodified    $Date$
  *
  */
 
@@ -80,28 +72,33 @@ define("POST_ID", $post_id);
 require("'.$index_location.'config.php");
 require(WB_PATH."/index.php");
 ?>';
-	if($handle = fopen($filename, 'w+'))
-    {
-    	fwrite($handle, $content);
-    	fclose($handle);
-        if($filetime)
+    	if($handle = fopen($filename, 'w+'))
         {
-        touch($filename, $filetime);
+        	fwrite($handle, $content);
+        	fclose($handle);
+            if($filetime)
+            {
+                touch($filename, $filetime);
+            }
+        	change_mode($filename);
         }
-    	change_mode($filename);
-    }
     }
 
     // read files from /pages/posts/
-    if( !function_exists('scandir') ) {
-        function scandir($directory, $sorting_order = 0) {
+    if( !function_exists('scandir') )
+    {
+        function scandir($directory, $sorting_order = 0)
+        {
             $dh  = opendir($directory);
-            while( false !== ($filename = readdir($dh)) ) {
+            while( false !== ($filename = readdir($dh)) )
+            {
                 $files[] = $filename;
             }
-            if( $sorting_order == 0 ) {
+            if( $sorting_order == 0 )
+            {
                 sort($files);
-            } else {
+            } else
+            {
                 rsort($files);
             }
             return($files);
@@ -115,10 +112,13 @@ require(WB_PATH."/index.php");
 		// All files in /pages/posts/
 		foreach( $files as $file )
         {
-            if( file_exists($target_dir.$file) && $file != '.' && $file != '..' && $file != 'index.php')
+            if( file_exists($target_dir.$file)
+                AND ($file != '.')
+                    AND ($file != '..')
+                        AND ($file != 'index.php') )
             {
                 clearstatcache();
-                $timestamp = filectime ( $target_dir.$file );
+                $timestamp = filemtime ( $target_dir.$file );
                 $lines = file($target_dir.$file);
                 $content = '';
                 // read lines until first define
