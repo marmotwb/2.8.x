@@ -288,7 +288,7 @@ if($result->numRows() > 0) {
 
 // Insert WYSIWYG modules
 $template->set_block('main_block', 'editor_list_block', 'editor_list');
-$file='none';  
+$file='none';
 $module_name=$TEXT['NONE'];  
 $template->set_var('FILE', $file);  
 $template->set_var('NAME', $module_name);  
@@ -340,7 +340,8 @@ if($result->numRows() > 0)
 // Insert default error reporting values
 require(ADMIN_PATH.'/interface/er_levels.php');
 $template->set_block('main_block', 'error_reporting_list_block', 'error_reporting_list');
-foreach($ER_LEVELS AS $value => $title) {
+foreach($ER_LEVELS AS $value => $title)
+{
 	$template->set_var('VALUE', $value);
 	$template->set_var('NAME', $title);
     $selected = (ER_LEVEL == $value) ? ' selected="selected"' : '';
@@ -350,7 +351,8 @@ foreach($ER_LEVELS AS $value => $title) {
 }
 
 // Insert permissions values
-if($admin->get_permission('settings_advanced') != true) {
+if($admin->get_permission('settings_advanced') != true)
+{
 	$template->set_var('DISPLAY_ADVANCED_BUTTON', 'hide');
 }
 
@@ -369,117 +371,137 @@ for($i = 1; $i <= 10; $i++)
 }
 
 // Work-out if multiple menus feature is enabled
-if(defined('MULTIPLE_MENUS') AND MULTIPLE_MENUS == true) {
+if(defined('MULTIPLE_MENUS') AND MULTIPLE_MENUS == true)
+{
 	$template->set_var('MULTIPLE_MENUS_ENABLED', ' checked="checked"');
 } else {
 	$template->set_var('MULTIPLE_MENUS_DISABLED', ' checked="checked"');
 }
 
 // Work-out if page languages feature is enabled
-if(defined('PAGE_LANGUAGES') AND PAGE_LANGUAGES == true) {
+if(defined('PAGE_LANGUAGES') AND PAGE_LANGUAGES == true)
+{
         $template->set_var('PAGE_LANGUAGES_ENABLED', ' checked="checked"');
 } else {
         $template->set_var('PAGE_LANGUAGES_DISABLED', ' checked="checked"');
 }
 
 // Work-out if smart login feature is enabled
-if(defined('SMART_LOGIN') AND SMART_LOGIN == true) {
+if(defined('SMART_LOGIN') AND SMART_LOGIN == true)
+{
 	$template->set_var('SMART_LOGIN_ENABLED', ' checked="checked"');
 } else {
 	$template->set_var('SMART_LOGIN_DISABLED', ' checked="checked"');
 }
 
-if(extension_loaded('gd') AND function_exists('imageCreateFromJpeg')) { /* Make's sure GD library is installed */
+/* Make's sure GD library is installed */
+if(extension_loaded('gd') AND function_exists('imageCreateFromJpeg'))
+{
 	$template->set_var('GD_EXTENSION_ENABLED', '');
 } else {
-	$template->set_var('GD_EXTENSION_ENABLED', 'none');
+	$template->set_var('GD_EXTENSION_ENABLED', ' style="display: none;"');
 }
 
 // Work-out if section blocks feature is enabled
-if(defined('SECTION_BLOCKS') AND SECTION_BLOCKS == true) {
+if(defined('SECTION_BLOCKS') AND SECTION_BLOCKS == true)
+{
 	$template->set_var('SECTION_BLOCKS_ENABLED', ' checked="checked"');
 } else {
 	$template->set_var('SECTION_BLOCKS_DISABLED', ' checked="checked"');
 }
 
 // Work-out if homepage redirection feature is enabled
-if(defined('HOMEPAGE_REDIRECTION') AND HOMEPAGE_REDIRECTION == true) {
+if(defined('HOMEPAGE_REDIRECTION') AND HOMEPAGE_REDIRECTION == true)
+{
 	$template->set_var('HOMEPAGE_REDIRECTION_ENABLED', ' checked="checked"');
 } else {
 	$template->set_var('HOMEPAGE_REDIRECTION_DISABLED', ' checked="checked"');
 }
 
 // Work-out which server os should be checked
-if(OPERATING_SYSTEM == 'linux') {
+if(OPERATING_SYSTEM == 'linux')
+{
 	$template->set_var('LINUX_SELECTED', ' checked="checked"');
 } elseif(OPERATING_SYSTEM == 'windows') {
 	$template->set_var('WINDOWS_SELECTED', ' checked="checked"');
 }
 
 // Work-out if manage sections feature is enabled
-if(MANAGE_SECTIONS) {
+if(MANAGE_SECTIONS)
+{
 	$template->set_var('MANAGE_SECTIONS_ENABLED', ' checked="checked"');
 } else {
 	$template->set_var('MANAGE_SECTIONS_DISABLED', ' checked="checked"');
 }
 
 // Work-out which wbmailer routine should be checked
-if(WBMAILER_ROUTINE == 'phpmail') {
+if(WBMAILER_ROUTINE == 'phpmail')
+{
 	$template->set_var('PHPMAIL_SELECTED', ' checked="checked"');
-	$template->set_var('SMTP_VISIBILITY', 'none');
-	$template->set_var('SMTP_VISIBILITY_AUTH', 'none');
-} elseif(WBMAILER_ROUTINE == 'smtp') {
+	$template->set_var('SMTP_VISIBILITY', ' style="display: none;"');
+	$template->set_var('SMTP_VISIBILITY_AUTH', ' style="display: none;"');
+} elseif(WBMAILER_ROUTINE == 'smtp')
+{
 	$template->set_var('SMTPMAIL_SELECTED', ' checked="checked"');
 	$template->set_var('SMTP_VISIBILITY', '');
 }
 
 // Work-out if SMTP authentification should be checked
-if(WBMAILER_SMTP_AUTH) {
+if(WBMAILER_SMTP_AUTH)
+{
 	$template->set_var('SMTP_AUTH_SELECTED', ' checked="checked"');
-	if(WBMAILER_ROUTINE == 'smtp') {
+	if(WBMAILER_ROUTINE == 'smtp')
+    {
 		$template->set_var('SMTP_VISIBILITY_AUTH', '');
 	} else {
-		$template->set_var('SMTP_VISIBILITY_AUTH', 'none');
+		$template->set_var('SMTP_VISIBILITY_AUTH', ' style="display: none;"');
 	}
 } else {
-	$template->set_var('SMTP_VISIBILITY_AUTH', 'none');
+	$template->set_var('SMTP_VISIBILITY_AUTH', ' style="display: none;"');
 }
 
 // Work-out if intro feature is enabled
-if(INTRO_PAGE) {
+if(INTRO_PAGE)
+{
 	$template->set_var('INTRO_PAGE_ENABLED', ' checked="checked"');
 } else {
 	$template->set_var('INTRO_PAGE_DISABLED', ' checked="checked"');
 }
 
 // Work-out if frontend login feature is enabled
-if(FRONTEND_LOGIN) {
+if(FRONTEND_LOGIN)
+{
 	$template->set_var('PRIVATE_ENABLED', ' checked="checked"');
 } else {
 	$template->set_var('PRIVATE_DISABLED', ' checked="checked"');
 }
 
 // Work-out if page trash feature is disabled, in-line, or separate
-if(PAGE_TRASH == 'disabled') {
+if(PAGE_TRASH == 'disabled')
+{
 	$template->set_var('PAGE_TRASH_DISABLED', ' checked="checked"');
-	$template->set_var('DISPLAY_PAGE_TRASH_SEPARATE', ' display: none;');
-} elseif(PAGE_TRASH == 'inline') {
+	$template->set_var('DISPLAY_PAGE_TRASH_SEPARATE', 'display: none;');
+} elseif(PAGE_TRASH == 'inline')
+{
 	$template->set_var('PAGE_TRASH_INLINE', ' checked="checked"');
-	$template->set_var('DISPLAY_PAGE_TRASH_SEPARATE', ' display: none;');
-} elseif(PAGE_TRASH == 'separate') {
+	$template->set_var('DISPLAY_PAGE_TRASH_SEPARATE', 'display: none;');
+} elseif(PAGE_TRASH == 'separate')
+{
 	$template->set_var('PAGE_TRASH_SEPARATE', ' checked="checked"');
-	$template->set_var('DISPLAY_PAGE_TRASH_SEPARATE', ' display: inline;');
+	$template->set_var('DISPLAY_PAGE_TRASH_SEPARATE', 'display: inline;');
 }
 
 // Work-out if media home folde feature is enabled
-if(HOME_FOLDERS) {
+if(HOME_FOLDERS)
+{
 	$template->set_var('HOME_FOLDERS_ENABLED', ' checked="checked"');
 } else {
 	$template->set_var('HOME_FOLDERS_DISABLED', ' checked="checked"');
 }
 
 // Insert search select
-if(SEARCH == 'private') {
+if(SEARCH == 'private')
+{
 	$template->set_var('PRIVATE_SEARCH', ' selected="selected"');
 } elseif(SEARCH == 'registered') {
 	$template->set_var('REGISTERED_SEARCH', ' selected="selected"');
@@ -488,64 +510,83 @@ if(SEARCH == 'private') {
 }
 
 // Work-out if 777 permissions are set
-if(STRING_FILE_MODE == '0777' AND STRING_DIR_MODE == '0777') {
+if(STRING_FILE_MODE == '0777' AND STRING_DIR_MODE == '0777')
+{
 	$template->set_var('WORLD_WRITEABLE_SELECTED', ' checked="checked"');
 }
 
 // Work-out which file mode boxes are checked
-if(extract_permission(STRING_FILE_MODE, 'u', 'r')) {
+if(extract_permission(STRING_FILE_MODE, 'u', 'r'))
+{
 	$template->set_var('FILE_U_R_CHECKED', ' checked="checked"');
 }
-if(extract_permission(STRING_FILE_MODE, 'u', 'w')) {
+if(extract_permission(STRING_FILE_MODE, 'u', 'w'))
+{
 	$template->set_var('FILE_U_W_CHECKED', ' checked="checked"');
 }
-if(extract_permission(STRING_FILE_MODE, 'u', 'e')) {
+if(extract_permission(STRING_FILE_MODE, 'u', 'e'))
+{
 	$template->set_var('FILE_U_E_CHECKED', ' checked="checked"');
 }
-if(extract_permission(STRING_FILE_MODE, 'g', 'r')) {
+if(extract_permission(STRING_FILE_MODE, 'g', 'r'))
+{
 	$template->set_var('FILE_G_R_CHECKED', ' checked="checked"');
 }
-if(extract_permission(STRING_FILE_MODE, 'g', 'w')) {
+if(extract_permission(STRING_FILE_MODE, 'g', 'w'))
+{
 	$template->set_var('FILE_G_W_CHECKED', ' checked="checked"');
 }
-if(extract_permission(STRING_FILE_MODE, 'g', 'e')) {
+if(extract_permission(STRING_FILE_MODE, 'g', 'e'))
+{
 	$template->set_var('FILE_G_E_CHECKED', ' checked="checked"');
 }
-if(extract_permission(STRING_FILE_MODE, 'o', 'r')) {
+if(extract_permission(STRING_FILE_MODE, 'o', 'r'))
+{
 	$template->set_var('FILE_O_R_CHECKED', ' checked="checked"');
 }
-if(extract_permission(STRING_FILE_MODE, 'o', 'w')) {
+if(extract_permission(STRING_FILE_MODE, 'o', 'w'))
+{
 	$template->set_var('FILE_O_W_CHECKED', ' checked="checked"');
 }
-if(extract_permission(STRING_FILE_MODE, 'o', 'e')) {
+if(extract_permission(STRING_FILE_MODE, 'o', 'e'))
+{
 	$template->set_var('FILE_O_E_CHECKED', ' checked="checked"');
 }
 // Work-out which dir mode boxes are checked
-if(extract_permission(STRING_DIR_MODE, 'u', 'r')) {
+if(extract_permission(STRING_DIR_MODE, 'u', 'r'))
+{
 	$template->set_var('DIR_U_R_CHECKED', ' checked="checked"');
 }
-if(extract_permission(STRING_DIR_MODE, 'u', 'w')) {
+if(extract_permission(STRING_DIR_MODE, 'u', 'w'))
+{
 	$template->set_var('DIR_U_W_CHECKED', ' checked="checked"');
 }
-if(extract_permission(STRING_DIR_MODE, 'u', 'e')) {
+if(extract_permission(STRING_DIR_MODE, 'u', 'e'))
+{
 	$template->set_var('DIR_U_E_CHECKED', ' checked="checked"');
 }
-if(extract_permission(STRING_DIR_MODE, 'g', 'r')) {
+if(extract_permission(STRING_DIR_MODE, 'g', 'r'))
+{
 	$template->set_var('DIR_G_R_CHECKED', ' checked="checked"');
 }
-if(extract_permission(STRING_DIR_MODE, 'g', 'w')) {
+if(extract_permission(STRING_DIR_MODE, 'g', 'w'))
+{
 	$template->set_var('DIR_G_W_CHECKED', ' checked="checked"');
 }
-if(extract_permission(STRING_DIR_MODE, 'g', 'e')) {
+if(extract_permission(STRING_DIR_MODE, 'g', 'e'))
+{
 	$template->set_var('DIR_G_E_CHECKED', ' checked="checked"');
 }
-if(extract_permission(STRING_DIR_MODE, 'o', 'r')) {
+if(extract_permission(STRING_DIR_MODE, 'o', 'r'))
+{
 	$template->set_var('DIR_O_R_CHECKED', ' checked="checked"');
 }
-if(extract_permission(STRING_DIR_MODE, 'o', 'w')) {
+if(extract_permission(STRING_DIR_MODE, 'o', 'w'))
+{
 	$template->set_var('DIR_O_W_CHECKED', ' checked="checked"');
 }
-if(extract_permission(STRING_DIR_MODE, 'o', 'e')) {
+if(extract_permission(STRING_DIR_MODE, 'o', 'e'))
+{
 	$template->set_var('DIR_O_E_CHECKED', ' checked="checked"');
 }
 
@@ -555,11 +596,14 @@ $template->set_var('SERVER_EMAIL', SERVER_EMAIL);
 // Insert groups into signup list
 $template->set_block('main_block', 'group_list_block', 'group_list');
 $results = $database->query("SELECT group_id, name FROM ".TABLE_PREFIX."groups WHERE group_id != '1'");
-if($results->numRows() > 0) {
-	while($group = $results->fetchRow()) {
+if($results->numRows() > 0)
+{
+	while($group = $results->fetchRow())
+    {
 		$template->set_var('ID', $group['group_id']);
 		$template->set_var('NAME', $group['name']);
-		if(FRONTEND_SIGNUP == $group['group_id']) {
+		if(FRONTEND_SIGNUP == $group['group_id'])
+        {
 			$template->set_var('SELECTED', ' selected="selected"');
 		} else {
 			$template->set_var('SELECTED', '');

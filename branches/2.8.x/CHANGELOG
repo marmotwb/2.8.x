@@ -12,6 +12,8 @@ Legend:
  
 ------------------------------------- 2.8.1 -------------------------------------
 21-Jan-2010 Dietmar Woellbrink (Luisehahne)
+#	fix more small css-errors in WB Backend (thanks to Ruebenwurzel)
+21-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	update header info
 !	change unknown user to guest in all languages
 21-Jan-2010 Dietmar Woellbrink (Luisehahne)
