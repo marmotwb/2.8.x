@@ -37,7 +37,7 @@
 		<textarea name="website_footer" cols="50" rows="3">{WEBSITE_FOOTER}</textarea>
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name" width="200">{TEXT_PAGE_LEVEL_LIMIT}:</td>
 	<td class="setting_value" colspan="3" width="700">
 		<select name="page_level_limit">
@@ -60,7 +60,7 @@
 		</div>
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
         <td class="setting_name">{TEXT_PAGE_LANGUAGES}:</td>
         <td class="setting_value" colspan="3">
                 <input type="radio" name="page_languages" id="page_languages_true" style="width: 14px; height: 14px;" value="true"{PAGE_LANGUAGES_ENABLED} />
@@ -69,7 +69,7 @@
                 <label for="page_languages_false">{TEXT_DISABLED}</label>
 		</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_MULTIPLE_MENUS}:</td>
 	<td class="setting_value" colspan="3">
 		<input type="radio" name="multiple_menus" id="multiple_menus_true" style="width: 14px; height: 14px;" value="true"{MULTIPLE_MENUS_ENABLED} />
@@ -87,7 +87,7 @@
 		<label for="home_folders_false">{TEXT_DISABLED}</label>
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_MANAGE_SECTIONS}:</td>
 	<td class="setting_value" colspan="3">
 		<input type="radio" name="manage_sections" id="manage_sections_true" style="width: 14px; height: 14px;" value="true"{MANAGE_SECTIONS_ENABLED} />
@@ -96,7 +96,7 @@
 		<label for="manage_sections_false">{TEXT_DISABLED}</label>
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_SECTION_BLOCKS}:</td>
 	<td class="setting_value" colspan="3">
 		<input type="radio" name="section_blocks" id="section_blocks_true" style="width: 14px; height: 14px;" value="true"{SECTION_BLOCKS_ENABLED} />
@@ -114,7 +114,7 @@
 		<label for="intro_page_false">{TEXT_DISABLED}</label>
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_HOMEPAGE_REDIRECTION}:</td>
 	<td class="setting_value" colspan="3">
 		<input type="radio" name="homepage_redirection" id="homepage_redirection_true" style="width: 14px; height: 14px;" value="true"{HOMEPAGE_REDIRECTION_ENABLED} />
@@ -123,7 +123,7 @@
 		<label for="homepage_redirection_false">{TEXT_DISABLED}</label>
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_SMART_LOGIN}:</td>
 	<td class="setting_value" colspan="3">
 		<input type="radio" name="smart_login" id="smart_login_true" style="width: 14px; height: 14px;" value="true"{SMART_LOGIN_ENABLED} />
@@ -141,7 +141,7 @@
 		<label for="frontend_login_false">{TEXT_DISABLED}</label>
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_REDIRECT_AFTER}:</td>
 	<td class="setting_value" colspan="3">
 		<input type="text" name="redirect_timer" value="{REDIRECT_TIMER}" />
@@ -158,7 +158,7 @@
 		</select>
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_PHP_ERROR_LEVEL}:</td>
 	<td class="setting_value" colspan="3">
 		<select name="er_level">
@@ -169,11 +169,11 @@
 		</select>
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_WYSIWYG_STYLE}:</td>
 	<td class="setting_value" colspan="3"><input type="text" name="wysiwyg_style" value="{WYSIWYG_STYLE}" /></td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_WYSIWYG_EDITOR}:</td>
 	<td class="setting_value" colspan="3">
 		<select name="wysiwyg_editor">
@@ -206,7 +206,7 @@
 		</select>
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_CHARSET}:</td>
 	<td class="setting_value" colspan="3">
 		<select name="default_charset">
@@ -304,55 +304,55 @@
 		</select>
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_HEADER}:</td>
 	<td class="setting_value" colspan="3">
 		<textarea name="search_header" style="height: 100px;" cols="50" rows="3">{SEARCH_HEADER}</textarea>
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_RESULTS_HEADER}:</td>
 	<td class="setting_value" colspan="3">
 		<textarea name="search_results_header" cols="50" rows="3">{SEARCH_RESULTS_HEADER}</textarea>
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_RESULTS_LOOP}:</td>
 	<td class="setting_value" colspan="3">
 		<textarea name="search_results_loop" cols="50" rows="3">{SEARCH_RESULTS_LOOP}</textarea>
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_RESULTS_FOOTER}:</td>
 	<td class="setting_value" colspan="3">
 		<textarea name="search_results_footer" cols="50" rows="3">{SEARCH_RESULTS_FOOTER}</textarea>
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_NO_RESULTS}:</td>
 	<td class="setting_value" colspan="3">
 		<input type="text" name="search_no_results" value="{SEARCH_NO_RESULTS}" />
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_FOOTER}:</td>
 	<td class="setting_value" colspan="3">
 		<textarea name="search_footer" cols="50" rows="3">{SEARCH_FOOTER}</textarea>
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_MODULE_ORDER}:</td>
 	<td class="setting_value" colspan="3">
 		<input type="text" name="search_module_order" value="{SEARCH_MODULE_ORDER}" />
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_MAX_EXCERPT}:</td>
 	<td class="setting_value" colspan="3">
 		<input type="text" name="search_max_excerpt" value="{SEARCH_MAX_EXCERPT}" />
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_TIME_LIMIT}:</td>
 	<td class="setting_value" colspan="3">
 		<input type="text" name="search_time_limit" value="{SEARCH_TIME_LIMIT}" />
@@ -395,7 +395,7 @@
 	</td>
 </tr>
 
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name"><div id="{ADVANCED_FILE_PERMS_ID}1" style="margin: 0; padding: 0;">{TEXT_FILESYSTEM_PERMISSIONS}:</div></td>
 	<td class="setting_value" id="file_mode" align="left">
 		<table cellpadding="2" cellspacing="0" border="0" width="90%" style="border-right: 1px solid #ddd;" id="{ADVANCED_FILE_PERMS_ID}2">
@@ -486,31 +486,31 @@
 		</table>
 	</td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_PAGES_DIRECTORY}:</td>
 	<td class="setting_value" colspan="3"><input type="text" name="pages_directory" value="{PAGES_DIRECTORY}" /></td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_MEDIA_DIRECTORY}:</td>
 	<td class="setting_value" colspan="3"><input type="text" name="media_directory" value="{MEDIA_DIRECTORY}" /></td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_PAGE_EXTENSION}:</td>
 	<td class="setting_value" colspan="3"><input type="text" name="page_extension" value="{PAGE_EXTENSION}" /></td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_PAGE_SPACER}:</td>
 	<td class="setting_value" colspan="3"><input type="text" name="page_spacer" value="{PAGE_SPACER}" /></td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_RENAME_FILES_ON_UPLOAD}:</td>
 	<td class="setting_value" colspan="3"><input type="text" name="rename_files_on_upload" value="{RENAME_FILES_ON_UPLOAD}" /></td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_SESSION_IDENTIFIER}:</td>
 	<td class="setting_value" colspan="3"><input type="text" name="app_name" value="{APP_NAME}" /></td>
 </tr>
-<tr {DISPLAY_ADVANCED}>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_SEC_ANCHOR}:</td>
 	<td class="setting_value" colspan="3"><input type="text" name="sec_anchor" value="{SEC_ANCHOR}" /></td>
 </tr>
@@ -539,25 +539,25 @@
 	</td>
 </tr>
 <!-- MORE ADVANCED SMTP MAILER SETTINGS -->
-<tr id="row_wbmailer_smtp_settings" style="display:{SMTP_VISIBILITY};">
+<tr id="row_wbmailer_smtp_settings"{SMTP_VISIBILITY}>
 	<td colspan="3" style="padding-top: 10px;"><p style="line-height: 1.4em; margin-top: 0;">{TEXT_WBMAILER_NOTICE}</p></td>
 </tr>
-<tr id="row_wbmailer_smtp_host" style="display:{SMTP_VISIBILITY};">
+<tr id="row_wbmailer_smtp_host"{SMTP_VISIBILITY}>
 	<td class="setting_name">{TEXT_WBMAILER_SMTP_HOST}:</td>
 	<td class="setting_value" colspan="3"><input type="text" style="width: 250px" name="wbmailer_smtp_host" value="{WBMAILER_SMTP_HOST}" /></td>
 </tr>
-<tr id="row_wbmailer_smtp_auth_mode" style="display:{SMTP_VISIBILITY};">
+<tr id="row_wbmailer_smtp_auth_mode"{SMTP_VISIBILITY}>
 	<td class="setting_name">{TEXT_WBMAILER_SMTP_AUTH}:</td>
 	<td class="setting_value" colspan="3">
 		<input type="checkbox" name="wbmailer_smtp_auth" id="wbmailer_smtp_auth" onclick="javascript: toggle_wbmailer_auth();" style="width: 14px; height: 14px;" value="true"{SMTP_AUTH_SELECTED} />
 		<label for="wbmailer_smtp_auth" onclick="javascript: toggle_wbmailer_auth(this.value);">({TEXT_WBMAILER_SMTP_AUTH_NOTICE})</label>
 	</td>
 </tr>
-<tr id="row_wbmailer_smtp_username" style="display:{SMTP_VISIBILITY_AUTH};">
+<tr id="row_wbmailer_smtp_username"{SMTP_VISIBILITY_AUTH}>
 	<td class="setting_name">{TEXT_WBMAILER_SMTP_USERNAME}:</td>
 	<td class="setting_value" colspan="3"><input type="text" style="width: 250px" name="wbmailer_smtp_username" value="{WBMAILER_SMTP_USERNAME}" /></td>
 </tr>
-<tr id="row_wbmailer_smtp_password" style="display:{SMTP_VISIBILITY_AUTH};">
+<tr id="row_wbmailer_smtp_password"{SMTP_VISIBILITY_AUTH}>
 	<td class="setting_name">{TEXT_WBMAILER_SMTP_PASSWORD}:</td>
 	<td class="setting_value" colspan="3"><input type="password" style="width: 250px" name="wbmailer_smtp_password" value="{WBMAILER_SMTP_PASSWORD}" /></td>
 </tr>
