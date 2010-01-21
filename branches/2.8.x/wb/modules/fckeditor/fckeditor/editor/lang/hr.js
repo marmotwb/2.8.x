@@ -525,6 +525,7 @@ DlgAboutBrowserInfoTab	: "Podaci o pretraživaču",
 DlgAboutLicenseTab	: "Licenca",
 DlgAboutVersion		: "inačica",
 DlgAboutInfo		: "Za više informacija posjetite",
+DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.4",
 
 // Div Dialog
 DlgDivGeneralTab	: "Općenito",

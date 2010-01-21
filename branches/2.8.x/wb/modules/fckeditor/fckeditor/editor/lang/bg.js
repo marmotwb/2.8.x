@@ -525,6 +525,7 @@ DlgAboutBrowserInfoTab	: "Информация за браузъра",
 DlgAboutLicenseTab	: "License",	//MISSING
 DlgAboutVersion		: "версия",
 DlgAboutInfo		: "За повече информация посетете",
+DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.4",
 
 // Div Dialog
 DlgDivGeneralTab	: "General",	//MISSING
