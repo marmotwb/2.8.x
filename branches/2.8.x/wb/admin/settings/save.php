@@ -1,27 +1,13 @@
 <?php
-/****************************************************************************
-* SVN Version information:
+/*
 *
-* $Id$
-*
-*****************************************************************************
-*                          WebsiteBaker
-*
-* WebsiteBaker Project <http://www.websitebaker2.org/>
-* Copyright (C) 2009, Website Baker Org. e.V.
-*         http://start.websitebaker2.org/impressum-datenschutz.php
-* Copyright (C) 2004-2009, Ryan Djurovich
-*
-*                        About WebsiteBaker
+*                       About WebsiteBaker
 *
 * Website Baker is a PHP-based Content Management System (CMS)
 * designed with one goal in mind: to enable its users to produce websites
 * with ease.
 *
-*****************************************************************************
-*
-*****************************************************************************
-*                        LICENSE INFORMATION
+*                       LICENSE INFORMATION
 *
 * WebsiteBaker is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
@@ -36,25 +22,31 @@
 * You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-****************************************************************************
 *
 *                   WebsiteBaker Extra Information
 *
 *
-*
-*
-*****************************************************************************/
+*/
 /**
  *
- * @category     admin
- * @package      settings
- * @author       Ryan Djurovich
- * @copyright    2004-2009, Ryan Djurovich
- * @copyright    2009-2010, Website Baker Org. e.V.
- * @version      $Id$
- * @platform     WebsiteBaker 2.8.x
- * @requirements >= PHP 4.3.4
- * @license      http://www.gnu.org/licenses/gpl.html
+ * @category        admin
+ * @package         settings
+ * @author          Ryan Djurovich
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @filesource		$HeadURL$
+ * @author          Ryan Djurovich
+ * @copyright       2004-2009, Ryan Djurovich
+ *
+ * @author          WebsiteBaker Project
+ * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://start.websitebaker2.org/impressum-datenschutz.php
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @version         $Id$
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @lastmodified    $Date$
  *
  */
 
@@ -78,7 +70,8 @@ if($advanced == '') {
 $js_back = "javascript: history.go(-1);";
 
 // Ensure that the specified default email is formally valid
-if(isset($_POST['server_email'])) {
+if(isset($_POST['server_email']))
+{
 	$_POST['server_email'] = strip_tags($_POST['server_email']);
 	if(!eregi("^([0-9a-zA-Z]+[-._+&])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$", $_POST['server_email'])) {
 		$admin->print_error($MESSAGE['USERS']['INVALID_EMAIL'].
@@ -87,9 +80,11 @@ if(isset($_POST['server_email'])) {
 }
 
 // Work-out file mode
-if($advanced == '') {
+if($advanced == '')
+{
 	// Check if should be set to 777 or left alone
-	if(isset($_POST['world_writeable']) AND $_POST['world_writeable'] == 'true') {
+	if(isset($_POST['world_writeable']) AND $_POST['world_writeable'] == 'true')
+    {
 		$file_mode = '0777';
 		$dir_mode = '0777';
 	} else {
@@ -164,15 +159,17 @@ if($advanced == '') {
 }
 
 // Create new database object
-$database = new database();
+/*$database = new database(); */
 
 // Query current settings in the db, then loop through them and update the db with the new value
 $query = "SELECT name FROM ".TABLE_PREFIX."settings";
 $results = $database->query($query);
-while($setting = $results->fetchRow()) {
+while($setting = $results->fetchRow())
+{
 	$setting_name = $setting['name'];
 	$value = $admin->get_post($setting_name);
-	if ($setting_name!='wb_version') {
+	if ($setting_name!='wb_version')
+    {
 		$allow_tags_in_fields = array('website_header', 'website_footer','wbmailer_smtp_password');
 		if(!in_array($setting_name, $allow_tags_in_fields)) {
 			$value = strip_tags($value);
@@ -204,14 +201,9 @@ while($search_setting = $results->fetchRow())
 	$old_value = $search_setting['value'];
 	$setting_name = $search_setting['name'];
 	$post_name = 'search_'.$search_setting['name'];
-	if($admin->get_post($post_name) == '')
-    {
-        $value = $old_value;
-    }
-	else
-    {
-        $value = $admin->get_post($post_name);
-    }
+    // hold old value if post is empty
+    // check search template
+    $value = ( ($admin->get_post($post_name) == '') AND ($setting_name != 'template') ) ? $old_value : $admin->get_post($post_name);
 
 	$value = $admin->add_slashes($value);
 	$database->query("UPDATE ".TABLE_PREFIX."search SET value = '$value' WHERE name = '$setting_name'");

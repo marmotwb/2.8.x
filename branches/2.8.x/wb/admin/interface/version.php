@@ -27,7 +27,8 @@
  * This file is where the WB release version is stored.
  *
  */
- /**
+/**
+ *
  * @category     	admin
  * @package      	interface
  * @filesource		$HeadURL$
@@ -43,7 +44,7 @@
  * @revision     	$Revision$
  * @platform     	WebsiteBaker 2.8.x
  * @requirements 	PHP 4.3.4 and higher
- * @lastmodified    $Date: $
+ * @lastmodified    $Date$
  * 
  */
 
@@ -54,6 +55,6 @@ if(!defined('WB_URL')) {
 
 // check if defined to avoid errors during installation (redirect to admin panel fails if PHP error/warnings are enabled)
 if(!defined('VERSION')) define('VERSION', '2.8.1');
-if(!defined('REVISION')) define('REVISION', '1254');
+if(!defined('REVISION')) define('REVISION', '1255');
 
 ?>

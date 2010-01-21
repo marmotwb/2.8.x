@@ -9,8 +9,10 @@ Legend:
 - = Removed
 # = Bugfix
 ! = Update/Change
-
+ 
 ------------------------------------- 2.8.1 -------------------------------------
+21-Jan-2010 Dietmar Woellbrink (Luisehahne)
+#	Ticket #912 fix Search Template bug
 21-Jan-2010 Dietmar Woellbrink (Luisehahne)
 #	Ticket #915 fix bug in search (utf-8 characters corrupted)(thanks to Thorn)
 19-Jan-2010 Dietmar Woellbrink (Luisehahne)
