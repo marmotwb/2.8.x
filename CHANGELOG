@@ -12,6 +12,8 @@ Legend:
  
 ------------------------------------- 2.8.1 -------------------------------------
 21-Jan-2010 Dietmar Woellbrink (Luisehahne)
+!	updated YUI 2.4.1 to 2.8.0r4
+21-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	Beginning header information update
 21-Jan-2010 Dietmar Woellbrink (Luisehahne)
 #	fix login_form.php sometimes produce javascript errors in IE
