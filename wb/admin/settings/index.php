@@ -1,27 +1,13 @@
 <?php
-/****************************************************************************
-* SVN Version information:
+/*
 *
-* $Id$
-*
-*****************************************************************************
-*                          WebsiteBaker
-*
-* WebsiteBaker Project <http://www.websitebaker2.org/>
-* Copyright (C) 2009, Website Baker Org. e.V.
-*         http://start.websitebaker2.org/impressum-datenschutz.php
-* Copyright (C) 2004-2009, Ryan Djurovich
-*
-*                        About WebsiteBaker
+*                       About WebsiteBaker
 *
 * Website Baker is a PHP-based Content Management System (CMS)
 * designed with one goal in mind: to enable its users to produce websites
 * with ease.
 *
-*****************************************************************************
-*
-*****************************************************************************
-*                        LICENSE INFORMATION
+*                       LICENSE INFORMATION
 *
 * WebsiteBaker is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
@@ -36,25 +22,31 @@
 * You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-****************************************************************************
 *
 *                   WebsiteBaker Extra Information
 *
 *
-*
-*
-*****************************************************************************/
+*/
 /**
  *
- * @category     admin
- * @package      settings
- * @author       Ryan Djurovich
- * @copyright    2004-2009, Ryan Djurovich
- * @copyright    2009-2010, Website Baker Org. e.V.
- * @version      $Id$
- * @platform     WebsiteBaker 2.8.x
- * @requirements >= PHP 4.3.4
- * @license      http://www.gnu.org/licenses/gpl.html
+ * @category        admin
+ * @package         settings
+ * @author          Ryan Djurovich
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @filesource		$HeadURL$
+ * @author          Ryan Djurovich
+ * @copyright       2004-2009, Ryan Djurovich
+ *
+ * @author          WebsiteBaker Project
+ * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://start.websitebaker2.org/impressum-datenschutz.php
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @version         $Id$
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @lastmodified    $Date$
  *
  */
 
@@ -304,8 +296,10 @@ if((!defined('WYSIWYG_EDITOR') OR $file == WYSIWYG_EDITOR) ? $selected = ' selec
 $template->set_var('SELECTED', $selected);
 $template->parse('editor_list', 'editor_list_block', true);  
 $result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'module' AND function = 'wysiwyg'");
-if($result->numRows() > 0) {
-	while($addon = $result->fetchRow()) {
+if($result->numRows() > 0)
+{
+	while($addon = $result->fetchRow())
+    {
 		$template->set_var('FILE', $addon['directory']);
 		$template->set_var('NAME', $addon['name']);
 		if((defined('WYSIWYG_EDITOR') AND $addon['directory'] == WYSIWYG_EDITOR) ? $selected = ' selected="selected"' : $selected = '');
@@ -316,18 +310,13 @@ if($result->numRows() > 0) {
 
 // Insert templates for search settings
 $template->set_block('main_block', 'search_template_list_block', 'search_template_list');
-$search_template = ($search_template == DEFAULT_TEMPLATE) ? '' : $search_template;
-if( $search_template == '')
-{
-    $selected = ' selected="selected"';
-}
-else
-{
-  $selected = '';
-}
+
+$search_template = ( ($search_template == DEFAULT_TEMPLATE) OR ($search_template == '') ) ? '' : $search_template;
+
+$selected = ( ($search_template != DEFAULT_TEMPLATE) ) ?  ' selected="selected"' : $selected = '';
 
 $template->set_var(array(
-        'FILE' => DEFAULT_TEMPLATE,
+        'FILE' => '',
         'NAME' => $TEXT['SYSTEM_DEFAULT'],
         'SELECTED' => $selected
     ));
@@ -341,17 +330,9 @@ if($result->numRows() > 0)
     {
 		$template->set_var('FILE', $addon['directory']);
 		$template->set_var('NAME', $addon['name']);
-
-		if($addon['directory'] == $search_template)
-        {
-            $selected = ' selected="selected"';
-        }
-        else
-        {
-            $selected = '';
-        }
-
+        $selected = ($addon['directory'] == $search_template) ? ' selected="selected"' :  $selected = '';
 		$template->set_var('SELECTED', $selected);
+
 		$template->parse('search_template_list', 'search_template_list_block', true);
 	}
 }
@@ -362,11 +343,9 @@ $template->set_block('main_block', 'error_reporting_list_block', 'error_reportin
 foreach($ER_LEVELS AS $value => $title) {
 	$template->set_var('VALUE', $value);
 	$template->set_var('NAME', $title);
-	if(ER_LEVEL == $value) {
-		$template->set_var('SELECTED', ' selected="selected"');
-	} else {
-		$template->set_var('SELECTED', '');
-	}
+    $selected = (ER_LEVEL == $value) ? ' selected="selected"' : '';
+    $template->set_var('SELECTED', $selected);
+
 	$template->parse('error_reporting_list', 'error_reporting_list_block', true);
 }
 
@@ -377,9 +356,11 @@ if($admin->get_permission('settings_advanced') != true) {
 
 // Insert page level limits
 $template->set_block('main_block', 'page_level_limit_list_block', 'page_level_limit_list');
-for($i = 1; $i <= 10; $i++) {
+for($i = 1; $i <= 10; $i++)
+{
 	$template->set_var('NUMBER', $i);
-	if(PAGE_LEVEL_LIMIT == $i) {
+	if(PAGE_LEVEL_LIMIT == $i)
+    {
 		$template->set_var('SELECTED', ' selected="selected"');
 	} else {
 		$template->set_var('SELECTED', '');
