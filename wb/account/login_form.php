@@ -56,9 +56,11 @@ if(defined('SMART_LOGIN') AND SMART_LOGIN == 'enabled') {
 	<td style="width:100px"><?php echo $TEXT['USERNAME']; ?>:</td>
 	<td class="value_input">
 		<input type="text" name="<?php echo $username_fieldname; ?>" maxlength="30" style="width:220px;"/>
-		<script type="text/javascript">
-		document.login.<?php echo $username_fieldname; ?>.focus();
-		</script>
+    	<script type="text/javascript">
+    	// document.login.<?php echo $username_fieldname; ?>.focus();
+    	var ref= document.getElementById("<?php echo $username_fieldname; ?>");
+    	if (ref) ref.focus();
+    	</script>
 	</td>
 </tr>
 <tr>
