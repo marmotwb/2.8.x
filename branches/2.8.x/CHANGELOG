@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+21-Jan-2010 Dietmar Woellbrink (Luisehahne)
+#	Ticket #915 fix bug in search (utf-8 characters corrupted)(thanks to Thorn)
 19-Jan-2010 Dietmar Woellbrink (Luisehahne)
 #	fix some more small css-errors in WB Backend (thanks to Ruebenwurzel)
 19-Jan-2010 Dietmar Woellbrink (Luisehahne)
