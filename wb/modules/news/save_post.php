@@ -1,27 +1,13 @@
 <?php
-/****************************************************************************
-* SVN Version information:
+/*
 *
-* $Id$
-*
-*****************************************************************************
-*                          WebsiteBaker
-*
-* WebsiteBaker Project <http://www.websitebaker2.org/>
-* Copyright (C) 2009, Website Baker Org. e.V.
-*         http://start.websitebaker2.org/impressum-datenschutz.php
-* Copyright (C) 2004-2009, Ryan Djurovich
-*
-*                        About WebsiteBaker
+*                       About WebsiteBaker
 *
 * Website Baker is a PHP-based Content Management System (CMS)
 * designed with one goal in mind: to enable its users to produce websites
 * with ease.
 *
-*****************************************************************************
-*
-*****************************************************************************
-*                        LICENSE INFORMATION
+*                       LICENSE INFORMATION
 *
 * WebsiteBaker is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
@@ -36,27 +22,34 @@
 * You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-****************************************************************************
 *
 *                   WebsiteBaker Extra Information
 *
 *
-*
-*
-*****************************************************************************/
+*/
 /**
  *
- * @category     modules
- * @package      news
- * @author       Ryan Djurovich
- * @copyright    2004-2009, Ryan Djurovich
- * @copyright    2009-2010, Website Baker Org. e.V.
- * @version      $Id$
- * @platform     WebsiteBaker 2.8.x
- * @requirements >= PHP 4.3.4
- * @license      http://www.gnu.org/licenses/gpl.html
+ * @category        modules
+ * @package         news
+ * @author          Ryan Djurovich
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @filesource		$HeadURL$
+ * @author          Ryan Djurovich
+ * @copyright       2004-2009, Ryan Djurovich
+ *
+ * @author          WebsiteBaker Project
+ * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://start.websitebaker2.org/impressum-datenschutz.php
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @version         $Id$
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @lastmodified    $Date$
  *
  */
+
 require('../../config.php');
 
 require_once(WB_PATH."/include/jscalendar/jscalendar-functions.php");
@@ -81,7 +74,7 @@ global $page_id, $section_id, $post_id;
 	// First, delete old file if it exists
 	if(file_exists(WB_PATH.PAGES_DIRECTORY.$filename.PAGE_EXTENSION))
     {
-        $filetime = isset($filetime) ? $filetime :  filectime($filename);
+        $filetime = isset($filetime) ? $filetime :  filemtime($filename);
 		unlink(WB_PATH.PAGES_DIRECTORY.$filename.PAGE_EXTENSION);
 	}
     else {
@@ -161,13 +154,13 @@ if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/posts/'))
 {
 	$admin->print_error($MESSAGE['PAGES']['CANNOT_CREATE_ACCESS_FILE']);
 }
-elseif($old_link != $post_link OR !file_exists(WB_PATH.PAGES_DIRECTORY.$post_link.PAGE_EXTENSION))
+elseif(($old_link != $post_link) OR !file_exists(WB_PATH.PAGES_DIRECTORY.$post_link.PAGE_EXTENSION))
 {
 	// We need to create a new file
 	// First, delete old file if it exists
 	if(file_exists(WB_PATH.PAGES_DIRECTORY.$old_link.PAGE_EXTENSION))
     {
-        $file_create_time = filectime($old_link.PAGE_EXTENSION);
+        $file_create_time = filemtime($old_link.PAGE_EXTENSION);
 		unlink(WB_PATH.PAGES_DIRECTORY.$old_link.PAGE_EXTENSION);
 	}
 
