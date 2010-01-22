@@ -12,6 +12,9 @@ Legend:
  
 ------------------------------------- 2.8.1 -------------------------------------
 22-Jan-2010 Dietmar Woellbrink (Luisehahne)
+#	Ticket #869 Droplet-Engine does'nt work in some case
+!	continue update header info
+22-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	update header info
 22-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	update fckeditor, forgotten to upload a file

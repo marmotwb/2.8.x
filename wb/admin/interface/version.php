@@ -38,7 +38,6 @@
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 4.3.4 and higher
- * @requirements 	PHP 4.3.4 and higher
  * @revision     	$Revision$
  * @version      	$Id$
  * @filesource		$HeadURL$
@@ -53,6 +52,6 @@ if(!defined('WB_URL')) {
 
 // check if defined to avoid errors during installation (redirect to admin panel fails if PHP error/warnings are enabled)
 if(!defined('VERSION')) define('VERSION', '2.8.1');
-if(!defined('REVISION')) define('REVISION', '1268');
+if(!defined('REVISION')) define('REVISION', '1269');
 
 ?>
