@@ -31,19 +31,17 @@
  *
  * @category     	admin
  * @package      	interface
- * @filesource		$HeadURL$
- * @author       	Ryan Djurovich
- * @copyright    	2004-2009, Ryan Djurovich
- *
  * @author          WebsiteBaker Project
- * @link			http://www.websitebaker2.org/ 
- * @copyright		2009-2010, Website Baker Org. e.V.
- * @link			http://start.websitebaker2.org/impressum-datenschutz.php
- * @license      	http://www.gnu.org/licenses/gpl.html
- * @version      	$Id$
- * @revision     	$Revision$
- * @platform     	WebsiteBaker 2.8.x
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
  * @requirements 	PHP 4.3.4 and higher
+ * @revision     	$Revision$
+ * @version      	$Id$
+ * @filesource		$HeadURL$
  * @lastmodified    $Date$
  * 
  */
@@ -55,6 +53,6 @@ if(!defined('WB_URL')) {
 
 // check if defined to avoid errors during installation (redirect to admin panel fails if PHP error/warnings are enabled)
 if(!defined('VERSION')) define('VERSION', '2.8.1');
-if(!defined('REVISION')) define('REVISION', '1267');
+if(!defined('REVISION')) define('REVISION', '1268');
 
 ?>
