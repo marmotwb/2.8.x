@@ -39,8 +39,8 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 4.3.4 and higher
  * @version         $Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date: $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
 */
 
