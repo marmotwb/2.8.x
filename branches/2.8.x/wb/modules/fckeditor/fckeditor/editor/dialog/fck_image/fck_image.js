@@ -191,9 +191,9 @@ function LoadSelection()
 
 		GetE('txtLnkUrl').value		= sLinkUrl ;
 		GetE('cmbLnkTarget').value	= oLink.target ;
-		GetE('cmbAttContentRel').value	= oLink.rel ;
-		GetE('txtAttTitle').value		= oLink.title ;
-		GetE('txtAttId').value			= oLink.id ;
+		GetE('cmbLnkContentRel').value	= oLink.rel ;
+		GetE('txtLnkTitle').value		= oLink.title ;
+		GetE('txtLnkId').value			= oLink.id ;
 	var sClass ;
 	if ( oEditor.FCKBrowserInfo.IsIE )
 	{
@@ -201,14 +201,14 @@ function LoadSelection()
 		// Clean up temporary classes for internal use:
 		sClass = sClass.replace( FCKRegexLib.FCK_Class, '' ) ;
 
-		GetE('txtAttStyle').value	= oLink.style.cssText ;
+		GetE('txtLnkStyle').value	= oLink.style.cssText ;
 	}
 	else
 	{
 		sClass	= oLink.getAttribute('class',2) || '' ;
-		GetE('txtAttStyle').value	= oLink.getAttribute('style',2) || '' ;
+		GetE('txtLnkStyle').value	= oLink.getAttribute('style',2) || '' ;
 	}
-	GetE('txtAttClasses').value	= sClass ;
+	GetE('txtLnkClasses').value	= sClass ;
 
 		}
 
@@ -283,24 +283,24 @@ function Ok()
 
 		SetAttribute( oLink, '_fcksavedurl', sLnkUrl ) ;
 		SetAttribute( oLink, 'target', 	GetE('cmbLnkTarget').value ) ;
-		SetAttribute( oLink, 'rel', 	GetE('cmbAttContentRel').value ) ;
-		SetAttribute( oLink, 'id', 		GetE('txtAttId').value ) ;
-		SetAttribute( oLink, 'title', 	GetE('txtAttTitle').value ) ;
+		SetAttribute( oLink, 'rel', 	GetE('cmbLnkContentRel').value ) ;
+		SetAttribute( oLink, 'id', 		GetE('txtLnkId').value ) ;
+		SetAttribute( oLink, 'title', 	GetE('txtLnkTitle').value ) ;
 
 		if ( oEditor.FCKBrowserInfo.IsIE )
 		{
 			var sClass = GetE('txtAttClasses').value ;
 			// If it's also an anchor add an internal class
-			if ( GetE('txtAttName').value.length != 0 )
+			if ( GetE('txtLnkName').value.length != 0 )
 				sClass += ' FCK__AnchorC' ;
 			SetAttribute( oLink, 'className', sClass ) ;
 
-			oLink.style.cssText = GetE('txtAttStyle').value ;
+			oLink.style.cssText = GetE('txtLnkStyle').value ;
 		}
 		else
 		{
-			SetAttribute( oLink, 'class', GetE('txtAttClasses').value ) ;
-			SetAttribute( oLink, 'style', GetE('txtAttStyle').value ) ;
+			SetAttribute( oLink, 'class', GetE('txtLnkClasses').value ) ;
+			SetAttribute( oLink, 'style', GetE('txtLnkStyle').value ) ;
 		}
 		
 	}
