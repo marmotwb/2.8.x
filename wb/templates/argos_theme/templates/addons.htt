@@ -13,7 +13,7 @@
 			<table cellpadding="0" cellspacing="0" border="0" class="section" {DISPLAY_MODULES} >
 				<tr>
 					<td class="graphic" align="center" valign="middle" rowspan="2"><a href="{ADMIN_URL}/modules/index.php"><img src="{THEME_URL}/icons/modules.png" alt="0" /> </a> </td>
-					<td class="description" valign="top"><a href="{ADMIN_URL}/modules/index.php"><div class="title">{MODULES}</div></a>{MODULES_OVERVIEW}</td>
+					<td class="description" valign="top"><a href="{ADMIN_URL}/modules/index.php"><span class="title">{MODULES}</span></a>{MODULES_OVERVIEW}</td>
 				</tr>
 			</table>
 			<!-- END modules_block -->
@@ -21,7 +21,7 @@
 			<table cellpadding="0" cellspacing="0" border="0" class="section" {DISPLAY_TEMPLATES} >
 				<tr>
 					<td class="graphic" align="center" valign="middle" rowspan="2"><a href="{ADMIN_URL}/templates/index.php"><img src="{THEME_URL}/icons/templates.png" alt="{TEMPLATES}" /> </a> </td>
-					<td class="description" valign="top"><a href="{ADMIN_URL}/templates/index.php"><div class="title">{TEMPLATES}</div></a>{TEMPLATES_OVERVIEW}</td>
+					<td class="description" valign="top"><a href="{ADMIN_URL}/templates/index.php"><span class="title">{TEMPLATES}</span></a>{TEMPLATES_OVERVIEW}</td>
 				</tr>
 			</table>
 			<!-- END templates_block -->
@@ -29,7 +29,7 @@
 			<table cellpadding="0" cellspacing="0" border="0" class="section" {DISPLAY_LANGUAGES} >
 				<tr>
 					<td class="graphic" align="center" valign="middle" rowspan="2"><a href="{ADMIN_URL}/languages/index.php"><img src="{THEME_URL}/icons/languages.png" alt="{LANGUAGES}" /> </a> </td>
-					<td class="description" valign="top"> <a href="{ADMIN_URL}/languages/index.php"><div class="title">{LANGUAGES}</div></a>{LANGUAGES_OVERVIEW}</td>
+					<td class="description" valign="top"> <a href="{ADMIN_URL}/languages/index.php"><span class="title">{LANGUAGES}</span></a>{LANGUAGES_OVERVIEW}</td>
 				</tr>
 			</table>
 			<!-- END languages_block -->
@@ -37,7 +37,7 @@
 			<table cellpadding="0" cellspacing="0" border="0" class="section" {DISPLAY_RELOAD} >
 				<tr>
 					<td class="graphic" align="center" valign="middle" rowspan="2"><img src="{THEME_URL}/icons/admintools.png" alt="{TXT_ADMIN_SETTINGS}" /> </td>
-					<td class="description" valign="top"><div class="title">{TXT_ADMIN_SETTINGS}</div>
+					<td class="description" valign="top"><span class="title">{TXT_ADMIN_SETTINGS}</span>
 						<form action="{RELOAD_URL}" method="post">
 							{MESSAGE_RELOAD_ADDONS}
 							<br style="margin-bottom: 0.5em" />
