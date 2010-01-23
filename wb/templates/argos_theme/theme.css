@@ -1,4 +1,7 @@
-html {overflow: -moz-scrollbars-vertical;} /* Force firefox to always show room for a vertical scrollbar */
+
+html {
+overflow: -moz-scrollbars-vertical;  /* Force firefox to always show room for a vertical scrollbar */
+}
 
 body,td,th,input,textarea {font-family:verdana,arial,helvetica,sans-serif;font-size:11px;color:#333;}
 body {background:#f9f9f9 url(images/background.jpg) 0 0 repeat-x;margin:0;text-align:center;}
@@ -68,8 +71,8 @@ select option.disabled {color:#aaa;}
 .modify_link {padding:4px 0 0 7px;}
 
 .settings_table td {vertical-align:top;text-align:left;padding:5px;}
-.setting_name {width:180px;min-width:180px;}
-.setting_value {}
+.setting_name {width:10%;min-width:180px;}
+.setting_value { width: 90%}
 .setting_value input, .setting_value select, .setting_value textarea {width:100%;}
 .setting_value textarea {height:50px;}
 
