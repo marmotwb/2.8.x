@@ -12,6 +12,9 @@ Legend:
  
 ------------------------------------- 2.8.1 -------------------------------------
 22-Jan-2010 Dietmar Woellbrink (Luisehahne)
+!	update jquery to version 1.4, rename old one to jquery-min132.js
+#	fixed argos theme  
+22-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	continue update header info
 22-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	set svn keywords
