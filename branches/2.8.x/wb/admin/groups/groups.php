@@ -30,7 +30,7 @@
 /**
  *
  * @category        admin
- * @package         group permission
+ * @package         groups
  * @author          WebsiteBaker Project
  * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2010, Website Baker Org. e.V.
