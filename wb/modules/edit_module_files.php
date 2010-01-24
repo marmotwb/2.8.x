@@ -60,8 +60,7 @@ if(!file_exists(WB_PATH .'/framework/module.functions.php')) {
 	die;
 }
 
-// register the textarea to use edit_area
-echo (function_exists('registerEditArea')) ? registerEditArea('code_area', 'css', false) : '';
+echo (function_exists('registerEditArea')) ? registerEditArea('code_area', 'css', false) : 'none';
 
 // set default text output if varibles are not defined in the global WB language files
 $HEADING_CSS_FILE = (isset($GLOBALS['TEXT']['HEADING_CSS_FILE'])) ?$GLOBALS['TEXT']['HEADING_CSS_FILE'] :'Actual module file: ';

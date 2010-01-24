@@ -17,6 +17,7 @@ var WB_URL = '{WB_URL}';
 var THEME_URL = '{THEME_URL}';
 var ADMIN_URL = '{ADMIN_URL}';
 </script>
+<script src="{WB_URL}/include/editarea/edit_area_full.js" type="text/javascript"></script>
 {BACKEND_MODULE_JS}
 <script language="javascript" type="text/javascript">
 function confirm_link(message, url) {

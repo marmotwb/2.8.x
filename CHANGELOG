@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
  
 ------------------------------------- 2.8.1 -------------------------------------
+24-Jan-2010 Dietmar Woellbrink (Luisehahne)
+#	Ticket #921 fix issues in IE by using EditArea framework
 23-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	Ticket #921 Update EditArea framework
 !	fix stylings wb_them
