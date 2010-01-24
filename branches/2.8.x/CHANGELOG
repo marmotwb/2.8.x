@@ -11,7 +11,11 @@ Legend:
 ! = Update/Change
  
 ------------------------------------- 2.8.1 -------------------------------------
-22-Jan-2010 Dietmar Woellbrink (Luisehahne)
+23-Jan-2010 Dietmar Woellbrink (Luisehahne)
+!	Ticket #921 Update EditArea framework
+!	fix stylings wb_them
+!	fix upgradescript
+23-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	update jquery to version 1.4, rename old one to jquery-min132.js
 #	fixed argos theme  
 22-Jan-2010 Dietmar Woellbrink (Luisehahne)

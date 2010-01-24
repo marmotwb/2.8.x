@@ -229,13 +229,14 @@ $FAIL = '<span class="error">FAILED</span>';
     else
     {
         status_msg('<strong>WARNING:</strong><br />can\'t run Upgrade, missing tables', 'warning', 'div');
-    	echo '<h4>List missing tables, please check</h4>';
+    	echo '<h4>Install missing tables, you can install them in backend->addons->modules->advanced. Then again run upgrade-script.php</h4>';
         $result = array_diff ( $table_list, $all_tables );
+        echo '<h4>';
         while ( list ( $key, $val ) = each ( $result ) )
         {
             echo TABLE_PREFIX.$val.' '.$FAIL.'<br>';
         }
-
+        echo '</h4>';
     	echo '<br /><form action="'. $_SERVER['PHP_SELF'] .'">';
     	echo '<input type="submit" value="kick me back" style="float:left;" />';
     	echo '</form><br /><br />';
