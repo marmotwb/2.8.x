@@ -10,7 +10,7 @@
 						<a href="{ADMIN_URL}/users/index.php"><img src="{THEME_URL}/icons/users.png" alt="{USERS}" /></a>
 					</td>
 					<td class="description" valign="top">
-						<a href="{ADMIN_URL}/users/index.php"><div class="title">{USERS}</div></a>{USERS_OVERVIEW}
+						<a href="{ADMIN_URL}/users/index.php"><span class="title">{USERS}</span></a><p>{USERS_OVERVIEW}</p>
 					</td>
 				</tr>
 			</table>	
@@ -22,7 +22,7 @@
 						<a href="{ADMIN_URL}/groups/index.php"><img src="{THEME_URL}/icons/groups.png" alt="{GROUPS}" /></a>
 					</td>
 					<td class="description" valign="top">
-						<a href="{ADMIN_URL}/groups/index.php"><div class="title">{GROUPS}</div></a>{GROUPS_OVERVIEW}
+						<a href="{ADMIN_URL}/groups/index.php"><span class="title">{GROUPS}</span></a><p>{GROUPS_OVERVIEW}</p>
 					</td>
 				</tr>
 			</table>

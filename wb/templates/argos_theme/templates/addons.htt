@@ -21,7 +21,7 @@
 			<table cellpadding="0" cellspacing="0" border="0" class="section" {DISPLAY_TEMPLATES} >
 				<tr>
 					<td class="graphic" align="center" valign="middle" rowspan="2"><a href="{ADMIN_URL}/templates/index.php"><img src="{THEME_URL}/icons/templates.png" alt="{TEMPLATES}" /> </a> </td>
-					<td class="description" valign="top"><a href="{ADMIN_URL}/templates/index.php"><span class="title">{TEMPLATES}</span></a>{TEMPLATES_OVERVIEW}</td>
+					<td class="description" valign="top"><a href="{ADMIN_URL}/templates/index.php"><span class="title">{TEMPLATES}</span></a><p>{TEMPLATES_OVERVIEW}</p></td>
 				</tr>
 			</table>
 			<!-- END templates_block -->
@@ -29,7 +29,7 @@
 			<table cellpadding="0" cellspacing="0" border="0" class="section" {DISPLAY_LANGUAGES} >
 				<tr>
 					<td class="graphic" align="center" valign="middle" rowspan="2"><a href="{ADMIN_URL}/languages/index.php"><img src="{THEME_URL}/icons/languages.png" alt="{LANGUAGES}" /> </a> </td>
-					<td class="description" valign="top"> <a href="{ADMIN_URL}/languages/index.php"><span class="title">{LANGUAGES}</span></a>{LANGUAGES_OVERVIEW}</td>
+					<td class="description" valign="top"> <a href="{ADMIN_URL}/languages/index.php"><span class="title">{LANGUAGES}</span></a><p>{LANGUAGES_OVERVIEW}</p></td>
 				</tr>
 			</table>
 			<!-- END languages_block -->
