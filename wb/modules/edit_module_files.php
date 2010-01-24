@@ -72,7 +72,8 @@ require_once(WB_PATH .'/framework/module.functions.php');
 
 // check if the module directory is valid
 $mod_dir = check_module_dir($_POST['mod_dir']);
-if($mod_dir == '') {
+if($mod_dir == '')
+{
 	echo 'The specified module directory is invalid - script stopped.';
 	die;
 };
@@ -88,7 +89,8 @@ if($_POST['action'] == 'save' && mod_file_exists($mod_dir, $_POST['edit_file']))
 	}
 
 	$bytes = 0;
-	if ($css_content != '') {
+	if ($css_content != '')
+    {
 		// open the module CSS file for writting
 		$mod_file = @fopen(WB_PATH .'/modules/' .$mod_dir .'/' .$_POST['edit_file'], 'wb');
 		// write new content to the module CSS file
@@ -98,7 +100,8 @@ if($_POST['action'] == 'save' && mod_file_exists($mod_dir, $_POST['edit_file']))
 	}
 
 	// write out status message
-	if($bytes == 0 ) {
+	if($bytes == 0 )
+    {
 		$admin->print_error($TEXT['ERROR'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 	} else {
 		$admin->print_success($TEXT['SUCCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
@@ -121,7 +124,8 @@ if($_POST['action'] == 'save' && mod_file_exists($mod_dir, $_POST['edit_file']))
 	$css_file = (in_array($_POST['edit_file'], array('frontend.css', 'backend.css'))) ? $_POST['edit_file'] : '';
 
 	// display output
-	if($css_file == '') {
+	if($css_file == '')
+    {
 		// no valid module file to edit; display error message and backlink to modify.php
 		echo "<h2>Nothing to edit</h2>";
 		echo "<p>No valid module file exists for this module.</p>";
@@ -146,16 +150,18 @@ if($_POST['action'] == 'save' && mod_file_exists($mod_dir, $_POST['edit_file']))
 	  	<input type="hidden" name="mod_dir" value="<?php echo $mod_dir; ?>" />
 		<input type="hidden" name="edit_file" value="<?php echo $css_file; ?>" />
 	  	<input type="hidden" name="action" value="save" />
-		<textarea id="code_area" name="css_data" cols="115" rows="25" wrap="VIRTUAL" style="margin:2px;"><?php
+		<textarea id="code_area" name="css_data" cols="115" rows="25" wrap="VIRTUAL" style="margin:2px;width:100%;"><?php
 			echo htmlspecialchars($css_content); ?>
 		</textarea>
+<?php
 
+?>
   			<table cellpadding="0" cellspacing="0" border="0" width="100%">
   			<tr>
-    			<td align="left">
+    			<td class="left">
  				<input name="save" type="submit" value="<?php echo $TEXT['SAVE'];?>" style="width: 100px; margin-top: 5px;" />
     			</td>
-  				<td align="right">
+  				<td class="right">
       			<input type="button" value="<?php echo $TEXT['CANCEL']; ?>"
 						onclick="javascript: window.location = '<?php echo ADMIN_URL;?>/pages/modify.php?page_id=<?php echo $page_id; ?>';"
 						style="width: 100px; margin-top: 5px;" />

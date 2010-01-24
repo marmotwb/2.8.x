@@ -1,19 +1,50 @@
 <?php
-/**
- * Website Baker wrapper functions for the Javascript code editor: "EditArea"
- *
- * EditArea is created by Christophe Dolivet and released under "LGPL", 
- * "Apache" and "BSD" licenses. For the integration into Website Baker 
- * the LGPL license was choosen.
- *
- * LICENSE: GNU Lesser General Public License 3.0
- * 
- * @author		Christophe Dolivet (EditArea), Christian Sommer (WB wrapper)
- * @copyright	(c) 2005-2009
- * @license		http://www.gnu.org/copyleft/lesser.html
- * @version		0.7.2.3 
- * @platform	Website Baker 2.7
+/*
+*
+*                       About WebsiteBaker
+*
+* Website Baker is a PHP-based Content Management System (CMS)
+* designed with one goal in mind: to enable its users to produce websites
+* with ease.
+*
+*                       LICENSE INFORMATION
+*
+* WebsiteBaker is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 2
+* of the License, or (at your option) any later version.
+*
+* WebsiteBaker is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+* See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*
+*                   WebsiteBaker Extra Information
+*
+*  Website Baker wrapper functions for the Javascript code editor: "EditArea"
+*
 */
+/**
+ *
+ * @category        framework
+ * @package         include
+ * @author		    Christophe Dolivet (EditArea), Christian Sommer (WB wrapper)
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
 // prevent directory listing
 header('Location: ../../index.php');

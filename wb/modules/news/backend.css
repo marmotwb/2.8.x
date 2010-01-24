@@ -13,12 +13,7 @@
 */
 input.mod_news_edit_css {
   color: #000;
-  background-color: #F0F0F0;
-  border: 1px solid gray;
   padding: 2px;
-  margin: 0;
-  margin-left: 625px;
-  margin-top: -20px;
-  margin-bottom: 5px;
-  width: 110px;
-}
+  margin: -20px auto;
+  float: right;
+}		
