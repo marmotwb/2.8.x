@@ -4,7 +4,7 @@
 <head>
 <title>Browse Media</title>
 <link href="{THEME_URL}/media.css" rel="stylesheet" type="text/css" />
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 function confirm_link(message, url) {
 	if(confirm(message)) location.href = url;
 }

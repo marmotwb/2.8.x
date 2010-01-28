@@ -3,7 +3,7 @@
 	
 	{MESSAGE}
 	
-	<script language="javascript" type="text/javascript">
+	<script type="text/javascript">
 		setTimeout("location.href='{REDIRECT}'", {REDIRECT_TIMER});
 	</script>
 	
