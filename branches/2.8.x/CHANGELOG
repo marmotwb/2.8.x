@@ -12,6 +12,10 @@ Legend:
  
 ------------------------------------- 2.8.1 -------------------------------------
 24-Jan-2010 Dietmar Woellbrink (Luisehahne)
+!	update jquery 1.4.0 to 1.4.1, 
+-	removed include/jquery/plugins
+!	update backend themes
+#24-Jan-2010 Dietmar Woellbrink (Luisehahne)
 #	Ticket #923 argos_theme: Always Allowed Viewers in page_settings
 #	fixed css for pagetree to show in IE7
 24-Jan-2010 Dietmar Woellbrink (Luisehahne)

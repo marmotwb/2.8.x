@@ -9,7 +9,7 @@
 	<td width="160">{TEXT_DISPLAY_NAME}:</td>
 	<td>
 		<input type="text" name="display_name" value="{DISPLAY_NAME}" style="width: 98%;" />
-		<script language="javascript" type="text/javascript">
+		<script type="text/javascript">
 		document.details.display_name.focus();
 		</script>
 	</td>

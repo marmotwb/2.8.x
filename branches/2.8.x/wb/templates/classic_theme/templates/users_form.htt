@@ -1,6 +1,6 @@
 <!-- BEGIN main_block -->
 
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 function toggle_radio(radio_on, radio_off) {
 	document.getElementById(radio_on).checked = true;
 	document.getElementById(radio_off).checked = true;

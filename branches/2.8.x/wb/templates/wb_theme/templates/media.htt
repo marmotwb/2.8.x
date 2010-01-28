@@ -1,6 +1,6 @@
 <!-- BEGIN main_block -->
 
-<script src="{WB_URL}/include/jquery/plugins/toggle_zip.js" type="text/javascript"></script>
+<script src="{THEME_URL}/jquery/toggle_zip.js" type="text/javascript"></script>
 
 <h2>{HEADING_BROWSE_MEDIA}</h2>
 
