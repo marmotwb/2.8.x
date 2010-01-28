@@ -1,29 +1,23 @@
 <?php
+/**
+ *
+ * @category        modules
+ * @package         news
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @version      	$Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
-
-if(defined('WB_URL')) {
+if(defined('WB_URL'))
+{
 	
 	// $database->query("DROP TABLE IF EXISTS `".TABLE_PREFIX."mod_news_posts`");
 	$mod_news = 'CREATE TABLE IF NOT EXISTS `'.TABLE_PREFIX.'mod_news_posts` ( '
@@ -70,6 +64,7 @@ if(defined('WB_URL')) {
 					 . '`commented_by` INT NOT NULL DEFAULT \'0\','
 					 . 'PRIMARY KEY (comment_id)'
                 . ' )';
+
 	$database->query($mod_news);
 	
 	// $database->query("DROP TABLE IF EXISTS `".TABLE_PREFIX."mod_news_settings`");
@@ -91,6 +86,7 @@ if(defined('WB_URL')) {
 					 . ' `use_captcha` INT NOT NULL DEFAULT \'0\','
 					 . 'PRIMARY KEY (section_id)'
                 . ' )';
+
 	$database->query($mod_news);
 		
     $mod_search = "SELECT * FROM ".TABLE_PREFIX."search  WHERE value = 'mod_wysiwyg_query'";

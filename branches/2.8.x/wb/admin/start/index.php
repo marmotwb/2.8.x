@@ -1,32 +1,4 @@
 <?php
-/*
-*
-*                       About WebsiteBaker
-*
-* Website Baker is a PHP-based Content Management System (CMS)
-* designed with one goal in mind: to enable its users to produce websites
-* with ease.
-*
-*                       LICENSE INFORMATION
-*
-* WebsiteBaker is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License
-* as published by the Free Software Foundation; either version 2
-* of the License, or (at your option) any later version.
-*
-* WebsiteBaker is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-* See the GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*
-*                   WebsiteBaker Extra Information
-*
-*
-*/
 /**
  *
  * @category        admin
@@ -66,29 +38,36 @@ $template->set_var(array(
 						);
 
 // Insert permission values into the template object
-if($admin->get_permission('pages') != true) {
+if($admin->get_permission('pages') != true)
+{
 	$template->set_var('DISPLAY_PAGES', 'display:none;');
 }
-if($admin->get_permission('media') != true) {
+if($admin->get_permission('media') != true)
+{
 	$template->set_var('DISPLAY_MEDIA', 'display:none;');
 }
-if($admin->get_permission('addons') != true) {
+if($admin->get_permission('addons') != true)
+{
 	$template->set_var('DISPLAY_ADDONS', 'display:none;');
 }
-if($admin->get_permission('access') != true) {
+if($admin->get_permission('access') != true)
+{
 	$template->set_var('DISPLAY_ACCESS', 'display:none;');
 }
-if($admin->get_permission('settings') != true) {
+if($admin->get_permission('settings') != true)
+{
 	$template->set_var('DISPLAY_SETTINGS', 'display:none;');
 }
-if($admin->get_permission('admintools') != true) {
+if($admin->get_permission('admintools') != true)
+{
 	$template->set_var('DISPLAY_ADMINTOOLS', 'display:none;');
 }
 
 // Check if installation directory still exists
 if(file_exists(WB_PATH.'/install/')) {
 	// Check if user is part of Adminstrators group
-	if(in_array(1, $admin->get_groups_id())) {
+	if(in_array(1, $admin->get_groups_id()))
+    {
 		$template->set_var('WARNING', $MESSAGE['START']['INSTALL_DIR_EXISTS']);
 	} else {
 		$template->set_var('DISPLAY_WARNING', 'display:none;');
@@ -100,16 +79,19 @@ if(file_exists(WB_PATH.'/install/')) {
 // Insert "Add-ons" section overview (pretty complex compared to normal)
 $addons_overview = $TEXT['MANAGE'].' ';
 $addons_count = 0;
-if($admin->get_permission('modules') == true) {
+if($admin->get_permission('modules') == true)
+{
 	$addons_overview .= '<a href="'.ADMIN_URL.'/modules/index.php">'.$MENU['MODULES'].'</a>';
 	$addons_count = 1;
 }
-if($admin->get_permission('templates') == true) {
+if($admin->get_permission('templates') == true)
+{
 	if($addons_count == 1) { $addons_overview .= ', '; }
 	$addons_overview .= '<a href="'.ADMIN_URL.'/templates/index.php">'.$MENU['TEMPLATES'].'</a>';
 	$addons_count = 1;
 }
-if($admin->get_permission('languages') == true) {
+if($admin->get_permission('languages') == true)
+{
 	if($addons_count == 1) { $addons_overview .= ', '; }
 	$addons_overview .= '<a href="'.ADMIN_URL.'/languages/index.php">'.$MENU['LANGUAGES'].'</a>';
 }

@@ -1,27 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/**
+ *
+ * @category        admin
+ * @package         pages
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL:  $
+ * @lastmodified    $Date:  $
+ *
+ */
 
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
@@ -40,14 +33,21 @@ function make_list($parent, $editable_pages) {
 	?>
 	<ul id="p<?php echo $parent; ?>" <?php if($parent != 0) { echo 'class="page_list" '; if(isset($_COOKIE['p'.$parent]) && $_COOKIE['p'.$parent] == '1'){ echo 'style="display:block"'; }} ?>>
 	<?php
+	// $database = new database();
+
 	// Get page list from database
-	$database = new database();
-	if(PAGE_TRASH != 'inline') {
-		$query = "SELECT * FROM ".TABLE_PREFIX."pages WHERE parent = '$parent' AND visibility != 'deleted' ORDER BY position ASC";
+    $sql = 'SELECT * FROM `'.TABLE_PREFIX.'pages` WHERE `parent` = '.$parent;
+    $sql .= (PAGE_TRASH != 'inline') ?  ' AND `visibility` != "deleted"' : '';
+    $sql .= ' ORDER BY `position` ASC';
+	$get_pages = $database->query($sql);
+/*
+	if(PAGE_TRASH != 'inline')
+    {
+		$sql = "SELECT * FROM ".TABLE_PREFIX."pages WHERE parent = '$parent' AND visibility != 'deleted' ORDER BY position ASC";
 	} else {
-		$query = "SELECT * FROM ".TABLE_PREFIX."pages WHERE parent = '$parent' ORDER BY position ASC";
+		$sql = "SELECT * FROM ".TABLE_PREFIX."pages WHERE parent = '$parent' ORDER BY position ASC";
 	}
-	$get_pages = $database->query($query);
+*/
 	// Insert values into main page list
 	if($get_pages->numRows() > 0) {
 		while($page = $get_pages->fetchRow()) {
@@ -55,25 +55,32 @@ function make_list($parent, $editable_pages) {
 			$admin_groups = explode(',', str_replace('_', '', $page['admin_groups']));
 			$admin_users = explode(',', str_replace('_', '', $page['admin_users']));
 			$in_group = FALSE;
-			foreach($admin->get_groups_id() as $cur_gid) {
-				if (in_array($cur_gid, $admin_groups)) {
+			foreach($admin->get_groups_id() as $cur_gid)
+            {
+				if (in_array($cur_gid, $admin_groups))
+                {
 					$in_group = TRUE;
 				}
 			}
-			if(($in_group) OR is_numeric(array_search($admin->get_user_id(), $admin_users))) {
-				if($page['visibility'] == 'deleted') {
-					if(PAGE_TRASH == 'inline') {
+			if(($in_group) OR is_numeric(array_search($admin->get_user_id(), $admin_users)))
+            {
+				if($page['visibility'] == 'deleted')
+                {
+					if(PAGE_TRASH == 'inline')
+                    {
 						$can_modify = true;
 						$editable_pages = $editable_pages+1;
 					} else {
 						$can_modify = false;
 					}
-				} elseif($page['visibility'] != 'deleted') {
+				} elseif($page['visibility'] != 'deleted')
+                {
 					$can_modify = true;
 					$editable_pages = $editable_pages+1;
 				}
 			} else {
-				if($page['visibility'] == 'private') {
+				if($page['visibility'] == 'private')
+                {
 					continue;
 				}
 				else {
@@ -81,12 +88,20 @@ function make_list($parent, $editable_pages) {
 				}
 			}
 			// Work out if we should show a plus or not
-			if(PAGE_TRASH != 'inline') {
+            $sql = 'SELECT `page_id`,`admin_groups`,`admin_users` FROM `'.TABLE_PREFIX.'pages` WHERE `parent` = '.$page['page_id'];
+            $sql .= (PAGE_TRASH != 'inline') ?  ' AND `visibility` != "deleted"' : '';
+            // $sql .= ' ORDER BY `position` ASC';
+        	$get_page_subs = $database->query($sql);
+/*
+			if(PAGE_TRASH != 'inline')
+            {
 				$get_page_subs = $database->query("SELECT page_id,admin_groups,admin_users FROM ".TABLE_PREFIX."pages WHERE parent = '".$page['page_id']."' AND visibility!='deleted'");
 			} else {
 				$get_page_subs = $database->query("SELECT page_id,admin_groups,admin_users FROM ".TABLE_PREFIX."pages WHERE parent = '".$page['page_id']."'");
 			}
-			if($get_page_subs->numRows() > 0) {
+*/
+			if($get_page_subs->numRows() > 0)
+            {
 				$display_plus = true;
 			} else {
 				$display_plus = false;
@@ -175,25 +190,36 @@ function make_list($parent, $editable_pages) {
 				<td class="list_actions">
 				<?php
 				// Work-out if we should show the "manage dates" link
-				if(MANAGE_SECTIONS == 'enabled' && $admin->get_permission('pages_modify')==true && $can_modify==true) {
-					$query_sections = $database->query("SELECT publ_start, publ_end FROM ".TABLE_PREFIX."sections WHERE page_id = '{$page['page_id']}' AND module != 'menu_link'");
-					if($query_sections->numRows() > 0) {
+				if(MANAGE_SECTIONS == 'enabled' && $admin->get_permission('pages_modify')==true && $can_modify==true)
+                {
+
+                    $sql = 'SELECT `publ_start`, `publ_end` FROM `'.TABLE_PREFIX.'sections`';
+                    $sql .= ' WHERE `page_id` = '.$page['page_id'].' AND `module` != "menu_link"';
+                    $query_sections = $database->query($sql);
+
+					// $query_sections = $database->query("SELECT publ_start, publ_end FROM ".TABLE_PREFIX."sections WHERE page_id = '{$page['page_id']}' AND module != 'menu_link'");
+
+					if($query_sections->numRows() > 0)
+                    {
 						$mdate_display=false;
-						while($mdate_res = $query_sections->fetchRow()) {
-							if($mdate_res['publ_start']!='0' || $mdate_res['publ_end']!='0') {
+						while($mdate_res = $query_sections->fetchRow())
+                        {
+							if($mdate_res['publ_start']!='0' || $mdate_res['publ_end']!='0')
+                            {
 								$mdate_display=true;
 								break;
 							}
 						}
-						if($mdate_display==1) {
+						if($mdate_display==1)
+                        {
 							$file=$admin->page_is_active($page)?"clock_16.png":"clock_red_16.png";
 							?>
 							<a href="<?php echo ADMIN_URL; ?>/pages/sections.php?page_id=<?php echo $page['page_id']; ?>" title="<?php echo $HEADING['MANAGE_SECTIONS']; ?>">
-							<img src="<?php echo THEME_URL."/images/$file"; ?>" border="0" alt="<?php echo $HEADING['MANAGE_SECTIONS']; ?>" />	
+							<img src="<?php echo THEME_URL."/images/$file"; ?>" border="0" alt="<?php echo $HEADING['MANAGE_SECTIONS']; ?>" />
 							</a>
 						<?php } else { ?>
 							<a href="<?php echo ADMIN_URL; ?>/pages/sections.php?page_id=<?php echo $page['page_id']; ?>" title="<?php echo $HEADING['MANAGE_SECTIONS']; ?>">
-							<img src="<?php echo THEME_URL; ?>/images/noclock_16.png" border="0" alt="<?php echo $HEADING['MANAGE_SECTIONS']; ?>" /></a>	
+							<img src="<?php echo THEME_URL; ?>/images/noclock_16.png" border="0" alt="<?php echo $HEADING['MANAGE_SECTIONS']; ?>" /></a>
 						<?php } ?>
 					<?php } ?>
 				<?php } ?>
@@ -245,7 +271,8 @@ function make_list($parent, $editable_pages) {
 			</table>
 			</li>
 			<?php
-			if ( $page['parent'] = 0) {
+			if ( $page['parent'] = 0)
+            {
 				$page_tmp_id = $page['page_id'];
 			}
 			// Get subs
@@ -440,8 +467,9 @@ if($editable_pages == 0) {
 
 
 // Parent page list
-$database = new database();
-function parent_list($parent) {
+// $database = new database();
+function parent_list($parent)
+{
 	global $admin, $database, $template, $field_set;
 	$query = "SELECT * FROM ".TABLE_PREFIX."pages WHERE parent = '$parent' AND visibility!='deleted' ORDER BY position ASC";
 	$get_pages = $database->query($query);
