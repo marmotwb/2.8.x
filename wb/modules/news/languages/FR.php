@@ -1,32 +1,4 @@
 <?php
-/*
-*
-*                       About WebsiteBaker
-*
-* Website Baker is a PHP-based Content Management System (CMS)
-* designed with one goal in mind: to enable its users to produce websites
-* with ease.
-*
-*                       LICENSE INFORMATION
-*
-* WebsiteBaker is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License
-* as published by the Free Software Foundation; either version 2
-* of the License, or (at your option) any later version.
-*
-* WebsiteBaker is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-* See the GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*
-*                   WebsiteBaker Extra Information
-*
-*
-*/
 /**
  *
  * @category        modules
@@ -45,7 +17,7 @@
  */
 
 //Module Description
-$module_description = 'This page type is designed for making a news page.';
+$module_description = 'Ce type de page est conçu &agrave faire une page de nouvelles.';
 
 //Variables for the  backend
 $MOD_NEWS['SETTINGS'] = 'Configurations Nouvelles';
@@ -61,7 +33,7 @@ $MOD_NEWS['TEXT_COMMENTS'] = 'Commentaires';
 $MOD_NEWS['TEXT_COMMENT'] = 'Commentaire';
 $MOD_NEWS['TEXT_ADD_COMMENT'] = 'Ajouter un commentaire';
 $MOD_NEWS['TEXT_BY'] = 'Par';
-$MOD_NEWS['PAGE_NOT_FOUND'] = 'Page not found';
-$TEXT['UNKNOWN'] = 'Guest';
+$MOD_NEWS['PAGE_NOT_FOUND'] = 'Page non trouv&eacute;e';
+$TEXT['UNKNOWN'] = 'Invit&eacute;';
 
 ?>

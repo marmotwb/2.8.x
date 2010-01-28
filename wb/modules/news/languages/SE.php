@@ -17,23 +17,23 @@
  */
 
 //Modul Description
-$module_description = 'Med denne modulen kan du lage Nyhets sider.';
-  
+$module_description = 'Den h&auml;r sidtypen &auml;r designad f&ouml;r att skapa en nyhetssida.';
+
 //Variables for the backend
-$MOD_NEWS['SETTINGS'] = 'Innstillinger for Nyheter';
+$MOD_NEWS['SETTINGS'] = 'Inst&auml;llningar';
 
 //Variables for the frontend
-$MOD_NEWS['TEXT_READ_MORE'] = 'Les Mer';
-$MOD_NEWS['TEXT_POSTED_BY'] = 'Skervet Av';
-$MOD_NEWS['TEXT_ON'] = 'P&aring;';
-$MOD_NEWS['TEXT_LAST_CHANGED'] = 'Sist Endret';
-$MOD_NEWS['TEXT_AT'] = 'p&aring;';
-$MOD_NEWS['TEXT_BACK'] = 'Tilbake';
+$MOD_NEWS['TEXT_READ_MORE'] = 'L&auml;s mer';
+$MOD_NEWS['TEXT_POSTED_BY'] = 'Postat av';
+$MOD_NEWS['TEXT_ON'] = 'den';
+$MOD_NEWS['TEXT_LAST_CHANGED'] = 'Senaste &auml;ndring';
+$MOD_NEWS['TEXT_AT'] = 'kl.';
+$MOD_NEWS['TEXT_BACK'] = 'Tillbaka';
 $MOD_NEWS['TEXT_COMMENTS'] = 'Kommentarer';
-$MOD_NEWS['TEXT_COMMENT'] = 'Kommentar';
-$MOD_NEWS['TEXT_ADD_COMMENT'] = 'Legg Til Kommentar';
+$MOD_NEWS['TEXT_COMMENT'] = 'kommentar';
+$MOD_NEWS['TEXT_ADD_COMMENT'] = 'Kommentera';
 $MOD_NEWS['TEXT_BY'] = 'Av';
-$MOD_NEWS['PAGE_NOT_FOUND'] = 'Finner ikke siden ';
+$MOD_NEWS['PAGE_NOT_FOUND'] = 'Sidan kunde inte hittas';
 $TEXT['UNKNOWN'] = 'Guest';
 
 ?>
