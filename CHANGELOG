@@ -12,6 +12,8 @@ Legend:
  
 ------------------------------------- 2.8.1 -------------------------------------
 28-Jan-2010 Dietmar Woellbrink (Luisehahne)
+#	Ticket #925 Slovak Lang Missing in allowed install languages!
+28-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	update headertext
 28-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	update jquery 1.4.0 to 1.4.1, 
