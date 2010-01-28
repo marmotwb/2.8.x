@@ -1,35 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
-
-/*
-
-wb class
-
-This class is the basis for admin and frontend classes.
-
-*/
+/**
+ *
+ * @category        frontend
+ * @package         framework
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL: $
+ * @lastmodified    $Date:  $
+ *
+ */
 
 // Include PHPLIB template class
 require_once(WB_PATH."/include/phplib/template.inc");
@@ -45,35 +30,44 @@ class wb
 	// performed when frontend or backend is loaded.
 	function wb() {
 	}
-	
+
 	// Check whether a page is visible or not.
 	// This will check page-visibility and user- and group-rights.
 	/* page_is_visible() returns
 		false: if page-visibility is 'none' or 'deleted', or page-vis. is 'registered' or 'private' and user isn't allowed to see the page.
 		true: if page-visibility is 'public' or 'hidden', or page-vis. is 'registered' or 'private' and user _is_ allowed to see the page.
 	*/
-	function page_is_visible($page) {
+	function page_is_visible($page)
+    {
 		$show_it = false; // shall we show the page?
 		$page_id = $page['page_id'];
 		$visibility = $page['visibility'];
 		$viewing_groups = $page['viewing_groups'];
 		$viewing_users = $page['viewing_users'];
+
 		// First check if visibility is 'none', 'deleted'
-		if($visibility == 'none') {
+		if($visibility == 'none')
+        {
 			return(false);
-		} elseif($visibility == 'deleted') {
+		} elseif($visibility == 'deleted')
+        {
 			return(false);
 		}
+
 		// Now check if visibility is 'hidden', 'private' or 'registered'
 		if($visibility == 'hidden') { // hidden: hide the menu-link, but show the page
 			$show_it = true;
-		} elseif($visibility == 'private' || $visibility == 'registered') {
+		} elseif($visibility == 'private' || $visibility == 'registered')
+        {
 			// Check if the user is logged in
-			if($this->is_authenticated() == true) {
+			if($this->is_authenticated() == true)
+            {
 				// Now check if the user has perms to view the page
 				$in_group = false;
-				foreach($this->get_groups_id() as $cur_gid){
-				    if(in_array($cur_gid, explode(',', $viewing_groups))) {
+				foreach($this->get_groups_id() as $cur_gid)
+                {
+				    if(in_array($cur_gid, explode(',', $viewing_groups)))
+                    {
 				        $in_group = true;
 				    }
 				}
@@ -93,15 +87,19 @@ class wb
 		return($show_it);
 	}
 	// Check if there is at least one active section on this page
-	function page_is_active($page) {
+	function page_is_active($page)
+    {
 		global $database;
 		$has_active_sections = false;
 		$page_id = $page['page_id'];
 		$now = time();
 		$query_sections = $database->query("SELECT publ_start,publ_end FROM ".TABLE_PREFIX."sections WHERE page_id = '$page_id'");
-		if($query_sections->numRows() != 0) {
-			while($section = $query_sections->fetchRow()) {
-				if($now<$section['publ_end'] && ($now>$section['publ_start'] || $section['publ_start']==0) || $now>$section['publ_start'] && $section['publ_end']==0) {
+		if($query_sections->numRows() != 0)
+        {
+			while($section = $query_sections->fetchRow())
+            {
+				if($now<$section['publ_end'] && ($now>$section['publ_start'] || $section['publ_start']==0) || $now>$section['publ_start'] && $section['publ_end']==0)
+                {
 					$has_active_sections = true;
 					break;
 				}
@@ -111,8 +109,10 @@ class wb
 	}
 
 	// Check whether we should show a page or not (for front-end)
-	function show_page($page) {
-		if($this->page_is_visible($page) && $this->page_is_active($page)) {
+	function show_page($page)
+    {
+		if($this->page_is_visible($page) && $this->page_is_active($page))
+        {
 			return true;
 		} else {
 			return false;
@@ -121,12 +121,14 @@ class wb
 
 	// Check if the user is already authenticated or not
 	function is_authenticated() {
-		if(isset($_SESSION['USER_ID']) AND $_SESSION['USER_ID'] != "" AND is_numeric($_SESSION['USER_ID'])) {
+		if(isset($_SESSION['USER_ID']) AND $_SESSION['USER_ID'] != "" AND is_numeric($_SESSION['USER_ID']))
+        {
 			return true;
 		} else {
 			return false;
 		}
 	}
+
 	// Modified addslashes function which takes into account magic_quotes
 	function add_slashes($input) {
 		if ( get_magic_quotes_gpc() || ( !is_string($input) ) ) {

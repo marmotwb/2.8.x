@@ -11,7 +11,9 @@ Legend:
 ! = Update/Change
  
 ------------------------------------- 2.8.1 -------------------------------------
-24-Jan-2010 Dietmar Woellbrink (Luisehahne)
+28-Jan-2010 Dietmar Woellbrink (Luisehahne)
+!	update headertext
+28-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	update jquery 1.4.0 to 1.4.1, 
 -	removed include/jquery/plugins
 !	update backend themes
