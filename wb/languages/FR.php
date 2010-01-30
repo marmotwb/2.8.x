@@ -1,27 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
-Website Baker Project <http://www.websitebaker.org/>
-Copyright (C) 2004-2009, Ryan Djurovich
-
-Website Baker is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-Website Baker is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Website Baker; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/**
+ *
+ * @category        framework
+ * @package         language
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
 // use languageedit-module to modify this file
 
@@ -71,7 +64,7 @@ $OVERVIEW['USERS'] = 'Gestion des acc&egrave;s au site';
 $OVERVIEW['GROUPS'] = 'Gestions des groupes d&apos;utilisateurs et des permissions';
 $OVERVIEW['HELP'] = 'Aide et FAQ sur l&apos;utilisation du site';
 $OVERVIEW['VIEW'] = 'Aper&ccedil;u du site dans une nouvelle fen&ecirc;tre';
-$OVERVIEW['ADMINTOOLS'] = 'Acc&egrave;s aux outils d&apos;administration de Website Baker...';
+$OVERVIEW['ADMINTOOLS'] = 'Acc&egrave;s aux outils d&apos;administration de WebsiteBaker...';
 
 // Headings
 $HEADING['MODIFY_DELETE_PAGE'] = 'Modifier/Supprimer une page';
@@ -399,7 +392,7 @@ $TEXT['RESTORE'] = 'Restaurer';
 $TEXT['BACKUP_DATABASE'] = 'Sauvegarde de la base de donn&eacute;es';
 $TEXT['RESTORE_DATABASE'] = 'Restauration de la base de donn&eacute;es';
 $TEXT['BACKUP_ALL_TABLES'] = 'Sauvegarder toutes les tables de la base de donn&eacute;es';
-$TEXT['BACKUP_WB_SPECIFIC'] = 'Sauvegarder uniquement les tables li&eacute;es &agrave; Website Baker';
+$TEXT['BACKUP_WB_SPECIFIC'] = 'Sauvegarder uniquement les tables li&eacute;es &agrave; WebsiteBaker';
 $TEXT['BACKUP_MEDIA'] = 'Sauvegarde des fichiers media';
 $TEXT['RESTORE_MEDIA'] = 'Restauration des fichiers media';
 $TEXT['ADMINISTRATION_TOOL'] = 'Outils d&apos;administration';
@@ -414,7 +407,7 @@ $TEXT['PUBL_START_DATE'] = 'Date de d&eacute;but';
 $TEXT['PUBL_END_DATE'] = 'Date de fin';
 $TEXT['CALENDAR'] = 'Calendrier';
 $TEXT['DELETE_DATE'] = 'Date de suppression';
-$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Merci d&apos;indiquer un nom et une adresse d&apos;exp&eacute;diteur par d&eacute;faut. Il est recommand&eacute; d&apos;utiliser une adresse d&apos;exp&eacute;diteur de la forme : <strong>admin@yourdomain.com</strong>. Certains op&eacute;rateurs de mail (comme <em>mail.com</em>) peuvent rejeter les mails dont l&apos;adresse d&apos;exp&eacute;diteur est de la forme <em>name@mail.com</em> envoy&eacute;s via un relai, c&apos;est leur mani&egrave;re de lutter contre le spam.<br /><br />Les valeur par d&eacute;faut sont uniquement utilis&eacute;es si aucune autre valeur n&apos;est sp&eacute;cifi&eacute;e par Website Baker. Si votre serveur supporte <acronym title="Simple mail transfer protocol">SMTP</acronym>, vous pouvez utiliser cette option pour l&apos;exp&eacute;dition d&apos;emails.';
+$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Merci d&apos;indiquer un nom et une adresse d&apos;exp&eacute;diteur par d&eacute;faut. Il est recommand&eacute; d&apos;utiliser une adresse d&apos;exp&eacute;diteur de la forme : <strong>admin@yourdomain.com</strong>. Certains op&eacute;rateurs de mail (comme <em>mail.com</em>) peuvent rejeter les mails dont l&apos;adresse d&apos;exp&eacute;diteur est de la forme <em>name@mail.com</em> envoy&eacute;s via un relai, c&apos;est leur mani&egrave;re de lutter contre le spam.<br /><br />Les valeur par d&eacute;faut sont uniquement utilis&eacute;es si aucune autre valeur n&apos;est sp&eacute;cifi&eacute;e par WebsiteBaker. Si votre serveur supporte <acronym title="Simple mail transfer protocol">SMTP</acronym>, vous pouvez utiliser cette option pour l&apos;exp&eacute;dition d&apos;emails.';
 $TEXT['WBMAILER_DEFAULT_SENDER_MAIL'] = 'Adresse d&apos;exp&eacute;diteur par d&eacute;faut';
 $TEXT['WBMAILER_DEFAULT_SENDER_NAME'] = 'Nom d&apos;exp&eacute;diteur par d&eacute;faut';
 $TEXT['WBMAILER_NOTICE'] = '<strong>Param&egrave;tres du serveur SMTP :</strong><br />Les param&egrave;tres ci-dessous sont uniquement requis si vous souhaitez envoyer des mails via <acronym title="Simple mail transfer protocol">SMTP</acronym>. Si vous ne connaissez pas votre serveur SMTP ou si vous n&apos;&ecirc;tes pas s&ucirc;r de la valeur des param&egrave;tres requis, conservez simplement le m&eacute;canisme par d&eacute;faut : PHP MAIL.';

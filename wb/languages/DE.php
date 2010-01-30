@@ -1,27 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
-Website Baker Project <http://www.websitebaker.org/>
-Copyright (C) 2004-2009, Ryan Djurovich
-
-Website Baker is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-Website Baker is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Website Baker; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/**
+ *
+ * @category        framework
+ * @package         language
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.website baker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
 // use languageedit-module to modify this file
 
@@ -62,16 +55,16 @@ $MENU['FORGOT'] = 'Anmelde-Details anfordern';
 $OVERVIEW['START'] = '&Uuml;berblick &uuml;ber die Verwaltung';
 $OVERVIEW['PAGES'] = 'Verwaltung Ihrer Webseiten...';
 $OVERVIEW['MEDIA'] = 'Verwaltung der im Medienordner gespeicherten Dateien...';
-$OVERVIEW['MODULES'] = 'Verwaltung der Website Baker Module...';
+$OVERVIEW['MODULES'] = 'Verwaltung der WebsiteBaker Module...';
 $OVERVIEW['TEMPLATES'] = '&Auml;ndern des Designs Ihrer Webseite mit Vorlagen...';
 $OVERVIEW['LANGUAGES'] = 'Sprachen verwalten...';
 $OVERVIEW['PREFERENCES'] = '&Auml;ndern pers&ouml;nlicher Einstellungen wie E-Mail Adresse, Passwort, usw.... ';
-$OVERVIEW['SETTINGS'] = '&Auml;ndern der Optionen f&uuml;r Website Baker...';
-$OVERVIEW['USERS'] = 'Verwaltung von Benutzern, die sich in Website Baker einloggen d&uuml;rfen...';
+$OVERVIEW['SETTINGS'] = '&Auml;ndern der Optionen f&uuml;r WebsiteBaker...';
+$OVERVIEW['USERS'] = 'Verwaltung von Benutzern, die sich in WebsiteBaker einloggen d&uuml;rfen...';
 $OVERVIEW['GROUPS'] = 'Verwaltung von Gruppen und Ihrer Zugangsberechtigungen...';
 $OVERVIEW['HELP'] = 'Noch Fragen? Hier finden Sie Antworten';
 $OVERVIEW['VIEW'] = 'Ansicht Ihrer Webseite in einem neuen Fenster...';
-$OVERVIEW['ADMINTOOLS'] = 'Zugriff auf die Website Baker Verwaltungsprogramme...';
+$OVERVIEW['ADMINTOOLS'] = 'Zugriff auf die WebsiteBaker Verwaltungsprogramme...';
 
 // Headings
 $HEADING['MODIFY_DELETE_PAGE'] = 'Seite &auml;ndern/Seite l&ouml;schen';
@@ -414,7 +407,7 @@ $TEXT['PUBL_START_DATE'] = 'Start Datum';
 $TEXT['PUBL_END_DATE'] = 'End Datum';
 $TEXT['CALENDAR'] = 'Kalender';
 $TEXT['DELETE_DATE'] = 'Datum l&ouml;schen';
-$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Bitte geben Sie eine Standard "VON" Adresse und einen Sendernamen an. Als Absender Adresse empfiehlt sich ein Format wie: <strong>admin@IhreWebseite.de</strong>. Manche E-Mail Provider (z.B. <em>mail.de</em>) stellen keine E-Mails zu, die nicht &uuml;ber den Provider selbst verschickt wurden, in der Absender Adresse aber den Namen des E-Mail Providers <em>name@mail.de</em> enthalten. Die Standard Werte werden nur verwendet, wenn keine anderen Werte von Website Baker gesetzt wurden. Wenn Ihr Service Provider <acronym title="Simple Mail Transfer Protocol">SMTP</acronym> anbietet, sollten Sie diese Option f&uuml;r ausgehende E-Mails verwenden.';
+$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Bitte geben Sie eine Standard "VON" Adresse und einen Sendernamen an. Als Absender Adresse empfiehlt sich ein Format wie: <strong>admin@IhreWebseite.de</strong>. Manche E-Mail Provider (z.B. <em>mail.de</em>) stellen keine E-Mails zu, die nicht &uuml;ber den Provider selbst verschickt wurden, in der Absender Adresse aber den Namen des E-Mail Providers <em>name@mail.de</em> enthalten. Die Standard Werte werden nur verwendet, wenn keine anderen Werte von WebsiteBaker gesetzt wurden. Wenn Ihr Service Provider <acronym title="Simple Mail Transfer Protocol">SMTP</acronym> anbietet, sollten Sie diese Option f&uuml;r ausgehende E-Mails verwenden.';
 $TEXT['WBMAILER_DEFAULT_SENDER_MAIL'] = 'Standard "VON" Adresse';
 $TEXT['WBMAILER_DEFAULT_SENDER_NAME'] = 'Standard Absender Name';
 $TEXT['WBMAILER_NOTICE'] = '<strong>SMTP Maileinstellungen:</strong><br />Die nachfolgenden Einstellungen m&uuml;ssen nur angepasst werden, wenn Sie E-Mail &uuml;ber <acronym title="Simple Mail Transfer Protocol">SMTP</acronym> verschicken wollen. Wenn Sie Ihren SMTP Server nicht kennen, oder Sie sich unsicher bei den Einstellungen sind, verwenden Sie einfach die Standard E-Mail Routine: PHP MAIL.';
@@ -475,7 +468,7 @@ $MESSAGE['FORGOT_PASS']['CANNOT_EMAIL'] = 'Das Passwort konnte nicht versendet w
 $MESSAGE['FORGOT_PASS']['PASSWORD_RESET'] = 'Ihr Benutzername und Ihr Passwort wurden an Ihre E-Mail Adresse gesendet';
 $MESSAGE['FORGOT_PASS']['ALREADY_RESET'] = 'Das Passwort kann nur einmal pro Stunde zur&uuml;ckgesetzt werden';
 
-$MESSAGE['START']['WELCOME_MESSAGE'] = 'Willkommen in der Website Baker Verwaltung';
+$MESSAGE['START']['WELCOME_MESSAGE'] = 'Willkommen in der WebsiteBaker Verwaltung';
 $MESSAGE['START']['INSTALL_DIR_EXISTS'] = 'Das Installations-Verzeichnis "/install" existiert noch! Dies stellt ein Sicherheitsrisiko dar. Bitte l&ouml;schen.';
 $MESSAGE['START']['CURRENT_USER'] = 'Sie sind momentan angemeldet als:';
 
@@ -583,8 +576,8 @@ $MESSAGE['GENERIC']['WEBSITE_UNDER_CONSTRUCTION'] = 'Momentan in Bearbeitung';
 $MESSAGE['GENERIC']['PLEASE_CHECK_BACK_SOON'] = 'Bitte versuchen Sie es sp&auml;ter noch einmal ...';
 $MESSAGE['GENERIC']['PLEASE_BE_PATIENT'] = 'Die Datenbanksicherung kann je nach Gr&ouml;&szlig;e der Datenbank einige Zeit dauern.';
 $MESSAGE['GENERIC']['ERROR_OPENING_FILE'] = 'Fehler beim &Ouml;ffnen der Datei.';
-$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = 'Ung&uuml;ltige Website Baker Installationsdatei. Bitte *.zip Format pr&uuml;fen.';
-$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Ung&uuml;ltige Website Baker Sprachdatei. Bitte Textdatei pr&uuml;fen.';
+$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = 'Ung&uuml;ltige WebsiteBaker Installationsdatei. Bitte *.zip Format pr&uuml;fen.';
+$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Ung&uuml;ltige WebsiteBaker Sprachdatei. Bitte Textdatei pr&uuml;fen.';
 
 $MESSAGE['MOD_FORM']['REQUIRED_FIELDS'] = 'Bitte folgende Angaben erg&auml;nzen';
 $MESSAGE['MOD_FORM']['EXCESS_SUBMISSIONS'] = 'Dieses Formular wurde zu oft aufgerufen. Bitte versuchen Sie es in einer Stunde noch einmal.';

@@ -1,27 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
-Website Baker Project <http://www.websitebaker.org/>
-Copyright (C) 2004-2009, Ryan Djurovich
-
-Website Baker is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-Website Baker is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Website Baker; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/**
+ *
+ * @category        framework
+ * @package         language
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
 // use languageedit-module to modify this file
 
@@ -62,16 +55,16 @@ $MENU['FORGOT'] = 'Giri&thorn; Bilgilerini Gerial';
 $OVERVIEW['START'] = 'Y&ouml;netici G&ouml;r&uuml;n&uuml;m&uuml;';
 $OVERVIEW['PAGES'] = 'Website Sayfalar&yacute;n&yacute; Y&ouml;netme...';
 $OVERVIEW['MEDIA'] = 'Resim Deposundaki Dosyalar&yacute; Y&ouml;netme...';
-$OVERVIEW['MODULES'] = 'Website Baker Mod&uuml;llerini Y&ouml;netme...';
+$OVERVIEW['MODULES'] = 'WebsiteBaker Mod&uuml;llerini Y&ouml;netme...';
 $OVERVIEW['TEMPLATES'] = 'Websitenizdeki Kal&yacute;plar&yacute; De&eth;i&thorn;tirme Ve D&uuml;zenleme...';
-$OVERVIEW['LANGUAGES'] = 'Website Baker Dilleri D&uuml;zenleme...';
+$OVERVIEW['LANGUAGES'] = 'WebsiteBaker Dilleri D&uuml;zenleme...';
 $OVERVIEW['PREFERENCES'] = 'Email, &THORN;ifre gibi ayarlar&yacute; d&uuml;zenleme... ';
-$OVERVIEW['SETTINGS'] = 'Website Baker i&ccedil;in ayarlar&yacute; d&uuml;zenleme...';
-$OVERVIEW['USERS'] = 'Website Baker kullan&yacute;c&yacute;lar&yacute;n&yacute; d&uuml;zenleme...';
+$OVERVIEW['SETTINGS'] = 'WebsiteBaker i&ccedil;in ayarlar&yacute; d&uuml;zenleme...';
+$OVERVIEW['USERS'] = 'WebsiteBaker kullan&yacute;c&yacute;lar&yacute;n&yacute; d&uuml;zenleme...';
 $OVERVIEW['GROUPS'] = 'Kullan&yacute;c&yacute; Gruplar&yacute;n&yacute;n &Yacute;zinlerini D&uuml;zenleme...';
 $OVERVIEW['HELP'] = 'Sorular&yacute;n&yacute;z? Cevaplar&yacute;...';
 $OVERVIEW['VIEW'] = 'Yeni bir pencerede sitenizin &ouml;ng&ouml;r&uuml;n&uuml;m&uuml;...';
-$OVERVIEW['ADMINTOOLS'] = 'Access the Website Baker administration tools...';
+$OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 
 // Headings
 $HEADING['MODIFY_DELETE_PAGE'] = 'De&eth;i&thorn;tir/Sil Sayfa';
@@ -414,7 +407,7 @@ $TEXT['PUBL_START_DATE'] = 'Start date';
 $TEXT['PUBL_END_DATE'] = 'End date';
 $TEXT['CALENDAR'] = 'Calender';
 $TEXT['DELETE_DATE'] = 'Delete date';
-$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Please specify a default "FROM" address and "SENDER" name below. It is recommended to use a FROM address like: <strong>admin@yourdomain.com</strong>. Some mail provider (e.g. <em>mail.com</em>) may reject mails with a FROM: address like <em>name@mail.com</em> sent via a foreign relay to avoid spam.<br /><br />The default values are only used if no other values are specified by Website Baker. If your server supports <acronym title="Simple mail transfer protocol">SMTP</acronym>, you may want use this option for outgoing mails.';
+$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Please specify a default "FROM" address and "SENDER" name below. It is recommended to use a FROM address like: <strong>admin@yourdomain.com</strong>. Some mail provider (e.g. <em>mail.com</em>) may reject mails with a FROM: address like <em>name@mail.com</em> sent via a foreign relay to avoid spam.<br /><br />The default values are only used if no other values are specified by WebsiteBaker. If your server supports <acronym title="Simple mail transfer protocol">SMTP</acronym>, you may want use this option for outgoing mails.';
 $TEXT['WBMAILER_DEFAULT_SENDER_MAIL'] = 'Default From Mail';
 $TEXT['WBMAILER_DEFAULT_SENDER_NAME'] = 'Default Sender Name';
 $TEXT['WBMAILER_NOTICE'] = '<strong>SMTP Mailer Settings:</strong><br />The settings below are only required if you want to send mails via <acronym title="Simple mail transfer protocol">SMTP</acronym>. If you do not know your SMTP host or you are not sure about the required settings, simply stay with the default mail routine: PHP MAIL.';
@@ -475,7 +468,7 @@ $MESSAGE['FORGOT_PASS']['CANNOT_EMAIL'] = 'Uygunsuz email &thorn;ifresi, L&uuml;
 $MESSAGE['FORGOT_PASS']['PASSWORD_RESET'] = 'Sizin kullan&yacute;c&yacute; ad&yacute;n&yacute;z ve &thorn;ifreniz email adresinize g&ouml;nderildi';
 $MESSAGE['FORGOT_PASS']['ALREADY_RESET'] = 'Paralonuzu 1 saat aral&yacute;klarla de&eth;i&thorn;tirebilirsiniz.';
 
-$MESSAGE['START']['WELCOME_MESSAGE'] = 'Ho&thorn;geldiniz Website Baker Y&ouml;netimine';
+$MESSAGE['START']['WELCOME_MESSAGE'] = 'Ho&thorn;geldiniz WebsiteBaker Y&ouml;netimine';
 $MESSAGE['START']['INSTALL_DIR_EXISTS'] = 'Uyar&yacute;! Y&uuml;kleme dizini halen duruyor!';
 $MESSAGE['START']['CURRENT_USER'] = 'Sizin kulland&yacute;&eth;&yacute;n&yacute;z giri&thorn; ismi:';
 
@@ -583,8 +576,8 @@ $MESSAGE['GENERIC']['WEBSITE_UNDER_CONSTRUCTION'] = 'Website Under Construction'
 $MESSAGE['GENERIC']['PLEASE_CHECK_BACK_SOON'] = 'L&uuml;tfen daha sonra kontrol edin...';
 $MESSAGE['GENERIC']['PLEASE_BE_PATIENT'] = 'Ol hasta memnun et, bu, bir anda alabilirdi.';
 $MESSAGE['GENERIC']['ERROR_OPENING_FILE'] = 'Dosya a&ccedil;arken hata.';
-$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = 'Invalid Website Baker installation file. Please check the *.zip format.';
-$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Invalid Website Baker language file. Please check the text file.';
+$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = 'Invalid WebsiteBaker installation file. Please check the *.zip format.';
+$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Invalid WebsiteBaker language file. Please check the text file.';
 
 $MESSAGE['MOD_FORM']['REQUIRED_FIELDS'] = 'You must enter details for the following fields';
 $MESSAGE['MOD_FORM']['EXCESS_SUBMISSIONS'] = 'Sorry, this form has been submitted too many times so far this hour. Please retry in the next hour.';

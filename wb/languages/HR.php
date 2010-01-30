@@ -1,27 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
-Website Baker Project <http://www.websitebaker.org/>
-Copyright (C) 2004-2009, Ryan Djurovich
-
-Website Baker is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-Website Baker is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Website Baker; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/**
+ *
+ * @category        framework
+ * @package         language
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
 // use languageedit-module to modify this file
 
@@ -62,16 +55,16 @@ $MENU['FORGOT'] = 'Dobivanje detalja lozinke';
 $OVERVIEW['START'] = 'Pregled administracije';
 $OVERVIEW['PAGES'] = 'Uredite va&scaron;e web stranice...';
 $OVERVIEW['MEDIA'] = 'Uredite fileove pohranjene u direktoriju "Media"...';
-$OVERVIEW['MODULES'] = 'Uredite Website Baker module...';
+$OVERVIEW['MODULES'] = 'Uredite WebsiteBaker module...';
 $OVERVIEW['TEMPLATES'] = 'Promijenite izgled i do&#382;ivljaj va&scaron;eg weba s predlo&scaron;cima...';
-$OVERVIEW['LANGUAGES'] = 'Uredite Website Baker jezike...';
+$OVERVIEW['LANGUAGES'] = 'Uredite WebsiteBaker jezike...';
 $OVERVIEW['PREFERENCES'] = 'Izmjenite postavke email adresa, lozinka i sl.... ';
-$OVERVIEW['SETTINGS'] = 'Promjenite postavke za Website Baker...';
-$OVERVIEW['USERS'] = 'Upravljajte korisnicima koji se mogu logirati na Website Baker...';
+$OVERVIEW['SETTINGS'] = 'Promjenite postavke za WebsiteBaker...';
+$OVERVIEW['USERS'] = 'Upravljajte korisnicima koji se mogu logirati na WebsiteBaker...';
 $OVERVIEW['GROUPS'] = 'Upravljajte grupama korisnika i njihovim sistemskim dopu&scaron;tenjima.';
 $OVERVIEW['HELP'] = 'Imate pitanje? Prona&eth;ite odgovor...';
 $OVERVIEW['VIEW'] = 'Brzo pogledajte i listajte Va&scaron; web u novom prozoru...';
-$OVERVIEW['ADMINTOOLS'] = 'Access the Website Baker administration tools...';
+$OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 
 // Headings
 $HEADING['MODIFY_DELETE_PAGE'] = 'Izmenj/Obri&scaron;i stranicu';
@@ -414,7 +407,7 @@ $TEXT['PUBL_START_DATE'] = 'Start date';
 $TEXT['PUBL_END_DATE'] = 'End date';
 $TEXT['CALENDAR'] = 'Calender';
 $TEXT['DELETE_DATE'] = 'Delete date';
-$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Please specify a default "FROM" address and "SENDER" name below. It is recommended to use a FROM address like: <strong>admin@yourdomain.com</strong>. Some mail provider (e.g. <em>mail.com</em>) may reject mails with a FROM: address like <em>name@mail.com</em> sent via a foreign relay to avoid spam.<br /><br />The default values are only used if no other values are specified by Website Baker. If your server supports <acronym title="Simple mail transfer protocol">SMTP</acronym>, you may want use this option for outgoing mails.';
+$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Please specify a default "FROM" address and "SENDER" name below. It is recommended to use a FROM address like: <strong>admin@yourdomain.com</strong>. Some mail provider (e.g. <em>mail.com</em>) may reject mails with a FROM: address like <em>name@mail.com</em> sent via a foreign relay to avoid spam.<br /><br />The default values are only used if no other values are specified by WebsiteBaker. If your server supports <acronym title="Simple mail transfer protocol">SMTP</acronym>, you may want use this option for outgoing mails.';
 $TEXT['WBMAILER_DEFAULT_SENDER_MAIL'] = 'Default From Mail';
 $TEXT['WBMAILER_DEFAULT_SENDER_NAME'] = 'Default Sender Name';
 $TEXT['WBMAILER_NOTICE'] = '<strong>SMTP Mailer Settings:</strong><br />The settings below are only required if you want to send mails via <acronym title="Simple mail transfer protocol">SMTP</acronym>. If you do not know your SMTP host or you are not sure about the required settings, simply stay with the default mail routine: PHP MAIL.';
@@ -475,7 +468,7 @@ $MESSAGE['FORGOT_PASS']['CANNOT_EMAIL'] = 'Ne mo&#382;emo vam emailom poslati lo
 $MESSAGE['FORGOT_PASS']['PASSWORD_RESET'] = 'Va&scaron;e korisni&egrave;ko ime i lozinka poslani su na va&scaron;u email adresu';
 $MESSAGE['FORGOT_PASS']['ALREADY_RESET'] = 'Na&#382;alost lozinka ne mo&#382;e biti resetirana/izmjenjena vi&scaron;e od jednom u jednom satu';
 
-$MESSAGE['START']['WELCOME_MESSAGE'] = 'Dobro do&scaron;li u Website Baker administraciju';
+$MESSAGE['START']['WELCOME_MESSAGE'] = 'Dobro do&scaron;li u WebsiteBaker administraciju';
 $MESSAGE['START']['INSTALL_DIR_EXISTS'] = 'Upozorenje, instalacijski direktoriji nije jo&scaron; obrisan!';
 $MESSAGE['START']['CURRENT_USER'] = 'Trenutno ste logirani kao:';
 
@@ -583,8 +576,8 @@ $MESSAGE['GENERIC']['WEBSITE_UNDER_CONSTRUCTION'] = 'Webstranica u izradi';
 $MESSAGE['GENERIC']['PLEASE_CHECK_BACK_SOON'] = 'Molimo poku&scaron;ajte ponovo za&egrave;as...';
 $MESSAGE['GENERIC']['PLEASE_BE_PATIENT'] = 'Budite strpljivo, ovo mo&#382;e potrajati.';
 $MESSAGE['GENERIC']['ERROR_OPENING_FILE'] = 'Gre&scaron;ka pri otvaranju filea.';
-$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = 'Invalid Website Baker installation file. Please check the *.zip format.';
-$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Invalid Website Baker language file. Please check the text file.';
+$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = 'Invalid WebsiteBaker installation file. Please check the *.zip format.';
+$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Invalid WebsiteBaker language file. Please check the text file.';
 
 $MESSAGE['MOD_FORM']['REQUIRED_FIELDS'] = 'Morate unjeti detaljen podatke u nadoilaze&aelig;a polja';
 $MESSAGE['MOD_FORM']['EXCESS_SUBMISSIONS'] = 'Ova forma je pregledavana previ&scaron;e puta u jednom satu. Molimo poku&scaron;ajte slijede&aelig;i sat.';

@@ -1,27 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
-Website Baker Project <http://www.websitebaker.org/>
-Copyright (C) 2004-2009, Ryan Djurovich
-
-Website Baker is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-Website Baker is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Website Baker; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/**
+ *
+ * @category        framework
+ * @package         language
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
 // use languageedit-module to modify this file
 
@@ -583,8 +576,8 @@ $MESSAGE['GENERIC']['WEBSITE_UNDER_CONSTRUCTION'] = '&#1042;&#1077;&#1073;&#1089
 $MESSAGE['GENERIC']['PLEASE_CHECK_BACK_SOON'] = '&#1047;&#1072;&#1081;&#1076;&#1080;&#1090;&#1077; &#1087;&#1086;&#1087;&#1086;&#1079;&#1078;&#1077;...';
 $MESSAGE['GENERIC']['PLEASE_BE_PATIENT'] = '&#1055;&#1086;&#1078;&#1072;&#1083;&#1091;&#1081;&#1089;&#1090;&#1072; &#1087;&#1086;&#1076;&#1086;&#1078;&#1076;&#1080;&#1090;&#1077;, &#1101;&#1090;&#1086; &#1084;&#1086;&#1078;&#1077;&#1090; &#1079;&#1072;&#1085;&#1103;&#1090;&#1100; &#1085;&#1077;&#1082;&#1086;&#1090;&#1086;&#1088;&#1086;&#1077; &#1074;&#1088;&#1077;&#1084;&#1103;.';
 $MESSAGE['GENERIC']['ERROR_OPENING_FILE'] = '&#1054;&#1096;&#1080;&#1073;&#1082;&#1072; &#1086;&#1090;&#1082;&#1088;&#1099;&#1090;&#1080;&#1103; &#1092;&#1072;&#1081;&#1083;&#1072;.';
-$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = 'Invalid Website Baker installation file. Please check the *.zip format.';
-$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Invalid Website Baker language file. Please check the text file.';
+$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = 'Invalid WebsiteBaker installation file. Please check the *.zip format.';
+$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Invalid WebsiteBaker language file. Please check the text file.';
 
 $MESSAGE['MOD_FORM']['REQUIRED_FIELDS'] = '&#1042;&#1053;&#1048;&#1052;&#1040;&#1053;&#1048;&#1045;! &#1042;&#1099; &#1076;&#1086;&#1083;&#1078;&#1085;&#1099; &#1079;&#1072;&#1087;&#1086;&#1083;&#1085;&#1080;&#1090;&#1100; &#1087;&#1086;&#1083;&#1077;';
 $MESSAGE['MOD_FORM']['EXCESS_SUBMISSIONS'] = '&#1048;&#1079;&#1074;&#1080;&#1085;&#1080;&#1090;&#1077;, &#1089;&#1083;&#1080;&#1096;&#1082;&#1086;&#1084; &#1084;&#1085;&#1086;&#1075;&#1086; &#1089;&#1086;&#1086;&#1073;&#1097;&#1077;&#1085;&#1080;&#1081; &#1079;&#1072; &#1087;&#1086;&#1089;&#1083;&#1077;&#1076;&#1085;&#1080;&#1081; &#1095;&#1072;&#1089;. &#1055;&#1086;&#1078;&#1072;&#1083;&#1091;&#1081;&#1089;&#1090;&#1072; &#1087;&#1086;&#1087;&#1088;&#1086;&#1073;&#1091;&#1081;&#1090;&#1077; &#1087;&#1086;&#1074;&#1090;&#1086;&#1088;&#1080;&#1090;&#1100; &#1086;&#1090;&#1087;&#1088;&#1072;&#1074;&#1082;&#1091; &#1095;&#1077;&#1088;&#1077;&#1079; &#1085;&#1077;&#1082;&#1086;&#1090;&#1086;&#1088;&#1086;&#1077; &#1074;&#1088;&#1077;&#1084;&#1103;.';

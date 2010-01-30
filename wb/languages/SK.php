@@ -1,37 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
-Website Baker Project <http://www.websitebaker.org/>
-Copyright (C) 2004-2009, Ryan Djurovich
-
-Website Baker is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-Website Baker is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Website Baker; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
- * @category    backend
- * @package     languages
- * @author(s)   Dietmar Wöllbrink <Luisehahne>, Dietrich Roland Pehlke <Aldus>
- * @platform    WB 2.8.x
- * @require     PHP 5.2.11
- * @license     http://www.gnu.org/licenses/gpl.html
- * @link        http://project.websitebaker2.org/browser/branches/2.8.x/wb/pages
- * @changeset   2009/11/28   ticket #880 fixes language file SK.php
-                2009/11/26   fixes language file SK.php
-
-*/
+/**
+ *
+ * @category        framework
+ * @package         language
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
 // use languageedit-module to modify this file
 
@@ -424,7 +407,7 @@ $TEXT['PUBL_START_DATE'] = 'Po&#269;iato&#269;n&yacute; d&aacute;tum';
 $TEXT['PUBL_END_DATE'] = 'Kone&#269;n&yacute; d&aacute;tum';
 $TEXT['CALENDAR'] = 'Kalend&aacute;r';
 $TEXT['DELETE_DATE'] = 'Zmaza&#357; d&aacute;tum';
-$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Please specify a default FROM address and SENDER name below. It is recommended to use a FROM address like: <strong>admin@yourdomain.com</strong>. Some mail provider (e.g. <em>mail.com</em>) may reject mails with a FROM: address like <em>name@mail.com</em> sent via a foreign relay to avoid spam.<br /><br />The default values are only used if no other values are specified by Website Baker. If your server supports <acronym title="Simple mail transfer protocol">SMTP</acronym>, you may want use this option for outgoing mails.';
+$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Please specify a default FROM address and SENDER name below. It is recommended to use a FROM address like: <strong>admin@yourdomain.com</strong>. Some mail provider (e.g. <em>mail.com</em>) may reject mails with a FROM: address like <em>name@mail.com</em> sent via a foreign relay to avoid spam.<br /><br />The default values are only used if no other values are specified by WebsiteBaker. If your server supports <acronym title="Simple mail transfer protocol">SMTP</acronym>, you may want use this option for outgoing mails.';
 $TEXT['WBMAILER_DEFAULT_SENDER_MAIL'] = 'Prednastaven&yacute; E-Mail odosielatela';
 $TEXT['WBMAILER_DEFAULT_SENDER_NAME'] = 'Prednastaven&eacute; meno odosielatela';
 $TEXT['WBMAILER_NOTICE'] = '<strong>SMTP Mailer Settings:</strong><br />The settings below are only required if you want to send mails via <acronym title=Simple mail transfer protocol>SMTP</acronym>. If you do not know your SMTP host or you are not sure about the required settings, simply stay with the default mail routine: PHP MAIL.';
@@ -593,8 +576,8 @@ $MESSAGE['GENERIC']['WEBSITE_UNDER_CONSTRUCTION'] = 'Str&aacute;nky sa moment&aa
 $MESSAGE['GENERIC']['PLEASE_CHECK_BACK_SOON'] = 'Pros&iacute;m, nav&#353;t&iacute;vte n&aacute;s nesk&ocirc;r...';
 $MESSAGE['GENERIC']['PLEASE_BE_PATIENT'] = '&#268;ekejte pros&iacute;m, operacia m&ocirc;&#382;e chv&iacute;&#318;u trva&#357;.';
 $MESSAGE['GENERIC']['ERROR_OPENING_FILE'] = 'Do&#353;lo k chybe pri otvaran&iacute; s&uacute;boru.';
-$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = 'Invalid Website Baker installation file. Please check the *.zip format.';
-$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Invalid Website Baker language file. Please check the text file.';
+$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = 'Invalid WebsiteBaker installation file. Please check the *.zip format.';
+$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Invalid WebsiteBaker language file. Please check the text file.';
 
 $MESSAGE['MOD_FORM']['REQUIRED_FIELDS'] = 'Mus&iacute;te vyplni&#357; n&aacute;sleduj&uacute;ce pole';
 $MESSAGE['MOD_FORM']['EXCESS_SUBMISSIONS'] = 'Ospravedl&#328;ujeme sa, ale tento formul&aacute;r dosiahol limitu povolen&yacute;ch odeslan&iacute; pre t&uacute;to hodinu. Pros&iacute;m sk&uacute;ste to znovu v dal&#353;iej hodine..';
