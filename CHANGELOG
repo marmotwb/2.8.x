@@ -12,6 +12,8 @@ Legend:
  
 ------------------------------------- 2.8.1 -------------------------------------
 30-Jan-2010 Dietmar Woellbrink (Luisehahne)
+#	Ticket #931 bug in admin/access/index.php
+30-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	continue update headertext
 !	fixed tpyo Website Baker to WebsiteBaker in main language files
 30-Jan-2010 Dietmar Woellbrink (Luisehahne)
