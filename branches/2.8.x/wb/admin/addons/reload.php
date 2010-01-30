@@ -1,36 +1,20 @@
 <?php
 /**
- * $Id$
- * Website Baker Add-On reload
  *
- * This file contains the function to update the Add-on information from the
- * database with the ones stored in the Add-on files (e.g. info.php or EN.php)
+ * @category        admin
+ * @package         addons
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL:  $
+ * @lastmodified    $Date:  $
  *
- * LICENSE: GNU Lesser General Public License 3.0
- * 
- * @author		Christian Sommer
- * @copyright	(c) 2009
- * @license		http://www.gnu.org/copyleft/lesser.html
- * @version		0.1.1
- * @platform	Website Baker 2.7
- *
- * Website Baker Project <http://www.websitebaker.org/>
- * Copyright (C) 2004-2009, Ryan Djurovich
- *
- * Website Baker is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * Website Baker is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Website Baker; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 
 /**
  * check if there is anything to do
@@ -149,5 +133,6 @@ foreach ($post_check as $key) {
 
 // output success message
 $admin->print_success(implode($msg, '<br />'), $js_back);
+$admin->print_footer();
 
 ?>
