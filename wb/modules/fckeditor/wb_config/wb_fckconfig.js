@@ -102,7 +102,7 @@ FCKConfig.AutoGrowMax = 600 ;
    FCKConfig.ToolbarSets["WBToolbar"] = [
 	['Source','DocProps','-','NewPage','Preview','-','Templates'],
 	['Cut','Copy','Paste','PasteText','PasteWord','-','Print','SpellCheck'],
-    ['FitWindow','ShowBlocks', '-', 'SyntaxHighLight2', /* 'flvPlayer', */ '-','About'],
+    ['FitWindow','ShowBlocks', '-', /* 'SyntaxHighLight2', */ /* 'flvPlayer', */ '-','About'],
 	'/',
 	['Form','Checkbox','Radio','TextField','Textarea','Select','Button','ImageButton','HiddenField'],
     ['TextColor','BGColor'],

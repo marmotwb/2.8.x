@@ -1,27 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/**
+ *
+ * @category        admin
+ * @package         addons
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL:  $
+ * @lastmodified    $Date:  $
+ *
+ */
 
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
@@ -56,6 +49,8 @@ $display_none = "style=\"display: none;\"";
 if($admin->get_permission('modules') != true) 	$template->set_var('DISPLAY_MODULES', $display_none);	
 if($admin->get_permission('templates') != true)	$template->set_var('DISPLAY_TEMPLATES', $display_none);
 if($admin->get_permission('languages') != true)	$template->set_var('DISPLAY_LANGUAGES', $display_none);
+if($admin->get_permission('admintools') != true)	$template->set_var('DISPLAY_ADVANCED', $display_none);
+
 if(!isset($_GET['advanced']) || $admin->get_permission('admintools') != true)
 	$template->set_var('DISPLAY_RELOAD', $display_none);
 
@@ -74,8 +69,11 @@ $template->set_var(array(
 	'MESSAGE_RELOAD_ADDONS' => $MESSAGE['ADDON']['RELOAD'],
 	'TEXT_RELOAD' => $TEXT['RELOAD'],
 	'RELOAD_URL' => ADMIN_URL . '/addons/reload.php',
-	'URL_ADVANCED' => $admin->get_permission('admintools') ? 
-		'<a href="' . ADMIN_URL . '/addons/index.php?advanced">' . $TEXT['ADVANCED'] . '</a>' : ''
+	'URL_ADVANCED' => $admin->get_permission('admintools')
+                ? '<a href="' . ADMIN_URL . '/addons/index.php?advanced">' . $TEXT['ADVANCED'] . '</a>' : '',
+	'ADVANCED_URL' => $admin->get_permission('admintools') ? ADMIN_URL . '/addons/index.php' : '',
+    'TEXT_ADVANCED' => $TEXT['ADVANCED'],
+
 	)
 );
 
