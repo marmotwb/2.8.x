@@ -1,27 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
-Website Baker Project <http://www.websitebaker.org/>
-Copyright (C) 2004-2009, Ryan Djurovich
-
-Website Baker is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-Website Baker is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Website Baker; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/**
+ *
+ * @category        framework
+ * @package         language
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
 // use languageedit-module to modify this file
 
@@ -63,16 +56,16 @@ $MENU['FORGOT'] = 'Elfelejtett jelszó';
 $OVERVIEW['START'] = 'Admin áttekintés';
 $OVERVIEW['PAGES'] = 'A Portál Weblapjainak kezelése...';
 $OVERVIEW['MEDIA'] = 'A "media" könyvtárban tárolt fileok kezelése...';
-$OVERVIEW['MODULES'] = 'Website Baker modulok kezelése...';
+$OVERVIEW['MODULES'] = 'WebsiteBaker modulok kezelése...';
 $OVERVIEW['TEMPLATES'] = 'A Honlap megjelenésének változtatása Sablonokkal...';
-$OVERVIEW['LANGUAGES'] = 'Website Baker nyelvi beállítások...';
+$OVERVIEW['LANGUAGES'] = 'WebsiteBaker nyelvi beállítások...';
 $OVERVIEW['PREFERENCES'] = 'Beállítások megváltoztatása mint: email, jelszó, stb... ';
 $OVERVIEW['SETTINGS'] = 'A rendszer globális beállítása...';
 $OVERVIEW['USERS'] = 'Felhasználók bejelentkezési engedélyei...';
 $OVERVIEW['GROUPS'] = 'Csoportok és azok rendszer jogainak kezelése...';
 $OVERVIEW['HELP'] = 'Kérdésed van? itt találsz választ...  (Angol)';
 $OVERVIEW['VIEW'] = 'A kész Portál megtekintése új ablakban...';
-$OVERVIEW['ADMINTOOLS'] = 'Website Baker adminisztrációs eszközök...';
+$OVERVIEW['ADMINTOOLS'] = 'WebsiteBaker adminisztrációs eszközök...';
 
 // Headings
 $HEADING['MODIFY_DELETE_PAGE'] = 'Lap módosítása/Törlése';
@@ -477,7 +470,7 @@ $MESSAGE['FORGOT_PASS']['CANNOT_EMAIL'] = 'Az E-mail küldés problémába ütk�
 $MESSAGE['FORGOT_PASS']['PASSWORD_RESET'] = 'A Felhasználónevét és jelszavát elküldtük az ® E-mail címére';
 $MESSAGE['FORGOT_PASS']['ALREADY_RESET'] = 'Sajnáljuk, de a jelszót nem lehet egy órán belül többször újrakérni';
 
-$MESSAGE['START']['WELCOME_MESSAGE'] = '¤v a Website Baker Admin felületén';
+$MESSAGE['START']['WELCOME_MESSAGE'] = '¤v a WebsiteBaker Admin felületén';
 $MESSAGE['START']['INSTALL_DIR_EXISTS'] = 'Figyelmeztetés! A telepítési könyvtár még nem lett törölve!';
 $MESSAGE['START']['CURRENT_USER'] = 'Bejelentkezve mint:';
 
@@ -585,8 +578,8 @@ $MESSAGE['GENERIC']['WEBSITE_UNDER_CONSTRUCTION'] = 'A Weboldal Karbantartás Al
 $MESSAGE['GENERIC']['PLEASE_CHECK_BACK_SOON'] = 'Kérem térjen vissza késĢb!';
 $MESSAGE['GENERIC']['PLEASE_BE_PATIENT'] = 'Kérem várjon, ez eltarthat egy ideig.';
 $MESSAGE['GENERIC']['ERROR_OPENING_FILE'] = 'Fájl megnyitás hiba.';
-$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = '²vénytelen Website Baker telepítàfájl. Kérlek ellenĲizd a *.zip formátumot.';
-$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = '²vénytelen Website Baker nyelvi fájl. Kérlek ellenĲizd a szöveges fájlt.';
+$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = '²vénytelen WebsiteBaker telepítàfájl. Kérlek ellenĲizd a *.zip formátumot.';
+$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = '²vénytelen WebsiteBaker nyelvi fájl. Kérlek ellenĲizd a szöveges fájlt.';
 
 $MESSAGE['MOD_FORM']['REQUIRED_FIELDS'] = 'A következàmezīet kötelezàkitöltenie';
 

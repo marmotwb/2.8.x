@@ -1,27 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
-Website Baker Project <http://www.websitebaker.org/>
-Copyright (C) 2004-2009, Ryan Djurovich
-
-Website Baker is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-Website Baker is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Website Baker; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/**
+ *
+ * @category        framework
+ * @package         language
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
 // use languageedit-module to modify this file
 
@@ -62,16 +55,16 @@ $MENU['FORGOT'] = 'Demanar Dades del Compte';
 $OVERVIEW['START'] = '&Iacute;ndex d\'Administraci&oacute;';
 $OVERVIEW['PAGES'] = 'Administreu les p&agrave;gines de la vostra web...';
 $OVERVIEW['MEDIA'] = 'Administreu la carpeta de fitxers...';
-$OVERVIEW['MODULES'] = 'Administreu els m&ograve;duls de Website Baker...';
+$OVERVIEW['MODULES'] = 'Administreu els m&ograve;duls de WebsiteBaker...';
 $OVERVIEW['TEMPLATES'] = 'Canvieu l\'aspecte i estil de la vostra p&agrave;gina amb plantilles...';
-$OVERVIEW['LANGUAGES'] = 'Administreu els idiomes de Website Baker...';
+$OVERVIEW['LANGUAGES'] = 'Administreu els idiomes de WebsiteBaker...';
 $OVERVIEW['PREFERENCES'] = 'Canvieu les prefer&egrave;ncies com l\'adre&ccedil;a de correu electr&ograve;nic, contrasenya, etc... ';
-$OVERVIEW['SETTINGS'] = 'Canvieu els par&agrave;metres de Website Baker...';
-$OVERVIEW['USERS'] = 'Administreu els usuaris que poden identificar-se a Website Baker...';
+$OVERVIEW['SETTINGS'] = 'Canvieu els par&agrave;metres de WebsiteBaker...';
+$OVERVIEW['USERS'] = 'Administreu els usuaris que poden identificar-se a WebsiteBaker...';
 $OVERVIEW['GROUPS'] = 'Administreu els grups d\'usuaris i els seus permisos de sistema...';
 $OVERVIEW['HELP'] = 'Teniu una pregunta? Trobeu la vostra resposta...';
 $OVERVIEW['VIEW'] = 'Veure i navegar r&agrave;pidament la vostra p&agrave;gina web en una nova finestra...';
-$OVERVIEW['ADMINTOOLS'] = 'Access the Website Baker administration tools...';
+$OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 
 // Headings
 $HEADING['MODIFY_DELETE_PAGE'] = 'Modifica/Esborra P&agrave;gina';
@@ -414,7 +407,7 @@ $TEXT['PUBL_START_DATE'] = 'Start date';
 $TEXT['PUBL_END_DATE'] = 'End date';
 $TEXT['CALENDAR'] = 'Calender';
 $TEXT['DELETE_DATE'] = 'Delete date';
-$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Please specify a default "FROM" address and "SENDER" name below. It is recommended to use a FROM address like: <strong>admin@yourdomain.com</strong>. Some mail provider (e.g. <em>mail.com</em>) may reject mails with a FROM: address like <em>name@mail.com</em> sent via a foreign relay to avoid spam.<br /><br />The default values are only used if no other values are specified by Website Baker. If your server supports <acronym title="Simple mail transfer protocol">SMTP</acronym>, you may want use this option for outgoing mails.';
+$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Please specify a default "FROM" address and "SENDER" name below. It is recommended to use a FROM address like: <strong>admin@yourdomain.com</strong>. Some mail provider (e.g. <em>mail.com</em>) may reject mails with a FROM: address like <em>name@mail.com</em> sent via a foreign relay to avoid spam.<br /><br />The default values are only used if no other values are specified by WebsiteBaker. If your server supports <acronym title="Simple mail transfer protocol">SMTP</acronym>, you may want use this option for outgoing mails.';
 $TEXT['WBMAILER_DEFAULT_SENDER_MAIL'] = 'Default From Mail';
 $TEXT['WBMAILER_DEFAULT_SENDER_NAME'] = 'Default Sender Name';
 $TEXT['WBMAILER_NOTICE'] = '<strong>SMTP Mailer Settings:</strong><br />The settings below are only required if you want to send mails via <acronym title="Simple mail transfer protocol">SMTP</acronym>. If you do not know your SMTP host or you are not sure about the required settings, simply stay with the default mail routine: PHP MAIL.';
@@ -475,7 +468,7 @@ $MESSAGE['FORGOT_PASS']['CANNOT_EMAIL'] = 'No ha estat possible enviar la contra
 $MESSAGE['FORGOT_PASS']['PASSWORD_RESET'] = 'El nom d\'usuari i contrasenya han estat enviats a la vostra adre&ccedil;a de correu';
 $MESSAGE['FORGOT_PASS']['ALREADY_RESET'] = 'La contrasenya no es pot reiniciar m&eacute;s d\'un cop per hora, disculpeu';
 
-$MESSAGE['START']['WELCOME_MESSAGE'] = 'Benvingut/da al Panell de Control de Website Baker';
+$MESSAGE['START']['WELCOME_MESSAGE'] = 'Benvingut/da al Panell de Control de WebsiteBaker';
 $MESSAGE['START']['INSTALL_DIR_EXISTS'] = 'Atenci&oacute;, el Directori d\'Instal&middot;laci&oacute; Encara Existeix!';
 $MESSAGE['START']['CURRENT_USER'] = 'Actualment esteu identificat com a:';
 
@@ -583,8 +576,8 @@ $MESSAGE['GENERIC']['WEBSITE_UNDER_CONSTRUCTION'] = 'Lloc Web en Construcci&oacu
 $MESSAGE['GENERIC']['PLEASE_CHECK_BACK_SOON'] = 'Per favor torneu-ho a intentar prompte...';
 $MESSAGE['GENERIC']['PLEASE_BE_PATIENT'] = 'Please be patient, this might take a while.';
 $MESSAGE['GENERIC']['ERROR_OPENING_FILE'] = 'Error opening file.';
-$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = 'Invalid Website Baker installation file. Please check the *.zip format.';
-$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Invalid Website Baker language file. Please check the text file.';
+$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = 'Invalid WebsiteBaker installation file. Please check the *.zip format.';
+$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Invalid WebsiteBaker language file. Please check the text file.';
 
 $MESSAGE['MOD_FORM']['REQUIRED_FIELDS'] = 'Heu d\'introduir les dades per als seg&uuml;ents camps';
 $MESSAGE['MOD_FORM']['EXCESS_SUBMISSIONS'] = 'Ho sentim, aquest formulari ha estat enviat massa vegades durant l\'&uacute;ltima hora. Per favor torneu-ho a intentar d\'ac&iacute; una hora.';

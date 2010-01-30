@@ -1,27 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
-Website Baker Project <http://www.websitebaker.org/>
-Copyright (C) 2004-2009, Ryan Djurovich
-
-Website Baker is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-Website Baker is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Website Baker; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/**
+ *
+ * @category        framework
+ * @package         language
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
 // use languageedit-module to modify this file
 
@@ -62,16 +55,16 @@ $MENU['FORGOT'] = 'Hent innloggings informasjon';
 $OVERVIEW['START'] = 'Administrasjons oversikt';
 $OVERVIEW['PAGES'] = 'Administrer dine internett sider...';
 $OVERVIEW['MEDIA'] = 'Administrer filer lagret i media katalogen...';
-$OVERVIEW['MODULES'] = 'Administrer Website Baker moduler...';
+$OVERVIEW['MODULES'] = 'Administrer WebsiteBaker moduler...';
 $OVERVIEW['TEMPLATES'] = 'Forandre utseende p&aring; internett siden med maler...';
-$OVERVIEW['LANGUAGES'] = 'Administrer Website Baker spr&aring;k...';
+$OVERVIEW['LANGUAGES'] = 'Administrer WebsiteBaker spr&aring;k...';
 $OVERVIEW['PREFERENCES'] = 'Forandre innstillinger som e-post adresse, passord, o.l....';
-$OVERVIEW['SETTINGS'] = 'Forandre instillinger for Website Baker...';
-$OVERVIEW['USERS'] = 'Velg hvilke brukere som kan logge inn i Website Baker...';
+$OVERVIEW['SETTINGS'] = 'Forandre instillinger for WebsiteBaker...';
+$OVERVIEW['USERS'] = 'Velg hvilke brukere som kan logge inn i WebsiteBaker...';
 $OVERVIEW['GROUPS'] = 'Administrer grupper og deres system adgang...';
 $OVERVIEW['HELP'] = 'Har du et sp&oslash;rsm&aring;l? Finn svaret...';
 $OVERVIEW['VIEW'] = 'Forh&aring;ndsvis internett siden din i et nytt vindu...';
-$OVERVIEW['ADMINTOOLS'] = 'G&aring; inn p&aring; Website Baker sine administrasjonsverkt&oslash;y...';
+$OVERVIEW['ADMINTOOLS'] = 'G&aring; inn p&aring; WebsiteBaker sine administrasjonsverkt&oslash;y...';
 
 // Headings
 $HEADING['MODIFY_DELETE_PAGE'] = 'Endre/Slett side';
@@ -414,7 +407,7 @@ $TEXT['PUBL_START_DATE'] = 'Start dato';
 $TEXT['PUBL_END_DATE'] = 'Slutt dato';
 $TEXT['CALENDAR'] = 'Kalender';
 $TEXT['DELETE_DATE'] = 'Slette dato';
-$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Spesifiser en standard "FRA" addresse og "AVSENDER" navn under. Det er annbefalt &aring; bruke en FRA adresse som: <strong>admin@yourdomain.com</strong>. Noen e-post leverand&oslash;rer(f.eks. <em>mail.com</em>) kan muligens avvise e-poster med en FRA: addresse som <em>name@mail.com</em> sendt igjennom en frmmed sent via en fremmed "relay" for &aring; unng&aring; spam.<br /><br />Standard verdiene brukes kun hvis det ikke er spessifisert andre verdier av Website Baker. Hvis serveren din st&oslash;tter <acronym title="Simple mail transfer protocol">SMTP</acronym>, b&oslash;r du muligens benytte denne muligheten for utg&aring;ende e-post.';
+$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Spesifiser en standard "FRA" addresse og "AVSENDER" navn under. Det er annbefalt &aring; bruke en FRA adresse som: <strong>admin@yourdomain.com</strong>. Noen e-post leverand&oslash;rer(f.eks. <em>mail.com</em>) kan muligens avvise e-poster med en FRA: addresse som <em>name@mail.com</em> sendt igjennom en frmmed sent via en fremmed "relay" for &aring; unng&aring; spam.<br /><br />Standard verdiene brukes kun hvis det ikke er spessifisert andre verdier av WebsiteBaker. Hvis serveren din st&oslash;tter <acronym title="Simple mail transfer protocol">SMTP</acronym>, b&oslash;r du muligens benytte denne muligheten for utg&aring;ende e-post.';
 $TEXT['WBMAILER_DEFAULT_SENDER_MAIL'] = 'Standard Fra e-post';
 $TEXT['WBMAILER_DEFAULT_SENDER_NAME'] = 'Standard Avsender Navn';
 $TEXT['WBMAILER_NOTICE'] = '<strong>SMTP e-post innstillinger:</strong><br />Innstillingene under er kun p&aring;krevet hvis du vil sende e-post via <acronym title="Simple mail transfer protocol">SMTP</acronym>. Hvis du ikke vet hvem som er din "SMTP" leverand&oslash;r, eller du ikke er sikker p&aring; innstillingene som kreves, b&oslash;r du bruke standard e-post rutinen: PHP MAIL.';
@@ -475,7 +468,7 @@ $MESSAGE['FORGOT_PASS']['CANNOT_EMAIL'] = 'Kunne ikke sende passord. Kontakt sys
 $MESSAGE['FORGOT_PASS']['PASSWORD_RESET'] = 'Brukernavn og passord er sendt i e-post';
 $MESSAGE['FORGOT_PASS']['ALREADY_RESET'] = 'Beklager, men passord kan ikke tilbakestilles mer enn en gang i timen.';
 
-$MESSAGE['START']['WELCOME_MESSAGE'] = 'Velkommen til Website Baker Administrasjon';
+$MESSAGE['START']['WELCOME_MESSAGE'] = 'Velkommen til WebsiteBaker Administrasjon';
 $MESSAGE['START']['INSTALL_DIR_EXISTS'] = 'Advarsel, installasjonskatalogen eksisterer forsatt!';
 $MESSAGE['START']['CURRENT_USER'] = 'Du er logget inn som:';
 
@@ -583,8 +576,8 @@ $MESSAGE['GENERIC']['WEBSITE_UNDER_CONSTRUCTION'] = 'Nettstedet er under konstru
 $MESSAGE['GENERIC']['PLEASE_CHECK_BACK_SOON'] = 'Vennligst kom tilbake p&aring; et annet tidspunkt...';
 $MESSAGE['GENERIC']['PLEASE_BE_PATIENT'] = 'Vennligst v&aelig;r t&aring;lmodig, dette kan ta en stund.';
 $MESSAGE['GENERIC']['ERROR_OPENING_FILE'] = 'Feil ved &aring;pningen av filen.';
-$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = 'Feil i Website Baker installasjons filen. Vennligst sjekk formatet på *.zip filen.';
-$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Feil i Website Baker spr&aring;k filen. Vennligst sjekk tekst filen.';
+$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = 'Feil i WebsiteBaker installasjons filen. Vennligst sjekk formatet på *.zip filen.';
+$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Feil i WebsiteBaker spr&aring;k filen. Vennligst sjekk tekst filen.';
 
 $MESSAGE['MOD_FORM']['REQUIRED_FIELDS'] = 'Du m&aring; skrive inn detaljer for f&oslash;lgende felt';
 $MESSAGE['MOD_FORM']['EXCESS_SUBMISSIONS'] = 'Beklager, dette skjemaet har blitt sendt for mange ganger denne timen. Vennligst pr&oslash;v igjen om en time.';

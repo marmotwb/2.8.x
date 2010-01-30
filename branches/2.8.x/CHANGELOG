@@ -11,6 +11,13 @@ Legend:
 ! = Update/Change
  
 ------------------------------------- 2.8.1 -------------------------------------
+30-Jan-2010 Dietmar Woellbrink (Luisehahne)
+!	continue update headertext
+!	fixed tpyo Website Baker to WebsiteBaker in main language files
+30-Jan-2010 Dietmar Woellbrink (Luisehahne)
+!	continue update headertext
+#	Ticket #930 disabled SyntaxHighlighter from default WB Installation
+!	change help url to www.websitebaker2.org
 29-Jan-2010 Dietmar Woellbrink (Luisehahne)
 !	continue update headertext
 28-Jan-2010 Dietmar Woellbrink (Luisehahne)

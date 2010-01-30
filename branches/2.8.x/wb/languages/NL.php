@@ -1,27 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
-Website Baker Project <http://www.websitebaker.org/>
-Copyright (C) 2004-2009, Ryan Djurovich
-
-Website Baker is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-Website Baker is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Website Baker; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/**
+ *
+ * @category        framework
+ * @package         language
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
 // use languageedit-module to modify this file
 
@@ -414,7 +407,7 @@ $TEXT['PUBL_START_DATE'] = 'Startdatum';
 $TEXT['PUBL_END_DATE'] = 'Einddatum';
 $TEXT['CALENDAR'] = 'Kalender';
 $TEXT['DELETE_DATE'] = 'Wis datum';
-$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Specificeer hieronder een standaard afzenderadres en afzendernaam. Het is aanbevolen om een afzenderadres als: <strong>admin@uwdomein.nl</strong> te gebruiken. Om verspreiding van spam tegen te gaan, kunnen sommige mailproviders (bijv. <em>mail.com</em>) mails verwerpen met een afzenderadres als <em>name@mail.com</em>, die verzonden worden vanaf een relay-server. Onderstaande standaardwaarden worden enkel gebruikt indien geen andere waarden gespecifieerd worden door Website Baker. Indien uw server <acronym title="Simple mail transfer protocol">SMTP</acronym> ondersteunt kunt u deze optie gebruiken voor het versturen van uitgaande mails.';$TEXT['WBMAILER_DEFAULT_SENDER_MAIL'] = 'Standaard afzendermailadres';
+$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Specificeer hieronder een standaard afzenderadres en afzendernaam. Het is aanbevolen om een afzenderadres als: <strong>admin@uwdomein.nl</strong> te gebruiken. Om verspreiding van spam tegen te gaan, kunnen sommige mailproviders (bijv. <em>mail.com</em>) mails verwerpen met een afzenderadres als <em>name@mail.com</em>, die verzonden worden vanaf een relay-server. Onderstaande standaardwaarden worden enkel gebruikt indien geen andere waarden gespecifieerd worden door WebsiteBaker. Indien uw server <acronym title="Simple mail transfer protocol">SMTP</acronym> ondersteunt kunt u deze optie gebruiken voor het versturen van uitgaande mails.';$TEXT['WBMAILER_DEFAULT_SENDER_MAIL'] = 'Standaard afzendermailadres';
 $TEXT['WBMAILER_DEFAULT_SENDER_NAME'] = 'Standaard afzendernaam';
 $TEXT['WBMAILER_NOTICE'] = '<strong>Instellingen SMTP Mailer:</strong><br />Onderstaande instellingen zijn alleen van toepassing indien u mails wilt verzenden via <acronym title="Simple mail transfer protocol">SMTP</acronym>. Indien u de naam of instellingen van de SMTP-server niet kent, selecteer dan bij de standaard mailroutine: PHP MAIL.';
 $TEXT['WBMAILER_FUNCTION'] = 'Mailafhandeling';
@@ -582,8 +575,8 @@ $MESSAGE['GENERIC']['WEBSITE_UNDER_CONSTRUCTION'] = 'Website in bewerking';
 $MESSAGE['GENERIC']['PLEASE_CHECK_BACK_SOON'] = 'Probeert u het a.u.b. binnenkort nog eens.';
 $MESSAGE['GENERIC']['PLEASE_BE_PATIENT'] = 'Even geduld aub, dit kan even duren.';
 $MESSAGE['GENERIC']['ERROR_OPENING_FILE'] = 'Kan bestand niet openen.';
-$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] =    'Ongeldig Website Baker installatiebestand. Controleer het *.zip bestand.';
-$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Ongeldig Website Baker taalbestand. Controleer het tekstbestand.';
+$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] =    'Ongeldig WebsiteBaker installatiebestand. Controleer het *.zip bestand.';
+$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Ongeldig WebsiteBaker taalbestand. Controleer het tekstbestand.';
 
 $MESSAGE['MOD_FORM']['REQUIRED_FIELDS'] = 'De volgende velden zijn verplicht';
 $MESSAGE['MOD_FORM']['EXCESS_SUBMISSIONS'] = 'Dit formulier is te vaak verstuurd binnen dit uur. Probeert u het over een uur nog eens.';

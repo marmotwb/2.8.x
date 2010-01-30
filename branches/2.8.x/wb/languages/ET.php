@@ -1,27 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
-Website Baker Project <http://www.websitebaker.org/>
-Copyright (C) 2004-2009, Ryan Djurovich
-
-Website Baker is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-Website Baker is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Website Baker; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/**
+ *
+ * @category        framework
+ * @package         language
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
 // use languageedit-module to modify this file
 
@@ -62,16 +55,16 @@ $MENU['FORGOT'] = 'Retrieve Login Details';
 $OVERVIEW['START'] = 'Administratsiooni &uuml;levaade';
 $OVERVIEW['PAGES'] = 'Halda oma veebisaidi lehek&uuml;lgi...';
 $OVERVIEW['MEDIA'] = 'Halda faile mis on media kaustas...';
-$OVERVIEW['MODULES'] = 'Halda Website Bakeri mooduleid...';
+$OVERVIEW['MODULES'] = 'Halda WebsiteBakeri mooduleid...';
 $OVERVIEW['TEMPLATES'] = 'Change the look and feel of your website with templates...';
-$OVERVIEW['LANGUAGES'] = 'Halda Website Bakeri keeli...';
+$OVERVIEW['LANGUAGES'] = 'Halda WebsiteBakeri keeli...';
 $OVERVIEW['PREFERENCES'] = 'Muuda eelistusi nagu emaili aadress, parool, jne... ';
-$OVERVIEW['SETTINGS'] = 'Muuda seadeid Website Bakeri jaoks...';
-$OVERVIEW['USERS'] = 'Halda kasutajaid kes saavad logida Website Bakerisse...';
+$OVERVIEW['SETTINGS'] = 'Muuda seadeid WebsiteBakeri jaoks...';
+$OVERVIEW['USERS'] = 'Halda kasutajaid kes saavad logida WebsiteBakerisse...';
 $OVERVIEW['GROUPS'] = 'Halda kasutajate gruppe ja nende &otilde;iguseid...';
 $OVERVIEW['HELP'] = 'On k&uuml;simusi? Leia oma vastus...';
 $OVERVIEW['VIEW'] = 'Kiirelt vaata ja lehitse oma veebisaiti uues aknas...';
-$OVERVIEW['ADMINTOOLS'] = 'Access the Website Baker administration tools...';
+$OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 
 // Headings
 $HEADING['MODIFY_DELETE_PAGE'] = 'Muuda/Kustuta Leht';
@@ -414,7 +407,7 @@ $TEXT['PUBL_START_DATE'] = 'Start date';
 $TEXT['PUBL_END_DATE'] = 'End date';
 $TEXT['CALENDAR'] = 'Calender';
 $TEXT['DELETE_DATE'] = 'Delete date';
-$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Please specify a default "FROM" address and "SENDER" name below. It is recommended to use a FROM address like: <strong>admin@yourdomain.com</strong>. Some mail provider (e.g. <em>mail.com</em>) may reject mails with a FROM: address like <em>name@mail.com</em> sent via a foreign relay to avoid spam.<br /><br />The default values are only used if no other values are specified by Website Baker. If your server supports <acronym title="Simple mail transfer protocol">SMTP</acronym>, you may want use this option for outgoing mails.';
+$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Please specify a default "FROM" address and "SENDER" name below. It is recommended to use a FROM address like: <strong>admin@yourdomain.com</strong>. Some mail provider (e.g. <em>mail.com</em>) may reject mails with a FROM: address like <em>name@mail.com</em> sent via a foreign relay to avoid spam.<br /><br />The default values are only used if no other values are specified by WebsiteBaker. If your server supports <acronym title="Simple mail transfer protocol">SMTP</acronym>, you may want use this option for outgoing mails.';
 $TEXT['WBMAILER_DEFAULT_SENDER_MAIL'] = 'Default From Mail';
 $TEXT['WBMAILER_DEFAULT_SENDER_NAME'] = 'Default Sender Name';
 $TEXT['WBMAILER_NOTICE'] = '<strong>SMTP Mailer Settings:</strong><br />The settings below are only required if you want to send mails via <acronym title="Simple mail transfer protocol">SMTP</acronym>. If you do not know your SMTP host or you are not sure about the required settings, simply stay with the default mail routine: PHP MAIL.';
@@ -475,7 +468,7 @@ $MESSAGE['FORGOT_PASS']['CANNOT_EMAIL'] = 'V&otilde;imetu emailima parooli, palu
 $MESSAGE['FORGOT_PASS']['PASSWORD_RESET'] = 'Sinukasutajanimi ja parool on saadetud su emaili aadressile';
 $MESSAGE['FORGOT_PASS']['ALREADY_RESET'] = 'Parooliei saa taastada rohkem kui &uuml;ks kord tunnis, vabandame';
 
-$MESSAGE['START']['WELCOME_MESSAGE'] = 'Teretulemast Website Baker Administratsiooni';
+$MESSAGE['START']['WELCOME_MESSAGE'] = 'Teretulemast WebsiteBaker Administratsiooni';
 $MESSAGE['START']['INSTALL_DIR_EXISTS'] = 'Hoiatus, Installatsiooni kataloog eksisteerib!';
 $MESSAGE['START']['CURRENT_USER'] = 'Sa oled praegu sisse logitud:';
 
@@ -583,8 +576,8 @@ $MESSAGE['GENERIC']['WEBSITE_UNDER_CONSTRUCTION'] = 'Website Under Construction'
 $MESSAGE['GENERIC']['PLEASE_CHECK_BACK_SOON'] = 'K&uuml;lasta hiljem uuesti...';
 $MESSAGE['GENERIC']['PLEASE_BE_PATIENT'] = 'Please be patient, this might take a while.';
 $MESSAGE['GENERIC']['ERROR_OPENING_FILE'] = 'Error opening file.';
-$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = 'Invalid Website Baker installation file. Please check the *.zip format.';
-$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Invalid Website Baker language file. Please check the text file.';
+$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = 'Invalid WebsiteBaker installation file. Please check the *.zip format.';
+$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Invalid WebsiteBaker language file. Please check the text file.';
 
 $MESSAGE['MOD_FORM']['REQUIRED_FIELDS'] = 'Sa pead detailid sisestama j&auml;rgnevatesse lahtritesse';
 $MESSAGE['MOD_FORM']['EXCESS_SUBMISSIONS'] = 'Vabandame, see vorm on juba liiga palju kordi selle tunni jooksul saadetud. Palun proovi j&auml;rgmine tund uuesti.';
