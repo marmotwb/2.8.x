@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
  
 ------------------------------------- 2.8.1 -------------------------------------
+01-Feb-2010 Dietmar Woellbrink (Luisehahne)
+!	to hold content, install don't drop existing tables (code, form, menu_link, news, wrapper, wysiwyg) 
+!	otherwise do it with uninstall
 30-Jan-2010 Dietmar Woellbrink (Luisehahne)
 #	Ticket #931 bug in admin/access/index.php
 30-Jan-2010 Dietmar Woellbrink (Luisehahne)

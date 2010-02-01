@@ -89,11 +89,9 @@ if(defined('WB_URL'))
 
 	$database->query($mod_news);
 		
-    $mod_search = "SELECT * FROM ".TABLE_PREFIX."search  WHERE value = 'mod_wysiwyg_query'";
-    $database->query($mod_search);
-    $insert_search = $database->is_error();
-
-    if( $insert_search )
+    $mod_search = "SELECT * FROM ".TABLE_PREFIX."search WHERE value = 'news'";
+    $insert_search = $database->query($mod_search);
+    if( $insert_search->numRows() == 0 )
     {
     	// Insert info into the search table
     	// Module query info
