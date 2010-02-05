@@ -1,4 +1,4 @@
-var JQUERY_THEME = WB_URL+'/include/jquery/plugins';
+var JQUERY_THEME = WB_URL+'/include/jquery';
 
 $(document).ready(function() {
         $.insert(JQUERY_THEME+'/jquery-ui.css');
