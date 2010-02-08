@@ -1,5 +1,6 @@
-//:Emailfiltering on your output - output filtering with the options below - Mailto links can be encrypted by a Javascript 
-//:usage:  [[EmailFilter]]  
+//:Emailfiltering on your output - output filtering with the options below - Mailto links can be encrypted by a Javascript
+//:usage:  [[EmailFilter]] 
+ 
 // You can configure the output filtering with the options below.
 // Tip: Mailto links can be encrypted by a Javascript function. 
 // To make use of this option, one needs to add the PHP code 
@@ -39,7 +40,7 @@ if($filter_settings['mailto_filter'] == '1') {
 	$output_filter_mode = $output_filter_mode + 2;								// 0|2
 					
 	// check if Javascript mailto encryption is enabled (call register_frontend_functions in the template)
-	$search = '<script type="text/javascript" src="' .WB_URL .'/modules/droplets/js/mdcr.js"></script>';
+	$search = '<script src="' .WB_URL .'/modules/droplets/js/mdcr.js" type="text/javascript"></script>';
 	if(strpos($wb_page_data, $search) !== false) { 
 		$output_filter_mode = $output_filter_mode + 4;							// 0|4
 	}
