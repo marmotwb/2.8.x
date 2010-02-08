@@ -64,27 +64,38 @@ function mysqlCheckTables( $dbName )
             $x++;
         }
     }
+
+
+
+
     return $data;
 }
 
- // check existings tables for upgrade or install
-/*
-$get_result = mysql_list_tables (DB_NAME); */
-$get_result = $database->query( "SHOW TABLES FROM ".DB_NAME);
-$all_tables = array();
-if($get_result->numRows() > 0)
+
+// check existings tables for upgrade or install
+function check_wb_tables()
 {
-    while ($data = $get_result->fetchRow())
-    {
-        $tmp = str_replace(TABLE_PREFIX, '', $data[0]);
-        if(in_array($tmp,$table_list))
+    global $database,$table_list;
+        $get_result = $database->query( "SHOW TABLES FROM ".DB_NAME);
+        $all_tables = array();
+        if($get_result->numRows() > 0)
         {
-            $all_tables[] = $tmp;
+            while ($data = $get_result->fetchRow())
+            {
+                $tmp = str_replace(TABLE_PREFIX, '', $data[0]);
+                if(in_array($tmp,$table_list))
+                {
+                    $all_tables[] = $tmp;
+                }
+            }
         }
-    }
-    }
+     return $all_tables;
+}
 
+// check existing tables
+$all_tables = check_wb_tables();
 
+// only for array tests
 function show_array($array=array())
 {
     print '<pre>';
@@ -99,6 +110,8 @@ function show_array($array=array())
 <title>Upgrade script</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
+html { overflow: -moz-scrollbars-vertical; /* Force firefox to always show room for a vertical scrollbar */ }
+
 body {
 	margin:0;
 	padding:0;
@@ -146,14 +159,22 @@ h3 { font-size: 120%; }
 	margin-top:0.5em;
 	border: 1px solid black;
 }
+.info {
+	width: 98%;
+	background:#99CC99;
+	padding:0.2em;
+	margin-top:0.5em;
+	border: 1px solid black;
+}
+
 </style>
 </head>
 <body>
 <div id="container">
-<img src="templates/wb_theme/images/logo.png" alt="Website Baker Logo" />
+<img src="templates/wb_theme/images/logo.png" alt="WebsiteBaker Project" />
 
-<h1>Website Baker Upgrade</h1>
-<p>This script upgrades an existing Website Baker <strong>Version 2.7</strong> installation to the <strong>Version <?php print $version ?></strong>. The upgrade script alters the existing WB database to reflect the changes introduced with WB 2.8.x</p>
+<h1>WebsiteBaker Upgrade</h1>
+<p>This script upgrades an existing WebsiteBaker <strong>Version 2.7 and higher</strong> installation to the <strong>Version <?php echo $version ?></strong>. The upgrade script alters the existing WB database to reflect the changes introduced with WB 2.8.x</p>
 
 <?php
 /**
@@ -164,7 +185,7 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 <p>It is highly recommended to <strong>create a manual backup</strong> of the entire <strong>/pages folder</strong> and the <strong>MySQL database</strong> before proceeding.<br /><strong class="error">Note: </strong>The upgrade script alters some settings of your existing database!!! You need to confirm the disclaimer before proceeding.</p>
 
 <form name="send" action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
-<textarea cols="80" rows="5">DISCLAIMER: The Website Baker upgrade script is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. One needs to confirm that a manual backup of the /pages folder (including all files and subfolders contained in it) and backup of the entire Website Baker MySQL database was created before you can proceed.</textarea>
+<textarea cols="80" rows="5">DISCLAIMER: The WebsiteBaker upgrade script is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. One needs to confirm that a manual backup of the /pages folder (including all files and subfolders contained in it) and backup of the entire WebsiteBaker MySQL database was created before you can proceed.</textarea>
 <br /><br /><input name="backup_confirmed" type="checkbox" value="confirmed" />&nbsp;I confirm that a manual backup of the /pages folder and the MySQL database was created.
 <br /><br /><input name="send" type="submit" value="Start upgrade script" />
 </form>
@@ -181,43 +202,14 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 }
 
 echo '<h2>Step 2: Updating database entries</h2>';
-if(!defined('DEFAULT_THEME')) { define('DEFAULT_THEME', 'wb_theme'); }
 
 require_once(WB_PATH.'/framework/functions.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Addons', 'modules', false, false);
-require_once(WB_PATH.'/framework/initialize.php');
 
 $OK   = '<span class="ok">OK</span>';
 $FAIL = '<span class="error">FAILED</span>';
 
-    $check_text = 'total ';
-    // $check_tables = mysqlCheckTables( DB_NAME ) ;
-
-    if(sizeof($all_tables) == 22)
-    {
-        echo '<h4>NOTICE: Your database '.DB_NAME.' has '.sizeof($all_tables).' '.$check_text.' tables from '.sizeof($table_list).' included in package '.$OK.'</h4>';
-    }
-    else
-    {
-        status_msg('<strong>WARNING:</strong><br />can\'t run Upgrade, missing tables', 'warning', 'div');
-    	echo '<h4>Install missing tables, you can install them in backend->addons->modules->advanced. Then again run upgrade-script.php</h4>';
-        $result = array_diff ( $table_list, $all_tables );
-        echo '<h4>';
-        while ( list ( $key, $val ) = each ( $result ) )
-        {
-            echo TABLE_PREFIX.$val.' '.$FAIL.'<br>';
-        }
-        echo '</h4>';
-    	echo '<br /><form action="'. $_SERVER['PHP_SELF'] .'">';
-    	echo '<input type="submit" value="kick me back" style="float:left;" />';
-    	echo '</form><br /><br />';
-        echo "</div>
-        </body>
-        </html>
-        ";
-        exit();
-    }
 // function to add a var/value-pair into settings-table
 function db_add_key_value($key, $value) {
 	global $database; global $OK; global $FAIL;
@@ -261,23 +253,72 @@ function db_add_field($field, $table, $desc) {
 }
 
 /**********************************************************
+ *  - Adding field default_theme to settings table
+ */
+echo "<br />Adding default_theme to settings table<br />";
+$cfg = array(
+	'default_theme' => 'wb_theme'
+);
+
+foreach($cfg as $key=>$value) {
+	db_add_key_value($key, $value);
+}
+
+/**********************************************************
+ *  - install droplets
+ */
+    $drops = (!in_array ( "mod_droplets", $all_tables)) ? "<br />Install droplets<br />" : "<br />Upgrade droplets<br />";
+    echo $drops;
+
+     $file_name = (!in_array ( "mod_droplets", $all_tables)) ? "install.php" : "upgrade.php";
+     require_once (WB_PATH."/modules/droplets/".$file_name);
+
+// check again all tables, to get a new array
+ if(sizeof($all_tables) < 22) { $all_tables = check_wb_tables(); }
+/**********************************************************
+ *  - check tables comin with WebsiteBaker
+ */
+    $check_text = 'total ';
+    // $check_tables = mysqlCheckTables( DB_NAME ) ;
+
+    if(sizeof($all_tables) == 22)
+    {
+        echo '<h4>NOTICE: Your database '.DB_NAME.' has '.sizeof($all_tables).' '.$check_text.' tables from '.sizeof($table_list).' included in package '.$OK.'</h4>';
+    }
+    else
+    {
+        status_msg('<strong>WARNING:</strong><br />can\'t run Upgrade, missing tables', 'warning', 'div');
+    	echo '<h4>Install missing tables, you can install them in backend->addons->modules->advanced. Then again run upgrade-script.php</h4>';
+        $result = array_diff ( $table_list, $all_tables );
+        echo '<h4 class="warning">';
+        while ( list ( $key, $val ) = each ( $result ) )
+        {
+            echo TABLE_PREFIX.$val.' '.$FAIL.'<br>';
+        }
+        echo '</h4>';
+    	echo '<br /><form action="'. $_SERVER['PHP_SELF'] .'">';
+    	echo '<input type="submit" value="kick me back" style="float:left;" />';
+    	echo '</form>';
+        if(defined('ADMIN_URL'))
+        {
+        	echo '<form action="'.ADMIN_URL.'" target="_self">';
+        	echo '&nbsp;<input type="submit" value="kick me to the Backend" />';
+        	echo '</form>';
+        }
+        echo "<br /><br /></div>
+        </body>
+        </html>
+        ";
+        exit();
+    }
+
+/**********************************************************
  *  - Adding field sec_anchor to settings table
  */
 
 echo "<br />Adding sec_anchor to settings table<br />";
 $cfg = array(
 	'sec_anchor' => 'wb_'
-);
-foreach($cfg as $key=>$value) {
-	db_add_key_value($key, $value);
-}
-
-/**********************************************************
- *  - Adding field default_theme to settings table
- */
-echo "<br />Adding default_theme to settings table<br />";
-$cfg = array(
-	'default_theme' => 'wb_theme'
 );
 foreach($cfg as $key=>$value) {
 	db_add_key_value($key, $value);
@@ -311,19 +352,19 @@ foreach($cfg as $key=>$value) {
 echo "<br />Adding field redirect_type to mod_menu_link table<br />";
 db_add_field('redirect_type', 'mod_menu_link', "INT NOT NULL DEFAULT '302' AFTER `target_page_id`");
 
-/**********************************************************
- *  - Update search no results database filed to create
- *  valid XHTML if search is empty
- */
-echo "<br />Updating database field `no_results` of search table: ";
-$search_no_results = addslashes('<tr><td><p>[TEXT_NO_RESULTS]</p></td></tr>');
-$sql = "UPDATE `" . TABLE_PREFIX . "search` SET `value` = '$search_no_results' WHERE `name`= 'no_results'";
-$database->query($sql);
-echo ($database->query($sql)) ? " $OK<br />" : " $FAIL<br />";
 
 
-if (version_compare(VERSION, '2.8.0') <= 0)
+if (version_compare(WB_VERSION, '2.8.0') < 0)
 {
+    /**********************************************************
+     *  - Update search no results database filed to create
+     *  valid XHTML if search is empty
+     */
+    echo "<br />Updating database field `no_results` of search table: ";
+    $search_no_results = addslashes('<tr><td><p>[TEXT_NO_RESULTS]</p></td></tr>');
+    $sql = "UPDATE `" . TABLE_PREFIX . "search` SET `value` = '$search_no_results' WHERE `name`= 'no_results'";
+    $database->query($sql);
+    echo ($database->query($sql)) ? " $OK<br />" : " $FAIL<br />";
     /**********************************************************
      *  - Update settings of News Modul
      */
@@ -378,10 +419,12 @@ if (version_compare(VERSION, '2.8.0') <= 0)
 <h2>[POST_TITLE]</h2>
 <br />';
 
-    if(in_array('mod_news_settings', $all_tables))
-    {
-        // Insert default settings into database
-        $query_dates = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_news_settings where section_id != 0 and page_id != 0");
+if(in_array('mod_news_settings', $all_tables))
+{
+   // Insert default settings into database
+   $query_dates = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_news_settings where section_id != 0 and page_id != 0");
+   if($query_dates->numRows() > 1)
+   {
         while($result = $query_dates->fetchRow())
         {
 
@@ -434,18 +477,18 @@ if (version_compare(VERSION, '2.8.0') <= 0)
         	echo mysql_error().'<br />';
 
         }
-    }
-    else
-    {
-        echo 'Missing database table '.TABLE_PREFIX.'mod_news_settings '.$FAIL.'<br />';
+
+
+      if ((version_compare(WB_VERSION, '2.8.0') <= 0) && file_exists(WB_PATH."/modules/news/upgrade.php"))
+      {
+              echo '<h4>Upgrade existings postfiles to new format</h4><br />';
+              // change old postfiles to new postfiles
+              require_once(WB_PATH."/modules/news/upgrade.php");
+      }
     }
 
-    if(file_exists(WB_PATH."/modules/news/upgrade.php"))
-    {
-        echo '<h4>Upgrade existings postfiles to new format</h4><br />';
-        // change old postfiles to new postfiles
-        require_once(WB_PATH."/modules/news/upgrade.php");
-}
+   }
+
 }
 
 /**********************************************************
@@ -453,15 +496,6 @@ if (version_compare(VERSION, '2.8.0') <= 0)
  */
 echo "<br />Update database version number to 2.8.1 : ";
 echo ($database->query("UPDATE `".TABLE_PREFIX."settings` SET `value` = '$version' WHERE `name` = 'wb_version'")) ? " $OK<br />" : " $FAIL<br />";
-
-/**********************************************************
- *  - install droplets
- */
-$drops = (!in_array ( "mod_droplets", $all_tables)) ? "<br />Install droplets<br />" : "<br />Upgrade droplets<br />";
-echo $drops;
-
- $file_name = (!in_array ( "mod_droplets", $all_tables)) ? "install.php" : "upgrade.php";
- require_once (WB_PATH."/modules/droplets/".$file_name);
 
 /**********************************************************
  *  - Reload all addons
@@ -510,17 +544,23 @@ echo '<br />Languages reloaded<br />';
 /**********************************************************
  *  - End of upgrade script
  */
+
+// require(WB_PATH.'/framework/initialize.php');
+
+if(!defined('DEFAULT_THEME')) { define('DEFAULT_THEME', 'wb_theme'); }
+if(!defined('THEME_PATH')) { define('THEME_PATH', WB_PATH.'/templates/'.DEFAULT_THEME);}
+
 echo '<p style="font-size:120%;"><strong>Congratulations: The upgrade script is finished ...</strong></p>';
 status_msg('<strong>Warning:</strong><br />Please delete the file <strong>upgrade-script.php</strong> via FTP before proceeding.', 'warning', 'div');
 // show buttons to go to the backend or frontend
 echo '<br />';
 if(defined('WB_URL')) {
-	echo '<form action="'.WB_URL.'" target="_self">';
+	echo '<form action="'.WB_URL.'">';
 	echo '<input type="submit" value="kick me to the Frontend" style="float:left;" />';
 	echo '</form>';
 }
 if(defined('ADMIN_URL')) {
-	echo '<form action="'.ADMIN_URL.'" target="_self">';
+	echo '<form action="'.ADMIN_URL.'">';
 	echo '&nbsp;<input type="submit" value="kick me to the Backend" />';
 	echo '</form>';
 }
