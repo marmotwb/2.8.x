@@ -21,7 +21,6 @@ if(!defined('WB_PATH')) {
 	exit(0);
 }
 
-
 require_once(WB_PATH.'/framework/class.wb.php');
 
 class frontend extends wb {
@@ -221,7 +220,8 @@ class frontend extends wb {
 		}
 	}
 
-	function get_website_settings() {
+	function get_website_settings()
+    {
 		global $database;
 
 		// set visibility SQL code
@@ -264,7 +264,38 @@ class frontend extends wb {
 			define('SIGNUP_URL', WB_URL.'/account/signup.php');
 		}
 	}
-	
+
+/*
+ * replace all "[wblink{page_id}]" with real links
+ * @param string &$content : reference to global $content
+ * @return void
+ * @history 100216 17:00:00 optimise errorhandling, speed, SQL-strict
+ */
+	function preprocess(&$content)
+	{
+		global $database;
+		$replace_list = array();
+		$pattern = '/\[wblink([0-9]+)\]/isU';
+		if(preg_match_all($pattern,$content,$ids))
+		{
+			foreach($ids[1] as $key => $page_id)
+			{
+				$replace_list[$page_id] = $ids[0][$key];
+			}
+			foreach($replace_list as $page_id => $tag)
+			{
+				$sql = 'SELECT `link` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.(int)$page_id;
+				$link = $database->get_one($sql);
+				if(!is_null($link))
+				{
+					$link = $this->page_link($link);
+					$content = str_replace($tag, $link, $content);
+				}
+			}
+		}
+	}
+
+/*
 	function preprocess(&$content) {
 		global $database;
 		// Replace [wblink--PAGE_ID--] with real link
@@ -279,7 +310,7 @@ class frontend extends wb {
 			$content = preg_replace($pattern,$link,$content);
 		}
 	}
-	
+*/
 	function menu() {
 		global $wb;
 	   if (!isset($wb->menu_number)) {
