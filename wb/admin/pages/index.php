@@ -258,8 +258,8 @@ function make_list($parent, $editable_pages) {
 				?>
 				<td class="list_actions">
 					<?php if($admin->get_permission('pages_delete') == true AND $can_modify == true) { ?>
-					<a href="javascript:add_child_page('<?php echo $page['page_id']; ?>');" title="<?php echo $TEXT['ADD']; ?>">
-						<img src="<?php echo THEME_URL; ?>/images/plus_16.png" name="addpage_<?php echo $page['page_id']; ?>" border="0" alt="Add Child Page" />
+					<a href="javascript:add_child_page('<?php echo $page['page_id']; ?>');" title="<?php echo $HEADING['ADD_PAGE']; ?>">
+						<img src="<?php echo THEME_URL; ?>/images/siteadd.png" name="addpage_<?php echo $page['page_id']; ?>" border="0" alt="Add Child Page" />
 					</a>
 					<?php } ?>
 				</td>
