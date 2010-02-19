@@ -1,30 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-    show_menu2: show_menu replacement for Website Baker 
-    Copyright (C) 2006-2009, Brodie Thiesfield
-
-    This program is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public License
-    as published by the Free Software Foundation; either version 2
-    of the License, or (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  
-    02110-1301, USA.
-
-    ***********************************************
-    ** Version 4.8: see README for documentation **
-    ***********************************************
-*/
+/**
+ *
+ * @category        module
+ * @package         show_menu2
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.7.0 | 2.8.x
+ * @requirements    PHP 4.4.9 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
 define('SM2_ROOT',       -1000);
 define('SM2_CURR',       -2000);
@@ -43,6 +33,7 @@ define('SM2_ESCAPE',    0x0100); // bit 8
 define('SM2_NOESCAPE',       0); // NOOP, unnecessary with WB 2.6.7+
 define('SM2_BUFFER',    0x0200); // bit 9
 define('SM2_CURRTREE',  0x0400); // bit 10
+define('SM2_SHOWHIDDEN', 0x0800); // bit 11
 
 define('_SM2_GROUP_1',  0x000F); // exactly one flag from group 1 is required
 
@@ -588,14 +579,22 @@ function show_menu2(
                 if ($page['page_id'] == $CURR_PAGE_ID) {
                     $page['sm2_is_curr'] = true;
                     $page['sm2_on_curr_path'] = true;
-                    unset($page['sm2_hide']); // don't hide the current page
+                    if ($flags & SM2_SHOWHIDDEN) 
+					{ 
+                        // show hidden pages if active and SHOWHIDDEN flag supplied
+                        unset($page['sm2_hide']); 
+                    }
                 }
 
                 // mark parents of the current page as such
                 if (in_array($page['page_id'], $rgCurrParents)) {
                     $page['sm2_is_parent'] = true;
                     $page['sm2_on_curr_path'] = true;
-                    unset($page['sm2_hide']); // don't hide a parent page                
+                    if ($flags & SM2_SHOWHIDDEN) 
+					{
+                        // show hidden pages if active and SHOWHIDDEN flag supplied
+						unset($page['sm2_hide']); // don't hide a parent page                
+                    }
                 }
                 
                 // add the entry to the array                
