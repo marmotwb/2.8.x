@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 19-Feb-2010 Dietmar Woellbrink (Luisehahne)
+!	update headerinfo in module droplets
+19-Feb-2010 Dietmar Woellbrink (Luisehahne)
 !	Beginning with Ticket #901 
 +	add siteadd.png to backend themes
 !	change icon add child page
