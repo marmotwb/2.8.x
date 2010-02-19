@@ -36,14 +36,16 @@ if($filter_settings['email_filter'] != '1' && $filter_settings['mailto_filter'] 
 $output_filter_mode = ($filter_settings['email_filter'] == '1') ? 1 : 0;		// 0|1
 	
 // check if mailto mail addresses needs to be filtered
-if($filter_settings['mailto_filter'] == '1') {
+if($filter_settings['mailto_filter'] == '1')
+{
 	$output_filter_mode = $output_filter_mode + 2;								// 0|2
 					
-	// check if Javascript mailto encryption is enabled (call register_frontend_functions in the template)
-	$search = '<script src="' .WB_URL .'/modules/droplets/js/mdcr.js" type="text/javascript"></script>';
-	if(strpos($wb_page_data, $search) !== false) { 
-		$output_filter_mode = $output_filter_mode + 4;							// 0|4
-	}
+        // check if Javascript mailto encryption is enabled (call register_frontend_functions in the template)
+        $search_pattern = '/<.*src=\".*\/mdcr.js.*>/iU';
+        if(preg_match($search_pattern, $wb_page_data))
+        {
+          $output_filter_mode = $output_filter_mode + 4;       // 0|4
+        }
 }
 		
 // define some constants so we do not call the database in the callback function again

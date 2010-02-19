@@ -1,35 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- * @category   frontend
- * @package    outputfilter
- * @author(s)  Dietmar Wöllbrink <Luisehahne>, Dietrich Roland Pehlke <Aldus>
- * @platform   WB 2.8.0
- * @require    PHP 5.2.x
- * @license    http://www.gnu.org/licenses/gpl.html
- * @link       http://project.websitebaker2.org/browser/branches/2.8.x/wb/modules/output_filter/filter-routines.php
- * @changeset   2009/12/03 change searchstring mdcr.js, workout crypt emails
-
-*/
+/**
+ *
+ * @category        modules
+ * @package         output_filter
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.4.9 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
 // prevent this file from being accessed directly
 if(!defined('WB_PATH')) die(header('Location: ../index.php'));
@@ -83,13 +68,20 @@ if (!function_exists('filter_frontend_output')) {
 		// check if mailto mail addresses needs to be filtered
 		if($filter_settings['mailto_filter'] == '1') {
 			$output_filter_mode = $output_filter_mode + 2;								// 0|2
-						
+
 			// check if Javascript mailto encryption is enabled (call register_frontend_functions in the template)
+           $search_pattern = '/<.*src=\".*\/mdcr.js.*>/iU';
+           if(preg_match($search_pattern, $content))
+           {
+            $output_filter_mode = $output_filter_mode + 4;       // 0|4
+           }
+/*
 			$search = '<script src="' .WB_URL .'/modules/output_filter/js/mdcr.js" type="text/javascript"></script>';
 			$search_droplet = '<script src="' .WB_URL .'/modules/droplets/js/mdcr.js" type="text/javascript"></script>';
-			if(strpos($content, $search) !== false || strpos($content, $search_droplet) !== false) { 
+			if(strpos($content, $search) !== false || strpos($content, $search_droplet) !== false) {
 				$output_filter_mode = $output_filter_mode + 4;							// 0|4
 			}
+*/
 		}
 		
 		// define some constants so we do not call the database in the callback function again
