@@ -76,7 +76,12 @@ function mysqlCheckTables( $dbName )
 function check_wb_tables()
 {
     global $database,$table_list;
-        $get_result = $database->query( "SHOW TABLES FROM ".DB_NAME);
+
+ // if prefix inludes '_' or '%'
+ $search_for = addcslashes ( TABLE_PREFIX, '%_' );
+ $get_result = $database->query( 'SHOW TABLES LIKE "'.$search_for.'%"');
+
+        // $get_result = $database->query( "SHOW TABLES FROM ".DB_NAME);
         $all_tables = array();
         if($get_result->numRows() > 0)
         {
@@ -288,14 +293,14 @@ foreach($cfg as $key=>$value) {
     else
     {
         status_msg('<strong>WARNING:</strong><br />can\'t run Upgrade, missing tables', 'warning', 'div');
-    	echo '<h4>Install missing tables, you can install them in backend->addons->modules->advanced. Then again run upgrade-script.php</h4>';
+    	echo '<h4>Missing required tables. You can install them in backend->addons->modules->advanced. Then again run upgrade-script.php</h4>';
         $result = array_diff ( $table_list, $all_tables );
-        echo '<h4 class="warning">';
+        echo '<h4 class="warning"><br />';
         while ( list ( $key, $val ) = each ( $result ) )
         {
             echo TABLE_PREFIX.$val.' '.$FAIL.'<br>';
         }
-        echo '</h4>';
+        echo '<br /></h4>';
     	echo '<br /><form action="'. $_SERVER['PHP_SELF'] .'">';
     	echo '<input type="submit" value="kick me back" style="float:left;" />';
     	echo '</form>';
