@@ -1,15 +1,21 @@
 <?php
-
-// $Id$
-
-/*
-*	@version	1.0
-*	@author		Ruud Eisinga (Ruud) John (PCWacht)
-*	@date		June 2009
-*
-*	droplets are small codeblocks that are called from anywhere in the template. 
-* 	To call a droplet just use [[dropletname]]. optional parameters for a droplet can be used like [[dropletname?parameter=value&parameter2=value]]
-*/
+/**
+ *
+ * @category        module
+ * @package         droplet
+ * @author          Ruud Eisinga (Ruud) John (PCWacht)
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.4.9 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
 // Direct access prevention
 defined('WB_PATH') OR die(header('Location: ../index.php'));
