@@ -12,6 +12,10 @@ Legend:
  
 ------------------------------------- 2.8.1 -------------------------------------
 19-Feb-2010 Dietmar Woellbrink (Luisehahne)
+!	insert $wb->preprocess($output), preprocess no longer needed in modules
+!	little modifaction in upgrade-script.php in function check_wb_tables
+!	updated module wysiwyg, set to module version 2.8
+19-Feb-2010 Dietmar Woellbrink (Luisehahne)
 !	recoded function extract_permission in /framework/functions.php
 !	change URL_HELP to http://www.websitebaker2.org/  in /framework/class.admin.php
 !	recoded function preprocess in /framework/class.frontend.php
