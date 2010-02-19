@@ -19,7 +19,7 @@
 // Stop this file from being accessed directly
 if(!defined('WB_URL')) {
 	header('Location: ../index.php');
-	exit(0);
+	exit;
 }
 
 // Define that this file has been loaded
@@ -29,10 +29,10 @@ define('FUNCTIONS_FILE_LOADED', true);
 function rm_full_dir($directory)
 {
     // If suplied dirname is a file then unlink it
-    if (is_file($directory)) {
+    if (is_file($directory))
+	{
         return unlink($directory);
     }
-
     // Empty the folder
 	if (is_dir($directory))
     {
@@ -40,20 +40,17 @@ function rm_full_dir($directory)
         while (false !== $entry = $dir->read())
         {
             // Skip pointers
-            if ($entry == '.' || $entry == '..') {
-                continue;
-            }
-
+            if ($entry == '.' || $entry == '..') { continue; }
             // Deep delete directories
-            if (is_dir("$directory/$entry")) {
-                rm_full_dir("$directory/$entry");
+            if (is_dir($directory.'/'.$entry))
+			{
+				rm_full_dir($directory.'/'.$entry);
             }
             else
             {
-                unlink("$directory/$entry");
+                unlink($directory.'/'.$entry);
             }
         }
-
         // Now delete the folder
         $dir->close();
         return rmdir($directory);
@@ -64,23 +61,21 @@ function rm_full_dir($directory)
 function directory_list($directory)
 {
 	$list = array();
-
 	if (is_dir($directory))
     {
     	// Open the directory then loop through its contents
     	$dir = dir($directory);
-    	while (false !== $entry = $dir->read()) {
+    	while (false !== $entry = $dir->read())
+		{
     		// Skip pointers
-    		if(substr($entry, 0, 1) == '.' || $entry == '.svn') {
-    			continue;
-    		}
+    		if($entry[0] == '.') { continue; }
     		// Add dir and contents to list
-    		if (is_dir("$directory/$entry")) {
+    		if (is_dir("$directory/$entry"))
+			{
     			$list = array_merge($list, directory_list("$directory/$entry"));
     			$list[] = "$directory/$entry";
     		}
     	}
-
         $dir->close();
     }
     // Now return the list
@@ -94,17 +89,16 @@ function chmod_directory_contents($directory, $file_mode)
     {
     	// Set the umask to 0
     	$umask = umask(0);
-
     	// Open the directory then loop through its contents
     	$dir = dir($directory);
-    	while (false !== $entry = $dir->read()) {
+    	while (false !== $entry = $dir->read())
+		{
     		// Skip pointers
-    		if(substr($entry, 0, 1) == '.' || $entry == '.svn') {
-    			continue;
-    		}
+    		if($entry[0] == '.') { continue; }
     		// Chmod the sub-dirs contents
-    		if(is_dir("$directory/$entry")) {
-    			chmod_directory_contents("$directory/$entry", $file_mode);
+    		if(is_dir("$directory/$entry"))
+			{
+    			chmod_directory_contents($directory.'/'.$entry, $file_mode);
     		}
     		change_mode($directory.'/'.$entry);
     	}
@@ -115,11 +109,10 @@ function chmod_directory_contents($directory, $file_mode)
 }
 
 // Function to open a directory and add to a file list
-function file_list($directory, $skip = array()) {
-	
+function file_list($directory, $skip = array())
+{
 	$list = array();
 	$skip_file = false;
-	
 	if (is_dir($directory))
     {
     	// Open the directory then loop through its contents
@@ -128,12 +121,10 @@ function file_list($directory, $skip = array()) {
 	while (false !== $entry = $dir->read())
     {
 		// Skip pointers
-		if($entry == '.' || $entry == '..')
-        {
-			$skip_file = true;
-		}
+		if($entry[0] == '.') { $skip_file = true; }
 		// Check if we to skip anything else
-		if($skip != array()) {
+		if($skip != array())
+		{
 			foreach($skip AS $skip_name)
             {
 				if($entry == $skip_name)
@@ -157,31 +148,50 @@ function file_list($directory, $skip = array()) {
 }
 
 // Function to get a list of home folders not to show
-function get_home_folders() {
+function get_home_folders()
+{
 	global $database, $admin;
 	$home_folders = array();
 	// Only return home folders is this feature is enabled
 	// and user is not admin
 //	if(HOME_FOLDERS AND ($_SESSION['GROUP_ID']!='1')) {
-	if(HOME_FOLDERS AND (!in_array('1',explode(",", $_SESSION['GROUPS_ID'])))) {
-
-		$query_home_folders = $database->query("SELECT home_folder FROM ".TABLE_PREFIX."users WHERE home_folder != '".$admin->get_home_folder()."'");
-		if($query_home_folders->numRows() > 0) {
-			while($folder = $query_home_folders->fetchRow()) {
+	if(HOME_FOLDERS AND (!in_array('1',explode(',', $_SESSION['GROUPS_ID']))))
+	{
+		$sql = 'SELECT `home_folder` FROM `'.TABLE_PREFIX.'users` WHERE `home_folder` != "'.$admin->get_home_folder().'"';
+		$query_home_folders = $database->query($sql);
+		if($query_home_folders->numRows() > 0)
+		{
+			while($folder = $query_home_folders->fetchRow())
+			{
 				$home_folders[$folder['home_folder']] = $folder['home_folder'];
 			}
 		}
-		function remove_home_subs($directory = '/', $home_folders) {
-			if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.$directory)) {
+		function remove_home_subs($directory = '/', $home_folders = '')
+		{
+			if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.$directory))
+			{
 				// Loop through the dirs to check the home folders sub-dirs are not shown
-			   while(false !== ($file = readdir($handle))) {
-					if(substr($file, 0, 1) != '.' AND $file != '.svn' AND $file != 'index.php') {
-						if(is_dir(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$file)) {
-							if($directory != '/') { $file = $directory.'/'.$file; } else { $file = '/'.$file; }
-							foreach($home_folders AS $hf) {
+				while(false !== ($file = readdir($handle)))
+				{
+					if($file[0] != '.' AND $file != 'index.php')
+					{
+						if(is_dir(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$file))
+						{
+							if($directory != '/')
+							{
+								$file = $directory.'/'.$file;
+							}
+							else
+							{
+								$file = '/'.$file;
+							}
+							foreach($home_folders AS $hf)
+							{
 								$hf_length = strlen($hf);
-								if($hf_length > 0) {
-									if(substr($file, 0, $hf_length+1) == $hf) {
+								if($hf_length > 0)
+								{
+									if(substr($file, 0, $hf_length+1) == $hf)
+									{
 										$home_folders[$file] = $file;
 									}
 								}
@@ -213,7 +223,8 @@ function make_dir($dir_name, $dir_mode = OCTAL_DIR_MODE)
 }
 
 // Function to chmod files and directories
-function change_mode($name) {
+function change_mode($name)
+{
 	if(OPERATING_SYSTEM != 'windows')
     {
 		// Only chmod if os is not windows
@@ -245,81 +256,93 @@ function change_mode($name) {
 }
 
 // Function to figure out if a parent exists
-function is_parent($page_id) {
+function is_parent($page_id)
+{
 	global $database;
 	// Get parent
-	$query = $database->query("SELECT parent FROM ".TABLE_PREFIX."pages WHERE page_id = '$page_id'");
-	$fetch = $query->fetchRow();
+	$sql = 'SELECT `parent` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
+	$parent = $database->get_one($sql);
 	// If parent isnt 0 return its ID
-	if($fetch['parent'] == '0') {
+	if(is_null($parent))
+	{
 		return false;
-	} else {
-		return $fetch['parent'];
+	}
+	else
+	{
+		return $parent;
 	}
 }
 
 // Function to work out level
-function level_count($page_id) {
+function level_count($page_id)
+{
 	global $database;
 	// Get page parent
-	$query_page = $database->query("SELECT parent FROM ".TABLE_PREFIX."pages WHERE page_id = '$page_id' LIMIT 1");
-	$fetch_page = $query_page->fetchRow();
-	$parent = $fetch_page['parent'];
-	if($parent > 0) {
-		// Get the level of the parent
-		$query_parent = $database->query("SELECT level FROM ".TABLE_PREFIX."pages WHERE page_id = '$parent' LIMIT 1");
-		$fetch_parent = $query_parent->fetchRow();
-		$level = $fetch_parent['level'];
+	$sql = 'SELECT `parent` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
+	$parent = $database->get_one($sql);
+	if($parent > 0) 
+	{	// Get the level of the parent
+		$sql = 'SELECT `level` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$parent;
+		$level = $database->get_one($sql);
 		return $level+1;
-	} else {
+	}
+	else
+	{
 		return 0;
 	}
 }
 
 // Function to work out root parent
-function root_parent($page_id) {
+function root_parent($page_id)
+{
 	global $database;
 	// Get page details
-	$query_page = $database->query("SELECT parent,level FROM ".TABLE_PREFIX."pages WHERE page_id = '$page_id' LIMIT 1");
+	$sql = 'SELECT `parent`, `level` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
+	$query_page = $database->query($sql);
 	$fetch_page = $query_page->fetchRow();
 	$parent = $fetch_page['parent'];
 	$level = $fetch_page['level'];	
-	if($level == 1) {
+	if($level == 1)
+	{
 		return $parent;
-	} elseif($parent == 0) {
+	}
+	elseif($parent == 0)
+	{
 		return $page_id;
-	} else {
-		// Figure out what the root parents id is
+	}
+	else
+	{	// Figure out what the root parents id is
 		$parent_ids = array_reverse(get_parent_ids($page_id));
 		return $parent_ids[0];
 	}
 }
 
 // Function to get page title
-function get_page_title($id) {
+function get_page_title($id)
+{
 	global $database;
 	// Get title
-	$query = $database->query("SELECT page_title FROM ".TABLE_PREFIX."pages WHERE page_id = '$id'");
-	$fetch = $query->fetchRow();
-	// Return title
-	return $fetch['page_title'];
+	$sql = 'SELECT `page_title` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$id;
+	$page_title = $database->get_one($sql);
+	return $page_title;
 }
 
 // Function to get a pages menu title
-function get_menu_title($id) {
-	// Connect to the database
-	$database = new database();
+function get_menu_title($id)
+{
+	global $database;
 	// Get title
-	$query = $database->query("SELECT menu_title FROM ".TABLE_PREFIX."pages WHERE page_id = '$id'");
-	$fetch = $query->fetchRow();
-	// Return title
-	return $fetch['menu_title'];
+	$sql = 'SELECT `menu_title` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$id;
+	$menu_title = $database->get_one($sql);
+	return $menu_title;
 }
 
 // Function to get all parent page titles
-function get_parent_titles($parent_id) {
+function get_parent_titles($parent_id)
+{
 	$titles[] = get_menu_title($parent_id);
-	if(is_parent($parent_id) != false) {
+	if(is_parent($parent_id) != false)
+	{
 		$parent_titles = get_parent_titles(is_parent($parent_id));
 		$titles = array_merge($titles, $parent_titles);
 	}
@@ -327,9 +350,11 @@ function get_parent_titles($parent_id) {
 }
 
 // Function to get all parent page id's
-function get_parent_ids($parent_id) {
+function get_parent_ids($parent_id)
+{
 	$ids[] = $parent_id;
-	if(is_parent($parent_id) != false) {
+	if(is_parent($parent_id) != false)
+	{
 		$parent_ids = get_parent_ids(is_parent($parent_id));
 		$ids = array_merge($ids, $parent_ids);
 	}
@@ -342,13 +367,17 @@ function get_page_trail($page_id) {
 }
 
 // Function to get all sub pages id's
-function get_subs($parent, $subs) {
+function get_subs($parent, $subs)
+{
 	// Connect to the database
-	$database = new database();
+	global $database;
 	// Get id's
-	$query = $database->query("SELECT page_id FROM ".TABLE_PREFIX."pages WHERE parent = '$parent'");
-	if($query->numRows() > 0) {
-		while($fetch = $query->fetchRow()) {
+	$sql = 'SELECT `page_id` FROM `'.TABLE_PREFIX.'pages` WHERE `parent` = '.$parent;
+	$query = $database->query($sql);
+	if($query->numRows() > 0)
+	{
+		while($fetch = $query->fetchRow())
+		{
 			$subs[] = $fetch['page_id'];
 			// Get subs of this sub
 			$subs = get_subs($fetch['page_id'], $subs);
@@ -360,7 +389,8 @@ function get_subs($parent, $subs) {
 
 // Function as replacement for php's htmlspecialchars()
 // Will not mangle HTML-entities
-function my_htmlspecialchars($string) {
+function my_htmlspecialchars($string)
+{
 	$string = preg_replace('/&(?=[#a-z0-9]+;)/i', '__amp;_', $string);
 	$string = strtr($string, array('<'=>'&lt;', '>'=>'&gt;', '&'=>'&amp;', '"'=>'&quot;', '\''=>'&#39;'));
 	$string = preg_replace('/__amp;_(?=[#a-z0-9]+;)/i', '&', $string);
@@ -370,20 +400,23 @@ function my_htmlspecialchars($string) {
 // Convert a string from mixed html-entities/umlauts to pure $charset_out-umlauts
 // Will replace all numeric and named entities except &gt; &lt; &apos; &quot; &#039; &nbsp;
 // In case of error the returned string is unchanged, and a message is emitted.
-function entities_to_umlauts($string, $charset_out=DEFAULT_CHARSET) {
+function entities_to_umlauts($string, $charset_out=DEFAULT_CHARSET)
+{
 	require_once(WB_PATH.'/framework/functions-utf8.php');
 	return entities_to_umlauts2($string, $charset_out);
 }
 
 // Will convert a string in $charset_in encoding to a pure ASCII string with HTML-entities.
 // In case of error the returned string is unchanged, and a message is emitted.
-function umlauts_to_entities($string, $charset_in=DEFAULT_CHARSET) {
+function umlauts_to_entities($string, $charset_in=DEFAULT_CHARSET)
+{
 	require_once(WB_PATH.'/framework/functions-utf8.php');
 	return umlauts_to_entities2($string, $charset_in);
 }
 
 // Function to convert a page title to a page filename
-function page_filename($string) {
+function page_filename($string)
+{
 	require_once(WB_PATH.'/framework/functions-utf8.php');
 	$string = entities_to_7bit($string);
 	// Now remove all bad characters
@@ -410,7 +443,8 @@ function page_filename($string) {
 }
 
 // Function to convert a desired media filename to a clean filename
-function media_filename($string) {
+function media_filename($string)
+{
 	require_once(WB_PATH.'/framework/functions-utf8.php');
 	$string = entities_to_7bit($string);
 	// Now remove all bad characters
@@ -446,26 +480,35 @@ function media_filename($string) {
 }
 
 // Function to work out a page link
-if(!function_exists('page_link')) {
-	function page_link($link) {
+if(!function_exists('page_link'))
+{
+	function page_link($link)
+	{
 		global $admin;
 		return $admin->page_link($link);
 	}
 }
 
 // Create a new file in the pages directory
-function create_access_file($filename,$page_id,$level) {
+function create_access_file($filename,$page_id,$level)
+{
 	global $admin, $MESSAGE;
-	if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/')) {
+	if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/'))
+	{
 		$admin->print_error($MESSAGE['PAGES']['CANNOT_CREATE_ACCESS_FILE']);
-	} else {
+	}
+	else
+	{
 		// First make sure parent folder exists
 		$parent_folders = explode('/',str_replace(WB_PATH.PAGES_DIRECTORY, '', dirname($filename)));
 		$parents = '';
-		foreach($parent_folders AS $parent_folder) {
-			if($parent_folder != '/' AND $parent_folder != '') {
+		foreach($parent_folders AS $parent_folder)
+		{
+			if($parent_folder != '/' AND $parent_folder != '')
+			{
 				$parents .= '/'.$parent_folder;
-				if(!file_exists(WB_PATH.PAGES_DIRECTORY.$parents)) {
+				if(!file_exists(WB_PATH.PAGES_DIRECTORY.$parents))
+				{
 					make_dir(WB_PATH.PAGES_DIRECTORY.$parents);
 				}
 			}	
@@ -475,7 +518,8 @@ function create_access_file($filename,$page_id,$level) {
 		$pages_dir_depth=count(explode('/',PAGES_DIRECTORY))-1;
 		// Work-out how many ../'s we need to get to the index page
 		$index_location = '';
-		for($i = 0; $i < $level + $pages_dir_depth; $i++) {
+		for($i = 0; $i < $level + $pages_dir_depth; $i++)
+		{
 			$index_location .= '../';
 		}
 		$content = ''.
@@ -493,10 +537,11 @@ require(WB_PATH."/index.php");
 }
 
 // Function for working out a file mime type (if the in-built PHP one is not enabled)
-if(!function_exists('mime_content_type')) {
-    function mime_content_type($filename) {
-
-    $mime_types = array(
+if(!function_exists('mime_content_type'))
+{
+    function mime_content_type($filename) 
+	{
+	    $mime_types = array(
             'txt'	=> 'text/plain',
             'htm'	=> 'text/html',
             'html'	=> 'text/html',
@@ -555,36 +600,44 @@ if(!function_exists('mime_content_type')) {
         $temp = explode('.',$filename);
         $ext = strtolower(array_pop($temp));
 
-        if (array_key_exists($ext, $mime_types)) {
+        if (array_key_exists($ext, $mime_types))
+		{
             return $mime_types[$ext];
         }
-        elseif (function_exists('finfo_open')) {
+        elseif (function_exists('finfo_open'))
+		{
             $finfo = finfo_open(FILEINFO_MIME);
             $mimetype = finfo_file($finfo, $filename);
             finfo_close($finfo);
             return $mimetype;
         }
-        else {
+        else
+		{
             return 'application/octet-stream';
         }
     }
 }
 
 // Generate a thumbnail from an image
-function make_thumb($source, $destination, $size) {
+function make_thumb($source, $destination, $size)
+{
 	// Check if GD is installed
-	if(extension_loaded('gd') AND function_exists('imageCreateFromJpeg')) {
+	if(extension_loaded('gd') AND function_exists('imageCreateFromJpeg'))
+	{
 		// First figure out the size of the thumbnail
 		list($original_x, $original_y) = getimagesize($source);
-		if ($original_x > $original_y) {
+		if ($original_x > $original_y)
+		{
 			$thumb_w = $size;
 			$thumb_h = $original_y*($size/$original_x);
 		}
-		if ($original_x < $original_y) {
+		if ($original_x < $original_y)
+		{
 			$thumb_w = $original_x*($size/$original_y);
 			$thumb_h = $size;
 		}
-		if ($original_x == $original_y) {
+		if ($original_x == $original_y)
+		{
 			$thumb_w = $size;
 			$thumb_h = $size;	
 		}
@@ -595,228 +648,182 @@ function make_thumb($source, $destination, $size) {
 		imagejpeg($dst_img, $destination);
 		// Clear memory
 		imagedestroy($dst_img);
-	   imagedestroy($source);
+		imagedestroy($source);
 	   // Return true
-	   return true;
-   } else {
-   	return false;
-   }
+		return true;
+	} else {
+		return false;
+	}
 }
 
-// Function to work-out a single part of an octal permission value
-function extract_permission($octal_value, $who, $action) {
-	// Make sure the octal value is 4 chars long
-	if(strlen($octal_value) == 0) {
-		$octal_value = '0000';
-	} elseif(strlen($octal_value) == 1) {
-		$octal_value = '000'.$octal_value;
-	} elseif(strlen($octal_value) == 2) {
-		$octal_value = '00'.$octal_value;
-	} elseif(strlen($octal_value) == 3) {
-		$octal_value = '0'.$octal_value;
-	} elseif(strlen($octal_value) == 4) {
-		$octal_value = ''.$octal_value;
-	} else {
-		$octal_value = '0000';
+/*
+ * Function to work-out a single part of an octal permission value
+ *
+ * @param mixed $octal_value: an octal value as string (i.e. '0777') or real octal integer (i.e. 0777 | 777)
+ * @param string $who: char or string for whom the permission is asked( U[ser] / G[roup] / O[thers] )
+ * @param string $action: char or string with the requested action( r[ead..] / w[rite..] / e|x[ecute..] )
+ * @return boolean
+ */
+function extract_permission($octal_value, $who, $action)
+{
+	// Make sure that all arguments are set and $octal_value is a real octal-integer
+	if( ($who == '') or ($action == '') or (preg_match( '/[^0-7]/', (string)$octal_value )) )
+	{
+		return false; // invalid argument, so return false
 	}
-	// Work-out what position of the octal value to look at
-	switch($who) {
-	case 'u':
-		$position = '1';
-		break;
-	case 'user':
-		$position = '1';
-		break;
-	case 'g':
-		$position = '2';
-		break;
-	case 'group':
-		$position = '2';
-		break;
-	case 'o':
-		$position = '3';
-		break;
-	case 'others':
-		$position = '3';
-		break;
+	// convert $octal_value into a decimal-integer to be sure having a valid value
+	$right_mask = octdec($octal_value);
+	$action_mask = 0;
+	// set the $action related bit in $action_mask
+	switch($action[0]) // get action from first char of $action
+	{
+		case 'r':
+		case 'R':
+			$action_mask = 4; // set read-bit only (2^2)
+			break;
+		case 'w':
+		case 'W':
+			$action_mask = 2; // set write-bit only (2^1)
+			break;
+		case 'e':
+		case 'E':
+		case 'x':
+		case 'X':
+			$action_mask = 1; // set execute-bit only (2^0)
+			break;
+		default:
+			return false; // undefined action name, so return false
 	}
-	// Work-out how long the octal value is and ajust acording
-	if(strlen($octal_value) == 4) {
-		$position = $position+1;
-	} elseif(strlen($octal_value) != 3) {
-		exit('Error');
+	// shift action-mask into the right position
+	switch($who[0]) // get who from first char of $who
+	{
+		case 'u':
+		case 'U':
+			$action_mask <<= 3; // shift left 3 bits
+		case 'g':
+		case 'G':
+			$action_mask <<= 3; // shift left 3 bits
+		case 'o':
+		case 'O':
+			/* NOP */
+			break;
+		default:
+			return false; // undefined who, so return false
 	}
-	// Now work-out what action the script is trying to look-up
-	switch($action) {
-	case 'r':
-		$action = 'r';
-		break;
-	case 'read':
-		$action = 'r';
-		break;
-	case 'w':
-		$action = 'w';
-		break;
-	case 'write':
-		$action = 'w';
-		break;
-	case 'e':
-		$action = 'e';
-		break;
-	case 'execute':
-		$action = 'e';
-		break;
-	}
-	// Get the value for "who"
-	$value = substr($octal_value, $position-1, 1);
-	// Now work-out the details of the value
-	switch($value) {
-	case '0':
-		$r = false;
-		$w = false;
-		$e = false;
-		break;
-	case '1':
-		$r = false;
-		$w = false;
-		$e = true;
-		break;
-	case '2':
-		$r = false;
-		$w = true;
-		$e = false;
-		break;
-	case '3':
-		$r = false;
-		$w = true;
-		$e = true;
-		break;
-	case '4':
-		$r = true;
-		$w = false;
-		$e = false;
-		break;
-	case '5':
-		$r = true;
-		$w = false;
-		$e = true;
-		break;
-	case '6':
-		$r = true;
-		$w = true;
-		$e = false;
-		break;
-	case '7':
-		$r = true;
-		$w = true;
-		$e = true;
-		break;
-	default:
-		$r = false;
-		$w = false;
-		$e = false;
-	}
-	// And finally, return either true or false
-	return $$action;
+	return( ($right_mask & $action_mask) != 0 ); // return result of binary-AND
 }
 
 // Function to delete a page
-function delete_page($page_id) {
-	
+function delete_page($page_id)
+{
 	global $admin, $database, $MESSAGE;
-	
 	// Find out more about the page
 	$database = new database();
-	$query = "SELECT page_id,menu_title,page_title,level,link,parent,modified_by,modified_when FROM ".TABLE_PREFIX."pages WHERE page_id = '$page_id'";
-	$results = $database->query($query);
-	if($database->is_error()) {
-		$admin->print_error($database->get_error());
-	}
-	if($results->numRows() == 0) {
-		$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
-	}
+	$sql  = 'SELECT `page_id`, `menu_title`, `page_title`, `level`, `link`, `parent`, `modified_by`, `modified_when` ';
+	$sql .= 'FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
+	$results = $database->query($sql);
+	if($database->is_error())    { $admin->print_error($database->get_error()); }
+	if($results->numRows() == 0) { $admin->print_error($MESSAGE['PAGES']['NOT_FOUND']); }
 	$results_array = $results->fetchRow();
-	$parent = $results_array['parent'];
-	$level = $results_array['level'];
-	$link = $results_array['link'];
-	$page_title = ($results_array['page_title']);
-	$menu_title = ($results_array['menu_title']);
+	$parent     = $results_array['parent'];
+	$level      = $results_array['level'];
+	$link       = $results_array['link'];
+	$page_title = $results_array['page_title'];
+	$menu_title = $results_array['menu_title'];
 	
 	// Get the sections that belong to the page
-	$query_sections = $database->query("SELECT section_id,module FROM ".TABLE_PREFIX."sections WHERE page_id = '$page_id'");
-	if($query_sections->numRows() > 0) {
-		while($section = $query_sections->fetchRow()) {
+	$sql = 'SELECT `section_id`, `module` FROM `'.TABLE_PREFIX.'sections` WHERE `page_id` = '.$page_id;
+	$query_sections = $database->query($sql);
+	if($query_sections->numRows() > 0)
+	{
+		while($section = $query_sections->fetchRow())
+		{
 			// Set section id
 			$section_id = $section['section_id'];
 			// Include the modules delete file if it exists
-			if(file_exists(WB_PATH.'/modules/'.$section['module'].'/delete.php')) {
-				require(WB_PATH.'/modules/'.$section['module'].'/delete.php');
+			if(file_exists(WB_PATH.'/modules/'.$section['module'].'/delete.php'))
+			{
+				include(WB_PATH.'/modules/'.$section['module'].'/delete.php');
 			}
 		}
 	}
-	
 	// Update the pages table
-	$query = "DELETE FROM ".TABLE_PREFIX."pages WHERE page_id = '$page_id'";
-	$database->query($query);
-	if($database->is_error()) {
+	$sql = 'DELETE FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
+	$database->query($sql);
+	if($database->is_error())
+	{
 		$admin->print_error($database->get_error());
 	}
-	
 	// Update the sections table
-	$query = "DELETE FROM ".TABLE_PREFIX."sections WHERE page_id = '$page_id'";
-	$database->query($query);
+	$sql = 'DELETE FROM `'.TABLE_PREFIX.'sections` WHERE `page_id` = '.$page_id;
+	$database->query($sql);
 	if($database->is_error()) {
 		$admin->print_error($database->get_error());
 	}
-	
 	// Include the ordering class or clean-up ordering
-	require_once(WB_PATH.'/framework/class.order.php');
+	include_once(WB_PATH.'/framework/class.order.php');
 	$order = new order(TABLE_PREFIX.'pages', 'position', 'page_id', 'parent');
 	$order->clean($parent);
-	
 	// Unlink the page access file and directory
 	$directory = WB_PATH.PAGES_DIRECTORY.$link;
 	$filename = $directory.PAGE_EXTENSION;
 	$directory .= '/';
-	if(file_exists($filename)) {
-		if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/')) {
+	if(file_exists($filename))
+	{
+		if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/'))
+		{
 			$admin->print_error($MESSAGE['PAGES']['CANNOT_DELETE_ACCESS_FILE']);
-		} else {
+		}
+		else
+		{
 			unlink($filename);
-			if(file_exists($directory) && rtrim($directory,'/')!=WB_PATH.PAGES_DIRECTORY && substr($link, 0, 1) != '.') {
+			if( file_exists($directory) &&
+			   (rtrim($directory,'/') != WB_PATH.PAGES_DIRECTORY) &&
+			   (substr($link, 0, 1) != '.'))
+			{
 				rm_full_dir($directory);
 			}
 		}
 	}
-	
 }
 
 // Load module into DB
-function load_module($directory, $install = false) {
+function load_module($directory, $install = false)
+{
 	global $database,$admin,$MESSAGE;
+
 	if(is_dir($directory) AND file_exists($directory.'/info.php'))
 	{
 		require($directory.'/info.php');
 		if(isset($module_name))
-	{
-			if(!isset($module_license)) { $module_license = 'GNU General Public License'; }
+		{
+			if(!isset($module_license))                                  { $module_license = 'GNU General Public License'; }
 			if(!isset($module_platform) AND isset($module_designed_for)) { $module_platform = $module_designed_for; }
-			if(!isset($module_function) AND isset($module_type)) { $module_function = $module_type; }
+			if(!isset($module_function) AND isset($module_type))         { $module_function = $module_type; }
 			$module_function = strtolower($module_function);
 			// Check that it doesn't already exist
-			$result = $database->query("SELECT addon_id FROM ".TABLE_PREFIX."addons WHERE type = 'module' AND directory = '".$module_directory."' LIMIT 0,1");
+			$sql  = 'SELECT `addon_id` FROM `'.TABLE_PREFIX.'addons` ';
+			$sql .= 'WHERE `type` = "module" AND `directory` = "'.$module_directory.'" LIMIT 0,1';
+			$result = $database->query($sql);
 			if($result->numRows() == 0)
 			{
 				// Load into DB
-				$query = "INSERT INTO ".TABLE_PREFIX."addons ".
-				"(directory,name,description,type,function,version,platform,author,license) ".
-				"VALUES ('$module_directory','$module_name','".addslashes($module_description)."','module',".
-				"'$module_function','$module_version','$module_platform','$module_author','$module_license')";
-				$database->query($query);
+				$sql  = 'INSERT INTO `'.TABLE_PREFIX.'addons` SET ';
+				$sql .= '`directory` = "'.$module_directory.'", ';
+				$sql .= '`name` = "'.$module_name.'", ';
+				$sql .= '`description`= "'.addslashes($module_description).'", ';
+				$sql .= '`type`= "module", ';
+				$sql .= '`function` = "'.$module_function.'", ';
+				$sql .= '`version` = "'.$module_version.'", ';
+				$sql .= '`platform` = "'.$module_platform.'", ';
+				$sql .= '`author` = "'.$module_author.'", ';
+				$sql .= '`license` = "'.$module_license.'"';
+				$database->query($sql);
 				// Run installation script
 				if($install == true)
 				{
-					if(file_exists($directory.'/install.php')) {
+					if(file_exists($directory.'/install.php'))
+					{
 						require($directory.'/install.php');
 					}
 				}
@@ -826,76 +833,106 @@ function load_module($directory, $install = false) {
 }
 
 // Load template into DB
-function load_template($directory) {
+function load_template($directory)
+{
 	global $database;
-	if(is_dir($directory) AND file_exists($directory.'/info.php')) {
+	if(is_dir($directory) AND file_exists($directory.'/info.php'))
+	{
 		require($directory.'/info.php');
-		if(isset($template_name)) {
-			if(!isset($template_license)) { $template_license = 'GNU General Public License'; }
+		if(isset($template_name))
+		{
+			if(!isset($template_license))                                    { $template_license = 'GNU General Public License'; }
 			if(!isset($template_platform) AND isset($template_designed_for)) { $template_platform = $template_designed_for; }
-			if(!isset($template_function)) { $template_function = 'template'; }
+			if(!isset($template_function))                                   { $template_function = 'template'; }
 			// Check that it doesn't already exist
-			$result = $database->query("SELECT addon_id FROM ".TABLE_PREFIX."addons WHERE type = 'template' AND directory = '".$template_directory."' LIMIT 0,1");
-			if($result->numRows() == 0) {
+			$sql  = 'SELECT `addon_id` FROM `'.TABLE_PREFIX.'addons` ';
+			$sql .= 'WHERE `type` = "template" AND `directory` = "'.$template_directory.'" LIMIT 0,1';
+			$result = $database->query($sql);
+			if($result->numRows() == 0)
+			{
 				// Load into DB
-				$query = "INSERT INTO ".TABLE_PREFIX."addons ".
-				"(directory,name,description,type,function,version,platform,author,license) ".
-				"VALUES ('$template_directory','$template_name','".addslashes($template_description)."','template',".
-				"'$template_function','$template_version','$template_platform','$template_author','$template_license')";
-				$database->query($query);
+				$sql = 'INSERT INTO `'.TABLE_PREFIX.'addons` SET ';
+				$sql .= '`directory` = "'.$template_directory.'", ';
+				$sql .= '`name` = "'.$template_name.'", ';
+				$sql .= '`description`= "'.addslashes($template_description).'", ';
+				$sql .= '`type`= "template", ';
+				$sql .= '`function` = "'.$template_function.'", ';
+				$sql .= '`version` = "'.$template_version.'", ';
+				$sql .= '`platform` = "'.$template_platform.'", ';
+				$sql .= '`author` = "'.$template_author.'", ';
+				$sql .= '`license` = "'.$template_license.'"';
+				$database->query($sql);
 			}
 		}
 	}
 }
 
 // Load language into DB
-function load_language($file) {
+function load_language($file)
+{
 	global $database;
-	if (file_exists($file) && preg_match('#^([A-Z]{2}.php)#', basename($file))) {
+	if (file_exists($file) && preg_match('#^([A-Z]{2}.php)#', basename($file)))
+	{
 		require($file);
-		if(isset($language_name)) {
-			if(!isset($language_license)) { $language_license = 'GNU General Public License'; }
+		if(isset($language_name))
+		{
+			if(!isset($language_license))                                    { $language_license = 'GNU General Public License'; }
 			if(!isset($language_platform) AND isset($language_designed_for)) { $language_platform = $language_designed_for; }
 			// Check that it doesn't already exist
-			$result = $database->query("SELECT addon_id FROM ".TABLE_PREFIX."addons WHERE type = 'language' AND directory = '".$language_code."' LIMIT 0,1");
-			if($result->numRows() == 0) {
+			$sql  = 'SELECT `addon_id` FROM `'.TABLE_PREFIX.'addons` ';
+			$sql .= 'WHERE `type` = "language" AND `directory` = "'.$language_code.'" LIMIT 0,1';
+			$result = $database->query($sql);
+			if($result->numRows() == 0)
+			{
 				// Load into DB
-				$query = "INSERT INTO ".TABLE_PREFIX."addons ".
-				"(directory,name,type,version,platform,author,license) ".
-				"VALUES ('$language_code','$language_name','language',".
-				"'$language_version','$language_platform','$language_author','$language_license')";
-	 		$database->query($query);
+				$sql  = 'INSERT INTO `'.TABLE_PREFIX.'addons` SET ';
+				$sql .= '`directory` = "'.$language_code.'", ';
+				$sql .= '`name` = "'.$language_name.'", ';
+				$sql .= '`type`= "language", ';
+				$sql .= '`version` = "'.$language_version.'", ';
+				$sql .= '`platform` = "'.$language_platform.'", ';
+				$sql .= '`author` = "'.$language_author.'", ';
+				$sql .= '`license` = "'.$language_license.'"';
+				$database->query($sql);
 			}
 		}
 	}
 }
 
 // Upgrade module info in DB, optionally start upgrade script
-function upgrade_module($directory, $upgrade = false) {
+function upgrade_module($directory, $upgrade = false)
+{
 	global $database, $admin, $MESSAGE;
-	$directory = WB_PATH . "/modules/$directory";
-	if(file_exists($directory.'/info.php')) {
+	$directory = WB_PATH.'/modules/'.$directory;
+	if(file_exists($directory.'/info.php'))
+	{
 		require($directory.'/info.php');
-		if(isset($module_name)) {
-			if(!isset($module_license)) { $module_license = 'GNU General Public License'; }
+		if(isset($module_name))
+		{
+			if(!isset($module_license))                                  { $module_license = 'GNU General Public License'; }
 			if(!isset($module_platform) AND isset($module_designed_for)) { $module_platform = $module_designed_for; }
-			if(!isset($module_function) AND isset($module_type)) { $module_function = $module_type; }
+			if(!isset($module_function) AND isset($module_type))         { $module_function = $module_type; }
 			$module_function = strtolower($module_function);
 			// Check that it does already exist
-			$result = $database->query("SELECT addon_id FROM ".TABLE_PREFIX."addons WHERE directory = '".$module_directory."' LIMIT 0,1");
-			if($result->numRows() > 0) {
+			$sql  = 'SELECT `addon_id` FROM `'.TABLE_PREFIX.'addons` ';
+			$sql .= 'WHERE `directory` = "'.$module_directory.'" LIMIT 0,1';
+			$result = $database->query($sql);
+			if($result->numRows() > 0)
+			{
 				// Update in DB
-				$query = "UPDATE " . TABLE_PREFIX . "addons SET " .
-					"version = '$module_version', " .
-					"description = '" . addslashes($module_description) . "', " .
-					"platform = '$module_platform', " .
-					"author = '$module_author', " .
-					"license = '$module_license'" .
-					"WHERE directory = '$module_directory'";
-				$database->query($query);
+				$sql  = 'UPDATE `'.TABLE_PREFIX.'addons` SET ';
+					$sql .= '`version` = "'.$module_version.'", ';
+					$sql .= '`description` = "'.addslashes($module_description).'", ';
+					$sql .= '`platform` = "'.$module_platform.'", ';
+					$sql .= '`author` = "'.$module_author.'", ';
+					$sql .= '`license` = "'.$module_license.'", ';
+				$sql .= 'WHERE `directory` = "'.$module_directory.'"';
+				$database->query($sql);
 				// Run upgrade script
-				if($upgrade == true) {
-					if(file_exists($directory.'/upgrade.php')) {
+				if($upgrade == true)
+				{
+					if(file_exists($directory.'/upgrade.php'))
+					{
 						require($directory.'/upgrade.php');
 					}
 				}
@@ -905,14 +942,18 @@ function upgrade_module($directory, $upgrade = false) {
 }
 
 // extracts the content of a string variable from a string (save alternative to including files)
-if(!function_exists('get_variable_content')) {
-	function get_variable_content($search, $data, $striptags=true, $convert_to_entities=true) {
+if(!function_exists('get_variable_content'))
+{
+	function get_variable_content($search, $data, $striptags=true, $convert_to_entities=true)
+	{
 		$match = '';
 		// search for $variable followed by 0-n whitespace then by = then by 0-n whitespace
 		// then either " or ' then 0-n characters then either " or ' followed by 0-n whitespace and ;
 		// the variable name is returned in $match[1], the content in $match[3]
-		if (preg_match('/(\$' .$search .')\s*=\s*("|\')(.*)\2\s*;/', $data, $match)) {
-			if(strip_tags(trim($match[1])) == '$' .$search) {
+		if (preg_match('/(\$' .$search .')\s*=\s*("|\')(.*)\2\s*;/', $data, $match))
+		{
+			if(strip_tags(trim($match[1])) == '$' .$search)
+			{
 				// variable name matches, return it's value
 				$match[3] = ($striptags == true) ? strip_tags($match[3]) : $match[3];
 				$match[3] = ($convert_to_entities == true) ? htmlentities($match[3]) : $match[3];

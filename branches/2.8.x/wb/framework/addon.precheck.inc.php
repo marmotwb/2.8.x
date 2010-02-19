@@ -1,37 +1,20 @@
 <?php
 /**
- * $Id$
- * Website Baker Add-On precheck functions
  *
- * This file contains the functions of the pretest performed upfront
- * of the Add-On installation process. The functions allows developers
- * to specify requirements for their Add-On.
+ * @category        module
+ * @package         precheck
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.4.9 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
- * LICENSE: GNU Lesser General Public License 3.0
- * 
- * @author		Christian Sommer
- * @copyright	(c) 2009
- * @license		http://www.gnu.org/copyleft/lesser.html
- * @version		0.2.3
- * @platform	Website Baker 2.7
- *
- * Website Baker Project <http://www.websitebaker.org/>
- * Copyright (C) 2004-2009, Ryan Djurovich
- *
- * Website Baker is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * Website Baker is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Website Baker; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 
 // prevent this file from being accessed directly
 if (!defined('WB_PATH')) die(header('Location: ../index.php'));
@@ -65,9 +48,13 @@ function getVersion($version, $strip_suffix = true)
 	// extract possible non numerical suffix from revision part (e.g. Alpha, Beta, RC1)
 	$suffix = strtoupper(trim(substr($revision, strlen(intval($revision)))));
 
-	// return standard version number (minor and revision numbers may not exceed 999)
-	return (int) $major . '.' . sprintf('%03d', (int) $minor) . sprintf('%03d', (int) $revision) . 
+/*
+	return (int)$major . '.' . sprintf('%03d', (int)$minor) . sprintf('%03d', (int)$revision) .
 		(($strip_suffix == false && $suffix != '') ? '_' . $suffix : '');
+*/
+	// return standard version number (minor and revision numbers may not exceed 999)
+    return sprintf('%d.%03d.%03d%s', (int)$major, (int)minor, (int)$revision,
+    (($strip_suffix == false && $suffix != '') ? '_' . $suffix : ''));
 }
 
 /**

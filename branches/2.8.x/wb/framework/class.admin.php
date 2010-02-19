@@ -134,7 +134,7 @@ class admin extends wb {
 													'TITLE_HELP' => $MENU['HELP'],
 													'TITLE_LOGOUT' =>  $MENU['LOGOUT'],
 													'URL_VIEW' => $view_url,
-													'URL_HELP' => 'http://www.websitebaker.org/',
+													'URL_HELP' => 'http://www.websitebaker2.org/',
 													'BACKEND_MODULE_CSS' => $this->register_backend_modfiles('css'),	// adds backend.css
 													'BACKEND_MODULE_JS'  => $this->register_backend_modfiles('js')		// adds backend.js
 													)
@@ -406,9 +406,9 @@ class admin extends wb {
 		} elseif(isset($_GET['page_id']) or isset($_POST['page_id'])) {
 			// check if displayed page in the backend contains a page module
 			if (isset($_GET['page_id'])) {
-				$page_id = (int) addslashes($_GET['page_id']);
+				$page_id = (int)$_GET['page_id'];
 			} else {
-				$page_id = (int) addslashes($_POST['page_id']);
+				$page_id = (int)$_POST['page_id'];
 			}
 
     		// gather information for all models embedded on actual page
