@@ -3,21 +3,15 @@
  *
  * @category        framework
  * @package         initialize
- * @author          Ryan Djurovich
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2010, Website Baker Org. e.V.
- * @filesource		$HeadURL$
- * @author          Ryan Djurovich
- * @copyright       2004-2009, Ryan Djurovich
- *
  * @author          WebsiteBaker Project
- * @link			http://www.websitebaker2.org/
+ * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2010, Website Baker Org. e.V.
- * @link			http://start.websitebaker2.org/impressum-datenschutz.php
+ * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
- * @version         $Id$
  * @platform        WebsiteBaker 2.8.x
- * @requirements    PHP 4.3.4 and higher
+ * @requirements    PHP 4.4.9 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -129,7 +123,7 @@ if (file_exists(WB_PATH.'/framework/class.database.php')) {
 	define('THEME_PATH', WB_PATH.'/templates/'.DEFAULT_THEME);
 
     // extended wb_settings
-	define('EDIT_ONE_SECTION', true);
+	define('EDIT_ONE_SECTION', false);
 
 	define('EDITOR_WIDTH', 0);
 

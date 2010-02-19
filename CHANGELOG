@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
  
 ------------------------------------- 2.8.1 -------------------------------------
+19-Feb-2010 Dietmar Woellbrink (Luisehahne)
+!	change constant EDIT_ONE_SECTION to default false	
 08-Feb-2010 Dietmar Woellbrink (Luisehahne)
 !	missunderstanding back to old logo
 08-Feb-2010 Dietmar Woellbrink (Luisehahne)
