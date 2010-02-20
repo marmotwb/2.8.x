@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+20-Feb-2010 Dietmar Woellbrink (Luisehahne)
+#	Ticket #945 fixed reloads function 
 19-Feb-2010 Dietmar Woellbrink (Luisehahne)
 !	update headerinfo in module droplets
 19-Feb-2010 Dietmar Woellbrink (Luisehahne)
