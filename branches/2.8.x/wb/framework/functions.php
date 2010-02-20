@@ -816,8 +816,8 @@ function load_module($directory, $install = false)
 				$sql .= '`function` = "'.$module_function.'", ';
 				$sql .= '`version` = "'.$module_version.'", ';
 				$sql .= '`platform` = "'.$module_platform.'", ';
-				$sql .= '`author` = "'.$module_author.'", ';
-				$sql .= '`license` = "'.$module_license.'"';
+				$sql .= '`author` = "'.addslashes($module_author).'", ';
+				$sql .= '`license` = "'.addslashes($module_license).'"';
 				$database->query($sql);
 				// Run installation script
 				if($install == true)
@@ -835,15 +835,24 @@ function load_module($directory, $install = false)
 // Load template into DB
 function load_template($directory)
 {
-	global $database;
+	global $database, $admin;
 	if(is_dir($directory) AND file_exists($directory.'/info.php'))
 	{
 		require($directory.'/info.php');
 		if(isset($template_name))
 		{
-			if(!isset($template_license))                                    { $template_license = 'GNU General Public License'; }
-			if(!isset($template_platform) AND isset($template_designed_for)) { $template_platform = $template_designed_for; }
-			if(!isset($template_function))                                   { $template_function = 'template'; }
+			if(!isset($template_license))
+            {
+              $template_license = 'GNU General Public License';
+            }
+			if(!isset($template_platform) AND isset($template_designed_for))
+            {
+              $template_platform = $template_designed_for;
+            }
+			if(!isset($template_function))
+            {
+              $template_function = 'template';
+            }
 			// Check that it doesn't already exist
 			$sql  = 'SELECT `addon_id` FROM `'.TABLE_PREFIX.'addons` ';
 			$sql .= 'WHERE `type` = "template" AND `directory` = "'.$template_directory.'" LIMIT 0,1';
@@ -851,7 +860,7 @@ function load_template($directory)
 			if($result->numRows() == 0)
 			{
 				// Load into DB
-				$sql = 'INSERT INTO `'.TABLE_PREFIX.'addons` SET ';
+				$sql  = 'INSERT INTO `'.TABLE_PREFIX.'addons` SET ';
 				$sql .= '`directory` = "'.$template_directory.'", ';
 				$sql .= '`name` = "'.$template_name.'", ';
 				$sql .= '`description`= "'.addslashes($template_description).'", ';
@@ -859,8 +868,8 @@ function load_template($directory)
 				$sql .= '`function` = "'.$template_function.'", ';
 				$sql .= '`version` = "'.$template_version.'", ';
 				$sql .= '`platform` = "'.$template_platform.'", ';
-				$sql .= '`author` = "'.$template_author.'", ';
-				$sql .= '`license` = "'.$template_license.'"';
+				$sql .= '`author` = "'.addslashes($template_author).'", ';
+				$sql .= '`license` = "'.addslashes($template_license).'" ';
 				$database->query($sql);
 			}
 		}
@@ -870,7 +879,7 @@ function load_template($directory)
 // Load language into DB
 function load_language($file)
 {
-	global $database;
+	global $database,$admin;
 	if (file_exists($file) && preg_match('#^([A-Z]{2}.php)#', basename($file)))
 	{
 		require($file);
@@ -891,8 +900,8 @@ function load_language($file)
 				$sql .= '`type`= "language", ';
 				$sql .= '`version` = "'.$language_version.'", ';
 				$sql .= '`platform` = "'.$language_platform.'", ';
-				$sql .= '`author` = "'.$language_author.'", ';
-				$sql .= '`license` = "'.$language_license.'"';
+				$sql .= '`author` = "'.addslashes($language_author).'", ';
+				$sql .= '`license` = "'.addslashes($language_license).'"';
 				$database->query($sql);
 			}
 		}
@@ -921,11 +930,11 @@ function upgrade_module($directory, $upgrade = false)
 			{
 				// Update in DB
 				$sql  = 'UPDATE `'.TABLE_PREFIX.'addons` SET ';
-					$sql .= '`version` = "'.$module_version.'", ';
-					$sql .= '`description` = "'.addslashes($module_description).'", ';
-					$sql .= '`platform` = "'.$module_platform.'", ';
-					$sql .= '`author` = "'.$module_author.'", ';
-					$sql .= '`license` = "'.$module_license.'", ';
+				$sql .= '`version` = "'.$module_version.'", ';
+				$sql .= '`description` = "'.addslashes($module_description).'", ';
+				$sql .= '`platform` = "'.$module_platform.'", ';
+				$sql .= '`author` = "'.addslashes($module_author).'", ';
+				$sql .= '`license` = "'.addslashes($module_license).'", ';
 				$sql .= 'WHERE `directory` = "'.$module_directory.'"';
 				$database->query($sql);
 				// Run upgrade script
