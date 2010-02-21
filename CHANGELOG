@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 20-Feb-2010 Dietmar Woellbrink (Luisehahne)
+#	Ticket #944 fixed double sections, with registered User
+20-Feb-2010 Dietmar Woellbrink (Luisehahne)
 #	fix corrupted changelog
 20-Feb-2010 Dietmar Woellbrink (Luisehahne)
 #	Ticket #945 fixed reloads function 
