@@ -20,13 +20,15 @@
 require('../../config.php');
 
 // Make sure people are allowed to access this page
-if(MANAGE_SECTIONS != 'enabled') {
+if(MANAGE_SECTIONS != 'enabled')
+{
 	header('Location: '.ADMIN_URL.'/pages/index.php');
 	exit(0);
 }
 
 // Get page id
-if(!isset($_GET['page_id']) OR !is_numeric($_GET['page_id'])) {
+if(!isset($_GET['page_id']) OR !is_numeric($_GET['page_id']))
+{
 	header("Location: index.php");
 	exit(0);
 } else {
@@ -34,27 +36,36 @@ if(!isset($_GET['page_id']) OR !is_numeric($_GET['page_id'])) {
 }
 
 $debug = false; // to show position and section_id
-
+If(!defined('DEBUG')) { define('DEBUG',$debug);}
 // Create new admin object
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_modify');
 
 // Check if we are supposed to add or delete a section
-if(isset($_GET['section_id']) AND is_numeric($_GET['section_id'])) {
+if(isset($_GET['section_id']) AND is_numeric($_GET['section_id']))
+{
 	// Get more information about this section
 	$section_id = $_GET['section_id'];
-	$query_section = $database->query("SELECT module FROM ".TABLE_PREFIX."sections WHERE section_id = '$section_id'");
-	if($query_section->numRows() == 0) {
+    $sql  = 'SELECT `module` FROM `'.TABLE_PREFIX.'sections` ';
+    $sql .= 'WHERE `section_id` ='.$section_id;
+    $query_section = $database->query($sql);
+
+	if($query_section->numRows() == 0)
+    {
 		$admin->print_error('Section not found');
 	}
 	$section = $query_section->fetchRow();
 	// Include the modules delete file if it exists
-	if(file_exists(WB_PATH.'/modules/'.$section['module'].'/delete.php')) {
+	if(file_exists(WB_PATH.'/modules/'.$section['module'].'/delete.php'))
+    {
 		require(WB_PATH.'/modules/'.$section['module'].'/delete.php');
 	}
-    $sql = '';
-	$database->query("DELETE FROM ".TABLE_PREFIX."sections WHERE section_id = '$section_id' LIMIT 1");
-	if($database->is_error()) {
+    $sql  = 'DELETE FROM `'.TABLE_PREFIX.'sections` ';
+    $sql .= 'WHERE `section_id` ='.$section_id.' LIMIT 1';
+    $query_section = $database->query($sql);
+
+	if($database->is_error())
+    {
 		$admin->print_error($database->get_error());
 	} else {
 		require(WB_PATH.'/framework/class.order.php');
@@ -64,7 +75,8 @@ if(isset($_GET['section_id']) AND is_numeric($_GET['section_id'])) {
 		$admin->print_footer();
 		exit();
 	}
-} elseif(isset($_POST['module']) AND $_POST['module'] != '') {
+} elseif(isset($_POST['module']) AND $_POST['module'] != '')
+{
 	// Get section info
 	$module = $admin->add_slashes($_POST['module']);
 	// Include the ordering class
@@ -73,40 +85,56 @@ if(isset($_GET['section_id']) AND is_numeric($_GET['section_id'])) {
 	$order = new order(TABLE_PREFIX.'sections', 'position', 'section_id', 'page_id');
 	$position = $order->get_new($page_id);	
 	// Insert module into DB
-	$database->query("INSERT INTO ".TABLE_PREFIX."sections (page_id,module,position,block) VALUES ('$page_id','$module','$position','1')");
+    $sql  = 'INSERT INTO `'.TABLE_PREFIX.'sections` SET ';
+    $sql .= '`page_id` = '.$page_id.', ';
+    $sql .= '`module` = "'.$module.'", ';
+    $sql .= '`position` = '.$position.', ';
+    $sql .= '`block`=1';
+    $database->query($sql);
 	// Get the section id
 	$section_id = $database->get_one("SELECT LAST_INSERT_ID()");	
 	// Include the selected modules add file if it exists
-	if(file_exists(WB_PATH.'/modules/'.$module.'/add.php')) {
+	if(file_exists(WB_PATH.'/modules/'.$module.'/add.php'))
+    {
 		require(WB_PATH.'/modules/'.$module.'/add.php');
 	}
 }
 
 // Get perms
-$database = new database();
-$results = $database->query("SELECT admin_groups,admin_users FROM ".TABLE_PREFIX."pages WHERE page_id = '$page_id'");
+// $database = new database();
+$sql  = 'SELECT `admin_groups`,`admin_users` FROM `'.TABLE_PREFIX.'pages` ';
+$sql .= 'WHERE `page_id` = '.$page_id;
+$results = $database->query($sql);
+
 $results_array = $results->fetchRow();
 $old_admin_groups = explode(',', $results_array['admin_groups']);
 $old_admin_users = explode(',', $results_array['admin_users']);
 $in_old_group = FALSE;
-foreach($admin->get_groups_id() as $cur_gid){
-	if (in_array($cur_gid, $old_admin_groups)) {
+foreach($admin->get_groups_id() as $cur_gid)
+{
+	if (in_array($cur_gid, $old_admin_groups))
+    {
 		$in_old_group = TRUE;
 	}
 }
-if((!$in_old_group) AND !is_numeric(array_search($admin->get_user_id(), $old_admin_users))) {
+if((!$in_old_group) AND !is_numeric(array_search($admin->get_user_id(), $old_admin_users)))
+{
 	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
 }
 
 // Get page details
-$database = new database();
-$query = "SELECT * FROM ".TABLE_PREFIX."pages WHERE page_id = '$page_id'";
-$results = $database->query($query);
-if($database->is_error()) {
+// $database = new database();
+$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'pages` ';
+$sql .= 'WHERE `page_id` = '.$page_id;
+$results = $database->query($sql);
+
+if($database->is_error())
+{
 	$admin->print_header();
 	$admin->print_error($database->get_error());
 }
-if($results->numRows() == 0) {
+if($results->numRows() == 0)
+{
 	$admin->print_header();
 	$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
 }
@@ -118,16 +146,19 @@ $module_permissions = $_SESSION['MODULE_PERMISSIONS'];
 // Unset block var
 unset($block);
 // Include template info file (if it exists)
-if($results_array['template'] != '') {
+if($results_array['template'] != '')
+{
 	$template_location = WB_PATH.'/templates/'.$results_array['template'].'/info.php';
 } else {
 	$template_location = WB_PATH.'/templates/'.DEFAULT_TEMPLATE.'/info.php';
 }
-if(file_exists($template_location)) {
+if(file_exists($template_location))
+{
 	require($template_location);
 }
 // Check if $menu is set
-if(!isset($block[1]) OR $block[1] == '') {
+if(!isset($block[1]) OR $block[1] == '')
+{
 	// Make our own menu list
 	$block[1] = $TEXT['MAIN'];
 }
@@ -178,22 +209,34 @@ $template->set_var(array(
 				) 
 			);
 
-$query_sections = $database->query("SELECT section_id,module,position,block,publ_start,publ_end FROM ".TABLE_PREFIX."sections WHERE page_id = '$page_id' ORDER BY position ASC");
-if($query_sections->numRows() > 0) {
+$sql  = 'SELECT `section_id`,`module`,`position`,`block`,`publ_start`,`publ_end` ';
+$sql .= 'FROM `'.TABLE_PREFIX.'sections` ';
+$sql .= 'WHERE `page_id` = '.$page_id.' ';
+$sql .= 'ORDER BY `position` ASC';
+$query_sections = $database->query($sql);
+
+if($query_sections->numRows() > 0)
+{
 	$num_sections = $query_sections->numRows();
-	while($section = $query_sections->fetchRow()) {
-		if(!is_numeric(array_search($section['module'], $module_permissions))) {
+	while($section = $query_sections->fetchRow())
+    {
+		if(!is_numeric(array_search($section['module'], $module_permissions)))
+        {
 			// Get the modules real name
-			$module_name=$database->get_one("SELECT name FROM ".TABLE_PREFIX."addons WHERE directory='".$section['module']."'");
+            $sql = 'SELECT `name` FROM `'.TABLE_PREFIX.'addons` ';
+            $sql .= 'WHERE `directory` = "'.$section['module'].'"';
+            $module_name = $database->get_one($sql);
+            // if(DEBUG && $database->is_error()) { $admin->print_error($database->get_error()); }
+
 			$template->set_var(array(
 			) );
-			if(SECTION_BLOCKS) {
+
+			if(SECTION_BLOCKS)
+            {
                 if(defined('EDIT_ONE_SECTION') and EDIT_ONE_SECTION)
                 {
 				    $edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'&amp;wysiwyg='.$section['section_id'] .'">'.$module_name.'</a>';
-                }
-                else
-                {
+                } else {
 				    $edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'#wb'.$section['section_id'].'">'.$module_name.'</a>';
                 }
 
@@ -211,11 +254,13 @@ if($query_sections->numRows() > 0) {
 					);
 				// Add block options to the section_list
 				$template->clear_var('block_list');
-				foreach($block AS $number => $name) {
+				foreach($block AS $number => $name)
+                {
 					$template->set_var('NAME', htmlentities(strip_tags($name)));
 					$template->set_var('VALUE', $number);
 					$template->set_var('SIZE', 1);
-					if($section['block'] == $number) {
+					if($section['block'] == $number)
+                    {
 						$template->set_var('SELECTED', ' selected="selected"');
 					} else {
 						$template->set_var('SELECTED', '');
@@ -246,19 +291,22 @@ if($query_sections->numRows() > 0) {
 						) 
 					);
 			// set calendar start values
-			if($section['publ_start']==0) {
+			if($section['publ_start']==0)
+            {
 				$template->set_var('VALUE_PUBL_START', '');
 			} else {
 				$template->set_var('VALUE_PUBL_START', date($jscal_format, $section['publ_start']));
 			}
 			// set calendar start values
-			if($section['publ_end']==0) {
+			if($section['publ_end']==0)
+            {
 				$template->set_var('VALUE_PUBL_END', '');
 			} else {
 				$template->set_var('VALUE_PUBL_END', date($jscal_format, $section['publ_end']));
 			}
 			// Insert icons up and down
-			if($section['position'] != 1 ) {
+			if($section['position'] != 1 )
+            {
 				$template->set_var(
 							'VAR_MOVE_UP_URL',
 							'<a href="'.ADMIN_URL.'/pages/move_up.php?page_id='.$page_id.'&amp;section_id='.$section['section_id'].'">
@@ -282,14 +330,18 @@ if($query_sections->numRows() > 0) {
 							) 
 						);
 			}
+		} else {
+		  continue;
 		}
+
 			$template->set_var(array(
 							'DISPLAY_DEBUG' => ' style="visibility="visible;"',
 							'TEXT_SID' => 'SID',
 							'DEBUG_COLSPAN_SIZE' => 9
 							) 
 						);
-		if($debug) {
+		if($debug)
+        {
 			$template->set_var(array(
 							'DISPLAY_DEBUG' => ' style="visibility="visible;"',
 							'TEXT_PID' => 'PID',
@@ -311,13 +363,23 @@ if($query_sections->numRows() > 0) {
 
 // now add the calendars -- remember to to set the range to [1970, 2037] if the date is used as timestamp!
 // the loop is simply a copy from above.
-$query_sections = $database->query("SELECT section_id,module FROM ".TABLE_PREFIX."sections WHERE page_id = '$page_id' ORDER BY position ASC");
-if($query_sections->numRows() > 0) {
+$sql  = 'SELECT `section_id`,`module` FROM `'.TABLE_PREFIX.'sections` ';
+$sql .= 'WHERE page_id = '.$page_id.' ';
+$sql .= 'ORDER BY `position` ASC';
+$query_sections = $database->query($sql);
+
+if($query_sections->numRows() > 0)
+{
 	$num_sections = $query_sections->numRows();
-	while($section = $query_sections->fetchRow()) {
+	while($section = $query_sections->fetchRow())
+    {
 		// Get the modules real name
-		$module_name=$database->get_one("SELECT name FROM ".TABLE_PREFIX."addons WHERE directory='".$section['module']."'");
-		if(!is_numeric(array_search($section['module'], $module_permissions))) {
+        $sql  = 'SELECT `name` FROM `'.TABLE_PREFIX.'addons` ';
+        $sql .= 'WHERE `directory` = "'.$section['module'].'"';
+        $module_name = $database->get_one($sql);
+
+		if(!is_numeric(array_search($section['module'], $module_permissions)))
+        {
 			$template->set_var(array(
 						'jscal_ifformat' => $jscal_ifformat,
 						'jscal_firstday' => $jscal_firstday,
@@ -347,22 +409,36 @@ if($query_sections->numRows() > 0) {
 }
 
 // Work-out if we should show the "Add Section" form
-$query_sections = $database->query("SELECT section_id FROM ".TABLE_PREFIX."sections WHERE page_id = '$page_id' AND module = 'menu_link'");
-if($query_sections->numRows() == 0) {
+$sql  = 'SELECT `section_id` FROM `'.TABLE_PREFIX.'sections` ';
+$sql .= 'WHERE `page_id` = '.$page_id.' AND `module` = "menu_link"';
+$query_sections = $database->query($sql);
+if($query_sections->numRows() == 0)
+{
 	// Modules list
-	$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'module' AND function = 'page' AND directory != 'menu_link' order by name");
-	if($result->numRows() > 0) {
-		while ($module = $result->fetchRow()) {
+    $sql  = 'SELECT `name`,`directory`,`type` FROM `'.TABLE_PREFIX.'addons` ';
+    $sql .= 'WHERE `type` = "module" AND `function` = "page" AND `directory` != "menu_link" ';
+    $sql .= 'ORDER BY `name`';
+    $result = $database->query($sql);
+// if(DEBUG && $database->is_error()) { $admin->print_error($database->get_error()); }
+
+	if($result->numRows() > 0)
+    {
+		while ($module = $result->fetchRow())
+        {
 			// Check if user is allowed to use this module   echo  $module['directory'],'<br />';
-			if(!is_numeric(array_search($module['directory'], $module_permissions))) {
+			if(!is_numeric(array_search($module['directory'], $module_permissions)))
+            {
 				$template->set_var('VALUE', $module['directory']);
 				$template->set_var('NAME', $module['name']);
-				if($module['directory'] == 'wysiwyg') {
+				if($module['directory'] == 'wysiwyg')
+                {
 					$template->set_var('SELECTED', ' selected="selected"');
 				} else {
 					$template->set_var('SELECTED', '');
 				}
 				$template->parse('module_list', 'module_block', true);
+			} else {
+			  continue;
 			}
 		}
 	}
@@ -380,7 +456,7 @@ $template->set_var(array(
 					'TEXT_ADD_SECTION' => $TEXT['ADD_SECTION'],
 					'TEXT_MOVE_UP' => $TEXT['MOVE_UP'],
 					'TEXT_MOVE_DOWN' => $TEXT['MOVE_DOWN']
-					) 
+					)
 				);
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
