@@ -79,3 +79,5 @@ select option.disabled { color: #aaa; }
 .form_submit .left, .header_list_menu_title, .list_menu_title, .header_list_type { text-align: left; }
 .header_title, .sections_list table, .setting_value input, .setting_value select, .setting_value textarea, .value_input input, .value_input text, .value_input select, .form_submit, .input_full { width: 100%; }
 .header_list_pubdate_start, .header_list_pubdate_end, .list_pubdate_start, .list_pubdate_end { width: 200px; text-align: left; }
+.right{ float: right; }
+.left{ float: left; }

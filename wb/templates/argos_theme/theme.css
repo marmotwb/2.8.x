@@ -137,3 +137,5 @@ img.page_list_rights {border:none;float:left;margin:0;vertical-align:middle;}
 .list_page_code { width: 240px; }
 .list_page_language { width: 240px; }
 #multi_lingual { font-weight: bolder; }
+.right{ float: right; }
+.left{ float: left; }
