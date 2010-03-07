@@ -25,7 +25,8 @@ if($_POST['advanced'] == 'yes' ? $advanced = '?advanced=yes' : $advanced = '');
 // Print admin header
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
-if($advanced == '') {
+if($advanced == '')
+{
 	$admin = new admin('Settings', 'settings_basic');
 	$_POST['database_password'] = DB_PASSWORD;
 } else {
@@ -39,7 +40,10 @@ $js_back = "javascript: history.go(-1);";
 if(isset($_POST['server_email']))
 {
 	$_POST['server_email'] = strip_tags($_POST['server_email']);
-	if(!eregi("^([0-9a-zA-Z]+[-._+&])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$", $_POST['server_email'])) {
+    $pattern = '/^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9]([-a-z0-9_]?[a-z0-9])*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z]{2})|([1]?\d{1,2}|2[0-4]{1}\d{1}|25[0-5]{1})(\.([1]?\d{1,2}|2[0-4]{1}\d{1}|25[0-5]{1})){3})(:[0-9]{1,5})?\r/im';
+    // $pattern = '/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,6}))$/';
+    if(false == preg_match($pattern, $_POST['server_email']))
+    {
 		$admin->print_error($MESSAGE['USERS']['INVALID_EMAIL'].
 			'<br /><strong>Email: '.htmlentities($_POST['server_email']).'</strong>', $js_back);
 	}

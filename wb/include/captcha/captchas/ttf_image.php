@@ -36,8 +36,8 @@ $t_fonts = file_list(WB_PATH.'/include/captcha/fonts');
 $t_bgs = file_list(WB_PATH.'/include/captcha/backgrounds');
 $fonts = array();
 $bgs = array();
-foreach($t_fonts as $file) if(eregi('\.ttf$',$file)) $fonts[]=$file;
-foreach($t_bgs as $file) if(eregi('\.png$',$file)) $bgs[]=$file;
+foreach($t_fonts as $file) { if(preg_match('/\.ttf/',$file)) { $fonts[]=$file; } }
+foreach($t_bgs as $file) { if(preg_match('/\.png/',$file)) { $bgs[]=$file; } }
 
 // make random string
 if(!function_exists('randomString')) {

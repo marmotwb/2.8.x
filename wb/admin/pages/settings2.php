@@ -34,14 +34,11 @@ $admin = new admin('Pages', 'pages_settings');
 require_once(WB_PATH.'/framework/functions.php');
 
 // Get values
-$page_title = $admin->get_post_escaped('page_title');
-$page_title = htmlspecialchars($page_title);
-$menu_title = $admin->get_post_escaped('menu_title');
-$menu_title = htmlspecialchars($menu_title);
+$page_title = htmlspecialchars($admin->get_post_escaped('page_title') );
+$menu_title = htmlspecialchars($admin->get_post_escaped('menu_title') );
 $page_code = $admin->get_post_escaped('page_code');
-$page_code = htmlspecialchars($page_code);
-$description = htmlspecialchars($admin->add_slashes($admin->get_post('description')));
-$keywords = htmlspecialchars($admin->add_slashes($admin->get_post('keywords')));
+$description = htmlspecialchars($admin->add_slashes($admin->get_post('description')) );
+$keywords = htmlspecialchars($admin->add_slashes($admin->get_post('keywords')) );
 $parent = $admin->get_post_escaped('parent');
 $visibility = $admin->get_post_escaped('visibility');
 $template = $admin->get_post_escaped('template');
@@ -81,8 +78,10 @@ $field_sql = $database->query($sql);
 $field_set = $field_sql->numRows();
 
 $in_old_group = FALSE;
-foreach($admin->get_groups_id() as $cur_gid){
-    if (in_array($cur_gid, $old_admin_groups)) {
+foreach($admin->get_groups_id() as $cur_gid)
+{
+    if (in_array($cur_gid, $old_admin_groups))
+    {
 	$in_old_group = TRUE;
     }
 }
@@ -194,7 +193,7 @@ $sql .= '`searching` = '.$searching.', ';
 $sql .= '`language` = "'.$language.'", ';
 $sql .= '`admin_groups` = "'.$admin_groups.'", ';
 $sql .= '`viewing_groups` = "'.$viewing_groups.'"';
-$sql .= (defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set && (file_exists(WB_PATH.'/modules/mod_multilingual/update_keys.php')) ? ', `page_code` = "'.$page_code.'" ' : ' ';
+$sql .= (defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set && (file_exists(WB_PATH.'/modules/mod_multilingual/update_keys.php')) ? ', `page_code` = '.(int)$page_code.' ' : ' ';
 $sql .= 'WHERE `page_id` = '.$page_id;
 $database->query($sql);
 
@@ -216,8 +215,9 @@ if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/'))
 {
 	$admin->print_error($MESSAGE['PAGES']['CANNOT_CREATE_ACCESS_FILE']);
 } else {
+    $old_filename = WB_PATH.PAGES_DIRECTORY.$old_link.PAGE_EXTENSION;
 	// First check if we need to create a new file
-	if($old_link != $link)
+	if(($old_link != $link) || (!file_exists($old_filename)))
     {
 		// Delete old file
 		$old_filename = WB_PATH.PAGES_DIRECTORY.$old_link.PAGE_EXTENSION;

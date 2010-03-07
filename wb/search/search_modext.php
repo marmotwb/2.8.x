@@ -17,9 +17,11 @@
  */
 
 // make the url-string for highlighting
-function make_url_searchstring($search_match, $search_url_array) {
+function make_url_searchstring($search_match, $search_url_array)
+{
 	$link = "";
-	if ($search_match != 'exact') {
+	if ($search_match != 'exact')
+    {
 		$str = implode(" ", $search_url_array);
 		$link = "?searchresult=1&amp;sstring=".urlencode($str);
 	} else {
@@ -30,9 +32,11 @@ function make_url_searchstring($search_match, $search_url_array) {
 }
 
 // make date and time for "last modified by... on ..."-string
-function get_page_modified($page_modified_when) {
+function get_page_modified($page_modified_when)
+{
 	global $TEXT;
-	if($page_modified_when > 0) {
+	if($page_modified_when > 0)
+    {
 		$date = gmdate(DATE_FORMAT, $page_modified_when+TIMEZONE);
 		$time = gmdate(TIME_FORMAT, $page_modified_when+TIMEZONE);
 	} else {
@@ -43,22 +47,28 @@ function get_page_modified($page_modified_when) {
 }
 
 // make username and displayname for "last modified by... on ..."-string
-function get_page_modified_by($page_modified_by, $users) {
+function get_page_modified_by($page_modified_by, $users)
+{
 	global $TEXT;
 	// check for existing user-id
 	if(!isset($users[$page_modified_by]))
-		$page_modified_by = 0;
-	
+    {
+        $page_modified_by = 0;
+    }
+
 	$username = $users[$page_modified_by]['username'];
 	$displayname = $users[$page_modified_by]['display_name'];
 	return array($username, $displayname);
 }
 
 // checks if _all_ searchwords matches
-function is_all_matched($text, $search_words) {
+function is_all_matched($text, $search_words)
+{
 	$all_matched = true;
-	foreach ($search_words AS $word) {
-		if(!preg_match('/'.$word.'/ui', $text)) {
+	foreach ($search_words AS $word)
+    {
+		if(!preg_match('/'.$word.'/ui', $text))
+        {
 			$all_matched = false;
 			break;
 		}
@@ -67,29 +77,34 @@ function is_all_matched($text, $search_words) {
 }
 
 // checks if _any_ of the searchwords matches
-function is_any_matched($text, $search_words) {
+function is_any_matched($text, $search_words)
+{
 	$any_matched = false;
 	$word = '('.implode('|', $search_words).')';
-	if(preg_match('/'.$word.'/ui', $text)) {
+	if(preg_match('/'.$word.'/ui', $text))
+    {
 		$any_matched = true;
 	}
 	return $any_matched;
 }
 
 // collects the matches from text in excerpt_array
-function get_excerpts($text, $search_words, $max_excerpt_num) {
+function get_excerpts($text, $search_words, $max_excerpt_num)
+{
 	$match_array = array();
 	$excerpt_array = array();
 	$word = '('.implode('|', $search_words).')';
 
 	//Filter droplets from the page data
 	preg_match_all('~\[\[(.*?)\]\]~', $text, $matches);
-	foreach ($matches[1] as $match) {
+	foreach ($matches[1] as $match)
+    {
 		$text = str_replace('[['.$match.']]', '', $text);					
 	}
 
 	// Build the regex-string
-	if(strpos(strtoupper(PHP_OS), 'WIN')===0) { // windows -> see below
+	if(strpos(strtoupper(PHP_OS), 'WIN')===0)  // windows -> see below
+    {
 		$str1=".!?;";
 		$str2=".!?;";
 	} else { // linux & Co.
@@ -104,27 +119,35 @@ function get_excerpts($text, $search_words, $max_excerpt_num) {
 	) { // this may crash windows server, so skip if on windows
 		// jump from match to match, get excerpt, stop if $max_excerpt_num is reached
 		$last_end = 0; $offset = 0;
-		while(preg_match('/'.$word.'/uis', $text, $match_array, PREG_OFFSET_CAPTURE, $last_end)) {
+		while(preg_match('/'.$word.'/uis', $text, $match_array, PREG_OFFSET_CAPTURE, $last_end))
+        {
 			$offset = ($match_array[0][1]-206 < $last_end)?$last_end:$match_array[0][1]-206;
-			if(preg_match($regex, $text, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+			if(preg_match($regex, $text, $matches, PREG_OFFSET_CAPTURE, $offset))
+            {
 				$last_end = $matches[1][1]+strlen($matches[1][0])-1;
 				if(!preg_match('/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\./', $matches[1][0])) // skip excerpts with email-addresses
-					$excerpt_array[] = trim($matches[1][0]);
-				if(count($excerpt_array)>=$max_excerpt_num) {
+				{
+				  $excerpt_array[] = trim($matches[1][0]);
+                }
+				if(count($excerpt_array)>=$max_excerpt_num)
+                {
 					$excerpt_array = array_unique($excerpt_array);
-					if(count($excerpt_array) >= $max_excerpt_num)
-						break;
+					if(count($excerpt_array) >= $max_excerpt_num) { break; }
 				}
 			} else { // problem: preg_match failed - can't find a start- or stop-sign
 				$last_end += 201; // jump forward and try again
 			}
 		}
 	} else { // compatible, but may be very slow with large pages
-		if(preg_match_all($regex, $text, $match_array)) {
-			foreach($match_array[1] AS $string) {
+		if(preg_match_all($regex, $text, $match_array))
+        {
+			foreach($match_array[1] AS $string)
+            {
 				if(!preg_match('/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\./', $string))  // skip excerpts with email-addresses
-					$excerpt_array[] = trim($string);
-				
+				{
+				  $excerpt_array[] = trim($string);
+                }
+
 			}
 		}
 	}
@@ -132,7 +155,8 @@ function get_excerpts($text, $search_words, $max_excerpt_num) {
 }
 
 // makes excerpt_array a string ready to print out
-function prepare_excerpts($excerpt_array, $search_words, $max_excerpt_num) {
+function prepare_excerpts($excerpt_array, $search_words, $max_excerpt_num)
+{
 	// excerpts: text before and after a single excerpt, html-tag for markup
 	$EXCERPT_BEFORE =       '...&nbsp;';
 	$EXCERPT_AFTER =        '&nbsp;...<br />';
@@ -141,7 +165,8 @@ function prepare_excerpts($excerpt_array, $search_words, $max_excerpt_num) {
 	// remove duplicate matches from $excerpt_array, if any.
 	$excerpt_array = array_unique($excerpt_array);
 	// use the first $max_excerpt_num excerpts only
-	if(count($excerpt_array) > $max_excerpt_num) {
+	if(count($excerpt_array) > $max_excerpt_num)
+    {
 		$excerpt_array = array_slice($excerpt_array, 0, $max_excerpt_num);
 	}
 	// prepare search-string
@@ -149,52 +174,62 @@ function prepare_excerpts($excerpt_array, $search_words, $max_excerpt_num) {
 	// we want markup on search-results page,
 	// but we need some 'magic' to prevent <br />, <b>... from being highlighted
 	$excerpt = '';
-	foreach($excerpt_array as $str) {
+	foreach($excerpt_array as $str)
+    {
 		$excerpt .= '#,,#'.preg_replace("/($string)/iu","#,,,,#$1#,,,,,#",$str).'#,,,#';
 	}
 	$excerpt = str_replace(array('&','<','>','"','\'',"\xC2\xA0"), array('&amp;','&lt;','&gt;','&quot;','&#039;','&nbsp;'), $excerpt);
 	$excerpt = str_replace(array('#,,,,#','#,,,,,#'), array($EXCERPT_MARKUP_START,$EXCERPT_MARKUP_END), $excerpt);
 	$excerpt = str_replace(array('#,,#','#,,,#'), array($EXCERPT_BEFORE,$EXCERPT_AFTER), $excerpt);
 	// prepare to write out
-	if(DEFAULT_CHARSET != 'utf-8') {
+	if(DEFAULT_CHARSET != 'utf-8')
+    {
 		$excerpt = umlauts_to_entities($excerpt, 'UTF-8');
 	}
 	return $excerpt;
 }
 
 // work out what the link-anchor should be
-function make_url_target($page_link_target, $text, $search_words) {
+function make_url_target($page_link_target, $text, $search_words)
+{
 	// 1. e.g. $page_link_target=="&monthno=5&year=2007" - module-dependent target. Do nothing.
 	// 2. $page_link_target=="#!wb_section_..." - the user wants the section-target, so do nothing.
 	// 3. $page_link_target=="#wb_section_..." - try to find a better target, use the section-target as fallback.
 	// 4. $page_link_target=="" - do nothing
-	if(version_compare(PHP_VERSION, '4.3.3', ">=") && substr($page_link_target,0,12)=='#wb_section_') {
+	if(version_compare(PHP_VERSION, '4.3.3', ">=") && substr($page_link_target,0,12)=='#wb_section_')
+    {
 		$word = '('.implode('|', $search_words).')';
 		preg_match('/'.$word.'/ui', $text, $match, PREG_OFFSET_CAPTURE);
-		if($match && is_array($match[0])) {
+		if($match && is_array($match[0]))
+        {
 			$x=$match[0][1]; // position of first match
 			// is there an anchor nearby?
-			if(preg_match_all('/<(?:[^>]+id|\s*a[^>]+name)\s*=\s*"(.*)"/iU', substr($text,0,$x), $match, PREG_OFFSET_CAPTURE)) {
+			if(preg_match_all('/<(?:[^>]+id|\s*a[^>]+name)\s*=\s*"(.*)"/iU', substr($text,0,$x), $match, PREG_OFFSET_CAPTURE))
+            {
 				$anchor='';
-				foreach($match[1] AS $array) {
-					if($array[1] > $x) {
+				foreach($match[1] AS $array)
+                {
+					if($array[1] > $x)
+                    {
 						break;
 					}
 					$anchor = $array[0];
 				}
-				if($anchor != '') {
+				if($anchor != '')
+                {
 					$page_link_target = '#'.$anchor;
 				}
 			}
 		}
-	}
-	elseif(substr($page_link_target,0,13)=='#!wb_section_') {
+	} elseif(substr($page_link_target,0,13)=='#!wb_section_') {
 		$page_link_target = '#'.substr($page_link_target, 2);
 	}
 	
 	// since wb 2.7.1 the section-anchor is configurable - SEC_ANCHOR holds the anchor name
-	if(substr($page_link_target,0,12)=='#wb_section_') {
-		if(defined('SEC_ANCHOR') && SEC_ANCHOR!='') {
+	if(substr($page_link_target,0,12)=='#wb_section_')
+    {
+		if(defined('SEC_ANCHOR') && SEC_ANCHOR!='')
+        {
 			$sec_id = substr($page_link_target, 12);
 			$page_link_target = '#'.SEC_ANCHOR.$sec_id;
 		} else { // section-anchors are disabled
@@ -206,7 +241,8 @@ function make_url_target($page_link_target, $text, $search_words) {
 }
 
 // wrapper for compatibility with old print_excerpt()
-function print_excerpt($page_link, $page_link_target, $page_title, $page_description, $page_modified_when, $page_modified_by, $text, $max_excerpt_num, $func_vars, $pic_link="") {
+function print_excerpt($page_link, $page_link_target, $page_title, $page_description, $page_modified_when, $page_modified_by, $text, $max_excerpt_num, $func_vars, $pic_link="")
+{
 	$mod_vars = array(
 		'page_link' => $page_link,
 		'page_link_target' => $page_link_target,
@@ -228,26 +264,31 @@ function print_excerpt($page_link, $page_link_target, $page_title, $page_descrip
  * list_files_dirs() - lists all files and dirs below a given directory
  * clear_filelist() - keeps only wanted or removes unwanted entries in file-list.
  */
- 
+
 // prints the excerpts for one section
-function print_excerpt2($mod_vars, $func_vars) {
+function print_excerpt2($mod_vars, $func_vars)
+{
 	extract($func_vars, EXTR_PREFIX_ALL, 'func');
 	extract($mod_vars, EXTR_PREFIX_ALL, 'mod');
 	global $TEXT;
 	// check $mod_...vars
-	if(!isset($mod_page_link))          $mod_page_link = $func_page_link;
-	if(!isset($mod_page_link_target))   $mod_page_link_target = "";
-	if(!isset($mod_page_title))         $mod_page_title = $func_page_title;
-	if(!isset($mod_page_description))   $mod_page_description = $func_page_description;
-	if(!isset($mod_page_modified_when)) $mod_page_modified_when = $func_page_modified_when;
-	if(!isset($mod_page_modified_by))   $mod_page_modified_by = $func_page_modified_by;
-	if(!isset($mod_text))               $mod_text = "";
-	if(!isset($mod_max_excerpt_num))    $mod_max_excerpt_num = $func_default_max_excerpt;
-	if(!isset($mod_pic_link))           $mod_pic_link = "";
-	if(!isset($mod_no_highlight))       $mod_no_highlight = false;
-	if(!isset($func_enable_flush))      $func_enable_flush = false; // set this in db: wb_search.cfg_enable_flush [READ THE DOC BEFORE]
-	if(isset($mod_ext_charset)) $mod_ext_charset = strtolower($mod_ext_charset);
-	else $mod_ext_charset = '';
+	if(!isset($mod_page_link))          { $mod_page_link = $func_page_link; }
+	if(!isset($mod_page_link_target))   { $mod_page_link_target = ''; }
+	if(!isset($mod_page_title))         { $mod_page_title = $func_page_title; }
+	if(!isset($mod_page_description))   { $mod_page_description = $func_page_description; }
+	if(!isset($mod_page_modified_when)) { $mod_page_modified_when = $func_page_modified_when; }
+	if(!isset($mod_page_modified_by))   { $mod_page_modified_by = $func_page_modified_by; }
+	if(!isset($mod_text))               { $mod_text = ''; }
+	if(!isset($mod_max_excerpt_num))    { $mod_max_excerpt_num = $func_default_max_excerpt; }
+	if(!isset($mod_pic_link))           { $mod_pic_link = ''; }
+	if(!isset($mod_no_highlight))       { $mod_no_highlight = false; }
+	if(!isset($func_enable_flush))      { $func_enable_flush = false; } // set this in db: wb_search.cfg_enable_flush [READ THE DOC BEFORE]
+	if(isset($mod_ext_charset))
+    {
+      $mod_ext_charset = strtolower($mod_ext_charset);
+    } else {
+      $mod_ext_charset = '';
+    }
 
 	if($mod_text == "") // nothing to do
 		{ return false; }
@@ -379,24 +420,30 @@ function list_files_dirs($dir, $depth=true, $files=array(), $dirs=array()) {
 }
 
 // keeps only wanted entries in array $files. $str have to be an eregi()-compatible regex
-function clear_filelist($files, $str, $keep=true) {
+/*
+function clear_filelist($files, $str, $keep=true)
+{
 	// options: $keep = true  : remove all non-matching entries
 	//          $keep = false : remove all matching entries
 	$c_filelist = array();
 	if($str == '')
 		return $files;
-	foreach($files as $file) {
-		if($keep) {
-			if(eregi($str, $file)) {
+	foreach($files as $file)
+    {
+		if($keep)
+        {
+			if(eregi($str, $file))
+            {
 				$c_filelist[] = $file;
 			}
 		} else {
-			if(!eregi($str, $file)) {
+			if(!eregi($str, $file))
+            {
 				$c_filelist[] = $file;
 			}
 		}
 	}
 	return($c_filelist);
 }
-
+*/
 ?>
