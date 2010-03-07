@@ -277,13 +277,14 @@ if((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set && file_exists(WB
 
 		while($page = $get_pages->fetchRow())
         {
-			if($admin->page_is_visible($page)==false)
-				continue;
+			if($admin->page_is_visible($page)==false) { continue; }
+
 			$template->set_var('FLAG_CODE_ICON',' none ');
 			if( $page['parent'] == 0 )
             {
 				$template->set_var('FLAG_CODE_ICON','url('.THEME_URL.'/images/flags/'.strtolower($page['language']).'.png)');
 			}
+
 			// If the current page cannot be parent, then its children neither
 			$list_next_level = true;
 			// Stop users from adding pages with a level of more than the set page level limit
@@ -314,16 +315,19 @@ if((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set && file_exists(WB
                 // $space = str_repeat('&nbsp;', 3);  $space.'&lt;'..'&gt;'
 				$template->set_var(array(
 										'VALUE' => $page['page_code'],
-                                        'PAGE_VALUE' => $title_prefix.$page['page_code'],
-										'PAGE_CODE' => $title_prefix.$page['menu_title']
+                                        'PAGE_VALUE' => $title_prefix.$page['menu_title'],
+										'PAGE_CODE' => $title_prefix.$page['page_id']
 										)
 								);
-				if($results_array['page_code'] == $page['page_code']) {
+				if($results_array['page_code'] == $page['page_code'])
+                {
 					$template->set_var('SELECTED', ' selected="selected"');
-				} elseif($results_array['page_code'] == $page['page_code']) {
+				} elseif($results_array['page_code'] == $page['page_code'])
+                {
 					$template->set_var('SELECTED', ' disabled="disabled" class="disabled"');
 					$list_next_level=false;
-				} elseif($can_modify != true) {
+				} elseif($can_modify != true)
+                {
 					$template->set_var('SELECTED', ' disabled="disabled" class="disabled"');
 				} else {
 					$template->set_var('SELECTED', '');

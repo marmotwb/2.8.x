@@ -11,6 +11,13 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+07-Mar-2010 Dietmar Woellbrink (Luisehahne)
+#	Tickets #932 change deprecated eregi functions 
+#	Tickets #948 fixed Multiple use of same parametrised droplet - parameter handling
+!	Upgrade Droplets to Version 1.0.3
+!	update some headerinfos
+!	non existing pages will be created if clicking save in page settings
+07-Mar-2010 Dietmar Woellbrink (Luisehahne)
 #	Ticket #950 missing classes in theme.css ( Tks to Ruebenwurzel )
 !	update jquery-min.js to version 1.4.2
 20-Feb-2010 Dietmar Woellbrink (Luisehahne)
