@@ -298,7 +298,7 @@ function print_excerpt2($mod_vars, $func_vars)
 	// clean the text:
 	$mod_text = preg_replace('#<(!--.*--|style.*</style|script.*</script)>#iU', ' ', $mod_text);
 	$mod_text = preg_replace('#<(br( /)?|dt|/dd|/?(h[1-6]|tr|table|p|li|ul|pre|code|div|hr))[^>]*>#i', '.', $mod_text);
-	$mod_text = preg_replace('/(\v\s?|\s\s)+/', ' ', $mod_text);
+	// $mod_text = preg_replace('/(\v\s?|\s\s)+/', ' ', $mod_text);
 	$mod_text = preg_replace('/\s\./', '.', $mod_text);
 	if($mod_ext_charset!='') { // data from external database may have a different charset
 		require_once(WB_PATH.'/framework/functions-utf8.php');

@@ -12,6 +12,10 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 07-Mar-2010 Dietmar Woellbrink (Luisehahne)
+#	fixed search_modext.php ( Tks to Thorn )
+#	Ticket #953 is already fixed 
+#	Ticket #954 styles issues in theme.css ( Tks to Ruebenwurzel )
+07-Mar-2010 Dietmar Woellbrink (Luisehahne)
 #	Tickets #932 change deprecated eregi functions 
 #	Tickets #948 fixed Multiple use of same parametrised droplet - parameter handling
 !	Upgrade Droplets to Version 1.0.3
