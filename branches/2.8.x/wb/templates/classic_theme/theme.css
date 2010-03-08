@@ -65,8 +65,8 @@ select option.disabled { color: #aaa; }
 .header_list_block { width: 180px; text-align: left; }
 .header_list_sections_actions { width: 30px; text-align: left; }
 #multi_lingual { font-weight: bolder; }
-.right{ float: right; }
-.left{ float: left; }
+.right{ text-align: right; }
+.left{ text-align: left; }
 .pages_list table td, table.pages_view td { padding: 3px; }
 .save, .reset, .input_narrow { width: 100px; }
 .settings_table td, .tool_table td { text-align: left; vertical-align: top; }
