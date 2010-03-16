@@ -40,7 +40,8 @@ if(!isset($_POST['user_id']) OR !is_numeric($_POST['user_id']) OR $_POST['user_i
 	exit(0);
 }
 
-if($_POST['action'] == 'modify') {
+if($_POST['action'] == 'modify')
+{
 	// Print header
 	$admin = new admin('Access', 'users_modify');
 	// Get existing values
@@ -71,7 +72,7 @@ if($_POST['action'] == 'modify') {
 	}
 	// Add groups to list
 	$template->set_block('main_block', 'group_list_block', 'group_list');
-	$results = $database->query("SELECT group_id, name FROM ".TABLE_PREFIX."groups WHERE group_id != '1'");
+	$results = $database->query("SELECT group_id, name FROM ".TABLE_PREFIX."groups WHERE group_id != '1' ORDER BY name");
 	if($results->numRows() > 0) {
 		$template->set_var('ID', '');
 		$template->set_var('NAME', $TEXT['PLEASE_SELECT'].'...');
@@ -88,12 +89,14 @@ if($_POST['action'] == 'modify') {
 			$template->parse('group_list', 'group_list_block', true);
 		}
 	}
+
 	// Only allow the user to add a user to the Administrators group if they belong to it
-	if(in_array(1, $admin->get_groups_id())) {
+	if(in_array(1, $admin->get_groups_id()))
+    {
 		$template->set_var('ID', '1');
 		$users_groups = $admin->get_groups_name();
 		$template->set_var('NAME', $users_groups[1]);
-		
+
 		$in_group = FALSE;
 		foreach($admin->get_groups_id() as $cur_gid){
 		    if (in_array($cur_gid, explode(",", $user['groups_id']))) {
@@ -115,7 +118,7 @@ if($_POST['action'] == 'modify') {
 			$template->parse('group_list', 'group_list_block', true);
 		}
 	}
-	
+
 	// Generate username field name
 	$username_fieldname = 'username_';
 	$salt = "abchefghjkmnpqrstuvwxyz0123456789";

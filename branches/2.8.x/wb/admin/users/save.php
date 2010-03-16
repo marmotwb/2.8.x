@@ -1,27 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/**
+ *
+ * @category        admin
+ * @package         users
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.4.9 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
 // Print admin header
 require('../../config.php');
@@ -68,8 +61,25 @@ if($password != "") {
 		$admin->print_error($MESSAGE['USERS']['PASSWORD_MISMATCH'], $js_back);
 	}
 }
-if($email != "") {
-	if($admin->validate_email($email) == false) {
+
+if($email != "")
+{
+	if($admin->validate_email($email) == false)
+    {
+        $admin->print_error($MESSAGE['USERS']['INVALID_EMAIL'], $js_back);
+	}
+} else { // e-mail must be present
+	$admin->print_error($MESSAGE['SIGNUP']['NO_EMAIL'], $js_back);
+}
+
+// Check if the email already exists
+$results = $database->query("SELECT user_id FROM ".TABLE_PREFIX."users WHERE email = '".$admin->add_slashes($_POST['email'])."'");
+if($results->numRows() > 0)
+{
+	if(isset($MESSAGE['USERS']['EMAIL_TAKEN']))
+    {
+		$admin->print_error($MESSAGE['USERS']['EMAIL_TAKEN'], $js_back);
+	} else {
 		$admin->print_error($MESSAGE['USERS']['INVALID_EMAIL'], $js_back);
 	}
 }
