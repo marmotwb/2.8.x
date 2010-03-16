@@ -30,7 +30,7 @@ $template->set_var('ADMIN_URL', ADMIN_URL);
 
 // Get existing value from database
 $database = new database();
-$query = "SELECT user_id, username, display_name FROM ".TABLE_PREFIX."users WHERE user_id != '1' ORDER BY username";
+$query = "SELECT user_id, username, display_name FROM ".TABLE_PREFIX."users WHERE user_id != '1' ORDER BY display_name,username";
 $results = $database->query($query);
 if($database->is_error()) {
 	$admin->print_error($database->get_error(), 'index.php');
