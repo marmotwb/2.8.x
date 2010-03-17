@@ -129,7 +129,7 @@ if($results_array['visibility'] == 'public') {
 	$template->set_var('REGISTERED_SELECTED', ' selected="selected"');
 } elseif($results_array['visibility'] == 'hidden') {
 	$template->set_var('HIDDEN_SELECTED', ' selected="selected"');
-} elseif($results_array['visibility'] == 'display:none;') {
+} elseif($results_array['visibility'] == 'none') {
 	$template->set_var('NO_VIS_SELECTED', ' selected="selected"');
 }
 // Group list 1 (admin_groups)
@@ -277,7 +277,7 @@ if((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set && file_exists(WB
 
 		while($page = $get_pages->fetchRow())
         {
-			if($admin->page_is_visible($page)==false) { continue; }
+			if(($admin->page_is_visible($page)==false) && ($page['visibility'] <> 'none') ) { continue; }
 
 			$template->set_var('FLAG_CODE_ICON',' none ');
 			if( $page['parent'] == 0 )

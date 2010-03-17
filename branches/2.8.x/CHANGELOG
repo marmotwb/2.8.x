@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 17-Mar-2010 Dietmar Woellbrink (Luisehahne)
+#	Ticket #957 Wrong status returned for visibility
+17-Mar-2010 Dietmar Woellbrink (Luisehahne)
 #	Ticket #956 Useraccounts, now e-mail is required
 09-Mar-2010 Dietmar Woellbrink (Luisehahne)
 #	Fixed e-mail preg pattern, because issues with some php versions
