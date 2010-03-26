@@ -11,7 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
-19-Mar-2010 Dietmar Woellbrink (Luisehahne)
+26-Mar-2010 Dietmar Woellbrink (Luisehahne)
+!	update changelog
+26-Mar-2010 Dietmar Woellbrink (Luisehahne)
 -	remove deprecated backup modul
 19-Mar-2010 Dietmar Woellbrink (Luisehahne)
 !	rework admin/pages/save.php so that modules can use it
