@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 19-Mar-2010 Dietmar Woellbrink (Luisehahne)
+-	remove deprecated backup modul
+19-Mar-2010 Dietmar Woellbrink (Luisehahne)
 !	rework admin/pages/save.php so that modules can use it
 !	fixed missing global install variable to work in modules
 17-Mar-2010 Dietmar Woellbrink (Luisehahne)
