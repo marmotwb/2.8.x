@@ -1,2 +1,2 @@
 jQuery 1.4.2
-jQuery UI 1.7.2
+jQuery UI 1.8.0
