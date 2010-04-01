@@ -61,7 +61,8 @@ class login extends admin {
 			$username_fieldname = 'username';
 			$password_fieldname = 'password';
 		}
-		$this->username = $this->add_slashes(strtolower($this->get_post($username_fieldname)));
+
+		$this->username = htmlspecialchars (strtolower($this->get_post($username_fieldname)), ENT_QUOTES);
 		$this->password = $this->get_post($password_fieldname);
 		// Figure out if the "remember me" option has been checked
 		if($this->get_post('remember') == 'true') {
@@ -340,7 +341,7 @@ class login extends admin {
 			return false;
 		}
 	}
-	
+
 	// Display the login screen
 	function display_login() {
 		// Get language vars

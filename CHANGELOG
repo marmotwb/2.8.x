@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+01-Apr-2010 Dietmar Woellbrink (Luisehahne)
+#	Ticket 963 Minor XSS issue in admin login
+!	update jquery-ui-min.js from 1.7.2 to 1.8.0
+#	Fixed typo in the english language file
 26-Mar-2010 Dietmar Woellbrink (Luisehahne)
 !	update changelog
 26-Mar-2010 Dietmar Woellbrink (Luisehahne)

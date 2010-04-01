@@ -62,7 +62,7 @@ $OVERVIEW['PREFERENCES'] = 'Change preferences such as email address, password, 
 $OVERVIEW['SETTINGS'] = 'Changes settings for WebsiteBaker...';
 $OVERVIEW['USERS'] = 'Manage users who can log-in to WebsiteBaker...';
 $OVERVIEW['GROUPS'] = 'Manage user groups and their system permissions...';
-$OVERVIEW['HELP'] = 'Got a questions? Find your answer...';
+$OVERVIEW['HELP'] = 'Got a question? Find your answer...';
 $OVERVIEW['VIEW'] = 'Quickly view and browse your website in a new window...';
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 
@@ -153,7 +153,7 @@ $TEXT['MODIFY_SETTINGS'] = 'Modify Settings';
 $TEXT['MODIFY_CONTENT'] = 'Modify Content';
 $TEXT['VIEW'] = 'View';
 $TEXT['UP'] = 'Up';
-$TEXT['FORGOTTEN_DETAILS'] = 'Forgotten your details?';
+$TEXT['FORGOTTEN_DETAILS'] = 'Forget your details?';
 $TEXT['NEED_TO_LOGIN'] = 'Need to log-in?';
 $TEXT['SEND_DETAILS'] = 'Send Details';
 $TEXT['USERNAME'] = 'Username';
@@ -218,7 +218,7 @@ $TEXT['EXTENSION'] = 'Extension';
 $TEXT['TABLE_PREFIX'] = 'Table Prefix';
 $TEXT['CHANGES'] = 'Changes';
 $TEXT['ADMINISTRATION'] = 'Administration';
-$TEXT['FORGOT_DETAILS'] = 'Forgot Details?';
+$TEXT['FORGOT_DETAILS'] = 'Forget Details?';
 $TEXT['LOGGED_IN'] = 'Logged-In';
 $TEXT['WELCOME_BACK'] = 'Welcome back';
 $TEXT['FULL_NAME'] = 'Full Name';
@@ -407,7 +407,7 @@ $TEXT['PUBL_START_DATE'] = 'Start date';
 $TEXT['PUBL_END_DATE'] = 'End date';
 $TEXT['CALENDAR'] = 'Calendar';
 $TEXT['DELETE_DATE'] = 'Delete date';
-$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Please specify a default "FROM" address and "SENDER" name below. It is recommended to use a FROM address like: <strong>admin@yourdomain.com</strong>. Some mail provider (e.g. <em>mail.com</em>) may reject mails with a FROM: address like <em>name@mail.com</em> sent via a foreign relay to avoid spam.<br /><br />The default values are only used if no other values are specified by WebsiteBaker. If your server supports <acronym title="Simple mail transfer protocol">SMTP</acronym>, you may want use this option for outgoing mails.';
+$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Please specify a default "FROM" address and "SENDER" name below. It is recommended to use a FROM address like: <strong>admin@yourdomain.com</strong>. Some mail providers (e.g. <em>mail.com</em>) may reject mails with a FROM: address like <em>name@mail.com</em> sent via a foreign relay to avoid spam.<br /><br />The default values are only used if no other values are specified by WebsiteBaker. If your server supports <acronym title="Simple mail transfer protocol">SMTP</acronym>, you may want use this option for outgoing mails.';
 $TEXT['WBMAILER_DEFAULT_SENDER_MAIL'] = 'Default From Mail';
 $TEXT['WBMAILER_DEFAULT_SENDER_NAME'] = 'Default Sender Name';
 $TEXT['WBMAILER_NOTICE'] = '<strong>SMTP Mailer Settings:</strong><br />The settings below are only required if you want to send mails via <acronym title="Simple mail transfer protocol">SMTP</acronym>. If you do not know your SMTP host or you are not sure about the required settings, simply stay with the default mail routine: PHP MAIL.';
@@ -416,7 +416,7 @@ $TEXT['WBMAILER_SMTP_HOST'] = 'SMTP Host';
 $TEXT['WBMAILER_PHP'] = 'PHP MAIL';
 $TEXT['WBMAILER_SMTP'] = 'SMTP';
 $TEXT['WBMAILER_SMTP_AUTH'] = 'SMTP Authentification';
-$TEXT['WBMAILER_SMTP_AUTH_NOTICE'] = 'only activate if your SMTP host requires authentification';
+$TEXT['WBMAILER_SMTP_AUTH_NOTICE'] = 'only activate if your SMTP host requires authentication';
 $TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Username';
 $TEXT['WBMAILER_SMTP_PASSWORD'] = 'SMTP Password';
 $TEXT['PLEASE_LOGIN'] = 'Please login';
@@ -435,16 +435,16 @@ $TEXT['DELETE_ZIP'] = "Delete zip archive after unpacking";
 // Success/error messages
 $MESSAGE['FRONTEND']['SORRY_NO_VIEWING_PERMISSIONS'] = 'Sorry, you do not have permissions to view this page';
 $MESSAGE['FRONTEND']['SORRY_NO_ACTIVE_SECTIONS'] = 'Sorry, no active content to display';
-
-$MESSAGE['ADMIN']['INSUFFICIENT_PRIVELLIGES'] = 'Insufficient privelliges to be here';
+// NOTE THE MESSAGE CALL PHRASE IS KEPT MIS-SPELLED (DUE TO CODE IMPACT), BUT THE MESSAGE HAS BEEN FIXED
+$MESSAGE['ADMIN']['INSUFFICIENT_PRIVELLIGES'] = 'Insufficient privileges to be here';
 
 $MESSAGE['LOGIN']['BOTH_BLANK'] = 'Please enter your username and password below';
 $MESSAGE['LOGIN']['USERNAME_BLANK'] = 'Please enter a username';
 $MESSAGE['LOGIN']['PASSWORD_BLANK'] = 'Please enter a password';
-$MESSAGE['LOGIN']['USERNAME_TOO_SHORT'] = 'Supplied username to short';
-$MESSAGE['LOGIN']['PASSWORD_TOO_SHORT'] = 'Supplied password to short';
-$MESSAGE['LOGIN']['USERNAME_TOO_LONG'] = 'Supplied username to long';
-$MESSAGE['LOGIN']['PASSWORD_TOO_LONG'] = 'Supplied password to long';
+$MESSAGE['LOGIN']['USERNAME_TOO_SHORT'] = 'Supplied username too short';
+$MESSAGE['LOGIN']['PASSWORD_TOO_SHORT'] = 'Supplied password too short';
+$MESSAGE['LOGIN']['USERNAME_TOO_LONG'] = 'Supplied username too long';
+$MESSAGE['LOGIN']['PASSWORD_TOO_LONG'] = 'Supplied password too long';
 $MESSAGE['LOGIN']['AUTHENTICATION_FAILED'] = 'Username or password incorrect';
 
 $MESSAGE['SIGNUP']['NO_EMAIL'] = 'You must enter an email address';
@@ -488,7 +488,8 @@ $MESSAGE['USERS']['PASSWORD_MISMATCH'] = 'The passwords you entered do not match
 $MESSAGE['USERS']['INVALID_EMAIL'] = 'The email address you entered is invalid';
 $MESSAGE['USERS']['EMAIL_TAKEN'] = 'The email you entered is already in use';
 $MESSAGE['USERS']['USERNAME_TAKEN'] = 'The username you entered is already taken';
-$MESSAGE['USERS']['CHANGING_PASSWORD'] = 'Please note: You should only enter values in the above fields if you wish to change this users password';
+// NOTE THE DOUBLE QUOTES USED TO ENTER AN APOSTROPHE HERE - OK? OTHERWISE CAN RE-PHRASE THE MESSAGE
+$MESSAGE['USERS']['CHANGING_PASSWORD'] = "Please note: You should only enter values in the above fields if you wish to change this user's password";
 $MESSAGE['USERS']['CONFIRM_DELETE'] = 'Are you sure you want to delete the selected user?';
 
 $MESSAGE['GROUPS']['ADDED'] = 'Group added successfully';
@@ -588,8 +589,8 @@ $MESSAGE['ADDON']['ERROR_RELOAD'] = 'Error while updating the Add-On information
 $MESSAGE['ADDON']['MODULES_RELOADED'] = 'Modules reloaded successfully';
 $MESSAGE['ADDON']['TEMPLATES_RELOADED'] = 'Templates reloaded successfully';
 $MESSAGE['ADDON']['LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
-$MESSAGE['ADDON']['PRECHECK_FAILED'] = 'Add-on installation failed. Your system does not fulfill the requirements of this Add-on. To make this Add-on working on your system, please fix the issues summarized below.';
-$MESSAGE['ADDON']['MANUAL_INSTALLATION'] = 'When modules are uploaded via FTP (not recommended), the module installation files <tt>install.php</tt>, <tt>upgrade.php</tt> or <tt>uninstall.php</tt> will not be executed automatically. Those modules may not work correct or do not uninstall properly.<br /><br />You can execute the module files manually for modules uploaded via FTP below.';
+$MESSAGE['ADDON']['PRECHECK_FAILED'] = 'Add-on installation failed. Your system does not fulfill the requirements of this Add-on. To make this Add-on work on your system, please fix the issues summarized below.';
+$MESSAGE['ADDON']['MANUAL_INSTALLATION'] = 'When modules are uploaded via FTP (not recommended), the module installation files <tt>install.php</tt>, <tt>upgrade.php</tt> or <tt>uninstall.php</tt> will not be executed automatically. Those modules may not work correctly or uninstall properly.<br /><br />You can execute the module files manually for modules uploaded via FTP below.';
 $MESSAGE['ADDON']['MANUAL_INSTALLATION_WARNING'] = 'Warning: Existing module database entries will get lost. Only use this option if you experience problems with modules uploaded via FTP.';
 
 ?>

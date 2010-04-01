@@ -69,11 +69,24 @@ if ($query_result->numRows()>0) {
 }
 
 // Frontend functions
-if (!function_exists('page_link')) {
+if (!function_exists('page_link'))
+{
 	function page_link($link) {
 		global $wb;
 		return $wb->page_link($link);
 	}
+}
+
+if (!function_exists('get_page_link'))
+{
+    function get_page_link( $id )
+    {
+        global $database;
+        // Get link
+        $sql = 'SELECT `link` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$id;
+        $link = $database->get_one( $sql );
+        return $link;
+    }
 }
 
 //function to highlight search results
@@ -107,7 +120,7 @@ function search_highlight($foo='', $arr_string=array()) {
 			$foo .= $match;
 		}
 	}
-	
+
 	if(DEFAULT_CHARSET != 'utf-8') {
 		$foo = umlauts_to_entities($foo, 'UTF-8');
 	}
@@ -123,11 +136,11 @@ if (!function_exists('page_menu')) {
 		$wb->menu_item_template=$item_template;
 		$wb->menu_item_footer='';
 		$wb->menu_parent = $parent;
-		$wb->menu_header = $menu_header; 
+		$wb->menu_header = $menu_header;
 		$wb->menu_footer = $menu_footer;
 		$wb->menu_default_class = $default_class;
 		$wb->menu_current_class = $current_class;
-		$wb->menu_recurse = $recurse+2; 	
+		$wb->menu_recurse = $recurse+2;
 		$wb->menu();
 		unset($wb->menu_parent);
 		unset($wb->menu_number);
@@ -205,11 +218,11 @@ if (!function_exists('page_content')) {
 		// Include page content
 		if(!defined('PAGE_CONTENT') OR $block!=1)
         {
-			$page_id=$wb->page_id;
+			$page_id = intval($wb->page_id);
             // set session variable to save page_id only if PAGE_CONTENT is empty
             $_SESSION['PAGE_ID'] = !isset($_SESSION['PAGE_ID']) ? $page_id : $_SESSION['PAGE_ID'];
             // set to new value if page_id changed and not 0
-            if(($page_id != 0) AND ($_SESSION['PAGE_ID'] <> $page_id))
+            if(($page_id != 0) && ($_SESSION['PAGE_ID'] <> $page_id))
             {
             $_SESSION['PAGE_ID'] = $page_id;
             }
@@ -390,6 +403,7 @@ if (!function_exists('page_footer')) {
 
 function bind_jquery ($file_id='jquery')
 {
+
         $jquery_links = '';
 		/* include the Javascript jquery api  */
 		if( $file_id == 'jquery' AND file_exists(WB_PATH .'/include/jquery/jquery-min.js'))
@@ -403,7 +417,6 @@ function bind_jquery ($file_id='jquery')
                 ."</script>\n";
 
 			$jquery_links .= '<script src="'.WB_URL.'/include/jquery/jquery-min.js" type="text/javascript"></script>'."\n";
-			$jquery_links .= '<script src="'.WB_URL.'/include/jquery/jquery-ui-min.js" type="text/javascript"></script>'."\n";
 			$jquery_links .= '<script src="'.WB_URL.'/include/jquery/jquery-insert.js" type="text/javascript"></script>'."\n";
             /* workout to insert ui.css and theme */
             $jquery_theme =  WB_PATH.'/modules/jquery/jquery_theme.js';
