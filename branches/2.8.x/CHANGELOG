@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 01-Apr-2010 Dietmar Woellbrink (Luisehahne)
+#	Ticket #967 Typo in the mysql-query results in "not" upgrading the modul info ( tks to Aldus)
+01-Apr-2010 Dietmar Woellbrink (Luisehahne)
 #	Ticket 963 Minor XSS issue in admin login
 !	update jquery-ui-min.js from 1.7.2 to 1.8.0
 #	Fixed typo in the english language file
