@@ -934,7 +934,7 @@ function upgrade_module($directory, $upgrade = false)
 				$sql .= '`description` = "'.addslashes($module_description).'", ';
 				$sql .= '`platform` = "'.$module_platform.'", ';
 				$sql .= '`author` = "'.addslashes($module_author).'", ';
-				$sql .= '`license` = "'.addslashes($module_license).'", ';
+				$sql .= '`license` = "'.addslashes($module_license).'" ';
 				$sql .= 'WHERE `directory` = "'.$module_directory.'"';
 				$database->query($sql);
 				// Run upgrade script
