@@ -269,6 +269,66 @@ class wb
 		}
 	}
 
+/*
+ * creates Formular transactionnumbers for unique use
+ * @access public
+ * @param bool $asTAG: true returns a complete prepared, hidden HTML-Input-Tag (default)
+ *                    false returns an array including FTAN0 and FTAN1
+ * @return mixed:      array or string
+ *
+ * requirements: an active session must be available
+ */
+	public function getFTAN( $asTAG = true)
+	{
+		if(function_exists('microtime'))
+		{
+			list($usec, $sec) = explode(" ", microtime());
+			$time = ((float)$usec + (float)$sec);
+		}else{
+			$time = time();
+		}
+		$ftan = md5(((string)$time).$_SERVER['SERVER_ADDR']);
+		$_SESSION['FTAN'] = $ftan;
+		$ftan0 = 'a'.substr($ftan, -(10 + hexdec(substr($ftan, 1))), 10);
+		$ftan1 = 'a'.substr($ftan, hexdec(substr($ftan, -1)), 10);
+		if($asTAG == true)
+		{
+			return '<input type="hidden" name="'.$ftan0.'" value="'.$ftan1.'" title="" />';
+		}else{
+			return array('FTAN0' => $ftan0, 'FTAN1' => $ftan1);
+		}
+	}
+
+/*
+ * checks received form-transactionnumbers against session-stored one
+ * @access public
+ * @param string $mode: requestmethode POST(default) or GET
+ * @return bool:    true if numbers matches against stored ones
+ *
+ * requirements: an active session must be available
+ * this check will prevent from multiple sending a form. history.back() also will never work
+ */
+	public function checkFTAN( $mode = 'POST')
+	{
+		$retval = false;
+		if(isset($_SESSION['FTAN']) && strlen($_SESSION['FTAN']) == strlen(md5('dummy')))
+		{
+			$ftan = $_SESSION['FTAN'];
+			$ftan0 = 'a'.substr($ftan, -(10 + hexdec(substr($ftan, 1))), 10);
+			$ftan1 = 'a'.substr($ftan, hexdec(substr($ftan, -1)), 10);
+			unset($_SESSION['FTAN']);
+			if(strtoupper($mode) == 'POST')
+			{
+				$retval = (isset($_POST[$ftan0]) && $_POST[$ftan0] == ($ftan1));
+				$_POST[$ftan0] = '';
+			}else{
+				$retval = (isset($_GET[$ftan0]) && $_GET[$ftan0] == ($ftan1));
+				$_GET[$ftan0] = '';
+			}
+		}
+		return $retval;
+	}
+	
 	// Print a success message which then automatically redirects the user to another page
 	function print_success($message, $redirect = 'index.php') {
 		global $TEXT, $database;

@@ -46,7 +46,7 @@ define('PAGE_CONTENT', WB_PATH.'/account/login_form.php');
 require_once(WB_PATH.'/framework/class.login.php');
 
 // Create new login app
-$redirect = strip_tags((isset($_REQUEST['redirect'])) ? $_REQUEST['redirect'] : '');
+$redirect = strip_tags((isset($_POST['redirect'])) ? $_POST['redirect'] : '');
 $thisApp = new Login(
 							array(
 									"MAX_ATTEMPS" => "3",
