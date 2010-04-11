@@ -27,8 +27,8 @@ require_once(WB_PATH."/framework/class.wbmailer.php");
 class wb
 {
 
-	public $password_chars = 'a-zA-Z0-9\_\-\!\#\*\+';
-	// General initialization function 
+	var $password_chars = 'a-zA-Z0-9\_\-\!\#\*\+';
+	// General initialization function
 	// performed when frontend or backend is loaded.
 	function wb() {
 	}
@@ -281,7 +281,7 @@ class wb
  *
  * requirements: an active session must be available
  */
-	public function getFTAN( $as_tag = true)
+	function getFTAN( $as_tag = true)
 	{
 		if(function_exists('microtime'))
 		{
@@ -319,7 +319,7 @@ class wb
  * requirements: an active session must be available
  * this check will prevent from multiple sending a form. history.back() also will never work
  */
-	public function checkFTAN( $mode = 'POST')
+	function checkFTAN( $mode = 'POST')
 	{
 		$retval = false;
 		if(isset($_SESSION['FTAN']) && strlen($_SESSION['FTAN']) == strlen(md5('dummy')))
