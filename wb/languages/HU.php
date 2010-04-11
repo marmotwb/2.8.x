@@ -505,6 +505,7 @@ $MESSAGE['PREFERENCES']['DETAILS_SAVED'] = 'Sikeres mentés';
 $MESSAGE['PREFERENCES']['EMAIL_UPDATED'] = 'E-mail frissítve';
 $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'] = 'A jelenlegi jelszó hibás';
 $MESSAGE['PREFERENCES']['PASSWORD_CHANGED'] = 'A jelszó sikeresen megváltozott';
+$MESSAGE['PREFERENCES']['INVALID_CHARS'] = 'Invalid password chars used';
 
 $MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE'] = 'Figyelem: A sablon megváltoztatását a beállításokban teheti meg';
 

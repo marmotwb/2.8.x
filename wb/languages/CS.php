@@ -503,6 +503,7 @@ $MESSAGE['PREFERENCES']['DETAILS_SAVED'] = 'Detaily byly &uacute;sp&#283;&scaron
 $MESSAGE['PREFERENCES']['EMAIL_UPDATED'] = 'E-mail byl &uacute;sp&#283;&scaron;n&#283; ulo&#382;en';
 $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'] = 'Sou&#269;asn&eacute; heslo neodpov&iacute;d&aacute;';
 $MESSAGE['PREFERENCES']['PASSWORD_CHANGED'] = 'Heslo bylo &uacute;sp&#283;&scaron;n&#283; zm&#283;n&#283;no';
+$MESSAGE['PREFERENCES']['INVALID_CHARS'] = 'Invalid password chars used';
 
 $MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE'] = 'Pozn.: zm&#283;na &scaron;ablony se prov&aacute;d&iacute; v sekci Nastaven&iacute;';
 

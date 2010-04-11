@@ -19,7 +19,7 @@
 $module_directory = 'show_menu2';
 $module_name = 'show_menu2';
 $module_function = 'snippet';
-$module_version = '4.9';
+$module_version = '4.9.1';
 $module_platform = '2.7 | 2.8.x';
 $module_author = 'Brodie Thiesfield';
 $module_license = 'GNU General Public License';

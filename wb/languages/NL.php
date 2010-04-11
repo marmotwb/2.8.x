@@ -502,6 +502,7 @@ $MESSAGE['PREFERENCES']['DETAILS_SAVED'] = 'Details opgeslagen';
 $MESSAGE['PREFERENCES']['EMAIL_UPDATED'] = 'E-mail gewijzigd';
 $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'] = 'Het (huidige) ingevoerde wachtwoord is niet correct';
 $MESSAGE['PREFERENCES']['PASSWORD_CHANGED'] = 'Wachtwoord gewijzigd';
+$MESSAGE['PREFERENCES']['INVALID_CHARS'] = 'Invalid password chars used';
 
 $MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE'] = 'Attentie: Om de template aan te passen moet u naar de instellingensectie';
 

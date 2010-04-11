@@ -503,6 +503,7 @@ $MESSAGE['PREFERENCES']['DETAILS_SAVED'] = 'Szczeg&oacute;&#322;y zosta&#322;y z
 $MESSAGE['PREFERENCES']['EMAIL_UPDATED'] = 'E-mail zosta&#322; zaktualizowany';
 $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'] = '(Bie&#380;&#261;ce) has&#322;o jest nieprawid&#322;owe';
 $MESSAGE['PREFERENCES']['PASSWORD_CHANGED'] = 'Has&#322;o zosta&#322;o zmienione';
+$MESSAGE['PREFERENCES']['INVALID_CHARS'] = 'Invalid password chars used';
 
 $MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE'] = 'Uwaga: aby zmieni&#263; szablon, nale&#380;y przej&#347;&#263; do sekcji Ustawienia';
 

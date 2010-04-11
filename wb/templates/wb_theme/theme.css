@@ -1,6 +1,22 @@
-html { overflow: -moz-scrollbars-vertical; /* Force firefox to always show room for a vertical scrollbar */ }
-body,td,th,input,textarea { color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; }
+	* html div{
+		height: 1em;  /* Workaround gegen den 3-Pixel-Bug des Internet Explorers 6 */
+	}
+	html{	/* Schrifteinstellung für das ganze Dokument */
+		font-family: Verdana, "Trebuchet MS", Arial, Helvetica, sans-serif;
+		font-size: 90%;
+		font-weight: normal;
+		color: #404040;
+      overflow: -moz-scrollbars-vertical; /* Force firefox to always show room for a vertical scrollbar */ 
+	}
+	body{
+      margin: 0px 0px 0px 0px;
+      padding: 0px 0px 0px 0px;
+      background: #a8bccb ;
+      text-align: left;
+   }
 body { margin: auto; background-color: #A8BCCB; /*background-image: url(images/background.png);*/ background-repeat: repeat-x; }
+
+td,th,input,textarea { color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; }
 img { border: 0px; }
 form { margin: 0; }
 hr { margin: 15px 0px 15px 0px; color: #003366; height: 1px; }
@@ -16,7 +32,7 @@ iframe { border: 1px solid #35373a; }
 div.box { width: 100%; margin: -10px 0 0 0; font-size: small; text-align: right; }
 .header { width: 900px; margin: 0 auto; }
 .container { width: 85%; margin: 0 auto; background: #fff url(images/bgtitle.png); background-repeat: repeat-x; }
-.content { padding: 20px; width: 98%; height: 280px; vertical-align: top; }
+.content { padding: 20px; width: 95%; height: 200px; margin: 0 auto; min-height: 300px;  vertical-align: top; }
 .current a, .current a:link, .current a:active, .current a:visited { background: #fff url(images/menuo.png); background-repeat: repeat-x; color: #fff; }
 .description { width: 240px; padding: 0px 0px 0px 3px; text-align: left; vertical-align: top; }
 .graphic { width: 50px; border: 4px solid #FDFDFD; padding-left: 3px; height: 50px; }
@@ -81,3 +97,71 @@ select option.disabled { color: #aaa; }
 .header_list_pubdate_start, .header_list_pubdate_end, .list_pubdate_start, .list_pubdate_end { width: 200px; text-align: left; }
 .right{ text-align: right; }
 .left{ text-align: left;  }
+
+div.content_box { position: relative; margin: 0px auto; }
+div.content_box form{background: transparent;  height: auto; }
+div.content_box fieldset { margin: 10px auto; }
+div.content_box legend {  color: #336699; font-size: 15px; font-weight:bold;padding: 0px 3px 0px 4px; }
+div.content_box label{ font-weight: 600; padding-left:4px; }
+div.content_box input{ width: 500px; }
+.be_section { border: 2px groove #6ea0d0; }
+
+
+.subcolumns { width: 100%; overflow: hidden; }
+.subcolumns_oldgecko { width: 100%; float: left; }
+
+.c10l, .c20l, .c25l, .c33l, .c40l, .c38l, .c50l, .c60l, .c62l, .c66l, .c75l, .c80l { float: left; }
+.c10r, .c20r, .c25r, .c33r, .c40r, .c38r, .c50r, .c60r, .c66r, .c62r, .c75r, .c80r { float: right; margin-left: -5px; }
+
+  .c10l, .c10r { width: 10%; }
+  .c20l, .c20r { width: 21%; line-height:2em;}
+  .c40l, .c40r { width: 40%; }
+  .c60l, .c60r { width: 60%; }
+  .c25l, .c25r { width: 25%; }
+  .c33l, .c33r { width: 33.333%; }
+  .c50l, .c50r { width: 50%; }
+  .c66l, .c66r { width: 66.666%; }
+  .c38l, .c38r { width: 38.2%; }
+  .c62l, .c62r { width: 61.8%; }
+  .subc { padding: 0 0.5em; }
+  .subcl { padding: 0 1em 0 0; }
+  .subcr { padding: 0 0 0 1em; }
+
+.c80l, .c80r, .c90l, .c90r { width: 80%; }
+.c75l, .c75r, .c80l, .c80r { width: 75%; }
+
+.info { padding: 10px; margin-bottom: 0.5em; background: #f8f8f8; color: #666; font-size: 91.7%; }
+.note { border: 2px #484 solid; padding: 10px;margin: 10px 10px 10px 270px; background: #efe; color: #040; }
+.important { border: 2px #884 solid; padding: 10px;  margin-bottom: 1em; background: #ffe; color: #440; }
+.warning { border: 2px #844 solid; padding: 10px; margin-bottom: 1em; background: #fee; color: #400; }
+
+.row_0 { background-color: transparent; }
+.row_1 { background-color: #ccddee; }
+
+#language,
+#timezone,
+#date_format,
+#time_format { min-width: 250px; }
+
+#display_name,
+#username,
+#email,
+#new_password_1,
+#new_password_2,
+#current_password { min-width: 250px;  }
+
+
+#submit,
+#reset { max-width: 100px; }
+
+	fieldset.be_section{
+      clear: both;
+      -moz-border-radius: 8px;
+      -khtml-border-radius: 8px;
+      -webkit-border-radius: 8px;
+      margin-top: 0.7em;
+      text-align: left;
+      background: #f5f5f5 none;
+   }
+
+.save_section { margin: 20px auto 5px auto; }

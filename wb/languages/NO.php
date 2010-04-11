@@ -503,6 +503,7 @@ $MESSAGE['PREFERENCES']['DETAILS_SAVED'] = 'Lykkes &aring; lagre detaljer';
 $MESSAGE['PREFERENCES']['EMAIL_UPDATED'] = 'Lykkes &aring; oppdatere e-post';
 $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'] = 'Passordet du skrev inn er ikke korrekt';
 $MESSAGE['PREFERENCES']['PASSWORD_CHANGED'] = 'Lykkes &aring; endre passord';
+$MESSAGE['PREFERENCES']['INVALID_CHARS'] = 'Invalid password chars used';
 
 $MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE'] = 'Merk: For &aring; endre malen m&aring; man gj&oslash;re dette i Instillinger seksjonen';
 
@@ -576,14 +577,14 @@ $MESSAGE['GENERIC']['WEBSITE_UNDER_CONSTRUCTION'] = 'Nettstedet er under konstru
 $MESSAGE['GENERIC']['PLEASE_CHECK_BACK_SOON'] = 'Vennligst kom tilbake p&aring; et annet tidspunkt...';
 $MESSAGE['GENERIC']['PLEASE_BE_PATIENT'] = 'Vennligst v&aelig;r t&aring;lmodig, dette kan ta en stund.';
 $MESSAGE['GENERIC']['ERROR_OPENING_FILE'] = 'Feil ved &aring;pningen av filen.';
-$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = 'Feil i WebsiteBaker installasjons filen. Vennligst sjekk formatet på *.zip filen.';
+$MESSAGE['GENERIC']['INVALID_ADDON_FILE'] = 'Feil i WebsiteBaker installasjons filen. Vennligst sjekk formatet pï¿½ *.zip filen.';
 $MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE'] = 'Feil i WebsiteBaker spr&aring;k filen. Vennligst sjekk tekst filen.';
 
 $MESSAGE['MOD_FORM']['REQUIRED_FIELDS'] = 'Du m&aring; skrive inn detaljer for f&oslash;lgende felt';
 $MESSAGE['MOD_FORM']['EXCESS_SUBMISSIONS'] = 'Beklager, dette skjemaet har blitt sendt for mange ganger denne timen. Vennligst pr&oslash;v igjen om en time.';
 $MESSAGE['MOD_FORM']['INCORRECT_CAPTCHA'] = 'Bekreftelsesnummeret (ogs&aring; kjent som Captcha) som du skrev inn er feil. Hvis du har problemer med &aring; lese Captcha, vennligst kontakt: '.SERVER_EMAIL.'';
 
-$MESSAGE['ADDON']['RELOAD'] = 'Oppdater databasen med innformasjon fra Tilleggs filen (for eksempel etter å ha lastet opp via FTP).';
+$MESSAGE['ADDON']['RELOAD'] = 'Oppdater databasen med innformasjon fra Tilleggs filen (for eksempel etter ï¿½ ha lastet opp via FTP).';
 $MESSAGE['ADDON']['ERROR_RELOAD'] = 'En feil oppstod under oppdateringen av Tilleggs innformasjonen.';
 $MESSAGE['ADDON']['MODULES_RELOADED'] = 'Lykkes i &aring; oppdatere moduler';
 $MESSAGE['ADDON']['TEMPLATES_RELOADED'] = 'Lykkes i &aring; oppdatere maler';

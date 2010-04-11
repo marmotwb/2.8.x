@@ -26,10 +26,13 @@ require_once(WB_PATH."/framework/class.wbmailer.php");
 
 class wb
 {
+
+	public $password_chars = 'a-zA-Z0-9\_\-\!\#\*\+';
 	// General initialization function 
 	// performed when frontend or backend is loaded.
 	function wb() {
 	}
+
 
 	// Check whether a page is visible or not.
 	// This will check page-visibility and user- and group-rights.
@@ -278,20 +281,28 @@ class wb
  *
  * requirements: an active session must be available
  */
-	public function getFTAN( $asTAG = true)
+	public function getFTAN( $as_tag = true)
 	{
 		if(function_exists('microtime'))
 		{
 			list($usec, $sec) = explode(" ", microtime());
-			$time = ((float)$usec + (float)$sec);
+			$time = (string)((float)$usec + (float)$sec);
 		}else{
-			$time = time();
+			$time = (string)time();
 		}
-		$ftan = md5(((string)$time).$_SERVER['SERVER_ADDR']);
+		$salt  = ( isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : '');
+		$salt .= ( isset($_SERVER['HTTP_ACCEPT_CHARSET']) ? $_SERVER['HTTP_ACCEPT_CHARSET'] : '');
+		$salt .= ( isset($_SERVER['HTTP_ACCEPT_ENCODING']) ? $_SERVER['HTTP_ACCEPT_ENCODING'] : '');
+		$salt .= ( isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '');
+		$salt .= ( isset($_SERVER['HTTP_CONNECTION']) ? $_SERVER['HTTP_CONNECTION'] : '');
+		$salt .= ( isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
+		$salt .= ( isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : '');
+		$salt  = ( $salt !== '' ) ? $salt : 'eXtremelyHotTomatoJuice';
+		$ftan = md5($time.$salt);
 		$_SESSION['FTAN'] = $ftan;
 		$ftan0 = 'a'.substr($ftan, -(10 + hexdec(substr($ftan, 1))), 10);
 		$ftan1 = 'a'.substr($ftan, hexdec(substr($ftan, -1)), 10);
-		if($asTAG == true)
+		if($as_tag == true)
 		{
 			return '<input type="hidden" name="'.$ftan0.'" value="'.$ftan1.'" title="" />';
 		}else{

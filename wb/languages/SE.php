@@ -503,6 +503,7 @@ $MESSAGE['PREFERENCES']['DETAILS_SAVED'] = 'Uppgifterna sparades';
 $MESSAGE['PREFERENCES']['EMAIL_UPDATED'] = 'E-postadressen uppdaterades';
 $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'] = 'Det (nuvarande) l&ouml;senordet du skrev &auml;r inte r&auml;tt';
 $MESSAGE['PREFERENCES']['PASSWORD_CHANGED'] = 'L&ouml;senordet &auml;ndrades';
+$MESSAGE['PREFERENCES']['INVALID_CHARS'] = 'Invalid password chars used';
 
 $MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE'] = 'Observera: f&ouml;r att &auml;ndra Mall, m&aring;ste du g&aring; till Sektionen Inst&auml;llningar';
 

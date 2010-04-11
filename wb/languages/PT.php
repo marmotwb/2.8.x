@@ -503,6 +503,7 @@ $MESSAGE['PREFERENCES']['DETAILS_SAVED'] = 'Detalhes armazenados  com sucesso';
 $MESSAGE['PREFERENCES']['EMAIL_UPDATED'] = 'Email atualizado com sucesso';
 $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'] = 'A senha(atual) informada n&atilde;o est&aacute; correta';
 $MESSAGE['PREFERENCES']['PASSWORD_CHANGED'] = 'Senha alterada com sucesso';
+$MESSAGE['PREFERENCES']['INVALID_CHARS'] = 'Invalid password chars used';
 
 $MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE'] = 'Aten&ccdil;&atilde;o: para alterar o tema (template) voc&ecirc; precisa ir at&eacute; a sess&atilde;o Configura&ccdil;&otilde;es';
 

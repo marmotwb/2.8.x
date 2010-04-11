@@ -11,6 +11,12 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+11-Apr-2010 Dietmar Woellbrink (Luisehahne)
+!	show_menu2 remove unneeded code for WB < 2.7
+!	class.wb.php, recoding backend preference
++	add a language variable $MESSAGE['PREFERENCES']['INVALID_CHARS']
+!	update theme.css for preference.htt in argos_theme & wb_theme
+!	remove classic_theme
 07-Apr-2010 Dietmar Woellbrink (Luisehahne)
 #	Ticket #971 Using $_POST in Admin - account - login.php (tks to Aldus)
 !	update class.wb.php added tokens function

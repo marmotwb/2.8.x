@@ -503,6 +503,7 @@ $MESSAGE['PREFERENCES']['DETAILS_SAVED'] = 'Pers&ouml;nliche Daten wurden erfolg
 $MESSAGE['PREFERENCES']['EMAIL_UPDATED'] = 'E-Mail Einstellung ge&auml;ndert';
 $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'] = 'Das alte Passwort, das Sie angegeben haben, ist ung&uuml;ltig';
 $MESSAGE['PREFERENCES']['PASSWORD_CHANGED'] = 'Das Passwort wurde erfolgreich ge&auml;ndert';
+$MESSAGE['PREFERENCES']['INVALID_CHARS'] = 'Es wurden ungültige Zeichen für des Passwort verwendet';
 
 $MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE'] = 'Bitte beachten Sie: Um eine andere Designvorlage auszuw&auml;hlen, benutzen Sie den Bereich "Optionen"';
 

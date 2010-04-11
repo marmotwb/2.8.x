@@ -503,6 +503,7 @@ $MESSAGE['PREFERENCES']['DETAILS_SAVED'] = 'Dettagli salvati';
 $MESSAGE['PREFERENCES']['EMAIL_UPDATED'] = 'Email aggiornata';
 $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'] = 'La password corrente inserita &egrave; errata';
 $MESSAGE['PREFERENCES']['PASSWORD_CHANGED'] = 'Password cambiata';
+$MESSAGE['PREFERENCES']['INVALID_CHARS'] = 'Invalid password chars used';
 
 $MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE'] = 'Per cambiare il Template andare alla sezione Impostazioni';
 
