@@ -9,7 +9,7 @@
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
- * @requirements    PHP 4.4.9 and higher
+ * @requirements    PHP 4.4.9 && higher
  * @version         $Id$
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
@@ -23,12 +23,13 @@
 // put all inside a function to prevent global vars
 function build_page( &$admin, &$database )
 {
+	global $HEADING, $TEXT;
 	include_once(WB_PATH.'/framework/functions-utf8.php');
 // Create new template object, assign template file, start main-block
 	$template = new Template( THEME_PATH.'/templates' );
 	$template->set_file( 'page', 'preferences.htt' );
 	$template->set_block( 'page', 'main_block', 'main' );
-// read user-info from table users and assign it to template
+// read user-info from table users && assign it to template
 	$sql  = 'SELECT `display_name`, `username`, `email` FROM `'.TABLE_PREFIX.'users` ';
 	$sql .= 'WHERE `user_id` = '.(int)$admin->get_user_id();
 	if( $res_user = $database->query($sql) )
@@ -41,7 +42,7 @@ function build_page( &$admin, &$database )
 			$template->set_var('ADMIN_URL',    ADMIN_URL);
 		}
 	}
-// read available languages from table addons and assign it to the template
+// read available languages from table addons && assign it to the template
 	$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';
 	$sql .= 'WHERE `type` = "language" ORDER BY `directory`';
 	if( $res_lang = $database->query($sql) )
@@ -75,8 +76,8 @@ function build_page( &$admin, &$database )
 		$format = str_replace('|', ' ', $format); // Add's white-spaces (not able to be stored in array key)
 		$template->set_var( 'VALUE', ($format != 'system_default' ? $format : 'system_default') );
 		$template->set_var( 'NAME',  $title );
-		if( (DATE_FORMAT == $format AND !isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) OR
-			('system_default' == $format AND isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) )
+		if( (DATE_FORMAT == $format && !isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) ||
+			('system_default' == $format && isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) )
 		{
 			$template->set_var('SELECTED', ' selected="selected"');
 		}else {
@@ -90,10 +91,10 @@ function build_page( &$admin, &$database )
 	foreach( $TIME_FORMATS AS $format => $title )
 	{
 		$format = str_replace('|', ' ', $format); // Add's white-spaces (not able to be stored in array key)
-		$template->set_var('VALUE', $format != 'system_default' ? $format : '' );
+		$template->set_var('VALUE', $format != 'system_default' ? $format : 'system_default' );
 		$template->set_var('NAME',  $title);
-		if( (TIME_FORMAT == $format AND !isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) OR
-		    ('system_default' == $format AND isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) )
+		if( (TIME_FORMAT == $format && !isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) ||
+		    ('system_default' == $format && isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) )
 		{
 			$template->set_var('SELECTED', ' selected="selected"');
 		} else {
@@ -113,7 +114,6 @@ function build_page( &$admin, &$database )
 	$template->set_var('FTAN', $admin->getFTAN());
 	$template->set_var('FORM_NAME', 'preferences_save');
 // assign language vars
-	global $HEADING, $TEXT;
 	$template->set_var(array( 'HEADING_MY_SETTINGS'      => $HEADING['MY_SETTINGS'],
                               'HEADING_MY_EMAIL'         => $HEADING['MY_EMAIL'],
                               'HEADING_MY_PASSWORD'      => $HEADING['MY_PASSWORD'],

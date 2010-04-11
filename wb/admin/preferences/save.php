@@ -47,17 +47,19 @@ function save_preferences( &$admin, &$database)
 	$timezone         = ( ($timezone >= -12 && $timezone <= 13) ? $timezone : -20 ) * 3600;
 // date_format must be a key from /interface/date_formats
 	$date_format      = $admin->get_post('date_format');
+	$date_format_key  = str_replace(' ', '|', $date_format);
 	$user_time = true;
 	include( ADMIN_PATH.'/interface/date_formats.php' );
-	$date_format = (array_key_exists($date_format, $DATE_FORMATS) ? $date_format :	$DATE_FORMATS['system_default']);
-	$date_format = ($DATE_FORMATS['system_default'] == $date_format ? '' : $date_format);
+	$date_format = (array_key_exists($date_format_key, $DATE_FORMATS) ? $date_format : 'system_default');
+	$date_format = ($date_format == 'system_default' ? '' : $date_format);
 	unset($DATE_FORMATS);
 // time_format must be a key from /interface/time_formats	
 	$time_format      = $admin->get_post('time_format');
+	$time_format_key  = str_replace(' ', '|', $time_format);
 	$user_time = true;
 	include( ADMIN_PATH.'/interface/time_formats.php' );
-	$time_format = (array_key_exists($time_format, $TIME_FORMATS) ? $time_format :	$TIME_FORMATS['system_default']);
-	$time_format = ($TIME_FORMATS['system_default'] == $time_format ? '' : $time_format);
+	$time_format = (array_key_exists($time_format_key, $TIME_FORMATS) ? $time_format : 'system_default');
+	$time_format = ($time_format == 'system_default' ? '' : $time_format);
 	unset($TIME_FORMATS);
 // email should be validatet by core
 	$email            = ( $admin->get_post('email') == null ? '' : $admin->get_post('email') );
