@@ -503,6 +503,7 @@ $MESSAGE['PREFERENCES']['DETAILS_SAVED'] = 'Dades desades amb &egrave;xit';
 $MESSAGE['PREFERENCES']['EMAIL_UPDATED'] = 'Correu actualitzat amb &egrave;xit';
 $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'] = 'La contrasenya (actual) que heu introdu&iuml;t &eacute;s incorrecta';
 $MESSAGE['PREFERENCES']['PASSWORD_CHANGED'] = 'Contrasenya canviada amb &egrave;xit';
+$MESSAGE['PREFERENCES']['INVALID_CHARS'] = 'Invalid password chars used';
 
 $MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE'] = 'Av&iacute;s: per a canviar la plantilla heu d\'anar a la secci&oacute; Par&agrave;metres';
 

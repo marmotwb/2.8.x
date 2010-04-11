@@ -503,6 +503,7 @@ $MESSAGE['PREFERENCES']['DETAILS_SAVED'] = 'Ayr&yacute;nt&yacute;lar, ba&thorn;a
 $MESSAGE['PREFERENCES']['EMAIL_UPDATED'] = 'Email, ba&thorn;ar&yacute;l&yacute; bir &thorn;ekilde g&uuml;ncelle&thorn;tirdi';
 $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'] = 'Girdi&eth;iniz &thorn;ifre yanl&yacute;&thorn;';
 $MESSAGE['PREFERENCES']['PASSWORD_CHANGED'] = 'Parola, ba&thorn;ar&yacute;l&yacute; bir &thorn;ekilde de&eth;i&thorn;tirdi';
+$MESSAGE['PREFERENCES']['INVALID_CHARS'] = 'Invalid password chars used';
 
 $MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE'] = 'Please note: to change the template you must go to the Settings section';
 

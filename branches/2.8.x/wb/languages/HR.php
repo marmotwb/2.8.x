@@ -503,6 +503,7 @@ $MESSAGE['PREFERENCES']['DETAILS_SAVED'] = 'Detalji su uspje&scaron;no snimljeni
 $MESSAGE['PREFERENCES']['EMAIL_UPDATED'] = 'Email je snimljen uspje&scaron;no';
 $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'] = 'Une&scaron;ena lozinka nije to&egrave;na';
 $MESSAGE['PREFERENCES']['PASSWORD_CHANGED'] = 'Lozinka je uspje&scaron;no izmjenjena';
+$MESSAGE['PREFERENCES']['INVALID_CHARS'] = 'Invalid password chars used';
 
 $MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE'] = 'Obavijest: Za promjenu predlo&scaron;ka idite na dio s Postavkama';
 

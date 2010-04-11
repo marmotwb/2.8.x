@@ -503,6 +503,7 @@ $MESSAGE['PREFERENCES']['DETAILS_SAVED'] = 'Detailid edukalt salvestatud';
 $MESSAGE['PREFERENCES']['EMAIL_UPDATED'] = 'Email edukalt uuendatud';
 $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'] = 'Pragune parool mida sa sisestasid on vigane';
 $MESSAGE['PREFERENCES']['PASSWORD_CHANGED'] = 'Parool edukalt muudetud';
+$MESSAGE['PREFERENCES']['INVALID_CHARS'] = 'Invalid password chars used';
 
 $MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE'] = 'M&auml;rge: kujunduse muutmiseks sa pead minema Seadete sektsiooni';
 

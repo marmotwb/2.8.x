@@ -503,6 +503,7 @@ $MESSAGE['PREFERENCES']['DETAILS_SAVED'] = 'Detalas tika veiksmigi noglabatas';
 $MESSAGE['PREFERENCES']['EMAIL_UPDATED'] = 'E-pasta adrese tika veiksmigi atjauninata';
 $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'] = 'Ievadita (eso&scaron;a) parole nav pareiza';
 $MESSAGE['PREFERENCES']['PASSWORD_CHANGED'] = 'Parole veiksmigi nomainita';
+$MESSAGE['PREFERENCES']['INVALID_CHARS'] = 'Invalid password chars used';
 
 $MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE'] = 'Ludzu iegaume: lai mainitu &scaron;ablonu, jadotas uz iestatijumu sadalu';
 

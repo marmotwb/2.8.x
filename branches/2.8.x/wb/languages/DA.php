@@ -503,6 +503,7 @@ $MESSAGE['PREFERENCES']['DETAILS_SAVED'] = 'Oplysningerne er gemt';
 $MESSAGE['PREFERENCES']['EMAIL_UPDATED'] = 'Email-adresse opdateret';
 $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'] = 'Den (nuv&aelig;rende) adgangskode som du indtastede er ikke korrekt';
 $MESSAGE['PREFERENCES']['PASSWORD_CHANGED'] = 'Adgangskode &aelig;ndret';
+$MESSAGE['PREFERENCES']['INVALID_CHARS'] = 'Invalid password chars used';
 
 $MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE'] = 'OBS: For at &aelig;ndre skabelonen skal du g&aring; til punktet indstillinger';
 

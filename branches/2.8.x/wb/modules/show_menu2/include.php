@@ -365,7 +365,7 @@ class SM2_Formatter
             $this->output($this->itemClose);
         }
     }
-    
+
     // finish the current menu
     function finishList() {
         $this->prettyLevel -= 3;
@@ -449,7 +449,7 @@ function show_menu2(
     $CURR_PAGE_ID = defined('REFERRER_ID') ? REFERRER_ID : PAGE_ID;
     if (count($wb->page) == 0 && defined('REFERRER_ID') && REFERRER_ID > 0) {
         global $database;
-        $sql = "SELECT * FROM ".TABLE_PREFIX."pages WHERE page_id = '".REFERRER_ID."'";
+        $sql = 'SELECT * FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.REFERRER_ID.'';
         $result = $database->query($sql);
         if ($result->numRows() == 1) {
             $wb->page = $result->fetchRow();
@@ -520,15 +520,9 @@ function show_menu2(
         if ($flags & SM2_ALLINFO) {
             $fields = '*';
         }
-        
-        // get this once for performance. We really should be calling only need to
-        // call $wb->get_group_id() but that outputs a warning notice if the 
-        // groupid isn't set in the session, so we check it first here.
-        $currGroup = array_key_exists('GROUP_ID', $_SESSION) ? 
-            ','.$wb->get_group_id().',' : 'NOGROUP';
-        
-        // we request all matching rows from the database for the menu that we 
-        // are about to create it is cheaper for us to get everything we need 
+
+        // we request all matching rows from the database for the menu that we
+        // are about to create it is cheaper for us to get everything we need
         // from the database once and create the menu from memory then make 
         // multiple calls to the database. 
         $sql = "SELECT $fields FROM ".TABLE_PREFIX.
@@ -554,17 +548,6 @@ function show_menu2(
 
                     // 3. all pages not visible to this user (unless always visible to registered users) are ignored
                     else if (!$wb->page_is_visible($page) && $page['visibility'] != 'registered') {
-                        continue;
-                    }
-                }
-                else {  // WB < 2.7
-                    // We can't do this in SQL as the viewing_groups column contains multiple 
-                    // values which are hard to process correctly in SQL. Essentially we add the
-                    // following limit to the SQL query above:
-                    //  (visibility <> "private" OR $wb->get_group_id() IN viewing_groups)
-                    if ($page['visibility'] == 'private' 
-                        && false === strstr(",{$page['viewing_groups']},", $currGroup)) 
-                    {
                         continue;
                     }
                 }

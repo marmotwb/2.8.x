@@ -503,6 +503,7 @@ $MESSAGE['PREFERENCES']['DETAILS_SAVED'] = 'Tiedot tallennettu';
 $MESSAGE['PREFERENCES']['EMAIL_UPDATED'] = 'S&auml;hp&ouml;stiosoite p&auml;ivitetty';
 $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'] = 'Nykyinen salasana v&auml;&auml;r&auml;';
 $MESSAGE['PREFERENCES']['PASSWORD_CHANGED'] = 'Salasanan vaiho onnistui';
+$MESSAGE['PREFERENCES']['INVALID_CHARS'] = 'Invalid password chars used';
 
 $MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE'] = 'Sivupohjan voi vaihtaa asetukset-kohdasta';
 

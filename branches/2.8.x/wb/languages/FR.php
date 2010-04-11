@@ -429,8 +429,8 @@ $TEXT['INSTALLED'] = "install&eacute;";
 $TEXT['NOT_INSTALLED'] = "non install&eacute;";
 $TEXT['ADDON'] = "Extension";
 $TEXT['EXTENSION'] = "Extension";
-$TEXT['UNZIP_FILE'] = "Uploader et décompresser l&apos;archive zip";
-$TEXT['DELETE_ZIP'] = "Effacer l&apos;archive zip après décompression";
+$TEXT['UNZIP_FILE'] = "Uploader et dï¿½compresser l&apos;archive zip";
+$TEXT['DELETE_ZIP'] = "Effacer l&apos;archive zip aprï¿½s dï¿½compression";
 
 // Success/error messages
 $MESSAGE['FRONTEND']['SORRY_NO_VIEWING_PERMISSIONS'] = 'D&eacute;sol&eacute;, vous n&apos;avez pas les droits pour visualiser cette page';
@@ -503,6 +503,7 @@ $MESSAGE['PREFERENCES']['DETAILS_SAVED'] = 'Donn&eacute;es sauvegard&eacute;es a
 $MESSAGE['PREFERENCES']['EMAIL_UPDATED'] = 'Adresse email sauvegard&eacute;e avec succ&egrave;s';
 $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'] = 'Le mot de passe entr&eacute; est incorrect';
 $MESSAGE['PREFERENCES']['PASSWORD_CHANGED'] = 'Mot de passe modifi&eacute; avec succ&egrave;s';
+$MESSAGE['PREFERENCES']['INVALID_CHARS'] = 'Invalid password chars used';
 
 $MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE'] = 'Pour modifier le th&egrave;me du site, vous devez vous rendre dans la rubrique R&eacute;glages';
 
@@ -568,7 +569,7 @@ $MESSAGE['GENERIC']['BAD_PERMISSIONS'] = 'Impossible d&apos;&eacute;crire dans l
 $MESSAGE['GENERIC']['INVALID'] = 'Le fichier charg&eacute; est invalide';
 $MESSAGE['GENERIC']['CANNOT_UNINSTALL_IN_USE'] = 'D&eacute;sinstallation impossible : fichier en cours d&apos;utilisation';
 
-$MESSAGE['GENERIC']['CANNOT_UNINSTALL_IN_USE_TMPL'] = "<br /><br />{{type}} <b>{{type_name}}</b> ne peut pas &ecirc;tre déinstall&eacute; car il est actuellement en cours d'utilisation dans les pages {{pages}}.<br /><br />";
+$MESSAGE['GENERIC']['CANNOT_UNINSTALL_IN_USE_TMPL'] = "<br /><br />{{type}} <b>{{type_name}}</b> ne peut pas &ecirc;tre dï¿½install&eacute; car il est actuellement en cours d'utilisation dans les pages {{pages}}.<br /><br />";
 $MESSAGE['GENERIC']['CANNOT_UNINSTALL_IN_USE_TMPL_PAGES'] = "cette page;ces pages";
 $MESSAGE['GENERIC']['CANNOT_UNINSTALL_IS_DEFAULT_TEMPLATE'] = "Impossible de d&eacute;sinstaller le mod&egrave;le <b>{{name}}</b> parce que c'est le mod&egrave;le par d&eacute;faut !";
 
