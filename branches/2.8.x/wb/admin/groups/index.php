@@ -121,7 +121,7 @@ if($admin->get_permission('groups_add') != true) {
 
 // Insert values into module list
 $template->set_block('main_block', 'module_list_block', 'module_list');
-$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'module' AND function = 'page'");
+$result = $database->query('SELECT * FROM `'.TABLE_PREFIX.'addons` WHERE `type` = "module" AND `function` = "page" ORDER BY `name`');
 if($result->numRows() > 0) {
 	while($addon = $result->fetchRow()) {
 		$template->set_var('VALUE', $addon['directory']);
@@ -132,7 +132,7 @@ if($result->numRows() > 0) {
 
 // Insert values into template list
 $template->set_block('main_block', 'template_list_block', 'template_list');
-$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'template'");
+$result = $database->query('SELECT * FROM `'.TABLE_PREFIX.'addons` WHERE `type` = "template" ORDER BY `name`');
 if($result->numRows() > 0) {
 	while($addon = $result->fetchRow()) {
 		$template->set_var('VALUE', $addon['directory']);
