@@ -144,7 +144,7 @@ class login extends admin {
 	function authenticate() {
 		// Get user information
 		$database = new database();
-		$query = "SELECT * FROM ".$this->USERS_TABLE." WHERE username = '".$this->username."' AND password = '".$this->password."' AND active = '1'";
+		$query = 'SELECT * FROM `'.$this->USERS_TABLE.'` WHERE MD5(`username`) = "'.md5($this->username).'" AND `password` = "'.$this->password.'" AND `active` = 1';
 		$results = $database->query($query);
 		$results_array = $results->fetchRow();
 		$num_rows = $results->numRows();
