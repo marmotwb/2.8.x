@@ -11,8 +11,8 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 4.3.4 and higher
  * @version      	$Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date: $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 
@@ -90,7 +90,7 @@ function change_os(type) {
 </head>
 <body>
 
-<table cellpadding="0" cellspacing="0" border="0" width="750" align="center">
+<table cellpadding="0" cellspacing="0" border="0" width="850" align="center">
 <tr>
 	<td width="60" valign="top">
 		<img src="../templates/wb_theme/images/logo.png" alt="Logo" />
@@ -108,7 +108,7 @@ function change_os(type) {
 <input type="hidden" name="password_fieldname" value="admin_password" />
 <input type="hidden" name="remember" id="remember" value="true" />
 
-<table cellpadding="0" cellspacing="0" border="0" width="750" align="center" style="margin-top: 10px;">
+<table cellpadding="0" cellspacing="0" border="0" width="850" align="center" style="margin-top: 10px;">
 <tr>
 	<td class="content">
 	
@@ -131,11 +131,11 @@ function change_os(type) {
 		</tr>
 		<?php } ?>
 		<tr>
-			<td width="160" style="color: #666666;">PHP Version > 4.1.0</td>
+			<td width="160" style="color: #666666;">PHP Version > 4.4.9</td>
 			<td width="60">
 				<?php
-				$phpversion = substr(PHP_VERSION, 0, 6);
-				if($phpversion > 4.1) {
+			   if (version_compare(PHP_VERSION, '4.4.9', '>='))
+			   {
 					?><font class="good">Yes</font><?php
 				} else {
 					?><font class="bad">No</font><?php
@@ -151,7 +151,7 @@ function change_os(type) {
 					?><font class="good">Disabled</font><?php
 				} else {
 					?><font class="bad">Enabled</font><?php
-				}	
+				}
 				?>
 			</td>
 		</tr>
@@ -167,6 +167,17 @@ function change_os(type) {
 				?>
 			</td>
 			<td colspan="4">&nbsp;</td>
+        <?php if (version_compare(PHP_VERSION, '5.2.1', '<')){ ?>
+		<tr>
+        	<td colspan="7">
+            <div class="warning">
+			<p>Your current PHP Version is: <?php print PHP_VERSION;  ?></p><h4>Please upgrade your Hosting to PHP Version 5.2.1 or higher</h4>
+			<p>PHP 4 is no longer under development nor will any security updates be released.</p>
+
+			</div>
+			</td>
+		</tr>
+        <?php } ?>
 		</tr>
 		<?php if($e_adc) { ?>
 		<tr>
