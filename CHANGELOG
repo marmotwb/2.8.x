@@ -12,6 +12,11 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 11-Apr-2010 Dietmar Woellbrink (Luisehahne)
+#	Ticket #978 Add additional PHP 5.2 check to installation
+#	Ticket #979 False PHP 4 requirements in install
+#	Ticket #980 Usebility - Bug in the settings-interface
+#	Ticket #981 typos in backend-theme "argos" in file groups.htt
+11-Apr-2010 Dietmar Woellbrink (Luisehahne)
 #	fix ticket #975 some weird /pages/ header infos
 11-Apr-2010 Dietmar Woellbrink (Luisehahne)
 !	little fixes for backwards compatible PHP4, pls test

@@ -131,7 +131,7 @@ div.content_box input{ width: 500px; }
 .c75l, .c75r, .c80l, .c80r { width: 75%; }
 
 .info { padding: 10px; margin-bottom: 0.5em; background: #f8f8f8; color: #666; font-size: 91.7%; }
-.note { border: 2px #484 solid; padding: 10px;margin: 10px 10px 10px 270px; background: #efe; color: #040; }
+.note { border: 2px #484 solid; padding: 10px;margin: 10px auto; background: #efe; color: #040; }
 .important { border: 2px #884 solid; padding: 10px;  margin-bottom: 1em; background: #ffe; color: #440; }
 .warning { border: 2px #844 solid; padding: 10px; margin-bottom: 1em; background: #fee; color: #400; }
 

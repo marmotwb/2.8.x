@@ -388,8 +388,7 @@
 			<label for="world_writeable">
 				{TEXT_WORLD_WRITEABLE_FILE_PERMISSIONS} (777)
 			</label>
-			<br />
-			<font class="note">({WORLD_WRITEABLE_WARNING})</font>
+			<span class="warning">({WORLD_WRITEABLE_WARNING})</span>
 		</div>
 		<div id="{BASIC_FILE_PERMS_ID}3" style="margin: 0; padding: 0;"></div>
 	</td>
