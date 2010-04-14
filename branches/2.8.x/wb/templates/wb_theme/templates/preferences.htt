@@ -5,7 +5,7 @@
 		<fieldset class="be_section">
 			<legend class="content_legend">{HEADING_MY_SETTINGS}</legend>
 			<div class="subcolumns">
-				<div class="c20l">
+				<div class="c25l">
 					<label>{TEXT_DISPLAY_NAME}:</label><br />
 				</div>
 				<div class="c60l">
@@ -16,7 +16,7 @@
 				</div>
 			</div>
 			<div class="subcolumns">
-				<div class="c20l">
+				<div class="c25l">
 					<label>{TEXT_USERNAME}:</label><br />
 				</div>
 				<div class="c60l">
@@ -27,7 +27,7 @@
 				</div>
 			</div>
 			<div class="subcolumns">
-				<div class="c20l">
+				<div class="c25l">
 					<label>{TEXT_LANGUAGE}:</label><br />
 				</div>
 				<div class="c60l">
@@ -39,7 +39,7 @@
 				</div>
 			</div>
 			<div class="subcolumns">
-				<div class="c20l">
+				<div class="c25l">
 					<label>{TEXT_TIMEZONE}:</label><br />
 				</div>
 				<div class="c60l">
@@ -51,7 +51,7 @@
 				</div>
 			</div>
 			<div class="subcolumns">
-				<div class="c20l">
+				<div class="c25l">
 					<label>{TEXT_DATE_FORMAT}:</label><br />
 				</div>
 				<div class="c60l">
@@ -63,7 +63,7 @@
 				</div>
 			</div>
 			<div class="subcolumns">
-				<div class="c20l">
+				<div class="c25l">
 					<label>{TEXT_TIME_FORMAT}:</label><br />
 				</div>
 				<div class="c60l">
@@ -78,7 +78,7 @@
 		<fieldset class="be_section">
 			<legend class="content_legend">{HEADING_MY_EMAIL}</legend>
 			<div class="subcolumns">
-				<div class="c20l">
+				<div class="c25l">
 					<label>{TEXT_EMAIL}:</label><br />
 				</div>
 				<div class="c60l">
@@ -89,7 +89,7 @@
 		<fieldset class="be_section">
 			<legend class="content_legend">{HEADING_MY_PASSWORD}</legend>
 			<div class="subcolumns">
-				<div class="c20l">
+				<div class="c25l">
 					<label>{TEXT_NEW_PASSWORD}:</label><br />
 				</div>
 				<div class="c60l">
@@ -97,7 +97,7 @@
 				</div>
 			</div>
 			<div class="subcolumns">
-				<div class="c20l">
+				<div class="c25l">
 					<label>{TEXT_RETYPE_NEW_PASSWORD}:</label><br />
 				</div>
 				<div class="c60l">
@@ -106,21 +106,21 @@
 			</div>
 		</fieldset>
 		<fieldset class="be_section">
-			<legend class="content_legend">&nbsp;</legend>
+			<legend class="content_legend">{TEXT_SAVE}</legend>
 			<div class="subcolumns">
-				<div class="c20l">
-					<label>{TEXT_CURRENT_PASSWORD}:</label><br />
+				<div class="c25l">
+					<label>{TEXT_NEED_CURRENT_PASSWORD}:</label><br />
 				</div>
 				<div class="c60l">
 					<input type="password" id="current_password" name="current_password" value="{EMPTY_STRING}" /><br />
 				</div>
 			</div>
 			<div class="subcolumns save_section">
-				<div class="c20l">
+				<div class="c25l">
 					<input type="submit" id="submit" name="submit" value="{TEXT_SAVE}" />
-				</div>
-				<div class="c20l">
 					<input type="reset" id="reset" name="reset" value="{TEXT_RESET}" />
+				</div>
+				<div class="c25l">
 				</div>
 			</div>
 		</fieldset>

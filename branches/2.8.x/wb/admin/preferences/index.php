@@ -9,7 +9,7 @@
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
- * @requirements    PHP 4.4.9 && higher
+ * @requirements    PHP 4.4.9 and higher
  * @version         $Id$
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
@@ -29,7 +29,7 @@ function build_page( &$admin, &$database )
 	$template = new Template( THEME_PATH.'/templates' );
 	$template->set_file( 'page', 'preferences.htt' );
 	$template->set_block( 'page', 'main_block', 'main' );
-// read user-info from table users && assign it to template
+// read user-info from table users and assign it to template
 	$sql  = 'SELECT `display_name`, `username`, `email` FROM `'.TABLE_PREFIX.'users` ';
 	$sql .= 'WHERE `user_id` = '.(int)$admin->get_user_id();
 	if( $res_user = $database->query($sql) )
@@ -42,7 +42,7 @@ function build_page( &$admin, &$database )
 			$template->set_var('ADMIN_URL',    ADMIN_URL);
 		}
 	}
-// read available languages from table addons && assign it to the template
+// read available languages from table addons and assign it to the template
 	$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';
 	$sql .= 'WHERE `type` = "language" ORDER BY `directory`';
 	if( $res_lang = $database->query($sql) )
@@ -76,8 +76,8 @@ function build_page( &$admin, &$database )
 		$format = str_replace('|', ' ', $format); // Add's white-spaces (not able to be stored in array key)
 		$template->set_var( 'VALUE', ($format != 'system_default' ? $format : 'system_default') );
 		$template->set_var( 'NAME',  $title );
-		if( (DATE_FORMAT == $format && !isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) ||
-			('system_default' == $format && isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) )
+		if( (DATE_FORMAT == $format AND !isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) OR
+			('system_default' == $format AND isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) )
 		{
 			$template->set_var('SELECTED', ' selected="selected"');
 		}else {
@@ -93,8 +93,8 @@ function build_page( &$admin, &$database )
 		$format = str_replace('|', ' ', $format); // Add's white-spaces (not able to be stored in array key)
 		$template->set_var('VALUE', $format != 'system_default' ? $format : 'system_default' );
 		$template->set_var('NAME',  $title);
-		if( (TIME_FORMAT == $format && !isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) ||
-		    ('system_default' == $format && isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) )
+		if( (TIME_FORMAT == $format AND !isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) OR
+		    ('system_default' == $format AND isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) )
 		{
 			$template->set_var('SELECTED', ' selected="selected"');
 		} else {
@@ -129,6 +129,9 @@ function build_page( &$admin, &$database )
                               'TEXT_CURRENT_PASSWORD'    => $TEXT['CURRENT_PASSWORD'],
                               'TEXT_NEW_PASSWORD'        => $TEXT['NEW_PASSWORD'],
                               'TEXT_RETYPE_NEW_PASSWORD' => $TEXT['RETYPE_NEW_PASSWORD'],
+							  'TEXT_NEW_PASSWORD'        => $TEXT['NEW_PASSWORD'],
+                              'TEXT_RETYPE_NEW_PASSWORD' => $TEXT['RETYPE_NEW_PASSWORD'],
+							  'TEXT_NEED_CURRENT_PASSWORD' => $TEXT['NEED_CURRENT_PASSWORD'],
 	                          'EMPTY_STRING'             => ''
                             )
                       );
