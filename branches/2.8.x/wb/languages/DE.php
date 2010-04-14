@@ -432,7 +432,7 @@ $TEXT['ADDON'] = "Addon";
 $TEXT['EXTENSION'] = "Extension";
 $TEXT['UNZIP_FILE'] = "Zip-Archiv hochladen und entpacken";
 $TEXT['DELETE_ZIP'] = "Zip-Archiv nach dem entpacken l&ouml;schen";
-$TEXT['NEED_CURRENT_PASSWORD'] ='mit aktuellem Passwort bestätigen';
+$TEXT['NEED_CURRENT_PASSWORD'] ='mit aktuellem Passwort best&auml;tigen';
 
 // Success/error messages
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Sie sind nicht berechtigt, diese Seite zu sehen';
@@ -460,7 +460,7 @@ Ihre Logindaten f&uuml;r '{LOGIN_WEBSITE_TITLE}' lauten:
 Benutzername: {LOGIN_NAME}
 Passwort: Registrierungspasswort
 
-Vielen Dank für Ihre Registrierung
+Vielen Dank f&uuml;r Ihre Registrierung
 
 Wenn Sie dieses E-Mail versehentlich erhalten haben, l&ouml;schen Sie bitte diese E-Mail.
 ----------------------------------------
@@ -528,7 +528,7 @@ $MESSAGE['PREFERENCES_DETAILS_SAVED'] = 'Pers&ouml;nliche Daten wurden erfolgrei
 $MESSAGE['PREFERENCES_EMAIL_UPDATED'] = 'E-Mail Einstellung ge&auml;ndert';
 $MESSAGE['PREFERENCES_CURRENT_PASSWORD_INCORRECT'] = 'Das alte Passwort, das Sie angegeben haben, ist ung&uuml;ltig';
 $MESSAGE['PREFERENCES_PASSWORD_CHANGED'] = 'Das Passwort wurde erfolgreich ge&auml;ndert';
-$MESSAGE['PREFERENCES_INVALID_CHARS'] = 'Es wurden ungültige Zeichen für des Passwort verwendet';
+$MESSAGE['PREFERENCES_INVALID_CHARS'] = 'Es wurden ung&uuml;ltige Zeichen f&uuml;r des Passwort verwendet';
 
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Bitte beachten Sie: Um eine andere Designvorlage auszuw&auml;hlen, benutzen Sie den Bereich "Optionen"';
 
