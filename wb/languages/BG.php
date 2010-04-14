@@ -450,7 +450,7 @@ $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = '&#1053;&#1077;&#1082;&#1086;&#1088;&#
 
 $MESSAGE['SIGNUP_NO_EMAIL'] = '&#1058;&#1088;&#1103;&#1073;&#1074;&#1072; &#1076;&#1072; &#1074;&#1098;&#1074;&#1077;&#1076;&#1077;&#1090;&#1077; e-mail &#1072;&#1076;&#1088;&#1077;&#1089;';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
-$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = <<< EOT
+$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = "
  Hello {LOGIN_DISPLAY_NAME},
 
  You are welcome to our {LOGIN_WEBSITE_TITLE}.
@@ -460,9 +460,9 @@ $MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = <<< EOT
  Password: {LOGIN_PASSWORD}
 
  If you have received this message in error, please delete it immediately.
- EOT;
+";
 
-$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = <<< EOT
+$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = "
 Hello {LOGIN_DISPLAY_NAME},
 
 Your '{LOGIN_WEBSITE_TITLE}' login details are:
@@ -473,7 +473,7 @@ Your password has been set to the one above.
 This means that your old password will no longer work.
 
 If you have received this message in error, please delete it immediately.
-EOT;
+";
 
 $MESSAGE['FORGOT_PASS_NO_DATA'] = '&#1042;&#1098;&#1074;&#1077;&#1076;&#1077;&#1090;&#1077; email &#1072;&#1076;&#1088;&#1077;&#1089;';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = '&#1042;&#1098;&#1074;&#1077;&#1076;&#1077;&#1085;&#1080;&#1103; email &#1085;&#1077; &#1077; &#1074; &#1073;&#1072;&#1079;&#1072;&#1090;&#1072; &#1076;&#1072;&#1085;&#1085;&#1080;';

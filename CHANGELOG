@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+14-Apr-2010 Dietrich Roland Pehlke (Aldus)
+#	Ticket #982 - Wrong use of heredoc-syntax in some language-files (BG, CS and HR) breaks the installation-process.
 14-Apr-2010 Dietmar Woellbrink (Luisehahne)
 #	Ticket #974 Usability bug in /preferences
 14-Apr-2010 Dietmar Woellbrink (Luisehahne)
