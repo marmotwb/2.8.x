@@ -450,30 +450,44 @@ $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Brukernavnet eller passordet er feil'
 
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Du m&aring; skrive inn en e-post adresse';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Dine p&aring;-loggings detaljer...';
-$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = <<< EOT
- Hello {LOGIN_DISPLAY_NAME},
+$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = "
+Hello {LOGIN_DISPLAY_NAME},
 
- You are welcome to our {LOGIN_WEBSITE_TITLE}.
+Welcome to our '{LOGIN_WEBSITE_TITLE}'.
 
- Your '{LOGIN_WEBSITE_TITLE}' login details are:
- Username: {LOGIN_NAME}
- Password: {LOGIN_PASSWORD}
+Your '{LOGIN_WEBSITE_TITLE}' login details are:
+Username: {LOGIN_NAME}
+Password: {LOGIN_PASSWORD}
 
- If you have received this message in error, please delete it immediately.
-EOT;
+Regards
 
-$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = <<< EOT
-Hei {LOGIN_DISPLAY_NAME},
+Please:
+if you have received this message by an error, please delete it immediately!
+-------------------------------------
+This message was automatic generated!
+";
 
-Dine p&aring;-loggings detaljer for '{LOGIN_WEBSITE_TITLE}' er:
-Brukernavn: {LOGIN_NAME}
-Passord: {LOGIN_PASSWORD}
+$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = "
+Hello {LOGIN_DISPLAY_NAME},
 
-Dit passord er sendt til e-postadressen over.
-Dette betyr at ditt tidligere passord ikke er gyldig lenger.
+This mail was sent because the 'forgot password' function has been applied to your account.
 
-Hvis du har mottatt denne e-posten ved en feil, v&aelig;r vennlig &aring; slette den med en gang.
-EOT;
+Your new '{LOGIN_WEBSITE_TITLE}' login details are:
+
+Username: {LOGIN_NAME}
+Password: {LOGIN_PASSWORD}
+
+Your password has been reset to the one above.
+This means that your old password will no longer work anymore!
+If you've got any questions or problems within the new login-data
+you should contact the website-team or the admin of '{LOGIN_WEBSITE_TITLE}'.
+Please remember to clean you browser-cache before using the new one to avoid unexpected fails.
+
+Regards
+------------------------------------
+This message was automatic generated
+
+";
 
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Vennligst skriv e-post adressen nedenfor';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'E-post adressen ble ikke funnet i databasen';

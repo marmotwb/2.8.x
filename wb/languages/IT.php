@@ -449,31 +449,44 @@ $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Password troppo lunga';
 $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Username o password errati';
 
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Deve inserire un indirizzo di email';
-$MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
- $MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = <<< EOT
- Hello {LOGIN_DISPLAY_NAME},
-
- You are welcome to our {LOGIN_WEBSITE_TITLE}.
-
- Your '{LOGIN_WEBSITE_TITLE}' login details are:
- Username: {LOGIN_NAME}
- Password: {LOGIN_PASSWORD}
-
- If you have received this message in error, please delete it immediately.
-EOT;
-
- $MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = <<< EOT
+$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = "
 Hello {LOGIN_DISPLAY_NAME},
+
+Welcome to our '{LOGIN_WEBSITE_TITLE}'.
 
 Your '{LOGIN_WEBSITE_TITLE}' login details are:
 Username: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
-Your password has been set to the one above.
-This means that your old password will no longer work.
+Regards
 
-If you have received this message in error, please delete it immediately.
-EOT;
+Please:
+if you have received this message by an error, please delete it immediately!
+-------------------------------------
+This message was automatic generated!
+";
+
+$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = "
+Hello {LOGIN_DISPLAY_NAME},
+
+This mail was sent because the 'forgot password' function has been applied to your account.
+
+Your new '{LOGIN_WEBSITE_TITLE}' login details are:
+
+Username: {LOGIN_NAME}
+Password: {LOGIN_PASSWORD}
+
+Your password has been reset to the one above.
+This means that your old password will no longer work anymore!
+If you've got any questions or problems within the new login-data
+you should contact the website-team or the admin of '{LOGIN_WEBSITE_TITLE}'.
+Please remember to clean you browser-cache before using the new one to avoid unexpected fails.
+
+Regards
+------------------------------------
+This message was automatic generated
+
+";
 
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Prego inserire email';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'L\'Email inserita non &egrave; stata trovata nel database';
@@ -621,9 +634,8 @@ $MESSAGE['LOGIN']['USERNAME_TOO_LONG']  = $MESSAGE['LOGIN_USERNAME_TOO_LONG'] ;
 $MESSAGE['LOGIN']['PASSWORD_TOO_LONG']  = $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] ;
 $MESSAGE['LOGIN']['AUTHENTICATION_FAILED']  = $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] ;
 $MESSAGE['SIGNUP']['NO_EMAIL']  = $MESSAGE['SIGNUP_NO_EMAIL'] ;
-$MESSAGE['SIGNUP2']['SUBJECT_LOGIN_INFO']  = $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] ;
- $MESSAGE['SIGNUP2']['BODY_LOGIN_INFO']  =  $MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] ;
- $MESSAGE['SIGNUP2']['BODY_LOGIN_FORGOT']  =  $MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] ;
+$MESSAGE['SIGNUP2']['BODY_LOGIN_INFO']  = $MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] ;
+$MESSAGE['SIGNUP2']['BODY_LOGIN_FORGOT']  = $MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] ;
 $MESSAGE['FORGOT_PASS']['NO_DATA']  = $MESSAGE['FORGOT_PASS_NO_DATA'] ;
 $MESSAGE['FORGOT_PASS']['EMAIL_NOT_FOUND']  = $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] ;
 $MESSAGE['FORGOT_PASS']['CANNOT_EMAIL']  = $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] ;

@@ -452,30 +452,44 @@ $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Felhasználónév vagy a jelszó nem 
 
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'E-mail címet meg kell adnia';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Bejelentkezési részletek...';
-$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = <<< EOT
- Hello {LOGIN_DISPLAY_NAME},
+$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = "
+Hello {LOGIN_DISPLAY_NAME},
 
- You are welcome to our {LOGIN_WEBSITE_TITLE}.
+Welcome to our '{LOGIN_WEBSITE_TITLE}'.
 
- Your '{LOGIN_WEBSITE_TITLE}' login details are:
- Username: {LOGIN_NAME}
- Password: {LOGIN_PASSWORD}
+Your '{LOGIN_WEBSITE_TITLE}' login details are:
+Username: {LOGIN_NAME}
+Password: {LOGIN_PASSWORD}
 
- If you have received this message in error, please delete it immediately.
-EOT;
+Regards
 
-$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = <<< EOT
-¤vözöllek {LOGIN_DISPLAY_NAME},
+Please:
+if you have received this message by an error, please delete it immediately!
+-------------------------------------
+This message was automatic generated!
+";
 
-A te belépésed a(z) '{LOGIN_WEBSITE_TITLE}' oldalra az alábbiak:
-Felhasználónév: {LOGIN_NAME}
-Jelszó: {LOGIN_PASSWORD}
+$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = "
+Hello {LOGIN_DISPLAY_NAME},
 
-A jelszavadat elküldük az email címedre.
-Ez azt jelenti, hogy a régi jelszavad már nem használható.
+This mail was sent because the 'forgot password' function has been applied to your account.
 
-Ha nem te kérted a jelszó változtatást, akkor kérlek töröld ezt az emailt.
-EOT;
+Your new '{LOGIN_WEBSITE_TITLE}' login details are:
+
+Username: {LOGIN_NAME}
+Password: {LOGIN_PASSWORD}
+
+Your password has been reset to the one above.
+This means that your old password will no longer work anymore!
+If you've got any questions or problems within the new login-data
+you should contact the website-team or the admin of '{LOGIN_WEBSITE_TITLE}'.
+Please remember to clean you browser-cache before using the new one to avoid unexpected fails.
+
+Regards
+------------------------------------
+This message was automatic generated
+
+";
 
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Kérem írja be az E-mail címét';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'Az ® által megadott E-mail cím nem talalható adatbázisunkban';

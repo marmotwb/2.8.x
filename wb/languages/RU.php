@@ -450,30 +450,44 @@ $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = '&#1048;&#1084;&#1103; &#1087;&#1086;&
 
 $MESSAGE['SIGNUP_NO_EMAIL'] = '&#1042;&#1099; &#1076;&#1086;&#1083;&#1078;&#1085;&#1099; &#1074;&#1074;&#1077;&#1089;&#1090;&#1080; email &#1072;&#1076;&#1088;&#1077;&#1089;';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
-$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = <<< EOT
- Hello {LOGIN_DISPLAY_NAME},
-
- You are welcome to our {LOGIN_WEBSITE_TITLE}.
-
- Your '{LOGIN_WEBSITE_TITLE}' login details are:
- Username: {LOGIN_NAME}
- Password: {LOGIN_PASSWORD}
-
- If you have received this message in error, please delete it immediately.
-EOT;
-
-$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = <<< EOT
+$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = "
 Hello {LOGIN_DISPLAY_NAME},
+
+Welcome to our '{LOGIN_WEBSITE_TITLE}'.
 
 Your '{LOGIN_WEBSITE_TITLE}' login details are:
 Username: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
-Your password has been set to the one above.
-This means that your old password will no longer work.
+Regards
 
-If you have received this message in error, please delete it immediately.
-EOT;
+Please:
+if you have received this message by an error, please delete it immediately!
+-------------------------------------
+This message was automatic generated!
+";
+
+$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = "
+Hello {LOGIN_DISPLAY_NAME},
+
+This mail was sent because the 'forgot password' function has been applied to your account.
+
+Your new '{LOGIN_WEBSITE_TITLE}' login details are:
+
+Username: {LOGIN_NAME}
+Password: {LOGIN_PASSWORD}
+
+Your password has been reset to the one above.
+This means that your old password will no longer work anymore!
+If you've got any questions or problems within the new login-data
+you should contact the website-team or the admin of '{LOGIN_WEBSITE_TITLE}'.
+Please remember to clean you browser-cache before using the new one to avoid unexpected fails.
+
+Regards
+------------------------------------
+This message was automatic generated
+
+";
 
 $MESSAGE['FORGOT_PASS_NO_DATA'] = '&#1055;&#1086;&#1078;&#1072;&#1083;&#1091;&#1081;&#1089;&#1090;&#1072; &#1074;&#1074;&#1077;&#1076;&#1080;&#1090;&#1077; &#1074;&#1072;&#1096; email';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'Email, &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1081; &#1074;&#1099; &#1074;&#1074;&#1077;&#1083;&#1080;, &#1085;&#1077; &#1085;&#1072;&#1081;&#1076;&#1077;&#1085; &#1074; &#1073;&#1072;&#1079;&#1077;';

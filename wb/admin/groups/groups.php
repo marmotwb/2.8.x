@@ -21,7 +21,7 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 
 // Create new database object
-$database = new database();
+// $database = new database();
 
 if(!isset($_POST['action']) OR ($_POST['action'] != "modify" AND $_POST['action'] != "delete")) {
 	header("Location: index.php");

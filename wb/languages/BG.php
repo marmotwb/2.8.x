@@ -451,28 +451,42 @@ $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = '&#1053;&#1077;&#1082;&#1086;&#1088;&#
 $MESSAGE['SIGNUP_NO_EMAIL'] = '&#1058;&#1088;&#1103;&#1073;&#1074;&#1072; &#1076;&#1072; &#1074;&#1098;&#1074;&#1077;&#1076;&#1077;&#1090;&#1077; e-mail &#1072;&#1076;&#1088;&#1077;&#1089;';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
 $MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = "
- Hello {LOGIN_DISPLAY_NAME},
-
- You are welcome to our {LOGIN_WEBSITE_TITLE}.
-
- Your '{LOGIN_WEBSITE_TITLE}' login details are:
- Username: {LOGIN_NAME}
- Password: {LOGIN_PASSWORD}
-
- If you have received this message in error, please delete it immediately.
-";
-
-$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = "
 Hello {LOGIN_DISPLAY_NAME},
+
+Welcome to our '{LOGIN_WEBSITE_TITLE}'.
 
 Your '{LOGIN_WEBSITE_TITLE}' login details are:
 Username: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
-Your password has been set to the one above.
-This means that your old password will no longer work.
+Regards
 
-If you have received this message in error, please delete it immediately.
+Please:
+if you have received this message by an error, please delete it immediately!
+-------------------------------------
+This message was automatic generated!
+";
+
+$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = "
+Hello {LOGIN_DISPLAY_NAME},
+
+This mail was sent because the 'forgot password' function has been applied to your account.
+
+Your new '{LOGIN_WEBSITE_TITLE}' login details are:
+
+Username: {LOGIN_NAME}
+Password: {LOGIN_PASSWORD}
+
+Your password has been reset to the one above.
+This means that your old password will no longer work anymore!
+If you've got any questions or problems within the new login-data
+you should contact the website-team or the admin of '{LOGIN_WEBSITE_TITLE}'.
+Please remember to clean you browser-cache before using the new one to avoid unexpected fails.
+
+Regards
+------------------------------------
+This message was automatic generated
+
 ";
 
 $MESSAGE['FORGOT_PASS_NO_DATA'] = '&#1042;&#1098;&#1074;&#1077;&#1076;&#1077;&#1090;&#1077; email &#1072;&#1076;&#1088;&#1077;&#1089;';

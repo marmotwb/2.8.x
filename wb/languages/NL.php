@@ -449,30 +449,44 @@ $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Gebruikersnaam en/of wachtwoord incor
 
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'U moet een e-mailadres invullen';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Uw login-gegevens...';
-$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = <<< EOT
- Hello {LOGIN_DISPLAY_NAME},
+$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = "
+Hello {LOGIN_DISPLAY_NAME},
 
- You are welcome to our {LOGIN_WEBSITE_TITLE}.
+Welcome to our '{LOGIN_WEBSITE_TITLE}'.
 
- Your '{LOGIN_WEBSITE_TITLE}' login details are:
- Username: {LOGIN_NAME}
- Password: {LOGIN_PASSWORD}
+Your '{LOGIN_WEBSITE_TITLE}' login details are:
+Username: {LOGIN_NAME}
+Password: {LOGIN_PASSWORD}
 
- If you have received this message in error, please delete it immediately.
-EOT;
+Regards
 
-$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = <<< EOT
-Hallo {LOGIN_DISPLAY_NAME},
+Please:
+if you have received this message by an error, please delete it immediately!
+-------------------------------------
+This message was automatic generated!
+";
 
-Uw '{LOGIN_WEBSITE_TITLE}' inloggegevens zijn:
-Gebruikersnaam: {LOGIN_NAME}
-Wachtwoord: {LOGIN_PASSWORD}
+$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = "
+Hello {LOGIN_DISPLAY_NAME},
 
-Uw wachtwoord is ingesteld en zichtbaar hierboven. 
-Dit betekent dat uw oude wachtwoord niet meer werkt. 
+This mail was sent because the 'forgot password' function has been applied to your account.
 
-Indien deze melding niet voor u bestemd is, verwijder deze dan onmiddellijk.
-EOT;
+Your new '{LOGIN_WEBSITE_TITLE}' login details are:
+
+Username: {LOGIN_NAME}
+Password: {LOGIN_PASSWORD}
+
+Your password has been reset to the one above.
+This means that your old password will no longer work anymore!
+If you've got any questions or problems within the new login-data
+you should contact the website-team or the admin of '{LOGIN_WEBSITE_TITLE}'.
+Please remember to clean you browser-cache before using the new one to avoid unexpected fails.
+
+Regards
+------------------------------------
+This message was automatic generated
+
+";
 
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Vult u alstublieft uw e-mailadres hieronder in';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'Het door u opgegeven e-mailadres is niet gevonden in onze database';
