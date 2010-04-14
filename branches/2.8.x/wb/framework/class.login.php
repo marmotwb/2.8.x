@@ -187,30 +187,8 @@ class login extends admin {
 				// Set a session var so apps can tell user is using default time format
 				$_SESSION['USE_DEFAULT_TIME_FORMAT'] = true;
 			}
-			// Get group information
-//			$query = "SELECT * FROM ".$this->GROUPS_TABLE." WHERE group_id = '".$this->get_session('GROUP_ID')."'";
-//			$results = $database->query($query);
-//			$results_array = $results->fetchRow();
-//			$_SESSION['GROUP_NAME'] = $results_array['name'];
-//			// Set system permissions
-//			if($results_array['system_permissions'] != '') {
-//				$_SESSION['SYSTEM_PERMISSIONS'] = explode(',', $results_array['system_permissions']);
-//			} else {
-//				$_SESSION['SYSTEM_PERMISSIONS'] = array();
-//			}
-//			// Set module permissions
-//			if($results_array['module_permissions'] != '') {
-//				$_SESSION['MODULE_PERMISSIONS'] = explode(',', $results_array['module_permissions']);
-//			} else {
-//				$_SESSION['MODULE_PERMISSIONS'] = array();
-//			}
-//			// Set template permissions
-//			if($results_array['template_permissions'] != '') {
-//				$_SESSION['TEMPLATE_PERMISSIONS'] = explode(',', $results_array['template_permissions']);
-//			} else {
-//				$_SESSION['TEMPLATE_PERMISSIONS'] = array();
-//			}
 
+			// Get group information
 			$_SESSION['SYSTEM_PERMISSIONS'] = array();
 			$_SESSION['MODULE_PERMISSIONS'] = array();
 			$_SESSION['TEMPLATE_PERMISSIONS'] = array();
