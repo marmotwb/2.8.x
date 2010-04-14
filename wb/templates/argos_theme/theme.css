@@ -146,7 +146,7 @@ div.content_box form{background: transparent;  height: auto; }
 div.content_box fieldset { margin: 10px auto; }
 div.content_box legend {  color: #336699; font-size: 15px; font-weight:bold;padding: 0px 3px 0px 4px; }
 div.content_box label{ font-weight: 600; padding-left:4px; }
-div.content_box input{ width: 500px; }
+div.content_box input{ width: 400px; }
 .be_section { border: 2px groove #6ea0d0; }
 
 /* set div layers indead tables */
@@ -157,10 +157,10 @@ div.content_box input{ width: 500px; }
 .c10r, .c20r, .c25r, .c33r, .c40r, .c38r, .c50r, .c60r, .c66r, .c62r, .c75r, .c80r { float: right; margin-left: -5px; }
 
   .c10l, .c10r { width: 10%; }
-  .c20l, .c20r { width: 21%; line-height:2em;}
+  .c20l, .c20r { width: 20%; line-height:2em;}
   .c40l, .c40r { width: 40%; }
   .c60l, .c60r { width: 60%; }
-  .c25l, .c25r { width: 25%; }
+  .c25l, .c25r { width: 28%; }
   .c33l, .c33r { width: 33.333%; }
   .c50l, .c50r { width: 50%; }
   .c66l, .c66r { width: 66.666%; }
