@@ -81,7 +81,7 @@ if(isset($_POST['email']) AND $_POST['email'] != "") {
 				// Replace placeholders from language variable with values
 				$search = array('{LOGIN_DISPLAY_NAME}', '{LOGIN_WEBSITE_TITLE}', '{LOGIN_NAME}', '{LOGIN_PASSWORD}');
 				$replace = array($results_array['display_name'], WEBSITE_TITLE, $results_array['username'], $new_pass); 
-				$mail_message = str_replace($search, $replace, $MESSAGE['SIGNUP2']['BODY_LOGIN_INFO']);
+				$mail_message = str_replace($search, $replace, $MESSAGE['SIGNUP2']['BODY_LOGIN_FORGOT']);
 
 				// Try sending the email
 				if($admin->mail(SERVER_EMAIL,$mail_to,$mail_subject,$mail_message)) { 

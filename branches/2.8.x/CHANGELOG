@@ -12,6 +12,9 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 14-Apr-2010 Dietmar Woellbrink (Luisehahne)
+#	changed e-mail notification for backend login
+!	styling in preference.htt in themes
+14-Apr-2010 Dietmar Woellbrink (Luisehahne)
 #	Typo fixes with german umlaute
 14-Apr-2010 Dietmar Woellbrink (Luisehahne)
 #	Ticket #985 With #1318 no login in backend possible
