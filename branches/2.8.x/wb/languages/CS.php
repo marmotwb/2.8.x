@@ -450,7 +450,7 @@ $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Jm&eacute;no nebo heslo nen&iacute; p
 
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Mus&iacute;te zadat e-mailovou adresu';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
-$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = <<< EOT
+$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = "
  Hello {LOGIN_DISPLAY_NAME},
 
  You are welcome to our {LOGIN_WEBSITE_TITLE}.
@@ -460,9 +460,9 @@ $MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = <<< EOT
  Password: {LOGIN_PASSWORD}
 
  If you have received this message in error, please delete it immediately.
- EOT;
+";
 
-$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = <<< EOT
+$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = "
 Hello {LOGIN_DISPLAY_NAME},
 
 Your '{LOGIN_WEBSITE_TITLE}' login details are:
@@ -473,7 +473,7 @@ Your password has been set to the one above.
 This means that your old password will no longer work.
 
 If you have received this message in error, please delete it immediately.
-EOT;
+";
 
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Zadejte svoji e-mailovou adresu:';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'Zadan&aacute; e-mailov&aacute; adresa nebyla nalezena';
