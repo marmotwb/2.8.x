@@ -12,6 +12,11 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 14-Apr-2010 Dietmar Woellbrink (Luisehahne)
+#	Ticket #985 With #1318 no login in backend possible
+#	Ticket #986 Typo inside the german language file 
+#	Ticket #982 Unnessesary heredoc causes on errors while installation!
+#	Ticket #926/Ticket #928 Mail Notification on new user registration
+14-Apr-2010 Dietmar Woellbrink (Luisehahne)
 #	Ticket #984 Removing outdated comment-block in class.login.php
 #	Ticket #983 Sorting order of modules and templates inside groups.php
 14-Apr-2010 Dietrich Roland Pehlke (Aldus)

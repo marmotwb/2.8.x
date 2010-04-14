@@ -450,30 +450,44 @@ $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Meno alebo heslo nie je platn&eacute;
 
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Mus&iacute;te zada&#357; e-mailovou adresu';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Vase prihlasovacie udaje...';
-$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = <<< EOT
- Hello {LOGIN_DISPLAY_NAME},
+$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = "
+Hello {LOGIN_DISPLAY_NAME},
 
- You are welcome to our {LOGIN_WEBSITE_TITLE}.
+Welcome to our '{LOGIN_WEBSITE_TITLE}'.
 
- Your '{LOGIN_WEBSITE_TITLE}' login details are:
- Username: {LOGIN_NAME}
- Password: {LOGIN_PASSWORD}
+Your '{LOGIN_WEBSITE_TITLE}' login details are:
+Username: {LOGIN_NAME}
+Password: {LOGIN_PASSWORD}
 
- If you have received this message in error, please delete it immediately.
-EOT;
+Regards
 
-$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = <<< EOT
-V&aacute;&#382;en&yacute;  {LOGIN_DISPLAY_NAME},
+Please:
+if you have received this message by an error, please delete it immediately!
+-------------------------------------
+This message was automatic generated!
+";
 
-Pre Va&#353;e prihl&aacute;senie do '{LOGIN_WEBSITE_TITLE}' pou&#382;ite:
-Meno: {LOGIN_NAME}
-Heslo: {LOGIN_PASSWORD}
+$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = "
+Hello {LOGIN_DISPLAY_NAME},
 
-Va&#353;e heslo bolo nastaven&eacute; na nov&eacute;, uveden&eacute; vy&#353;&#353;ie.
-To znamen&aacute;, &#382;e va&#353;e star&eacute; heslo u&#382; nebude fungova&#357;.
+This mail was sent because the 'forgot password' function has been applied to your account.
 
-Ak ste t&uacute;to spr&aacute;vu dostali omylom, pros&iacute;m, ihne&#271; ju zma&#382;te.
-EOT;
+Your new '{LOGIN_WEBSITE_TITLE}' login details are:
+
+Username: {LOGIN_NAME}
+Password: {LOGIN_PASSWORD}
+
+Your password has been reset to the one above.
+This means that your old password will no longer work anymore!
+If you've got any questions or problems within the new login-data
+you should contact the website-team or the admin of '{LOGIN_WEBSITE_TITLE}'.
+Please remember to clean you browser-cache before using the new one to avoid unexpected fails.
+
+Regards
+------------------------------------
+This message was automatic generated
+
+";
 
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Zadajte svoju e-mailovou adresu:';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'Zadan&aacute; e-mailov&aacute; adresa alebola n&aacute;jden&aacute;';

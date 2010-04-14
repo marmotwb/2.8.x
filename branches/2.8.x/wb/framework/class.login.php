@@ -32,7 +32,7 @@ require_once(ADMIN_PATH.'/interface/version.php');
 class login extends admin {
 	function login($config_array) {
 		// Get language vars
-		global $MESSAGE;
+		global $MESSAGE, $database;
 		$this->wb();
 		// Get configuration values
 		$this->USERS_TABLE = $config_array['USERS_TABLE'];
@@ -61,8 +61,8 @@ class login extends admin {
 			$username_fieldname = 'username';
 			$password_fieldname = 'password';
 		}
-
 		$this->username = htmlspecialchars (strtolower($this->get_post($username_fieldname)), ENT_QUOTES);
+
 		$this->password = $this->get_post($password_fieldname);
 		// Figure out if the "remember me" option has been checked
 		if($this->get_post('remember') == 'true') {
@@ -90,7 +90,7 @@ class login extends admin {
 		} elseif($this->is_remembered() == true) {
 			// User has been "remembered"
 			// Get the users password
-			$database = new database();
+			// $database = new database();
 			$query_details = $database->query("SELECT * FROM ".$this->USERS_TABLE." WHERE user_id = '".$this->get_safe_remember_key()."' LIMIT 1");
 			$fetch_details = $query_details->fetchRow();
 			$this->username = $fetch_details['username'];
@@ -142,9 +142,12 @@ class login extends admin {
 	
 	// Authenticate the user (check if they exist in the database)
 	function authenticate() {
+		global $database;
 		// Get user information
-		$database = new database();
-		$query = 'SELECT * FROM `'.$this->USERS_TABLE.'` WHERE MD5(`username`) = "'.md5($this->username).'" AND `password` = "'.$this->password.'" AND `active` = 1';
+		// $database = new database();
+		// $query = 'SELECT * FROM `'.$this->USERS_TABLE.'` WHERE MD5(`username`) = "'.md5($this->username).'" AND `password` = "'.$this->password.'" AND `active` = 1';
+ 		$loginname = ( preg_match('/[\;\=\&\|\<\> ]/',$this->username) ? '' : $this->username );
+		$query = 'SELECT * FROM `'.$this->USERS_TABLE.'` WHERE `username` = "'.$loginname.'" AND `password` = "'.$this->password.'" AND `active` = 1';
 		$results = $database->query($query);
 		$results_array = $results->fetchRow();
 		$num_rows = $results->numRows();
@@ -246,6 +249,7 @@ class login extends admin {
 	
 	// Function to set a "remembering" cookie for the user
 	function remember($user_id) {
+		global $database;
 		$remember_key = '';
 		// Generate user id to append to the remember key
 		$length = 11-strlen($user_id);
@@ -267,7 +271,7 @@ class login extends admin {
 		}
 		$remember_key = $remember_key;
 		// Update the remember key in the db
-		$database = new database();
+		// $database = new database();
 		$database->query("UPDATE ".$this->USERS_TABLE." SET remember_key = '$remember_key' WHERE user_id = '$user_id' LIMIT 1");
 		if($database->is_error()) {
 			return false;
@@ -287,9 +291,10 @@ class login extends admin {
 	
 	// Function to check if a user has been remembered
 	function is_remembered() {
+		global $database;
 		if(isset($_COOKIE['REMEMBER_KEY']) AND $_COOKIE['REMEMBER_KEY'] != '') {
 			// Check if the remember key is correct
-			$database = new database();
+			// $database = new database();
 			$sql = "SELECT `user_id` FROM `" . $this->USERS_TABLE . "` WHERE `remember_key` = '";
 			$sql .= $this->get_safe_remember_key() . "' LIMIT 1";
 			$check_query = $database->query($sql);

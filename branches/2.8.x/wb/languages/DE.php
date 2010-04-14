@@ -451,30 +451,41 @@ $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Der Benutzername oder das Passwort is
 
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Bitte geben Sie Ihre E-Mail Adresse an';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Deine WB Logindaten ...';
-$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = <<< EOT
- Hallo {LOGIN_DISPLAY_NAME},
-
- Vielen Dank f&uuml;r deine Registrieung.
-
- Deine Logindaten f&uuml;r {LOGIN_WEBSITE_TITLE} lauten:
- Benutzername: {LOGIN_NAME}
- Passwort: {LOGIN_PASSWORD}
-
- Wenn Du dieses E-Mail versehentlich erhalten hast, bitte einfach l&ouml;schen.
-EOT;
-
-$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = <<< EOT
+$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = "
 Hallo {LOGIN_DISPLAY_NAME},
 
-Deine neuen Logindaten f&uuml;r {LOGIN_WEBSITE_TITLE} lauten:
+Herlich willkommen bei '{LOGIN_WEBSITE_TITLE}'
+
+Ihre Logindaten f&uuml;r '{LOGIN_WEBSITE_TITLE}' lauten:
+Benutzername: {LOGIN_NAME}
+Passwort: Registrierungspasswort
+
+Vielen Dank für Ihre Registrierung
+
+Wenn Sie dieses E-Mail versehentlich erhalten haben, l&ouml;schen Sie bitte diese E-Mail.
+----------------------------------------
+Diese E-Mail wurde automatisch erstellt!
+";
+
+$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = "
+Hallo {LOGIN_DISPLAY_NAME},
+
+Sie erhalten diese E-Mail, weil sie ein neues Passwort angefordert haben.
+
+Ihre neuen Logindaten f&uuml;r {LOGIN_WEBSITE_TITLE} lauten:
+
 Benutzername: {LOGIN_NAME}
 Passwort: {LOGIN_PASSWORD}
 
 Dein bisheriges Passwort wurde durch das neue Passwort oben ersetzt.
 Das bisherige Passwort ist nicht mehr g&uuml;ltig.
 
-Wenn Du dieses E-Mail versehentlich erhalten hast, bitte einfach l&ouml;schen.
-EOT;
+Sollten Sie kein neues Kennwort angefordert haben, l&ouml;schen Sie bitte diese E-Mail.
+
+Mit freundlichen Gr&uuml;ssen
+----------------------------------------
+Diese E-Mail wurde automatisch erstellt!
+";
 
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Bitte geben Sie nachfolgend Ihre E-Mail Adresse an';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'Die angegebene E-Mail Adresse wurde nicht in der Datenbank gefunden';
