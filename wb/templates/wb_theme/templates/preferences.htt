@@ -6,24 +6,18 @@
 			<legend class="content_legend">{HEADING_MY_SETTINGS}</legend>
 			<div class="subcolumns">
 				<div class="c25l">
-					<label>{TEXT_DISPLAY_NAME}:</label><br />
+					<label>{TEXT_USERNAME}:</label><br />
 				</div>
 				<div class="c60l">
-					<input type="text" id="display_name" name="display_name" value="{DISPLAY_NAME}" /><br />
-					<script type="text/javascript">
-					document.details.display_name.focus();
-					</script>
+					<div id="username" />{USERNAME}</div><br />
 				</div>
 			</div>
 			<div class="subcolumns">
 				<div class="c25l">
-					<label>{TEXT_USERNAME}:</label><br />
+					<label>{TEXT_DISPLAY_NAME}:</label><br />
 				</div>
 				<div class="c60l">
-					<input type="text" id="username" name="username" value="{USERNAME}" readonly="readonly" /><br />
-					<script type="text/javascript">
-					document.details.username.focus();
-					</script>
+					<input type="text" id="display_name" name="display_name" value="{DISPLAY_NAME}" /><br />
 				</div>
 			</div>
 			<div class="subcolumns">
