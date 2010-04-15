@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+15-Apr-2010 Dietmar Woellbrink (Luisehahne)
+!	Update headerinfos admin/interface
 14-Apr-2010 Dietmar Woellbrink (Luisehahne)
 #	changed e-mail notification for backend login
 !	styling in preference.htt in themes
