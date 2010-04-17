@@ -3,6 +3,7 @@
  *
  * @category        admin
  * @package         preferences
+ * @author          Independend-Software-Team
  * @author          WebsiteBaker Project
  * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2010, Website Baker Org. e.V.
@@ -58,6 +59,7 @@ function build_page( &$admin, &$database )
 		}
 	}
 // Insert default timezone values
+	$user_time = true;
 	include_once( ADMIN_PATH.'/interface/timezones.php' );
 	$template->set_block('main_block', 'timezone_list_block', 'timezone_list');
 	foreach( $TIMEZONES AS $hour_offset => $title )
@@ -68,7 +70,6 @@ function build_page( &$admin, &$database )
 		$template->parse('timezone_list', 'timezone_list_block', true);
 	}
 // Insert date format list
-	$user_time = true;
 	include_once( ADMIN_PATH.'/interface/date_formats.php' );
 	$template->set_block('main_block', 'date_format_list_block', 'date_format_list');
 	foreach( $DATE_FORMATS AS $format => $title )
@@ -76,8 +77,8 @@ function build_page( &$admin, &$database )
 		$format = str_replace('|', ' ', $format); // Add's white-spaces (not able to be stored in array key)
 		$template->set_var( 'VALUE', ($format != 'system_default' ? $format : 'system_default') );
 		$template->set_var( 'NAME',  $title );
-		if( (DATE_FORMAT == $format AND !isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) OR
-			('system_default' == $format AND isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) )
+		if( (DATE_FORMAT == $format && !isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) ||
+			('system_default' == $format && isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) )
 		{
 			$template->set_var('SELECTED', ' selected="selected"');
 		}else {
@@ -93,8 +94,8 @@ function build_page( &$admin, &$database )
 		$format = str_replace('|', ' ', $format); // Add's white-spaces (not able to be stored in array key)
 		$template->set_var('VALUE', $format != 'system_default' ? $format : 'system_default' );
 		$template->set_var('NAME',  $title);
-		if( (TIME_FORMAT == $format AND !isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) OR
-		    ('system_default' == $format AND isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) )
+		if( (TIME_FORMAT == $format && !isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) ||
+		    ('system_default' == $format && isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) )
 		{
 			$template->set_var('SELECTED', ' selected="selected"');
 		} else {

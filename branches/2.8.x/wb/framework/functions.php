@@ -58,28 +58,25 @@ function rm_full_dir($directory)
 }
 
 // Function to open a directory and add to a dir list
-function directory_list($directory)
+function directory_list($directory, $show_hidden = false)
 {
-	$list = array();
+	$result_list = array();
 	if (is_dir($directory))
     {
-    	// Open the directory then loop through its contents
-    	$dir = dir($directory);
-    	while (false !== $entry = $dir->read())
+    	$dir = dir($directory); // Open the directory
+    	while (false !== $entry = $dir->read()) // loop through the directory
 		{
-    		// Skip pointers
-    		if($entry[0] == '.') { continue; }
-    		// Add dir and contents to list
-    		if (is_dir("$directory/$entry"))
+			if($entry == '.' || $entry == '..') { continue; } // Skip pointers
+			if($entry[0] == '.' && $show_hidden == false) { continue; } // Skip hidden files
+    		if (is_dir("$directory/$entry")) // Add dir and contents to list
 			{
-    			$list = array_merge($list, directory_list("$directory/$entry"));
-    			$list[] = "$directory/$entry";
+    			$result_list = array_merge($list, directory_list("$directory/$entry"));
+    			$result_list[] = "$directory/$entry";
     		}
     	}
         $dir->close();
     }
-    // Now return the list
-	return $list;
+	return $result_list; // Now return the list
 }
 
 // Function to open a directory and add to a dir list
@@ -109,42 +106,26 @@ function chmod_directory_contents($directory, $file_mode)
 }
 
 // Function to open a directory and add to a file list
-function file_list($directory, $skip = array())
+function file_list($directory, $skip = array(), $show_hidden = false)
 {
-	$list = array();
-	$skip_file = false;
+	$result_list = array();
 	if (is_dir($directory))
     {
-    	// Open the directory then loop through its contents
-    	$dir = dir($directory);
-    }
-	while (false !== $entry = $dir->read())
-    {
-		// Skip pointers
-		if($entry[0] == '.') { $skip_file = true; }
-		// Check if we to skip anything else
-		if($skip != array())
+    	$dir = dir($directory); // Open the directory
+		while (false !== ($entry = $dir->read())) // loop through the directory
 		{
-			foreach($skip AS $skip_name)
-            {
-				if($entry == $skip_name)
-                {
-					$skip_file = true;
-				}
+			if($entry == '.' || $entry == '..') { continue; } // Skip pointers
+			if($entry[0] == '.' && $show_hidden == false) { continue; } // Skip hidden files
+			if( sizeof($skip) > 0 && in_array($entry, $skip) ) { continue; } // Check if we to skip anything else
+			if(is_file( $directory.'/'.$entry)) // Add files to list
+			{
+				$result_list[] = $directory.'/'.$entry;
 			}
 		}
-		// Add dir and contents to list
-		if($skip_file != true AND is_file("$directory/$entry"))
-        {
-			$list[] = "$directory/$entry";
-		}
-		
-		// Reset the skip file var
-		$skip_file = false;
+		$dir->close(); // Now close the folder object
 	}
-    $dir->close();
-	// Now delete the folder
-	return $list;
+	natsort($result_list); // make the list nice. Not all OS do this itself
+	return $result_list;
 }
 
 // Function to get a list of home folders not to show
