@@ -3,6 +3,7 @@
  *
  * @category        admin
  * @package         preferences
+ * @author          Independend-Software-Team
  * @author          WebsiteBaker Project
  * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2010, Website Baker Org. e.V.
