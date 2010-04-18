@@ -57,8 +57,22 @@ function rm_full_dir($directory)
 	}
 }
 
-// Function to open a directory and add to a dir list
-function directory_list($directory, $show_hidden = false)
+/*
+ * returns a recursive list of all subdirectories from a given directory
+ * @access  public
+ * @param   string  $directory: from this dir the recursion will start
+ * @param   bool    $show_hidden:  if set to TRUE also hidden dirs (.dir) will be shown
+ * @return  array
+ * example:
+ *  /srv/www/httpdocs/wb/media/a/b/c/
+ *  /srv/www/httpdocs/wb/media/a/b/d/
+ * directory_list('/srv/www/httpdocs/wb/media/') will return:
+ *  /a
+ *  /a/b
+ *  /a/b/c
+ *  /a/b/d
+ */
+ function directory_list($directory, $show_hidden = false)
 {
 	$result_list = array();
 	if (is_dir($directory))
