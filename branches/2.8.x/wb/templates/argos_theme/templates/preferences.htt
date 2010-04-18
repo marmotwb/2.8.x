@@ -9,7 +9,7 @@
 					<label>{TEXT_USERNAME}:</label><br />
 				</div>
 				<div class="c60l">
-					<div id="username" />{USERNAME}</div><br />
+					<div id="username">{USERNAME}</div><br />
 				</div>
 			</div>
 			<div class="subcolumns">

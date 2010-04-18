@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 18-Apr-2010 Dietmar Woellbrink (Luisehahne)
+!	Validation fix in preference
+18-Apr-2010 Dietmar Woellbrink (Luisehahne)
 #	fixed directory_list
 17-Apr-2010 Dietmar Woellbrink (Luisehahne)
 !	litte fix to show GMT value in default view
