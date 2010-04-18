@@ -70,7 +70,7 @@ function directory_list($directory, $show_hidden = false)
 			if($entry[0] == '.' && $show_hidden == false) { continue; } // Skip hidden files
     		if (is_dir("$directory/$entry")) // Add dir and contents to list
 			{
-    			$result_list = array_merge($list, directory_list("$directory/$entry"));
+    			$result_list = array_merge($result_list, directory_list("$directory/$entry"));
     			$result_list[] = "$directory/$entry";
     		}
     	}
