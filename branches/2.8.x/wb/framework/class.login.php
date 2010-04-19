@@ -139,7 +139,7 @@ class login extends admin {
 			}
 		}
 	}
-	
+
 	// Authenticate the user (check if they exist in the database)
 	function authenticate() {
 		global $database;
@@ -151,7 +151,7 @@ class login extends admin {
 		$results = $database->query($query);
 		$results_array = $results->fetchRow();
 		$num_rows = $results->numRows();
-		if($num_rows) {
+		if($num_rows == 1) {
 			$user_id = $results_array['user_id'];
 			$this->user_id = $user_id;
 			$_SESSION['USER_ID'] = $user_id;
