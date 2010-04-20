@@ -232,6 +232,8 @@ class login extends admin {
 			$get_ip = $_SERVER['REMOTE_ADDR'];
 			$query = "UPDATE ".$this->USERS_TABLE." SET login_when = '$get_ts', login_ip = '$get_ip' WHERE user_id = '$user_id'";
 			$database->query($query);
+		}else {
+		  $num_rows = 0;
 		}
 		// Return if the user exists or not
 		return $num_rows;
