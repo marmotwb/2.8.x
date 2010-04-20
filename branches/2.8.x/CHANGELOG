@@ -11,7 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
-18-Apr-2010 Dietmar Woellbrink (Luisehahne)
+20-Apr-2010 Dietmar Woellbrink (Luisehahne)
+!	update class.login.php (tks to Ruud)
+19-Apr-2010 Dietmar Woellbrink (Luisehahne)
 !	update class.login.php
 18-Apr-2010 Dietmar Woellbrink (Luisehahne)
 !	Validation fix in preference
