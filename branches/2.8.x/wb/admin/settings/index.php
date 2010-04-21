@@ -133,7 +133,7 @@ $template->set_var(array(
 
 // Insert language values
 $template->set_block('main_block', 'language_list_block', 'language_list');
-$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'language' order by name");
+$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'language' ORDER BY name");
 if($result->numRows() > 0) {
 	while($addon = $result->fetchRow()) {
 		$l_codes[$addon['name']] = $addon['directory'];
@@ -228,7 +228,7 @@ foreach($TIME_FORMATS AS $format => $title) {
 
 // Insert templates
 $template->set_block('main_block', 'template_list_block', 'template_list');
-$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'template' AND function != 'theme' order by name");
+$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'template' AND function != 'theme' ORDER BY name");
 if($result->numRows() > 0) {
 	while($addon = $result->fetchRow()) {
 		$template->set_var('FILE', $addon['directory']);
@@ -241,7 +241,7 @@ if($result->numRows() > 0) {
 
 // Insert backend theme
 $template->set_block('main_block', 'theme_list_block', 'theme_list');
-$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'template' AND function = 'theme' order by name");
+$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'template' AND function = 'theme' ORDER BY name");
 if($result->numRows() > 0) {
 	while($addon = $result->fetchRow()) {
 		$template->set_var('FILE', $addon['directory']);
@@ -258,10 +258,10 @@ $file='none';
 $module_name=$TEXT['NONE'];  
 $template->set_var('FILE', $file);  
 $template->set_var('NAME', $module_name);  
-if((!defined('WYSIWYG_EDITOR') OR $file == WYSIWYG_EDITOR) ? $selected = ' selected="selected"' : $selected = '');
+if((!defined('WYSIWYG_EDITOR') || $file == WYSIWYG_EDITOR) ? $selected = ' selected="selected"' : $selected = '');
 $template->set_var('SELECTED', $selected);
 $template->parse('editor_list', 'editor_list_block', true);  
-$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'module' AND function = 'wysiwyg'");
+$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'module' AND function = 'wysiwyg' ORDER BY name");
 if($result->numRows() > 0)
 {
 	while($addon = $result->fetchRow())
@@ -288,7 +288,7 @@ $template->set_var(array(
     ));
 
 $template->parse('search_template_list', 'search_template_list_block', true);
-$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'template' AND function = 'template' order by name");
+$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'template' AND function = 'template' ORDER BY name");
 
 if($result->numRows() > 0)
 {
