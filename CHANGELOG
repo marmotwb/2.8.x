@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+21-Apr-2010 Dietmar Woellbrink (Luisehahne)
+!	Ticket #995 update jquery-ui.css and images (Tks to Ruebenwurzel)
++	add languages files for jquery datepicker (tks to Ralf)	
+!	Ticket #994 WYSIWYG editors sorted by name (tks to Aldus)
 20-Apr-2010 Dietmar Woellbrink (Luisehahne)
 !	update class.login.php (tks to Ruud)
 19-Apr-2010 Dietmar Woellbrink (Luisehahne)
