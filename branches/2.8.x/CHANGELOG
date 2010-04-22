@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 22-Apr-2010 Dietmar Woellbrink (Luisehahne)
+#	Fixed bug in /modules/admin.php 
+22-Apr-2010 Dietmar Woellbrink (Luisehahne)
 !	start recoding without style display:none	
 21-Apr-2010 Dietmar Woellbrink (Luisehahne)
 !	Ticket #995 update jquery-ui.css and images (Tks to Ruebenwurzel)
