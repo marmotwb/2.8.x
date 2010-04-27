@@ -194,11 +194,8 @@ while($search_setting = $res_search->fetchRow())
         $sql .= 'WHERE `name` = "'.$setting_name.'" ';
         $sql .= 'AND `extra` = ""';
 		if($database->query($sql)) {
-			$sql_info = mysql_info($database->db_handle);
 		}
-		if($database->is_error()) {
-			$admin->print_error($database->get_error, ADMIN_URL.'/settings/index.php'.$advanced);
-		}
+		$sql_info = mysql_info($database->db_handle);
     }
 }
 
