@@ -24,12 +24,15 @@ require_once(WB_PATH.'/framework/class.database.php');
 // Include new wbmailer class (subclass of PHPmailer)
 require_once(WB_PATH."/framework/class.wbmailer.php");
 
-class wb
+require_once(WB_PATH."/framework/class.secureform.php");
+
+class wb extends SecureForm
 {
 
 	var $password_chars = 'a-zA-Z0-9\_\-\!\#\*\+';
 	// General initialization function
 	// performed when frontend or backend is loaded.
+
 	function wb() {
 	}
 
@@ -272,95 +275,30 @@ class wb
 		}
 	}
 
-/*
- * creates Formular transactionnumbers for unique use
- * @access public
- * @param bool $asTAG: true returns a complete prepared, hidden HTML-Input-Tag (default)
- *                    false returns an array including FTAN0 and FTAN1
- * @return mixed:      array or string
- *
- * requirements: an active session must be available
- */
-	function getFTAN( $as_tag = true)
-	{
-		if(function_exists('microtime'))
-		{
-			list($usec, $sec) = explode(" ", microtime());
-			$time = (string)((float)$usec + (float)$sec);
-		}else{
-			$time = (string)time();
-		}
-		$salt  = ( isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : '');
-		$salt .= ( isset($_SERVER['HTTP_ACCEPT_CHARSET']) ? $_SERVER['HTTP_ACCEPT_CHARSET'] : '');
-		$salt .= ( isset($_SERVER['HTTP_ACCEPT_ENCODING']) ? $_SERVER['HTTP_ACCEPT_ENCODING'] : '');
-		$salt .= ( isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '');
-		$salt .= ( isset($_SERVER['HTTP_CONNECTION']) ? $_SERVER['HTTP_CONNECTION'] : '');
-		$salt .= ( isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
-		$salt .= ( isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : '');
-		$salt  = ( $salt !== '' ) ? $salt : 'eXtremelyHotTomatoJuice';
-		$ftan = md5($time.$salt);
-		$_SESSION['FTAN'] = $ftan;
-		$ftan0 = 'a'.substr($ftan, -(10 + hexdec(substr($ftan, 1))), 10);
-		$ftan1 = 'a'.substr($ftan, hexdec(substr($ftan, -1)), 10);
-		if($as_tag == true)
-		{
-			return '<input type="hidden" name="'.$ftan0.'" value="'.$ftan1.'" title="" />';
-		}else{
-			return array('FTAN0' => $ftan0, 'FTAN1' => $ftan1);
-		}
-	}
-
-/*
- * checks received form-transactionnumbers against session-stored one
- * @access public
- * @param string $mode: requestmethode POST(default) or GET
- * @return bool:    true if numbers matches against stored ones
- *
- * requirements: an active session must be available
- * this check will prevent from multiple sending a form. history.back() also will never work
- */
-	function checkFTAN( $mode = 'POST')
-	{
-		$retval = false;
-		if(isset($_SESSION['FTAN']) && strlen($_SESSION['FTAN']) == strlen(md5('dummy')))
-		{
-			$ftan = $_SESSION['FTAN'];
-			$ftan0 = 'a'.substr($ftan, -(10 + hexdec(substr($ftan, 1))), 10);
-			$ftan1 = 'a'.substr($ftan, hexdec(substr($ftan, -1)), 10);
-			unset($_SESSION['FTAN']);
-			if(strtoupper($mode) == 'POST')
-			{
-				$retval = (isset($_POST[$ftan0]) && $_POST[$ftan0] == ($ftan1));
-				$_POST[$ftan0] = '';
-			}else{
-				$retval = (isset($_GET[$ftan0]) && $_GET[$ftan0] == ($ftan1));
-				$_GET[$ftan0] = '';
-			}
-		}
-		return $retval;
-	}
-	
 	// Print a success message which then automatically redirects the user to another page
-	function print_success($message, $redirect = 'index.php') {
-		global $TEXT, $database;
-		
-		// fetch redirect timer for sucess messages from settings table
-		$table = TABLE_PREFIX . 'settings';
-		$results = @$database->get_one("SELECT `value` FROM `$table` WHERE `name` = 'redirect_timer'");
-		$redirect_timer = ($results) ? $results : '1500';
-
-		// add template variables
-		$success_template = new Template(THEME_PATH.'/templates');
-		$success_template->set_file('page', 'success.htt');
-		$success_template->set_block('page', 'main_block', 'main');
-		$success_template->set_var('MESSAGE', $message);
-		$success_template->set_var('REDIRECT', $redirect);
-		$success_template->set_var('REDIRECT_TIMER', $redirect_timer);
-		$success_template->set_var('NEXT', $TEXT['NEXT']);
-		$success_template->parse('main', 'main_block', false);
-		$success_template->pparse('output', 'page');
+	function print_success( $message, $redirect = 'index.php' ) {
+	    global $TEXT;
+	    // fetch redirect timer for sucess messages from settings table
+	    $redirect_timer = ((defined( 'REDIRECT_TIMER' )) && (REDIRECT_TIMER >= 1500)) ? REDIRECT_TIMER : 0;
+	    // add template variables
+	    $tpl = new Template( THEME_PATH.'/templates' );
+	    $tpl->set_file( 'page', 'success.htt' );
+	    $tpl->set_block( 'page', 'main_block', 'main' );
+	    $tpl->set_block( 'main_block', 'show_redirect_block', 'show_redirect' );
+	    $tpl->set_var( 'MESSAGE', $message );
+	    $tpl->set_var( 'REDIRECT', $redirect );
+	    $tpl->set_var( 'REDIRECT_TIMER', $redirect_timer );
+	    $tpl->set_var( 'NEXT', $TEXT['NEXT'] );
+	    if ($redirect_timer == 0) {
+	        $tpl->set_block( 'show_redirect', '' );
+	    }
+	    else {
+	        $tpl->parse( 'show_redirect', 'show_redirect_block', true );
+	    }
+	    $tpl->parse( 'main', 'main_block', false );
+	    $tpl->pparse( 'output', 'page' );
 	}
-	
+
 	// Print an error message
 	function print_error($message, $link = 'index.php', $auto_footer = true) {
 		global $TEXT;

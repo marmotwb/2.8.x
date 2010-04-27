@@ -258,12 +258,16 @@ if (!function_exists('page_content')) {
 				if(defined('SEC_ANCHOR') && SEC_ANCHOR!='') {
 					echo '<a class="section_anchor" id="'.SEC_ANCHOR.$section_id.'" name="'.SEC_ANCHOR.$section_id.'"></a>';
 				}
-
+                // check if module exists - feature: write in errorlog
+				if(file_exists(WB_PATH.'/modules/'.$module.'/view.php')) {
 				// fetch content -- this is where to place possible output-filters (before highlighting)
-				ob_start(); // fetch original content
-				require(WB_PATH.'/modules/'.$module.'/view.php');
-				$content = ob_get_contents();
-				ob_end_clean();
+					ob_start(); // fetch original content
+					require(WB_PATH.'/modules/'.$module.'/view.php');
+					$content = ob_get_contents();
+					ob_end_clean();
+				} else {
+					continue;
+				}
 
 				// highlights searchresults
 				if(isset($_GET['searchresult']) && is_numeric($_GET['searchresult']) && !isset($_GET['nohighlight']) && isset($_GET['sstring']) && !empty($_GET['sstring'])) {
