@@ -97,21 +97,21 @@ if(isset($print_info_banner) && $print_info_banner == true)
 		// $admin->print_header();  don't know why
 		$admin->print_error($database->get_error());
 	}
-	if($results->numRows() == 0)
+	if($res_pages->numRows() == 0)
 	{
 		// $admin->print_header();   don't know why
 		$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
 	} else {
-		$res_pages = $results->fetchRow();
+		$rec_pages = $res_pages->fetchRow();
 	}
 
 	// Get display name of person who last modified the page
-	$user = $admin->get_user_details($res_pages['modified_by']);
+	$user = $admin->get_user_details($rec_pages['modified_by']);
 
 	// Convert the unix ts for modified_when to human a readable form
-	if($res_pages['modified_when'] != 0)
+	if($rec_pages['modified_when'] != 0)
 	{
-		$modified_ts = gmdate(TIME_FORMAT.', '.DATE_FORMAT, $res_pages['modified_when']+TIMEZONE);
+		$modified_ts = gmdate(TIME_FORMAT.', '.DATE_FORMAT, $rec_pages['modified_when']+TIMEZONE);
 	} else {
 		$modified_ts = 'Unknown';
 	}
@@ -121,21 +121,25 @@ if(isset($print_info_banner) && $print_info_banner == true)
 	$template->set_file('page', 'pages_modify.htt');
 	$template->set_block('page', 'main_block', 'main');
 	$template->set_var(array(
-				'PAGE_ID' => $res_pages['page_id'],
-				'PAGE_TITLE' => ($res_pages['page_title']),
+				'PAGE_ID' => $rec_pages['page_id'],
+				'PAGE_TITLE' => ($rec_pages['page_title']),
 				'MODIFIED_BY' => $user['display_name'],
 				'MODIFIED_BY_USERNAME' => $user['username'],
 				'MODIFIED_WHEN' => $modified_ts,
 				'ADMIN_URL' => ADMIN_URL
 				));
 
+	$template->set_block('main_block', 'show_modify_block', 'show_modify');
 	if($modified_ts == 'Unknown')
 	{
+    	$template->set_block('show_modify', '');
 		$template->set_var('CLASS_DISPLAY_MODIFIED', 'hide');
 	} else {
 		$template->set_var('CLASS_DISPLAY_MODIFIED', '');
+    	$template->parse('show_modify', 'show_modify_block', true);
 	}
 
+	$template->set_block('main_block', 'show_section_block', 'show_section');
 	// Work-out if we should show the "manage sections" link
     $sql  = 'SELECT `section_id` FROM `'.TABLE_PREFIX.'sections` ';
 	$sql .= 'WHERE `page_id` = '.intval($page_id).' AND `module` = "menu_link"';
@@ -143,11 +147,14 @@ if(isset($print_info_banner) && $print_info_banner == true)
 	{
 		if($res_sections->numRows() > 0)
 		{
+			$template->set_block('show_section', '');
 			$template->set_var('DISPLAY_MANAGE_SECTIONS', 'none');
 		}elseif(MANAGE_SECTIONS == 'enabled')
 		{
 			$template->set_var('TEXT_MANAGE_SECTIONS', $HEADING['MANAGE_SECTIONS']);
+    		$template->parse('show_section', 'show_section_block', true);
 		}else {
+			$template->set_block('show_section', '');
 			$template->set_var('DISPLAY_MANAGE_SECTIONS', 'none');
 		}
 	} else {
