@@ -75,7 +75,7 @@ if(isset($_GET['section_id']) AND is_numeric($_GET['section_id']))
 		$admin->print_footer();
 		exit();
 	}
-} elseif(isset($_POST['module']) AND $_POST['module'] != '')
+} elseif(isset($_POST['module']) && $_POST['module'] != '')
 {
 	// Get section info
 	$module = $admin->add_slashes($_POST['module']);
@@ -117,7 +117,7 @@ foreach($admin->get_groups_id() as $cur_gid)
 		$in_old_group = TRUE;
 	}
 }
-if((!$in_old_group) AND !is_numeric(array_search($admin->get_user_id(), $old_admin_users)))
+if((!$in_old_group) && !is_numeric(array_search($admin->get_user_id(), $old_admin_users)))
 {
 	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
 }
@@ -130,12 +130,12 @@ $results = $database->query($sql);
 
 if($database->is_error())
 {
-	$admin->print_header();
+	// $admin->print_header();
 	$admin->print_error($database->get_error());
 }
 if($results->numRows() == 0)
 {
-	$admin->print_header();
+	// $admin->print_header();
 	$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
 }
 $results_array = $results->fetchRow();
@@ -227,19 +227,18 @@ if($query_sections->numRows() > 0)
             $sql .= 'WHERE `directory` = "'.$section['module'].'"';
             $module_name = $database->get_one($sql);
             // if(DEBUG && $database->is_error()) { $admin->print_error($database->get_error()); }
+            $module_tmp = ( trim($module_name) == '' ) ? $section['module'] : $module_name;
 
-			$template->set_var(array(
-			) );
 
 			if(SECTION_BLOCKS)
             {
-                if(defined('EDIT_ONE_SECTION') and EDIT_ONE_SECTION)
+                if(defined('EDIT_ONE_SECTION') && EDIT_ONE_SECTION)
                 {
-				    $edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'&amp;wysiwyg='.$section['section_id'] .'">'.$module_name.'</a>';
+				    $edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'&amp;wysiwyg='.$section['section_id'] .'">'.$module_tmp.'</a>';
                 } else {
-				    $edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'#wb'.$section['section_id'].'">'.$module_name.'</a>';
+				    $edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'#wb'.$section['section_id'].'">'.$module_tmp.'</a>';
                 }
-
+                $edit_page = ( trim($module_name) == '' ) ? '<span class="module_disabled">'.$section['module'].'</span>' : $edit_page;
 				$input_attribute = 'input_normal';
 				$template->set_var(array(
 						'STYLE_DISPLAY_SECTION_BLOCK' => ' style="visibility:visible;"',
@@ -250,7 +249,7 @@ if($query_sections->numRows() > 0)
 						'LINK_MODIFY_URL_VAR_MODUL_NAME' => $edit_page,
 						'SELECT' => '',
 						'SET_NONE_DISPLAY_OPTION' => ''
-						) 
+						)
 					);
 				// Add block options to the section_list
 				$template->clear_var('block_list');
@@ -268,7 +267,8 @@ if($query_sections->numRows() > 0)
 					$template->parse('block_list', 'block_block', true);
 				}
 			} else {
-				$edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'#'.$section['section_id'].'">'.$module_name.'</a>';
+				$edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'#'.$section['section_id'].'">'.$module_tmp.'</a>';
+                $edit_page = ( trim($module_name) == '' ) ? '<span class="module_disabled">'.$section['module'].'</span>' : $edit_page;
 				$input_attribute = 'input_small';
 				$template->set_var(array(
 						'STYLE_DISPLAY_SECTION_BLOCK' => ' style="display:none;"',
@@ -280,7 +280,7 @@ if($query_sections->numRows() > 0)
 						'NAME' => htmlentities(strip_tags($block[1])),
 						'VALUE' => 1,
 						'SET_NONE_DISPLAY_OPTION' => ''
-						) 
+						)
 					);
 			}
 			// Insert icon and images
