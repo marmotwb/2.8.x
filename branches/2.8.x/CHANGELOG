@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+30-Apr-2010 Dietmar Woellbrink (Luisehahne)
+!	changes Backend javascripts from body to head
 28-Apr-2010 Dietmar Woellbrink (Luisehahne)
 !	insert modulename in sections, even for missing module, you can style it with class selector: module_disabled
 27-Apr-2010 Dietmar Woellbrink (Luisehahne)
