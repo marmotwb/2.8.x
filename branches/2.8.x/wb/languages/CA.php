@@ -432,6 +432,7 @@ $TEXT['EXTENSION'] = "Extension";
 $TEXT['UNZIP_FILE'] = "Upload and unpack a zip archive";
 $TEXT['DELETE_ZIP'] = "Delete zip archive after unpacking";
 $TEXT['NEED_CURRENT_PASSWORD'] ='confirm with current password';
+$TEXT['CAN_DELETE_HIMSELF'] = 'Can delete himself';
 
 // Success/error messages
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Ho sentim, no teniu permisos per a veure aquesta p&agrave;gina';

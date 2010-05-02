@@ -433,6 +433,7 @@ $TEXT['EXTENSION'] = "Extension";
 $TEXT['UNZIP_FILE'] = "Zip-Archiv hochladen und entpacken";
 $TEXT['DELETE_ZIP'] = "Zip-Archiv nach dem entpacken l&ouml;schen";
 $TEXT['NEED_CURRENT_PASSWORD'] ='mit aktuellem Passwort best&auml;tigen';
+$TEXT['CAN_DELETE_HIMSELF'] = 'Selbstlöschung möglich';
 
 // Success/error messages
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Sie sind nicht berechtigt, diese Seite zu sehen';
@@ -454,11 +455,11 @@ $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Deine WB Logindaten ...';
 $MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = "
 Hallo {LOGIN_DISPLAY_NAME},
 
-Herlich willkommen bei '{LOGIN_WEBSITE_TITLE}'
+Herzlich willkommen bei '{LOGIN_WEBSITE_TITLE}'
 
 Ihre Logindaten f&uuml;r '{LOGIN_WEBSITE_TITLE}' lauten:
 Benutzername: {LOGIN_NAME}
-Passwort: Registrierungspasswort
+Passwort: {LOGIN_PASSWORD}
 
 Vielen Dank f&uuml;r Ihre Registrierung
 

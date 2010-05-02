@@ -434,6 +434,7 @@ $TEXT['EXTENSION'] = 'BĶ&iacute;tm&eacute;ny';
 $TEXT['UNZIP_FILE'] = 'ZIP arch&iacute;vum felt&ouml;lt&eacute;se &eacute;s kicsomagol&aacute;sa';
 $TEXT['DELETE_ZIP'] = 'ZIP arch&iacute;vum t&ouml;rl&eacute;se kicsomagol&aacute;s ut&aacute;n&amp;';
 $TEXT['NEED_CURRENT_PASSWORD'] ='confirm with current password';
+$TEXT['CAN_DELETE_HIMSELF'] = 'Can delete himself';
 
 // Success/error messages
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Sajn&aacute;ljuk, de a megjelen&iacute;t&eacute;shez nincs jogosults&aacute;ga!';
