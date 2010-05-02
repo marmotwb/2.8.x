@@ -432,6 +432,7 @@ $TEXT['EXTENSION'] = 'Extension';
 $TEXT['UNZIP_FILE'] = 'Nahraj a rozba&#318; zip s&uacute;bor';
 $TEXT['DELETE_ZIP'] = 'Zmaza&#357; zip s&uacute;bor po rozbalen&iacute;';
 $TEXT['NEED_CURRENT_PASSWORD'] ='confirm with current password';
+$TEXT['CAN_DELETE_HIMSELF'] = 'Can delete himself';
 
 // Success/error messages
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Nem&aacute;te opr&aacute;vnenie prezera&#357; t&uacute;to str&aacute;nku';

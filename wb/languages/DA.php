@@ -432,6 +432,7 @@ $TEXT['EXTENSION'] = 'Udvidelse';
 $TEXT['UNZIP_FILE'] = 'Overf&oslash;r og udpak et zip-arkiv';
 $TEXT['DELETE_ZIP'] = 'Slet zip-arkiv efter udpakning';
 $TEXT['NEED_CURRENT_PASSWORD'] ='confirm with current password';
+$TEXT['CAN_DELETE_HIMSELF'] = 'Can delete himself';
 
 // Success/error messages
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Beklager - du har ikke adgang til at se denne side';

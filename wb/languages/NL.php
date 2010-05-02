@@ -431,6 +431,7 @@ $TEXT['EXTENSION'] = "Extensie";
 $TEXT['UNZIP_FILE'] = "Uploaden en uitpakken van ZIP-bestand";
 $TEXT['DELETE_ZIP'] = "Verwijder ZIP van server na uitpakken";
 $TEXT['NEED_CURRENT_PASSWORD'] ='bevestig met huidige wachtwoord';
+$TEXT['CAN_DELETE_HIMSELF'] = 'Can delete himself';
 
 // Success/error messages
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Sorry, u heeft geen bevoegdheden om deze pagina te bekijken';
