@@ -1,16 +1,11 @@
 <!-- BEGIN main_block -->
-<center>
-	
-	{MESSAGE}
-	
-	<script language="javascript" type="text/javascript">
-		setTimeout("location.href='{REDIRECT}'", {REDIRECT_TIMER});
-	</script>
-	
-	<noscript>
-		<br /><br />
-		<a href="{REDIRECT}">{NEXT}</a>
-	</noscript>
-	
-</center>
+<div class="error_box">
+ <p>{MESSAGE}</p>
+<!-- BEGIN show_redirect_block -->
+ <script language="javascript" type="text/javascript">
+  setTimeout("location.href='{REDIRECT}'", {REDIRECT_TIMER});
+ </script>
+<!-- END show_redirect_block -->
+ <p><a href="{REDIRECT}" title="{NEXT}">{BACK}</a></p>
+</div>
 <!-- END main_block -->
