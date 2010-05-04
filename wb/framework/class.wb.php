@@ -289,6 +289,7 @@ class wb extends SecureForm
 	    $tpl->set_var( 'REDIRECT', $redirect );
 	    $tpl->set_var( 'REDIRECT_TIMER', $redirect_timer );
 	    $tpl->set_var( 'NEXT', $TEXT['NEXT'] );
+	    $tpl->set_var( 'BACK', $TEXT['BACK'] );
 	    if ($redirect_timer == 0) {
 	        $tpl->set_block( 'show_redirect', '' );
 	    }

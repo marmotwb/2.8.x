@@ -12,6 +12,9 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 02-May-2010 Dietmar Woellbrink (Luisehahne)
+!	remove some unneeded code in backend themes templates
+!	see forum: JQuery und Backend-Theme
+02-May-2010 Dietmar Woellbrink (Luisehahne)
 !	add lang variable for new userform
 02-May-2010 Dietmar Woellbrink (Luisehahne)
 !	added IdKey to class secureForm
