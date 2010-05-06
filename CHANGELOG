@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+06-May-2010 Dietmar Woellbrink (Luisehahne)
+#	Ticket #998 fix German language file from mixture of du and Sie (Tks to Erpe)
 02-May-2010 Dietmar Woellbrink (Luisehahne)
 !	remove some unneeded code in backend themes templates
 !	see forum: JQuery und Backend-Theme

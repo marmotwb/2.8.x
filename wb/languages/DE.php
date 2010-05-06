@@ -478,8 +478,7 @@ Ihre neuen Logindaten f&uuml;r {LOGIN_WEBSITE_TITLE} lauten:
 Benutzername: {LOGIN_NAME}
 Passwort: {LOGIN_PASSWORD}
 
-Dein bisheriges Passwort wurde durch das neue Passwort oben ersetzt.
-Das bisherige Passwort ist nicht mehr g&uuml;ltig.
+Das bisherige Passwort wurde durch das neue Passwort oben ersetzt.
 
 Sollten Sie kein neues Kennwort angefordert haben, l&ouml;schen Sie bitte diese E-Mail.
 
@@ -615,7 +614,7 @@ $MESSAGE['ADDON_ERROR_RELOAD'] = 'Fehler beim Abgleich der Addon Informationen.'
 $MESSAGE['ADDON_MODULES_RELOADED'] = 'Module erfolgreich geladen';
 $MESSAGE['ADDON_TEMPLATES_RELOADED'] = 'Designvorlagen erfolgreich geladen';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Sprachen erfolgreich geladen';
-$MESSAGE['ADDON_PRECHECK_FAILED'] = 'Installation fehlgeschlagen. Dein System erf&uuml;llt nicht alle Voraussetzungen die f&uuml;r diese Erweiterung ben&ouml;tigt werden. Um diese Erweiterung nutzen zu k&ouml;nnen, m&uuml;ssen nachfolgende Updates durchgef&uuml;hrt werden.';
+$MESSAGE['ADDON_PRECHECK_FAILED'] = 'Installation fehlgeschlagen. Ihr System erf&uuml;llt nicht alle Voraussetzungen die f&uuml;r diese Erweiterung ben&ouml;tigt werden. Um diese Erweiterung nutzen zu k&ouml;nnen, m&uuml;ssen nachfolgende Updates durchgef&uuml;hrt werden.';
 $MESSAGE['ADDON_MANUAL_INSTALLATION'] = 'Beim Hochladen oder L&ouml;schen von Modulen per FTP (nicht empfohlen), werden eventuell vorhandene Moduldateien <tt>install.php</tt>, <tt>upgrade.php</tt> oder <tt>uninstall.php</tt> nicht automatisch ausgef&uuml;hrt. Solche Module funktionieren daher meist nicht richtig, oder hinterlassen Datenbankeintr&auml;ge beim L&ouml;schen per FTP.<br /><br /> Nachfolgend k&ouml;nnen die Moduldateien von per FTP hochgeladenen Modulen manuell ausgef&uuml;hrt werden.';
 $MESSAGE['ADDON_MANUAL_INSTALLATION_WARNING'] = 'Warnung: Eventuell vorhandene Datenbankeintr&auml;ge eines Moduls gehen verloren. Bitte nur bei bei Problemen mit per FTP hochgeladenen Modulen verwenden. ';
 
