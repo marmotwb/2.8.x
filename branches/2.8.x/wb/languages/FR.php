@@ -429,10 +429,11 @@ $TEXT['INSTALLED'] = "install&eacute;";
 $TEXT['NOT_INSTALLED'] = "non install&eacute;";
 $TEXT['ADDON'] = "Extension";
 $TEXT['EXTENSION'] = "Extension";
-$TEXT['UNZIP_FILE'] = "Uploader et d�compresser l&apos;archive zip";
-$TEXT['DELETE_ZIP'] = "Effacer l&apos;archive zip apr�s d�compression";
+$TEXT['UNZIP_FILE'] = "Uploader et d&eacute;compresser l&apos;archive zip";
+$TEXT['DELETE_ZIP'] = "Effacer l&apos;archive zip apr&egrave;s d&eacute;compression";
 $TEXT['NEED_CURRENT_PASSWORD'] ='confirm with current password';
 $TEXT['CAN_DELETE_HIMSELF'] = 'Can delete himself';
+$TEXT['PROFILES_EDIT'] = 'Change the profile';
 
 // Success/error messages
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'D&eacute;sol&eacute;, vous n&apos;avez pas les droits pour visualiser cette page';
