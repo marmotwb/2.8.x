@@ -12,6 +12,9 @@ Legend:
 
 ------------------------------------- 2.8.1 -------------------------------------
 11-May-2010 Dietmar Woellbrink (Luisehahne)
+-	remove unneeded flags in backend themes
+-	remove admin/images
+11-May-2010 Dietmar Woellbrink (Luisehahne)
 #	Ticket #1004 Small typofixes needed in FR lang file (Tks to quinto)
 +	Ticket #1005 add FR Language for the admin templates (Tks to quinto)
 06-May-2010 Dietmar Woellbrink (Luisehahne)
