@@ -36,9 +36,9 @@ function make_list($parent, $editable_pages) {
 	// $database = new database();
 
 	// Get page list from database
-    $sql = 'SELECT * FROM `'.TABLE_PREFIX.'pages` WHERE `parent` = '.$parent;
-    $sql .= (PAGE_TRASH != 'inline') ?  ' AND `visibility` != "deleted"' : '';
-    $sql .= ' ORDER BY `position` ASC';
+    $sql = 'SELECT * FROM `'.TABLE_PREFIX.'pages` WHERE `parent` = '.$parent.' ';
+    $sql .= (PAGE_TRASH != 'inline') ?  'AND `visibility` != \'deleted\' ' : ' ';
+    $sql .= 'ORDER BY `position` ASC';
 	$get_pages = $database->query($sql);
 /*
 	if(PAGE_TRASH != 'inline')
@@ -88,8 +88,8 @@ function make_list($parent, $editable_pages) {
 				}
 			}
 			// Work out if we should show a plus or not
-            $sql = 'SELECT `page_id`,`admin_groups`,`admin_users` FROM `'.TABLE_PREFIX.'pages` WHERE `parent` = '.$page['page_id'];
-            $sql .= (PAGE_TRASH != 'inline') ?  ' AND `visibility` != "deleted"' : '';
+            $sql = 'SELECT `page_id`,`admin_groups`,`admin_users` FROM `'.TABLE_PREFIX.'pages` WHERE `parent` = '.$page['page_id'].' ';
+            $sql .= (PAGE_TRASH != 'inline') ?  'AND `visibility` != \'deleted\' ' : ' ';
             // $sql .= ' ORDER BY `position` ASC';
         	$get_page_subs = $database->query($sql);
 /*
@@ -193,8 +193,8 @@ function make_list($parent, $editable_pages) {
 				if(MANAGE_SECTIONS == 'enabled' && $admin->get_permission('pages_modify')==true && $can_modify==true)
                 {
 
-                    $sql = 'SELECT `publ_start`, `publ_end` FROM `'.TABLE_PREFIX.'sections`';
-                    $sql .= ' WHERE `page_id` = '.$page['page_id'].' AND `module` != "menu_link"';
+                    $sql = 'SELECT `publ_start`, `publ_end` FROM `'.TABLE_PREFIX.'sections` ';
+                    $sql .= 'WHERE `page_id` = '.$page['page_id'].' AND `module` != \'menu_link\' ';
                     $query_sections = $database->query($sql);
 
 					// $query_sections = $database->query("SELECT publ_start, publ_end FROM ".TABLE_PREFIX."sections WHERE page_id = '{$page['page_id']}' AND module != 'menu_link'");

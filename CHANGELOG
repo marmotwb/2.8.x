@@ -11,7 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
-11-May-2010 Dietmar Woellbrink (Luisehahne)
+12-May-2010 Dietmar Woellbrink (Luisehahne)
+#	Ticket #999 wrong sql statement in admin/pages/index.php (Tks to Lucutus)
+12-May-2010 Dietmar Woellbrink (Luisehahne)
 -	remove unneeded flags in backend themes
 -	remove admin/images
 11-May-2010 Dietmar Woellbrink (Luisehahne)
