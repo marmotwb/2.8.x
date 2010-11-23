@@ -73,7 +73,7 @@ if($email != "")
 }
 
 // Check if the email already exists
-$results = $database->query("SELECT user_id FROM ".TABLE_PREFIX."users WHERE email = '".$admin->add_slashes($_POST['email'])."'");
+$results = $database->query("SELECT user_id FROM ".TABLE_PREFIX."users WHERE email = '".$admin->add_slashes($_POST['email'])."' AND user_id <> '".$user_id."' ");
 if($results->numRows() > 0)
 {
 	if(isset($MESSAGE['USERS']['EMAIL_TAKEN']))

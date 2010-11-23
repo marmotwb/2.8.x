@@ -9,7 +9,7 @@ if(FRONTEND_LOGIN == 'enabled' && VISIBILITY != 'private' && $wb->get_session('U
 	$return_value .= $TEXT['PASSWORD'].':<input type="password" name="password" /><br />';
 	$return_value .= '<input type="submit" name="submit" value="'.$TEXT['LOGIN'].'" class="dbutton" /><br />';
 	$return_value .= '<a href="'.FORGOT_URL.'">'.$TEXT['FORGOT_DETAILS'].'</a><br />';
-	if(is_numeric(FRONTEND_SIGNUP))  
+	if(is_numeric(FRONTEND_SIGNUP) && (FRONTEND_SIGNUP > 0))  
 		$return_value .= '<a href="'.SIGNUP_URL.'">'.$TEXT['SIGNUP'].'</a>';
 	$return_value .= '</form>';
 } elseif(FRONTEND_LOGIN == 'enabled' && is_numeric($wb->get_session('USER_ID'))) {
