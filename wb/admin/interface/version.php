@@ -36,7 +36,7 @@
  * @copyright       2009-2010, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
- * @platform        WebsiteBaker 2.8.x
+ * @platform        WebsiteBaker 2.8.1
  * @requirements    PHP 4.3.4 and higher
  * @revision     	$Revision$
  * @version      	$Id$
@@ -51,7 +51,7 @@ if(!defined('WB_URL')) {
 }
 
 // check if defined to avoid errors during installation (redirect to admin panel fails if PHP error/warnings are enabled)
-if(!defined('VERSION')) define('VERSION', '2.8.x');
-if(!defined('REVISION')) define('REVISION', '1346');
+if(!defined('VERSION')) define('VERSION', '2.8.1');
+if(!defined('REVISION')) define('REVISION', '1347');
 
 ?>
