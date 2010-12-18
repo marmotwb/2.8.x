@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.1 -------------------------------------
+17 Dec-2010 Dietmar Woellbrink (Luisehahne)
+# fix save access rights in settings
 23 Nov-2010 Dietmar Woellbrink (Luisehahne)
 # fix Droplet LoginBox fronend_signup (tks to Maverik)
 # fix save user e-mail,
