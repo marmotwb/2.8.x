@@ -5,11 +5,11 @@
  * @package         initialize
  * @author          WebsiteBaker Project
  * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2010, Website Baker Org. e.V.
+ * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
- * @requirements    PHP 4.4.9 and higher
+ * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
@@ -64,11 +64,16 @@ if (file_exists(WB_PATH.'/framework/class.database.php')) {
 			define('ASP_INPUT_MIN_AGE', (int)$setting['asp_input_min_age']);
 		}
 	}
-	// set error-reporting
-	if(is_numeric(ER_LEVEL)) {
-		error_reporting(ER_LEVEL);
-	}
 
+	// set error-reporting
+	if(intval(ER_LEVEL) > 0 )
+	{
+		error_reporting(ER_LEVEL);
+		if(ini_get ( 'display_errors' == 0 ) )
+		{
+			ini_set('display_errors', 1);
+		}
+	}
 	// Start a session
 	if(!defined('SESSION_STARTED')) {
 		session_name(APP_NAME.'_session_id');

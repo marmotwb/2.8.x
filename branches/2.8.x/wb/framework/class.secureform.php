@@ -4,11 +4,11 @@
  * @category        security
  * @package         framework
  * @author          ISTeam easy-Project
- * @copyright       2009-2010, Independend-Software-Team
+ * @copyright       2009-2011, Independend-Software-Team
  * @link            http://easy.isteam.de/
  * @license         http://creativecommons.org/licenses/by-nc-nd/3.0/de/
  * @platform        WebsiteBaker 2.8.x
- * @requirements    PHP 4.4.9 and higher
+ * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
  * @filesource      $HeadURL$
  * @lastmodified    $Date$

@@ -5,11 +5,11 @@
  * @package         install
  * @author          WebsiteBaker Project
  * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2010, Website Baker Org. e.V.
+ * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
- * @requirements    PHP 4.3.4 and higher
+ * @requirements    PHP 5.2.2 and higher
  * @version      	$Id$
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
@@ -131,10 +131,10 @@ function change_os(type) {
 		</tr>
 		<?php } ?>
 		<tr>
-			<td width="160" style="color: #666666;">PHP Version > 4.4.9</td>
+			<td width="160" style="color: #666666;">PHP Version > 5.2.1</td>
 			<td width="60">
 				<?php
-			   if (version_compare(PHP_VERSION, '4.4.9', '>='))
+			   if (version_compare(PHP_VERSION, '5.2.1', '>='))
 			   {
 					?><font class="good">Yes</font><?php
 				} else {
@@ -167,17 +167,6 @@ function change_os(type) {
 				?>
 			</td>
 			<td colspan="4">&nbsp;</td>
-        <?php if (version_compare(PHP_VERSION, '5.2.1', '<')){ ?>
-		<tr>
-        	<td colspan="7">
-            <div class="warning">
-			<p>Your current PHP Version is: <?php print PHP_VERSION;  ?></p><h4>Please upgrade your Hosting to PHP Version 5.2.1 or higher</h4>
-			<p>PHP 4 is no longer under development nor will any security updates be released.</p>
-
-			</div>
-			</td>
-		</tr>
-        <?php } ?>
 		</tr>
 		<?php if($e_adc) { ?>
 		<tr>
