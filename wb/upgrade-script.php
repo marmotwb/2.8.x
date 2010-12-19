@@ -5,11 +5,11 @@
  * @package         installation
  * @author          WebsiteBaker Project
  * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2010, Website Baker Org. e.V.
+ * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
- * @requirements    PHP 4.3.4 and higher
+ * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
@@ -24,7 +24,7 @@ function status_msg($message, $class='check', $element='span') {
 	echo '<'.$element .' class="' .$class .'">' .$message .'</' .$element.'>';
 }
 
-$version = '2.8.1';
+$version = '2.8.2';
 // database tables including in WB package
 $table_list = array (
     'settings','groups','addons','pages','sections','search','users',
@@ -484,7 +484,7 @@ if(in_array('mod_news_settings', $all_tables))
         }
 
 
-      if ((version_compare(WB_VERSION, '2.8.0') <= 0) && file_exists(WB_PATH."/modules/news/upgrade.php"))
+      if ((version_compare(WB_VERSION, '2.8.1') <= 0) && file_exists(WB_PATH."/modules/news/upgrade.php"))
       {
               echo '<h4>Upgrade existings postfiles to new format</h4><br />';
               // change old postfiles to new postfiles
@@ -497,9 +497,9 @@ if(in_array('mod_news_settings', $all_tables))
 }
 
 /**********************************************************
- *  - Set Version to WB 2.8.1
+ *  - Set Version to WB 2.8.2
  */
-echo "<br />Update database version number to 2.8.1 : ";
+echo "<br />Update database version number to 2.8.2 : ";
 echo ($database->query("UPDATE `".TABLE_PREFIX."settings` SET `value` = '$version' WHERE `name` = 'wb_version'")) ? " $OK<br />" : " $FAIL<br />";
 
 /**********************************************************
