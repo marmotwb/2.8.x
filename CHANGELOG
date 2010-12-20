@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+20 Dec-2010 Dietmar Woellbrink (Luisehahne)
+# syntaxfix in initialize.php
 19 Dec-2010 Dietmar Woellbrink (Luisehahne)
 + add ini_set('display_errors', 1) (Tks to Thorn)
 ! update headerinfos
