@@ -97,7 +97,8 @@ A:  Im verwendeten Template fehlen die notwendigen Zeilen:
     1.  Im WB Admin Backend: Optionen -> Erweiterte Optionen anzeigen ->        
         Suchoptionen -> Kopfzeile - hier direkt nach dem öffnenden <form> tag 
         folgende Zeile einfügen:
-               <input type="hidden" name="referrer" value="[REFERRER_ID]" />
+       
+        <input type="hidden" name="referrer" value="[REFERRER_ID]" />
 
     2.  In der index.php des verwendeten Templates folgende Zeile unmittelbar   
         nach dem öffnenden <form> tag der Suche einfügen:
@@ -404,6 +405,15 @@ $aOptions
                     release 4.8, supply this flag to enable hidden pages to
                     become visible when they are active.
 
+    SM2_XHTML_STRICT	Stellt die XHTML-Kompatibilität der Links sicher indem
+					in per [a] oder [ac] formatierten Links die Targetangabe
+					entfernt und das Argument title="[page_titel]" eingefügt
+					wird. Bei manuell zusammengestellten Links ist der Designer
+					selbst für die XHTML-Konformität zuständig.
+
+	SM2_NO_TITLE	Unterdrückt die Ausgabe des Inhaltes des Title-Attributes
+					bei [a] oder [ac] formatierten links.
+
     Für diesen Parameter gibt es auch einen erweiterten Modus, bei dem die Optionen
     als assoziatives Array übergeben werden. Näheres dazu im Abschnitt ERWEITERTE
     OPTIONEN. Für die meisten Anwendungsfälle wird dies jedoch NICHT benötigt.
@@ -490,8 +500,11 @@ verwendet werden und sollen durch den entsprechenden Text ersetzt werden.
 [class]         Liste der Klassen für diese Seite
 [menu_title]    Text des Menütitel 
                 (HTML entity escaped ausser das SM2_NOESCAPE Flag ist gesetzt)
+[menu_icon_0]	die URL zu einer Bilddatei mit normal - Darstellung (ab WB2.9.0)
+[menu_icon_1]	die URL zu einer Bilddatei mit active/hover - Darstellung (ab WB2.9.0)
 [page_title]    text des Seitentitel 
                 (HTML entity escaped ausser das SM2_NOESCAPE Flag ist gesetzt)
+[page_icon]		die URL zu einer seitenbezogenen Bilddatei (ab WB2.9.0)
 [url]           die URL der Seiten für den <a> tag
 [target]        das Seitenziel für den <a> tag
 [page_id]       die Page ID des aktuellen Menüpunktes.
@@ -547,6 +560,7 @@ z.B. X == Y  - hierbei ist X der linke Operand, == der Operator und Y der rechte
         sib         Überprüfung der Geschwisteranzahl der aktuellen Seite.
         sibCount    Überprüfung der Geamtanzahl der Geschwister im aktuellen Menü.
         id          Überprüfung der page id.
+		target		Überprüfung der Target-Angabe
     
     Operator. Muss einer der folgenden sein:
         <           Kleiner als
@@ -574,6 +588,7 @@ z.B. X == Y  - hierbei ist X der linke Operand, == der Operator und Y der rechte
         sib         Eine positive Integerzahl, oder "sibCount" um die Anzahl der
                     Geschwister in diesem Menü zu überprüfen
         sibCount    Eine positive Integerzahl
+		target		Ein String, der eine mögliche Targetangabe darstellt
         
 Folgende Beispiele ergeben "wahr" und der Ausdruck {exp} wird ausgeführt, wenn zutrifft:
     
@@ -589,6 +604,7 @@ Folgende Beispiele ergeben "wahr" und der Ausdruck {exp} wird ausgeführt, wenn 
     [if(level>parent){exp}]         ist in einem Geschwistermenü oder dem Untermenü eines      
                                     Geschwistermenüs
     [if(id==parent){exp}]           ist der übergeordnete Punkt der aktuellen id
+	[if(target==_self){exp}]		im Target-Attribut ist der String '_self' enthalten
 
 Wenn eine sonst-Klausel (else) hinzugefügt wird, so wird diese in allen anderen Fällen 
 ausgeführt.
