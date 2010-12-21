@@ -906,38 +906,43 @@ function load_language($file)
 // Upgrade module info in DB, optionally start upgrade script
 function upgrade_module($directory, $upgrade = false)
 {
-	global $database, $admin, $MESSAGE;
-	$directory = WB_PATH.'/modules/'.$directory;
-	if(file_exists($directory.'/info.php'))
+	global $database, $admin, $MESSAGE, $new_module_version;
+	$mod_directory = WB_PATH.'/modules/'.$directory;
+	if(file_exists($mod_directory.'/info.php'))
 	{
-		require($directory.'/info.php');
+		require($mod_directory.'/info.php');
 		if(isset($module_name))
 		{
 			if(!isset($module_license))                                  { $module_license = 'GNU General Public License'; }
-			if(!isset($module_platform) AND isset($module_designed_for)) { $module_platform = $module_designed_for; }
-			if(!isset($module_function) AND isset($module_type))         { $module_function = $module_type; }
+			if(!isset($module_platform) && isset($module_designed_for)) { $module_platform = $module_designed_for; }
+			if(!isset($module_function) && isset($module_type))         { $module_function = $module_type; }
 			$module_function = strtolower($module_function);
 			// Check that it does already exist
-			$sql  = 'SELECT `addon_id` FROM `'.TABLE_PREFIX.'addons` ';
-			$sql .= 'WHERE `directory` = "'.$module_directory.'" LIMIT 0,1';
-			$result = $database->query($sql);
-			if($result->numRows() > 0)
+			// Check that it does already exist
+			$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'addons` ';
+			$sql .= 'WHERE `directory` = \''.$module_directory.'\'';
+
+			if( $database->get_one($sql) )
 			{
 				// Update in DB
 				$sql  = 'UPDATE `'.TABLE_PREFIX.'addons` SET ';
-				$sql .= '`version` = "'.$module_version.'", ';
-				$sql .= '`description` = "'.addslashes($module_description).'", ';
-				$sql .= '`platform` = "'.$module_platform.'", ';
-				$sql .= '`author` = "'.addslashes($module_author).'", ';
-				$sql .= '`license` = "'.addslashes($module_license).'" ';
-				$sql .= 'WHERE `directory` = "'.$module_directory.'"';
+				$sql .= '`version` = \''.$module_version.'\', ';
+				$sql .= '`description` = \''.addslashes($module_description).'\', ';
+				$sql .= '`platform` = \''.$module_platform.'\', ';
+				$sql .= '`author` = \''.addslashes($module_author).'\', ';
+				$sql .= '`license` = \''.addslashes($module_license).'\' ';
+				$sql .= 'WHERE `directory` = \''.$module_directory.'\' ';
 				$database->query($sql);
+				if($database->is_error()) {
+					$admin->print_error($database->get_error());
+				}
+
 				// Run upgrade script
 				if($upgrade == true)
 				{
-					if(file_exists($directory.'/upgrade.php'))
+					if(file_exists($mod_directory.'/upgrade.php'))
 					{
-						require($directory.'/upgrade.php');
+						require($mod_directory.'/upgrade.php');
 					}
 				}
 			}

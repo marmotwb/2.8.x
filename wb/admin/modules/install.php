@@ -67,7 +67,6 @@ require($temp_unzip.'info.php');
 // Perform Add-on requirement checks before proceeding
 require(WB_PATH . '/framework/addon.precheck.inc.php');
 preCheckAddon($temp_file);
-
 // Delete the temp unzip directory
 rm_full_dir($temp_unzip);
 
@@ -80,7 +79,7 @@ if(!isset($module_directory))
 
 // Check if this module is already installed
 // and compare versions if so
-$new_module_version=$module_version;
+$new_module_version = $module_version;
 $action="install";
 if(is_dir(WB_PATH.'/modules/'.$module_directory))
 {
@@ -90,6 +89,7 @@ if(is_dir(WB_PATH.'/modules/'.$module_directory))
 		// Version to be installed is older than currently installed version
 		if (versionCompare($module_version, $new_module_version, '>='))
         {
+
 			if(file_exists($temp_file)) { unlink($temp_file); } // Remove temp file
 			$admin->print_error($MESSAGE['GENERIC']['ALREADY_INSTALLED']);
 		}
@@ -114,6 +114,7 @@ make_dir($module_dir);
 
 // Unzip module to the module dir
 $list = $archive->extract(PCLZIP_OPT_PATH, $module_dir);
+
 if(!$list)
 {
 	$admin->print_error($MESSAGE['GENERIC']['CANNOT_UNZIP']);
@@ -133,13 +134,13 @@ while (false !== $entry = $dir->read())
 		change_mode($module_dir.'/'.$entry, 'file');
 	}
 }
-
+/*
 // Run the modules install // upgrade script if there is one
 if(file_exists($module_dir.'/'.$action.'.php'))
 {
 	require($module_dir.'/'.$action.'.php');
 }
-
+*/
 // Print success message
 if ($action=="install")
 {
@@ -148,7 +149,8 @@ if ($action=="install")
 	$admin->print_success($MESSAGE['GENERIC']['INSTALLED']);
 } elseif ($action=="upgrade")
 {
-	upgrade_module($module_directory, false);
+
+	upgrade_module($module_directory, true);
 	$admin->print_success($MESSAGE['GENERIC']['UPGRADED']);
 }	
 
