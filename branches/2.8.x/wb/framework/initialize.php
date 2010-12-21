@@ -69,7 +69,7 @@ if (file_exists(WB_PATH.'/framework/class.database.php')) {
 	if(intval(ER_LEVEL) > 0 )
 	{
 		error_reporting(ER_LEVEL);
-		if(ini_get ( 'display_errors' ) == 0 )
+		if( intval(ini_get ( 'display_errors' )) == 0 )
 		{
 			ini_set('display_errors', 1);
 		}

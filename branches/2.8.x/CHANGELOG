@@ -12,6 +12,9 @@ Legend:
 
 ------------------------------------- 2.8.2 -------------------------------------
 21 Dec-2010 Dietmar Woellbrink (Luisehahne)
+# fix if upgrade module can now overwrite existing newer files in modules folder
+# same for upgrade templates
+21 Dec-2010 Dietmar Woellbrink (Luisehahne)
 # XHTML output fixed in show_menu2
 20 Dec-2010 Dietmar Woellbrink (Luisehahne)
 # syntaxfix in initialize.php
