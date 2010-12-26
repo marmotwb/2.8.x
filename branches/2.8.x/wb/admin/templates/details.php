@@ -34,7 +34,7 @@ if(!isset($_POST['file']) OR $_POST['file'] == "") {
 	header("Location: index.php");
 	exit(0);
 } else {
-	$file = $admin->add_slashes($_POST['file']);
+	$file = preg_replace("/\W/", "", $admin->add_slashes($_POST['file']));  // fix secunia 2010-92-2
 }
 
 // Check if the template exists

@@ -101,6 +101,7 @@ $template->set_var('DISPLAY_EXTRA', 'display:none;');
 $template->set_var('ACTIVE_CHECKED', ' checked="checked"');
 $template->set_var('ACTION_URL', ADMIN_URL.'/users/add.php');
 $template->set_var('SUBMIT_TITLE', $TEXT['ADD']);
+$template->set_var('FTAN', $admin->getFTAN());
 // insert urls
 $template->set_var(array(
 		'ADMIN_URL' => ADMIN_URL,

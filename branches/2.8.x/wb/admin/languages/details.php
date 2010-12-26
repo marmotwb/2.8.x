@@ -28,10 +28,15 @@ require('../../config.php');
 
 // Get language name
 if(!isset($_POST['code']) OR $_POST['code'] == "") {
-	header("Location: index.php");
-	exit(0);
+	$code = '';
 } else {
 	$code = $_POST['code'];
+}
+
+// fix secunia 2010-93-2
+if (!preg_match('/^[A-Z]{2}$/', $code)) {
+	header("Location: index.php");
+	exit(0);
 }
 
 // Check if the language exists
