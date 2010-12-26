@@ -129,42 +129,61 @@ if($advanced == '')
 	$dir_mode = "0".$u.$g.$o;
 }
 
+$allow_tags_in_fields = array('website_header', 'website_footer');
+$allow_empty_values = array('website_header','website_footer','sec_anchor','pages_directory','page_spacer');
+$disallow_in_fields = array('pages_directory', 'media_directory','wb_version');
 // Create new database object
 /*$database = new database(); */
 
 // Query current settings in the db, then loop through them and update the db with the new value
-$query = "SELECT name FROM ".TABLE_PREFIX."settings";
-$results = $database->query($query);
-while($setting = $results->fetchRow())
+$settings = array();
+$old_settings = array();
+// Query current settings in the db, then loop through them to get old values
+$sql = 'SELECT `name`, `value` FROM `'.TABLE_PREFIX.'settings`';
+$sql .= 'ORDER BY `name`';
+
+$res_settings = $database->query($sql);
+
+while($setting = $res_settings->fetchRow())
 {
+	$old_settings[$setting['name']] = $setting['value'];
 	$setting_name = $setting['name'];
 	$value = $admin->get_post($setting_name);
-	if ($setting_name!='wb_version')
+	switch ($setting_name) {
+		case 'default_timezone':
+			$value=$value*60*60;
+			break;
+		case 'string_dir_mode':
+			$value=$dir_mode;
+			break;
+		case 'string_file_mode':
+			$value=$file_mode;
+			break;
+		case 'pages_directory':
+			if(trim($value)=='/') $value='';
+			break;
+		default :
+
+			break;
+	}
+    if (!in_array($setting_name, $allow_tags_in_fields))
     {
-		$allow_tags_in_fields = array('website_header', 'website_footer','wbmailer_smtp_password');
-		if(!in_array($setting_name, $allow_tags_in_fields)) {
-			$value = strip_tags($value);
-		}
+        $value = strip_tags($value);
+    }
 
-		switch ($setting_name) {
-			case 'default_timezone':
-				$value=$value*60*60;
-				break;
-			case 'string_dir_mode':
-				$value=$dir_mode;
-				break;
-			case 'string_file_mode':
-				$value=$file_mode;
-				break;
-			case 'pages_directory':
-				if(trim($value)=='/') $value='';
-				break;
-			default :
+    $passed = in_array($setting_name, $allow_empty_values);
 
-				break;
-		}
-		$value = $admin->add_slashes($value);
-		$database->query("UPDATE ".TABLE_PREFIX."settings SET value = '$value' WHERE name = '$setting_name'");
+    if ( !in_array($value, $disallow_in_fields) && ((trim($value) <> '') || $passed == true) )
+    {
+        $value = trim($admin->add_slashes($value));
+        $sql = 'UPDATE `'.TABLE_PREFIX.'settings` ';
+        $sql .= 'SET `value` = \''.$value.'\' ';
+        $sql .= 'WHERE `name` <> \'wb_version\' ';
+        $sql .= 'AND `name` = \''.$setting_name.'\' ';
+
+        if ($database->query($sql))
+        {
+        }
 	}
 }
 
