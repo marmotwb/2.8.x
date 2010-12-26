@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+26 Dec-2010 Dietmar Woellbrink (Luisehahne)
++ added admin/images
+# fixed save handling settings entries
+! local sync
 26 Dec-2010 Frank Heyne (FrankH)
 # security fix: in modules/admin.php - check whether section belongs to page
 ! security fix: changed $section_required into $no_section_required (apparently used by no module at all)
