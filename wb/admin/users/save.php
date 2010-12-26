@@ -22,7 +22,12 @@ require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Access', 'users_modify');
 
 // Create new database object
-$database = new database();
+//$database = new database();
+if( !$admin->checkFTAN() )
+{
+	$admin->print_error($MESSAGE['PAGES_NOT_SAVED'],'index.php');
+	exit();
+}
 
 // Check if user id is a valid number and doesnt equal 1
 if(!isset($_POST['user_id']) OR !is_numeric($_POST['user_id']) OR $_POST['user_id'] == 1) {

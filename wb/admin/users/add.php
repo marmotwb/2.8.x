@@ -22,7 +22,12 @@ require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Access', 'users_add');
 
 // Create new database object
-$database = new database();
+//$database = new database();
+if( !$admin->checkFTAN() )
+{
+	$admin->print_error($MESSAGE['PAGES_NOT_SAVED'],'index.php');
+	exit();
+}
 
 // Get details entered
 $groups_id = implode(",", $admin->add_slashes($_POST['groups'])); //should check permissions

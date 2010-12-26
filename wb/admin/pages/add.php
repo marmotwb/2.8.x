@@ -27,9 +27,10 @@ require_once(WB_PATH.'/framework/functions.php');
 // Get values
 $title = $admin->get_post_escaped('title');
 $title = htmlspecialchars($title);
-$module = $admin->get_post('type');
-$parent = $admin->get_post('parent');
+$module = preg_replace("/\W/", "", $admin->get_post('type')); // fix secunia 2010-93-4
+$parent = (int) $admin->get_post('parent'); // fix secunia 2010-91-2
 $visibility = $admin->get_post('visibility');
+if (!in_array($visibility, array('public', 'private', 'registered', 'hidden', 'none'))) $visibility = 'public'; // fix secunia 2010-91-2
 $admin_groups = $admin->get_post('admin_groups');
 $viewing_groups = $admin->get_post('viewing_groups');
 
@@ -88,8 +89,8 @@ if(!in_array(1, $admin->get_groups_id()))
 	}
 }
 
-$admin_groups = implode(',', $admin_groups);
-$viewing_groups = implode(',', $viewing_groups);
+$admin_groups =   preg_replace("/[^\d,]/", "", implode(',', $admin_groups));
+$viewing_groups = preg_replace("/[^\d,]/", "", implode(',', $viewing_groups));
 
 // Work-out what the link and page filename should be
 if($parent == '0')

@@ -12,7 +12,7 @@ function toggle_radio(radio_on, radio_off) {
 <form name="user" action="{ACTION_URL}" method="post" class="{DISPLAY_ADD}">
 <input type="hidden" name="user_id" value="{USER_ID}" />
 <input type="hidden" name="username_fieldname" value="{USERNAME_FIELDNAME}" />
-
+{FTAN}
 <table cellpadding="5" cellspacing="0" border="0" width="100%">
 <tr>
 	<td width="150">{TEXT_USERNAME}:</td>

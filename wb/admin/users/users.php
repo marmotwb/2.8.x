@@ -53,18 +53,20 @@ if($_POST['action'] == 'modify')
 	$template->set_file('page', 'users_form.htt');
 	$template->set_block('page', 'main_block', 'main');
 	$template->set_var(	array(
-										'ACTION_URL' => ADMIN_URL.'/users/save.php',
-										'SUBMIT_TITLE' => $TEXT['SAVE'],
-										'USER_ID' => $user['user_id'],
-										'USERNAME' => $user['username'],
-										'DISPLAY_NAME' => $user['display_name'],
-										'EMAIL' => $user['email'],
-										'ADMIN_URL' => ADMIN_URL,
-										'WB_URL' => WB_URL,
-										'WB_PATH' => WB_PATH,
-										'THEME_URL' => THEME_URL
-										)
-								);
+							'ACTION_URL' => ADMIN_URL.'/users/save.php',
+							'SUBMIT_TITLE' => $TEXT['SAVE'],
+							'USER_ID' => $user['user_id'],
+							'USERNAME' => $user['username'],
+							'DISPLAY_NAME' => $user['display_name'],
+							'EMAIL' => $user['email'],
+							'ADMIN_URL' => ADMIN_URL,
+							'WB_URL' => WB_URL,
+							'WB_PATH' => WB_PATH,
+							'THEME_URL' => THEME_URL
+							)
+					);
+	
+	$template->set_var('FTAN', $admin->getFTAN());
 	if($user['active'] == 1) {
 		$template->set_var('ACTIVE_CHECKED', ' checked="checked"');
 	} else {

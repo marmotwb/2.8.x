@@ -36,18 +36,20 @@ require_once(WB_PATH.'/framework/functions.php');
 // Get values
 $page_title = htmlspecialchars($admin->get_post_escaped('page_title') );
 $menu_title = htmlspecialchars($admin->get_post_escaped('menu_title') );
-$page_code = $admin->get_post_escaped('page_code');
+$page_code = (int) $admin->get_post_escaped('page_code');
 $description = htmlspecialchars($admin->add_slashes($admin->get_post('description')) );
 $keywords = htmlspecialchars($admin->add_slashes($admin->get_post('keywords')) );
-$parent = $admin->get_post_escaped('parent');
+$parent = (int) $admin->get_post_escaped('parent'); // fix secunia 2010-91-3
 $visibility = $admin->get_post_escaped('visibility');
-$template = $admin->get_post_escaped('template');
-$target = $admin->get_post_escaped('target');
+if (!in_array($visibility, array('public', 'private', 'registered', 'hidden', 'none'))) $visibility = 'public'; // fix
+$template = preg_replace("/\W/", "", $admin->get_post_escaped('template')); // fix secunia 2010-93-3
+$target = preg_replace("/\W/", "", $admin->get_post_escaped('target'));
 $admin_groups = $admin->get_post_escaped('admin_groups');
 $viewing_groups = $admin->get_post_escaped('viewing_groups');
 $searching = $admin->get_post_escaped('searching');
-$language = $admin->get_post_escaped('language');
-$menu = $admin->get_post_escaped('menu');
+$language = strtoupper($admin->get_post('language'));
+$language = (preg_match('/^[A-Z]{2}$/', $language) ? $language : DEFAULT_LANGUAGE);
+$menu = (int) $admin->get_post_escaped('menu'); // fix secunia 2010-91-3
 
 // Validate data
 if($page_title == '' || substr($page_title,0,1)=='.')
@@ -95,13 +97,13 @@ $admin_groups[] = 1;
 //if(!in_array(1, $admin->get_groups_id())) {
 //	$admin_groups[] = implode(",",$admin->get_groups_id());
 //}
-$admin_groups = implode(',', $admin_groups);
+$admin_groups = preg_replace("/[^\d,]/", "", implode(',', $admin_groups));
 // Setup viewing groups
 $viewing_groups[] = 1;
 //if(!in_array(1, $admin->get_groups_id())) {
 //	$viewing_groups[] = implode(",",$admin->get_groups_id());
 //}
-$viewing_groups = implode(',', $viewing_groups);
+$viewing_groups = preg_replace("/[^\d,]/", "", implode(',', $viewing_groups));
 
 // If needed, get new order
 if($parent != $old_parent)
@@ -193,7 +195,7 @@ $sql .= '`searching` = '.$searching.', ';
 $sql .= '`language` = "'.$language.'", ';
 $sql .= '`admin_groups` = "'.$admin_groups.'", ';
 $sql .= '`viewing_groups` = "'.$viewing_groups.'"';
-$sql .= (defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set && (file_exists(WB_PATH.'/modules/mod_multilingual/update_keys.php')) ? ', `page_code` = '.(int)$page_code.' ' : ' ';
+$sql .= (defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set && (file_exists(WB_PATH.'/modules/mod_multilingual/update_keys.php')) ? ', `page_code` = '.$page_code.' ' : ' ';
 $sql .= 'WHERE `page_id` = '.$page_id;
 $database->query($sql);
 

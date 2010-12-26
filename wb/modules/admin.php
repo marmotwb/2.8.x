@@ -43,7 +43,7 @@ if(isset($_GET['section_id']) && is_numeric($_GET['section_id']))
 	$section_id = $_POST['section_id'];
 } else {
 	// Check if we should redirect the user if there is no section id
-	if(!isset($section_required))
+	if (isset($no_section_required))
 	{
 		$section_id = 0;
 	} else {
@@ -82,6 +82,20 @@ foreach($admin->get_groups_id() as $cur_gid)
 if((!$in_group) && !is_numeric(array_search($admin->get_user_id(), $old_admin_users)))
 {
 	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
+}
+
+// Check whether the section_id belongs to the page_id at all
+if ($section_id != 0) {
+	$sql  = "SELECT `position` FROM `".TABLE_PREFIX."sections` WHERE `page_id` = '$page_id' AND `section_id` = '$section_id'";
+	$res_sec = $database->query($sql);
+	if ($database->is_error())
+	{
+		$admin->print_error($database->get_error());
+	}
+	if ($res_sec->numRows() == 0)
+	{
+		$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
+	} 
 }
 
 // Workout if the developer wants to show the info banner

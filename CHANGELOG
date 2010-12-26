@@ -11,6 +11,13 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+26 Dec-2010 Frank Heyne (FrankH)
+# security fix: in modules/admin.php - check whether section belongs to page
+! security fix: changed $section_required into $no_section_required (apparently used by no module at all)
+# security fix: in path admin/users/ - added FTAN check
+# security fix: remaining vulnerabilities mentioned in http://secunia.com/secunia_research/2010-91/
+# security fix:           vulnerabilities mentioned in http://secunia.com/secunia_research/2010-92/
+# security fix: remaining vulnerabilities mentioned in http://secunia.com/secunia_research/2010-93/
 21 Dec-2010 Dietmar Woellbrink (Luisehahne)
 # fix if upgrade module can now overwrite existing newer files in modules folder
 # same for upgrade templates
