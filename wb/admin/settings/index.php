@@ -147,21 +147,12 @@ if($is_advanced)
 	}
 
 	$template->set_var(array(
-									'PAGES_DIRECTORY' => PAGES_DIRECTORY,
-									'MEDIA_DIRECTORY' => MEDIA_DIRECTORY,
-									'PAGE_EXTENSION' => PAGE_EXTENSION,
-									'PAGE_SPACER' => PAGE_SPACER,
-									'WB_PATH' => WB_PATH,
-									'WB_URL' => WB_URL,
-									'THEME_URL' => THEME_URL,
-									'ADMIN_PATH' => ADMIN_PATH,
-									'ADMIN_URL' => ADMIN_URL,
-								    'DATABASE_TYPE' => '',
-									'DATABASE_HOST' => '',
-									'DATABASE_USERNAME' => '',
-									'DATABASE_NAME' => '',
-									'TABLE_PREFIX' => TABLE_PREFIX
-								 ));
+						'WB_PATH' => WB_PATH,
+						'WB_URL' => WB_URL,
+						'THEME_URL' => THEME_URL,
+						'ADMIN_PATH' => ADMIN_PATH,
+						'ADMIN_URL' => ADMIN_URL,
+					 ));
 
 	// Insert language values
 	$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'language' ORDER BY name");
@@ -575,6 +566,14 @@ if($is_advanced)
 	{
 		$template->set_var('DIR_O_E_CHECKED', ' checked="checked"');
 	}
+
+	$template->set_var(array(
+						'PAGES_DIRECTORY' => PAGES_DIRECTORY,
+						'MEDIA_DIRECTORY' => MEDIA_DIRECTORY,
+						'PAGE_EXTENSION' => PAGE_EXTENSION,
+						'PAGE_SPACER' => PAGE_SPACER,
+						'TABLE_PREFIX' => TABLE_PREFIX
+					 ));
 
 	// Insert Server Email value into template
 	$template->set_var('SERVER_EMAIL', SERVER_EMAIL);

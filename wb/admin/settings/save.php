@@ -29,7 +29,6 @@ require_once(WB_PATH.'/framework/class.admin.php');
 if($advanced == '')
 {
 	$admin = new admin('Settings', 'settings_basic');
-	$_POST['database_password'] = DB_PASSWORD;
 } else {
 	$admin = new admin('Settings', 'settings_advanced');
 }
@@ -155,6 +154,7 @@ while($setting = $res_settings->fetchRow())
 	$old_settings[$setting['name']] = $setting['value'];
 	$setting_name = $setting['name'];
 	$value = $admin->get_post($setting_name);
+	$value = isset($_POST[$setting_name]) ? $value : $old_settings[$setting_name] ;
 	switch ($setting_name) {
 		case 'default_timezone':
 			$value=$value*60*60;
@@ -166,7 +166,6 @@ while($setting = $res_settings->fetchRow())
 			$value=$file_mode;
 			break;
 		case 'pages_directory':
-			if(trim($value)=='/') $value='';
 			break;
 		default :
 
@@ -179,7 +178,7 @@ while($setting = $res_settings->fetchRow())
 
     $passed = in_array($setting_name, $allow_empty_values);
 
-    if ( !in_array($value, $disallow_in_fields) && ((trim($value) <> '') || $passed == true) )
+    if ( !in_array($value, $disallow_in_fields) && (isset($_POST[$setting_name]) || $passed == true) )
     {
         $value = trim($admin->add_slashes($value));
         $sql = 'UPDATE `'.TABLE_PREFIX.'settings` ';
@@ -187,8 +186,11 @@ while($setting = $res_settings->fetchRow())
         $sql .= 'WHERE `name` <> \'wb_version\' ';
         $sql .= 'AND `name` = \''.$setting_name.'\' ';
 
-        if ($database->query($sql))
+        if (!$database->query($sql))
         {
+			if($database->is_error()) {
+				$admin->print_error($database->get_error, ADMIN_URL.'/settings/index.php'.$advanced);
+			}
         }
 	}
 }

@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+27 Dec-2010 Build 1356 Dietmar Woellbrink (Luisehahne)
+# more little fixes in settings
+! change to RC2
 27 Dec-2010 Build 1355 Frank Heyne (FrankH)
 # security fix: remaining vulnerabilities mentioned in http://secunia.com/secunia_research/2010-90/
 # security fix: in path admin/templates/ - added FTAN check
