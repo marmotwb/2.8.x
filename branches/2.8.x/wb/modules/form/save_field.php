@@ -46,9 +46,9 @@ require(WB_PATH.'/modules/admin.php');
 if($admin->get_post('title') == '' OR $admin->get_post('type') == '') {
 	$admin->print_error($MESSAGE['GENERIC']['FILL_IN_ALL'], WB_URL.'/modules/form/modify_field.php?page_id='.$page_id.'&section_id='.$section_id.'&field_id='.$field_id);
 } else {
-	$title = $admin->add_slashes($admin->get_post('title'));
+	$title = htmlspecialchars($admin->get_post_escaped('title'), ENT_QUOTES);
 	$type = $admin->add_slashes($admin->get_post('type'));
-	$required = $admin->add_slashes($admin->get_post('required'));
+	$required = (int) $admin->add_slashes($admin->get_post('required'));
 }
 $value = '';
 

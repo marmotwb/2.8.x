@@ -37,6 +37,12 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Addons', 'templates_install');
 
+if( !$admin->checkFTAN() )
+{
+	$admin->print_error($MESSAGE['PAGES_NOT_SAVED'],'index.php');
+	exit();
+}
+
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 

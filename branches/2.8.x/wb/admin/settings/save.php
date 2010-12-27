@@ -34,6 +34,12 @@ if($advanced == '')
 	$admin = new admin('Settings', 'settings_advanced');
 }
 
+if( !$admin->checkFTAN() )
+{
+	$admin->print_error($MESSAGE['PAGES_NOT_SAVED'],'index.php');
+	exit();
+}
+
 // Create a javascript back link
 $js_back = "javascript: history.go(-1);";
 
