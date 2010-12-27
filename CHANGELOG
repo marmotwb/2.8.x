@@ -11,11 +11,15 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+27 Dec-2010 Build 1355 Frank Heyne (FrankH)
+# security fix: remaining vulnerabilities mentioned in http://secunia.com/secunia_research/2010-90/
+# security fix: in path admin/templates/ - added FTAN check
+# security fix: in path admin/settings/ - added FTAN check
 26 Dec-2010 Dietmar Woellbrink (Luisehahne)
 + added admin/images
 # fixed save handling settings entries
 ! local sync
-26 Dec-2010 Frank Heyne (FrankH)
+26 Dec-2010 Build 1353 Frank Heyne (FrankH)
 # security fix: in modules/admin.php - check whether section belongs to page
 ! security fix: changed $section_required into $no_section_required (apparently used by no module at all)
 # security fix: in path admin/users/ - added FTAN check

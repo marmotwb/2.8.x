@@ -29,6 +29,12 @@ require_once(WB_PATH .'/framework/functions.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Addons', 'templates_view',false);
 
+if( !$admin->checkFTAN() )
+{
+	$admin->print_error($MESSAGE['PAGES_NOT_SAVED'],'index.php');
+	exit();
+}
+
 // Get template name
 if(!isset($_POST['file']) OR $_POST['file'] == "") {
 	header("Location: index.php");
@@ -50,6 +56,7 @@ $admin = new admin('Addons', 'templates_view');
 $template = new Template(THEME_PATH.'/templates');
 $template->set_file('page', 'templates_details.htt');
 $template->set_block('page', 'main_block', 'main');
+$template->set_var('FTAN', $admin->getFTAN());
 
 // Insert values
 $result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'template' AND directory = '$file'");

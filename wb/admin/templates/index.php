@@ -32,6 +32,7 @@ $admin = new admin('Addons', 'templates');
 $template = new Template(THEME_PATH.'/templates');
 $template->set_file('page', 'templates.htt');
 $template->set_block('page', 'main_block', 'main');
+$template->set_var('FTAN', $admin->getFTAN());
 
 // Insert values into template list
 $template->set_block('main_block', 'template_list_block', 'template_list');

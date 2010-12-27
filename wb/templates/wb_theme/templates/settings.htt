@@ -2,6 +2,7 @@
 
 <form name="settings" action="save.php" method="post">
 <input type="hidden" name="advanced" value="{ADVANCED}" />
+{FTAN}
 
 <table cellpadding="3" cellspacing="0" border="0" align="center" width="100%" class="settings_table">
 <tr>

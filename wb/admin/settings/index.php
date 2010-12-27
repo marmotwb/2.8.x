@@ -35,6 +35,7 @@ $template = new Template(THEME_PATH.'/templates');
 
 $template->set_file('page',        'settings.htt');
 $template->set_block('page',       'main_block', 'main');
+$template->set_var('FTAN', $admin->getFTAN());
 
 $template->set_block('main_block', 'template_list_block',         'template_list');
 $template->set_block('main_block', 'timezone_list_block',         'timezone_list');
