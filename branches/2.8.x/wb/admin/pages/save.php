@@ -35,6 +35,12 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_modify');
 
+if (!$admin->checkFTAN())
+{
+	$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
+	exit();
+}
+
 // Get perms
 $sql  = 'SELECT `admin_groups`,`admin_users` FROM `'.TABLE_PREFIX.'pages` ';
 $sql .= 'WHERE `page_id` = '.$page_id;
@@ -89,7 +95,8 @@ if($database->is_error())
 {
 	$admin->print_error($database->get_error(), $js_back);
 } else {
-	$admin->print_success($MESSAGE['PAGES']['SAVED'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+	$ftan2 = $admin->getFTAN(2);
+	$admin->print_success($MESSAGE['PAGES']['SAVED'], ADMIN_URL."/pages/modify.php?page_id=$page_id&amp;$ftan2");
 }
 
 // Print admin footer

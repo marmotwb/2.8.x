@@ -24,6 +24,12 @@ if(!isset($_GET['page_id']) || !is_numeric($_GET['page_id'])) {
 	$page_id = $_GET['page_id'];
 }
 
+if (!$admin->checkFTAN('get'))
+{
+	$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
+	exit();
+}
+
 // Create new admin object
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
@@ -53,6 +59,7 @@ $modified_ts = ($results_array['modified_when'] != 0)
 $template = new Template(THEME_PATH.'/templates');
 $template->set_file('page', 'pages_modify.htt');
 $template->set_block('page', 'main_block', 'main');
+$template->set_var('FTAN2', $admin->getFTAN(2));
 
 $template->set_var(array(
 			'PAGE_ID' => $results_array['page_id'],

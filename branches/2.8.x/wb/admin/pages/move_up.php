@@ -48,6 +48,12 @@ if(isset($_GET['page_id']) AND is_numeric($_GET['page_id'])) {
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_settings');
 
+if (!$admin->checkFTAN('get'))
+{
+	$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
+	exit();
+}
+
 // Include the ordering class
 require(WB_PATH.'/framework/class.order.php');
 

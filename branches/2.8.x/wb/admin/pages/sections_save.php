@@ -46,6 +46,12 @@ if(!isset($_GET['page_id']) OR !is_numeric($_GET['page_id'])) {
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_modify');
 
+if (!$admin->checkFTAN())
+{
+	$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
+	exit();
+}
+
 // Get perms
 $database = new database();
 $results = $database->query("SELECT admin_groups,admin_users FROM ".TABLE_PREFIX."pages WHERE page_id = '$page_id'");
@@ -120,7 +126,8 @@ if($query_sections->numRows() > 0) {
 if($database->is_error()) {
 	$admin->print_error($database->get_error(), ADMIN_URL.'/pages/sections.php?page_id='.$page_id);
 } else {
-	$admin->print_success($MESSAGE['PAGES']['SECTIONS_PROPERTIES_SAVED'], ADMIN_URL.'/pages/sections.php?page_id='.$page_id);
+	$ftan2 = $admin->getFTAN(2);
+	$admin->print_success($MESSAGE['PAGES']['SECTIONS_PROPERTIES_SAVED'], ADMIN_URL."/pages/sections.php?page_id=$page_id&amp;$ftan2");
 }
 
 // Print admin footer

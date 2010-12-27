@@ -27,6 +27,12 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages');
 
+if (!$admin->checkFTAN('get'))
+{
+	$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
+	exit();
+}
+
 ?>
 <script type="text/javascript" language="javascript">
 function toggle_viewers() {
@@ -215,6 +221,7 @@ function make_list($parent, $editable_pages) {
 
 // Generate pages list
 if($admin->get_permission('pages_view') == true) {
+	$ftan2 = $admin->getFTAN(2);
 	?>
 	<table cellpadding="0" cellspacing="0" width="100%" border="0">
 	<tr>
@@ -222,7 +229,7 @@ if($admin->get_permission('pages_view') == true) {
 			<h2><?php echo $HEADING['DELETED_PAGES']; ?></h2>
 		</td>
 		<td align="right">
-				<a href="<?php echo ADMIN_URL; ?>/pages/empty_trash.php">
+				<a href="<?php echo ADMIN_URL. "/pages/empty_trash.php?$ftan2"; ?>">
 				<img src="<?php echo THEME_URL; ?>/images/delete_16.png" alt="<?php echo $TEXT['PAGE_TRASH']; ?>" border="0" />
 				<?php echo $TEXT['EMPTY_TRASH']; ?></a>
 		</td>

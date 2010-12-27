@@ -19,6 +19,9 @@
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages');
+
+$ftan = $admin->getFTAN(2);
+
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 // eggsurplus: add child pages for a specific page
@@ -125,7 +128,7 @@ function make_list($parent, $editable_pages) {
 				</td>
 				<?php if($admin->get_permission('pages_modify') == true AND $can_modify == true) { ?>
 				<td class="list_menu_title">
-					<a href="<?php echo ADMIN_URL; ?>/pages/modify.php?page_id=<?php echo $page['page_id']; ?>" title="<?php echo $TEXT['MODIFY']; ?>">
+					<a href="<?php echo ADMIN_URL; ?>/pages/modify.php?page_id=<?php echo $page['page_id']."&amp;$ftan"; ?>" title="<?php echo $TEXT['MODIFY']; ?>">
 						<?php if($page['visibility'] == 'public') { ?>
 							<img src="<?php echo THEME_URL; ?>/images/visible_16.png" alt="<?php echo $TEXT['VISIBILITY']; ?>: <?php echo $TEXT['PUBLIC']; ?>" class="page_list_rights" />
 						<?php } elseif($page['visibility'] == 'private') { ?>
@@ -176,12 +179,12 @@ function make_list($parent, $editable_pages) {
 				<td class="list_actions">
 					<?php if($page['visibility'] != 'deleted') { ?>
 						<?php if($admin->get_permission('pages_settings') == true AND $can_modify == true) { ?>
-						<a href="<?php echo ADMIN_URL; ?>/pages/settings.php?page_id=<?php echo $page['page_id']; ?>" title="<?php echo $TEXT['SETTINGS']; ?>">
+						<a href="<?php echo ADMIN_URL; ?>/pages/settings.php?page_id=<?php echo $page['page_id']."&amp;$ftan"; ?>" title="<?php echo $TEXT['SETTINGS']; ?>">
 							<img src="<?php echo THEME_URL; ?>/images/modify_16.png" border="0" alt="<?php echo $TEXT['SETTINGS']; ?>" />
 						</a>
 						<?php } ?>
 					<?php } else { ?>
-						<a href="<?php echo ADMIN_URL; ?>/pages/restore.php?page_id=<?php echo $page['page_id']; ?>" title="<?php echo $TEXT['RESTORE']; ?>">
+						<a href="<?php echo ADMIN_URL; ?>/pages/restore.php?page_id=<?php echo $page['page_id']."&amp;$ftan"; ?>" title="<?php echo $TEXT['RESTORE']; ?>">
 							<img src="<?php echo THEME_URL; ?>/images/restore_16.png" border="0" alt="<?php echo $TEXT['RESTORE']; ?>" />
 						</a>
 					<?php } ?>
@@ -214,11 +217,11 @@ function make_list($parent, $editable_pages) {
                         {
 							$file=$admin->page_is_active($page)?"clock_16.png":"clock_red_16.png";
 							?>
-							<a href="<?php echo ADMIN_URL; ?>/pages/sections.php?page_id=<?php echo $page['page_id']; ?>" title="<?php echo $HEADING['MANAGE_SECTIONS']; ?>">
+							<a href="<?php echo ADMIN_URL; ?>/pages/sections.php?page_id=<?php echo $page['page_id']."&amp;$ftan"; ?>" title="<?php echo $HEADING['MANAGE_SECTIONS']; ?>">
 							<img src="<?php echo THEME_URL."/images/$file"; ?>" border="0" alt="<?php echo $HEADING['MANAGE_SECTIONS']; ?>" />
 							</a>
 						<?php } else { ?>
-							<a href="<?php echo ADMIN_URL; ?>/pages/sections.php?page_id=<?php echo $page['page_id']; ?>" title="<?php echo $HEADING['MANAGE_SECTIONS']; ?>">
+							<a href="<?php echo ADMIN_URL; ?>/pages/sections.php?page_id=<?php echo $page['page_id']."&amp;$ftan"; ?>" title="<?php echo $HEADING['MANAGE_SECTIONS']; ?>">
 							<img src="<?php echo THEME_URL; ?>/images/noclock_16.png" border="0" alt="<?php echo $HEADING['MANAGE_SECTIONS']; ?>" /></a>
 						<?php } ?>
 					<?php } ?>
@@ -228,7 +231,7 @@ function make_list($parent, $editable_pages) {
 				<?php if($page['position'] != 1) { ?>
 					<?php if($page['visibility'] != 'deleted') { ?>
 						<?php if($admin->get_permission('pages_settings') == true AND $can_modify == true) { ?>
-						<a href="<?php echo ADMIN_URL; ?>/pages/move_up.php?page_id=<?php echo $page['page_id']; ?>" title="<?php echo $TEXT['MOVE_UP']; ?>">
+						<a href="<?php echo ADMIN_URL; ?>/pages/move_up.php?page_id=<?php echo $page['page_id']."&amp;$ftan"; ?>" title="<?php echo $TEXT['MOVE_UP']; ?>">
 							<img src="<?php echo THEME_URL; ?>/images/up_16.png" border="0" alt="<?php echo $TEXT['MOVE_UP']; ?>" />
 						</a>
 						<?php } ?>
@@ -239,7 +242,7 @@ function make_list($parent, $editable_pages) {
 				<?php if($page['position'] != $num_pages) { ?>
 					<?php if($page['visibility'] != 'deleted') { ?>
 						<?php if($admin->get_permission('pages_settings') == true AND $can_modify == true) { ?>
-						<a href="<?php echo ADMIN_URL; ?>/pages/move_down.php?page_id=<?php echo $page['page_id']; ?>" title="<?php echo $TEXT['MOVE_DOWN']; ?>">
+						<a href="<?php echo ADMIN_URL; ?>/pages/move_down.php?page_id=<?php echo $page['page_id']."&amp;$ftan"; ?>" title="<?php echo $TEXT['MOVE_DOWN']; ?>">
 							<img src="<?php echo THEME_URL; ?>/images/down_16.png" border="0" alt="<?php echo $TEXT['MOVE_DOWN']; ?>" />
 						</a>
 						<?php } ?>
@@ -248,7 +251,7 @@ function make_list($parent, $editable_pages) {
 				</td>
 				<td class="list_actions">
 					<?php if($admin->get_permission('pages_delete') == true AND $can_modify == true) { ?>
-					<a href="javascript: confirm_link('<?php echo $MESSAGE['PAGES']['DELETE_CONFIRM']; ?>?', '<?php echo ADMIN_URL; ?>/pages/delete.php?page_id=<?php echo $page['page_id']; ?>');" title="<?php echo $TEXT['DELETE']; ?>">
+					<a href="javascript: confirm_link('<?php echo $MESSAGE['PAGES']['DELETE_CONFIRM']; ?>?', '<?php echo ADMIN_URL; ?>/pages/delete.php?page_id=<?php echo $page['page_id']."&amp;$ftan"; ?>');" title="<?php echo $TEXT['DELETE']; ?>">
 						<img src="<?php echo THEME_URL; ?>/images/delete_16.png" border="0" alt="<?php echo $TEXT['DELETE']; ?>" />
 					</a>
 					<?php } ?>
@@ -301,7 +304,7 @@ if($admin->get_permission('pages_view') == true) {
 					$query_trash = $database->query("SELECT page_id FROM ".TABLE_PREFIX."pages WHERE visibility = 'deleted'");
 					if($query_trash->numRows() > 0) {
 						?>
-						<a href="<?php echo ADMIN_URL; ?>/pages/trash.php">
+						<a href="<?php echo ADMIN_URL."/pages/trash.php?$ftan"; ?>">
 						<img src="<?php echo THEME_URL; ?>/images/delete_16.png" alt="<?php echo $TEXT['PAGE_TRASH']; ?>" border="0" />
 						<?php echo $TEXT['VIEW_DELETED_PAGES']; ?></a>
 						<?php
@@ -349,6 +352,7 @@ if($admin->get_permission('pages_view') == true) {
 $template = new Template(THEME_PATH.'/templates');
 $template->set_file('page', 'pages.htt');
 $template->set_block('page', 'main_block', 'main');
+$template->set_var('FTAN', $admin->getFTAN());
 
 // Figure out if the no pages found message should be shown or not
 if($editable_pages == 0) {

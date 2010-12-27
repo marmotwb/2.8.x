@@ -30,6 +30,12 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_settings');
 
+if (!$admin->checkFTAN())
+{
+	$admin->print_error($MESSAGE['PAGES_NOT_SAVED'],'index.php');
+	exit();
+}
+
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 
@@ -199,7 +205,8 @@ $sql .= (defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set && (file_exi
 $sql .= 'WHERE `page_id` = '.$page_id;
 $database->query($sql);
 
-$target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
+$ftan2 = $admin->getFTAN(2);
+$target_url = ADMIN_URL."/pages/settings.php?page_id=$page_id&amp;$ftan2";
 if($database->is_error())
 {
 	$admin->print_error($database->get_error(), $target_url );
@@ -296,7 +303,8 @@ fix_page_trail($page_id,$root_parent);
 /* END page "access file" code */
 
 $pagetree_url = ADMIN_URL.'/pages/index.php';
-$target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
+$ftan2 = $admin->getFTAN(2);
+$target_url = ADMIN_URL."/pages/settings.php?page_id=$page_id&amp;$ftan2";
 // Check if there is a db error, otherwise say successful
 if($database->is_error())
 {

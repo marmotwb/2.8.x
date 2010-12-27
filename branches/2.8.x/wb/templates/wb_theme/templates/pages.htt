@@ -2,6 +2,7 @@
 <div class="{DISPLAY_ADD}">
     <h2>{HEADING_ADD_PAGE}</h2>
     <form name="add" action="add.php" method="post">
+	{FTAN}
     <table cellpadding="2" cellspacing="0" border="0" width="100%" align="center">
     <tr>
     	<td width="70" height="20">{TEXT_TITLE}:</td>

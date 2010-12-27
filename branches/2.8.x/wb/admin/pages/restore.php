@@ -36,6 +36,12 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_delete');
 
+if (!$admin->checkFTAN('get'))
+{
+	$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
+	exit();
+}
+
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 

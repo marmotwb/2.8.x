@@ -44,6 +44,12 @@ if (!$admin->get_page_permission($page_id,'admin')) {
 	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
 }
 
+if (!$admin->checkFTAN('get'))
+{
+	$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
+	exit();
+}
+
 // Find out more about the page
 $query = "SELECT * FROM ".TABLE_PREFIX."pages WHERE page_id = '$page_id'";
 $results = $database->query($query);

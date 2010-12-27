@@ -24,6 +24,7 @@
 <form name="settings" action="settings2.php" method="post">
 
 <input type="hidden" name="page_id" value="{PAGE_ID}" />
+{FTAN}
 
 <table cellpadding="2" cellspacing="0" border="0" width="100%" align="center">
 <tr>
