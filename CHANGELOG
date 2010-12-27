@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+27 Dec-2010 Build 1357 Frank Heyne (FrankH)
+# security fix: in path admin/pages/ - added FTAN check
+! had to enhance parameter for getFTAN() in framework/class.secureform.php 
 27 Dec-2010 Build 1356 Dietmar Woellbrink (Luisehahne)
 # more little fixes in settings
 ! change to RC2

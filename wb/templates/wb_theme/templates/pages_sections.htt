@@ -16,6 +16,8 @@
         </table>
 
         <form name="section_properties" action="{ADMIN_URL}/pages/sections_save.php?page_id={VAR_PAGE_ID}" method="post">
+		{FTAN}
+		
         <table cellpadding="5" cellspacing="0" align="center" border="0" width="100%">
                 <tr class="sections_list">
                 	<td valign="middle" width="{NAME_SIZE}">{TEXT_TYPE}:</td>
@@ -85,6 +87,7 @@
 	<h2>{TEXT_ADD_SECTION}</h2>
 	<form name="add" action="{ADMIN_URL}/pages/sections.php?page_id={VAR_PAGE_ID}" method="post">
         <input type="hidden" name="page_id" value="{VAR_PAGE_ID}"  />
+		{FTAN}
     	<table cellpadding="5" cellspacing="0" border="0" align="center" width="100%">
     	<tr>
     		<td width="100%">

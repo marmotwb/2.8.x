@@ -41,6 +41,12 @@ If(!defined('DEBUG')) { define('DEBUG',$debug);}
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_modify');
 
+if (!$admin->checkFTAN('get') and !$admin->checkFTAN())
+{
+	$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
+	exit();
+}
+
 // Check if we are supposed to add or delete a section
 if(isset($_GET['section_id']) AND is_numeric($_GET['section_id']))
 {
@@ -71,7 +77,8 @@ if(isset($_GET['section_id']) AND is_numeric($_GET['section_id']))
 		require(WB_PATH.'/framework/class.order.php');
 		$order = new order(TABLE_PREFIX.'sections', 'position', 'section_id', 'page_id');
 		$order->clean($page_id);
-		$admin->print_success($TEXT['SUCCESS'], ADMIN_URL.'/pages/sections.php?page_id='.$page_id);
+		$ftan2 = $admin->getFTAN(2);
+		$admin->print_success($TEXT['SUCCESS'], ADMIN_URL."/pages/sections.php?page_id=$page_id&amp;$ftan2");
 		$admin->print_footer();
 		exit();
 	}
@@ -172,6 +179,7 @@ require_once(WB_PATH."/include/jscalendar/wb-setup.php");
 $template = new Template(THEME_PATH.'/templates');
 $template->set_file('page', 'pages_sections.htt');
 $template->set_block('page', 'main_block', 'main');
+$template->set_var('FTAN', $admin->getFTAN());
 $template->set_block('main_block', 'module_block', 'module_list');
 $template->set_block('main_block', 'section_block', 'section_list');
 $template->set_block('section_block', 'block_block', 'block_list');
@@ -201,11 +209,12 @@ $template->set_var(array(
 			);
 
 // Insert variables
+$ftan2 = $admin->getFTAN(2);
 $template->set_var(array(
 				'VAR_PAGE_ID' => $results_array['page_id'],
 				'VAR_PAGE_TITLE' => $results_array['page_title'],
-				'SETTINGS_LINK' => ADMIN_URL.'/pages/settings.php?page_id='.$results_array['page_id'],
-				'MODIFY_LINK' => ADMIN_URL.'/pages/modify.php?page_id='.$results_array['page_id']
+				'SETTINGS_LINK' => ADMIN_URL.'/pages/settings.php?page_id='.$results_array['page_id']."&amp;$ftan2",
+				'MODIFY_LINK' => ADMIN_URL.'/pages/modify.php?page_id='.$results_array['page_id']."&amp;$ftan2"
 				) 
 			);
 
@@ -232,11 +241,12 @@ if($query_sections->numRows() > 0)
 
 			if(SECTION_BLOCKS)
             {
-                if(defined('EDIT_ONE_SECTION') && EDIT_ONE_SECTION)
+                
+				if(defined('EDIT_ONE_SECTION') && EDIT_ONE_SECTION)
                 {
-				    $edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'&amp;wysiwyg='.$section['section_id'] .'">'.$module_tmp.'</a>';
+				    $edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id."&amp;$ftan2&amp;wysiwyg=".$section['section_id'] .'">'.$module_tmp.'</a>';
                 } else {
-				    $edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'#wb'.$section['section_id'].'">'.$module_tmp.'</a>';
+				    $edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'#wb'.$section['section_id'].."&amp;$ftan2"'">'.$module_tmp.'</a>';
                 }
                 $edit_page = ( trim($module_name) == '' ) ? '<span class="module_disabled">'.$section['module'].'</span>' : $edit_page;
 				$input_attribute = 'input_normal';
@@ -267,7 +277,7 @@ if($query_sections->numRows() > 0)
 					$template->parse('block_list', 'block_block', true);
 				}
 			} else {
-				$edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'#'.$section['section_id'].'">'.$module_tmp.'</a>';
+				$edit_page ='<a name="'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'#'.$section['section_id']."&amp;$ftan2".'">'.$module_tmp.'</a>';
                 $edit_page = ( trim($module_name) == '' ) ? '<span class="module_disabled">'.$section['module'].'</span>' : $edit_page;
 				$input_attribute = 'input_small';
 				$template->set_var(array(
@@ -309,7 +319,7 @@ if($query_sections->numRows() > 0)
             {
 				$template->set_var(
 							'VAR_MOVE_UP_URL',
-							'<a href="'.ADMIN_URL.'/pages/move_up.php?page_id='.$page_id.'&amp;section_id='.$section['section_id'].'">
+							'<a href="'.ADMIN_URL.'/pages/move_up.php?page_id='.$page_id.'&amp;section_id='.$section['section_id']."&amp;$ftan2".'">
 							<img src="'.THEME_URL.'/images/up_16.png" alt="{TEXT_MOVE_UP}" />
 							</a>' );
 			} else {
@@ -321,7 +331,7 @@ if($query_sections->numRows() > 0)
 			if($section['position'] != $num_sections ) {
 				$template->set_var(
 							'VAR_MOVE_DOWN_URL',
-							'<a href="'.ADMIN_URL.'/pages/move_down.php?page_id='.$page_id.'&amp;section_id='.$section['section_id'].'">
+							'<a href="'.ADMIN_URL.'/pages/move_down.php?page_id='.$page_id.'&amp;section_id='.$section['section_id']."&amp;$ftan2".'">
 							<img src="'.THEME_URL.'/images/down_16.png" alt="{TEXT_MOVE_DOWN}" />
 							</a>' );
 			} else {

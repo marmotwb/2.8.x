@@ -30,6 +30,12 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_settings');
 
+if (!$admin->checkFTAN('get'))
+{
+	$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
+	exit();
+}
+
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions-utf8.php');
 
@@ -90,6 +96,7 @@ if($results_array['modified_when'] != 0)
 $template = new Template(THEME_PATH.'/templates');
 $template->set_file('page', 'pages_settings.htt');
 $template->set_block('page', 'main_block', 'main');
+$template->set_var('FTAN', $admin->getFTAN());
 
 $template->set_var(array(
 				'PAGE_ID' => $results_array['page_id'],

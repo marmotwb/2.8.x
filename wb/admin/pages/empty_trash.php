@@ -27,11 +27,17 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages');
 
+if (!$admin->checkFTAN('get'))
+{
+	$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
+	exit();
+}
+
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 
 // Get page list from database
-$database = new database();
+//$database = new database();
 $query = "SELECT * FROM ".TABLE_PREFIX."pages WHERE visibility = 'deleted' ORDER BY level DESC";
 $get_pages = $database->query($query);
 
