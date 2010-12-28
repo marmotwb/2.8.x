@@ -11,7 +11,10 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
-28 Dec-2010 Build 1358 Dietmar Woellbrink (Luisehahne)
+28 Dec-2010 Build 1360 Dietmar Woellbrink (Luisehahne)
+! show_menu2 display Title-attribute fixed
+! tooltip added, change modul version to 4.9.5
+28 Dec-2010 Build 1359 Dietmar Woellbrink (Luisehahne)
 ! upgrade FCKeditor to Version 2.6.6
 28 Dec-2010 Build 1358 Dietmar Woellbrink (Luisehahne)
 ! validation fixes in pages backend theme

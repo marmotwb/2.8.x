@@ -206,7 +206,7 @@ class SM2_Formatter
         return preg_replace(
             '@\[('.
                 'a|ac|/a|li|/li|ul|/ul|menu_title|menu_icon_0|menu_icon_1|'.
-				'page_title|page_icon|url|target|page_id|'.
+				'page_title|page_icon|url|target|page_id|tooltip|'.
                 'parent|level|sib|sibCount|class|description|keywords|'.
                 SM2_CONDITIONAL.
             ')\]@e', 
@@ -223,11 +223,14 @@ class SM2_Formatter
 		case 'ac':
             $retval = '<a href="'.$this->url.'" class="'.$this->currClass.'"';
 			$retval = ($retval_1 == '') ? $retval : $retval_1;
-			if(!($this->flags & SM2_XHTML_STRICT))
-			{
-				$retval .= ' target="'.$this->page['target'].'"';
+			if(($this->flags & SM2_XHTML_STRICT)) {
+				$retval .= ' title="'.(($this->flags & SM2_NO_TITLE) ? '&nbsp;' : $this->page['tooltip']).'"';
 			}
-			$retval .= ' title="'.(($this->flags & SM2_NO_TITLE) ? '&nbsp;' : $this->page['page_title']).'">';
+			else {
+				$retval .= ' target="'.$this->page['target'].'"';
+				$retval .= ($this->flags & SM2_NO_TITLE) ? '' : ' title="'.$this->page['tooltip'].'"';
+			}
+			$retval .= '>';
 			break;
         case '/a':
             $retval = '</a>'; break;
@@ -534,7 +537,7 @@ function show_menu2(
             $fields .= ',`viewing_users`';
         }
 		if(version_compare(WB_VERSION, '2.9.0', '>=')) {
-            $fields .= ',`menu_icon_0`,`menu_icon_1`,`page_icon`';
+            $fields .= ',`menu_icon_0`,`menu_icon_1`,`page_icon`,`tooltip`';
 		}
         if ($flags & SM2_ALLINFO) {
             $fields = '*';
@@ -570,7 +573,7 @@ function show_menu2(
                         continue;
                     }
                 }
-
+				if(!isset($page['tooltip'])) { $page['tooltip'] = $page['page_title']; }
                 // ensure that we have an array entry in the table to add this to
                 $idx = $page['parent'];
                 if (!array_key_exists($idx, $rgParent)) {
