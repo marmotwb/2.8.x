@@ -1,6 +1,6 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2009 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2010 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -187,6 +187,7 @@ DlgGenLongDescr		: "Részletes leírás webcíme",
 DlgGenClass			: "Stíluskészlet",
 DlgGenTitle			: "Súgócimke",
 DlgGenContType		: "Súgó tartalomtípusa",
+DlgGenContRel		: "Relationtyp",
 DlgGenLinkCharset	: "Hivatkozott tartalom kódlapja",
 DlgGenStyle			: "Stílus",
 
@@ -525,7 +526,7 @@ DlgAboutBrowserInfoTab	: "Böngésző információ",
 DlgAboutLicenseTab	: "Licensz",
 DlgAboutVersion		: "verzió",
 DlgAboutInfo		: "További információkért látogasson el ide:",
-DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.4",
+DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.6",
 
 // Div Dialog
 DlgDivGeneralTab	: "General",	//MISSING

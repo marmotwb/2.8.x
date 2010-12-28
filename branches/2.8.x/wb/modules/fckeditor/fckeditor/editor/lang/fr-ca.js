@@ -1,6 +1,6 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2009 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2010 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -187,6 +187,7 @@ DlgGenLongDescr		: "URL de description longue",
 DlgGenClass			: "Classes de feuilles de style",
 DlgGenTitle			: "Titre",
 DlgGenContType		: "Type de contenu",
+DlgGenContRel		: "Relationtyp",
 DlgGenLinkCharset	: "Encodage de caractère",
 DlgGenStyle			: "Style",
 
@@ -525,7 +526,7 @@ DlgAboutBrowserInfoTab	: "Navigateur",
 DlgAboutLicenseTab	: "License",
 DlgAboutVersion		: "Version",
 DlgAboutInfo		: "Pour plus d'informations, visiter",
-DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.4",
+DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.6",
 
 // Div Dialog
 DlgDivGeneralTab	: "Général",

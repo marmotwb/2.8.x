@@ -37,7 +37,6 @@ $template->set_block('page', 'main_block', 'main');
 
 // Get pages and put them into the pages list
 $template->set_block('main_block', 'droplets_list_block', 'page_list');
-$database = new database();
 $get_droplet = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_droplets where active=1 ORDER BY name");
 if($get_droplet->numRows() > 0) {
 	// Loop through pages

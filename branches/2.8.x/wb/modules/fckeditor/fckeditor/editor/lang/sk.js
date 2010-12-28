@@ -1,6 +1,6 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2009 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2010 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -187,6 +187,7 @@ DlgGenLongDescr		: "Dlhý popis URL",
 DlgGenClass			: "Trieda štýlu",
 DlgGenTitle			: "Pomocný titulok",
 DlgGenContType		: "Pomocný typ obsahu",
+DlgGenContRel		: "Relationtyp",
 DlgGenLinkCharset	: "Priradená znaková sada",
 DlgGenStyle			: "Štýl",
 
@@ -525,7 +526,7 @@ DlgAboutBrowserInfoTab	: "Informácie o prehliadači",
 DlgAboutLicenseTab	: "Licencia",
 DlgAboutVersion		: "verzia",
 DlgAboutInfo		: "Viac informácií získate na",
-DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.4",
+DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.6",
 
 // Div Dialog
 DlgDivGeneralTab	: "Hlavné",

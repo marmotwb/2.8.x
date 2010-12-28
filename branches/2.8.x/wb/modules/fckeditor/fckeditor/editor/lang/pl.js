@@ -1,6 +1,6 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2009 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2010 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -187,6 +187,7 @@ DlgGenLongDescr		: "Długi opis hiperłącza",
 DlgGenClass			: "Nazwa klasy CSS",
 DlgGenTitle			: "Opis obiektu docelowego",
 DlgGenContType		: "Typ MIME obiektu docelowego",
+DlgGenContRel		: "Relationtyp",
 DlgGenLinkCharset	: "Kodowanie znaków obiektu docelowego",
 DlgGenStyle			: "Styl",
 
@@ -525,7 +526,7 @@ DlgAboutBrowserInfoTab	: "O przeglądarce",
 DlgAboutLicenseTab	: "Licencja",
 DlgAboutVersion		: "wersja",
 DlgAboutInfo		: "Więcej informacji uzyskasz pod adresem",
-DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.4",
+DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.6",
 
 // Div Dialog
 DlgDivGeneralTab	: "General",	//MISSING

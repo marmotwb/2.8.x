@@ -1,6 +1,6 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2009 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2010 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -187,6 +187,7 @@ DlgGenLongDescr		: "Довгий опис URL",
 DlgGenClass			: "Клас CSS",
 DlgGenTitle			: "Заголовок",
 DlgGenContType		: "Тип вмісту",
+DlgGenContRel		: "Relationtyp",
 DlgGenLinkCharset	: "Кодировка",
 DlgGenStyle			: "Стиль CSS",
 
@@ -525,7 +526,7 @@ DlgAboutBrowserInfoTab	: "Інформація браузера",
 DlgAboutLicenseTab	: "Ліцензія",
 DlgAboutVersion		: "Версія",
 DlgAboutInfo		: "Додаткову інформацію дивіться на ",
-DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.4",
+DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.6",
 
 // Div Dialog
 DlgDivGeneralTab	: "Загальна",
