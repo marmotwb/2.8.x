@@ -412,7 +412,8 @@ $aOptions
 					selbst für die XHTML-Konformität zuständig.
 
 	SM2_NO_TITLE	Unterdrückt die Ausgabe des Inhaltes des Title-Attributes
-					bei [a] oder [ac] formatierten links.
+					bei [a] oder [ac] formatierten links. Im XHTML-Strikt Modus
+                    wird 'title' mit einen &nbsp; ausgegeben.
 
     Für diesen Parameter gibt es auch einen erweiterten Modus, bei dem die Optionen
     als assoziatives Array übergeben werden. Näheres dazu im Abschnitt ERWEITERTE
@@ -505,6 +506,7 @@ verwendet werden und sollen durch den entsprechenden Text ersetzt werden.
 [page_title]    text des Seitentitel 
                 (HTML entity escaped ausser das SM2_NOESCAPE Flag ist gesetzt)
 [page_icon]		die URL zu einer seitenbezogenen Bilddatei (ab WB2.9.0)
+[tooltip]       Tooltip-Text, der normal im title-Attribut der Links ausgegeben wird
 [url]           die URL der Seiten für den <a> tag
 [target]        das Seitenziel für den <a> tag
 [page_id]       die Page ID des aktuellen Menüpunktes.

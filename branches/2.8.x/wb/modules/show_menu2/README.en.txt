@@ -366,6 +366,12 @@ $aOptions
                     release 4.8, supply this flag to enable hidden pages to
                     become visible when they are active.
 
+    SM2_XHTML_STRICT	From all links, created by [a] or [ac], the 'target' -
+					attribute will be removed to preserve the XHTML-Compatibility
+
+	SM2_NO_TITLE	Supress the value of the 'title'-attributes on links which
+					are created by [a] or [ac] formatted links.
+
     This parameter also has an extended mode where an associative array of 
     options is supplied. See the EXTENDED OPTIONS section for details. 
     Most users will NOT need to use this.
@@ -443,7 +449,10 @@ $aMenuOpen and will be replaced with the appropriate text.
 [ul]            <ul> tag including class:   '<ul class="[class]">'
 [class]         List of classes for that page
 [menu_title]    Menu title text (HTML entity escaped unless SM2_NOESCAPE flag is used)
+[menu_icon_0]	URL poining to an image for display normal - status
+[menu_icon_1]	URL poining to an image for display active/hover - status
 [page_title]    Page title text (HTML entity escaped unless SM2_NOESCAPE flag is used)
+[page_icon]		URL poining to an image relating to the current page
 [url]           Page URL for the <a> tag
 [target]        Page target for the <a> tag
 [page_id]       Page ID of the current menu item
@@ -496,6 +505,7 @@ right operand.
         sib         Test against the current page sibling number.
         sibCount    Test against the number of siblings in the menu.
         id          Test against the page id.
+		target		Test against the target attribute
     
     Operator. It must be one of the following:
         <           Less Than
@@ -523,6 +533,7 @@ right operand.
         sib         A positive integer, or "sibCount" to test against
                     the count of siblings in this menu.
         sibCount    A positive integer.
+		target		A string, containing a possible target
         
 For example, valid tests are expression "exp" is emitted only when the menu item:
     
@@ -537,6 +548,7 @@ For example, valid tests are expression "exp" is emitted only when the menu item
     [if(sibCount!=2){exp}]          is in a menu which doesn't have exactly
     [if(level>parent){exp}]         is in a sibling menu or child of a sibling
     [if(id==parent){exp}]           is the parent of the current page
+	[if(target==_self){exp}]		if value of target-attribute is '_self'
 
 If an else-clause was added, then the expression for the else would be 
 emitted in all other cases. For example the expression "foo" is emitted
