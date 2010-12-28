@@ -1,11 +1,9 @@
 <!-- BEGIN main_block -->
-<br />
-</div>
 <div class="{DISPLAY_ADD}">
 <h2>{HEADING_ADD_PAGE}</h2>
 <form name="add" action="add.php" method="post">
 {FTAN}
-<table cellpadding="2" cellspacing="0" border="0" width="100%" align="center">
+<table summary="" cellpadding="2" cellspacing="0" border="0" width="100%" align="center">
   <tr>
 	<td width="70" height="20">{TEXT_TITLE}:</td>
 	<td width="240" height="20"><input type="text" name="title" style="width: 232px;" /></td>
@@ -32,7 +30,7 @@
 		</div>
 	</td>
   </tr>
-  <tr height="20">
+  <tr>
 	<td width="70">{TEXT_TYPE}:</td>
 	<td width="240">
 		<select name="type" style="width: 240px;">
@@ -42,21 +40,21 @@
 		</select>
 	</td>
   </tr>
-  <tr height="20">
+  <tr>
 	<td width="70">{TEXT_PARENT}:</td>
 	<td width="240">
-		<select name="parent" style="width: 240px;" onChange="return disabled_hack_for_ie(this);">
+		<select  name="parent" style="width: 240px;" onchange="return disabled_hack_for_ie(this);">
 			<!-- BEGIN page_list_block2 -->
 			<option value="{ID}"{DISABLED} style="background: {FLAG_ROOT_ICON} no-repeat center left; padding-left: 20px;">{TITLE}</option>
 			<!-- END page_list_block2 -->
 		</select>
 	</td>
   </tr>
-  <tr height="20">
+  <tr>
 	<td width="70">{TEXT_VISIBILITY}:</td>
 	<td width="240">
-		<select name="visibility" onChange="javascript: toggle_viewers();" style="width: 240px;">
-			<option value="public" selected>{TEXT_PUBLIC}</option>
+		<select name="visibility" onchange="javascript: toggle_viewers();" style="width: 240px;">
+			<option value="public"{SELECTED}>{TEXT_PUBLIC}</option>
 			<option value="private">{TEXT_PRIVATE}</option>
 			<option value="registered">{TEXT_REGISTERED}</option>
 			<option value="hidden">{TEXT_HIDDEN}</option>

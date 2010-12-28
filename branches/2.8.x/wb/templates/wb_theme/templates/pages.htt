@@ -3,7 +3,7 @@
     <h2>{HEADING_ADD_PAGE}</h2>
     <form name="add" action="add.php" method="post">
 	{FTAN}
-    <table cellpadding="2" cellspacing="0" border="0" width="100%" align="center">
+    <table summary="" cellpadding="2" cellspacing="0" border="0" width="100%" align="center">
     <tr>
     	<td width="70" height="20">{TEXT_TITLE}:</td>
     	<td width="240" height="20">
@@ -95,5 +95,5 @@
 var THEME_URL = '{THEME_URL}';
 var WB_URL = '{WB_URL}';
 </script>
-<script src="{ADMIN_URL}/pages/page_index.js" type="text/javascript" language="javascript"></script>
+<script src="{ADMIN_URL}/pages/page_index.js" type="text/javascript"></script>
 <!-- END main_block -->

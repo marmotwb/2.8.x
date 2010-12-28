@@ -5,11 +5,11 @@
  * @package         pages
  * @author          WebsiteBaker Project
  * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2010, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
- * @requirements    PHP 5.2.2 and higher
+ * @requirements    PHP 4.3.4 and higher
  * @version         $Id$
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
@@ -29,7 +29,6 @@ if(!isset($_POST['page_id']) OR !is_numeric($_POST['page_id']))
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_settings');
-
 if (!$admin->checkFTAN())
 {
 	$admin->print_error($MESSAGE['PAGES_NOT_SAVED'],'index.php');
@@ -42,20 +41,18 @@ require_once(WB_PATH.'/framework/functions.php');
 // Get values
 $page_title = htmlspecialchars($admin->get_post_escaped('page_title') );
 $menu_title = htmlspecialchars($admin->get_post_escaped('menu_title') );
-$page_code = (int) $admin->get_post_escaped('page_code');
+$page_code = $admin->get_post_escaped('page_code');
 $description = htmlspecialchars($admin->add_slashes($admin->get_post('description')) );
 $keywords = htmlspecialchars($admin->add_slashes($admin->get_post('keywords')) );
-$parent = (int) $admin->get_post_escaped('parent'); // fix secunia 2010-91-3
+$parent = $admin->get_post_escaped('parent');
 $visibility = $admin->get_post_escaped('visibility');
-if (!in_array($visibility, array('public', 'private', 'registered', 'hidden', 'none'))) $visibility = 'public'; // fix
-$template = preg_replace("/\W/", "", $admin->get_post_escaped('template')); // fix secunia 2010-93-3
-$target = preg_replace("/\W/", "", $admin->get_post_escaped('target'));
+$template = $admin->get_post_escaped('template');
+$target = $admin->get_post_escaped('target');
 $admin_groups = $admin->get_post_escaped('admin_groups');
 $viewing_groups = $admin->get_post_escaped('viewing_groups');
 $searching = $admin->get_post_escaped('searching');
-$language = strtoupper($admin->get_post('language'));
-$language = (preg_match('/^[A-Z]{2}$/', $language) ? $language : DEFAULT_LANGUAGE);
-$menu = (int) $admin->get_post_escaped('menu'); // fix secunia 2010-91-3
+$language = $admin->get_post_escaped('language');
+$menu = $admin->get_post_escaped('menu');
 
 // Validate data
 if($page_title == '' || substr($page_title,0,1)=='.')
@@ -103,13 +100,13 @@ $admin_groups[] = 1;
 //if(!in_array(1, $admin->get_groups_id())) {
 //	$admin_groups[] = implode(",",$admin->get_groups_id());
 //}
-$admin_groups = preg_replace("/[^\d,]/", "", implode(',', $admin_groups));
+$admin_groups = implode(',', $admin_groups);
 // Setup viewing groups
 $viewing_groups[] = 1;
 //if(!in_array(1, $admin->get_groups_id())) {
 //	$viewing_groups[] = implode(",",$admin->get_groups_id());
 //}
-$viewing_groups = preg_replace("/[^\d,]/", "", implode(',', $viewing_groups));
+$viewing_groups = implode(',', $viewing_groups);
 
 // If needed, get new order
 if($parent != $old_parent)
@@ -201,12 +198,11 @@ $sql .= '`searching` = '.$searching.', ';
 $sql .= '`language` = "'.$language.'", ';
 $sql .= '`admin_groups` = "'.$admin_groups.'", ';
 $sql .= '`viewing_groups` = "'.$viewing_groups.'"';
-$sql .= (defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set && (file_exists(WB_PATH.'/modules/mod_multilingual/update_keys.php')) ? ', `page_code` = '.$page_code.' ' : ' ';
+$sql .= (defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set && (file_exists(WB_PATH.'/modules/mod_multilingual/update_keys.php')) ? ', `page_code` = '.(int)$page_code.' ' : ' ';
 $sql .= 'WHERE `page_id` = '.$page_id;
 $database->query($sql);
 
-$ftan2 = $admin->getFTAN(2);
-$target_url = ADMIN_URL."/pages/settings.php?page_id=$page_id&amp;$ftan2";
+$target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
 if($database->is_error())
 {
 	$admin->print_error($database->get_error(), $target_url );
@@ -303,8 +299,7 @@ fix_page_trail($page_id,$root_parent);
 /* END page "access file" code */
 
 $pagetree_url = ADMIN_URL.'/pages/index.php';
-$ftan2 = $admin->getFTAN(2);
-$target_url = ADMIN_URL."/pages/settings.php?page_id=$page_id&amp;$ftan2";
+$target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
 // Check if there is a db error, otherwise say successful
 if($database->is_error())
 {

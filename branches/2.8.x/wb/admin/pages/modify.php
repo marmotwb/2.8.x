@@ -5,11 +5,11 @@
  * @package         pages
  * @author          WebsiteBaker Project
  * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2010, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
- * @requirements    PHP 5.2.2 and higher
+ * @requirements    PHP 4.3.4 and higher
  * @version         $Id$
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
@@ -22,12 +22,6 @@ if(!isset($_GET['page_id']) || !is_numeric($_GET['page_id'])) {
 	exit(0);
 } else {
 	$page_id = $_GET['page_id'];
-}
-
-if (!$admin->checkFTAN('get'))
-{
-	$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
-	exit();
 }
 
 // Create new admin object
@@ -59,12 +53,13 @@ $modified_ts = ($results_array['modified_when'] != 0)
 $template = new Template(THEME_PATH.'/templates');
 $template->set_file('page', 'pages_modify.htt');
 $template->set_block('page', 'main_block', 'main');
-$template->set_var('FTAN2', $admin->getFTAN(2));
+$template->set_var('FTAN', $admin->getFTAN());
 
 $template->set_var(array(
 			'PAGE_ID' => $results_array['page_id'],
 			'PAGE_TITLE' => ($results_array['page_title']),
 			'MENU_TITLE' => ($results_array['menu_title']),
+            'FTAN' => 'FTAN',
 			'ADMIN_URL' => ADMIN_URL,
 			'WB_URL' => WB_URL,
 			'WB_PATH' => WB_PATH,
@@ -176,7 +171,7 @@ if($query_sections->numRows() > 0)
 							$block_name = '#' . (int) $section['block'];
 						}
 					}
-					print '<div id="wb'.$section['section_id'].'"><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
+					print '<div id="wb_'.$section['section_id'].'"><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
 					print '<b>  Modul: </b>' . $section['module']." ";
 					print '<b>  ID: </b>' . $section_id."</div>\n";
 				}

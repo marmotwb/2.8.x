@@ -68,14 +68,13 @@ class SecureForm {
 /*
  * creates Formular transactionnumbers for unique use
  * @access public
- * @param bool $asTAG: 	1 returns a complete prepared, hidden HTML-Input-Tag (default)
- * 						2 returns a key value pair (prepared as a GET parameter)
- *                    	anything else returns an array including FTAN0 and FTAN1
+ * @param bool $asTAG: true returns a complete prepared, hidden HTML-Input-Tag (default)
+ *                    false returns an array including FTAN0 and FTAN1
  * @return mixed:      array or string
  *
  * requirements: an active session must be available
  */
-	function getFTAN( $as_tag = 1)
+	function getFTAN( $as_tag = true)
 	{
 		if( $this->_FTAN == '')
 		{
@@ -92,11 +91,10 @@ class SecureForm {
 		}
 		$ftan0 = 'a'.substr($this->_FTAN, -(10 + hexdec(substr($this->_FTAN, 1))), 10);
 		$ftan1 = 'a'.substr($this->_FTAN, hexdec(substr($this->_FTAN, -1)), 10);
-		if ($as_tag == 1) {
+		if($as_tag == true)
+		{
 			return '<input type="hidden" name="'.$ftan0.'" value="'.$ftan1.'" title="" />';
-		} elseif ($as_tag == 2) {
-			return "$ftan0=$ftan1";
-		} else {
+		}else{
 			return array('FTAN0' => $ftan0, 'FTAN1' => $ftan1);
 		}
 	}

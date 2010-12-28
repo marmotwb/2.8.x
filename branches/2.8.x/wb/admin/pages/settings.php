@@ -5,11 +5,11 @@
  * @package         pages
  * @author          WebsiteBaker Project
  * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2010, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
- * @requirements    PHP 5.2.2 and higher
+ * @requirements    PHP 4.3.4 and higher
  * @version         $Id$
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
@@ -29,12 +29,6 @@ if(!isset($_GET['page_id']) OR !is_numeric($_GET['page_id']))
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_settings');
-
-if (!$admin->checkFTAN('get'))
-{
-	$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
-	exit();
-}
 
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions-utf8.php');
@@ -412,12 +406,12 @@ function parent_list($parent)
 			$title_prefix = '';
 			for($i = 1; $i <= $page['level']; $i++) { $title_prefix .= ' - '; }
 			$template->set_var(array(
-											'ID' => $page['page_id'],
-											'TITLE' => ($title_prefix.$page['menu_title']),
-											'MENU-TITLE' => ($title_prefix.$page['menu_title']),
-											'PAGE-TITLE' => ($title_prefix.$page['page_title']),
-											'FLAG_ICON' => ' none ',
-											));
+								'ID' => $page['page_id'],
+								'TITLE' => ($title_prefix.$page['menu_title']),
+								'MENU-TITLE' => ($title_prefix.$page['menu_title']),
+								'PAGE-TITLE' => ($title_prefix.$page['page_title']),
+								'FLAG_ICON' => ' none ',
+								));
 
 			if($results_array['parent'] == $page['page_id'])
             {
@@ -451,11 +445,10 @@ if($admin->get_permission('pages_add_l0') == true OR $results_array['level'] == 
 		$selected = '';
 	}
 	$template->set_var(array(
-									'ID' => '0',
-									'TITLE' => $TEXT['NONE'],
-									'SELECTED' => $selected
-									)
-							);
+						'ID' => '0',
+						'TITLE' => $TEXT['NONE'],
+						'SELECTED' => $selected
+						) );
 	$template->parse('page_list2', 'page_list_block2', true);
 }
 parent_list(0);
