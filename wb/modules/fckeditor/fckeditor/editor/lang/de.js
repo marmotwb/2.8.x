@@ -1,6 +1,6 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2009 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2010 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -526,7 +526,7 @@ DlgAboutBrowserInfoTab	: "Browser-Info",
 DlgAboutLicenseTab	: "Lizenz",
 DlgAboutVersion		: "Version",
 DlgAboutInfo		: "Für weitere Informationen siehe",
-DlgAboutModule		: "Anpassung für Website Baker<br />Modul Version 2.9.4",
+DlgAboutModule		: "Anpassung für Website Baker<br />Modul Version 2.9.6",
 
 // Div Dialog
 DlgDivGeneralTab	: "Allgemein",

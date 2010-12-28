@@ -27,6 +27,6 @@
 */
 
 // Deutsche Modulbeschreibung
-$module_description 	= 'Dieses Modul erlaubt das bearbeiten von Seiteninhalten mit dem <a href="http://www.fckeditor.net/" target="_blank">FCKeditor v2.6.5</a>.';
+$module_description 	= 'Dieses Modul erlaubt das bearbeiten von Seiteninhalten mit dem <a href="http://www.fckeditor.net/" target="_blank">FCKeditor v2.6.6</a>.';
 
 ?>

@@ -1,6 +1,6 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2009 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2010 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -187,6 +187,7 @@ DlgGenLongDescr		: "Dugački opis URL",
 DlgGenClass			: "Stylesheet klase",
 DlgGenTitle			: "Advisory naslov",
 DlgGenContType		: "Advisory vrsta sadržaja",
+DlgGenContRel		: "Relationtyp",
 DlgGenLinkCharset	: "Kodna stranica povezanih resursa",
 DlgGenStyle			: "Stil",
 
@@ -525,7 +526,7 @@ DlgAboutBrowserInfoTab	: "Podaci o pretraživaču",
 DlgAboutLicenseTab	: "Licenca",
 DlgAboutVersion		: "inačica",
 DlgAboutInfo		: "Za više informacija posjetite",
-DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.4",
+DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.6",
 
 // Div Dialog
 DlgDivGeneralTab	: "Općenito",

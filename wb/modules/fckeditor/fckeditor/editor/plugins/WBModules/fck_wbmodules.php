@@ -25,7 +25,6 @@
 
 // Include the config file
 require('../../../../../../config.php');
-
 // Create new admin object
 require(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_modify', false);
@@ -69,7 +68,6 @@ function gen_page_list($parent) {
 
 // Get pages and put them into the pages list
 $template->set_block('main_block', 'page_list_block', 'page_list');
-$database = new database();
 $get_pages = $database->query("SELECT * FROM ".TABLE_PREFIX."pages WHERE parent = '0' order by position");
 if($get_pages->numRows() > 0) {
 	// Loop through pages

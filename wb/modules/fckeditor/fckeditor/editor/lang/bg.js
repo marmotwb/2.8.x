@@ -1,6 +1,6 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2009 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2010 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -187,6 +187,7 @@ DlgGenLongDescr		: "Описание на връзката",
 DlgGenClass			: "Клас от стиловите таблици",
 DlgGenTitle			: "Препоръчително заглавие",
 DlgGenContType		: "Препоръчителен тип на съдържанието",
+DlgGenContRel		: "Relationtyp",
 DlgGenLinkCharset	: "Тип на свързания ресурс",
 DlgGenStyle			: "Стил",
 
@@ -525,7 +526,7 @@ DlgAboutBrowserInfoTab	: "Информация за браузъра",
 DlgAboutLicenseTab	: "License",	//MISSING
 DlgAboutVersion		: "версия",
 DlgAboutInfo		: "За повече информация посетете",
-DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.4",
+DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.6",
 
 // Div Dialog
 DlgDivGeneralTab	: "General",	//MISSING

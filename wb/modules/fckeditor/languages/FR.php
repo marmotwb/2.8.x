@@ -27,6 +27,6 @@
  -----------------------------------------------------------------------------------------
 */
 //Module Description
-$module_description = 'Ce module permet de modifier le contenu de la page avec <a href="http://www.fckeditor.net/" target="_blank">FCKeditor v2.6.5</a>.';
+$module_description = 'Ce module permet de modifier le contenu de la page avec <a href="http://www.fckeditor.net/" target="_blank">FCKeditor v2.6.6</a>.';
 
 ?>

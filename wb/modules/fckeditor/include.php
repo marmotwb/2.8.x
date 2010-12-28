@@ -2,10 +2,10 @@
 /**
  *
  * @category        modules
- * @package         fckeditor
+ * @package         wysiwyg
  * @author          WebsiteBaker Project
  * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2010, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -22,11 +22,11 @@ function reverse_htmlentities($mixed) {
 }
 
 function get_template_name() {
+	global $database;
 	// returns the template name of the current displayed page
 
 	// Loading config.php is not needed here, it is loaded before. It breaks the module when the editor is called form another dir as WB_PATH/modules/mymodule
 	// require_once('../../config.php');
-	require_once(WB_PATH. '/framework/class.database.php');
 
 	// work out default editor.css file for CKeditor
 	if(file_exists(WB_PATH .'/templates/' .DEFAULT_TEMPLATE .'/editor.css')) {
@@ -40,9 +40,6 @@ function get_template_name() {
 		$pageid = (int) $_GET["page_id"];
 
 		// obtain template folder of current page from the database
-		if(!isset($admin)) {
-			$database = new database();
-		}
 		$query_page = "SELECT template FROM " .TABLE_PREFIX ."pages WHERE page_id =$pageid";
 		$pagetpl = $database->get_one($query_page);   // if empty, default template is used
 
@@ -114,5 +111,3 @@ function show_wysiwyg_editor($name, $id, $content, $width, $height) {
 	$oFCKeditor->Height = $height;
 	$oFCKeditor->Create();
 }
-
-?>

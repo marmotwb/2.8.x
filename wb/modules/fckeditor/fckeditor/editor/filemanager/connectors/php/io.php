@@ -1,7 +1,7 @@
 <?php
 /*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2009 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2010 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -72,9 +72,8 @@ function ServerMapFolder( $resourceType, $folderPath, $sCommand )
 	$sResourceTypePath = GetResourceTypeDirectory( $resourceType, $sCommand ) ;
 
 	// Ensure that the directory exists.
-	 $sErrorMsg = CreateServerFolder( $sResourceTypePath ) ;
+	$sErrorMsg = CreateServerFolder( $sResourceTypePath ) ;
 	if ( $sErrorMsg != '' )
-   /* if (!file_exists($sResourceTypePath)) */
 		SendError( 1, "Error creating folder \"{$sResourceTypePath}\" ({$sErrorMsg})" ) ;
 
 	// Return the resource type directory combined with the required path.
