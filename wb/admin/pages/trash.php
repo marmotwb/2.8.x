@@ -1,37 +1,24 @@
 <?php
-
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/**
+ *
+ * @category        admin
+ * @package         pages
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2010, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 4.3.4 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL: http://svn282.websitebaker-dev.de/branches/2.8.x/wb/admin/pages/trash.php $
+ * @lastmodified    $Date: 2010-05-29 10:36:20 +0200 (Sa, 29. Mai 2010) $
+ *
+ */
 
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages');
-
-if (!$admin->checkFTAN('get'))
-{
-	$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
-	exit();
-}
 
 ?>
 <script type="text/javascript" language="javascript">
@@ -77,7 +64,7 @@ function make_list($parent, $editable_pages) {
 	<ul id="p<?php echo $parent; ?>" <?php if($parent != 0) { echo 'class="page_list"'; } ?>>
 	<?php	
 	// Get page list from database
-	$database = new database();
+	// $database = new database();
 	$query = "SELECT * FROM ".TABLE_PREFIX."pages WHERE parent = '$parent' AND visibility = 'deleted' ORDER BY position ASC";
 	$get_pages = $database->query($query);
 	
@@ -221,7 +208,6 @@ function make_list($parent, $editable_pages) {
 
 // Generate pages list
 if($admin->get_permission('pages_view') == true) {
-	$ftan2 = $admin->getFTAN(2);
 	?>
 	<table cellpadding="0" cellspacing="0" width="100%" border="0">
 	<tr>
@@ -229,7 +215,7 @@ if($admin->get_permission('pages_view') == true) {
 			<h2><?php echo $HEADING['DELETED_PAGES']; ?></h2>
 		</td>
 		<td align="right">
-				<a href="<?php echo ADMIN_URL. "/pages/empty_trash.php?$ftan2"; ?>">
+				<a href="<?php echo ADMIN_URL; ?>/pages/empty_trash.php">
 				<img src="<?php echo THEME_URL; ?>/images/delete_16.png" alt="<?php echo $TEXT['PAGE_TRASH']; ?>" border="0" />
 				<?php echo $TEXT['EMPTY_TRASH']; ?></a>
 		</td>

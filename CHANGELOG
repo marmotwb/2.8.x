@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+28 Dec-2010 Build 1358 Dietmar Woellbrink (Luisehahne)
+! validation fixes in pages backend theme
 27 Dec-2010 Build 1357 Frank Heyne (FrankH)
 # security fix: in path admin/pages/ - added FTAN check
 ! had to enhance parameter for getFTAN() in framework/class.secureform.php 

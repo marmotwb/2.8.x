@@ -28,7 +28,7 @@ function confirm_link(message, url) {
 </script>
 </head>
 <body>
-<table class="header">
+<table summary="" class="header">
 <tr>
 	<td>
 		<a href="{ADMIN_URL}" title="{TITLE_START}"><img src="{THEME_URL}/images/logo.png" border="0" alt="Logo" /></a>
@@ -47,7 +47,7 @@ function confirm_link(message, url) {
 </tr>
 </table>
 
-<table class="container">
+<table summary="" class="container">
 <tr>
 	<td>
 		<ul class="menu">
