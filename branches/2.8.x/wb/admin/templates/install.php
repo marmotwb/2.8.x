@@ -121,7 +121,7 @@ if(!file_exists($template_dir)) {
 }
 
 // Unzip template to the template dir
-$list = $archive->extract(PCLZIP_OPT_PATH, $template_dir);
+$list = $archive->extract(PCLZIP_OPT_PATH, $template_dir, PCLZIP_OPT_REPLACE_NEWER);
 if(!$list) {
 	$admin->print_error($MESSAGE['GENERIC']['CANNOT_UNZIP']);
 }

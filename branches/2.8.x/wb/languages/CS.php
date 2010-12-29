@@ -5,7 +5,7 @@
  * @package         language
  * @author          WebsiteBaker Project
  * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2010, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -16,7 +16,8 @@
  *
  */
 
-// use languageedit-module to modify this file
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
 
 // Define that this file is loaded
 if(!defined('LANGUAGE_LOADED')) {
@@ -31,432 +32,592 @@ $language_platform = '2.8.x';
 $language_author = 'WebStep, s.r.o.';
 $language_license = 'GNU General Public License';
 
-// Menu titles
-$MENU['START'] = '&Uacute;vod';
-$MENU['PAGES'] = 'Str&aacute;nky';
-$MENU['MEDIA'] = 'M&eacute;dia';
-$MENU['ADDONS'] = 'Roz&scaron;&iacute;&#345;en&iacute;';
-$MENU['MODULES'] = 'Moduly';
-$MENU['TEMPLATES'] = '&Scaron;ablony';
-$MENU['LANGUAGES'] = 'Jazyky';
-$MENU['PREFERENCES'] = 'Mo&#382;nosti';
-$MENU['SETTINGS'] = 'Nastaven&iacute;';
-$MENU['ADMINTOOLS'] = 'Admin-Tools';
+/* MENU */
 $MENU['ACCESS'] = 'P&#345;&iacute;stup';
-$MENU['USERS'] = 'U&#382;ivatel&eacute;';
+$MENU['ADDON'] = 'Add-on';
+$MENU['ADDONS'] = 'Roz&scaron;&iacute;&#345;en&iacute;';
+$MENU['ADMINTOOLS'] = 'Admin-Tools';
+$MENU['BREADCRUMB'] = 'You are here: ';
+$MENU['FORGOT'] = 'Z&iacute;skat zapomenut&eacute; p&#345;ihla&scaron;ovac&iacute; &uacute;daje';
+$MENU['GROUP'] = 'Group';
 $MENU['GROUPS'] = 'Skupiny';
 $MENU['HELP'] = 'N&aacute;pov&#283;da';
-$MENU['VIEW'] = 'Zobrazit';
-$MENU['LOGOUT'] = 'Odhl&aacute;sit';
+$MENU['LANGUAGES'] = 'Jazyky';
 $MENU['LOGIN'] = 'P&#345;ihl&aacute;&scaron;en&iacute;';
-$MENU['FORGOT'] = 'Z&iacute;skat zapomenut&eacute; p&#345;ihla&scaron;ovac&iacute; &uacute;daje';
+$MENU['LOGOUT'] = 'Odhl&aacute;sit';
+$MENU['MEDIA'] = 'M&eacute;dia';
+$MENU['MODULES'] = 'Moduly';
+$MENU['PAGES'] = 'Str&aacute;nky';
+$MENU['PREFERENCES'] = 'Mo&#382;nosti';
+$MENU['SETTINGS'] = 'Nastaven&iacute;';
+$MENU['START'] = '&Uacute;vod';
+$MENU['TEMPLATES'] = '&Scaron;ablony';
+$MENU['USERS'] = 'U&#382;ivatel&eacute;';
+$MENU['VIEW'] = 'Zobrazit';
 
-// Section overviews
-$OVERVIEW['START'] = 'Administra&#269;n&iacute; p&#345;ehled';
-$OVERVIEW['PAGES'] = 'Spravovat webov&eacute; str&aacute;nky...';
-$OVERVIEW['MEDIA'] = 'Spravovat soubory v adres&aacute;&#345;i m&eacute;di&iacute;...';
-$OVERVIEW['MODULES'] = 'Spravovat moduly WebsiteBakeru...';
-$OVERVIEW['TEMPLATES'] = 'Zm&#283;nit vzhled a chov&aacute;n&iacute; webu pomoc&iacute; &scaron;ablon...';
-$OVERVIEW['LANGUAGES'] = 'Spravovat jazyky WebsiteBakeru...';
-$OVERVIEW['PREFERENCES'] = 'Zm&#283;na nastaven&iacute; e-mailov&eacute; adresy, hesla, atd... ';
-$OVERVIEW['SETTINGS'] = 'Zm&#283;na nastaven&iacute; WebsiteBakeru...';
-$OVERVIEW['USERS'] = 'Spravovat u&#382;ivate WebsiteBakeru...';
-$OVERVIEW['GROUPS'] = 'Spravovat skupiny u&#382;ivatel&#367; a jejich opr&aacute;vn&#283;n&iacute;...';
-$OVERVIEW['HELP'] = 'M&aacute;te ot&aacute;zku? Hledejte odpov&#283;&#271;...';
-$OVERVIEW['VIEW'] = 'Rychle prohl&eacute;dhout str&aacute;nky v nov&eacute;m okn&#283;...';
-$OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
-
-// Headings
-$HEADING['MODIFY_DELETE_PAGE'] = 'Zm&#283;nit/Smazat str&aacute;nku';
-$HEADING['DELETED_PAGES'] = 'Smazan&eacute; str&aacute;nky';
-$HEADING['ADD_PAGE'] = 'P&#345;idat str&aacute;nku';
-$HEADING['ADD_HEADING'] = 'P&#345;idat z&aacute;hlav&iacute;';
-$HEADING['MODIFY_PAGE'] = 'Upravit str&aacute;nku';
-$HEADING['MODIFY_PAGE_SETTINGS'] = 'Zm&#283;nit nastaven&iacute; str&aacute;nky';
-$HEADING['MODIFY_ADVANCED_PAGE_SETTINGS'] = 'Zm&#283;nit pokro&#269;il&aacute; nastaven&iacute; str&aacute;nky';
-$HEADING['MANAGE_SECTIONS'] = 'Spravovat sekce';
-$HEADING['MODIFY_INTRO_PAGE'] = 'Zm&#283;nit &uacute;vodn&iacute; (intro) str&aacute;nku';
-
-$HEADING['BROWSE_MEDIA'] = 'Prohl&iacute;&#382;e&#269; m&eacute;di&iacute;';
-$HEADING['CREATE_FOLDER'] = 'Vytvo&#345;it adres&aacute;&#345;';
-$HEADING['UPLOAD_FILES'] = 'Nahr&aacute;t soubor(y)';
-
-$HEADING['INSTALL_MODULE'] = 'Nainstalovat modul';
-$HEADING['UNINSTALL_MODULE'] = 'Odinstalovat modul';
-$HEADING['MODULE_DETAILS'] = 'Detaily modulu';
-
-$HEADING['INSTALL_TEMPLATE'] = 'Nainstalovat &scaron;ablonu';
-$HEADING['UNINSTALL_TEMPLATE'] = 'Odinstalovat &scaron;ablonu';
-$HEADING['TEMPLATE_DETAILS'] = 'Detaily &scaron;ablony';
-
-$HEADING['INSTALL_LANGUAGE'] = 'Nainstalovat jazyk';
-$HEADING['UNINSTALL_LANGUAGE'] = 'Odinstalovat jazyk';
-$HEADING['LANGUAGE_DETAILS'] = 'Detaily jazyka';
-
-$HEADING['MY_SETTINGS'] = 'Moje nastaven&iacute;';
-$HEADING['MY_EMAIL'] = 'M&#367;j e-mail';
-$HEADING['MY_PASSWORD'] = 'Moje heslo';
-
-$HEADING['GENERAL_SETTINGS'] = 'Obecn&aacute; nastaven&iacute;';
-$HEADING['DEFAULT_SETTINGS'] = 'Implicitn&iacute; nastaven&iacute;';
-$HEADING['SEARCH_SETTINGS'] = 'Nastaven&iacute; vyhled&aacute;v&aacute;n&iacute;';
-$HEADING['FILESYSTEM_SETTINGS'] = 'Nastaven&iacute; syst&eacute;mu soubor&#367;';
-$HEADING['SERVER_SETTINGS'] = 'Nastaven&iacute; serveru';
-$HEADING['WBMAILER_SETTINGS'] = 'Mailer Settings';
-$HEADING['ADMINISTRATION_TOOLS'] = 'N&aacute;stroje administrace';
-
-$HEADING['MODIFY_DELETE_USER'] = 'Zm&#283;nit/Smazat u&#382;ivatele';
-$HEADING['ADD_USER'] = 'P&#345;idat u&#382;ivatele';
-$HEADING['MODIFY_USER'] = 'Zm&#283;nit u&#382;ivatele';
-
-$HEADING['MODIFY_DELETE_GROUP'] = 'Zm&#283;nit/Smazat skupinu';
-$HEADING['ADD_GROUP'] = 'P&#345;idat skupinu';
-$HEADING['MODIFY_GROUP'] = 'Zm&#283;nit skupinu';
-
-$HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On requirements not met';
-$HEADING['INVOKE_MODULE_FILES'] = 'Execute module files manually';
-
-// Other text
-$TEXT['OPEN'] = 'Open';
-$TEXT['ADD'] = 'P&#345;idat';
-$TEXT['MODIFY'] = 'Zm&#283;nit';
-$TEXT['SETTINGS'] = 'Nastaven&iacute;';
-$TEXT['DELETE'] = 'Smazat';
-$TEXT['SAVE'] = 'Ulo&#382;it';
-$TEXT['RESET'] = 'Vy&#269;istit';
-$TEXT['LOGIN'] = 'P&#345;ihl&aacute;sit';
-$TEXT['RELOAD'] = 'Obnovit';
-$TEXT['CANCEL'] = 'Zru&scaron;it';
-$TEXT['NAME'] = 'N&aacute;zev';
-$TEXT['PLEASE_SELECT'] = 'Vyberte pros&iacute;m';
-$TEXT['TITLE'] = 'N&aacute;zev';
-$TEXT['PARENT'] = 'Nad&#345;azen&yacute;';
-$TEXT['TYPE'] = 'Typ';
-$TEXT['VISIBILITY'] = 'Viditelnost';
-$TEXT['PRIVATE'] = 'Soukrom&aacute;';
-$TEXT['PUBLIC'] = 'Ve&#345;ejn&aacute;';
-$TEXT['NONE'] = 'Nen&iacute;';
-$TEXT['NONE_FOUND'] = 'Nic nenalezeno';
-$TEXT['CURRENT'] = 'Sou&#269;asn&yacute;';
-$TEXT['CHANGE'] = 'Zm&#283;nit';
-$TEXT['WINDOW'] = 'Okno';
-$TEXT['DESCRIPTION'] = 'Popis';
-$TEXT['KEYWORDS'] = 'Kl&iacute;&#269;ov&aacute; slova';
-$TEXT['ADMINISTRATORS'] = 'Spr&aacute;vci';
-$TEXT['PRIVATE_VIEWERS'] = 'Opr&aacute;vn&#283;n&iacute; k prohl&iacute;&#382;en&iacute;';
-$TEXT['EXPAND'] = 'Rozbalit';
-$TEXT['COLLAPSE'] = 'Sbalit';
-$TEXT['MOVE_UP'] = 'Posunout nahoru';
-$TEXT['MOVE_DOWN'] = 'Posunout dol&#367;';
-$TEXT['RENAME'] = 'P&#345;ejm.';
-$TEXT['MODIFY_SETTINGS'] = 'Zm&#283;nit nastaven&iacute;';
-$TEXT['MODIFY_CONTENT'] = 'Zm&#283;nit obsah';
-$TEXT['VIEW'] = 'Zobrazit';
-$TEXT['UP'] = 'Nahoru';
-$TEXT['FORGOTTEN_DETAILS'] = 'Zapom&#283;li jste svoje p&#345;ihla&scaron;ovac&iacute; &uacute;daje?';
-$TEXT['NEED_TO_LOGIN'] = 'Chcete se p&#345;ihl&aacute;sit?';
-$TEXT['SEND_DETAILS'] = 'Zaslat p&#345;ihla&scaron;ovac&iacute; &uacute;daje';
-$TEXT['USERNAME'] = 'Jm&eacute;no';
-$TEXT['PASSWORD'] = 'Heslo';
-$TEXT['HOME'] = 'Dom&#367;';
-$TEXT['TARGET_FOLDER'] = 'C&iacute;lov&yacute; adres&aacute;&#345;';
-$TEXT['OVERWRITE_EXISTING'] = 'P&#345;epsat existuj&iacute;c&iacute;';
-$TEXT['FILE'] = 'soubor';
-$TEXT['FILES'] = 'soubory';
-$TEXT['FOLDER'] = 'adres&aacute;&#345;';
-$TEXT['FOLDERS'] = 'adres&aacute;&#345;e';
-$TEXT['CREATE_FOLDER'] = 'Vytvo&#345;it adres&aacute;&#345;';
-$TEXT['UPLOAD_FILES'] = 'Nahr&aacute;t soubor(y)';
-$TEXT['CURRENT_FOLDER'] = 'Sou&#269;asn&yacute; adres&aacute;&#345;';
-$TEXT['TO'] = 'na';
-$TEXT['FROM'] = 'od';
-$TEXT['INSTALL'] = 'Instalovat';
-$TEXT['UNINSTALL'] = 'Odinstalovat';
-$TEXT['VIEW_DETAILS'] = 'Zobrazit';
-$TEXT['DISPLAY_NAME'] = 'Jm&eacute;no';
-$TEXT['AUTHOR'] = 'Autor';
-$TEXT['VERSION'] = 'Verze';
-$TEXT['DESIGNED_FOR'] = 'Vyvinuto pro';
-$TEXT['DESCRIPTION'] = 'Popis';
-$TEXT['EMAIL'] = 'E-mail';
-$TEXT['LANGUAGE'] = 'Jazyk';
-$TEXT['TIMEZONE'] = '&#268;asov&eacute; p&aacute;smo';
-$TEXT['CURRENT_PASSWORD'] = 'Sou&#269;asn&eacute; heslo';
-$TEXT['NEW_PASSWORD'] = 'Nov&eacute; heslo';
-$TEXT['RETYPE_NEW_PASSWORD'] = 'Znovu nov&eacute; heslo';
-$TEXT['ACTIVE'] = 'Aktivn&iacute;';
-$TEXT['DISABLED'] = 'Vypnuto';
-$TEXT['ENABLED'] = 'Zapnuto';
-$TEXT['RETYPE_PASSWORD'] = 'Znovu heslo';
-$TEXT['GROUP'] = 'Skup.';
-$TEXT['SYSTEM_PERMISSIONS'] = 'Syst&eacute;mov&aacute; opr&aacute;vn&#283;n&iacute;';
-$TEXT['MODULE_PERMISSIONS'] = 'Opr&aacute;vn&#283;n&iacute; k modul&#367;m';
-$TEXT['SHOW_ADVANCED'] = 'Zobrazit pokro&#269;il&eacute; volby';
-$TEXT['HIDE_ADVANCED'] = 'Skr&yacute;t pokro&#269;il&eacute; volby';
-$TEXT['BASIC'] = 'Z&aacute;kladn&iacute;';
-$TEXT['ADVANCED'] = 'Pokro&#269;il&yacute;';
-$TEXT['WEBSITE'] = 'WWW';
-$TEXT['DEFAULT'] = 'V&yacute;choz&iacute;';
-$TEXT['KEYWORDS'] = 'Kl&iacute;&#269;ov&aacute; slova';
-$TEXT['TEXT'] = 'Text';
-$TEXT['HEADER'] = 'Z&aacute;hlav&iacute;';
-$TEXT['FOOTER'] = 'Z&aacute;pat&iacute;';
-$TEXT['TEMPLATE'] = '&Scaron;ablona';
-$TEXT['THEME'] = 'Backend-Theme';
-$TEXT['INSTALLATION'] = 'Instalace';
-$TEXT['DATABASE'] = 'Datab&aacute;ze';
-$TEXT['HOST'] = 'Hostitel';
-$TEXT['INTRO'] = 'Intro';
-$TEXT['PAGE'] = 'Str&aacute;nka';
-$TEXT['SIGNUP'] = 'Registrace';
-$TEXT['PHP_ERROR_LEVEL'] = '&Uacute;rove&#328; hl&aacute;&scaron;en&iacute; chyb PHP';
-$TEXT['ADMIN'] = 'Admin';
-$TEXT['PATH'] = 'Cesta';
-$TEXT['URL'] = 'URL';
-$TEXT['FRONTEND'] = 'Front-end';
-$TEXT['EXTENSION'] = 'Roz&scaron;&iacute;&#345;en&iacute;';
-$TEXT['TABLE_PREFIX'] = 'Prefix tabulek';
-$TEXT['CHANGES'] = 'Zm&#283;ny';
-$TEXT['ADMINISTRATION'] = 'Administrace';
-$TEXT['FORGOT_DETAILS'] = 'Zapomnenut&eacute; heslo?';
-$TEXT['LOGGED_IN'] = 'p&#345;ihl&aacute;&scaron;en';
-$TEXT['WELCOME_BACK'] = 'V&iacute;tejte';
-$TEXT['FULL_NAME'] = 'Cel&eacute; jm&eacute;no';
+/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Registrace &uacute;&#269;tu';
-$TEXT['LINK'] = 'Odkaz';
-$TEXT['ANCHOR'] = 'Anchor';
-$TEXT['TARGET'] = 'Sm&#283;&#345;uje do';
-$TEXT['NEW_WINDOW'] = 'nov&eacute;ho okna';
-$TEXT['SAME_WINDOW'] = 'p&#367;vodn&iacute;ho okna';
-$TEXT['TOP_FRAME'] = 'svrchn&iacute;ho r&aacute;mu';
-$TEXT['PAGE_LEVEL_LIMIT'] = 'Limit &uacute;rovn&iacute; str&aacute;nek';
-$TEXT['SUCCESS'] = '&Uacute;sp&#283;&scaron;n&#283; provedeno';
-$TEXT['ERROR'] = 'Chyba';
-$TEXT['ARE_YOU_SURE'] = 'Jste si jisti?';
-$TEXT['YES'] = 'Ano';
-$TEXT['NO'] = 'Ne';
-$TEXT['SYSTEM_DEFAULT'] = 'Implicitn&iacute; v syst&eacute;mu';
-$TEXT['PAGE_TITLE'] = 'Titulek str&aacute;nky';
-$TEXT['MENU_TITLE'] = 'Titulek menu';
 $TEXT['ACTIONS'] = 'Akce';
-$TEXT['UNKNOWN'] = 'Nezn&aacute;m&yacute;';
-$TEXT['BLOCK'] = 'Blok';
-$TEXT['SEARCH'] = 'Vyhled&aacute;v&aacute;n&iacute;';
-$TEXT['SEARCHING'] = 'Vyhled&aacute;v&aacute;n&iacute;';
-$TEXT['POST'] = 'p&#345;&iacute;sp&#283;vek';
-$TEXT['COMMENT'] = 'Koment&aacute;&#345;';
-$TEXT['COMMENTS'] = 'Koment&aacute;&#345;e';
-$TEXT['COMMENTING'] = 'Koment&aacute;&#345;e';
-$TEXT['SHORT'] = 'Kr&aacute;tk&yacute; popis';
-$TEXT['LONG'] = 'Dlouh&yacute; popis';
-$TEXT['LOOP'] = 'T&#283;lo';
-$TEXT['FIELD'] = 'Pole';
-$TEXT['REQUIRED'] = 'Povinn&yacute;';
-$TEXT['LENGTH'] = 'D&eacute;lka';
-$TEXT['MESSAGE'] = 'Zpr&aacute;va';
-$TEXT['SUBJECT'] = 'P&#345;edm&#283;t';
-$TEXT['MATCH'] = 'Shoda';
+$TEXT['ACTIVE'] = 'Aktivn&iacute;';
+$TEXT['ADD'] = 'P&#345;idat';
+$TEXT['ADDON'] = 'Add-On';
+$TEXT['ADD_SECTION'] = 'P&#345;idat sekci';
+$TEXT['ADMIN'] = 'Admin';
+$TEXT['ADMINISTRATION'] = 'Administrace';
+$TEXT['ADMINISTRATION_TOOL'] = 'Administra&#269;n&iacute; n&aacute;stroje';
+$TEXT['ADMINISTRATOR'] = 'Administrator';
+$TEXT['ADMINISTRATORS'] = 'Spr&aacute;vci';
+$TEXT['ADVANCED'] = 'Pokro&#269;il&yacute;';
+$TEXT['ALLOWED_FILETYPES_ON_UPLOAD'] = 'Allowed filetypes on upload';
+$TEXT['ALLOWED_VIEWERS'] = 'Opr&aacute;vn&#283;n&iacute; k prohl&iacute;&#382;en&iacute;';
+$TEXT['ALLOW_MULTIPLE_SELECTIONS'] = 'Povolit v&iacute;cen&aacute;sobn&eacute; v&yacute;b&#283;ry';
 $TEXT['ALL_WORDS'] = 'V&scaron;echna slova';
+$TEXT['ANCHOR'] = 'Anchor';
+$TEXT['ANONYMOUS'] = 'Anonymn&iacute;';
 $TEXT['ANY_WORDS'] = 'Cokoliv';
-$TEXT['EXACT_MATCH'] = 'P&#345;esn&aacute; shoda';
-$TEXT['SHOW'] = 'Zobrazit';
-$TEXT['HIDE'] = 'Skr&yacute;t';
-$TEXT['START_PUBLISHING'] = 'Za&#269;&aacute;tek publikace';
-$TEXT['FINISH_PUBLISHING'] = 'Konec publikace';
-$TEXT['DATE'] = 'Datum';
-$TEXT['START'] = 'Za&#269;&aacute;tek';
-$TEXT['END'] = 'Konec';
-$TEXT['IMAGE'] = 'Obr&aacute;zek';
-$TEXT['ICON'] = 'Ikona';
-$TEXT['SECTION'] = 'Sekce';
-$TEXT['DATE_FORMAT'] = 'Form&aacute;t data';
-$TEXT['TIME_FORMAT'] = 'Form&aacute;t &#269;asu';
-$TEXT['RESULTS'] = 'V&yacute;sledky';
-$TEXT['RESIZE'] = 'Zm&#283;na velikosti';
-$TEXT['MANAGE'] = 'Spravovat';
-$TEXT['CODE'] = 'K&oacute;d jazyka';
-$TEXT['WIDTH'] = '&Scaron;&iacute;&#345;ka';
-$TEXT['HEIGHT'] = 'V&yacute;&scaron;ka';
-$TEXT['MORE'] = 'V&iacute;ce';
-$TEXT['READ_MORE'] = 'v&iacute;ce...';
+$TEXT['APP_NAME'] = 'N&aacute;zev aplikace';
+$TEXT['ARE_YOU_SURE'] = 'Jste si jisti?';
+$TEXT['AUTHOR'] = 'Autor';
+$TEXT['BACK'] = 'Zp&#283;t';
+$TEXT['BACKUP'] = 'Z&aacute;lohov&aacute;n&iacute;';
+$TEXT['BACKUP_ALL_TABLES'] = 'Z&aacute;lohovat v&scaron;echny tabulky v datab&aacute;zi';
+$TEXT['BACKUP_DATABASE'] = 'Z&aacute;lohovat datab&aacute;zi';
+$TEXT['BACKUP_MEDIA'] = 'Zaz&aacute;lohovat m&eacute;dia';
+$TEXT['BACKUP_WB_SPECIFIC'] = 'Z&aacute;lohovat pouze tabulky WebsiteBakeru';
+$TEXT['BASIC'] = 'Z&aacute;kladn&iacute;';
+$TEXT['BLOCK'] = 'Blok';
+$TEXT['CALENDAR'] = 'Calender';
+$TEXT['CANCEL'] = 'Zru&scaron;it';
+$TEXT['CAN_DELETE_HIMSELF'] = 'Can delete himself';
+$TEXT['CAPTCHA_VERIFICATION'] = 'Kontrola obr. k&oacute;dem';
+$TEXT['CAP_EDIT_CSS'] = 'Edit CSS';
+$TEXT['CHANGE'] = 'Zm&#283;nit';
+$TEXT['CHANGES'] = 'Zm&#283;ny';
 $TEXT['CHANGE_SETTINGS'] = 'Zm&#283;nit nastaven&iacute;';
-$TEXT['CURRENT_PAGE'] = 'Str&aacute;nka';
+$TEXT['CHARSET'] = 'K&oacute;dov&aacute; str&aacute;nka';
+$TEXT['CHECKBOX_GROUP'] = 'Skupina zatrh&aacute;vac&iacute;ch pol&iacute;';
 $TEXT['CLOSE'] = 'Zav&#345;&iacute;t';
-$TEXT['INTRO_PAGE'] = '&Uacute;vodn&iacute; (intro) str&aacute;nka';
-$TEXT['INSTALLATION_URL'] = 'URL instalace';
-$TEXT['INSTALLATION_PATH'] = 'Cesta instalace';
-$TEXT['PAGE_EXTENSION'] = 'P&#345;&iacute;pona str&aacute;nek';
-$TEXT['NO_RESULTS'] = '&#381;&aacute;dn&yacute; v&yacute;sledek';
-$TEXT['WEBSITE_TITLE'] = 'N&aacute;zev webu';
-$TEXT['WEBSITE_DESCRIPTION'] = 'Popis webu';
-$TEXT['WEBSITE_KEYWORDS'] = 'Kl&iacute;&#269;ov&aacute; slova';
-$TEXT['WEBSITE_HEADER'] = 'Z&aacute;hlav&iacute; webu';
-$TEXT['WEBSITE_FOOTER'] = 'Z&aacute;pat&iacute; webu';
-$TEXT['RESULTS_HEADER'] = 'Z&aacute;hlav&iacute; v&yacute;sledk&#367;';
-$TEXT['RESULTS_LOOP'] = 'Polo&#382;ka v&yacute;sledk&#367;';
-$TEXT['RESULTS_FOOTER'] = 'Z&aacute;pat&iacute; v&yacute;sledk&#367;';
-$TEXT['LEVEL'] = '&Uacute;rove&#328;';
-$TEXT['NOT_FOUND'] = 'Nenalezeno';
-$TEXT['PAGE_SPACER'] = 'Znak mezery';
-$TEXT['MATCHING'] = 'Odpov&iacute;daj&iacute;c&iacute;';
-$TEXT['TEMPLATE_PERMISSIONS'] = 'Pr&aacute;va k &scaron;ablon&#283;';
-$TEXT['PAGES_DIRECTORY'] = 'Adres&aacute;&#345; str&aacute;nek';
-$TEXT['MEDIA_DIRECTORY'] = 'Adres&aacute;&#345; m&eacute;di&iacute;';
-$TEXT['FILE_MODE'] = 'M&oacute;d soubor&#367;';
-$TEXT['USER'] = 'U&#382;ivatel';
-$TEXT['OTHERS'] = 'Ostatn&iacute;';
-$TEXT['READ'] = '&#268;ten&iacute;';
-$TEXT['WRITE'] = 'Z&aacute;pis';
-$TEXT['EXECUTE'] = 'Spu&scaron;t&#283;n&iacute;';
-$TEXT['SMART_LOGIN'] = 'Chytr&eacute; p&#345;ihl&aacute;&scaron;en&iacute;';
-$TEXT['REMEMBER_ME'] = 'Zapamatovat &uacute;daje';
-$TEXT['FILESYSTEM_PERMISSIONS'] = 'Pr&aacute;va souborov&eacute;ho syst&eacute;mu';
+$TEXT['CODE'] = 'K&oacute;d jazyka';
+$TEXT['CODE_SNIPPET'] = 'Code-snippet';
+$TEXT['COLLAPSE'] = 'Sbalit';
+$TEXT['COMMENT'] = 'Koment&aacute;&#345;';
+$TEXT['COMMENTING'] = 'Koment&aacute;&#345;e';
+$TEXT['COMMENTS'] = 'Koment&aacute;&#345;e';
+$TEXT['CREATE_FOLDER'] = 'Vytvo&#345;it adres&aacute;&#345;';
+$TEXT['CURRENT'] = 'Sou&#269;asn&yacute;';
+$TEXT['CURRENT_FOLDER'] = 'Sou&#269;asn&yacute; adres&aacute;&#345;';
+$TEXT['CURRENT_PAGE'] = 'Str&aacute;nka';
+$TEXT['CURRENT_PASSWORD'] = 'Sou&#269;asn&eacute; heslo';
+$TEXT['CUSTOM'] = 'Vlastn&iacute; nastaven&iacute;';
+$TEXT['DATABASE'] = 'Datab&aacute;ze';
+$TEXT['DATE'] = 'Datum';
+$TEXT['DATE_FORMAT'] = 'Form&aacute;t data';
+$TEXT['DEFAULT'] = 'V&yacute;choz&iacute;';
+$TEXT['DEFAULT_CHARSET'] = 'V&yacute;choz&iacute; k&oacute;dov&aacute; str&aacute;nka';
+$TEXT['DEFAULT_TEXT'] = 'V&yacute;choz&iacute; text';
+$TEXT['DELETE'] = 'Smazat';
+$TEXT['DELETED'] = 'Smaz&aacute;no';
+$TEXT['DELETE_DATE'] = 'Delete date';
+$TEXT['DELETE_ZIP'] = 'Delete zip archive after unpacking';
+$TEXT['DESCRIPTION'] = 'Popis';
+$TEXT['DESIGNED_FOR'] = 'Vyvinuto pro';
 $TEXT['DIRECTORIES'] = 'Adres&aacute;&#345;e';
 $TEXT['DIRECTORY_MODE'] = 'M&oacute;d adres&aacute;&#345;&#367;';
-$TEXT['LIST_OPTIONS'] = 'Seznam voleb';
-$TEXT['OPTION'] = 'Volby';
-$TEXT['ALLOW_MULTIPLE_SELECTIONS'] = 'Povolit v&iacute;cen&aacute;sobn&eacute; v&yacute;b&#283;ry';
-$TEXT['TEXTFIELD'] = 'Vstupn&iacute; &#345;&aacute;dek';
-$TEXT['TEXTAREA'] = 'Vstupn&iacute; pole';
-$TEXT['SELECT_BOX'] = 'V&yacute;b&#283;rov&eacute; pole';
-$TEXT['CHECKBOX_GROUP'] = 'Skupina zatrh&aacute;vac&iacute;ch pol&iacute;';
-$TEXT['RADIO_BUTTON_GROUP'] = 'Skupina radio-pol&iacute;';
-$TEXT['SIZE'] = 'Velikost';
-$TEXT['DEFAULT_TEXT'] = 'V&yacute;choz&iacute; text';
-$TEXT['SEPERATOR'] = 'Odd&#283;lova&#269;';
-$TEXT['BACK'] = 'Zp&#283;t';
-$TEXT['UNDER_CONSTRUCTION'] = 'Ve v&yacute;stavb&#283;';
-$TEXT['MULTISELECT'] = 'V&iacute;cen&aacute;sobn&eacute; v&yacute;b&#283;rov&eacute; pole';
-$TEXT['SHORT_TEXT'] = 'Kr&aacute;tk&yacute; text';
-$TEXT['LONG_TEXT'] = 'Dlouh&yacute; text';
-$TEXT['HOMEPAGE_REDIRECTION'] = 'P&#345;esm&#283;rov&aacute;n&iacute; homepage';
-$TEXT['HEADING'] = 'Z&aacute;hlav&iacute;';
-$TEXT['MULTIPLE_MENUS'] = 'V&iacute;cen&aacute;sobn&aacute; menu';
-$TEXT['REGISTERED'] = 'Pro registrovan&eacute;';
-$TEXT['SECTION_BLOCKS'] = 'Bloky sekc&iacute;';
-$TEXT['REGISTERED_VIEWERS'] = 'Opr&aacute;vn&#283;n&iacute; k prohl&iacute;&#382;en&iacute;';
-$TEXT['ALLOWED_VIEWERS'] = 'Opr&aacute;vn&#283;n&iacute; k prohl&iacute;&#382;en&iacute;';
-$TEXT['SUBMISSION_ID'] = 'ID formul&aacute;&#345;e';
-$TEXT['SUBMISSIONS'] = 'Odeslan&eacute; formul&aacute;&#345;e';
-$TEXT['SUBMITTED'] = 'Odesl&aacute;no';
-$TEXT['MAX_SUBMISSIONS_PER_HOUR'] = 'Max. po&#269;et odesl&aacute;n&iacute; za hodinu';
-$TEXT['SUBMISSIONS_STORED_IN_DATABASE'] = 'Odeslan&eacute; formul&aacute;&#345;e';
+$TEXT['DISABLED'] = 'Vypnuto';
+$TEXT['DISPLAY_NAME'] = 'Jm&eacute;no';
+$TEXT['EMAIL'] = 'E-mail';
 $TEXT['EMAIL_ADDRESS'] = 'E-mailov&aacute; adresa';
-$TEXT['CUSTOM'] = 'Vlastn&iacute; nastaven&iacute;';
-$TEXT['ANONYMOUS'] = 'Anonymn&iacute;';
-$TEXT['SERVER_OPERATING_SYSTEM'] = 'Opera&#269;n&iacute; syst&eacute;m serveru';
-$TEXT['WORLD_WRITEABLE_FILE_PERMISSIONS'] = 'Pr&aacute;va z&aacute;pisu &amp;quot;pro cel&yacute; sv&#283;t&amp;quot;';
-$TEXT['LINUX_UNIX_BASED'] = 'Zalo&#382;en na Linux/Unix';
-$TEXT['WINDOWS'] = 'Windows';
-$TEXT['HOME_FOLDER'] = 'Domovsk&yacute; adres&aacute;&#345;';
-$TEXT['HOME_FOLDERS'] = 'Domovsk&eacute; adres&aacute;&#345;e';
-$TEXT['PAGE_TRASH'] = 'Ko&scaron; str&aacute;nek';
-$TEXT['INLINE'] = 'In-line';
-$TEXT['SEPARATE'] = 'Odd&#283;len&#283;';
-$TEXT['DELETED'] = 'Smaz&aacute;no';
-$TEXT['VIEW_DELETED_PAGES'] = 'Zobrazit smazan&eacute; str&aacute;nky';
 $TEXT['EMPTY_TRASH'] = 'Vypr&aacute;zdnit ko&scaron;';
-$TEXT['TRASH_EMPTIED'] = 'Ko&scaron; vypr&aacute;zdn&#283;n';
-$TEXT['ADD_SECTION'] = 'P&#345;idat sekci';
-$TEXT['POST_HEADER'] = 'Z&aacute;hlav&iacute; p&#345;&iacute;sp&#283;vku';
-$TEXT['POST_FOOTER'] = 'Z&aacute;pat&iacute; p&#345;&iacute;sp&#283;vku';
-$TEXT['POSTS_PER_PAGE'] = 'P&#345;&iacute;sp&#283;vk&#367; na str&aacute;nku';
-$TEXT['RESIZE_IMAGE_TO'] = 'Zm&#283;nit velikost obr&aacute;zku na';
-$TEXT['UNLIMITED'] = 'Neomezen&yacute;';
-$TEXT['OF'] = 'Z';
-$TEXT['OUT_OF'] = 'Z';
-$TEXT['NEXT'] = 'N&aacute;sleduj&iacute;c&iacute;';
-$TEXT['PREVIOUS'] = 'P&#345;edchoz&iacute;';
-$TEXT['NEXT_PAGE'] = 'N&aacute;sleduj&iacute;c&iacute; str&aacute;nka';
-$TEXT['PREVIOUS_PAGE'] = 'P&#345;edchoz&iacute; str&aacute;nka';
-$TEXT['ON'] = 'Na';
+$TEXT['ENABLED'] = 'Zapnuto';
+$TEXT['END'] = 'Konec';
+$TEXT['ERROR'] = 'Chyba';
+$TEXT['EXACT_MATCH'] = 'P&#345;esn&aacute; shoda';
+$TEXT['EXECUTE'] = 'Spu&scaron;t&#283;n&iacute;';
+$TEXT['EXPAND'] = 'Rozbalit';
+$TEXT['EXTENSION'] = 'Extension';
+$TEXT['FIELD'] = 'Pole';
+$TEXT['FILE'] = 'soubor';
+$TEXT['FILES'] = 'soubory';
+$TEXT['FILESYSTEM_PERMISSIONS'] = 'Pr&aacute;va souborov&eacute;ho syst&eacute;mu';
+$TEXT['FILE_MODE'] = 'M&oacute;d soubor&#367;';
+$TEXT['FINISH_PUBLISHING'] = 'Konec publikace';
+$TEXT['FOLDER'] = 'adres&aacute;&#345;';
+$TEXT['FOLDERS'] = 'adres&aacute;&#345;e';
+$TEXT['FOOTER'] = 'Z&aacute;pat&iacute;';
+$TEXT['FORGOTTEN_DETAILS'] = 'Zapom&#283;li jste svoje p&#345;ihla&scaron;ovac&iacute; &uacute;daje?';
+$TEXT['FORGOT_DETAILS'] = 'Zapomnenut&eacute; heslo?';
+$TEXT['FROM'] = 'od';
+$TEXT['FRONTEND'] = 'Front-end';
+$TEXT['FULL_NAME'] = 'Cel&eacute; jm&eacute;no';
+$TEXT['FUNCTION'] = 'Function';
+$TEXT['GROUP'] = 'Skup.';
+$TEXT['HEADER'] = 'Z&aacute;hlav&iacute;';
+$TEXT['HEADING'] = 'Z&aacute;hlav&iacute;';
+$TEXT['HEADING_CSS_FILE'] = 'Actual module file: ';
+$TEXT['HEIGHT'] = 'V&yacute;&scaron;ka';
+$TEXT['HIDDEN'] = 'Skryt&aacute;';
+$TEXT['HIDE'] = 'Skr&yacute;t';
+$TEXT['HIDE_ADVANCED'] = 'Skr&yacute;t pokro&#269;il&eacute; volby';
+$TEXT['HOME'] = 'Dom&#367;';
+$TEXT['HOMEPAGE_REDIRECTION'] = 'P&#345;esm&#283;rov&aacute;n&iacute; homepage';
+$TEXT['HOME_FOLDER'] = 'Personal Folder';
+$TEXT['HOME_FOLDERS'] = 'Personal Folders';
+$TEXT['HOST'] = 'Hostitel';
+$TEXT['ICON'] = 'Ikona';
+$TEXT['IMAGE'] = 'Obr&aacute;zek';
+$TEXT['INLINE'] = 'In-line';
+$TEXT['INSTALL'] = 'Instalovat';
+$TEXT['INSTALLATION'] = 'Instalace';
+$TEXT['INSTALLATION_PATH'] = 'Cesta instalace';
+$TEXT['INSTALLATION_URL'] = 'URL instalace';
+$TEXT['INSTALLED'] = 'installed';
+$TEXT['INTRO'] = 'Intro';
+$TEXT['INTRO_PAGE'] = '&Uacute;vodn&iacute; (intro) str&aacute;nka';
+$TEXT['INVALID_SIGNS'] = 'must begin with a letter or has invalid signs';
+$TEXT['KEYWORDS'] = 'Kl&iacute;&#269;ov&aacute; slova';
+$TEXT['LANGUAGE'] = 'Jazyk';
 $TEXT['LAST_UPDATED_BY'] = 'Posledn&iacute; zm&#283;na:';
-$TEXT['RESULTS_FOR'] = 'V&yacute;sledky pro';
-$TEXT['TIME'] = '&#268;as';
-$TEXT['REDIRECT_AFTER'] = 'Redirect after';
-$TEXT['WYSIWYG_STYLE'] = 'WYSIWYG styl';
-$TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG editor';
-$TEXT['SERVER_EMAIL'] = 'Syt&eacute;mov&yacute; e-mail';
-$TEXT['MENU'] = 'Menu';
+$TEXT['LENGTH'] = 'D&eacute;lka';
+$TEXT['LEVEL'] = '&Uacute;rove&#328;';
+$TEXT['LINK'] = 'Odkaz';
+$TEXT['LINUX_UNIX_BASED'] = 'Zalo&#382;en na Linux/Unix';
+$TEXT['LIST_OPTIONS'] = 'Seznam voleb';
+$TEXT['LOGGED_IN'] = 'p&#345;ihl&aacute;&scaron;en';
+$TEXT['LOGIN'] = 'P&#345;ihl&aacute;sit';
+$TEXT['LONG'] = 'Dlouh&yacute; popis';
+$TEXT['LONG_TEXT'] = 'Dlouh&yacute; text';
+$TEXT['LOOP'] = 'T&#283;lo';
+$TEXT['MAIN'] = 'Hlavn&iacute;';
+$TEXT['MAINTENANCE_OFF'] = 'Maintenance off';
+$TEXT['MAINTENANCE_ON'] = 'Maintenance on';
+$TEXT['MANAGE'] = 'Spravovat';
 $TEXT['MANAGE_GROUPS'] = 'Spravovat skupiny';
 $TEXT['MANAGE_USERS'] = 'Spravovat u&#382;ivatele';
-$TEXT['PAGE_LANGUAGES'] = 'Jazykov&eacute; verze str&aacute;nek';
-$TEXT['HIDDEN'] = 'Skryt&aacute;';
-$TEXT['MAIN'] = 'Hlavn&iacute;';
-$TEXT['RENAME_FILES_ON_UPLOAD'] = 'P&#345;ejm. soubory po nahr&aacute;n&iacute;';
-$TEXT['APP_NAME'] = 'N&aacute;zev aplikace';
-$TEXT['SESSION_IDENTIFIER'] = 'Identifik&aacute;tor session';
-$TEXT['SEC_ANCHOR'] = 'Section-Anchor text';
-$TEXT['BACKUP'] = 'Z&aacute;lohov&aacute;n&iacute;';
-$TEXT['RESTORE'] = 'Obnova ze z&aacute;lohy';
-$TEXT['BACKUP_DATABASE'] = 'Z&aacute;lohovat datab&aacute;zi';
-$TEXT['RESTORE_DATABASE'] = 'Obnovit datab&aacute;zi ze z&aacute;lohy';
-$TEXT['BACKUP_ALL_TABLES'] = 'Z&aacute;lohovat v&scaron;echny tabulky v datab&aacute;zi';
-$TEXT['BACKUP_WB_SPECIFIC'] = 'Z&aacute;lohovat pouze tabulky WebsiteBakeru';
-$TEXT['BACKUP_MEDIA'] = 'Zaz&aacute;lohovat m&eacute;dia';
-$TEXT['RESTORE_MEDIA'] = 'Obnovit m&eacute;dia ze z&aacute;lohy';
-$TEXT['ADMINISTRATION_TOOL'] = 'Administra&#269;n&iacute; n&aacute;stroje';
-$TEXT['CAPTCHA_VERIFICATION'] = 'Kontrola obr. k&oacute;dem';
-$TEXT['VERIFICATION'] = 'Verifikace';
-$TEXT['DEFAULT_CHARSET'] = 'V&yacute;choz&iacute; k&oacute;dov&aacute; str&aacute;nka';
-$TEXT['CHARSET'] = 'K&oacute;dov&aacute; str&aacute;nka';
-$TEXT['MODULE_ORDER'] = 'Module-order for searching';
+$TEXT['MATCH'] = 'Shoda';
+$TEXT['MATCHING'] = 'Odpov&iacute;daj&iacute;c&iacute;';
 $TEXT['MAX_EXCERPT'] = 'Max lines of excerpt';
-$TEXT['TIME_LIMIT'] = 'Max time to gather excerpts per module';
-$TEXT['PUBL_START_DATE'] = 'Start date';
+$TEXT['MAX_SUBMISSIONS_PER_HOUR'] = 'Max. po&#269;et odesl&aacute;n&iacute; za hodinu';
+$TEXT['MEDIA_DIRECTORY'] = 'Adres&aacute;&#345; m&eacute;di&iacute;';
+$TEXT['MENU'] = 'Menu';
+$TEXT['MENU_ICON_0'] = 'Menue-Icon normal';
+$TEXT['MENU_ICON_1'] = 'Menue-Icon hover';
+$TEXT['MENU_TITLE'] = 'Titulek menu';
+$TEXT['MESSAGE'] = 'Zpr&aacute;va';
+$TEXT['MODIFY'] = 'Zm&#283;nit';
+$TEXT['MODIFY_CONTENT'] = 'Zm&#283;nit obsah';
+$TEXT['MODIFY_SETTINGS'] = 'Zm&#283;nit nastaven&iacute;';
+$TEXT['MODULE_ORDER'] = 'Module-order for searching';
+$TEXT['MODULE_PERMISSIONS'] = 'Opr&aacute;vn&#283;n&iacute; k modul&#367;m';
+$TEXT['MORE'] = 'V&iacute;ce';
+$TEXT['MOVE_DOWN'] = 'Posunout dol&#367;';
+$TEXT['MOVE_UP'] = 'Posunout nahoru';
+$TEXT['MULTIPLE_MENUS'] = 'V&iacute;cen&aacute;sobn&aacute; menu';
+$TEXT['MULTISELECT'] = 'V&iacute;cen&aacute;sobn&eacute; v&yacute;b&#283;rov&eacute; pole';
+$TEXT['NAME'] = 'N&aacute;zev';
+$TEXT['NEED_CURRENT_PASSWORD'] = 'confirm with current password';
+$TEXT['NEED_TO_LOGIN'] = 'Chcete se p&#345;ihl&aacute;sit?';
+$TEXT['NEW_PASSWORD'] = 'Nov&eacute; heslo';
+$TEXT['NEW_WINDOW'] = 'nov&eacute;ho okna';
+$TEXT['NEXT'] = 'N&aacute;sleduj&iacute;c&iacute;';
+$TEXT['NEXT_PAGE'] = 'N&aacute;sleduj&iacute;c&iacute; str&aacute;nka';
+$TEXT['NO'] = 'Ne';
+$TEXT['NONE'] = 'Nen&iacute;';
+$TEXT['NONE_FOUND'] = 'Nic nenalezeno';
+$TEXT['NOT_FOUND'] = 'Nenalezeno';
+$TEXT['NOT_INSTALLED'] = 'not installed';
+$TEXT['NO_IMAGE_SELECTED'] = 'no image selected';
+$TEXT['NO_RESULTS'] = '&#381;&aacute;dn&yacute; v&yacute;sledek';
+$TEXT['OF'] = 'Z';
+$TEXT['ON'] = 'Na';
+$TEXT['OPEN'] = 'Open';
+$TEXT['OPTION'] = 'Volby';
+$TEXT['OTHERS'] = 'Ostatn&iacute;';
+$TEXT['OUT_OF'] = 'Z';
+$TEXT['OVERWRITE_EXISTING'] = 'P&#345;epsat existuj&iacute;c&iacute;';
+$TEXT['PAGE'] = 'Str&aacute;nka';
+$TEXT['PAGES_DIRECTORY'] = 'Adres&aacute;&#345; str&aacute;nek';
+$TEXT['PAGES_PERMISSION'] = 'Pages Permission';
+$TEXT['PAGES_PERMISSIONS'] = 'Seitenerechtigungen';
+$TEXT['PAGE_EXTENSION'] = 'P&#345;&iacute;pona str&aacute;nek';
+$TEXT['PAGE_ICON'] = 'Page Image';
+$TEXT['PAGE_ICON_DIR'] = 'Path pages/menu images';
+$TEXT['PAGE_LANGUAGES'] = 'Jazykov&eacute; verze str&aacute;nek';
+$TEXT['PAGE_LEVEL_LIMIT'] = 'Limit &uacute;rovn&iacute; str&aacute;nek';
+$TEXT['PAGE_SPACER'] = 'Znak mezery';
+$TEXT['PAGE_TITLE'] = 'Titulek str&aacute;nky';
+$TEXT['PAGE_TRASH'] = 'Ko&scaron; str&aacute;nek';
+$TEXT['PARENT'] = 'Nad&#345;azen&yacute;';
+$TEXT['PASSWORD'] = 'Heslo';
+$TEXT['PATH'] = 'Cesta';
+$TEXT['PHP_ERROR_LEVEL'] = '&Uacute;rove&#328; hl&aacute;&scaron;en&iacute; chyb PHP';
+$TEXT['PLEASE_LOGIN'] = 'Please login';
+$TEXT['PLEASE_SELECT'] = 'Vyberte pros&iacute;m';
+$TEXT['POST'] = 'p&#345;&iacute;sp&#283;vek';
+$TEXT['POSTS_PER_PAGE'] = 'P&#345;&iacute;sp&#283;vk&#367; na str&aacute;nku';
+$TEXT['POST_FOOTER'] = 'Z&aacute;pat&iacute; p&#345;&iacute;sp&#283;vku';
+$TEXT['POST_HEADER'] = 'Z&aacute;hlav&iacute; p&#345;&iacute;sp&#283;vku';
+$TEXT['PREVIOUS'] = 'P&#345;edchoz&iacute;';
+$TEXT['PREVIOUS_PAGE'] = 'P&#345;edchoz&iacute; str&aacute;nka';
+$TEXT['PRIVATE'] = 'Soukrom&aacute;';
+$TEXT['PRIVATE_VIEWERS'] = 'Opr&aacute;vn&#283;n&iacute; k prohl&iacute;&#382;en&iacute;';
+$TEXT['PROFILES_EDIT'] = 'Change the profile';
+$TEXT['PUBLIC'] = 'Ve&#345;ejn&aacute;';
 $TEXT['PUBL_END_DATE'] = 'End date';
-$TEXT['CALENDAR'] = 'Calender';
-$TEXT['DELETE_DATE'] = 'Delete date';
-$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Please specify a default "FROM" address and "SENDER" name below. It is recommended to use a FROM address like: <strong>admin@yourdomain.com</strong>. Some mail provider (e.g. <em>mail.com</em>) may reject mails with a FROM: address like <em>name@mail.com</em> sent via a foreign relay to avoid spam.<br /><br />The default values are only used if no other values are specified by WebsiteBaker. If your server supports <acronym title="Simple mail transfer protocol">SMTP</acronym>, you may want use this option for outgoing mails.';
+$TEXT['PUBL_START_DATE'] = 'Start date';
+$TEXT['RADIO_BUTTON_GROUP'] = 'Skupina radio-pol&iacute;';
+$TEXT['READ'] = '&#268;ten&iacute;';
+$TEXT['READ_MORE'] = 'v&iacute;ce...';
+$TEXT['REDIRECT_AFTER'] = 'Redirect after';
+$TEXT['REGISTERED'] = 'Pro registrovan&eacute;';
+$TEXT['REGISTERED_VIEWERS'] = 'Opr&aacute;vn&#283;n&iacute; k prohl&iacute;&#382;en&iacute;';
+$TEXT['RELOAD'] = 'Obnovit';
+$TEXT['REMEMBER_ME'] = 'Zapamatovat &uacute;daje';
+$TEXT['RENAME'] = 'P&#345;ejm.';
+$TEXT['RENAME_FILES_ON_UPLOAD'] = 'P&#345;ejm. soubory po nahr&aacute;n&iacute;';
+$TEXT['REQUIRED'] = 'Povinn&yacute;';
+$TEXT['REQUIREMENT'] = 'Requirement';
+$TEXT['RESET'] = 'Vy&#269;istit';
+$TEXT['RESIZE'] = 'Zm&#283;na velikosti';
+$TEXT['RESIZE_IMAGE_TO'] = 'Zm&#283;nit velikost obr&aacute;zku na';
+$TEXT['RESTORE'] = 'Obnova ze z&aacute;lohy';
+$TEXT['RESTORE_DATABASE'] = 'Obnovit datab&aacute;zi ze z&aacute;lohy';
+$TEXT['RESTORE_MEDIA'] = 'Obnovit m&eacute;dia ze z&aacute;lohy';
+$TEXT['RESULTS'] = 'V&yacute;sledky';
+$TEXT['RESULTS_FOOTER'] = 'Z&aacute;pat&iacute; v&yacute;sledk&#367;';
+$TEXT['RESULTS_FOR'] = 'V&yacute;sledky pro';
+$TEXT['RESULTS_HEADER'] = 'Z&aacute;hlav&iacute; v&yacute;sledk&#367;';
+$TEXT['RESULTS_LOOP'] = 'Polo&#382;ka v&yacute;sledk&#367;';
+$TEXT['RETYPE_NEW_PASSWORD'] = 'Znovu nov&eacute; heslo';
+$TEXT['RETYPE_PASSWORD'] = 'Znovu heslo';
+$TEXT['SAME_WINDOW'] = 'p&#367;vodn&iacute;ho okna';
+$TEXT['SAVE'] = 'Ulo&#382;it';
+$TEXT['SEARCH'] = 'Vyhled&aacute;v&aacute;n&iacute;';
+$TEXT['SEARCHING'] = 'Vyhled&aacute;v&aacute;n&iacute;';
+$TEXT['SECTION'] = 'Sekce';
+$TEXT['SECTION_BLOCKS'] = 'Bloky sekc&iacute;';
+$TEXT['SEC_ANCHOR'] = 'Section-Anchor text';
+$TEXT['SELECT_BOX'] = 'V&yacute;b&#283;rov&eacute; pole';
+$TEXT['SEND_DETAILS'] = 'Zaslat p&#345;ihla&scaron;ovac&iacute; &uacute;daje';
+$TEXT['SEPARATE'] = 'Odd&#283;len&#283;';
+$TEXT['SEPERATOR'] = 'Odd&#283;lova&#269;';
+$TEXT['SERVER_EMAIL'] = 'Syt&eacute;mov&yacute; e-mail';
+$TEXT['SERVER_OPERATING_SYSTEM'] = 'Opera&#269;n&iacute; syst&eacute;m serveru';
+$TEXT['SESSION_IDENTIFIER'] = 'Identifik&aacute;tor session';
+$TEXT['SETTINGS'] = 'Nastaven&iacute;';
+$TEXT['SHORT'] = 'Kr&aacute;tk&yacute; popis';
+$TEXT['SHORT_TEXT'] = 'Kr&aacute;tk&yacute; text';
+$TEXT['SHOW'] = 'Zobrazit';
+$TEXT['SHOW_ADVANCED'] = 'Zobrazit pokro&#269;il&eacute; volby';
+$TEXT['SIGNUP'] = 'Registrace';
+$TEXT['SIZE'] = 'Velikost';
+$TEXT['SMART_LOGIN'] = 'Chytr&eacute; p&#345;ihl&aacute;&scaron;en&iacute;';
+$TEXT['START'] = 'Za&#269;&aacute;tek';
+$TEXT['START_PUBLISHING'] = 'Za&#269;&aacute;tek publikace';
+$TEXT['SUBJECT'] = 'P&#345;edm&#283;t';
+$TEXT['SUBMISSIONS'] = 'Odeslan&eacute; formul&aacute;&#345;e';
+$TEXT['SUBMISSIONS_STORED_IN_DATABASE'] = 'Odeslan&eacute; formul&aacute;&#345;e';
+$TEXT['SUBMISSION_ID'] = 'ID formul&aacute;&#345;e';
+$TEXT['SUBMITTED'] = 'Odesl&aacute;no';
+$TEXT['SUCCESS'] = '&Uacute;sp&#283;&scaron;n&#283; provedeno';
+$TEXT['SYSTEM_DEFAULT'] = 'Implicitn&iacute; v syst&eacute;mu';
+$TEXT['SYSTEM_PERMISSIONS'] = 'Syst&eacute;mov&aacute; opr&aacute;vn&#283;n&iacute;';
+$TEXT['TABLE_PREFIX'] = 'Prefix tabulek';
+$TEXT['TARGET'] = 'Sm&#283;&#345;uje do';
+$TEXT['TARGET_FOLDER'] = 'C&iacute;lov&yacute; adres&aacute;&#345;';
+$TEXT['TEMPLATE'] = '&Scaron;ablona';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Pr&aacute;va k &scaron;ablon&#283;';
+$TEXT['TEXT'] = 'Text';
+$TEXT['TEXTAREA'] = 'Vstupn&iacute; pole';
+$TEXT['TEXTFIELD'] = 'Vstupn&iacute; &#345;&aacute;dek';
+$TEXT['THEME'] = 'Backend-Theme';
+$TEXT['TIME'] = '&#268;as';
+$TEXT['TIMEZONE'] = '&#268;asov&eacute; p&aacute;smo';
+$TEXT['TIME_FORMAT'] = 'Form&aacute;t &#269;asu';
+$TEXT['TIME_LIMIT'] = 'Max time to gather excerpts per module';
+$TEXT['TITLE'] = 'N&aacute;zev';
+$TEXT['TO'] = 'na';
+$TEXT['TOP_FRAME'] = 'svrchn&iacute;ho r&aacute;mu';
+$TEXT['TRASH_EMPTIED'] = 'Ko&scaron; vypr&aacute;zdn&#283;n';
+$TEXT['TXT_EDIT_CSS_FILE'] = 'Edit the CSS definitions in the textarea below.';
+$TEXT['TYPE'] = 'Typ';
+$TEXT['UNDER_CONSTRUCTION'] = 'Ve v&yacute;stavb&#283;';
+$TEXT['UNINSTALL'] = 'Odinstalovat';
+$TEXT['UNKNOWN'] = 'Nezn&aacute;m&yacute;';
+$TEXT['UNLIMITED'] = 'Neomezen&yacute;';
+$TEXT['UNZIP_FILE'] = 'Upload and unpack a zip archive';
+$TEXT['UP'] = 'Nahoru';
+$TEXT['UPGRADE'] = 'Aktualisieren';
+$TEXT['UPLOAD_FILES'] = 'Nahr&aacute;t soubor(y)';
+$TEXT['URL'] = 'URL';
+$TEXT['USER'] = 'U&#382;ivatel';
+$TEXT['USERNAME'] = 'Jm&eacute;no';
+$TEXT['USERS_ACTIVE'] = 'User is set active';
+$TEXT['USERS_CAN_SELFDELETE'] = 'User can delete himself';
+$TEXT['USERS_CHANGE_SETTINGS'] = 'User can change his own settings';
+$TEXT['USERS_DELETED'] = 'User is marked as deleted';
+$TEXT['USERS_FLAGS'] = 'User-Flags';
+$TEXT['USERS_PROFILE_ALLOWED'] = 'User can create extended profile';
+$TEXT['VERIFICATION'] = 'Verifikace';
+$TEXT['VERSION'] = 'Verze';
+$TEXT['VIEW'] = 'Zobrazit';
+$TEXT['VIEW_DELETED_PAGES'] = 'Zobrazit smazan&eacute; str&aacute;nky';
+$TEXT['VIEW_DETAILS'] = 'Zobrazit';
+$TEXT['VISIBILITY'] = 'Viditelnost';
 $TEXT['WBMAILER_DEFAULT_SENDER_MAIL'] = 'Default From Mail';
 $TEXT['WBMAILER_DEFAULT_SENDER_NAME'] = 'Default Sender Name';
-$TEXT['WBMAILER_NOTICE'] = '<strong>SMTP Mailer Settings:</strong><br />The settings below are only required if you want to send mails via <acronym title="Simple mail transfer protocol">SMTP</acronym>. If you do not know your SMTP host or you are not sure about the required settings, simply stay with the default mail routine: PHP MAIL.';
+$TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Please specify a default "FROM" address and "SENDER" name below. It is recommended to use a FROM address like: <strong>admin@yourdomain.com</strong>. Some mail provider (e.g. <em>mail.com</em>) may reject mails with a FROM: address like <em>name@mail.com</em> sent via a foreign relay to avoid spam.<br /><br />The default values are only used if no other values are specified by WebsiteBaker. If your server supports <acronym title="Simple mail transfer protocol">SMTP</acronym>, you may want use this option for outgoing mails.';
 $TEXT['WBMAILER_FUNCTION'] = 'Mail Routine';
-$TEXT['WBMAILER_SMTP_HOST'] = 'SMTP Host';
+$TEXT['WBMAILER_NOTICE'] = '<strong>SMTP Mailer Settings:</strong><br />The settings below are only required if you want to send mails via <acronym title="Simple mail transfer protocol">SMTP</acronym>. If you do not know your SMTP host or you are not sure about the required settings, simply stay with the default mail routine: PHP MAIL.';
 $TEXT['WBMAILER_PHP'] = 'PHP MAIL';
 $TEXT['WBMAILER_SMTP'] = 'SMTP';
 $TEXT['WBMAILER_SMTP_AUTH'] = 'SMTP Authentification';
 $TEXT['WBMAILER_SMTP_AUTH_NOTICE'] = 'only activate if your SMTP host requires authentification';
-$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Username';
+$TEXT['WBMAILER_SMTP_HOST'] = 'SMTP Host';
 $TEXT['WBMAILER_SMTP_PASSWORD'] = 'SMTP Password';
-$TEXT['PLEASE_LOGIN'] = 'Please login';
-$TEXT['CAP_EDIT_CSS'] = 'Edit CSS';
-$TEXT['HEADING_CSS_FILE'] = 'Actual module file: ';
-$TEXT['TXT_EDIT_CSS_FILE'] = 'Edit the CSS definitions in the textarea below.';
-$TEXT['CODE_SNIPPET'] = "Code-snippet";
-$TEXT['REQUIREMENT'] = "Requirement";
-$TEXT['INSTALLED'] = "installed";
-$TEXT['NOT_INSTALLED'] = "not installed";
-$TEXT['ADDON'] = "Add-On";
-$TEXT['EXTENSION'] = "Extension";
-$TEXT['UNZIP_FILE'] = "Upload and unpack a zip archive";
-$TEXT['DELETE_ZIP'] = "Delete zip archive after unpacking";
-$TEXT['NEED_CURRENT_PASSWORD'] ='confirm with current password';
-$TEXT['CAN_DELETE_HIMSELF'] = 'Can delete himself';
+$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Username';
+$TEXT['WEBSITE'] = 'WWW';
+$TEXT['WEBSITE_DESCRIPTION'] = 'Popis webu';
+$TEXT['WEBSITE_FOOTER'] = 'Z&aacute;pat&iacute; webu';
+$TEXT['WEBSITE_HEADER'] = 'Z&aacute;hlav&iacute; webu';
+$TEXT['WEBSITE_KEYWORDS'] = 'Kl&iacute;&#269;ov&aacute; slova';
+$TEXT['WEBSITE_TITLE'] = 'N&aacute;zev webu';
+$TEXT['WELCOME_BACK'] = 'V&iacute;tejte';
+$TEXT['WIDTH'] = '&Scaron;&iacute;&#345;ka';
+$TEXT['WINDOW'] = 'Okno';
+$TEXT['WINDOWS'] = 'Windows';
+$TEXT['WORLD_WRITEABLE_FILE_PERMISSIONS'] = 'Pr&aacute;va z&aacute;pisu &amp;quot;pro cel&yacute; sv&#283;t&amp;quot;';
+$TEXT['WRITE'] = 'Z&aacute;pis';
+$TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG editor';
+$TEXT['WYSIWYG_STYLE'] = 'WYSIWYG styl';
+$TEXT['YES'] = 'Ano';
 
-// Success/error messages
-$MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Nem&aacute;te opr&aacute;vn&#283;n&iacute; prohl&iacute;&#382;et tuto str&aacute;nku';
-$MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] = 'Sorry, no active content to display';
+/* HEADING */
+$HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On requirements not met';
+$HEADING['ADD_CHILD_PAGE'] = 'Add child page';
+$HEADING['ADD_GROUP'] = 'P&#345;idat skupinu';
+$HEADING['ADD_GROUPS'] = 'Add Groups';
+$HEADING['ADD_HEADING'] = 'P&#345;idat z&aacute;hlav&iacute;';
+$HEADING['ADD_PAGE'] = 'P&#345;idat str&aacute;nku';
+$HEADING['ADD_USER'] = 'P&#345;idat u&#382;ivatele';
+$HEADING['ADMINISTRATION_TOOLS'] = 'N&aacute;stroje administrace';
+$HEADING['BROWSE_MEDIA'] = 'Prohl&iacute;&#382;e&#269; m&eacute;di&iacute;';
+$HEADING['CREATE_FOLDER'] = 'Vytvo&#345;it adres&aacute;&#345;';
+$HEADING['DEFAULT_SETTINGS'] = 'Implicitn&iacute; nastaven&iacute;';
+$HEADING['DELETED_PAGES'] = 'Smazan&eacute; str&aacute;nky';
+$HEADING['FILESYSTEM_SETTINGS'] = 'Nastaven&iacute; syst&eacute;mu soubor&#367;';
+$HEADING['GENERAL_SETTINGS'] = 'Obecn&aacute; nastaven&iacute;';
+$HEADING['INSTALL_LANGUAGE'] = 'Nainstalovat jazyk';
+$HEADING['INSTALL_MODULE'] = 'Nainstalovat modul';
+$HEADING['INSTALL_TEMPLATE'] = 'Nainstalovat &scaron;ablonu';
+$HEADING['INVOKE_LANGUAGE_FILES'] = 'Execute language files manually';
+$HEADING['INVOKE_MODULE_FILES'] = 'Execute module files manually';
+$HEADING['INVOKE_TEMPLATE_FILES'] = 'Execute template files manually';
+$HEADING['LANGUAGE_DETAILS'] = 'Detaily jazyka';
+$HEADING['MANAGE_SECTIONS'] = 'Spravovat sekce';
+$HEADING['MODIFY_ADVANCED_PAGE_SETTINGS'] = 'Zm&#283;nit pokro&#269;il&aacute; nastaven&iacute; str&aacute;nky';
+$HEADING['MODIFY_DELETE_GROUP'] = 'Zm&#283;nit/Smazat skupinu';
+$HEADING['MODIFY_DELETE_PAGE'] = 'Zm&#283;nit/Smazat str&aacute;nku';
+$HEADING['MODIFY_DELETE_USER'] = 'Zm&#283;nit/Smazat u&#382;ivatele';
+$HEADING['MODIFY_GROUP'] = 'Zm&#283;nit skupinu';
+$HEADING['MODIFY_GROUPS'] = 'Modify Groups';
+$HEADING['MODIFY_INTRO_PAGE'] = 'Zm&#283;nit &uacute;vodn&iacute; (intro) str&aacute;nku';
+$HEADING['MODIFY_PAGE'] = 'Upravit str&aacute;nku';
+$HEADING['MODIFY_PAGE_SETTINGS'] = 'Zm&#283;nit nastaven&iacute; str&aacute;nky';
+$HEADING['MODIFY_USER'] = 'Zm&#283;nit u&#382;ivatele';
+$HEADING['MODULE_DETAILS'] = 'Detaily modulu';
+$HEADING['MY_EMAIL'] = 'M&#367;j e-mail';
+$HEADING['MY_PASSWORD'] = 'Moje heslo';
+$HEADING['MY_SETTINGS'] = 'Moje nastaven&iacute;';
+$HEADING['SEARCH_SETTINGS'] = 'Nastaven&iacute; vyhled&aacute;v&aacute;n&iacute;';
+$HEADING['SERVER_SETTINGS'] = 'Nastaven&iacute; serveru';
+$HEADING['TEMPLATE_DETAILS'] = 'Detaily &scaron;ablony';
+$HEADING['UNINSTALL_LANGUAGE'] = 'Odinstalovat jazyk';
+$HEADING['UNINSTALL_MODULE'] = 'Odinstalovat modul';
+$HEADING['UNINSTALL_TEMPLATE'] = 'Odinstalovat &scaron;ablonu';
+$HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
+$HEADING['UPLOAD_FILES'] = 'Nahr&aacute;t soubor(y)';
+$HEADING['WBMAILER_SETTINGS'] = 'Mailer Settings';
 
+/* MESSAGE */
+$MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
+$MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
+$MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
+$MESSAGE['ADDON_MANUAL_FTP_WARNING'] = 'Warning: Existing module database entries will get lost. ';
+$MESSAGE['ADDON_MANUAL_INSTALLATION'] = 'When modules are uploaded via FTP (not recommended), the module installation functions <tt>install</tt>, <tt>upgrade</tt> or <tt>uninstall</tt> will not be executed automatically. Those modules may not work correct or do not uninstall properly.<br /><br />You can execute the module functions manually for modules uploaded via FTP below.';
+$MESSAGE['ADDON_MANUAL_INSTALLATION_WARNING'] = 'Warning: Existing module database entries will get lost. Only use this option if you experience problems with modules uploaded via FTP.';
+$MESSAGE['ADDON_MANUAL_RELOAD_WARNING'] = 'Warning: Existing module database entries will get lost. ';
+$MESSAGE['ADDON_MODULES_RELOADED'] = 'Modules reloaded successfully';
+$MESSAGE['ADDON_OVERWRITE_NEWER_FILES'] = 'Overwrite newer Files';
+$MESSAGE['ADDON_PRECHECK_FAILED'] = 'Add-on installation failed. Your system does not fulfill the requirements of this Add-on. To make this Add-on working on your system, please fix the issues summarized below.';
+$MESSAGE['ADDON_RELOAD'] = 'Update database with information from Add-on files (e.g. after FTP upload).';
+$MESSAGE['ADDON_TEMPLATES_RELOADED'] = 'Templates reloaded successfully';
 $MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES'] = 'Nedostate&#269;n&aacute; opr&aacute;vn&#283;n&iacute;';
-
-$MESSAGE['LOGIN_BOTH_BLANK'] = 'Zadejte pros&iacute;m svoje p&#345;ihla&scaron;ovac&iacute; &uacute;daje:';
-$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Zadejte sv&eacute; u&#382;ivatelsk&eacute; jm&eacute;no';
-$MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Zadejte sv&eacute; heslo';
-$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Zadan&eacute; jm&eacute;no je p&#345;&iacute;li&scaron; kr&aacute;tk&eacute;';
-$MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Zadan&eacute; heslo je p&#345;&iacute;li&scaron; kr&aacute;tk&eacute;';
-$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Zadan&eacute; jm&eacute;no je p&#345;&iacute;li&scaron; dlouh&eacute;';
-$MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Zadan&eacute; heslo je p&#345;&iacute;li&scaron; dlouh&eacute;';
+$MESSAGE['FORGOT_PASS_ALREADY_RESET'] = 'Heslo nem&#367;&#382;e b&yacute;t p&#345;enastaveno v&iacute;cekr&aacute;t b&#283;hem jedn&eacute; hodiny';
+$MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] = 'Nelze odeslat heslo e-mailem, kontaktujte pros&iacute;m spr&aacute;vce syst&eacute;mu';
+$MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'Zadan&aacute; e-mailov&aacute; adresa nebyla nalezena';
+$MESSAGE['FORGOT_PASS_NO_DATA'] = 'Zadejte svoji e-mailovou adresu:';
+$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Va&scaron;e u&#382;ivatelsk&eacute; jm&eacute;no a heslo byly odesl&aacute;ny na Va&scaron;i e-mailovou adresu';
+$MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] = 'Sorry, no active content to display';
+$MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Nem&aacute;te opr&aacute;vn&#283;n&iacute; prohl&iacute;&#382;et tuto str&aacute;nku';
+$MESSAGE['GENERIC_ALREADY_INSTALLED'] = 'Ji&#382; d&#345;&iacute;ve nainstalov&aacute;no';
+$MESSAGE['GENERIC_BAD_PERMISSIONS'] = 'Nelze zapisovat do c&iacute;lov&eacute;ho adres&aacute;&#345;e';
+$MESSAGE['GENERIC_BE_PATIENT'] = 'Please be patient.';
+$MESSAGE['GENERIC_CANNOT_UNINSTALL'] = 'Nelze odinstalovat';
+$MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE'] = 'Nelze odinstalovat: soubor je pr&aacute;v&#283; pou&#382;&iacute;v&aacute;n';
+$MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE_TMPL'] = '<br /><br />{{type}} <b>{{type_name}}</b> could not be uninstalled, because it is still in use on {{pages}}.<br /><br />';
+$MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE_TMPL_PAGES'] = 'this page;these pages';
+$MESSAGE['GENERIC_CANNOT_UNINSTALL_IS_DEFAULT_TEMPLATE'] = 'Can\'t uninstall the template <b>{{name}}</b>, because it is the default template!';
+$MESSAGE['GENERIC_CANNOT_UNINSTALL_IS_DEFAULT_THEME'] = 'Can\'t uninstall the template <b>{{name}}</b>, because it is the default backend theme!';
+$MESSAGE['GENERIC_CANNOT_UNZIP'] = 'Nelze rozbalit (rozzipovat) soubor';
+$MESSAGE['GENERIC_CANNOT_UPLOAD'] = 'Nelze nahr&aacute;t soubor';
+$MESSAGE['GENERIC_COMPARE'] = ' successfully';
+$MESSAGE['GENERIC_ERROR_OPENING_FILE'] = 'Do&scaron;lo k chyb&#283; p&#345;i otev&iacute;r&aacute;n&iacute; souboru.';
+$MESSAGE['GENERIC_FAILED_COMPARE'] = ' failed';
+$MESSAGE['GENERIC_FILE_TYPE'] = 'Nahr&aacute;van&yacute; soubory mus&iacute; b&yacute;t n&aacute;sleduj&iacute;c&iacute;ho form&aacute;tu:';
+$MESSAGE['GENERIC_FILE_TYPES'] = 'Nahr&aacute;van&yacute; soubor mus&iacute; m&iacute;t jeden z n&aacute;sleduj&iacute;c&iacute;ch form&aacute;t&#367;:';
+$MESSAGE['GENERIC_FILL_IN_ALL'] = 'Pros&iacute;m vra&#357;te se zp&#283;t a vypl&#328;te v&scaron;echna pole';
+$MESSAGE['GENERIC_FORGOT_OPTIONS'] = 'You have selected no choice!';
+$MESSAGE['GENERIC_INSTALLED'] = 'Instalace prob&#283;hla &uacute;sp&#283;&scaron;n&#283;';
+$MESSAGE['GENERIC_INVALID'] = 'Nahr&aacute;van&yacute; soubor je neplatn&yacute;';
+$MESSAGE['GENERIC_INVALID_ADDON_FILE'] = 'Invalid WebsiteBaker installation file. Please check the *.zip format.';
+$MESSAGE['GENERIC_INVALID_LANGUAGE_FILE'] = 'Invalid WebsiteBaker language file. Please check the text file.';
+$MESSAGE['GENERIC_INVALID_MODULE_FILE'] = 'Invalid WebsiteBaker module file. Please check the text file.';
+$MESSAGE['GENERIC_INVALID_TEMPLATE_FILE'] = 'Invalid WebsiteBaker template file. Please check the text file.';
+$MESSAGE['GENERIC_IN_USE'] = ' but used in ';
+$MESSAGE['GENERIC_MISSING_ARCHIVE_FILE'] = 'Missing Archiv file!';
+$MESSAGE['GENERIC_MODULE_VERSION_ERROR'] = 'The module is not installed properly!';
+$MESSAGE['GENERIC_NOT_COMPARE'] = ' not possibly';
+$MESSAGE['GENERIC_NOT_INSTALLED'] = 'Nenainstalov&aacute;no';
+$MESSAGE['GENERIC_NOT_UPGRADED'] = 'Actualization not possibly';
+$MESSAGE['GENERIC_PLEASE_BE_PATIENT'] = '&#268;ekejte pros&iacute;m, operace m&#367;&#382;e chv&iacute;li trvat.';
+$MESSAGE['GENERIC_PLEASE_CHECK_BACK_SOON'] = 'Zkuste to p&#345;&iacute;&scaron;t&#283;...';
+$MESSAGE['GENERIC_SECURITY_ACCESS'] = 'Security offense!! Access denied!';
+$MESSAGE['GENERIC_SECURITY_OFFENSE'] = 'Security offense!! data storing was refused!!';
+$MESSAGE['GENERIC_UNINSTALLED'] = 'Odinstalace prob&#283;hla &uacute;sp&#283;&scaron;n&#283;';
+$MESSAGE['GENERIC_UPGRADED'] = 'Aktualizace prob&#283;hla &uacute;sp&#283;&scaron;n&#283;';
+$MESSAGE['GENERIC_VERSION_COMPARE'] = 'Version comparison';
+$MESSAGE['GENERIC_VERSION_GT'] = 'Upgrade necessary!';
+$MESSAGE['GENERIC_VERSION_LT'] = 'Downgrade';
+$MESSAGE['GENERIC_WEBSITE_LOCKED'] = 'this site is temporarily down for maintenance';
+$MESSAGE['GENERIC_WEBSITE_UNDER_CONSTRUCTION'] = 'Str&aacute;nky jsou ve v&yacute;stavb&#283;';
+$MESSAGE['GROUPS_ADDED'] = 'Skupina byla &uacute;sp&#283;&scaron;n&#283; p&#345;id&aacute;na';
+$MESSAGE['GROUPS_CONFIRM_DELETE'] = 'Jste si jisti, &#382;e chcete smazat tuto skupimu (a v&scaron;echny jej&iacute; u&#382;ivatele)?';
+$MESSAGE['GROUPS_DELETED'] = 'Skupina byla &uacute;sp&#283;&scaron;n&#283; smaz&aacute;na';
+$MESSAGE['GROUPS_GROUP_NAME_BLANK'] = 'N&aacute;zev skupiny je pr&aacute;zdn&yacute;';
+$MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Tato skupina ji&#382; existuje';
+$MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Nenalezena &#382;&aacute;dn&aacute; skupina';
+$MESSAGE['GROUPS_SAVED'] = 'Skupina byla &uacute;sp&#283;&scaron;n&#283; ulo&#382;ena';
 $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Jm&eacute;no nebo heslo nen&iacute; platn&eacute;';
+$MESSAGE['LOGIN_BOTH_BLANK'] = 'Zadejte pros&iacute;m svoje p&#345;ihla&scaron;ovac&iacute; &uacute;daje:';
+$MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Zadejte sv&eacute; heslo';
+$MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Zadan&eacute; heslo je p&#345;&iacute;li&scaron; dlouh&eacute;';
+$MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Zadan&eacute; heslo je p&#345;&iacute;li&scaron; kr&aacute;tk&eacute;';
+$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Zadejte sv&eacute; u&#382;ivatelsk&eacute; jm&eacute;no';
+$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Zadan&eacute; jm&eacute;no je p&#345;&iacute;li&scaron; dlouh&eacute;';
+$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Zadan&eacute; jm&eacute;no je p&#345;&iacute;li&scaron; kr&aacute;tk&eacute;';
+$MESSAGE['MEDIA_BLANK_EXTENSION'] = 'Nezadali jste p&#345;&iacute;ponu souboru';
+$MESSAGE['MEDIA_BLANK_NAME'] = 'Nezadali jste nov&yacute; n&aacute;zev';
+$MESSAGE['MEDIA_CANNOT_DELETE_DIR'] = 'Nelze smazat vybran&yacute; adres&aacute;&#345;';
+$MESSAGE['MEDIA_CANNOT_DELETE_FILE'] = 'Nelze smazat vybran&yacute; soubor';
+$MESSAGE['MEDIA_CANNOT_RENAME'] = 'P&#345;ejmenov&aacute;n&iacute; se nezda&#345;ilo';
+$MESSAGE['MEDIA_CONFIRM_DELETE'] = 'Jste si jisti, &#382;e chcete smazat n&aacute;sleduj&iacute;c&iacute; soubory nebo adres&aacute;&#345;e?';
+$MESSAGE['MEDIA_DELETED_DIR'] = 'Adres&aacute;&#345; byl &uacute;sp&#283;&scaron;n&#283; smaz&aacute;n';
+$MESSAGE['MEDIA_DELETED_FILE'] = 'Soubor byl &uacute;sp&#283;&scaron;n&#283; smaz&aacute;n';
+$MESSAGE['MEDIA_DIR_ACCESS_DENIED'] = 'Specified directory does not exist or is not allowed.';
+$MESSAGE['MEDIA_DIR_DOES_NOT_EXIST'] = 'Adres&aacute;&#345; neexistuje';
+$MESSAGE['MEDIA_DIR_DOT_DOT_SLASH'] = 'Nelze pou&#382;&iacute;t ../ v n&aacute;zvu adres&aacute;&#345;e';
+$MESSAGE['MEDIA_DIR_EXISTS'] = 'Adres&aacute;&#345; se stejn&yacute;m n&aacute;zvem ji&#382; existuje';
+$MESSAGE['MEDIA_DIR_MADE'] = 'Adres&aacute;&#345; byl &uacute;sp&#283;&scaron;n&#283; vytvo&#345;en';
+$MESSAGE['MEDIA_DIR_NOT_MADE'] = 'Nelze vytvo&#345;it adres&aacute;&#345;';
+$MESSAGE['MEDIA_FILE_EXISTS'] = 'Soubor se stejn&yacute;m n&aacute;zvem ji&#382; existuje';
+$MESSAGE['MEDIA_FILE_NOT_FOUND'] = 'Soubor nenalezen';
+$MESSAGE['MEDIA_NAME_DOT_DOT_SLASH'] = 'Nelze pou&#382;&iacute;t ../ v n&aacute;zvu';
+$MESSAGE['MEDIA_NAME_INDEX_PHP'] = 'Nelze pou&#382;&iacute;t index.php jako n&aacute;zev';
+$MESSAGE['MEDIA_NONE_FOUND'] = 'Nenalezen &#382;&aacute;dn&yacute; soubor';
+$MESSAGE['MEDIA_NO_FILE_UPLOADED'] = 'No file was recieved';
+$MESSAGE['MEDIA_RENAMED'] = 'P&#345;ejmenov&aacute;n&iacute; prob&#283;hlo &uacute;sp&#283;&scaron;n&#283;';
+$MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' soubor byl &uacute;sp&#283;&scaron;n&#283; nahr&aacute;n';
+$MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Nelze pou&#382;&iacute;t ../ v c&iacute;lov&eacute;m adres&aacute;&#345;i';
+$MESSAGE['MEDIA_UPLOADED'] = ' soubory byly &uacute;sp&#283;&scaron;n&#283; nahr&aacute;ny';
+$MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Omlouv&aacute;me se, ale tento formul&aacute;&#345; dos&aacute;hl limitu povolen&yacute;ch odesl&aacute;n&iacute; pro tuto hodinu. Pros&iacute;m zkuste to znovu v dal&scaron;&iacute; hodin&#283;..';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Kontroln&iacute; k&oacute;d (zn&aacute;m&yacute; jako Captcha) neodpov&iacute;d&aacute;. Pokud m&aacute;te probl&eacute;my s p&#345;e&#269;ten&iacute;m tohoto k&oacute;du, kontaktujte SERVER_EMAIL';
+$MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Mus&iacute;te vyplnit n&aacute;sleduj&iacute;c&iacute; pole';
+$MESSAGE['PAGES_ADDED'] = 'Str&aacute;nka byla &uacute;sp&#283;&scaron;n&#283; p&#345;id&aacute;na';
+$MESSAGE['PAGES_ADDED_HEADING'] = 'Z&aacute;hlav&iacute; str&aacute;nky bylo &uacute;sp&#283;&scaron;n&#283; p&#345;id&aacute;no';
+$MESSAGE['PAGES_BLANK_MENU_TITLE'] = 'Zadejte n&aacute;zev v menu';
+$MESSAGE['PAGES_BLANK_PAGE_TITLE'] = 'Zadejte n&aacute;zev str&aacute;nky';
+$MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE'] = 'Do&scaron;lo k chyb&#283; p&#345;i vytv&aacute;&#345;en&iacute; p&#345;&iacute;supov&eacute;ho souboru v adres&aacute;&#345;i str&aacute;nek (nedostate&#269;n&aacute; opr&aacute;vn&#283;n&iacute;)';
+$MESSAGE['PAGES_CANNOT_DELETE_ACCESS_FILE'] = 'Do&scaron;lo k chyb&#283; p&#345;i maz&aacute;n&iacute; p&#345;&iacute;supov&eacute;ho souboru v adres&aacute;&#345;i str&aacute;nek (nedostate&#269;n&aacute; opr&aacute;vn&#283;n&iacute;)';
+$MESSAGE['PAGES_CANNOT_REORDER'] = 'Do&scaron;lo k chyb&#283; p&#345;i zm&#283;n&#283; po&#345;ad&iacute; str&aacute;nky';
+$MESSAGE['PAGES_DELETED'] = 'Str&aacute;nka byla &uacute;sp&#283;&scaron;n&#283; smaz&aacute;na';
+$MESSAGE['PAGES_DELETE_CONFIRM'] = 'Jste si jisti, &#382;e chcete smazat tuto str&aacute;nku (a v&scaron;echny podstr&aacute;nky)';
+$MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS'] = 'Nem&aacute;te opr&aacute;vn&#283;n&iacute; ke zm&#283;n&#283; t&eacute;to str&aacute;nky';
+$MESSAGE['PAGES_INTRO_LINK'] = 'Zm&#283;nit &uacute;vodn&iacute; (intro) str&aacute;nku';
+$MESSAGE['PAGES_INTRO_NOT_WRITABLE'] = 'Nelze zapisovat do souboru /pages/intro.php (nedostate&#269;n&aacute; opr&aacute;vn&#283;n&iacute;)';
+$MESSAGE['PAGES_INTRO_SAVED'] = 'Str&aacute;nka byla &uacute;sp&#283;&scaron;n&#283; ulo&#382;ena';
+$MESSAGE['PAGES_LAST_MODIFIED'] = 'Posledn&iacute; zm&#283;na:';
+$MESSAGE['PAGES_NOT_FOUND'] = 'Str&aacute;nka nenalezena';
+$MESSAGE['PAGES_NOT_SAVED'] = 'Do&scaron;lo k chyb&#283; p&#345;i ukl&aacute;d&aacute;n&iacute; str&aacute;nky';
+$MESSAGE['PAGES_PAGE_EXISTS'] = 'Str&aacute;nka se stejn&yacute;m nebo podobn&yacute;m n&aacute;zvem ji&#382; existuje';
+$MESSAGE['PAGES_REORDERED'] = 'Str&aacute;nka byla &uacute;sp&#283;&scaron;n&#283; p&#345;esunuta';
+$MESSAGE['PAGES_RESTORED'] = 'Str&aacute;nka byla &uacute;sp&#283;&scaron;n&#283; obnovena';
+$MESSAGE['PAGES_RETURN_TO_PAGES'] = 'Zp&#283;t na str&aacute;nky';
+$MESSAGE['PAGES_SAVED'] = 'Str&aacute;nka byla &uacute;sp&#283;&scaron;n&#283; ulo&#382;ena';
+$MESSAGE['PAGES_SAVED_SETTINGS'] = 'Nastaven&iacute; str&aacute;nky bylo &uacute;sp&#283;&scaron;n&#283; ulo&#382;eno';
+$MESSAGE['PAGES_SECTIONS_PROPERTIES_SAVED'] = 'Nastaven&iacute; sekce bylo &uacute;sp&#283;&scaron;n&#283; ulo&#382;eno';
+$MESSAGE['PREFERENCES_CURRENT_PASSWORD_INCORRECT'] = 'Sou&#269;asn&eacute; heslo neodpov&iacute;d&aacute;';
+$MESSAGE['PREFERENCES_DETAILS_SAVED'] = 'Detaily byly &uacute;sp&#283;&scaron;n&#283; ulo&#382;eny';
+$MESSAGE['PREFERENCES_EMAIL_UPDATED'] = 'E-mail byl &uacute;sp&#283;&scaron;n&#283; ulo&#382;en';
+$MESSAGE['PREFERENCES_INVALID_CHARS'] = 'Invalid password chars used';
+$MESSAGE['PREFERENCES_PASSWORD_CHANGED'] = 'Heslo bylo &uacute;sp&#283;&scaron;n&#283; zm&#283;n&#283;no';
+$MESSAGE['RECORD_MODIFIED_FAILED'] = 'The change of the record has missed.';
+$MESSAGE['RECORD_MODIFIED_SAVED'] = 'The changed record was updated successfully.';
+$MESSAGE['RECORD_NEW_FAILED'] = 'Adding a new record has missed.';
+$MESSAGE['RECORD_NEW_SAVED'] = 'New record was added successfully.';
+$MESSAGE['SETTINGS_MODE_SWITCH_WARNING'] = 'Pozn.: stisknut&iacute;m tohoto tla&#269;&iacute;tka dojde k zahozen&iacute; neulo&#382;en&yacute;ch zm&#283;n';
+$MESSAGE['SETTINGS_SAVED'] = 'Nastaven&iacute; bylo &uacute;sp&#283;&scaron;n&#283; ulo&#382;eno';
+$MESSAGE['SETTINGS_UNABLE_OPEN_CONFIG'] = 'Nelze otev&#345;&iacute;t soubor s konfigurac&iacute;';
+$MESSAGE['SETTINGS_UNABLE_WRITE_CONFIG'] = 'Nelze zapisovat do souboru s konfigurac&iacute;';
+$MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'] = 'Pozn.: zapnut&iacute; t&eacute;to volby se doporu&#269;uje jen v testovac&iacute;m prost&#345;ed&iacute;';
+$MESSAGE['SIGNUP2_ADMIN_INFO'] = '
+A new user was registered.
 
-$MESSAGE['SIGNUP_NO_EMAIL'] = 'Mus&iacute;te zadat e-mailovou adresu';
-$MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
-$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = "
+Username: {LOGIN_NAME}
+UserId: {LOGIN_ID}
+E-Mail: {LOGIN_EMAIL}
+IP-Adress: {LOGIN_IP}
+Registration date: {SIGNUP_DATE}
+----------------------------------------
+This message was automatic generated!
+
+';
+$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = '
 Hello {LOGIN_DISPLAY_NAME},
 
-Welcome to our '{LOGIN_WEBSITE_TITLE}'.
+This mail was sent because the \'forgot password\' function has been applied to your account.
 
-Your '{LOGIN_WEBSITE_TITLE}' login details are:
+Your new \'{LOGIN_WEBSITE_TITLE}\' login details are:
+
+Username: {LOGIN_NAME}
+Password: {LOGIN_PASSWORD}
+
+Your password has been reset to the one above.
+This means that your old password will no longer work anymore!
+If you\'ve got any questions or problems within the new login-data
+you should contact the website-team or the admin of \'{LOGIN_WEBSITE_TITLE}\'.
+Please remember to clean you browser-cache before using the new one to avoid unexpected fails.
+
+Regards
+------------------------------------
+This message was automatic generated
+
+';
+$MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = '
+Hello {LOGIN_DISPLAY_NAME},
+
+Welcome to our \'{LOGIN_WEBSITE_TITLE}\'.
+
+Your \'{LOGIN_WEBSITE_TITLE}\' login details are:
 Username: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
@@ -466,297 +627,46 @@ Please:
 if you have received this message by an error, please delete it immediately!
 -------------------------------------
 This message was automatic generated!
-";
-
-$MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = "
-Hello {LOGIN_DISPLAY_NAME},
-
-This mail was sent because the 'forgot password' function has been applied to your account.
-
-Your new '{LOGIN_WEBSITE_TITLE}' login details are:
-
-Username: {LOGIN_NAME}
-Password: {LOGIN_PASSWORD}
-
-Your password has been reset to the one above.
-This means that your old password will no longer work anymore!
-If you've got any questions or problems within the new login-data
-you should contact the website-team or the admin of '{LOGIN_WEBSITE_TITLE}'.
-Please remember to clean you browser-cache before using the new one to avoid unexpected fails.
-
-Regards
-------------------------------------
-This message was automatic generated
-
-";
-
-$MESSAGE['FORGOT_PASS_NO_DATA'] = 'Zadejte svoji e-mailovou adresu:';
-$MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'Zadan&aacute; e-mailov&aacute; adresa nebyla nalezena';
-$MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] = 'Nelze odeslat heslo e-mailem, kontaktujte pros&iacute;m spr&aacute;vce syst&eacute;mu';
-$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Va&scaron;e u&#382;ivatelsk&eacute; jm&eacute;no a heslo byly odesl&aacute;ny na Va&scaron;i e-mailovou adresu';
-$MESSAGE['FORGOT_PASS_ALREADY_RESET'] = 'Heslo nem&#367;&#382;e b&yacute;t p&#345;enastaveno v&iacute;cekr&aacute;t b&#283;hem jedn&eacute; hodiny';
-
-$MESSAGE['START_WELCOME_MESSAGE'] = 'V&iacute;tejte v Administra&#269;n&iacute; &#269;&aacute;sti';
-$MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Pozor, st&aacute;le existuje instala&#269;n&iacute; adres&aacute;&#345;!';
+';
+$MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
+$MESSAGE['SIGNUP_NO_EMAIL'] = 'Mus&iacute;te zadat e-mailovou adresu';
 $MESSAGE['START_CURRENT_USER'] = 'Jste p&#345;ihl&aacute;&scaron;eni jako:';
-
-$MESSAGE['SETTINGS_UNABLE_OPEN_CONFIG'] = 'Nelze otev&#345;&iacute;t soubor s konfigurac&iacute;';
-$MESSAGE['SETTINGS_UNABLE_WRITE_CONFIG'] = 'Nelze zapisovat do souboru s konfigurac&iacute;';
-$MESSAGE['SETTINGS_SAVED'] = 'Nastaven&iacute; bylo &uacute;sp&#283;&scaron;n&#283; ulo&#382;eno';
-$MESSAGE['SETTINGS_MODE_SWITCH_WARNING'] = 'Pozn.: stisknut&iacute;m tohoto tla&#269;&iacute;tka dojde k zahozen&iacute; neulo&#382;en&yacute;ch zm&#283;n';
-$MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'] = 'Pozn.: zapnut&iacute; t&eacute;to volby se doporu&#269;uje jen v testovac&iacute;m prost&#345;ed&iacute;';
-
+$MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Pozor, st&aacute;le existuje instala&#269;n&iacute; adres&aacute;&#345;!';
+$MESSAGE['START_WELCOME_MESSAGE'] = 'V&iacute;tejte v Administra&#269;n&iacute; &#269;&aacute;sti';
+$MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Pozn.: zm&#283;na &scaron;ablony se prov&aacute;d&iacute; v sekci Nastaven&iacute;';
 $MESSAGE['USERS_ADDED'] = 'U&#382;ivatel byl &uacute;sp&#283;&scaron;n&#283; p&#345;id&aacute;n';
-$MESSAGE['USERS_SAVED'] = 'U&#382;ivatel byl &uacute;sp&#283;&scaron;n&#283; ulo&#382;en';
-$MESSAGE['USERS_DELETED'] = 'U&#382;ivatel byl &uacute;sp&#283;&scaron;n&#283; smaz&aacute;n';
-$MESSAGE['USERS_NO_GROUP'] = 'Nebyla vybr&aacute;na skupina';
-$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'Zadan&eacute; u&#382;ivatelsk&eacute; jm&eacute;no je p&#345;&iacute;li&scaron; kr&aacute;tk&eacute;';
-$MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Zadan&eacute; heslo je p&#345;&iacute;li&scaron; kr&aacute;tk&eacute;';
-$MESSAGE['USERS_PASSWORD_MISMATCH'] = 'Zadan&aacute; hesla nejsou shodn&aacute;';
-$MESSAGE['USERS_INVALID_EMAIL'] = 'Zadan&aacute; e-mailov&aacute; adresa je neplatn&aacute;';
-$MESSAGE['USERS_EMAIL_TAKEN'] = 'Zadan&aacute; e-mailov&aacute; adresa je ji&#382; pou&#382;&iacute;v&aacute;na';
-$MESSAGE['USERS_USERNAME_TAKEN'] = 'U&#382;ivatel se stejn&yacute;m u&#382;ivatelsk&yacute;m jm&eacute;nem ji&#382; existuje';
+$MESSAGE['USERS_CANT_SELFDELETE'] = 'Function rejected, You can not delete yourself!';
 $MESSAGE['USERS_CHANGING_PASSWORD'] = 'Pozn.: vypl&#328;te pouze hodnoty v&yacute;&scaron;e pokud si p&#345;ejete zm&#283;nit heslo';
 $MESSAGE['USERS_CONFIRM_DELETE'] = 'Jste si jisti, &#382;e chcete smazat tohoto u&#382;ivatele?';
+$MESSAGE['USERS_DELETED'] = 'U&#382;ivatel byl &uacute;sp&#283;&scaron;n&#283; smaz&aacute;n';
+$MESSAGE['USERS_EMAIL_TAKEN'] = 'Zadan&aacute; e-mailov&aacute; adresa je ji&#382; pou&#382;&iacute;v&aacute;na';
+$MESSAGE['USERS_INVALID_EMAIL'] = 'Zadan&aacute; e-mailov&aacute; adresa je neplatn&aacute;';
+$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for username found';
+$MESSAGE['USERS_NO_GROUP'] = 'Nebyla vybr&aacute;na skupina';
+$MESSAGE['USERS_PASSWORD_MISMATCH'] = 'Zadan&aacute; hesla nejsou shodn&aacute;';
+$MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Zadan&eacute; heslo je p&#345;&iacute;li&scaron; kr&aacute;tk&eacute;';
+$MESSAGE['USERS_SAVED'] = 'U&#382;ivatel byl &uacute;sp&#283;&scaron;n&#283; ulo&#382;en';
+$MESSAGE['USERS_USERNAME_TAKEN'] = 'U&#382;ivatel se stejn&yacute;m u&#382;ivatelsk&yacute;m jm&eacute;nem ji&#382; existuje';
+$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'Zadan&eacute; u&#382;ivatelsk&eacute; jm&eacute;no je p&#345;&iacute;li&scaron; kr&aacute;tk&eacute;';
 
-$MESSAGE['GROUPS_ADDED'] = 'Skupina byla &uacute;sp&#283;&scaron;n&#283; p&#345;id&aacute;na';
-$MESSAGE['GROUPS_SAVED'] = 'Skupina byla &uacute;sp&#283;&scaron;n&#283; ulo&#382;ena';
-$MESSAGE['GROUPS_DELETED'] = 'Skupina byla &uacute;sp&#283;&scaron;n&#283; smaz&aacute;na';
-$MESSAGE['GROUPS_GROUP_NAME_BLANK'] = 'N&aacute;zev skupiny je pr&aacute;zdn&yacute;';
-$MESSAGE['GROUPS_CONFIRM_DELETE'] = 'Jste si jisti, &#382;e chcete smazat tuto skupimu (a v&scaron;echny jej&iacute; u&#382;ivatele)?';
-$MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Nenalezena &#382;&aacute;dn&aacute; skupina';
-$MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Tato skupina ji&#382; existuje';
+/* OVERVIEW */
+$OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
+$OVERVIEW['GROUPS'] = 'Spravovat skupiny u&#382;ivatel&#367; a jejich opr&aacute;vn&#283;n&iacute;...';
+$OVERVIEW['HELP'] = 'M&aacute;te ot&aacute;zku? Hledejte odpov&#283;&#271;...';
+$OVERVIEW['LANGUAGES'] = 'Spravovat jazyky WebsiteBakeru...';
+$OVERVIEW['MEDIA'] = 'Spravovat soubory v adres&aacute;&#345;i m&eacute;di&iacute;...';
+$OVERVIEW['MODULES'] = 'Spravovat moduly WebsiteBakeru...';
+$OVERVIEW['PAGES'] = 'Spravovat webov&eacute; str&aacute;nky...';
+$OVERVIEW['PREFERENCES'] = 'Zm&#283;na nastaven&iacute; e-mailov&eacute; adresy, hesla, atd... ';
+$OVERVIEW['SETTINGS'] = 'Zm&#283;na nastaven&iacute; WebsiteBakeru...';
+$OVERVIEW['START'] = 'Administra&#269;n&iacute; p&#345;ehled';
+$OVERVIEW['TEMPLATES'] = 'Zm&#283;nit vzhled a chov&aacute;n&iacute; webu pomoc&iacute; &scaron;ablon...';
+$OVERVIEW['USERS'] = 'Spravovat u&#382;ivate WebsiteBakeru...';
+$OVERVIEW['VIEW'] = 'Rychle prohl&eacute;dhout str&aacute;nky v nov&eacute;m okn&#283;...';
 
-$MESSAGE['PREFERENCES_DETAILS_SAVED'] = 'Detaily byly &uacute;sp&#283;&scaron;n&#283; ulo&#382;eny';
-$MESSAGE['PREFERENCES_EMAIL_UPDATED'] = 'E-mail byl &uacute;sp&#283;&scaron;n&#283; ulo&#382;en';
-$MESSAGE['PREFERENCES_CURRENT_PASSWORD_INCORRECT'] = 'Sou&#269;asn&eacute; heslo neodpov&iacute;d&aacute;';
-$MESSAGE['PREFERENCES_PASSWORD_CHANGED'] = 'Heslo bylo &uacute;sp&#283;&scaron;n&#283; zm&#283;n&#283;no';
-$MESSAGE['PREFERENCES_INVALID_CHARS'] = 'Invalid password chars used';
+/* include old languages format */
+if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
+{
+	include(WB_PATH.'/languages/old.format.inc.php');
+}
 
-$MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Pozn.: zm&#283;na &scaron;ablony se prov&aacute;d&iacute; v sekci Nastaven&iacute;';
-
-$MESSAGE['MEDIA_DIR_DOT_DOT_SLASH'] = 'Nelze pou&#382;&iacute;t ../ v n&aacute;zvu adres&aacute;&#345;e';
-$MESSAGE['MEDIA_DIR_DOES_NOT_EXIST'] = 'Adres&aacute;&#345; neexistuje';
-$MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Nelze pou&#382;&iacute;t ../ v c&iacute;lov&eacute;m adres&aacute;&#345;i';
-$MESSAGE['MEDIA_NAME_DOT_DOT_SLASH'] = 'Nelze pou&#382;&iacute;t ../ v n&aacute;zvu';
-$MESSAGE['MEDIA_NAME_INDEX_PHP'] = 'Nelze pou&#382;&iacute;t index.php jako n&aacute;zev';
-$MESSAGE['MEDIA_NONE_FOUND'] = 'Nenalezen &#382;&aacute;dn&yacute; soubor';
-$MESSAGE['MEDIA_FILE_NOT_FOUND'] = 'Soubor nenalezen';
-$MESSAGE['MEDIA_DELETED_FILE'] = 'Soubor byl &uacute;sp&#283;&scaron;n&#283; smaz&aacute;n';
-$MESSAGE['MEDIA_DELETED_DIR'] = 'Adres&aacute;&#345; byl &uacute;sp&#283;&scaron;n&#283; smaz&aacute;n';
-$MESSAGE['MEDIA_CONFIRM_DELETE'] = 'Jste si jisti, &#382;e chcete smazat n&aacute;sleduj&iacute;c&iacute; soubory nebo adres&aacute;&#345;e?';
-$MESSAGE['MEDIA_CANNOT_DELETE_FILE'] = 'Nelze smazat vybran&yacute; soubor';
-$MESSAGE['MEDIA_CANNOT_DELETE_DIR'] = 'Nelze smazat vybran&yacute; adres&aacute;&#345;';
-$MESSAGE['MEDIA_BLANK_NAME'] = 'Nezadali jste nov&yacute; n&aacute;zev';
-$MESSAGE['MEDIA_BLANK_EXTENSION'] = 'Nezadali jste p&#345;&iacute;ponu souboru';
-$MESSAGE['MEDIA_RENAMED'] = 'P&#345;ejmenov&aacute;n&iacute; prob&#283;hlo &uacute;sp&#283;&scaron;n&#283;';
-$MESSAGE['MEDIA_CANNOT_RENAME'] = 'P&#345;ejmenov&aacute;n&iacute; se nezda&#345;ilo';
-$MESSAGE['MEDIA_FILE_EXISTS'] = 'Soubor se stejn&yacute;m n&aacute;zvem ji&#382; existuje';
-$MESSAGE['MEDIA_DIR_EXISTS'] = 'Adres&aacute;&#345; se stejn&yacute;m n&aacute;zvem ji&#382; existuje';
-$MESSAGE['MEDIA_DIR_MADE'] = 'Adres&aacute;&#345; byl &uacute;sp&#283;&scaron;n&#283; vytvo&#345;en';
-$MESSAGE['MEDIA_DIR_NOT_MADE'] = 'Nelze vytvo&#345;it adres&aacute;&#345;';
-$MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' soubor byl &uacute;sp&#283;&scaron;n&#283; nahr&aacute;n';
-$MESSAGE['MEDIA_UPLOADED'] = ' soubory byly &uacute;sp&#283;&scaron;n&#283; nahr&aacute;ny';
-
-$MESSAGE['PAGES_ADDED'] = 'Str&aacute;nka byla &uacute;sp&#283;&scaron;n&#283; p&#345;id&aacute;na';
-$MESSAGE['PAGES_ADDED_HEADING'] = 'Z&aacute;hlav&iacute; str&aacute;nky bylo &uacute;sp&#283;&scaron;n&#283; p&#345;id&aacute;no';
-$MESSAGE['PAGES_PAGE_EXISTS'] = 'Str&aacute;nka se stejn&yacute;m nebo podobn&yacute;m n&aacute;zvem ji&#382; existuje';
-$MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE'] = 'Do&scaron;lo k chyb&#283; p&#345;i vytv&aacute;&#345;en&iacute; p&#345;&iacute;supov&eacute;ho souboru v adres&aacute;&#345;i str&aacute;nek (nedostate&#269;n&aacute; opr&aacute;vn&#283;n&iacute;)';
-$MESSAGE['PAGES_CANNOT_DELETE_ACCESS_FILE'] = 'Do&scaron;lo k chyb&#283; p&#345;i maz&aacute;n&iacute; p&#345;&iacute;supov&eacute;ho souboru v adres&aacute;&#345;i str&aacute;nek (nedostate&#269;n&aacute; opr&aacute;vn&#283;n&iacute;)';
-$MESSAGE['PAGES_NOT_FOUND'] = 'Str&aacute;nka nenalezena';
-$MESSAGE['PAGES_SAVED'] = 'Str&aacute;nka byla &uacute;sp&#283;&scaron;n&#283; ulo&#382;ena';
-$MESSAGE['PAGES_SAVED_SETTINGS'] = 'Nastaven&iacute; str&aacute;nky bylo &uacute;sp&#283;&scaron;n&#283; ulo&#382;eno';
-$MESSAGE['PAGES_NOT_SAVED'] = 'Do&scaron;lo k chyb&#283; p&#345;i ukl&aacute;d&aacute;n&iacute; str&aacute;nky';
-$MESSAGE['PAGES_DELETE_CONFIRM'] = 'Jste si jisti, &#382;e chcete smazat tuto str&aacute;nku (a v&scaron;echny podstr&aacute;nky)';
-$MESSAGE['PAGES_DELETED'] = 'Str&aacute;nka byla &uacute;sp&#283;&scaron;n&#283; smaz&aacute;na';
-$MESSAGE['PAGES_RESTORED'] = 'Str&aacute;nka byla &uacute;sp&#283;&scaron;n&#283; obnovena';
-$MESSAGE['PAGES_BLANK_PAGE_TITLE'] = 'Zadejte n&aacute;zev str&aacute;nky';
-$MESSAGE['PAGES_BLANK_MENU_TITLE'] = 'Zadejte n&aacute;zev v menu';
-$MESSAGE['PAGES_REORDERED'] = 'Str&aacute;nka byla &uacute;sp&#283;&scaron;n&#283; p&#345;esunuta';
-$MESSAGE['PAGES_CANNOT_REORDER'] = 'Do&scaron;lo k chyb&#283; p&#345;i zm&#283;n&#283; po&#345;ad&iacute; str&aacute;nky';
-$MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS'] = 'Nem&aacute;te opr&aacute;vn&#283;n&iacute; ke zm&#283;n&#283; t&eacute;to str&aacute;nky';
-$MESSAGE['PAGES_INTRO_NOT_WRITABLE'] = 'Nelze zapisovat do souboru /pages/intro.php (nedostate&#269;n&aacute; opr&aacute;vn&#283;n&iacute;)';
-$MESSAGE['PAGES_INTRO_SAVED'] = 'Str&aacute;nka byla &uacute;sp&#283;&scaron;n&#283; ulo&#382;ena';
-$MESSAGE['PAGES_LAST_MODIFIED'] = 'Posledn&iacute; zm&#283;na:';
-$MESSAGE['PAGES_INTRO_LINK'] = 'Zm&#283;nit &uacute;vodn&iacute; (intro) str&aacute;nku';
-$MESSAGE['PAGES_SECTIONS_PROPERTIES_SAVED'] = 'Nastaven&iacute; sekce bylo &uacute;sp&#283;&scaron;n&#283; ulo&#382;eno';
-$MESSAGE['PAGES_RETURN_TO_PAGES'] = 'Zp&#283;t na str&aacute;nky';
-
-$MESSAGE['GENERIC_FILL_IN_ALL'] = 'Pros&iacute;m vra&#357;te se zp&#283;t a vypl&#328;te v&scaron;echna pole';
-$MESSAGE['GENERIC_FILE_TYPE'] = 'Nahr&aacute;van&yacute; soubory mus&iacute; b&yacute;t n&aacute;sleduj&iacute;c&iacute;ho form&aacute;tu:';
-$MESSAGE['GENERIC_FILE_TYPES'] = 'Nahr&aacute;van&yacute; soubor mus&iacute; m&iacute;t jeden z n&aacute;sleduj&iacute;c&iacute;ch form&aacute;t&#367;:';
-$MESSAGE['GENERIC_CANNOT_UPLOAD'] = 'Nelze nahr&aacute;t soubor';
-$MESSAGE['GENERIC_ALREADY_INSTALLED'] = 'Ji&#382; d&#345;&iacute;ve nainstalov&aacute;no';
-$MESSAGE['GENERIC_NOT_INSTALLED'] = 'Nenainstalov&aacute;no';
-$MESSAGE['GENERIC_CANNOT_UNINSTALL'] = 'Nelze odinstalovat';
-$MESSAGE['GENERIC_CANNOT_UNZIP'] = 'Nelze rozbalit (rozzipovat) soubor';
-$MESSAGE['GENERIC_INSTALLED'] = 'Instalace prob&#283;hla &uacute;sp&#283;&scaron;n&#283;';
-$MESSAGE['GENERIC_UPGRADED'] = 'Aktualizace prob&#283;hla &uacute;sp&#283;&scaron;n&#283;';
-$MESSAGE['GENERIC_UNINSTALLED'] = 'Odinstalace prob&#283;hla &uacute;sp&#283;&scaron;n&#283;';
-$MESSAGE['GENERIC_BAD_PERMISSIONS'] = 'Nelze zapisovat do c&iacute;lov&eacute;ho adres&aacute;&#345;e';
-$MESSAGE['GENERIC_INVALID'] = 'Nahr&aacute;van&yacute; soubor je neplatn&yacute;';
-$MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE'] = 'Nelze odinstalovat: soubor je pr&aacute;v&#283; pou&#382;&iacute;v&aacute;n';
-$MESSAGE['GENERIC_SECURITY_OFFENSE'] = 'Security offense!! data storing was refused!!';
-
-$MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE_TMPL'] = "<br /><br />{{type}} <b>{{type_name}}</b> could not be uninstalled, because it is still in use on {{pages}}.<br /><br />";
-$MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE_TMPL_PAGES'] = "this page;these pages";
-$MESSAGE['GENERIC_CANNOT_UNINSTALL_IS_DEFAULT_TEMPLATE'] = "Can't uninstall the template <b>{{name}}</b>, because it is the default template!";
-
-$MESSAGE['GENERIC_WEBSITE_UNDER_CONSTRUCTION'] = 'Str&aacute;nky jsou ve v&yacute;stavb&#283;';
-$MESSAGE['GENERIC_PLEASE_CHECK_BACK_SOON'] = 'Zkuste to p&#345;&iacute;&scaron;t&#283;...';
-$MESSAGE['GENERIC_PLEASE_BE_PATIENT'] = '&#268;ekejte pros&iacute;m, operace m&#367;&#382;e chv&iacute;li trvat.';
-$MESSAGE['GENERIC_ERROR_OPENING_FILE'] = 'Do&scaron;lo k chyb&#283; p&#345;i otev&iacute;r&aacute;n&iacute; souboru.';
-$MESSAGE['GENERIC_INVALID_ADDON_FILE'] = 'Invalid WebsiteBaker installation file. Please check the *.zip format.';
-$MESSAGE['GENERIC_INVALID_LANGUAGE_FILE'] = 'Invalid WebsiteBaker language file. Please check the text file.';
-
-$MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Mus&iacute;te vyplnit n&aacute;sleduj&iacute;c&iacute; pole';
-$MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Omlouv&aacute;me se, ale tento formul&aacute;&#345; dos&aacute;hl limitu povolen&yacute;ch odesl&aacute;n&iacute; pro tuto hodinu. Pros&iacute;m zkuste to znovu v dal&scaron;&iacute; hodin&#283;..';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Kontroln&iacute; k&oacute;d (zn&aacute;m&yacute; jako Captcha) neodpov&iacute;d&aacute;. Pokud m&aacute;te probl&eacute;my s p&#345;e&#269;ten&iacute;m tohoto k&oacute;du, kontaktujte '.SERVER_EMAIL.'';
-
-$MESSAGE['ADDON_RELOAD'] = 'Update database with information from Add-on files (e.g. after FTP upload).';
-$MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
-$MESSAGE['ADDON_MODULES_RELOADED'] = 'Moduly byly &uacute;sp&#283;&scaron;n&#283; p&#345;ehr&aacute;ny';
-$MESSAGE['ADDON_TEMPLATES_RELOADED'] = '&Scaron;ablony byly &uacute;sp&#283;&scaron;n&#283; p&#345;ehr&aacute;ny';
-$MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Jazyky byly &uacute;sp&#283;&scaron;n&#283; p&#345;ehr&aacute;ny';
-$MESSAGE['ADDON_PRECHECK_FAILED'] = 'Add-on installation failed. Your system does not fulfill the requirements of this Add-on. To make this Add-on working on your system, please fix the issues summarized below.';
-$MESSAGE['ADDON_MANUAL_INSTALLATION'] = 'When modules are uploaded via FTP (not recommended), the module installation files <tt>install.php</tt>, <tt>upgrade.php</tt> or <tt>uninstall.php</tt> will not be executed automatically. Those modules may not work correct or do not uninstall properly.<br /><br />You can execute the module files manually for modules uploaded via FTP below.';
-$MESSAGE['ADDON_MANUAL_INSTALLATION_WARNING'] = 'Warning: Existing module database entries will get lost. Only use this option if you experience problems with modules uploaded via FTP.';
-
- /* BEGIN allocation */
-
-$MESSAGE['FRONTEND']['SORRY_NO_VIEWING_PERMISSIONS']  = $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] ;
-$MESSAGE['FRONTEND']['SORRY_NO_ACTIVE_SECTIONS']  = $MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] ;
-$MESSAGE['ADMIN']['INSUFFICIENT_PRIVELLIGES']  = $MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES'] ;
-$MESSAGE['LOGIN']['BOTH_BLANK']  = $MESSAGE['LOGIN_BOTH_BLANK'] ;
-$MESSAGE['LOGIN']['USERNAME_BLANK']  = $MESSAGE['LOGIN_USERNAME_BLANK'] ;
-$MESSAGE['LOGIN']['PASSWORD_BLANK']  = $MESSAGE['LOGIN_PASSWORD_BLANK'] ;
-$MESSAGE['LOGIN']['USERNAME_TOO_SHORT']  = $MESSAGE['LOGIN_USERNAME_TOO_SHORT'] ;
-$MESSAGE['LOGIN']['PASSWORD_TOO_SHORT']  = $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] ;
-$MESSAGE['LOGIN']['USERNAME_TOO_LONG']  = $MESSAGE['LOGIN_USERNAME_TOO_LONG'] ;
-$MESSAGE['LOGIN']['PASSWORD_TOO_LONG']  = $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] ;
-$MESSAGE['LOGIN']['AUTHENTICATION_FAILED']  = $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] ;
-$MESSAGE['SIGNUP']['NO_EMAIL']  = $MESSAGE['SIGNUP_NO_EMAIL'] ;
-$MESSAGE['SIGNUP2']['SUBJECT_LOGIN_INFO']  = $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] ;
-$MESSAGE['SIGNUP2']['BODY_LOGIN_INFO']  = $MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] ;
-$MESSAGE['SIGNUP2']['BODY_LOGIN_FORGOT']  = $MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] ;
-$MESSAGE['FORGOT_PASS']['NO_DATA']  = $MESSAGE['FORGOT_PASS_NO_DATA'] ;
-$MESSAGE['FORGOT_PASS']['EMAIL_NOT_FOUND']  = $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] ;
-$MESSAGE['FORGOT_PASS']['CANNOT_EMAIL']  = $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] ;
-$MESSAGE['FORGOT_PASS']['PASSWORD_RESET']  = $MESSAGE['FORGOT_PASS_PASSWORD_RESET'] ;
-$MESSAGE['FORGOT_PASS']['ALREADY_RESET']  = $MESSAGE['FORGOT_PASS_ALREADY_RESET'] ;
-$MESSAGE['START']['WELCOME_MESSAGE']  = $MESSAGE['START_WELCOME_MESSAGE'] ;
-$MESSAGE['START']['INSTALL_DIR_EXISTS']  = $MESSAGE['START_INSTALL_DIR_EXISTS'] ;
-$MESSAGE['START']['CURRENT_USER']  = $MESSAGE['START_CURRENT_USER'] ;
-$MESSAGE['SETTINGS']['UNABLE_OPEN_CONFIG']  = $MESSAGE['SETTINGS_UNABLE_OPEN_CONFIG'] ;
-$MESSAGE['SETTINGS']['UNABLE_WRITE_CONFIG']  = $MESSAGE['SETTINGS_UNABLE_WRITE_CONFIG'] ;
-$MESSAGE['SETTINGS']['SAVED']  = $MESSAGE['SETTINGS_SAVED'] ;
-$MESSAGE['SETTINGS']['MODE_SWITCH_WARNING']  = $MESSAGE['SETTINGS_MODE_SWITCH_WARNING'] ;
-$MESSAGE['SETTINGS']['WORLD_WRITEABLE_WARNING']  = $MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'] ;
-$MESSAGE['USERS']['ADDED']  = $MESSAGE['USERS_ADDED'] ;
-$MESSAGE['USERS']['SAVED']  = $MESSAGE['USERS_SAVED'] ;
-$MESSAGE['USERS']['DELETED']  = $MESSAGE['USERS_DELETED'] ;
-$MESSAGE['USERS']['NO_GROUP']  = $MESSAGE['USERS_NO_GROUP'] ;
-$MESSAGE['USERS']['USERNAME_TOO_SHORT']  = $MESSAGE['USERS_USERNAME_TOO_SHORT'] ;
-$MESSAGE['USERS']['PASSWORD_TOO_SHORT']  = $MESSAGE['USERS_PASSWORD_TOO_SHORT'] ;
-$MESSAGE['USERS']['PASSWORD_MISMATCH']  = $MESSAGE['USERS_PASSWORD_MISMATCH'] ;
-$MESSAGE['USERS']['INVALID_EMAIL']  = $MESSAGE['USERS_INVALID_EMAIL'] ;
-$MESSAGE['USERS']['EMAIL_TAKEN']  = $MESSAGE['USERS_EMAIL_TAKEN'] ;
-$MESSAGE['USERS']['USERNAME_TAKEN']  = $MESSAGE['USERS_USERNAME_TAKEN'] ;
-$MESSAGE['USERS']['CHANGING_PASSWORD']  = $MESSAGE['USERS_CHANGING_PASSWORD'] ;
-$MESSAGE['USERS']['CONFIRM_DELETE']  = $MESSAGE['USERS_CONFIRM_DELETE'] ;
-$MESSAGE['GROUPS']['ADDED']  = $MESSAGE['GROUPS_ADDED'] ;
-$MESSAGE['GROUPS']['SAVED']  = $MESSAGE['GROUPS_SAVED'] ;
-$MESSAGE['GROUPS']['DELETED']  = $MESSAGE['GROUPS_DELETED'] ;
-$MESSAGE['GROUPS']['GROUP_NAME_BLANK']  = $MESSAGE['GROUPS_GROUP_NAME_BLANK'] ;
-$MESSAGE['GROUPS']['CONFIRM_DELETE']  = $MESSAGE['GROUPS_CONFIRM_DELETE'] ;
-$MESSAGE['GROUPS']['NO_GROUPS_FOUND']  = $MESSAGE['GROUPS_NO_GROUPS_FOUND'] ;
-$MESSAGE['GROUPS']['GROUP_NAME_EXISTS']  = $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] ;
-$MESSAGE['PREFERENCES']['DETAILS_SAVED']  = $MESSAGE['PREFERENCES_DETAILS_SAVED'] ;
-$MESSAGE['PREFERENCES']['EMAIL_UPDATED']  = $MESSAGE['PREFERENCES_EMAIL_UPDATED'] ;
-$MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT']  = $MESSAGE['PREFERENCES_CURRENT_PASSWORD_INCORRECT'] ;
-$MESSAGE['PREFERENCES']['PASSWORD_CHANGED']  = $MESSAGE['PREFERENCES_PASSWORD_CHANGED'] ;
-$MESSAGE['PREFERENCES']['INVALID_CHARS']  = $MESSAGE['PREFERENCES_INVALID_CHARS'] ;
-$MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE']  = $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] ;
-$MESSAGE['MEDIA']['DIR_DOT_DOT_SLASH']  = $MESSAGE['MEDIA_DIR_DOT_DOT_SLASH'] ;
-$MESSAGE['MEDIA']['DIR_DOES_NOT_EXIST']  = $MESSAGE['MEDIA_DIR_DOES_NOT_EXIST'] ;
-$MESSAGE['MEDIA']['TARGET_DOT_DOT_SLASH']  = $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] ;
-$MESSAGE['MEDIA']['NAME_DOT_DOT_SLASH']  = $MESSAGE['MEDIA_NAME_DOT_DOT_SLASH'] ;
-$MESSAGE['MEDIA']['NAME_INDEX_PHP']  = $MESSAGE['MEDIA_NAME_INDEX_PHP'] ;
-$MESSAGE['MEDIA']['NONE_FOUND']  = $MESSAGE['MEDIA_NONE_FOUND'] ;
-$MESSAGE['MEDIA']['FILE_NOT_FOUND']  = $MESSAGE['MEDIA_FILE_NOT_FOUND'] ;
-$MESSAGE['MEDIA']['DELETED_FILE']  = $MESSAGE['MEDIA_DELETED_FILE'] ;
-$MESSAGE['MEDIA']['DELETED_DIR']  = $MESSAGE['MEDIA_DELETED_DIR'] ;
-$MESSAGE['MEDIA']['CONFIRM_DELETE']  = $MESSAGE['MEDIA_CONFIRM_DELETE'] ;
-$MESSAGE['MEDIA']['CANNOT_DELETE_FILE']  = $MESSAGE['MEDIA_CANNOT_DELETE_FILE'] ;
-$MESSAGE['MEDIA']['CANNOT_DELETE_DIR']  = $MESSAGE['MEDIA_CANNOT_DELETE_DIR'] ;
-$MESSAGE['MEDIA']['BLANK_NAME']  = $MESSAGE['MEDIA_BLANK_NAME'] ;
-$MESSAGE['MEDIA']['BLANK_EXTENSION']  = $MESSAGE['MEDIA_BLANK_EXTENSION'] ;
-$MESSAGE['MEDIA']['RENAMED']  = $MESSAGE['MEDIA_RENAMED'] ;
-$MESSAGE['MEDIA']['CANNOT_RENAME']  = $MESSAGE['MEDIA_CANNOT_RENAME'] ;
-$MESSAGE['MEDIA']['FILE_EXISTS']  = $MESSAGE['MEDIA_FILE_EXISTS'] ;
-$MESSAGE['MEDIA']['DIR_EXISTS']  = $MESSAGE['MEDIA_DIR_EXISTS'] ;
-$MESSAGE['MEDIA']['DIR_MADE']  = $MESSAGE['MEDIA_DIR_MADE'] ;
-$MESSAGE['MEDIA']['DIR_NOT_MADE']  = $MESSAGE['MEDIA_DIR_NOT_MADE'] ;
-$MESSAGE['MEDIA']['SINGLE_UPLOADED']  = $MESSAGE['MEDIA_SINGLE_UPLOADED'] ;
-$MESSAGE['MEDIA']['UPLOADED']  = $MESSAGE['MEDIA_UPLOADED'] ;
-$MESSAGE['PAGES']['ADDED']  = $MESSAGE['PAGES_ADDED'] ;
-$MESSAGE['PAGES']['ADDED_HEADING']  = $MESSAGE['PAGES_ADDED_HEADING'] ;
-$MESSAGE['PAGES']['PAGE_EXISTS']  = $MESSAGE['PAGES_PAGE_EXISTS'] ;
-$MESSAGE['PAGES']['CANNOT_CREATE_ACCESS_FILE']  = $MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE'] ;
-$MESSAGE['PAGES']['CANNOT_DELETE_ACCESS_FILE']  = $MESSAGE['PAGES_CANNOT_DELETE_ACCESS_FILE'] ;
-$MESSAGE['PAGES']['NOT_FOUND']  = $MESSAGE['PAGES_NOT_FOUND'] ;
-$MESSAGE['PAGES']['SAVED']  = $MESSAGE['PAGES_SAVED'] ;
-$MESSAGE['PAGES']['SAVED_SETTINGS']  = $MESSAGE['PAGES_SAVED_SETTINGS'] ;
-$MESSAGE['PAGES']['NOT_SAVED']  = $MESSAGE['PAGES_NOT_SAVED'] ;
-$MESSAGE['PAGES']['DELETE_CONFIRM']  = $MESSAGE['PAGES_DELETE_CONFIRM'] ;
-$MESSAGE['PAGES']['DELETED']  = $MESSAGE['PAGES_DELETED'] ;
-$MESSAGE['PAGES']['RESTORED']  = $MESSAGE['PAGES_RESTORED'] ;
-$MESSAGE['PAGES']['BLANK_PAGE_TITLE']  = $MESSAGE['PAGES_BLANK_PAGE_TITLE'] ;
-$MESSAGE['PAGES']['BLANK_MENU_TITLE']  = $MESSAGE['PAGES_BLANK_MENU_TITLE'] ;
-$MESSAGE['PAGES']['REORDERED']  = $MESSAGE['PAGES_REORDERED'] ;
-$MESSAGE['PAGES']['CANNOT_REORDER']  = $MESSAGE['PAGES_CANNOT_REORDER'] ;
-$MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']  = $MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS'] ;
-$MESSAGE['PAGES']['INTRO_NOT_WRITABLE']  = $MESSAGE['PAGES_INTRO_NOT_WRITABLE'] ;
-$MESSAGE['PAGES']['INTRO_SAVED']  = $MESSAGE['PAGES_INTRO_SAVED'] ;
-$MESSAGE['PAGES']['LAST_MODIFIED']  = $MESSAGE['PAGES_LAST_MODIFIED'] ;
-$MESSAGE['PAGES']['INTRO_LINK']  = $MESSAGE['PAGES_INTRO_LINK'] ;
-$MESSAGE['PAGES']['SECTIONS_PROPERTIES_SAVED']  = $MESSAGE['PAGES_SECTIONS_PROPERTIES_SAVED'] ;
-$MESSAGE['PAGES']['RETURN_TO_PAGES']  = $MESSAGE['PAGES_RETURN_TO_PAGES'] ;
-$MESSAGE['GENERIC']['FILL_IN_ALL']  = $MESSAGE['GENERIC_FILL_IN_ALL'] ;
-$MESSAGE['GENERIC']['FILE_TYPE']  = $MESSAGE['GENERIC_FILE_TYPE'] ;
-$MESSAGE['GENERIC']['FILE_TYPES']  = $MESSAGE['GENERIC_FILE_TYPES'] ;
-$MESSAGE['GENERIC']['CANNOT_UPLOAD']  = $MESSAGE['GENERIC_CANNOT_UPLOAD'] ;
-$MESSAGE['GENERIC']['ALREADY_INSTALLED']  = $MESSAGE['GENERIC_ALREADY_INSTALLED'] ;
-$MESSAGE['GENERIC']['NOT_INSTALLED']  = $MESSAGE['GENERIC_NOT_INSTALLED'] ;
-$MESSAGE['GENERIC']['CANNOT_UNINSTALL']  = $MESSAGE['GENERIC_CANNOT_UNINSTALL'] ;
-$MESSAGE['GENERIC']['CANNOT_UNZIP']  = $MESSAGE['GENERIC_CANNOT_UNZIP'] ;
-$MESSAGE['GENERIC']['INSTALLED']  = $MESSAGE['GENERIC_INSTALLED'] ;
-$MESSAGE['GENERIC']['UPGRADED']  = $MESSAGE['GENERIC_UPGRADED'] ;
-$MESSAGE['GENERIC']['UNINSTALLED']  = $MESSAGE['GENERIC_UNINSTALLED'] ;
-$MESSAGE['GENERIC']['BAD_PERMISSIONS']  = $MESSAGE['GENERIC_BAD_PERMISSIONS'] ;
-$MESSAGE['GENERIC']['INVALID']  = $MESSAGE['GENERIC_INVALID'] ;
-$MESSAGE['GENERIC']['CANNOT_UNINSTALL_IN_USE']  = $MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE'] ;
-$MESSAGE['GENERIC']['SECURITY_OFFENSE']  = $MESSAGE['GENERIC_SECURITY_OFFENSE'] ;
-$MESSAGE['GENERIC']['CANNOT_UNINSTALL_IN_USE_TMPL']  = $MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE_TMPL'] ;
-$MESSAGE['GENERIC']['CANNOT_UNINSTALL_IN_USE_TMPL_PAGES']  = $MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE_TMPL_PAGES'] ;
-$MESSAGE['GENERIC']['CANNOT_UNINSTALL_IS_DEFAULT_TEMPLATE']  = $MESSAGE['GENERIC_CANNOT_UNINSTALL_IS_DEFAULT_TEMPLATE'] ;
-$MESSAGE['GENERIC']['WEBSITE_UNDER_CONSTRUCTION']  = $MESSAGE['GENERIC_WEBSITE_UNDER_CONSTRUCTION'] ;
-$MESSAGE['GENERIC']['PLEASE_CHECK_BACK_SOON']  = $MESSAGE['GENERIC_PLEASE_CHECK_BACK_SOON'] ;
-$MESSAGE['GENERIC']['PLEASE_BE_PATIENT']  = $MESSAGE['GENERIC_PLEASE_BE_PATIENT'] ;
-$MESSAGE['GENERIC']['ERROR_OPENING_FILE']  = $MESSAGE['GENERIC_ERROR_OPENING_FILE'] ;
-$MESSAGE['GENERIC']['INVALID_ADDON_FILE']  = $MESSAGE['GENERIC_INVALID_ADDON_FILE'] ;
-$MESSAGE['GENERIC']['INVALID_LANGUAGE_FILE']  = $MESSAGE['GENERIC_INVALID_LANGUAGE_FILE'] ;
-$MESSAGE['MOD_FORM']['REQUIRED_FIELDS']  = $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] ;
-$MESSAGE['MOD_FORM']['EXCESS_SUBMISSIONS']  = $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] ;
-$MESSAGE['MOD_FORM']['INCORRECT_CAPTCHA']  = $MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] ;
-$MESSAGE['ADDON']['RELOAD']  = $MESSAGE['ADDON_RELOAD'] ;
-$MESSAGE['ADDON']['ERROR_RELOAD']  = $MESSAGE['ADDON_ERROR_RELOAD'] ;
-$MESSAGE['ADDON']['MODULES_RELOADED']  = $MESSAGE['ADDON_MODULES_RELOADED'] ;
-$MESSAGE['ADDON']['TEMPLATES_RELOADED']  = $MESSAGE['ADDON_TEMPLATES_RELOADED'] ;
-$MESSAGE['ADDON']['LANGUAGES_RELOADED']  = $MESSAGE['ADDON_LANGUAGES_RELOADED'] ;
-$MESSAGE['ADDON']['PRECHECK_FAILED']  = $MESSAGE['ADDON_PRECHECK_FAILED'] ;
-$MESSAGE['ADDON']['MANUAL_INSTALLATION']  = $MESSAGE['ADDON_MANUAL_INSTALLATION'] ;
-$MESSAGE['ADDON']['MANUAL_INSTALLATION_WARNING']  = $MESSAGE['ADDON_MANUAL_INSTALLATION_WARNING'] ;
-
-/* END allocation */
-?>

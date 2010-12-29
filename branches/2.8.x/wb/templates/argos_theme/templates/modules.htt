@@ -15,11 +15,13 @@
   <h2>{HEADING_INSTALL_MODULE}</h2>
   <table cellpadding="2" cellspacing="0" border="0" width="100%">
     <tr>
-      <td>
+      <td valign="middle">
         <input type="file" name="userfile" size="97%" />
         <script type="text/javascript">
 		document.install.userfile.focus();
-		</script>
+		</script><br />
+        <input type="checkbox" name="overwrite" value="false"  />
+		<span>{OVERWRITE_NEWER_FILES}</span>
       </td>
       <td width="110" align="left">
         <input type="submit" name="submit" value="{TEXT_INSTALL}" style="width: 100px;" />

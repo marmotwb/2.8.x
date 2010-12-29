@@ -18,5 +18,4 @@
 
 require('../config.php');
 header('Location: '.WB_URL.'/');
-
-?>
+exit;
