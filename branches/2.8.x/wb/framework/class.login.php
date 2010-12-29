@@ -238,7 +238,7 @@ class login extends admin {
 		// Return if the user exists or not
 		return $num_rows;
 	}
-	
+
 	// Increase the count for login attemps
 	function increase_attemps() {
 		if(!isset($_SESSION['ATTEMPS'])) {
@@ -292,29 +292,36 @@ class login extends admin {
 	}
 	
 	// Function to check if a user has been remembered
-	function is_remembered() {
+	function is_remembered()
+	{
 		global $database;
-		if(isset($_COOKIE['REMEMBER_KEY']) AND $_COOKIE['REMEMBER_KEY'] != '') {
+		// add if get_safe_remember_key not empty
+		if(isset($_COOKIE['REMEMBER_KEY']) && ($_COOKIE['REMEMBER_KEY'] != '') && ($this->get_safe_remember_key() <> '' ) )
+		{
 			// Check if the remember key is correct
 			// $database = new database();
 			$sql = "SELECT `user_id` FROM `" . $this->USERS_TABLE . "` WHERE `remember_key` = '";
 			$sql .= $this->get_safe_remember_key() . "' LIMIT 1";
 			$check_query = $database->query($sql);
 
-			if($check_query->numRows() > 0) {
+			if($check_query->numRows() > 0)
+			{
 				$check_fetch = $check_query->fetchRow();
 				$user_id = $check_fetch['user_id'];
 				// Check the remember key prefix
 				$remember_key_prefix = '';
 				$length = 11-strlen($user_id);
-				if($length > 0) {
-					for($i = 1; $i <= $length; $i++) {
+				if($length > 0)
+				{
+					for($i = 1; $i <= $length; $i++)
+					{
 						$remember_key_prefix .= '0';
 					}
 				}
 				$remember_key_prefix .= $user_id.'_';
 				$length = strlen($remember_key_prefix);
-				if(substr($_COOKIE['REMEMBER_KEY'], 0, $length) == $remember_key_prefix) {
+				if(substr($_COOKIE['REMEMBER_KEY'], 0, $length) == $remember_key_prefix)
+				{
 					return true;
 				} else {
 					return false;

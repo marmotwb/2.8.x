@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+29 Dec-2010 Build 1367 Dietmar Woellbrink (Luisehahne)
+# securtiy fix in class.login
+# see http://www.websitebaker2.org/forum/index.php/topic,20347.msg137554.html#msg137554
 29 Dec-2010 Build 1366 Dietmar Woellbrink (Luisehahne)
 # fixed showing system_default for search_template 
 29 Dec-2010 Build 1365 Dietmar Woellbrink (Luisehahne)
