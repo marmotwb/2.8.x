@@ -113,13 +113,22 @@ $module_dir = WB_PATH.'/modules/'.$module_directory;
 make_dir($module_dir);
 
 // Unzip module to the module dir
-$list = $archive->extract(PCLZIP_OPT_PATH, $module_dir);
+if(isset($POST['overwrite']) && intval($POST['overwrite'])==1){
+	$list = $archive->extract(PCLZIP_OPT_PATH, $module_dir, PCLZIP_OPT_REPLACE_NEWER );
+} else {
+	$list = $archive->extract(PCLZIP_OPT_PATH, $module_dir );
+}
 
 if(!$list)
 {
 	$admin->print_error($MESSAGE['GENERIC']['CANNOT_UNZIP']);
 }
+/*
 
+if ($list == 0) {
+  $admin->print_error("ERROR : ".$archive->errorInfo(true));
+}
+*/
 // Delete the temp zip file
 if(file_exists($temp_file)) { unlink($temp_file); }
 
@@ -134,13 +143,13 @@ while (false !== $entry = $dir->read())
 		change_mode($module_dir.'/'.$entry, 'file');
 	}
 }
-/*
+/* */
 // Run the modules install // upgrade script if there is one
 if(file_exists($module_dir.'/'.$action.'.php'))
 {
 	require($module_dir.'/'.$action.'.php');
 }
-*/
+
 // Print success message
 if ($action=="install")
 {
@@ -149,10 +158,9 @@ if ($action=="install")
 	$admin->print_success($MESSAGE['GENERIC']['INSTALLED']);
 } elseif ($action=="upgrade")
 {
-
-	upgrade_module($module_directory, true);
+	upgrade_module($module_directory, false);
 	$admin->print_success($MESSAGE['GENERIC']['UPGRADED']);
-}	
+}
 
 // Print admin footer
 $admin->print_footer();

@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+28 Dec-2010 Build 1361 Dietmar Woellbrink (Luisehahne)
+! sync languages files with 2.9.0.dev
+! unzip addons now overwrite newer files
 28 Dec-2010 Build 1360 Dietmar Woellbrink (Luisehahne)
 ! show_menu2 display Title-attribute fixed
 ! tooltip added, change modul version to 4.9.5
