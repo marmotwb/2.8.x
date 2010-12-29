@@ -36,6 +36,19 @@ class wb extends SecureForm
 	function wb() {
 	}
 
+/* ****************
+ * check if current user is member of at least one of given groups
+ * ADMIN (uid=1) always is treated like a member of any groups
+ *
+ * @access public
+ * @param mixed $groups_list: an array or a coma seperated list of group-ids
+ * @return bool: true if current user is member of one of this groups, otherwise false
+ */
+	function ami_group_member( $groups_list = '' )
+	{
+		if( $this->get_user_id() == 1 ) { return true; }
+		return $this->is_group_match( $groups_list, $this->get_groups_id() );
+	}
 
 	// Check whether a page is visible or not.
 	// This will check page-visibility and user- and group-rights.
@@ -265,7 +278,7 @@ class wb extends SecureForm
 			return '-72000';
 		}
 	}
-
+/*  */
 	// Validate supplied email address
 	function validate_email($email) {
 		if(preg_match('/^([0-9a-zA-Z]+[-._+&])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$/', $email)) {
@@ -275,6 +288,60 @@ class wb extends SecureForm
 		}
 	}
 
+
+/* ****************
+ * set one or more bit in a integer value
+ *
+ * @access public
+ * @param int $value: reference to the integer, containing the value
+ * @param int $bits2set: the bitmask witch shall be added to value
+ * @return void
+ */
+	function bit_set( &$value, $bits2set )
+	{
+		$value |= $bits2set;
+	}
+
+/* ****************
+ * reset one or more bit from a integer value
+ *
+ * @access public
+ * @param int $value: reference to the integer, containing the value
+ * @param int $bits2reset: the bitmask witch shall be removed from value
+ * @return void
+ */
+	function bit_reset( &$value, $bits2reset)
+	{
+		$value &= ~$bits2reset;
+	}
+
+/* ****************
+ * check if one or more bit in a integer value are set
+ *
+ * @access public
+ * @param int $value: reference to the integer, containing the value
+ * @param int $bits2set: the bitmask witch shall be added to value
+ * @return void
+ */
+	function bit_isset( $value, $bits2test )
+	{
+		return (($value & $bits2test) == $bits2test);
+	}
+
+/*
+	// Validate supplied email address
+	function validate_email($email) {
+		if(function_exists('idn_to_ascii')){ // use pear if available 
+			$email = idn_to_ascii($email);
+		}else {
+			require_once(WB_PATH.'/include/idna_convert/idna_convert.class.php');
+			$IDN = new idna_convert();
+			$email = $IDN->encode($email);
+			unset($IDN);
+		}
+		return !(filter_var($email, FILTER_VALIDATE_EMAIL) == false);
+	}
+*/
 	// Print a success message which then automatically redirects the user to another page
 	function print_success( $message, $redirect = 'index.php' ) {
 	    global $TEXT;

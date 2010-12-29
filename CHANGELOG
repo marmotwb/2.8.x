@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+29 Dec-2010 Build 1365 Dietmar Woellbrink (Luisehahne)
+! added some functions 
+! set status to 2.8.2 RC3
 29 Dec-2010 Build 1364 Dietmar Woellbrink (Luisehahne)
 ! added function 'db_update_key_value()'
 29 Dec-2010 Build 1363 Dietmar Woellbrink (Luisehahne)

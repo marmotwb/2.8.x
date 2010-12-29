@@ -25,36 +25,63 @@ if(!defined('WB_URL')) {
 // Define that this file has been loaded
 define('FUNCTIONS_FILE_LOADED', true);
 
-// Function to remove a non-empty directory
-function rm_full_dir($directory)
-{
+/**
+ * @description: recursively delete a non empty directory
+ * @param string $directory :
+ * @param bool $empty : true if you want the folder just emptied, but not deleted
+ *                      false, or just simply leave it out, the given directory will be deleted, as well
+ * @return boolean: list of ro-dirs
+ * @from http://www.php.net/manual/de/function.rmdir.php#98499
+ */
+function rm_full_dir($directory, $empty = false) {
+
+    if(substr($directory,-1) == "/")
+	{
+        $directory = substr($directory,0,-1);
+    }
+
     // If suplied dirname is a file then unlink it
-    if (is_file($directory))
+    if (is_file( $directory ))
 	{
         return unlink($directory);
     }
-    // Empty the folder
-	if (is_dir($directory))
-    {
-        $dir = dir($directory);
-        while (false !== $entry = $dir->read())
-        {
-            // Skip pointers
-            if ($entry == '.' || $entry == '..') { continue; }
-            // Deep delete directories
-            if (is_dir($directory.'/'.$entry))
+
+    if(!file_exists($directory) || !is_dir($directory))
+	{
+        return false;
+    } elseif(!is_readable($directory))
+	{
+        return false;
+    } else {
+        $directoryHandle = opendir($directory);
+
+        while ($contents = readdir($directoryHandle))
+		{
+            if($contents != '.' && $contents != '..')
 			{
-				rm_full_dir($directory.'/'.$entry);
-            }
-            else
-            {
-                unlink($directory.'/'.$entry);
+                $path = $directory . "/" . $contents;
+
+                if(is_dir($path))
+				{
+                    rm_full_dir($path);
+                } else {
+                    unlink($path);
+                }
             }
         }
-        // Now delete the folder
-        $dir->close();
-        return rmdir($directory);
-	}
+
+        closedir($directoryHandle);
+
+        if($empty == false)
+		{
+            if(!rmdir($directory))
+			{
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
 
 /*
@@ -90,6 +117,13 @@ function rm_full_dir($directory)
     	}
         $dir->close();
     }
+
+	// sorting
+	if(natcasesort($result_list))
+	{
+		// new indexing
+		$result_list = array_merge($result_list);
+	}
 	return $result_list; // Now return the list
 }
 
@@ -119,6 +153,60 @@ function chmod_directory_contents($directory, $file_mode)
     }
 }
 
+/**
+* Scan a given directory for dirs and files.
+*
+* usage: scan_current_dir ($root = '' )
+*
+* @param     $root   set a absolute rootpath as string. if root is empty the current path will be scan
+* @param     $search set a search pattern for files, empty search brings all files
+* @access    public
+* @return    array    returns a natsort array with keys 'path' and 'filename'
+*
+*/
+if(!function_exists('scan_current_dir'))
+{
+	function scan_current_dir($root = '', $search = '/.*/')
+	{
+	    $FILE = array();
+		$array = array();
+	    clearstatcache();
+	    $root = empty ($root) ? getcwd() : $root;
+	    if (($handle = opendir($root)))
+	    {
+	    // Loop through the files and dirs an add to list  DIRECTORY_SEPARATOR
+	        while (false !== ($file = readdir($handle)))
+	        {
+	            if (substr($file, 0, 1) != '.' && $file != 'index.php')
+	            {
+	                if (is_dir($root.'/'.$file))
+	                {
+	                    $FILE['path'][] = $file;
+	                } elseif (preg_match($search, $file, $array) )
+                    {
+	                    $FILE['filename'][] = $array[0];
+	                }
+	            }
+	        }
+	        $close_verz = closedir($handle);
+	    }
+
+		// sorting
+	    if (isset ($FILE['path']) && natcasesort($FILE['path']))
+	    {
+			// new indexing
+	        $FILE['path'] = array_merge($FILE['path']);
+	    }
+		// sorting
+	    if (isset ($FILE['filename']) && natcasesort($FILE['filename']))
+	    {
+			// new indexing
+	        $FILE['filename'] = array_merge($FILE['filename']);
+	    }
+	    return $FILE;
+	}
+}
+
 // Function to open a directory and add to a file list
 function file_list($directory, $skip = array(), $show_hidden = false)
 {
@@ -138,7 +226,13 @@ function file_list($directory, $skip = array(), $show_hidden = false)
 		}
 		$dir->close(); // Now close the folder object
 	}
-	natsort($result_list); // make the list nice. Not all OS do this itself
+
+    // make the list nice. Not all OS do this itself
+   if(natcasesort($result_list))
+   {
+		$result_list = array_merge($result_list);
+   }
+
 	return $result_list;
 }
 
@@ -163,12 +257,12 @@ function get_home_folders()
 		}
 		function remove_home_subs($directory = '/', $home_folders = '')
 		{
-			if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.$directory))
+			if( ($handle = opendir(WB_PATH.MEDIA_DIRECTORY.$directory)) )
 			{
 				// Loop through the dirs to check the home folders sub-dirs are not shown
 				while(false !== ($file = readdir($handle)))
 				{
-					if($file[0] != '.' AND $file != 'index.php')
+					if($file[0] != '.' && $file != 'index.php')
 					{
 						if(is_dir(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$file))
 						{
@@ -201,6 +295,154 @@ function get_home_folders()
 		$home_folders = remove_home_subs('/', $home_folders);
 	}
 	return $home_folders;
+}
+
+/*
+ * @param object &$wb: $wb from frontend or $admin from backend
+ * @return array: list of new entries
+ * @description: callback remove path in files/dirs stored in array
+ * @example: array_walk($array,'remove_path',PATH);
+ */
+//
+function remove_path(&$path, $key, $vars = '')
+{
+	$path = str_replace($vars, '', $path);
+}
+
+/*
+ * @param object &$wb: $wb from frontend or $admin from backend
+ * @return array: list of ro-dirs
+ * @description: returns a list of directories beyound /wb/media which are ReadOnly for current user
+ */
+function media_dirs_ro( &$wb )
+{
+	global $database;
+	// if user is admin or home-folders not activated then there are no restrictions
+	$allow_list = array();
+	if( $wb->get_user_id() == 1 || !HOME_FOLDERS )
+	{
+		return array();
+	}
+	// at first read any dir and subdir from /media
+	$full_list = directory_list( WB_PATH.MEDIA_DIRECTORY );
+	// add own home_folder to allow-list
+	if( $wb->get_home_folder() )
+	{
+		// old: $allow_list[] = get_home_folder();
+		$allow_list[] = $wb->get_home_folder();
+	}
+	// get groups of current user
+	$curr_groups = $wb->get_groups_id();
+	// if current user is in admin-group
+	 if( ($admin_key = array_search('1', $curr_groups)) !== false)
+	{
+		// remove admin-group from list
+		unset($curr_groups[$admin_key]);
+		// search for all users where the current user is admin from
+		foreach( $curr_groups as $group)
+		{
+			$sql  = 'SELECT `home_folder` FROM `'.TABLE_PREFIX.'users` ';
+			$sql .= 'WHERE (FIND_IN_SET(\''.$group.'\', `groups_id`) > 0) AND `home_folder` <> \'\' AND `user_id` <> '.$wb->get_user_id();
+			if( ($res_hf = $database->query($sql)) != null )
+			{
+				while( $rec_hf = $res_hf->fetchrow() )
+				{
+					$allow_list[] = $rec_hf['home_folder'];
+				}
+			}
+		}
+	}
+	$tmp_array = $full_list;
+	// create a list for readonly dir
+    $array = array();
+	while( sizeof($tmp_array) > 0)
+	{
+        $tmp = array_shift($tmp_array);
+        $x = 0;
+		while($x < sizeof($allow_list))
+		{
+			if(strpos ($tmp,$allow_list[$x])) {
+				$array[] = $tmp;
+			}
+			$x++;
+		}
+	}
+
+	$full_list = array_diff( $full_list, $array );
+	$tmp = array();
+	$full_list = array_merge($tmp,$full_list);
+
+	return $full_list;
+}
+
+/*
+ * @param object &$wb: $wb from frontend or $admin from backend
+ * @return array: list of rw-dirs
+ * @description: returns a list of directories beyound /wb/media which are ReadWrite for current user
+ */
+function media_dirs_rw ( &$wb )
+{
+	global $database;
+	// if user is admin or home-folders not activated then there are no restrictions
+	// at first read any dir and subdir from /media
+	$full_list = directory_list( WB_PATH.MEDIA_DIRECTORY );
+    $array = array();
+	$allow_list = array();
+	if( ($wb->ami_group_member('1')) && !HOME_FOLDERS )
+	{
+		return $full_list;
+	}
+	// add own home_folder to allow-list
+	if( $wb->get_home_folder() )
+	{
+	  	$allow_list[] = $wb->get_home_folder();
+	} else {
+		$array = $full_list;
+	}
+	// get groups of current user
+	$curr_groups = $wb->get_groups_id();
+	// if current user is in admin-group
+	if( ($admin_key = array_search('1', $curr_groups)) == true)
+	{
+		// remove admin-group from list
+		// unset($curr_groups[$admin_key]);
+		// search for all users where the current user is admin from
+		foreach( $curr_groups as $group)
+		{
+			$sql  = 'SELECT `home_folder` FROM `'.TABLE_PREFIX.'users` ';
+			$sql .= 'WHERE (FIND_IN_SET(\''.$group.'\', `groups_id`) > 0) AND `home_folder` <> \'\' AND `user_id` <> '.$wb->get_user_id();
+			if( ($res_hf = $database->query($sql)) != null )
+			{
+				while( $rec_hf = $res_hf->fetchrow() )
+				{
+					$allow_list[] = $rec_hf['home_folder'];
+				}
+			}
+		}
+	}
+
+	$tmp_array = $full_list;
+	// create a list for readwrite dir
+	while( sizeof($tmp_array) > 0)
+	{
+        $tmp = array_shift($tmp_array);
+        $x = 0;
+		while($x < sizeof($allow_list))
+		{
+			if(strpos ($tmp,$allow_list[$x])) {
+				$array[] = $tmp;
+			}
+			$x++;
+		}
+	}
+
+	$tmp = array();
+    $array = array_unique($array);
+	$full_list = array_merge($tmp,$array);
+    unset($array);
+    unset($allow_list);
+
+	return $full_list;
 }
 
 // Function to create directories
@@ -617,7 +859,7 @@ if(!function_exists('mime_content_type'))
 function make_thumb($source, $destination, $size)
 {
 	// Check if GD is installed
-	if(extension_loaded('gd') AND function_exists('imageCreateFromJpeg'))
+	if(extension_loaded('gd') && function_exists('imageCreateFromJpeg'))
 	{
 		// First figure out the size of the thumbnail
 		list($original_x, $original_y) = getimagesize($source);
@@ -662,7 +904,7 @@ function make_thumb($source, $destination, $size)
 function extract_permission($octal_value, $who, $action)
 {
 	// Make sure that all arguments are set and $octal_value is a real octal-integer
-	if( ($who == '') or ($action == '') or (preg_match( '/[^0-7]/', (string)$octal_value )) )
+	if( ($who == '') || ($action == '') || (preg_match( '/[^0-7]/', (string)$octal_value )) )
 	{
 		return false; // invalid argument, so return false
 	}
@@ -709,118 +951,165 @@ function extract_permission($octal_value, $who, $action)
 }
 
 // Function to delete a page
-function delete_page($page_id)
-{
-	global $admin, $database, $MESSAGE;
-	// Find out more about the page
-	$database = new database();
-	$sql  = 'SELECT `page_id`, `menu_title`, `page_title`, `level`, `link`, `parent`, `modified_by`, `modified_when` ';
-	$sql .= 'FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
-	$results = $database->query($sql);
-	if($database->is_error())    { $admin->print_error($database->get_error()); }
-	if($results->numRows() == 0) { $admin->print_error($MESSAGE['PAGES']['NOT_FOUND']); }
-	$results_array = $results->fetchRow();
-	$parent     = $results_array['parent'];
-	$level      = $results_array['level'];
-	$link       = $results_array['link'];
-	$page_title = $results_array['page_title'];
-	$menu_title = $results_array['menu_title'];
-	
-	// Get the sections that belong to the page
-	$sql = 'SELECT `section_id`, `module` FROM `'.TABLE_PREFIX.'sections` WHERE `page_id` = '.$page_id;
-	$query_sections = $database->query($sql);
-	if($query_sections->numRows() > 0)
+	function delete_page($page_id)
 	{
-		while($section = $query_sections->fetchRow())
+		global $admin, $database, $MESSAGE;
+		// Find out more about the page
+		$sql  = 'SELECT `page_id`, `menu_title`, `page_title`, `level`, `link`, `parent`, `modified_by`, `modified_when` ';
+		$sql .= 'FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
+		$results = $database->query($sql);
+		if($database->is_error())    { $admin->print_error($database->get_error()); }
+		if($results->numRows() == 0) { $admin->print_error($MESSAGE['PAGES']['NOT_FOUND']); }
+		$results_array = $results->fetchRow();
+		$parent     = $results_array['parent'];
+		$level      = $results_array['level'];
+		$link       = $results_array['link'];
+		$page_title = $results_array['page_title'];
+		$menu_title = $results_array['menu_title'];
+
+		// Get the sections that belong to the page
+		$sql = 'SELECT `section_id`, `module` FROM `'.TABLE_PREFIX.'sections` WHERE `page_id` = '.$page_id;
+		$query_sections = $database->query($sql);
+		if($query_sections->numRows() > 0)
 		{
-			// Set section id
-			$section_id = $section['section_id'];
-			// Include the modules delete file if it exists
-			if(file_exists(WB_PATH.'/modules/'.$section['module'].'/delete.php'))
+			while($section = $query_sections->fetchRow())
 			{
-				include(WB_PATH.'/modules/'.$section['module'].'/delete.php');
+				// Set section id
+				$section_id = $section['section_id'];
+				// Include the modules delete file if it exists
+				if(file_exists(WB_PATH.'/modules/'.$section['module'].'/delete.php'))
+				{
+					include(WB_PATH.'/modules/'.$section['module'].'/delete.php');
+				}
+			}
+		}
+		// Update the pages table
+		$sql = 'DELETE FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
+		$database->query($sql);
+		if($database->is_error())
+		{
+			$admin->print_error($database->get_error());
+		}
+		// Update the sections table
+		$sql = 'DELETE FROM `'.TABLE_PREFIX.'sections` WHERE `page_id` = '.$page_id;
+		$database->query($sql);
+		if($database->is_error()) {
+			$admin->print_error($database->get_error());
+		}
+		// Include the ordering class or clean-up ordering
+		include_once(WB_PATH.'/framework/class.order.php');
+		$order = new order(TABLE_PREFIX.'pages', 'position', 'page_id', 'parent');
+		$order->clean($parent);
+		// Unlink the page access file and directory
+		$directory = WB_PATH.PAGES_DIRECTORY.$link;
+		$filename = $directory.PAGE_EXTENSION;
+		$directory .= '/';
+		if(file_exists($filename))
+		{
+			if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/'))
+			{
+				$admin->print_error($MESSAGE['PAGES']['CANNOT_DELETE_ACCESS_FILE']);
+			}
+			else
+			{
+				unlink($filename);
+				if( file_exists($directory) &&
+				   (rtrim($directory,'/') != WB_PATH.PAGES_DIRECTORY) &&
+				   (substr($link, 0, 1) != '.'))
+				{
+					rm_full_dir($directory);
+				}
 			}
 		}
 	}
-	// Update the pages table
-	$sql = 'DELETE FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
-	$database->query($sql);
-	if($database->is_error())
+
+/*
+ * @param string $file: name of the file to read
+ * @param int $size: number of maximum bytes to read (0 = complete file)
+ * @return string: the content as string, false on error
+ */
+	function getFilePart($file, $size = 0)
 	{
-		$admin->print_error($database->get_error());
-	}
-	// Update the sections table
-	$sql = 'DELETE FROM `'.TABLE_PREFIX.'sections` WHERE `page_id` = '.$page_id;
-	$database->query($sql);
-	if($database->is_error()) {
-		$admin->print_error($database->get_error());
-	}
-	// Include the ordering class or clean-up ordering
-	include_once(WB_PATH.'/framework/class.order.php');
-	$order = new order(TABLE_PREFIX.'pages', 'position', 'page_id', 'parent');
-	$order->clean($parent);
-	// Unlink the page access file and directory
-	$directory = WB_PATH.PAGES_DIRECTORY.$link;
-	$filename = $directory.PAGE_EXTENSION;
-	$directory .= '/';
-	if(file_exists($filename))
-	{
-		if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/'))
+		$file_content = '';
+		if( file_exists($file) && is_file($file) && is_readable($file))
 		{
-			$admin->print_error($MESSAGE['PAGES']['CANNOT_DELETE_ACCESS_FILE']);
-		}
-		else
-		{
-			unlink($filename);
-			if( file_exists($directory) &&
-			   (rtrim($directory,'/') != WB_PATH.PAGES_DIRECTORY) &&
-			   (substr($link, 0, 1) != '.'))
+			if($size == 0)
 			{
-				rm_full_dir($directory);
+				$size = filesize($file);
+			}
+			if(($fh = fopen($file, 'rb')))
+			{
+				if( ($file_content = fread($fh, $size)) !== false )
+				{
+					return $file_content;
+				}
+				fclose($fh);
 			}
 		}
+		return false;
 	}
-}
+
+	/**
+	* replace varnames with values in a string
+	*
+	* @param string $subject: stringvariable with vars placeholder
+	* @param array $replace: values to replace vars placeholder
+	* @return string
+	*/
+    function replace_vars($subject = '', &$replace = null )
+    {
+		if(is_array($replace))
+		{
+			foreach ($replace  as $key => $value)
+			{
+				$subject = str_replace("{{".$key."}}", $value, $subject);
+			}
+		}
+		return $subject;
+    }
 
 // Load module into DB
 function load_module($directory, $install = false)
 {
 	global $database,$admin,$MESSAGE;
-
-	if(is_dir($directory) AND file_exists($directory.'/info.php'))
+	$retVal = false;
+	if(is_dir($directory) && file_exists($directory.'/info.php'))
 	{
 		require($directory.'/info.php');
 		if(isset($module_name))
 		{
-			if(!isset($module_license))                                  { $module_license = 'GNU General Public License'; }
-			if(!isset($module_platform) AND isset($module_designed_for)) { $module_platform = $module_designed_for; }
-			if(!isset($module_function) AND isset($module_type))         { $module_function = $module_type; }
+			if(!isset($module_license)) { $module_license = 'GNU General Public License'; }
+			if(!isset($module_platform) && isset($module_designed_for)) { $module_platform = $module_designed_for; }
+			if(!isset($module_function) && isset($module_type)) { $module_function = $module_type; }
 			$module_function = strtolower($module_function);
 			// Check that it doesn't already exist
-			$sql  = 'SELECT `addon_id` FROM `'.TABLE_PREFIX.'addons` ';
-			$sql .= 'WHERE `type` = "module" AND `directory` = "'.$module_directory.'" LIMIT 0,1';
-			$result = $database->query($sql);
-			if($result->numRows() == 0)
+			$sqlwhere = 'WHERE `type` = \'module\' AND `directory` = \''.$module_directory.'\'';
+			$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'addons` '.$sqlwhere;
+			if( $database->get_one($sql) )
 			{
+				$sql  = 'UPDATE `'.TABLE_PREFIX.'addons` SET ';
+			}else{
 				// Load into DB
 				$sql  = 'INSERT INTO `'.TABLE_PREFIX.'addons` SET ';
-				$sql .= '`directory` = "'.$module_directory.'", ';
-				$sql .= '`name` = "'.$module_name.'", ';
-				$sql .= '`description`= "'.addslashes($module_description).'", ';
-				$sql .= '`type`= "module", ';
-				$sql .= '`function` = "'.$module_function.'", ';
-				$sql .= '`version` = "'.$module_version.'", ';
-				$sql .= '`platform` = "'.$module_platform.'", ';
-				$sql .= '`author` = "'.addslashes($module_author).'", ';
-				$sql .= '`license` = "'.addslashes($module_license).'"';
-				$database->query($sql);
-				// Run installation script
-				if($install == true)
+				$sqlwhere = '';
+			}
+			$sql .= '`directory` = \''.$module_directory.'\', ';
+			$sql .= '`name` = \''.$module_name.'\', ';
+			$sql .= '`description`= \''.addslashes($module_description).'\', ';
+			$sql .= '`type`= \'module\', ';
+			$sql .= '`function` = \''.$module_function.'\', ';
+			$sql .= '`version` = \''.$module_version.'\', ';
+			$sql .= '`platform` = \''.$module_platform.'\', ';
+			$sql .= '`author` = \''.addslashes($module_author).'\', ';
+			$sql .= '`license` = \''.addslashes($module_license).'\'';
+			$sql .= $sqlwhere;
+			$retVal = $database->query($sql);
+			// Run installation script
+			if($install == true)
+			{
+				if(file_exists($directory.'/install.php'))
 				{
-					if(file_exists($directory.'/install.php'))
-					{
-						require($directory.'/install.php');
-					}
+					require($directory.'/install.php');
 				}
 			}
 		}
@@ -831,7 +1120,8 @@ function load_module($directory, $install = false)
 function load_template($directory)
 {
 	global $database, $admin;
-	if(is_dir($directory) AND file_exists($directory.'/info.php'))
+	$retVal = false;
+	if(is_dir($directory) && file_exists($directory.'/info.php'))
 	{
 		require($directory.'/info.php');
 		if(isset($template_name))
@@ -840,7 +1130,7 @@ function load_template($directory)
             {
               $template_license = 'GNU General Public License';
             }
-			if(!isset($template_platform) AND isset($template_designed_for))
+			if(!isset($template_platform) && isset($template_designed_for))
             {
               $template_platform = $template_designed_for;
             }
@@ -849,58 +1139,76 @@ function load_template($directory)
               $template_function = 'template';
             }
 			// Check that it doesn't already exist
-			$sql  = 'SELECT `addon_id` FROM `'.TABLE_PREFIX.'addons` ';
-			$sql .= 'WHERE `type` = "template" AND `directory` = "'.$template_directory.'" LIMIT 0,1';
-			$result = $database->query($sql);
-			if($result->numRows() == 0)
+			$sqlwhere = 'WHERE `type` = \'template\' AND `directory` = \''.$template_directory.'\'';
+			$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'addons` '.$sqlwhere;
+			if( $database->get_one($sql) )
 			{
+				$sql  = 'UPDATE `'.TABLE_PREFIX.'addons` SET ';
+			}else{
 				// Load into DB
 				$sql  = 'INSERT INTO `'.TABLE_PREFIX.'addons` SET ';
-				$sql .= '`directory` = "'.$template_directory.'", ';
-				$sql .= '`name` = "'.$template_name.'", ';
-				$sql .= '`description`= "'.addslashes($template_description).'", ';
-				$sql .= '`type`= "template", ';
-				$sql .= '`function` = "'.$template_function.'", ';
-				$sql .= '`version` = "'.$template_version.'", ';
-				$sql .= '`platform` = "'.$template_platform.'", ';
-				$sql .= '`author` = "'.addslashes($template_author).'", ';
-				$sql .= '`license` = "'.addslashes($template_license).'" ';
-				$database->query($sql);
+				$sqlwhere = '';
 			}
+			$sql .= '`directory` = \''.$template_directory.'\', ';
+			$sql .= '`name` = \''.$template_name.'\', ';
+			$sql .= '`description`= \''.addslashes($template_description).'\', ';
+			$sql .= '`type`= \'template\', ';
+			$sql .= '`function` = \''.$template_function.'\', ';
+			$sql .= '`version` = \''.$template_version.'\', ';
+			$sql .= '`platform` = \''.$template_platform.'\', ';
+			$sql .= '`author` = \''.addslashes($template_author).'\', ';
+			$sql .= '`license` = \''.addslashes($template_license).'\' ';
+			$sql .= $sqlwhere;
+			$retVal = $database->query($sql);
 		}
 	}
+	return $retVal;
 }
 
 // Load language into DB
 function load_language($file)
 {
 	global $database,$admin;
+	$retVal = false;
 	if (file_exists($file) && preg_match('#^([A-Z]{2}.php)#', basename($file)))
 	{
-		require($file);
+		// require($file);  it's to large
+		// read contents of the template language file into string
+		$data = @file_get_contents(WB_PATH.'/languages/'.str_replace('.php','',basename($file)).'.php');
+		// use regular expressions to fetch the content of the variable from the string
+		$language_name = get_variable_content('language_name', $data, false);
+		$language_code = get_variable_content('language_code', $data, false);
+		$language_author = get_variable_content('language_author', $data);
+		$language_version = get_variable_content('language_version', $data, false);
+		$language_platform = get_variable_content('language_platform', $data, false);
+
 		if(isset($language_name))
 		{
-			if(!isset($language_license))                                    { $language_license = 'GNU General Public License'; }
-			if(!isset($language_platform) AND isset($language_designed_for)) { $language_platform = $language_designed_for; }
+			if(!isset($language_license)) { $language_license = 'GNU General Public License'; }
+			if(!isset($language_platform) && isset($language_designed_for)) { $language_platform = $language_designed_for; }
 			// Check that it doesn't already exist
-			$sql  = 'SELECT `addon_id` FROM `'.TABLE_PREFIX.'addons` ';
-			$sql .= 'WHERE `type` = "language" AND `directory` = "'.$language_code.'" LIMIT 0,1';
-			$result = $database->query($sql);
-			if($result->numRows() == 0)
+			$sqlwhere = 'WHERE `type` = \'language\' AND `directory` = \''.$language_code.'\'';
+			$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'addons` '.$sqlwhere;
+			if( $database->get_one($sql) )
 			{
+				$sql  = 'UPDATE `'.TABLE_PREFIX.'addons` SET ';
+			}else{
 				// Load into DB
 				$sql  = 'INSERT INTO `'.TABLE_PREFIX.'addons` SET ';
-				$sql .= '`directory` = "'.$language_code.'", ';
-				$sql .= '`name` = "'.$language_name.'", ';
-				$sql .= '`type`= "language", ';
-				$sql .= '`version` = "'.$language_version.'", ';
-				$sql .= '`platform` = "'.$language_platform.'", ';
-				$sql .= '`author` = "'.addslashes($language_author).'", ';
-				$sql .= '`license` = "'.addslashes($language_license).'"';
-				$database->query($sql);
+				$sqlwhere = '';
 			}
+			$sql .= '`directory` = \''.$language_code.'\', ';
+			$sql .= '`name` = \''.$language_name.'\', ';
+			$sql .= '`type`= \'language\', ';
+			$sql .= '`version` = \''.$language_version.'\', ';
+			$sql .= '`platform` = \''.$language_platform.'\', ';
+			$sql .= '`author` = \''.addslashes($language_author).'\', ';
+			$sql .= '`license` = \''.addslashes($language_license).'\' ';
+			$sql .= $sqlwhere;
+			$retVal = $database->query($sql);
 		}
 	}
+	return $retVal;
 }
 
 // Upgrade module info in DB, optionally start upgrade script
@@ -913,21 +1221,19 @@ function upgrade_module($directory, $upgrade = false)
 		require($mod_directory.'/info.php');
 		if(isset($module_name))
 		{
-			if(!isset($module_license))                                  { $module_license = 'GNU General Public License'; }
+			if(!isset($module_license)) { $module_license = 'GNU General Public License'; }
 			if(!isset($module_platform) && isset($module_designed_for)) { $module_platform = $module_designed_for; }
-			if(!isset($module_function) && isset($module_type))         { $module_function = $module_type; }
+			if(!isset($module_function) && isset($module_type)) { $module_function = $module_type; }
 			$module_function = strtolower($module_function);
-			// Check that it does already exist
 			// Check that it does already exist
 			$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'addons` ';
 			$sql .= 'WHERE `directory` = \''.$module_directory.'\'';
-
 			if( $database->get_one($sql) )
 			{
 				// Update in DB
 				$sql  = 'UPDATE `'.TABLE_PREFIX.'addons` SET ';
-				$sql .= '`version` = \''.$module_version.'\', ';
-				$sql .= '`description` = \''.addslashes($module_description).'\', ';
+				$sql .= '`version` = "'.$module_version.'", ';
+				$sql .= '`description` = "'.addslashes($module_description).'", ';
 				$sql .= '`platform` = \''.$module_platform.'\', ';
 				$sql .= '`author` = \''.addslashes($module_author).'\', ';
 				$sql .= '`license` = \''.addslashes($module_license).'\' ';
@@ -973,4 +1279,57 @@ if(!function_exists('get_variable_content'))
 	}
 }
 
-?>
+/*
+ * @param string $modulname: like saved in addons.directory
+ * @param boolean $source: true reads from database, false from info.php
+ * @return string:  the version as string, if not found returns null
+ */
+
+	function get_modul_version($modulname, $source = true)
+	{
+		global $database;
+		$version = null;
+		if( $source != true )
+		{
+			$sql = 'SELECT `version` FROM `'.TABLE_PREFIX.'addons` WHERE `directory`=\''.$modulname.'\'';
+			$version = $database->get_one($sql);
+		} else {
+			$info_file = WB_PATH.'/modules/'.$modulname.'/info.php';
+			if(file_exists($info_file))
+			{
+				if(($info_file = file_get_contents($info_file)))
+				{
+					$version = get_variable_content('module_version', $info_file, false, false);
+					$version = ($version !== false) ? $version : null;
+				}
+			}
+		}
+		return $version;
+	}
+
+/*
+ * @param string $varlist: commaseperated list of varnames to move into global space
+ * @return bool:  false if one of the vars already exists in global space (error added to msgQueue)
+ */
+	function vars2globals_wrapper($varlist)
+	{
+		$retval = true;
+		if( $varlist != '')
+		{
+			$vars = explode(',', $varlist);
+			foreach( $vars as $var)
+			{
+				if( isset($GLOBALS[$var]) )
+				{
+					ErrorLog::write( 'variabe $'.$var.' already defined in global space!!',__FILE__, __FUNCTION__, __LINE__);
+					$retval = false;
+				}else
+				{
+					global $$var;
+				}
+			}
+		}
+		return $retval;
+	}
+
+
