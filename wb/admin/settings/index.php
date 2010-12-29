@@ -293,7 +293,7 @@ if($is_advanced)
 	}
 
 // Insert templates for search settings
-	$search_template = ( ($search_template == DEFAULT_TEMPLATE) || ($search_template == '') ) ? DEFAULT_TEMPLATE : $search_template;
+	$search_template = ( ($search_template == DEFAULT_TEMPLATE) || ($search_template == '') ) ? '' : $search_template;
 	$selected = ( ($search_template != DEFAULT_TEMPLATE) ) ?  ' selected="selected"' : $selected = '';
 
 	$template->set_var(array(
@@ -301,6 +301,7 @@ if($is_advanced)
 	        'NAME' => $TEXT['SYSTEM_DEFAULT'],
 	        'SELECTED' => $selected
 	    ));
+	$template->parse('search_template_list', 'search_template_list_block', true);
 
 	$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'template' AND function = 'template' ORDER BY name");
 	if($result->numRows() > 0)

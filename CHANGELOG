@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+29 Dec-2010 Build 1366 Dietmar Woellbrink (Luisehahne)
+# fixed showing system_default for search_template 
 29 Dec-2010 Build 1365 Dietmar Woellbrink (Luisehahne)
 ! added some functions 
 ! set status to 2.8.2 RC3
