@@ -315,5 +315,48 @@ class mysql {
 	}
 
 }
-
+/* this function is placed inside this file temporarely until a better place is found */
+/*  function to update a var/value-pair(s) in table ****************************
+ *  nonexisting keys are inserted
+ *  @param string $table: name of table to use (without prefix)
+ *  @param mixed $key:    a array of key->value pairs to update
+ *                        or a string with name of the key to update
+ *  @param string $value: a sting with needed value, if $key is a string too
+ *  @return bool:  true if any keys are updated, otherwise false
+ */
+	function db_update_key_value($table, $key, $value = '')
+	{
+		global $database;
+		if( !is_array($key))
+		{
+			if( trim($key) != '' )
+			{
+				$key = array( trim($key) => trim($value) );
+			} else {
+				$key = array();
+			}
+		}
+		$retval = true;
+		foreach( $key as $index=>$val)
+		{
+			$index = strtolower($index);
+			$sql = 'SELECT COUNT(`setting_id`) FROM `'.TABLE_PREFIX.$table.'` WHERE `name` = \''.$index.'\' ';
+			if($database->get_one($sql))
+			{
+				$sql = 'UPDATE ';
+				$sql_where = 'WHERE `name` = \''.$index.'\'';
+			}else {
+				$sql = 'INSERT INTO ';
+				$sql_where = '';
+			}
+			$sql .= '`'.TABLE_PREFIX.$table.'` ';
+			$sql .= 'SET `name` = \''.$index.'\', ';
+			$sql .= '`value` = \''.$val.'\' '.$sql_where;
+			if( !$database->query($sql) )
+			{
+				$retval = false;
+			}
+		}
+		return $retval;
+	}
 ?>
