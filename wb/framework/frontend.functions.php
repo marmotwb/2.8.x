@@ -1,8 +1,8 @@
 <?php
 /**
  *
- * @category        frontend
- * @package         functions
+ * @category        framework
+ * @package         frontend.functions
  * @author          WebsiteBaker Project
  * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2011, Website Baker Org. e.V.
@@ -297,14 +297,13 @@ if (!function_exists('show_content')) {
 
 if (!function_exists('show_breadcrumbs'))
 {
-	function show_breadcrumbs($sep = ' &raquo; ',$level = 0, $links = true, $depth = -1, $title = 'You are here: ')
+	function show_breadcrumbs($sep = ' &raquo; ',$level = 0, $links = true, $depth = -1, $title = '')
     {
-		global $wb;
+		global $wb,$database,$MENU;
 		$page_id = $wb->page_id;
-
+        $title = (trim($title) == '') ? $MENU['BREADCRUMB'] : $title;
 		if ($page_id != 0)
 		{
-	 		global $database;
 			$counter = 0;
             // get links as array
             $bread_crumbs = $wb->page_trail;
@@ -316,7 +315,7 @@ if (!function_exists('show_breadcrumbs'))
             $depth = ($depth <= 0) ? sizeof($crumbs) : $depth;
             // if empty array, set orginal links
             $crumbs = (!empty($crumbs)) ?  $crumbs : $wb->page_trail;
-            $total_crumbs = ( ($depth <= 0) OR ($depth > sizeof($crumbs)) ) ? sizeof($crumbs) : $depth;
+            $total_crumbs = ( ($depth <= 0) || ($depth > sizeof($crumbs)) ) ? sizeof($crumbs) : $depth;
             print '<div class="breadcrumb"><span class="title">'.$title.'</span>';
           //  print_r($crumbs);
 			foreach ($crumbs as $temp)
@@ -326,9 +325,9 @@ if (!function_exists('show_breadcrumbs'))
 					$query_menu = $database->query("SELECT * FROM ".TABLE_PREFIX."pages WHERE page_id = $temp");
 					$page = $query_menu->fetchRow();
 
-                    $show_crumb = (($links == true) AND ($temp != $page_id))
+                    $show_crumb = (($links == true) && ($temp != $page_id))
                             ? '<a href="'.page_link($page['link']).'" class="link">'.$page['menu_title'].'</a>'
-                            : '<span class="crumb">'.MENU_TITLE.'</span>';
+                            : '<span class="crumb">'.$page['menu_title'].'</span>';
 
                     // Permission
                     switch ($page['visibility'])
