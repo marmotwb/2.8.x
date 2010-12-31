@@ -24,7 +24,7 @@ require_once(WB_PATH.'/framework/class.database.php');
 // Include new wbmailer class (subclass of PHPmailer)
 require_once(WB_PATH."/framework/class.wbmailer.php");
 
-require_once(WB_PATH."/framework/class.secureform.php");
+require_once(WB_PATH."/framework/SecureForm.php");
 
 class wb extends SecureForm
 {
@@ -331,7 +331,7 @@ class wb extends SecureForm
 /*
 	// Validate supplied email address
 	function validate_email($email) {
-		if(function_exists('idn_to_ascii')){ // use pear if available 
+		if(function_exists('idn_to_ascii')){ // use pear if available
 			$email = idn_to_ascii($email);
 		}else {
 			require_once(WB_PATH.'/include/idna_convert/idna_convert.class.php');
