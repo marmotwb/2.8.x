@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+31 Dec-2010 Build 1368 Dietmar Woellbrink (Luisehahne)
+- delete class.secureform.php
++ add newest SecureForm 
+# fixed Call to a member function read() on a non-object in function register_frontend_modfiles
 29 Dec-2010 Build 1367 Dietmar Woellbrink (Luisehahne)
 # securtiy fix in class.login
 # see http://www.websitebaker2.org/forum/index.php/topic,20347.msg137554.html#msg137554
