@@ -47,7 +47,7 @@ if(!defined('WB_URL')) {
 		$jscal_lang = 'en';
 	}
 	// today
-	$jscal_today = gmdate('Y/m/d');
+	$jscal_today = gmdate('Y/m/d H:i');
 	// first-day-of-week
 	$jscal_firstday = '1'; // monday
 	if(LANGUAGE=='EN')
@@ -81,6 +81,7 @@ if(!defined('WB_URL')) {
 		$jscal_format .= ' H:i';
 		$jscal_ifformat .= ' %H:%M';
 	}
+
 	// load scripts for jscalendar
 ?>
 <script type="text/javascript" src="<?php echo WB_URL ?>/include/jscalendar/lang/calendar-<?php echo $jscal_lang ?>.js"></script>

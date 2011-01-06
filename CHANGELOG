@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+31 Dec-2010 Build 1369 Dietmar Woellbrink (Luisehahne)
++ add jquery-include.js (Tks to Stefek)
+! update bind jquery in frontend, jquery-include.js and jquery-insrt.js are included
 31 Dec-2010 Build 1368 Dietmar Woellbrink (Luisehahne)
 - delete class.secureform.php
 + add newest SecureForm 
