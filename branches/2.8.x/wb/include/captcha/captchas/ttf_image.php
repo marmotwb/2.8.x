@@ -28,7 +28,7 @@ require_once(WB_PATH.'/include/captcha/captcha.php');
 
 if(!isset($_SESSION['captcha_time']))
 	exit;
-unset($_SESSION['captcha_time']);
+//unset($_SESSION['captcha_time']);
 
 // get lists of fonts and backgrounds
 require_once(WB_PATH.'/framework/functions.php');
@@ -36,8 +36,8 @@ $t_fonts = file_list(WB_PATH.'/include/captcha/fonts');
 $t_bgs = file_list(WB_PATH.'/include/captcha/backgrounds');
 $fonts = array();
 $bgs = array();
-foreach($t_fonts as $file) { if(preg_match('/\.ttf/',$file)) { $fonts[]=$file; } }
-foreach($t_bgs as $file) { if(preg_match('/\.png/',$file)) { $bgs[]=$file; } }
+foreach($t_fonts as $file) if(eregi('\.ttf$',$file)) $fonts[]=$file;
+foreach($t_bgs as $file) if(eregi('\.png$',$file)) $bgs[]=$file;
 
 // make random string
 if(!function_exists('randomString')) {
@@ -54,7 +54,10 @@ if(!function_exists('randomString')) {
 	}
 }
 $text = randomString(5); // number of characters
-$_SESSION['captcha'] = $text; 
+
+$sec_id = '';
+if(isset($_GET['s'])) $sec_id = $_GET['s'];
+$_SESSION['captcha'.$sec_id] = $text;
 
 // choose a font and background
 $font = $fonts[array_rand($fonts)];
