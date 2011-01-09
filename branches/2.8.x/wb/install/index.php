@@ -22,6 +22,11 @@ if(!defined('SESSION_STARTED')) {
 	session_start();
 	define('SESSION_STARTED', true);
 }
+	$mod_path = dirname(str_replace('\\', '/', __FILE__));
+    $doc_root = rtrim(str_replace('\\', '/',$_SERVER['DOCUMENT_ROOT']),'/');
+	$mod_name = basename($mod_path);
+	$wb_path = dirname(dirname(str_replace('\\', '/', __FILE__)));
+    $wb_root = str_replace($doc_root,'',$wb_path);
 
 // Function to highlight input fields which contain wrong/missing data
 function field_error($field_name='') {
@@ -179,21 +184,21 @@ function change_os(type) {
 			<td colspan="8"><h1>Step 2</h1>Please check the following files/folders are writeable before continuing...</td>
 		</tr>
 		<tr>
-			<td style="color: #666666;">wb/config.php</td>
+			<td style="color: #666666;"><?php print $wb_root ?>/config.php</td>
 			<td><?php if(is_writable('../config.php')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../config.php')) { echo '<font class="bad">File Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-			<td style="color: #666666;">wb/pages/</td>
+			<td style="color: #666666;"><?php print $wb_root ?>/pages/</td>
 			<td><?php if(is_writable('../pages/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../pages/')) { echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-			<td style="color: #666666;">wb/media/</td>
+			<td style="color: #666666;"><?php print $wb_root ?>/media/</td>
 			<td><?php if(is_writable('../media/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../media/')) { echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-			<td style="color: #666666;">wb/templates/</td>
+			<td style="color: #666666;"><?php print $wb_root ?>/templates/</td>
 			<td><?php if(is_writable('../templates/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../templates/')) { echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
 		</tr>
 		<tr>
-			<td style="color: #666666;">wb/modules/</td>
+			<td style="color: #666666;"><?php print $wb_root ?>/modules/</td>
 			<td><?php if(is_writable('../modules/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../modules/')) { echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-			<td style="color: #666666;">wb/languages/</td>
+			<td style="color: #666666;"><?php print $wb_root ?>/languages/</td>
 			<td><?php if(is_writable('../languages/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../languages/')) { echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-			<td style="color: #666666;">wb/temp/</td>
+			<td style="color: #666666;"><?php print $wb_root ?>/temp/</td>
 			<td><?php if(is_writable('../temp/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../temp/')) { echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
