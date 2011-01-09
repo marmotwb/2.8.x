@@ -28,11 +28,13 @@ require_once(WB_PATH.'/include/captcha/captcha.php');
 
 if(!isset($_SESSION['captcha_time']))
 	exit;
-unset($_SESSION['captcha_time']);
+//unset($_SESSION['captcha_time']);
 
 // Captcha
 srand((double)microtime()*100000);
-$_SESSION['captcha'] = rand(10000,99999);
+$sec_id = '';
+if(isset($_GET['s'])) $sec_id = $_GET['s'];
+$_SESSION['captcha'.$sec_id] = rand(10000,99999);
 
 // create reload-image
 $reload = ImageCreateFromPNG(WB_PATH.'/include/captcha/reload_120_30.png'); // reload-overlay
@@ -58,7 +60,7 @@ for($i = 0; $i < 5; $i++) {
 	$fnt = rand(3,5);
 	$x = $x + rand(12 , 20);
 	$y = rand(7 , 12); 
-	imagestring($image, $fnt, $x, $y, substr($_SESSION['captcha'], $i, 1), $darkgray); 
+	imagestring($image, $fnt, $x, $y, substr($_SESSION['captcha'.$sec_id], $i, 1), $darkgray); 
 }
 
 imagealphablending($reload, TRUE);

@@ -28,29 +28,31 @@ require_once(WB_PATH.'/include/captcha/captcha.php');
 
 if(!isset($_SESSION['captcha_time']))
 	exit;
-unset($_SESSION['captcha_time']);
+//unset($_SESSION['captcha_time']);
 
 // Captcha
-$_SESSION['captcha'] = '';
+$sec_id = '';
+if(isset($_GET['s'])) $sec_id = $_GET['s'];
+$_SESSION['captcha'.$sec_id] = '';
 mt_srand((double)microtime()*1000000);
 $n = mt_rand(1,3);
 switch ($n) {
 	case 1:
 		$x = mt_rand(1,9);
 		$y = mt_rand(1,9);
-		$_SESSION['captcha'] = $x + $y;
+		$_SESSION['captcha'.$sec_id] = $x + $y;
 		$cap = "$x+$y"; 
 		break; 
 	case 2:
 		$x = mt_rand(10,20);
 		$y = mt_rand(1,9);
-		$_SESSION['captcha'] = $x - $y; 
+		$_SESSION['captcha'.$sec_id] = $x - $y; 
 		$cap = "$x-$y"; 
 		break;
 	case 3:
 		$x = mt_rand(2,10);
 		$y = mt_rand(2,5);
-		$_SESSION['captcha'] = $x * $y; 
+		$_SESSION['captcha'.$sec_id] = $x * $y; 
 		$cap = "$x*$y"; 
 		break;
 }

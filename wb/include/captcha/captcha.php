@@ -24,15 +24,19 @@
 */
 
 // displays the image or text inside an <iframe>
-function display_captcha_real($kind='image') {
-	$t = time();
-	$_SESSION['captcha_time'] = $t;
-	if($kind=='image') {
-		?><a title="reload" href="<?php echo WB_URL.'/include/captcha/captcha.php?display_captcha_X986E21=2'; ?>">
-		  <img style="border: none;" src="<?php echo WB_URL.'/include/captcha/captchas/'.CAPTCHA_TYPE.".php?t=$t"; ?>" alt="Captcha" />
-			</a><?php
-	} else {
-		echo 'error';
+if(!function_exists('display_captcha_real')) {
+	function display_captcha_real($kind='image') {
+		$t = time();
+		$_SESSION['captcha_time'] = $t;
+		$sec_id = '';
+		if(isset($_GET['s']) && is_numeric($_GET['s'])) $sec_id = $_GET['s'];
+		if($kind=='image') {
+			?><a title="reload" href="<?php echo WB_URL.'/include/captcha/captcha.php?display_captcha_X986E21=2'; ?>">
+			  <img style="border: none;" src="<?php echo WB_URL.'/include/captcha/captchas/'.CAPTCHA_TYPE.".php?t=$t&amp;s=$sec_id"; ?>" alt="Captcha" />
+				</a><?php
+		} else {
+			echo 'error';
+		}
 	}
 }
 
@@ -70,7 +74,6 @@ if(!function_exists('captcha_header')) {
 		header("Expires: Mon, 1 Jan 1990 05:00:00 GMT");
 		header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
 		header("Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate");
-		header("Cache-Control: post-check=0, pre-check=0", false); // MS made there own headers :-(
 		header("Pragma: no-cache");
 		header("Content-type: image/png");
 		return;
@@ -102,7 +105,7 @@ if(extension_loaded('gd') && function_exists('imagepng') && function_exists('ima
 }
 
 if(!function_exists('call_captcha')) {
-	function call_captcha($action='all', $style='') {
+	function call_captcha($action='all', $style='', $sec_id='') {
 		global $MOD_CAPTCHA;
 		$t = time();
 		$_SESSION['captcha_time'] = $t;
@@ -156,8 +159,8 @@ if(!function_exists('call_captcha')) {
 				case 'calc_ttf_image': // calculation with varying background and ttf-font
 				  ?><table class="captcha_table"><tr>
 					<td class="image_captcha">
-						<iframe class="captcha_iframe" width="<?php echo $captcha_width; ?>" height="<?php echo $captcha_height; ?>" scrolling="no" marginheight="0" marginwidth="0" frameborder="0" name="captcha_iframe" src="<?php echo WB_URL.'/include/captcha/captcha.php?display_captcha_X986E21=1'; ?>">
-						<img src="<?php echo WB_URL.'/include/captcha/captchas/'.CAPTCHA_TYPE.".php?t=$t"; ?>" alt="Captcha" />
+						<?php echo "<iframe class=\"captcha_iframe\" width=\"$captcha_width\" height=\"$captcha_height\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" frameborder=\"0\" name=\"captcha_iframe_$sec_id\" src=\"". WB_URL ."/include/captcha/captcha.php?display_captcha_X986E21=1&amp;s=$sec_id"; ?>">
+						<img src="<?php echo WB_URL.'/include/captcha/captchas/'.CAPTCHA_TYPE.".php?t=$t&amp;s=$sec_id"; ?>" alt="Captcha" />
 						</iframe>
 					</td>
 					<td>&nbsp;=&nbsp;</td>
@@ -170,8 +173,8 @@ if(!function_exists('call_captcha')) {
 				case 'old_image': // old captcha
 					?><table class="captcha_table"><tr>
 					<td class="image_captcha">
-						<iframe class="captcha_iframe" width="<?php echo $captcha_width; ?>" height="<?php echo $captcha_height; ?>" scrolling="no" marginheight="0" marginwidth="0" frameborder="0" name="captcha_iframe" src="<?php echo WB_URL.'/include/captcha/captcha.php?display_captcha_X986E21=1'; ?>">
-						<img src="<?php echo WB_URL.'/include/captcha/captchas/'.CAPTCHA_TYPE.".php?t=$t"; ?>" alt="Captcha" />
+						<?php echo "<iframe class=\"captcha_iframe\" width=\"$captcha_width\" height=\"$captcha_height\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" frameborder=\"0\" name=\"captcha_iframe_$sec_id\" src=\"". WB_URL ."/include/captcha/captcha.php?display_captcha_X986E21=1&amp;s=$sec_id"; ?>">
+						<img src="<?php echo WB_URL.'/include/captcha/captchas/'.CAPTCHA_TYPE.".php?t=$t&amp;s=$sec_id"; ?>" alt="Captcha" />
 						</iframe>
 					</td>
 					<td></td>
@@ -192,7 +195,7 @@ if(!function_exists('call_captcha')) {
 				case 'calc_ttf_image': // calculation with varying background and ttf-font
 				case 'ttf_image': // captcha with varying background and ttf-font
 				case 'old_image': // old captcha
-					echo "<img $style src=\"".WB_URL.'/include/captcha/captchas/'.CAPTCHA_TYPE.".php?t=$t\" />";
+					echo "<img $style src=\"".WB_URL.'/include/captcha/captchas/'.CAPTCHA_TYPE.".php?t=$t&amp;s=$sec_id\" />";
 					break;
 			}
 		} elseif($action=='image_iframe') {
@@ -209,7 +212,9 @@ if(!function_exists('call_captcha')) {
 				case 'calc_ttf_image': // calculation with varying background and ttf-font
 				case 'ttf_image': // captcha with varying background and ttf-font
 				case 'old_image': // old captcha
-					?><iframe class="captcha_iframe" width="<?php echo $captcha_width; ?>" height="<?php echo $captcha_height; ?>" scrolling="no" marginheight="0" marginwidth="0" frameborder="0" name="captcha_iframe" src="<?php echo WB_URL.'/include/captcha/captcha.php?display_captcha_X986E21=1'; ?>"><?php
+					?>
+					<?php echo "<iframe class=\"captcha_iframe\" width=\"$captcha_width\" height=\"$captcha_height\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" frameborder=\"0\" name=\"captcha_iframe_$sec_id\" src=\"". WB_URL ."/include/captcha/captcha.php?display_captcha_X986E21=1&amp;s=$sec_id"; ?>">
+					<?php
 					echo "<img $style alt=\"Captcha\" src=\"".WB_URL.'/include/captcha/captchas/'.CAPTCHA_TYPE.".php?t=$t\" />";
 					?></iframe><?php
 					break;

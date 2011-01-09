@@ -31,7 +31,7 @@ $name = 'text';
 $file = WB_PATH."/temp/.captcha_$name.php";
 
 srand((double)microtime()*100000);
-$_SESSION['captcha'] = rand(0,99999);
+$_SESSION['captcha'.$sec_id] = rand(0,99999);
 
 // get questions and answers
 $text_qa='';
@@ -90,7 +90,7 @@ if(!isset($qa[$lang])) {
 // choose random question
 $k = array_rand($qa[$lang]);
 
-$_SESSION['captcha'] = $qa[$lang][$k];
+$_SESSION['captcha'.$sec_id] = $qa[$lang][$k];
 
 echo $k;
 

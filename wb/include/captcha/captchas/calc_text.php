@@ -34,26 +34,26 @@ if(!file_exists(WB_PATH.'/modules/captcha_control/languages/'.LANGUAGE .'.php'))
 	require_once(WB_PATH.'/modules/captcha_control/languages/'.LANGUAGE .'.php');
 }
 
-$_SESSION['captcha'] = '';
+$_SESSION['captcha'.$sec_id] = '';
 mt_srand((double)microtime()*1000000);
 $n = mt_rand(1,3);
 switch ($n) {
 	case 1:
 		$x = mt_rand(1,9);
 		$y = mt_rand(1,9);
-		$_SESSION['captcha'] = $x + $y;
+		$_SESSION['captcha'.$sec_id] = $x + $y;
 		$cap = "$x {$MOD_CAPTCHA['ADDITION']} $y"; 
 		break; 
 	case 2:
 		$x = mt_rand(10,20);
 		$y = mt_rand(1,9);
-		$_SESSION['captcha'] = $x - $y; 
+		$_SESSION['captcha'.$sec_id] = $x - $y; 
 		$cap = "$x {$MOD_CAPTCHA['SUBTRAKTION']} $y"; 
 		break;
 	case 3:
 		$x = mt_rand(2,10);
 		$y = mt_rand(2,5);
-		$_SESSION['captcha'] = $x * $y; 
+		$_SESSION['captcha'.$sec_id] = $x * $y; 
 		$cap = "$x {$MOD_CAPTCHA['MULTIPLIKATION']} $y"; 
 		break;
 }
