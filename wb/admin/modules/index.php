@@ -9,7 +9,7 @@
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
- * @requirements    PHP 5.2.2 and higher
+ *  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
  * @filesource		$HeadURL: http://svn.websitebaker2.org/branches/2.8.x/wb/admin/modules/install.php $
  * @lastmodified    $Date: 2010-12-21 23:00:08 +0100 (Di, 21. Dez 2010) $

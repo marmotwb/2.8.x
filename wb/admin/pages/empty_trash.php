@@ -5,11 +5,11 @@
  * @package         pages
  * @author          WebsiteBaker Project
  * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2010, Website Baker Org. e.V.
+ * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
- * @requirements    PHP 4.3.4 and higher
+ * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
  * @filesource		$HeadURL: http://svn282.websitebaker-dev.de/branches/2.8.x/wb/admin/pages/empty_trash.php $
  * @lastmodified    $Date: 2010-05-29 10:36:20 +0200 (Sa, 29. Mai 2010) $

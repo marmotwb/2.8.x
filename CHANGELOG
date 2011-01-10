@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.2 -------------------------------------
 10 Jan-2011 Build 1372 Dietmar Woellbrink (Luisehahne)
+! update headerinfos
+10 Jan-2011 Build 1372 Dietmar Woellbrink (Luisehahne)
 # fixed class.wb.php to add class SecureForm
 09 Jan-2011 Build 1371 Dietmar Woellbrink (Luisehahne)
 # captcha patch (Tks to FrankH)
