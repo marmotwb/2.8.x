@@ -1,40 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
- * @category   frontend
- * @package    outputfilter
- * @author(s)  Dietmar Wöllbrink <Luisehahne>, Dietrich Roland Pehlke <Aldus>
- * @platform   WB 2.8.0
- * @require    PHP 5.2.x
- * @license    http://www.gnu.org/licenses/gpl.html
- * @link       http://project.websitebaker2.org/browser/branches/2.8.x/wb/modules/form/view.php
- * @changeset   2009/12/03 comment out ob_end_flush line 259
-*/
-
-/*
-The Website Baker Project would like to thank Rudolph Lartey <www.carbonect.com>
-for his contributions to this module - adding extra field types
-*/
+/**
+ *
+ * @category        module
+ * @package         Form
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2011, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 5.2.2 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL:  $
+ * @lastmodified    $Date:  $
+ * @description     
+ */
 
 // Must include code to stop this file being access directly
 if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
@@ -147,6 +127,7 @@ if($query_settings->numRows() > 0) {
 <form <?php echo ( ( (strlen($form_name) > 0) AND (false == $use_xhtml_strict) ) ? "name=\"".$form_name."\"" : ""); ?> action="<?php echo htmlspecialchars(strip_tags($_SERVER['PHP_SELF'])); ?>#wb_<?PHP echo $section_id;?>" method="post">
 <div>
 <input type="hidden" name="submission_id" value="<?php echo $_SESSION['form_submission_id']; ?>" />
+<?php echo $admin->getFTAN(); ?>
 </div>
 <?php
 if(ENABLED_ASP) { // first add some honeypot-fields
@@ -281,6 +262,12 @@ if($filter_settings['email_filter'] && !($filter_settings['at_replacement']=='@'
 			(!isset($_POST['url']) OR $_POST['url'])
 		)) {
 			exit(header("Location: ".WB_URL.PAGES_DIRECTORY.""));
+		}
+
+		if (!$admin->checkFTAN())
+		{
+			$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']); 
+			exit();
 		}
 
 		// Submit form data

@@ -23,10 +23,8 @@
 
 */
 
-/*
-The Website Baker Project would like to thank Rudolph Lartey <www.carbonect.com>
-for his contributions to this module - adding extra field types
-*/
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
 
 // Delete page from mod_wysiwyg
 $database->query("DELETE FROM ".TABLE_PREFIX."mod_form_fields WHERE page_id = '$page_id' AND section_id='$section_id'");
