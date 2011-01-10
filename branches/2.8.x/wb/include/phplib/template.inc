@@ -72,8 +72,8 @@ class Template
  /**
   * Serialization helper, the name of this class.
   *
-  * @var       string
-  * @access    public
+ * @var       string
+ * @access    public
   */
   var $classname = "Template";
 
@@ -88,8 +88,8 @@ class Template
   * Note: setting $this->debug = true will enable debugging of variable
   * assignments only which is the same behaviour as versions up to release 7.2d.
   *
-  * @var       int
-  * @access    public
+ * @var       int
+ * @access    public
   */
   var $debug    = false;
 
@@ -98,8 +98,8 @@ class Template
   * false = no filename outputs
   * true = HTML comments (e.g. <!-- START FILE $filename -->) placed in output
   *
-  * @var       int
-  * @access    public
+ * @var       int
+ * @access    public
   */
   var $filename_comments = false;
 
@@ -110,17 +110,17 @@ class Template
   *              ("loose" has a nasty habit of deleting JavaScript RegEx components)
   *              (should future major version releases of PHPLib default this "strict"?)
   *
-  * @var       string
-  * @access    public
+ * @var       string
+ * @access    public
   */
   var $unknown_regexp = "loose";
 
  /**
   * The base directory from which template files are loaded.
   *
-  * @var       string
-  * @access    private
-  * @see       set_root
+ * @var       string
+ * @access    private
+ * @see       set_root
   */
   var $root     = ".";
 
@@ -129,9 +129,9 @@ class Template
   * into names of files containing the variable content.
   * $file[varname] = "filename";
   *
-  * @var       array
-  * @access    private
-  * @see       set_file
+ * @var       array
+ * @access    private
+ * @see       set_file
   */
   var $file     = array();
 
@@ -140,9 +140,9 @@ class Template
   * into regular expressions for themselves.
   * $varkeys[varname] = "/varname/"
   *
-  * @var       array
-  * @access    private
-  * @see       set_var
+ * @var       array
+ * @access    private
+ * @see       set_var
   */
   var $varkeys  = array();
 
@@ -151,18 +151,18 @@ class Template
   * into values for their respective varkeys.
   * $varvals[varname] = "value"
   *
-  * @var       array
-  * @access    private
-  * @see       set_var
+ * @var       array
+ * @access    private
+ * @see       set_var
   */
   var $varvals  = array();
 
  /**
   * Determines how to output variable tags with no assigned value in templates.
   *
-  * @var       string
-  * @access    private
-  * @see       set_unknowns
+ * @var       string
+ * @access    private
+ * @see       set_unknowns
   */
   var $unknowns = "remove";
 
@@ -172,18 +172,18 @@ class Template
   * "report"   = the error is reported, then execution continues by returning "false"
   * "no"       = errors are silently ignored, and execution resumes reporting "false"
   *
-  * @var       string
-  * @access    public
-  * @see       halt
+ * @var       string
+ * @access    public
+ * @see       halt
   */
   var $halt_on_error  = "yes";
 
  /**
   * The last error message is retained in this variable.
   *
-  * @var       string
-  * @access    public
-  * @see       halt
+ * @var       string
+ * @access    public
+ * @see       halt
   */
   var $last_error     = "";
 
@@ -194,12 +194,12 @@ class Template
   *
   * usage: Template([string $root = "."], [string $unknowns = "remove"])
   *
-  * @param     $root        path to template directory
-  * @param     $string      what to do with undefined variables
-  * @see       set_root
-  * @see       set_unknowns
-  * @access    public
-  * @return    void
+ * @param     $root        path to template directory
+ * @param     $string      what to do with undefined variables
+ * @see       set_root
+ * @see       set_unknowns
+ * @access    public
+ * @return    void
   */
   function Template($root = ".", $unknowns = "remove") {
     if ($this->debug & 4) {
@@ -219,10 +219,10 @@ class Template
   *
   * usage: set_root(string $root)
   *
-  * @param     $root         string containing new template directory
-  * @see       root
-  * @access    public
-  * @return    boolean
+ * @param     $root         string containing new template directory
+ * @see       root
+ * @access    public
+ * @return    boolean
   */
   function set_root($root) {
     if(preg_match ('/\/$/', $root)) {
@@ -254,10 +254,10 @@ class Template
   *
   * usage: set_unknowns(string $unknowns)
   *
-  * @param     $unknowns         new value for unknowns
-  * @see       unknowns
-  * @access    public
-  * @return    void
+ * @param     $unknowns         new value for unknowns
+ * @see       unknowns
+ * @access    public
+ * @return    void
   */
   function set_unknowns($unknowns = "remove") {
     if ($this->debug & 4) {
@@ -283,10 +283,10 @@ class Template
   * or
   * usage: set_file(string $varname, string $filename)
   *
-  * @param     $varname      either a string containing a varname or a hash of varname/file name pairs.
-  * @param     $filename     if varname is a string this is the filename otherwise filename is not required
-  * @access    public
-  * @return    boolean
+ * @param     $varname      either a string containing a varname or a hash of varname/file name pairs.
+ * @param     $filename     if varname is a string this is the filename otherwise filename is not required
+ * @access    public
+ * @return    boolean
   */
   function set_file($varname, $filename = "") {
     if (!is_array($varname)) {
@@ -329,11 +329,11 @@ class Template
   *
   * usage: set_block(string $parent, string $varname, [string $name = ""])
   *
-  * @param     $parent       a string containing the name of the parent variable
-  * @param     $varname      a string containing the name of the block to be extracted
-  * @param     $name         the name of the variable in which to store the block
-  * @access    public
-  * @return    boolean
+ * @param     $parent       a string containing the name of the parent variable
+ * @param     $varname      a string containing the name of the block to be extracted
+ * @param     $name         the name of the variable in which to store the block
+ * @access    public
+ * @return    boolean
   */
   function set_block($parent, $varname, $name = "") {
     if ($this->debug & 4) {
@@ -383,11 +383,11 @@ class Template
   * or
   * usage: set_var(array $varname = (string $varname => string $value), [mixed $dummy_var], [boolean $append = false])
   *
-  * @param     $varname      either a string containing a varname or a hash of varname/value pairs.
-  * @param     $value        if $varname is a string this contains the new value for the variable otherwise this parameter is ignored
-  * @param     $append       if true, the value is appended to the variable's existing value
-  * @access    public
-  * @return    void
+ * @param     $varname      either a string containing a varname or a hash of varname/value pairs.
+ * @param     $value        if $varname is a string this contains the new value for the variable otherwise this parameter is ignored
+ * @param     $append       if true, the value is appended to the variable's existing value
+ * @access    public
+ * @return    void
   */
   function set_var($varname, $value = "", $append = false) {
     if (!is_array($varname)) {
@@ -436,9 +436,9 @@ class Template
   * or
   * usage: clear_var(array $varname = (string $varname))
   *
-  * @param     $varname      either a string containing a varname or an array of varnames.
-  * @access    public
-  * @return    void
+ * @param     $varname      either a string containing a varname or an array of varnames.
+ * @access    public
+ * @return    void
   */
   function clear_var($varname) {
     if (!is_array($varname)) {
@@ -477,9 +477,9 @@ class Template
   * or
   * usage: unset_var(array $varname = (string $varname))
   *
-  * @param     $varname      either a string containing a varname or an array of varnames.
-  * @access    public
-  * @return    void
+ * @param     $varname      either a string containing a varname or an array of varnames.
+ * @access    public
+ * @return    void
   */
   function unset_var($varname) {
     if (!is_array($varname)) {
@@ -516,9 +516,9 @@ class Template
   *
   * usage: subst(string $varname)
   *
-  * @param     $varname      the name of the variable within which variables are to be substituted
-  * @access    public
-  * @return    string
+ * @param     $varname      the name of the variable within which variables are to be substituted
+ * @access    public
+ * @return    string
   */
   function subst($varname) {
     $varvals_quoted = array();
@@ -550,10 +550,10 @@ class Template
   *
   * usage: psubst(string $varname)
   *
-  * @param     $varname      the name of the variable within which variables are to be substituted
-  * @access    public
-  * @return    false
-  * @see       subst
+ * @param     $varname      the name of the variable within which variables are to be substituted
+ * @access    public
+ * @return    false
+ * @see       subst
   */
   function psubst($varname) {
     if ($this->debug & 4) {
@@ -598,12 +598,12 @@ class Template
   * or
   * usage: parse(string $target, array $varname = (string $varname), [boolean $append])
   *
-  * @param     $target      a string containing the name of the variable into which substituted $varnames are to be stored
-  * @param     $varname     if a string, the name the name of the variable to substitute or if an array a list of variables to be substituted
-  * @param     $append      if true, the substituted variables are appended to $target otherwise the existing value of $target is replaced
-  * @access    public
-  * @return    string
-  * @see       subst
+ * @param     $target      a string containing the name of the variable into which substituted $varnames are to be stored
+ * @param     $varname     if a string, the name the name of the variable to substitute or if an array a list of variables to be substituted
+ * @param     $append      if true, the substituted variables are appended to $target otherwise the existing value of $target is replaced
+ * @access    public
+ * @return    string
+ * @see       subst
   */
   function parse($target, $varname, $append = false) {
     if (!is_array($varname)) {
@@ -648,12 +648,12 @@ class Template
   * or
   * usage: pparse(string $target, array $varname = (string $varname), [boolean $append])
   *
-  * @param     $target      a string containing the name of the variable into which substituted $varnames are to be stored
-  * @param     $varname     if a string, the name the name of the variable to substitute or if an array a list of variables to be substituted
-  * @param     $append      if true, the substituted variables are appended to $target otherwise the existing value of $target is replaced
-  * @access    public
-  * @return    false
-  * @see       parse
+ * @param     $target      a string containing the name of the variable into which substituted $varnames are to be stored
+ * @param     $varname     if a string, the name the name of the variable to substitute or if an array a list of variables to be substituted
+ * @param     $append      if true, the substituted variables are appended to $target otherwise the existing value of $target is replaced
+ * @access    public
+ * @return    false
+ * @see       parse
   */
   function pparse($target, $varname, $append = false, $clear = true) { // added $clear: whether to delete undefined vars or not (needed for wb-module code) - thorn
     if ($this->debug & 4) {
@@ -682,9 +682,9 @@ class Template
   *
   * usage: get_vars()
   *
-  * @access    public
-  * @return    array
-  * @see       $debug
+ * @access    public
+ * @return    array
+ * @see       $debug
   */
   function get_vars() {
     if ($this->debug & 4) {
@@ -712,9 +712,9 @@ class Template
   * or
   * usage: get_var(array $varname)
   *
-  * @param     $varname     if a string, the name the name of the variable to get the value of, or if an array a list of variables to return the value of
-  * @access    public
-  * @return    string or array
+ * @param     $varname     if a string, the name the name of the variable to get the value of, or if an array a list of variables to return the value of
+ * @access    public
+ * @return    string or array
   */
   function get_var($varname) {
     if (!is_array($varname)) {
@@ -753,9 +753,9 @@ class Template
   *
   * usage: get_undefined(string $varname)
   *
-  * @param     $varname     a string containing the name the name of the variable to scan for unresolved variables
-  * @access    public
-  * @return    array
+ * @param     $varname     a string containing the name the name of the variable to scan for unresolved variables
+ * @access    public
+ * @return    array
   */
   function get_undefined($varname) {
     if ($this->debug & 4) {
@@ -801,10 +801,10 @@ class Template
   *
   * usage: finish(string $str)
   *
-  * @param     $str         a string to which to apply the unresolved variable policy
-  * @access    public
-  * @return    string
-  * @see       set_unknowns
+ * @param     $str         a string to which to apply the unresolved variable policy
+ * @access    public
+ * @return    string
+ * @see       set_unknowns
   */
   function finish($str) {
     switch ($this->unknowns) {
@@ -837,11 +837,11 @@ class Template
   *
   * usage: p(string $varname)
   *
-  * @param     $varname     a string containing the name of the variable to finish and print
-  * @access    public
-  * @return    void
-  * @see       set_unknowns
-  * @see       finish
+ * @param     $varname     a string containing the name of the variable to finish and print
+ * @access    public
+ * @return    void
+ * @see       set_unknowns
+ * @see       finish
   */
   function p($varname) {
     print $this->finish($this->get_var($varname));
@@ -857,11 +857,11 @@ class Template
   *
   * usage: get(string $varname)
   *
-  * @param     $varname     a string containing the name of the variable to finish
-  * @access    public
-  * @return    void
-  * @see       set_unknowns
-  * @see       finish
+ * @param     $varname     a string containing the name of the variable to finish
+ * @access    public
+ * @return    void
+ * @see       set_unknowns
+ * @see       finish
   */
   function get($varname) {
     return $this->finish($this->get_var($varname));
@@ -876,10 +876,10 @@ class Template
   *
   * usage: filename(string $filename)
   *
-  * @param     $filename    a string containing a filename
-  * @access    private
-  * @return    string
-  * @see       set_root
+ * @param     $filename    a string containing a filename
+ * @access    private
+ * @return    string
+ * @see       set_root
   */
   function filename($filename) {
     if ($this->debug & 4) {
@@ -908,9 +908,9 @@ class Template
   *
   * usage: varname(string $varname)
   *
-  * @param     $varname    a string containing a variable name
-  * @access    private
-  * @return    string
+ * @param     $varname    a string containing a variable name
+ * @access    private
+ * @return    string
   */
   function varname($varname) {
     return preg_quote("{" . $varname . "}");
@@ -932,10 +932,10 @@ class Template
   *
   * usage: loadfile(string $varname)
   *
-  * @param     $varname    a string containing the name of a variable to load
-  * @access    private
-  * @return    boolean
-  * @see       set_file
+ * @param     $varname    a string containing the name of a variable to load
+ * @access    private
+ * @return    boolean
+ * @see       set_file
   */
   function loadfile($varname) {
     if ($this->debug & 4) {
@@ -988,10 +988,10 @@ class Template
   *
   * usage: halt(string $msg)
   *
-  * @param     $msg         a string containing an error message
-  * @access    private
-  * @return    void
-  * @see       $halt_on_error
+ * @param     $msg         a string containing an error message
+ * @access    private
+ * @return    void
+ * @see       $halt_on_error
   */
   function halt($msg) {
     $this->last_error = $msg;
@@ -1015,10 +1015,10 @@ class Template
   *
   * usage: haltmsg(string $msg)
   *
-  * @param     $msg         a string containing the error message to display
-  * @access    public
-  * @return    void
-  * @see       halt
+ * @param     $msg         a string containing the error message to display
+ * @access    public
+ * @return    void
+ * @see       halt
   */
   function haltmsg($msg) {
     printf("<b>Template Error:</b> %s<br>\n", $msg);
