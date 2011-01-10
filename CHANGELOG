@@ -11,7 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
-10 Jan-2011 Build 1372 Dietmar Woellbrink (Luisehahne)
+10 Jan-2011 Build 1374 Dietmar Woellbrink (Luisehahne)
+# fixed headerinfos
+10 Jan-2011 Build 1373 Dietmar Woellbrink (Luisehahne)
 ! update headerinfos
 10 Jan-2011 Build 1372 Dietmar Woellbrink (Luisehahne)
 # fixed class.wb.php to add class SecureForm

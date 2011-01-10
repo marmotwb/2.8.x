@@ -60,7 +60,7 @@ class SMTP
   var $do_verp = false;
 
   /**#@+
-   * @access private
+  * @access private
    */
   var $smtp_conn;      # the socket to the server
   var $error;          # error if any on the last call
@@ -69,8 +69,8 @@ class SMTP
 
   /**
    * Initialize the class so that the data is in a known state.
-   * @access public
-   * @return void
+  * @access public
+  * @return void
    */
   function SMTP() {
     $this->smtp_conn = 0;
@@ -94,8 +94,8 @@ class SMTP
    *
    * SMTP CODE SUCCESS: 220
    * SMTP CODE FAILURE: 421
-   * @access public
-   * @return bool
+  * @access public
+  * @return bool
    */
   function Connect($host,$port=0,$tval=30) {
     # set the error val to null so there is no confusion
@@ -155,8 +155,8 @@ class SMTP
   /**
    * Performs SMTP authentication.  Must be run after running the
    * Hello() method.  Returns true if successfully authenticated.
-   * @access public
-   * @return bool
+  * @access public
+  * @return bool
    */
   function Authenticate($username, $password) {
     // Start authentication
@@ -218,8 +218,8 @@ class SMTP
 
   /**
    * Returns true if connected to a server otherwise false
-   * @access private
-   * @return bool
+  * @access private
+  * @return bool
    */
   function Connected() {
     if(!empty($this->smtp_conn)) {
@@ -243,8 +243,8 @@ class SMTP
    * Closes the socket and cleans up the state of the class.
    * It is not considered good to use this function without
    * first trying to use QUIT.
-   * @access public
-   * @return void
+  * @access public
+  * @return void
    */
   function Close() {
     $this->error = null; # so there is no confusion
@@ -276,8 +276,8 @@ class SMTP
    *     SMTP CODE FAILURE: 552,554,451,452
    * SMTP CODE FAILURE: 451,554
    * SMTP CODE ERROR  : 500,501,503,421
-   * @access public
-   * @return bool
+  * @access public
+  * @return bool
    */
   function Data($msg_data) {
     $this->error = null; # so no confusion is caused
@@ -415,8 +415,8 @@ class SMTP
    * SMTP CODE SUCCESS: 250
    * SMTP CODE FAILURE: 550
    * SMTP CODE ERROR  : 500,501,502,504,421
-   * @access public
-   * @return string array
+  * @access public
+  * @return string array
    */
   function Expand($name) {
     $this->error = null; # so no confusion is caused
@@ -466,8 +466,8 @@ class SMTP
    *
    * SMTP CODE SUCCESS: 250
    * SMTP CODE ERROR  : 500, 501, 504, 421
-   * @access public
-   * @return bool
+  * @access public
+  * @return bool
    */
   function Hello($host="") {
     $this->error = null; # so no confusion is caused
@@ -498,8 +498,8 @@ class SMTP
 
   /**
    * Sends a HELO/EHLO command.
-   * @access private
-   * @return bool
+  * @access private
+  * @return bool
    */
   function SendHello($hello, $host) {
     fputs($this->smtp_conn, $hello . " " . $host . $this->CRLF);
@@ -540,8 +540,8 @@ class SMTP
    *
    * SMTP CODE SUCCESS: 211,214
    * SMTP CODE ERROR  : 500,501,502,504,421
-   * @access public
-   * @return string
+  * @access public
+  * @return string
    */
   function Help($keyword="") {
     $this->error = null; # to avoid confusion
@@ -592,8 +592,8 @@ class SMTP
    * SMTP CODE SUCCESS: 250
    * SMTP CODE SUCCESS: 552,451,452
    * SMTP CODE SUCCESS: 500,501,421
-   * @access public
-   * @return bool
+  * @access public
+  * @return bool
    */
   function Mail($from) {
     $this->error = null; # so no confusion is caused
@@ -635,8 +635,8 @@ class SMTP
    *
    * SMTP CODE SUCCESS: 250
    * SMTP CODE ERROR  : 500, 421
-   * @access public
-   * @return bool
+  * @access public
+  * @return bool
    */
   function Noop() {
     $this->error = null; # so no confusion is caused
@@ -678,8 +678,8 @@ class SMTP
    *
    * SMTP CODE SUCCESS: 221
    * SMTP CODE ERROR  : 500
-   * @access public
-   * @return bool
+  * @access public
+  * @return bool
    */
   function Quit($close_on_error=true) {
     $this->error = null; # so there is no confusion
@@ -732,8 +732,8 @@ class SMTP
    * SMTP CODE SUCCESS: 250,251
    * SMTP CODE FAILURE: 550,551,552,553,450,451,452
    * SMTP CODE ERROR  : 500,501,503,421
-   * @access public
-   * @return bool
+  * @access public
+  * @return bool
    */
   function Recipient($to) {
     $this->error = null; # so no confusion is caused
@@ -776,8 +776,8 @@ class SMTP
    *
    * SMTP CODE SUCCESS: 250
    * SMTP CODE ERROR  : 500,501,504,421
-   * @access public
-   * @return bool
+  * @access public
+  * @return bool
    */
   function Reset() {
     $this->error = null; # so no confusion is caused
@@ -825,8 +825,8 @@ class SMTP
    * SMTP CODE SUCCESS: 250
    * SMTP CODE SUCCESS: 552,451,452
    * SMTP CODE SUCCESS: 500,501,502,421
-   * @access public
-   * @return bool
+  * @access public
+  * @return bool
    */
   function Send($from) {
     $this->error = null; # so no confusion is caused
@@ -873,8 +873,8 @@ class SMTP
    * SMTP CODE SUCCESS: 250
    * SMTP CODE SUCCESS: 552,451,452
    * SMTP CODE SUCCESS: 500,501,502,421
-   * @access public
-   * @return bool
+  * @access public
+  * @return bool
    */
   function SendAndMail($from) {
     $this->error = null; # so no confusion is caused
@@ -921,8 +921,8 @@ class SMTP
    * SMTP CODE SUCCESS: 250
    * SMTP CODE SUCCESS: 552,451,452
    * SMTP CODE SUCCESS: 500,501,502,421
-   * @access public
-   * @return bool
+  * @access public
+  * @return bool
    */
   function SendOrMail($from) {
     $this->error = null; # so no confusion is caused
@@ -966,8 +966,8 @@ class SMTP
    * SMTP CODE SUCCESS: 250
    * SMTP CODE FAILURE: 502
    * SMTP CODE ERROR  : 500, 503
-   * @access public
-   * @return bool
+  * @access public
+  * @return bool
    */
   function Turn() {
     $this->error = array("error" => "This method, TURN, of the SMTP ".
@@ -988,8 +988,8 @@ class SMTP
    * SMTP CODE SUCCESS: 250,251
    * SMTP CODE FAILURE: 550,551,553
    * SMTP CODE ERROR  : 500,501,502,421
-   * @access public
-   * @return int
+  * @access public
+  * @return int
    */
   function Verify($name) {
     $this->error = null; # so no confusion is caused
@@ -1033,8 +1033,8 @@ class SMTP
    * With SMTP we can tell if we have more lines to read if the
    * 4th character is '-' symbol. If it is a space then we don't
    * need to read anything else.
-   * @access private
-   * @return string
+  * @access private
+  * @return string
    */
   function get_lines() {
     $data = "";

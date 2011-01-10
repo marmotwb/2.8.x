@@ -9,7 +9,7 @@
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
- *  * @requirements    PHP 5.2.2 and higher
+ * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
  * @filesource		$HeadURL: http://svn29.websitebaker2.org/trunk/wb/modules/fckeditor/index.php $
  * @lastmodified    $Date: 2010-11-23 00:55:43 +0100 (Di, 23. Nov 2010) $

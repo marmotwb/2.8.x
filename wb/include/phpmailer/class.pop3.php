@@ -47,60 +47,60 @@ class POP3
 {
   /**
    * Default POP3 port
-   * @var int
+  * @var int
    */
   var $POP3_PORT = 110;
 
   /**
    * Default Timeout
-   * @var int
+  * @var int
    */
   var $POP3_TIMEOUT = 30;
 
   /**
    * POP3 Carriage Return + Line Feed
-   * @var string
+  * @var string
    */
   var $CRLF = "\r\n";
 
   /**
    * Displaying Debug warnings? (0 = now, 1+ = yes)
-   * @var int
+  * @var int
    */
   var $do_debug = 2;
 
   /**
    * POP3 Mail Server
-   * @var string
+  * @var string
    */
   var $host;
 
   /**
    * POP3 Port
-   * @var int
+  * @var int
    */
   var $port;
 
   /**
    * POP3 Timeout Value
-   * @var int
+  * @var int
    */
   var $tval;
 
   /**
    * POP3 Username
-   * @var string
+  * @var string
    */
   var $username;
 
   /**
    * POP3 Password
-   * @var string
+  * @var string
    */
   var $password;
 
   /**#@+
-   * @access private
+  * @access private
    */
   var $pop_conn;
   var $connected;
@@ -110,7 +110,7 @@ class POP3
   /**
    * Constructor, sets the initial values
    *
-   * @return POP3
+  * @return POP3
    */
   function POP3 ()
     {
@@ -122,11 +122,11 @@ class POP3
   /**
    * Combination of public events - connect, login, disconnect
    *
-   * @param string $host
-   * @param integer $port
-   * @param integer $tval
-   * @param string $username
-   * @param string $password
+  * @param string $host
+  * @param integer $port
+  * @param integer $tval
+  * @param string $username
+  * @param string $password
    */
   function Authorise ($host, $port = false, $tval = false, $username, $password, $debug_level = 0)
   {
@@ -184,10 +184,10 @@ class POP3
   /**
    * Connect to the POP3 server
    *
-   * @param string $host
-   * @param integer $port
-   * @param integer $tval
-   * @return boolean
+  * @param string $host
+  * @param integer $port
+  * @param integer $tval
+  * @return boolean
    */
   function Connect ($host, $port = false, $tval = 30)
     {
@@ -270,9 +270,9 @@ class POP3
     /**
      * Login to the POP3 server (does not support APOP yet)
      *
-     * @param string $username
-     * @param string $password
-     * @return boolean
+    * @param string $username
+    * @param string $password
+    * @return boolean
      */
     function Login ($username = '', $password = '')
     {
@@ -344,8 +344,8 @@ class POP3
      * Get the socket response back.
      * $size is the maximum number of bytes to retrieve
      *
-     * @param integer $size
-     * @return string
+    * @param integer $size
+    * @return string
      */
     function getResponse ($size = 128)
     {
@@ -357,8 +357,8 @@ class POP3
     /**
      * Send a string down the open socket connection to the POP3 server
      *
-     * @param string $string
-     * @return integer
+    * @param string $string
+    * @return integer
      */
     function sendString ($string)
     {
@@ -371,8 +371,8 @@ class POP3
     /**
      * Checks the POP3 server response for +OK or -ERR
      *
-     * @param string $string
-     * @return boolean
+    * @param string $string
+    * @return boolean
      */
     function checkResponse ($string)
     {
@@ -417,10 +417,10 @@ class POP3
   /**
    * Takes over from PHP for the socket warning handler
    *
-   * @param integer $errno
-   * @param string $errstr
-   * @param string $errfile
-   * @param integer $errline
+  * @param integer $errno
+  * @param string $errstr
+  * @param string $errfile
+  * @param integer $errline
    */
   function catchWarning ($errno, $errstr, $errfile, $errline)
   {
