@@ -22,6 +22,12 @@ require('../../config.php');
 $update_when_modified = true; // Tells script to update when this page was last updated
 require(WB_PATH.'/modules/admin.php');
 
+if (!$admin->checkFTAN())
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+	exit();
+}
+
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 
@@ -30,7 +36,6 @@ if(isset($_POST['content'.$section_id])) {
 	$content = $admin->add_slashes($_POST['content'.$section_id]);
 	// searching in $text will be much easier this way
 	$text = umlauts_to_entities(strip_tags($content), strtoupper(DEFAULT_CHARSET), 0);
-	$database = new database();
 	$query = "UPDATE ".TABLE_PREFIX."mod_wysiwyg SET content = '$content', text = '$text' WHERE section_id = '$section_id'";
 	$database->query($query);	
 }
