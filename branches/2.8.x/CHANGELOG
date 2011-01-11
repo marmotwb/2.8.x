@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+11 Jan-2011 Build 1376 Frank Heyne (FrankH)
+# Security fix for WYSIWYG module 
+# Security fix for Wrapper module 
 10 Jan-2011 Build 1375 Frank Heyne (FrankH)
 # Security fix for Form module (new version is 2.8)
 # bugfix for delete_field in Form module

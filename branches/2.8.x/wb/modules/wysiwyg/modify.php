@@ -52,6 +52,7 @@ if(!isset($wysiwyg_editor_loaded)) {
 <input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
 
 <?php
+echo $admin->getFTAN()."\n"; 
 show_wysiwyg_editor('content'.$section_id,'content'.$section_id,$content,'100%','350px');
 ?>
 
