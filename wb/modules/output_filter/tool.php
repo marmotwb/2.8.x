@@ -30,6 +30,12 @@ if(!file_exists(WB_PATH .'/modules/output_filter/languages/'.LANGUAGE .'.php')) 
 }
 // check if data was submitted
 if(isset($_POST['save_settings'])) {
+	
+	if (!$admin->checkFTAN())
+	{
+		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+		exit();
+	}
 	// get overall output filter settings
 	$email_filter = (isset($_POST['email_filter']) && $_POST['email_filter'] == '1') ? '1' : '0';
 	$mailto_filter = (isset($_POST['mailto_filter']) && $_POST['mailto_filter'] == '1') ? '1' : '0';
@@ -66,6 +72,7 @@ if(isset($_POST['save_settings'])) {
 	echo $MOD_MAIL_FILTER['WARNING'];
 ?>
 <form name="store_settings" action="<?php echo $_SERVER['REQUEST_URI'];?>" method="post">
+<?php echo $admin->getFTAN(); ?>
 	<table width="98%" cellspacing="0" cellpadding="5px" class="row_a">
 	<tr><td colspan="2"><strong><?php echo $MOD_MAIL_FILTER['BASIC_CONF'];?>:</strong></td></tr>
 	<tr>

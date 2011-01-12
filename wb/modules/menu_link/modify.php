@@ -158,6 +158,7 @@ $target = $page['target'];
 <form name="menulink" action="<?php echo WB_URL ?>/modules/menu_link/save.php" method="post">
 <input type="hidden" name="page_id" value="<?php echo $page_id ?>" />
 <input type="hidden" name="section_id" value="<?php echo $section_id ?>" />
+<?php echo $admin->getFTAN(); ?>
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 <tr>
 	<td>
