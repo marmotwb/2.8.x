@@ -22,6 +22,12 @@ require_once('../../config.php');
 $update_when_modified = true; // Tells script to update when this page was last updated
 require(WB_PATH.'/modules/admin.php');
 
+if (!$admin->checkFTAN())
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	exit();
+}
+
 // Update id, anchor and target
 if(isset($_POST['menu_link'])) {
 	$foreign_page_id = $admin->add_slashes($_POST['menu_link']);
