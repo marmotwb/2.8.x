@@ -22,31 +22,36 @@ if(!defined('WB_PATH')) {
 }
 
 require_once(WB_PATH.'/framework/class.wb.php');
+require_once(WB_PATH.'/framework/SecureForm.php');
 
 class frontend extends wb {
 	// defaults
-	var $default_link,$default_page_id;
+	public $default_link,$default_page_id;
 	// when multiple blocks are used, show home page blocks on 
 	// pages where no content is defined (search, login, ...)
-	var $default_block_content=true;
+	public $default_block_content=true;
 
 	// page details
 	// page database row
-	var $page;
-	var $page_id,$page_title,$menu_title,$parent,$root_parent,$level,$visibility;
-	var $page_description,$page_keywords,$page_link;
-	var $page_trail=array();
+	public $page;
+	public $page_id,$page_title,$menu_title,$parent,$root_parent,$level,$visibility;
+	public $page_description,$page_keywords,$page_link;
+	public $page_trail=array();
 	
-	var $page_access_denied;
-	var $page_no_active_sections;
+	public $page_access_denied;
+	public $page_no_active_sections;
 	
 	// website settings
-	var $website_title,$website_description,$website_keywords,$website_header,$website_footer;
+	public $website_title,$website_description,$website_keywords,$website_header,$website_footer;
 
 	// ugly database stuff
-	var $extra_where_sql, $sql_where_language;
+	public $extra_where_sql, $sql_where_language;
+	
+	public function __construct() {
+		parent::__construct(SecureForm::FRONTEND);
+	}
 
-	function page_select() {
+	public function page_select() {
 		global $page_id,$no_intro;
 		global $database;
 		// We have no page id and are supposed to show the intro page
@@ -114,7 +119,7 @@ class frontend extends wb {
 		return true;
 	}
 
-	function get_page_details() {
+	public function get_page_details() {
 		global $database;
 	    if($this->page_id != 0) {
 			// Query page details
@@ -220,7 +225,7 @@ class frontend extends wb {
 		}
 	}
 
-	function get_website_settings()
+	public function get_website_settings()
     {
 		global $database;
 
@@ -271,7 +276,7 @@ class frontend extends wb {
  * @return void
  * @history 100216 17:00:00 optimise errorhandling, speed, SQL-strict
  */
-	function preprocess(&$content)
+	public function preprocess(&$content)
 	{
 		global $database;
 		$replace_list = array();
@@ -311,7 +316,7 @@ class frontend extends wb {
 		}
 	}
 */
-	function menu() {
+	public function menu() {
 		global $wb;
 	   if (!isset($wb->menu_number)) {
 	   	$wb->menu_number = 1;
@@ -349,7 +354,7 @@ class frontend extends wb {
 	   $wb->show_menu();
 	}
 	
-	function show_menu() {
+	public function show_menu() {
 		global $database;
 		if ($this->menu_start_level>0) {
 			$key_array=array_keys($this->page_trail);
@@ -418,7 +423,7 @@ class frontend extends wb {
 
 
 	// Function to show the "Under Construction" page
-	function print_under_construction() {
+	public function print_under_construction() {
 		global $MESSAGE;
 		require_once(WB_PATH.'/languages/'.DEFAULT_LANGUAGE.'.php');
 		echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

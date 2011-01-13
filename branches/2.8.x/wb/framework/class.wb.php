@@ -29,12 +29,12 @@ require_once(WB_PATH."/framework/SecureForm.php");
 class wb extends SecureForm
 {
 
-	var $password_chars = 'a-zA-Z0-9\_\-\!\#\*\+';
+	private $password_chars = 'a-zA-Z0-9\_\-\!\#\*\+';
 	// General initialization function
 	// performed when frontend or backend is loaded.
 
-	function wb() {
-		parent::__construct();
+	public function  __construct($mode = SecureForm::Frontend) {
+		parent::__construct($mode);
 	}
 
 /* ****************
@@ -290,7 +290,9 @@ class wb extends SecureForm
 			$email = $IDN->encode($email);
 			unset($IDN);
 		}
-		return !(filter_var($email, FILTER_VALIDATE_EMAIL) == false);
+		// regex from NorHei 2011-01-11
+		$retval = preg_match("/^((([!#$%&'*+\\-\/\=?^_`{|}~\w])|([!#$%&'*+\\-\/\=?^_`{|}~\w][!#$%&'*+\\-\/\=?^_`{|}~\.\w]{0,}[!#$%&'*+\\-\/\=?^_`{|}~\w]))[@]\w+(([-.]|\-\-)\w+)*\.\w+(([-.]|\-\-)\w+)*)$/", $email);
+		return ($retval != false);
 	}
 
 /* ****************

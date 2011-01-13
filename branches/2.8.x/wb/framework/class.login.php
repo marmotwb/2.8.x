@@ -30,10 +30,10 @@ require_once(WB_PATH."/framework/class.admin.php");
 require_once(ADMIN_PATH.'/interface/version.php');
 
 class login extends admin {
-	function login($config_array) {
+	public function __construct($config_array) {
 		// Get language vars
 		global $MESSAGE, $database;
-		$this->wb();
+		parent::__construct();
 		// Get configuration values
 		$this->USERS_TABLE = $config_array['USERS_TABLE'];
 		$this->GROUPS_TABLE = $config_array['GROUPS_TABLE'];

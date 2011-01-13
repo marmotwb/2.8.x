@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+13 Jan-2011 Build 1378 Werner von den Decken (DarkViper)
+! fixed inclusion of SecureForm
++ added IDNA/Punycode to  wb::validate_email()
 11 Jan-2011 Build 1377 Frank Heyne (FrankH)
 # Security fix for modules jsadmin, menu_link and output_filter
 11 Jan-2011 Build 1376 Frank Heyne (FrankH)
