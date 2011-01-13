@@ -17,12 +17,10 @@
  * @description     
  */
 
-/**
- * Description of class
- *
- * @author wkl
- */
 class SecureForm {
+
+	const FRONTEND = 0;
+	const BACKEND  = 1;
 
 	private $_FTAN        = '';
 	private $_IDKEYs      = array('0'=>'0');
@@ -32,7 +30,7 @@ class SecureForm {
 	private $_fingerprint = '';
 
 /* Construtor */
-	protected function __construct()
+	protected function __construct($mode = self::FRONTEND)
 	{
 		$this->_FTAN  = '';
 		$this->_salt = $this->_generate_salt();

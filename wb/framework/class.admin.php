@@ -31,16 +31,13 @@ require_once(ADMIN_PATH.'/interface/version.php');
 
 // Include EditArea wrapper functions
 require_once(WB_PATH . '/include/editarea/wb_wrapper_edit_area.php');
-
-/*
-Begin user changeable settings
-*/
+require_once(WB_PATH . '/framework/SecureForm.php');
 
 
 class admin extends wb {
 	// Authenticate user then auto print the header
-	function admin($section_name, $section_permission = 'start', $auto_header = true, $auto_auth = true) {
-		$this->wb();
+	public function __construct($section_name, $section_permission = 'start', $auto_header = true, $auto_auth = true) {
+		parent::__construct(SecureForm::BACKEND);
 		global $MESSAGE;
 		// Specify the current applications name
 		$this->section_name = $section_name;
