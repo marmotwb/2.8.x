@@ -23,9 +23,6 @@ if(!defined('WB_URL')) {
 
 require_once(WB_PATH.'/framework/class.wb.php');
 
-// Include PHPLIB template class
-require_once(WB_PATH."/include/phplib/template.inc");
-
 // Get WB version
 require_once(ADMIN_PATH.'/interface/version.php');
 
@@ -36,27 +33,32 @@ require_once(WB_PATH . '/framework/SecureForm.php');
 
 class admin extends wb {
 	// Authenticate user then auto print the header
-	public function __construct($section_name, $section_permission = 'start', $auto_header = true, $auto_auth = true) {
+	public function __construct($section_name= '##skip##', $section_permission = 'start', $auto_header = true, $auto_auth = true)
+	{
 		parent::__construct(SecureForm::BACKEND);
-		global $MESSAGE;
+	if( $section_name != '##skip##' )
+	{
+		global $database, $MESSAGE;
 		// Specify the current applications name
 		$this->section_name = $section_name;
 		$this->section_permission = $section_permission;
 		// Authenticate the user for this application
-		if($auto_auth == true) {
+		if($auto_auth == true)
+		{
 			// First check if the user is logged-in
-			if($this->is_authenticated() == false) {
+			if($this->is_authenticated() == false)
+			{
 				header('Location: '.ADMIN_URL.'/login/index.php');
 				exit(0);
 			}
+
 			// Now check if they are allowed in this section
 			if($this->get_permission($section_permission) == false) {
 				die($MESSAGE['ADMIN']['INSUFFICIENT_PRIVELLIGES']);
 			}
 		}
-		
+
 		// Check if the backend language is also the selected language. If not, send headers again.
-		global $database;
 		$get_user_language = @$database->query("SELECT language FROM ".TABLE_PREFIX.
 			"users WHERE user_id = '" .(int) $this->get_user_id() ."'");
 		$user_language = ($get_user_language) ? $get_user_language->fetchRow() : '';
@@ -82,7 +84,8 @@ class admin extends wb {
 			$this->print_header();
 		}
 	}
-	
+	}
+
 	// Print the admin header
 	function print_header($body_tags = '') {
 		// Get vars from the language file

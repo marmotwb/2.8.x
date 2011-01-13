@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+13 Jan-2011 Build 1379 Werner von den Decken (DarkViper)
+# fix class.admin 
 13 Jan-2011 Build 1378 Werner von den Decken (DarkViper)
 ! fixed inclusion of SecureForm
 + added IDNA/Punycode to  wb::validate_email()
