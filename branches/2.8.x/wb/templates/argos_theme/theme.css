@@ -90,14 +90,14 @@ select option.disabled {color:#aaa;}
 .pages_list ul li {list-style-type:none;margin:2px 0;}
 
 table.pages_view {width:900px;}
-table.pages_view tr, tr.sectionrow {background:#f0f0f0;}
+table.pages_view tr, tr.sectionrow {background:#f0f0f0; line-height :2.2em;}
 table.pages_view tr:hover, tr.sectionrow:hover {background:#eaeff6;}
 tr.sectionrow {padding:0 10px;}
 tr.sectionrow td {border-top:3px solid #f9f9f9;}
 
 .page_list {display:none;}
 .page_list_show li {display:block;}
-img.page_list_rights {border:none;float:left;margin:0;vertical-align:middle;}
+img.page_list_rights {border:none;float:left;margin:0;vertical-align:middle; padding :2px;}
 
 .sections_list {font-weight:bold;padding-left:10px;}
 .sections_list table {width:900px;}
