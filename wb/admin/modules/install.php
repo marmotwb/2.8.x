@@ -113,7 +113,7 @@ $module_dir = WB_PATH.'/modules/'.$module_directory;
 make_dir($module_dir);
 
 // Unzip module to the module dir
-if(isset($POST['overwrite']) && intval($POST['overwrite'])==1){
+if(isset($_POST['overwrite'])){
 	$list = $archive->extract(PCLZIP_OPT_PATH, $module_dir, PCLZIP_OPT_REPLACE_NEWER );
 } else {
 	$list = $archive->extract(PCLZIP_OPT_PATH, $module_dir );
@@ -158,6 +158,7 @@ if ($action=="install")
 	$admin->print_success($MESSAGE['GENERIC']['INSTALLED']);
 } elseif ($action=="upgrade")
 {
+
 	upgrade_module($module_directory, false);
 	$admin->print_success($MESSAGE['GENERIC']['UPGRADED']);
 }
