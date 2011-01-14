@@ -93,21 +93,20 @@ if(!$show_block || count($module_files) == 0 || !isset($_GET['advanced']) || $ad
 
 // Insert language headings
 $template->set_var(array(
-								'HEADING_INSTALL_MODULE' => $HEADING['INSTALL_MODULE'],
-								'HEADING_UNINSTALL_MODULE' => $HEADING['UNINSTALL_MODULE'],
-								'OVERWRITE_NEWER_FILES' => $MESSAGE['ADDON_OVERWRITE_NEWER_FILES'],
-								'HEADING_MODULE_DETAILS' => $HEADING['MODULE_DETAILS'],
-								'HEADING_INVOKE_MODULE_FILES' => $HEADING['INVOKE_MODULE_FILES']
-								)
-						);
+					'HEADING_INSTALL_MODULE' => $HEADING['INSTALL_MODULE'],
+					'HEADING_UNINSTALL_MODULE' => $HEADING['UNINSTALL_MODULE'],
+					'OVERWRITE_NEWER_FILES' => $MESSAGE['ADDON_OVERWRITE_NEWER_FILES'],
+					'HEADING_MODULE_DETAILS' => $HEADING['MODULE_DETAILS'],
+					'HEADING_INVOKE_MODULE_FILES' => $HEADING['INVOKE_MODULE_FILES']
+					)
+				);
 // insert urls
 $template->set_var(array(
-								'ADMIN_URL' => ADMIN_URL,
-								'WB_URL' => WB_URL,
-								'WB_PATH' => WB_PATH,
-								'THEME_URL' => THEME_URL
-								)
-						);
+					'ADMIN_URL' => ADMIN_URL,
+					'WB_URL' => WB_URL,
+					'THEME_URL' => THEME_URL
+					)
+				);
 // Insert language text and messages
 $template->set_var(array(
 	'URL_TEMPLATES' => $admin->get_permission('templates') ? 
