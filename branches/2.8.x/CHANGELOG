@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+14 Jan-2011 Build 1382 Dietmar Woellbrink (Luisehahne)
+# fix known error in drag and drop
 14 Jan-2011 Build 1381 Dietmar Woellbrink (Luisehahne)
 ! update admin/modules unpack handling, overwrite newer files
 13 Jan-2011 Build 1380 Dietmar Woellbrink (Luisehahne)
