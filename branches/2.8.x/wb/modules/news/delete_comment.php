@@ -18,32 +18,19 @@
 
 require('../../config.php');
 
-// Get id
-if(!isset($_GET['comment_id']) OR !is_numeric($_GET['comment_id'])) {
-
-	header("Location: ".ADMIN_URL."/pages/index.php");
-	exit( 0 );
-}
-else
-{
-	$comment_id = $_GET['comment_id'];
-}
-
-// Get post id
-if(!isset($_GET['post_id']) OR !is_numeric($_GET['post_id']))
-{
-
-	header("Location: ".ADMIN_URL."/pages/index.php");
-	exit( 0 );
-}
-else
-{
-	$post_id = $_GET['post_id'];
-}
-
 // Include WB admin wrapper script
 $update_when_modified = true; // Tells script to update when this page was last updated
 require(WB_PATH.'/modules/admin.php');
+
+$cid = $admin->checkIDKEY('comment_id', false, 'GET');
+$pid = $admin->checkIDKEY('post_id', false, 'GET');
+if (!$pid || !$cid) {
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	exit();
+} else {
+	$comment_id = $cid;
+	$post_id = $admin->getIDKEY($pid);
+}
 
 // Update row
 $database->query("DELETE FROM ".TABLE_PREFIX."mod_news_comments  WHERE comment_id = '$comment_id'");

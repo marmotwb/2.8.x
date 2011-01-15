@@ -157,7 +157,7 @@ function GetRootPath()
 	// #2124 ensure that no slash is at the end
 	$sRealPath = rtrim($sRealPath,"\\/");
 
-	$sSelfPath = $_SERVER['PHP_SELF'] ;
+	$sSelfPath = $_SERVER['SCRIPT_NAME'] ;
 	$sSelfPath = substr( $sSelfPath, 0, strrpos( $sSelfPath, '/' ) ) ;
 
 	$sSelfPath = str_replace( '/', DIRECTORY_SEPARATOR, $sSelfPath ) ;

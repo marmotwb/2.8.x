@@ -36,7 +36,7 @@ $commenting = $fetch_settings['commenting'];
 $database->query("INSERT INTO ".TABLE_PREFIX."mod_news_posts (section_id,page_id,position,commenting,active) VALUES ('$section_id','$page_id','$position','$commenting','1')");
 
 // Get the id
-$post_id = $database->get_one("SELECT LAST_INSERT_ID()");
+$post_id = $admin->getIDKEY($database->get_one("SELECT LAST_INSERT_ID()"));
 
 // Say that a new record has been added, then redirect to modify page
 if($database->is_error()) {

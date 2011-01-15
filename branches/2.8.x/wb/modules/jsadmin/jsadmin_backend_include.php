@@ -25,8 +25,6 @@ $admin_folder = str_replace(WB_PATH, '', ADMIN_PATH);
 $JSADMIN_PATH = WB_URL.'/modules/jsadmin';
 $YUI_PATH = WB_URL.'/include/yui';
 $script = $_SERVER['SCRIPT_NAME'];
-if(!$script)
-	$script = $PHP_SELF;
 
 if(strstr($script, $admin_folder."/pages/index.php"))
 	$page_type = 'pages';

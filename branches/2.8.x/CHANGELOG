@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+15 Jan-2011 Build 1383 Frank Heyne (FrankH)
+# Security fix for news module
+# Some more Security fixes, thanks to Gerben van Veenendaal
 14 Jan-2011 Build 1382 Dietmar Woellbrink (Luisehahne)
 # fix known error in drag and drop
 14 Jan-2011 Build 1381 Dietmar Woellbrink (Luisehahne)

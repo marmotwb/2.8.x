@@ -209,7 +209,7 @@ if(!defined('POST_ID') OR !is_numeric(POST_ID))
         {
 			?>
 			<div class="selected-group-title">
-				<?php print '<a href="'.htmlspecialchars(strip_tags($_SERVER['PHP_SELF'])).'">'.PAGE_TITLE.'</a> &gt;&gt; '.$groups[$_GET['g']]['title']; ?>
+				<?php print '<a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.PAGE_TITLE.'</a> &gt;&gt; '.$groups[$_GET['g']]['title']; ?>
 			</div>
 			<?php
 		}
@@ -428,7 +428,8 @@ elseif(defined('POST_ID') AND is_numeric(POST_ID))
     {
 		// Print comments header
 		$vars = array('[ADD_COMMENT_URL]','[TEXT_COMMENTS]');
-		$values = array(WB_URL.'/modules/news/comment.php?post_id='.POST_ID.'&amp;section_id='.$section_id, $MOD_NEWS['TEXT_COMMENTS']);
+		$pid = $admin->getIDKEY(POST_ID);
+		$values = array(WB_URL."/modules/news/comment.php?post_id=$pid&amp;section_id=$section_id", $MOD_NEWS['TEXT_COMMENTS']);
 		print str_replace($vars, $values, $setting_comments_header);
 
 		// Query for comments
@@ -466,7 +467,7 @@ elseif(defined('POST_ID') AND is_numeric(POST_ID))
 
 		// Print comments footer
 		$vars = array('[ADD_COMMENT_URL]','[TEXT_ADD_COMMENT]');
-		$values = array(WB_URL.'/modules/news/comment.php?post_id='.POST_ID.'&amp;section_id='.$section_id, $MOD_NEWS['TEXT_ADD_COMMENT']);
+		$values = array(WB_URL."/modules/news/comment.php?post_id=$pid&amp;section_id=$section_id", $MOD_NEWS['TEXT_ADD_COMMENT']);
 		print str_replace($vars, $values, $setting_comments_footer);
 
 	}

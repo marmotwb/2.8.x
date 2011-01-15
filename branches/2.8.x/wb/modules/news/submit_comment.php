@@ -28,6 +28,12 @@ require_once(WB_PATH.'/framework/class.wb.php');
 $wb = new wb;
          /*  */
 
+if (!$wb->checkFTAN())
+{
+	$wb->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
+	exit();
+}
+
 // Check if we should show the form or add a comment
 if(isset($_GET['page_id']) AND is_numeric($_GET['page_id'])
     AND isset($_GET['section_id']) AND is_numeric($_GET['section_id'])

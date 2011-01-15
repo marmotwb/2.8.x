@@ -18,15 +18,15 @@
 
 // Include config file
 require('../../config.php');
+require_once(WB_PATH.'/framework/class.wb.php');
+$wb = new wb;
 
 // Check if there is a post id
-if(!isset($_GET['post_id']) OR !is_numeric($_GET['post_id'])
-    OR !isset($_GET['section_id']) OR !is_numeric($_GET['section_id']))
-{
-	header("Location: ".WB_URL.PAGES_DIRECTORY."");
-	exit( 0 );
+$post_id = $wb->checkIDKEY('post_id', false, 'GET');
+if (!$post_id OR !isset($_GET['section_id']) OR !is_numeric($_GET['section_id'])) {
+	$wb->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
+	exit();
 }
-$post_id = $_GET['post_id'];
 $section_id = $_GET['section_id'];
 
 // Query post for page id
