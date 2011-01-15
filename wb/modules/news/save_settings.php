@@ -22,6 +22,12 @@ require('../../config.php');
 $update_when_modified = true; // Tells script to update when this page was last updated
 require(WB_PATH.'/modules/admin.php');
 
+if (!$admin->checkFTAN())
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	exit();
+}
+
 // This code removes any <?php tags and adds slashes
 $friendly = array('&lt;', '&gt;', '?php');
 $raw = array('<', '>', '');
@@ -44,7 +50,11 @@ if(extension_loaded('gd') AND function_exists('imageCreateFromJpeg')) {
 }
 
 // Update settings
-$database->query("UPDATE ".TABLE_PREFIX."mod_news_settings SET header = '$header', post_loop = '$post_loop', footer = '$footer', posts_per_page = '$posts_per_page', post_header = '$post_header', post_footer = '$post_footer', comments_header = '$comments_header', comments_loop = '$comments_loop', comments_footer = '$comments_footer', comments_page = '$comments_page', commenting = '$commenting', resize = '$resize', use_captcha = '$use_captcha' WHERE section_id = '$section_id'");
+$database->query("UPDATE ".TABLE_PREFIX."mod_news_settings SET header = '$header', post_loop = '$post_loop', footer = '$footer',
+				 posts_per_page = '$posts_per_page', post_header = '$post_header', post_footer = '$post_footer',
+				 comments_header = '$comments_header', comments_loop = '$comments_loop', comments_footer = '$comments_footer',
+				 comments_page = '$comments_page', commenting = '$commenting', resize = '$resize', use_captcha = '$use_captcha'
+				 WHERE section_id = '$section_id'");
 
 // Check if there is a db error, otherwise say successful
 if($database->is_error()) {

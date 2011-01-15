@@ -18,16 +18,14 @@
 
 require('../../config.php');
 
-// Get id
-if(!isset($_GET['group_id']) OR !is_numeric($_GET['group_id'])) {
-	header("Location: ".ADMIN_URL."/pages/index.php");
-	exit(0);
-} else {
-	$group_id = $_GET['group_id'];
-}
-
 // Include WB admin wrapper script
 require(WB_PATH.'/modules/admin.php');
+
+$group_id = $admin->checkIDKEY('group_id', false, 'GET');
+if (!$group_id) {
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	exit();
+}
 
 // Get header and footer
 $query_content = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_news_groups WHERE group_id = '$group_id'");
@@ -42,7 +40,7 @@ $fetch_content = $query_content->fetchRow();
 <input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
 <input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
 <input type="hidden" name="group_id" value="<?php echo $group_id; ?>" />
-
+<?php echo $admin->getFTAN(); ?>
 <table class="row_a" cellpadding="2" cellspacing="0" border="0" width="100%">
 <tr>
 	<td width="80"><?php echo $TEXT['TITLE']; ?>:</td>

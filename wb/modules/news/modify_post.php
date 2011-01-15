@@ -18,16 +18,14 @@
 
 require('../../config.php');
 
-// Get id
-if(!isset($_GET['post_id']) OR !is_numeric($_GET['post_id'])) {
-	header("Location: ".ADMIN_URL."/pages/index.php");
-	exit(0);
-} else {
-	$post_id = $_GET['post_id'];
-}
-
 // Include WB admin wrapper script
 require(WB_PATH.'/modules/admin.php');
+
+$post_id = $admin->checkIDKEY('post_id', false, 'GET');
+if (!$post_id) {
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	exit();
+}
 
 // Get header and footer
 $query_content = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_news_posts WHERE post_id = '$post_id'");
@@ -54,6 +52,7 @@ require_once(WB_PATH."/include/jscalendar/wb-setup.php");
 <input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
 <input type="hidden" name="post_id" value="<?php echo $post_id; ?>" />
 <input type="hidden" name="link" value="<?php echo $fetch_content['link']; ?>" />
+<?php echo $admin->getFTAN(); ?>
 
 <table class="row_a" cellpadding="2" cellspacing="0" width="100%">
 <tr>
@@ -205,24 +204,31 @@ require_once(WB_PATH."/include/jscalendar/wb-setup.php");
 $query_comments = $database->query("SELECT * FROM `".TABLE_PREFIX."mod_news_comments` WHERE section_id = '$section_id' AND post_id = '$post_id' ORDER BY commented_when DESC");
 if($query_comments->numRows() > 0) {
 	$row = 'a';
+	$pid = $admin->getIDKEY($post_id);
 	?>
 	<table cellpadding="2" cellspacing="0" border="0" width="100%">
 	<?php
 	while($comment = $query_comments->fetchRow()) {
+		$cid = $admin->getIDKEY($comment['comment_id']);
 		?>
 		<tr class="row_<?php echo $row; ?>" >
 			<td width="20" style="padding-left: 5px;">
-				<a href="<?php echo WB_URL; ?>/modules/news/modify_comment.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>&amp;comment_id=<?php echo $comment['comment_id']; ?>" title="<?php echo $TEXT['MODIFY']; ?>">
+				<a href="<?php echo WB_URL; ?>/modules/news/modify_comment.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php
+					echo $section_id; ?>&amp;comment_id=<?php echo $cid; ?>" title="<?php echo $TEXT['MODIFY']; ?>">
 					<img src="<?php echo THEME_URL; ?>/images/modify_16.png" border="0" alt="^" />
 				</a>
 			</td>	
 			<td>
-				<a href="<?php echo WB_URL; ?>/modules/news/modify_comment.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>&amp;comment_id=<?php echo $comment['comment_id']; ?>">
+				<a href="<?php echo WB_URL; ?>/modules/news/modify_comment.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php
+					echo $section_id; ?>&amp;comment_id=<?php echo $cid; ?>">
 					<?php echo $comment['title']; ?>
 				</a>
 			</td>
 			<td width="20">
-				<a href="javascript: confirm_link('<?php echo $TEXT['ARE_YOU_SURE']; ?>', '<?php echo WB_URL; ?>/modules/news/delete_comment.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>&amp;post_id=<?php echo $post_id; ?>&amp;comment_id=<?php echo $comment['comment_id']; ?>');" title="<?php echo $TEXT['DELETE']; ?>">
+				<a href="javascript: confirm_link('<?php echo $TEXT['ARE_YOU_SURE']; ?>', '<?php
+					echo WB_URL; ?>/modules/news/delete_comment.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php
+					echo $section_id; ?>&amp;post_id=<?php echo $pid; ?>&amp;comment_id=<?php echo $cid; ?>');" title="<?php
+					echo $TEXT['DELETE']; ?>">
 					<img src="<?php echo THEME_URL; ?>/images/delete_16.png" border="0" alt="X" />
 				</a>
 			</td>

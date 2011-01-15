@@ -18,17 +18,17 @@
 
 require('../../config.php');
 
-// Get id
-if(!isset($_GET['post_id']) OR !is_numeric($_GET['post_id'])) {
-	header("Location: ".ADMIN_URL."/pages/index.php");
-	exit(0);
-} else {
-	$post_id = $_GET['post_id'];
-}
-
 // Include WB admin wrapper script
 $update_when_modified = true; // Tells script to update when this page was last updated
 require(WB_PATH.'/modules/admin.php');
+
+$pid = $admin->checkIDKEY('post_id', false, 'GET');
+if (!$pid) {
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	exit();
+} else {
+	$post_id = $pid;
+}
 
 // Get post details
 $query_details = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_news_posts WHERE post_id = '$post_id'");

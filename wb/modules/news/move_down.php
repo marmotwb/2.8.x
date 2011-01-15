@@ -18,24 +18,26 @@
 
 require('../../config.php');
 
+// Include WB admin wrapper script
+require(WB_PATH.'/modules/admin.php');
+
 // Get id
-if(!isset($_GET['post_id']) OR !is_numeric($_GET['post_id'])) {
-	if(!isset($_GET['group_id']) OR !is_numeric($_GET['group_id'])) {
-		header("Location: index.php");
-		exit(0);
+$pid = $admin->checkIDKEY('post_id', false, 'GET');
+$gid = $admin->checkIDKEY('group_id', false, 'GET');
+if (!$pid) {
+	if (!$gid) {
+		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+		exit();
 	} else {
-		$id = $_GET['group_id'];
+		$id = $gid;
 		$id_field = 'group_id';
 		$table = TABLE_PREFIX.'mod_news_groups';
 	}
 } else {
-	$id = $_GET['post_id'];
+	$id = $pid;
 	$id_field = 'post_id';
 	$table = TABLE_PREFIX.'mod_news_posts';
 }
-
-// Include WB admin wrapper script
-require(WB_PATH.'/modules/admin.php');
 
 // Include the ordering class
 require(WB_PATH.'/framework/class.order.php');

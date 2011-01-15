@@ -35,7 +35,7 @@ if(!defined('WB_PATH'))
  * Clients akzeptieren jedoch auch relative URIs.
  */
 	$host       = $_SERVER['HTTP_HOST'];
-	$uri        = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+	$uri        = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 	$file       = 'install/index.php';
 	$target_url = 'http://'.$host.$uri.'/'.$file;
 	header('Location: '.$target_url);

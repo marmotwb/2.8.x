@@ -18,17 +18,17 @@
 
 require('../../config.php');
 
-// Get id
-if(!isset($_GET['group_id']) OR !is_numeric($_GET['group_id'])) {
-	header("Location: ".ADMIN_URL."/pages/index.php");
-	exit(0);
-} else {
-	$group_id = $_GET['group_id'];
-}
-
 // Include WB admin wrapper script
 $update_when_modified = true; // Tells script to update when this page was last updated
 require(WB_PATH.'/modules/admin.php');
+
+$gid = $admin->checkIDKEY('group_id', false, 'GET');
+if (!$pid) {
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	exit();
+} else {
+	$group_id = $gid;
+}
 
 $database->query("UPDATE ".TABLE_PREFIX."mod_news_posts SET group_id = '0' where group_id='$group_id'");
 // Update row

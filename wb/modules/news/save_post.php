@@ -32,6 +32,16 @@ else
 	$post_id = $id;
 }
 
+// Include WB admin wrapper script
+$update_when_modified = true; // Tells script to update when this page was last updated
+require(WB_PATH.'/modules/admin.php');
+
+if (!$admin->checkFTAN())
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	exit();
+}
+
 function create_file($filename, $filetime=NULL )
 {
 global $page_id, $section_id, $post_id;
@@ -79,10 +89,6 @@ require(WB_PATH."/index.php");
     }
 
 }
-
-// Include WB admin wrapper script
-$update_when_modified = true; // Tells script to update when this page was last updated
-require(WB_PATH.'/modules/admin.php');
 
 // Validate all fields
 if($admin->get_post('title') == '' AND $admin->get_post('url') == '')

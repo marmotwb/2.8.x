@@ -18,21 +18,18 @@
 
 require('../../config.php');
 
-// Get id
-if(!isset($_GET['comment_id']) OR !is_numeric($_GET['comment_id'])) {
-	header("Location: ".ADMIN_URL."/pages/index.php");
-	exit(0);
-} else {
-	$comment_id = $_GET['comment_id'];
-}
-
 // Include WB admin wrapper script
 require(WB_PATH.'/modules/admin.php');
+
+$comment_id = $admin->checkIDKEY('comment_id', false, 'GET');
+if (!$comment_id) {
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	exit();
+} 
 
 // Get header and footer
 $query_content = $database->query("SELECT post_id,title,comment FROM ".TABLE_PREFIX."mod_news_comments WHERE comment_id = '$comment_id'");
 $fetch_content = $query_content->fetchRow();
-
 ?>
 
 <h2><?php echo $TEXT['MODIFY'].' '.$TEXT['COMMENT']; ?></h2>
@@ -43,7 +40,7 @@ $fetch_content = $query_content->fetchRow();
 <input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
 <input type="hidden" name="post_id" value="<?php echo $fetch_content['post_id']; ?>" />
 <input type="hidden" name="comment_id" value="<?php echo $comment_id; ?>" />
-
+<?php echo $admin->getFTAN(); ?>
 <table class="row_a" cellpadding="2" cellspacing="0" border="0" width="100%">
 <tr>
 	<td width="80"><?php echo $TEXT['TITLE']; ?>:</td>
@@ -65,7 +62,10 @@ $fetch_content = $query_content->fetchRow();
 		<input name="save" type="submit" value="<?php echo $TEXT['SAVE']; ?>" style="width: 100px; margin-top: 5px;" />
 	</td>
 	<td align="right">
-		<input type="button" value="<?php echo $TEXT['CANCEL']; ?>" onclick="javascript: window.location = '<?php echo WB_URL; ?>/modules/news/modify_post.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>&amp;post_id=<?php echo $fetch_content['post_id']; ?>';" style="width: 100px; margin-top: 5px;" />
+		<input type="button" value="<?php echo $TEXT['CANCEL']; ?>" onclick="javascript: window.location = '<?php
+			echo WB_URL; ?>/modules/news/modify_post.php?page_id=<?php
+			echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>&amp;post_id=<?php
+			echo $admin->getIDKEY($fetch_content['post_id']); ?>';" style="width: 100px; margin-top: 5px;" />
 	</td>
 </tr>
 </table>

@@ -31,7 +31,6 @@ if(isset($_GET['group_id']) AND is_numeric($_GET['group_id'])) {
 // Include WB files
 require_once('../../config.php');
 require_once(WB_PATH.'/framework/class.frontend.php');
-$database = new database();
 $wb = new frontend();
 $wb->page_id = $page_id;
 $wb->get_page_details();

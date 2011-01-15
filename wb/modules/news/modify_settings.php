@@ -64,7 +64,7 @@ if(function_exists('edit_module_css'))
 
 	<input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
 	<input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
-
+	<?php echo $admin->getFTAN(); ?>
 	<table class="row_a" cellpadding="2" cellspacing="0" width="100%">
 		<tr>
 			<td colspan="2"><strong><?php echo $HEADING['GENERAL_SETTINGS']; ?></strong></td>

@@ -124,7 +124,7 @@ if($query_settings->numRows() > 0) {
 }
 
 ?>
-<form <?php echo ( ( (strlen($form_name) > 0) AND (false == $use_xhtml_strict) ) ? "name=\"".$form_name."\"" : ""); ?> action="<?php echo htmlspecialchars(strip_tags($_SERVER['PHP_SELF'])); ?>#wb_<?PHP echo $section_id;?>" method="post">
+<form <?php echo ( ( (strlen($form_name) > 0) AND (false == $use_xhtml_strict) ) ? "name=\"".$form_name."\"" : ""); ?> action="<?php echo htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])); ?>#wb_<?PHP echo $section_id;?>" method="post">
 <div>
 <input type="hidden" name="submission_id" value="<?php echo $_SESSION['form_submission_id']; ?>" />
 <?php echo $admin->getFTAN(); ?>
@@ -376,16 +376,16 @@ if($filter_settings['email_filter'] && !($filter_settings['at_replacement']=='@'
 			if(isset($captcha_error)) {
 				echo '<li>'.$captcha_error.'</li>';
 			}
-			echo '</ul><a href="'.htmlspecialchars(strip_tags($_SERVER['PHP_SELF'])).'">'.$TEXT['BACK'].'</a>';
+			echo '</ul><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a>';
 		} else {
 			if(isset($email_error)) {
 				echo '<br /><ul>';
 				echo '<li>'.$email_error.'</li>';
-				echo '</ul><a href="'.htmlspecialchars(strip_tags($_SERVER['PHP_SELF'])).'">'.$TEXT['BACK'].'</a>';
+				echo '</ul><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a>';
 			} elseif(isset($captcha_error)) {
 				echo '<br /><ul>';
 				echo '<li>'.$captcha_error.'</li>';
-				echo '</ul><a href="'.htmlspecialchars(strip_tags($_SERVER['PHP_SELF'])).'">'.$TEXT['BACK'].'</a>';
+				echo '</ul><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a>';
 			} else {
 				// Check how many times form has been submitted in last hour
 				$last_hour = time()-3600;
