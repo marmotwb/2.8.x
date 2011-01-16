@@ -325,10 +325,11 @@ if($filter_settings['email_filter'] && !($filter_settings['at_replacement']=='@'
 				// Add to message body
 				if($field['type'] != '') {
 					if(!empty($_POST['field'.$field['field_id']])) {
+						// do not allow droplets in user input!
 						if (is_array($_POST['field'.$field['field_id']])) {
-							$_SESSION['field'.$field['field_id']] = $_POST['field'.$field['field_id']];
+							$_SESSION['field'.$field['field_id']] = str_replace(array("[[", "]]"), array("&#91;&#91;", "&#93;&#93;"), $_POST['field'.$field['field_id']]);
 						} else {
-							$_SESSION['field'.$field['field_id']] = htmlspecialchars($_POST['field'.$field['field_id']]);
+							$_SESSION['field'.$field['field_id']] = str_replace(array("[[", "]]"), array("&#91;&#91;", "&#93;&#93;"), htmlspecialchars($_POST['field'.$field['field_id']]));
 						}
 						// if the output filter is active, we need to revert (dot) to . and (at) to @ (using current filter settings)
 						// otherwise the entered mail will not be accepted and the recipient would see (dot), (at) etc.

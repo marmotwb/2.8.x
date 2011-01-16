@@ -51,6 +51,10 @@ else
 	$title = strip_tags($admin->get_post_escaped('title'));
 	$comment = strip_tags($admin->get_post_escaped('comment'));
 	$post_id = $admin->getIDKEY($admin->get_post('post_id'));
+	
+	// do not allow droplets in user input!
+	$title = str_replace(array("[[", "]]"), array("&#91;&#91;", "&#93;&#93;"), $title);
+	$comment = str_replace(array("[[", "]]"), array("&#91;&#91;", "&#93;&#93;"), $comment);
 }
 
 // Update row
