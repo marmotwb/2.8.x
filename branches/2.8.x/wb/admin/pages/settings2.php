@@ -17,7 +17,7 @@
  */
 
 // Get page id
-if(!isset($_POST['page_id']) OR !is_numeric($_POST['page_id']))
+if(!isset($_POST['page_id']) || !is_numeric($_POST['page_id']))
 {
 	header("Location: index.php");
 	exit(0);
@@ -29,9 +29,10 @@ if(!isset($_POST['page_id']) OR !is_numeric($_POST['page_id']))
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_settings');
+
 if (!$admin->checkFTAN())
 {
-	$admin->print_error($MESSAGE['PAGES_NOT_SAVED'],'index.php');
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],'index.php');
 	exit();
 }
 
@@ -41,18 +42,20 @@ require_once(WB_PATH.'/framework/functions.php');
 // Get values
 $page_title = htmlspecialchars($admin->get_post_escaped('page_title') );
 $menu_title = htmlspecialchars($admin->get_post_escaped('menu_title') );
-$page_code = $admin->get_post_escaped('page_code');
+$page_code = (int) $admin->get_post_escaped('page_code');
 $description = htmlspecialchars($admin->add_slashes($admin->get_post('description')) );
 $keywords = htmlspecialchars($admin->add_slashes($admin->get_post('keywords')) );
-$parent = $admin->get_post_escaped('parent');
+$parent = (int) $admin->get_post_escaped('parent'); // fix secunia 2010-91-3
 $visibility = $admin->get_post_escaped('visibility');
-$template = $admin->get_post_escaped('template');
-$target = $admin->get_post_escaped('target');
+if (!in_array($visibility, array('public', 'private', 'registered', 'hidden', 'none'))) {$visibility = 'public';} // fix secunia 2010-93-3
+$template = preg_replace("/\W/", "", $admin->get_post_escaped('template')); // fix secunia 2010-93-3
+$target = preg_replace("/\W/", "", $admin->get_post_escaped('target'));
 $admin_groups = $admin->get_post_escaped('admin_groups');
 $viewing_groups = $admin->get_post_escaped('viewing_groups');
 $searching = $admin->get_post_escaped('searching');
-$language = $admin->get_post_escaped('language');
-$menu = $admin->get_post_escaped('menu');
+$language = strtoupper($admin->get_post('language'));
+$language = (preg_match('/^[A-Z]{2}$/', $language) ? $language : DEFAULT_LANGUAGE);
+$menu = (int) $admin->get_post_escaped('menu'); // fix secunia 2010-91-3
 
 // Validate data
 if($page_title == '' || substr($page_title,0,1)=='.')
@@ -90,7 +93,7 @@ foreach($admin->get_groups_id() as $cur_gid)
 	$in_old_group = TRUE;
     }
 }
-if((!$in_old_group) AND !is_numeric(array_search($admin->get_user_id(), $old_admin_users)))
+if((!$in_old_group) && !is_numeric(array_search($admin->get_user_id(), $old_admin_users)))
 {
 	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
 }
@@ -100,13 +103,13 @@ $admin_groups[] = 1;
 //if(!in_array(1, $admin->get_groups_id())) {
 //	$admin_groups[] = implode(",",$admin->get_groups_id());
 //}
-$admin_groups = implode(',', $admin_groups);
+$admin_groups = preg_replace("/[^\d,]/", "", implode(',', $admin_groups));
 // Setup viewing groups
 $viewing_groups[] = 1;
 //if(!in_array(1, $admin->get_groups_id())) {
 //	$viewing_groups[] = implode(",",$admin->get_groups_id());
 //}
-$viewing_groups = implode(',', $viewing_groups);
+$viewing_groups = preg_replace("/[^\d,]/", "", implode(',', $viewing_groups));
 
 // If needed, get new order
 if($parent != $old_parent)
@@ -233,7 +236,7 @@ if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/'))
 		// Create access file
 		create_access_file($filename,$page_id,$level);
 		// Move a directory for this page
-		if(file_exists(WB_PATH.PAGES_DIRECTORY.$old_link.'/') AND is_dir(WB_PATH.PAGES_DIRECTORY.$old_link.'/'))
+		if(file_exists(WB_PATH.PAGES_DIRECTORY.$old_link.'/') && is_dir(WB_PATH.PAGES_DIRECTORY.$old_link.'/'))
         {
 			rename(WB_PATH.PAGES_DIRECTORY.$old_link.'/', WB_PATH.PAGES_DIRECTORY.$link.'/');
 		}
