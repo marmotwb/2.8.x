@@ -30,13 +30,12 @@ $template->set_block('main_block', 'manage_users_block', 'users');
 $template->set_var(array(
 	'ADMIN_URL' => ADMIN_URL,
 	'WB_URL' => WB_URL,
-	'WB_PATH' => WB_PATH,
 	'THEME_URL' => THEME_URL
 	)
 );
 
 // Get existing value from database
-$database = new database();
+// $database = new database();
 $query = "SELECT group_id,name FROM ".TABLE_PREFIX."groups WHERE group_id != '1'";
 $results = $database->query($query);
 if($database->is_error()) {

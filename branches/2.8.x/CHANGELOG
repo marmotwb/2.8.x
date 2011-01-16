@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.2 -------------------------------------
 16 Jan-2011 Build 1385 Frank Heyne (FrankH)
+! update headerinfos
+16 Jan-2011 Build 1385 Frank Heyne (FrankH)
 # Security fix to filter out droplets from user input in news and form modules
 16 Jan-2011 Build 1384 Dietmar Woellbrink (Luisehahne)
 ! Security fix in admin/pages

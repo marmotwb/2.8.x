@@ -120,7 +120,7 @@ class order {
 	// Get new number for order
 	function get_new($cf_value) {
 		global $database;
-		$database = new database();
+		// $database = new database();
 		// Get last order
 		$query_last = "SELECT ".$this->order_field." FROM ".$this->table." WHERE ".$this->common_field." = '$cf_value' ORDER BY ".$this->order_field." DESC LIMIT 1";
 		$get_last = $database->query($query_last);

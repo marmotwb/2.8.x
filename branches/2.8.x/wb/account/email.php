@@ -29,7 +29,7 @@ $email = $wb->get_post('email');
 $js_back = "javascript: history.go(-1);";
 
 // Get existing password
-$database = new database();
+// $database = new database();
 $query = "SELECT user_id FROM ".TABLE_PREFIX."users WHERE user_id = '".$wb->get_user_id()."' AND password = '".md5($current_password)."'";
 $results = $database->query($query);
 
@@ -45,7 +45,7 @@ if(!$wb->validate_email($email)) {
 $email = $wb->add_slashes($email);
 
 // Update the database
-$database = new database();
+// $database = new database();
 $query = "UPDATE ".TABLE_PREFIX."users SET email = '$email' WHERE user_id = '".$wb->get_user_id()."' AND password = '".md5($current_password)."'";
 $database->query($query);
 if($database->is_error()) {

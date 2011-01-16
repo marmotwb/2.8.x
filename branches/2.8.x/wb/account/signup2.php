@@ -25,7 +25,7 @@ require_once(WB_PATH.'/framework/class.wb.php');
 $wb = new wb('Start', 'start', false, false);
 
 // Create new database object
-$database = new database();
+// $database = new database();
 
 // Get details entered
 $groups_id = FRONTEND_SIGNUP;

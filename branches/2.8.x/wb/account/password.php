@@ -30,7 +30,7 @@ $new_password2 = $_POST['new_password2'];
 $js_back = "javascript: history.go(-1);";
 
 // Get existing password
-$database = new database();
+// $database = new database();
 $query = "SELECT user_id FROM ".TABLE_PREFIX."users WHERE user_id = '".$wb->get_user_id()."' AND password = '".md5($current_password)."'";
 $results = $database->query($query);
 
@@ -49,7 +49,7 @@ if($new_password != $new_password2) {
 $md5_password = md5($new_password);
 
 // Update the database
-$database = new database();
+// $database = new database();
 $query = "UPDATE ".TABLE_PREFIX."users SET password = '$md5_password' WHERE user_id = '".$wb->get_user_id()."'";
 $database->query($query);
 if($database->is_error()) {

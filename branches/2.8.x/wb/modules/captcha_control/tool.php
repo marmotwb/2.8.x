@@ -36,6 +36,7 @@ if(!file_exists(WB_PATH .'/modules/captcha_control/languages/'.LANGUAGE .'.php')
 }
 
 $table = TABLE_PREFIX.'mod_captcha_control';
+$js_back = "javascript: history.go(-1);";
 
 // check if data was submitted
 if(isset($_POST['save_settings'])) {

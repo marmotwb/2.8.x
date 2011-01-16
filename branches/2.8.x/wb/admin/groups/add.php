@@ -29,7 +29,7 @@ require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Access', 'groups_add');
 
 // Create new database object
-$database = new database();
+// $database = new database();
 
 // Gather details entered
 $group_name = $admin->get_post('group_name');
