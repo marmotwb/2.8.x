@@ -20,6 +20,7 @@
 // tool_edit.php
 require_once('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
+
 require_once(WB_PATH.'/framework/functions.php');
 // create admin object depending on platform (admin tools were moved out of settings with WB 2.7)
 $admin = new admin('admintools', 'admintools');
@@ -27,6 +28,12 @@ $admintool_link = ADMIN_URL .'/admintools/index.php';
 $module_edit_link = ADMIN_URL .'/admintools/tool.php?tool=droplets';
 $template_edit_link = ADMIN_URL .'/admintools/tool.php?tool=templateedit';
 
+// protect from CSRF
+$id = $admin->checkIDKEY('id', false, 'GET');
+if (!$id or $id != 999) {
+ $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+ exit();
+}
 
 ?>
 <h4 style="margin: 0; border-bottom: 1px solid #DDD; padding-bottom: 5px;">

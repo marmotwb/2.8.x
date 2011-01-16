@@ -37,7 +37,8 @@ $template->set_var(
 		'CONTENT'				=> $content,
 		'TEXT_SAVE'				=> $TEXT['SAVE'],
 		'TEXT_CANCEL'			=> $TEXT['CANCEL'],
-		'SECTION'				=> $section_id
+		'SECTION'				=> $section_id,
+		'FTAN'					=> $admin->getFTAN()
 	)
 );
 

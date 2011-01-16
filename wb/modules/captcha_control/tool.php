@@ -40,6 +40,12 @@ $js_back = "javascript: history.go(-1);";
 
 // check if data was submitted
 if(isset($_POST['save_settings'])) {
+	if (!$admin->checkFTAN())
+	{
+		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+		exit();
+	}
+	
 	// get configuration settings
 	$enabled_captcha = ($_POST['enabled_captcha'] == '1') ? '1' : '0';
 	$enabled_asp = ($_POST['enabled_asp'] == '1') ? '1' : '0';
@@ -140,6 +146,7 @@ if(isset($_POST['save_settings'])) {
 	echo '<p>' .$MOD_CAPTCHA_CONTROL['HOWTO'] .'</p>';
 ?>
 <form name="store_settings" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+	<?php echo $admin->getFTAN(); ?>
 	<table width="98%" cellspacing="0" border="0" cellpadding="5px" class="row_a">
 	<tr><td colspan="2"><strong><?php echo $MOD_CAPTCHA_CONTROL['CAPTCHA_CONF'];?>:</strong></td></tr>
 	<tr>

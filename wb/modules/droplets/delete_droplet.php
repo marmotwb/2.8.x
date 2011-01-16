@@ -19,16 +19,16 @@
 
 require('../../config.php');
 
-// Get id
-if(!isset($_GET['droplet_id']) OR !is_numeric($_GET['droplet_id'])) {
-	header("Location: ".ADMIN_URL."/pages/index.php");
-} else {
-	$droplet_id = $_GET['droplet_id'];
-}
-
 // Include WB admin wrapper script
 require_once(WB_PATH.'/framework/class.admin.php');
 require_once(WB_PATH.'/framework/functions.php');
+
+// Get id
+$droplet_id = $admin->checkIDKEY('droplet_id', false, 'GET');
+if (!$droplet_id) {
+ $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+ exit();
+}
 
 // check website baker platform (with WB 2.7, Admin-Tools were moved out of settings dialogue)
 if(file_exists(ADMIN_PATH .'/admintools/tool.php')) {
