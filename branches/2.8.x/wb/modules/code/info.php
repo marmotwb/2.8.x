@@ -19,7 +19,7 @@
 $module_directory	= 'code';
 $module_name		= 'Code';
 $module_function	= 'page';
-$module_version		= '2.8.1';
+$module_version		= '2.8.2';
 $module_platform	= '2.7 | 2.8.x';
 $module_author		= 'Ryan Djurovich';
 $module_license		= 'GNU General Public License';

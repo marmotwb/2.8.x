@@ -22,6 +22,12 @@ require('../../config.php');
 $update_when_modified = true; // Tells script to update when this page was last updated
 require(WB_PATH.'/modules/admin.php');
 
+if (!$admin->checkFTAN())
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	exit();
+}
+
 // Update the mod_wysiwygs table with the contents
 if(isset($_POST['content'])) {
 	$tags = array('<?php', '?>' , '<?');

@@ -41,7 +41,7 @@ if($admin->get_permission('admintools') == true) {
 	if($database->is_error()) {
 		$admin->print_error($database->get_error(), $module_edit_link);
 	} else {
-		$admin->print_success($TEXT['SUCCESS'], WB_URL.'/modules/droplets/modify_droplet.php?droplet_id='.$droplet_id);
+		$admin->print_success($TEXT['SUCCESS'], WB_URL.'/modules/droplets/modify_droplet.php?droplet_id='. $admin->getIDKEY($droplet_id));
 	}
 
 	// Print admin footer

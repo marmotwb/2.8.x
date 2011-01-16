@@ -31,7 +31,7 @@ V1.0 - inital version
 $module_directory 	= 'captcha_control';
 $module_name 			= 'Captcha and Advanced-Spam-Protection (ASP) Control';
 $module_function 		= 'tool';
-$module_version 		= '1.0';
+$module_version 		= '1.1';
 $module_platform 		= '2.7 | 2.8.x';
 $module_author 		= 'Thomas Hornik (thorn)';
 $module_license 		= 'GNU General Public License';

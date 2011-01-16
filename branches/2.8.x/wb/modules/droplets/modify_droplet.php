@@ -19,15 +19,15 @@
 
 require('../../config.php');
 
-// Get id
-if(!isset($_GET['droplet_id']) OR !is_numeric($_GET['droplet_id'])) {
-	header("Location: ".ADMIN_URL."/pages/index.php");
-} else {
-	$droplet_id = $_GET['droplet_id'];
-}
-
 require_once(WB_PATH.'/framework/class.admin.php');
 require_once(WB_PATH.'/framework/functions.php');
+
+// Get id
+$droplet_id = $admin->checkIDKEY('droplet_id', false, 'GET');
+if (!$droplet_id) {
+ $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+ exit();
+}
 
 $admintool_link = ADMIN_URL .'/admintools/index.php';
 $module_edit_link = ADMIN_URL .'/admintools/tool.php?tool=droplets';
@@ -70,6 +70,7 @@ $content = (htmlspecialchars($fetch_content['code']));
 <input type="hidden" name="data_codepress" value="" />
 <input type="hidden" name="droplet_id" value="<?php echo $droplet_id; ?>" />
 <input type="hidden" name="show_wysiwyg" value="<?php echo $fetch_content['show_wysiwyg']; ?>" />
+<?php echo $admin->getFTAN(); ?>
 
 <table class="row_a" cellpadding="4" cellspacing="0" border="0" width="100%">
 		<tr>

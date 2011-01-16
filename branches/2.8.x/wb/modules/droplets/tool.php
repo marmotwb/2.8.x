@@ -58,7 +58,7 @@ $database->query("DELETE FROM ".TABLE_PREFIX."mod_droplets WHERE name=''");
 	<td valign="top" width="50%" align="right">
 		<a href="#" onclick="javascript: window.open('<?php echo WB_URL; ?>/modules/droplets/readme/<?php echo $DR_TEXT['README']; ?>','helpwindow','width=700,height=550,directories=no,location=no,menubar=no,scrollbars=yes,status=no,toolbar=no,resizable=yes');"><?php echo $DR_TEXT['HELP']; ?></a>
 		<br /><br />
-		<a href="#" onclick="javascript: window.location = '<?php echo WB_URL; ?>/modules/droplets/backup_droplets.php';"><?php echo $DR_TEXT['BACKUP']; ?></a>
+		<a href="#" onclick="javascript: window.location = '<?php echo WB_URL; ?>/modules/droplets/backup_droplets.php?id=<?php echo $admin->getIDKEY(999) . '\';">' .$DR_TEXT['BACKUP']; ?></a>
 	</td>
 </tr>
 </table>
@@ -108,12 +108,12 @@ if($num_droplets > 0) {
 		
 		<tr class="row_<?php echo $row; ?>" >
 			<td >
-				<a href="<?php echo WB_URL; ?>/modules/droplets/modify_droplet.php?droplet_id=<?php echo $droplet['id']?>" title="<?php echo $TEXT['MODIFY']; ?>">
+				<a href="<?php echo WB_URL; ?>/modules/droplets/modify_droplet.php?droplet_id=<?php echo $admin->getIDKEY($droplet['id']); ?>" title="<?php echo $TEXT['MODIFY']; ?>">
 					<img src="<?php echo THEME_URL; ?>/images/modify_16.png" border="0" alt="Modify" /> 
 				</a>
 			</td>
 			<td >
-				<a href="<?php echo WB_URL; ?>/modules/droplets/modify_droplet.php?droplet_id=<?php echo $droplet['id']?>" class="tooltip">
+				<a href="<?php echo WB_URL; ?>/modules/droplets/modify_droplet.php?droplet_id=<?php echo $admin->getIDKEY($droplet['id']); ?>" class="tooltip">
 							<?php if ($valid_code && $unique_droplet) { ?><img src="<?php echo WB_URL; ?>/modules/droplets/img/droplet.png" border="0" alt=""/>
 							<?php } else {  ?><img src="<?php echo WB_URL; ?>/modules/droplets/img/invalid.gif" border="0" title="" alt=""/><?php }  ?>
 					<?php echo $droplet['name']; ?><?php echo $comments; ?>
@@ -126,7 +126,7 @@ if($num_droplets > 0) {
 				<b><?php if($droplet['active'] == 1){ echo '<span style="color: green;">'. $TEXT['YES']. '</span>'; } else { echo '<span style="color: red;">'.$TEXT['NO'].'</span>';  } ?></b>
 			</td>
 			<td >
-				<a href="javascript: confirm_link('<?php echo $TEXT['ARE_YOU_SURE']; ?>', '<?php echo WB_URL; ?>/modules/droplets/delete_droplet.php?droplet_id=<?php echo $droplet['id']?>');" title="<?php echo $TEXT['DELETE']; ?>">
+				<a href="javascript: confirm_link('<?php echo $TEXT['ARE_YOU_SURE']; ?>', '<?php echo WB_URL; ?>/modules/droplets/delete_droplet.php?droplet_id=<?php echo $admin->getIDKEY($droplet['id']); ?>');" title="<?php echo $TEXT['DELETE']; ?>">
 					<img src="<?php echo THEME_URL; ?>/images/delete_16.png" border="0" alt="X" />
 				</a>
 			</td>
