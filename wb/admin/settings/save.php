@@ -35,7 +35,7 @@ if($advanced == '')
 
 if( !$admin->checkFTAN() )
 {
-	$admin->print_error($MESSAGE['PAGES_NOT_SAVED'],'index.php');
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],'index.php');
 	exit();
 }
 
