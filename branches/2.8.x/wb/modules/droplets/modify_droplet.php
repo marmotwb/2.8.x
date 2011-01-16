@@ -22,16 +22,16 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 require_once(WB_PATH.'/framework/functions.php');
 
+$admintool_link = ADMIN_URL .'/admintools/index.php';
+$module_edit_link = ADMIN_URL .'/admintools/tool.php?tool=droplets';
+$admin = new admin('admintools', 'admintools');
+
 // Get id
 $droplet_id = $admin->checkIDKEY('droplet_id', false, 'GET');
 if (!$droplet_id) {
  $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
  exit();
 }
-
-$admintool_link = ADMIN_URL .'/admintools/index.php';
-$module_edit_link = ADMIN_URL .'/admintools/tool.php?tool=droplets';
-$admin = new admin('admintools', 'admintools');
 
 // check if backend.css file needs to be included into the <body></body> of modify.php
 if(!method_exists($admin, 'register_backend_modfiles') && file_exists(WB_PATH ."/modules/droplets/backend.css")) {
