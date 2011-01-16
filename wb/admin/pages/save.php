@@ -40,6 +40,7 @@ if (!$admin->checkFTAN())
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],'index.php');
 	exit();
 }
+$js_back = "javascript: history.go(-1);";
 
 // Get perms
 $sql  = 'SELECT `admin_groups`,`admin_users` FROM `'.TABLE_PREFIX.'pages` ';

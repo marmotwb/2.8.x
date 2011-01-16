@@ -34,7 +34,7 @@ define('VISIBILITY', 'public');
 define('PAGE_CONTENT', 'search.php');
 
 // Find out what the search template is
-$database = new database();
+// $database = new database();
 $query_template = $database->query("SELECT value FROM ".TABLE_PREFIX."search WHERE name = 'template' LIMIT 1");
 $fetch_template = $query_template->fetchRow();
 $template = $fetch_template['value'];

@@ -29,7 +29,7 @@ require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Access', 'groups_modify');
 
 // Create new database object
-$database = new database();
+// $database = new database();
 
 // Check if group group_id is a valid number and doesnt equal 1
 if(!isset($_POST['group_id']) OR !is_numeric($_POST['group_id']) OR $_POST['group_id'] == 1) {

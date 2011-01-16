@@ -32,7 +32,7 @@ $time_format = $wb->get_post_escaped('time_format');
 $js_back = "javascript: history.go(-1);";
 
 // Update the database
-$database = new database();
+// $database = new database();
 $query = "UPDATE ".TABLE_PREFIX."users SET display_name = '$display_name', language = '$language', timezone = '$timezone', date_format = '$date_format', time_format = '$time_format' WHERE user_id = '".$wb->get_user_id()."'";
 $database->query($query);
 if($database->is_error()) {
