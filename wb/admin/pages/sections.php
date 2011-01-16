@@ -27,7 +27,7 @@ if(MANAGE_SECTIONS != 'enabled')
 }
 
 // Get page id
-if(!isset($_GET['page_id']) OR !is_numeric($_GET['page_id']))
+if(!isset($_GET['page_id']) || !is_numeric($_GET['page_id']))
 {
 	header("Location: index.php");
 	exit(0);
@@ -42,7 +42,7 @@ require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_modify');
 
 // Check if we are supposed to add or delete a section
-if(isset($_GET['section_id']) AND is_numeric($_GET['section_id']))
+if(isset($_GET['section_id']) && is_numeric($_GET['section_id']))
 {
 	// Get more information about this section
 	$section_id = $_GET['section_id'];
@@ -157,7 +157,7 @@ if(file_exists($template_location))
 	require($template_location);
 }
 // Check if $menu is set
-if(!isset($block[1]) OR $block[1] == '')
+if(!isset($block[1]) || $block[1] == '')
 {
 	// Make our own menu list
 	$block[1] = $TEXT['MAIN'];
@@ -197,7 +197,6 @@ $template->set_var(array(
 				'TEXT_ACTIONS' => $TEXT['ACTIONS'],
 				'ADMIN_URL' => ADMIN_URL,
 				'WB_URL' => WB_URL,
-				'WB_PATH' => WB_PATH,
 				'THEME_URL' => THEME_URL
 				) 
 			);

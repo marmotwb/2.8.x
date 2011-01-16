@@ -17,7 +17,7 @@
  */
 
 // Get page id
-if(!isset($_GET['page_id']) OR !is_numeric($_GET['page_id']))
+if(!isset($_GET['page_id']) || !is_numeric($_GET['page_id']))
 {
 	header("Location: index.php");
 	exit(0);
@@ -56,7 +56,7 @@ foreach($admin->get_groups_id() as $cur_gid)
 		$in_old_group = TRUE;
 	}
 }
-if((!$in_old_group) AND !is_numeric(array_search($admin->get_user_id(), $old_admin_users)))
+if((!$in_old_group) && !is_numeric(array_search($admin->get_user_id(), $old_admin_users)))
 {
 	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
 }
@@ -103,7 +103,6 @@ $template->set_var(array(
 				'MODIFIED_WHEN' => $modified_ts,
 				'ADMIN_URL' => ADMIN_URL,
 				'WB_URL' => WB_URL,
-				'WB_PATH' => WB_PATH,
 				'THEME_URL' => THEME_URL
 				)
 		);

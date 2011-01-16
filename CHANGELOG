@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+16 Jan-2011 Build 1384 Dietmar Woellbrink (Luisehahne)
+! Security fix in admin/pages
 15 Jan-2011 Build 1383 Frank Heyne (FrankH)
 # Security fix for news module
 # Some more Security fixes, thanks to Gerben van Veenendaal

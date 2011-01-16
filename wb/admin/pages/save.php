@@ -17,13 +17,13 @@
  */
 
 // Get page & section id
-if(!isset($_POST['page_id']) OR !is_numeric($_POST['page_id'])) {
+if(!isset($_POST['page_id']) || !is_numeric($_POST['page_id'])) {
 	header("Location: index.php");
 	exit(0);
 } else {
 	$page_id = intval($_POST['page_id']);
 }
-if(!isset($_POST['section_id']) OR !is_numeric($_POST['section_id'])) {
+if(!isset($_POST['section_id']) || !is_numeric($_POST['section_id'])) {
 	header("Location: index.php");
 	exit(0);
 } else {
@@ -34,9 +34,10 @@ if(!isset($_POST['section_id']) OR !is_numeric($_POST['section_id'])) {
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_modify');
+
 if (!$admin->checkFTAN())
 {
-	$admin->print_error($MESSAGE['PAGES_NOT_SAVED'],'index.php');
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],'index.php');
 	exit();
 }
 
@@ -55,7 +56,7 @@ foreach($admin->get_groups_id() as $cur_gid)
         $in_old_group = TRUE;
     }
 }
-if((!$in_old_group) AND !is_numeric(array_search($admin->get_user_id(), $old_admin_users)))
+if((!$in_old_group) && !is_numeric(array_search($admin->get_user_id(), $old_admin_users)))
 {
 	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
 }
