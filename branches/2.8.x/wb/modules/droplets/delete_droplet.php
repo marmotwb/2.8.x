@@ -23,13 +23,6 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 require_once(WB_PATH.'/framework/functions.php');
 
-// Get id
-$droplet_id = $admin->checkIDKEY('droplet_id', false, 'GET');
-if (!$droplet_id) {
- $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
- exit();
-}
-
 // check website baker platform (with WB 2.7, Admin-Tools were moved out of settings dialogue)
 if(file_exists(ADMIN_PATH .'/admintools/tool.php')) {
 	$admintool_link = ADMIN_URL .'/admintools/index.php';
@@ -39,6 +32,13 @@ if(file_exists(ADMIN_PATH .'/admintools/tool.php')) {
 	$admintool_link = ADMIN_URL .'/settings/index.php?advanced=yes#administration_tools"';
 	$module_edit_link = ADMIN_URL .'/settings/tool.php?tool=droplets';
 	$admin = new admin('Settings', 'settings_advanced');
+}
+
+// Get id
+$droplet_id = $admin->checkIDKEY('droplet_id', false, 'GET');
+if (!$droplet_id) {
+ $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+ exit();
 }
 
 // Delete droplet
