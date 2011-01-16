@@ -29,12 +29,6 @@ if(!isset($_POST['droplet_id']) OR !is_numeric($_POST['droplet_id'])) {
 require_once(WB_PATH.'/framework/class.admin.php');
 require_once(WB_PATH.'/framework/functions.php');
 
-if (!$admin->checkFTAN())
-{
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
-	exit();
-}
-
 // check website baker platform (with WB 2.7, Admin-Tools were moved out of settings dialogue)
 if(file_exists(ADMIN_PATH .'/admintools/tool.php')) {
 	$admintool_link = ADMIN_URL .'/admintools/index.php';
@@ -46,9 +40,15 @@ if(file_exists(ADMIN_PATH .'/admintools/tool.php')) {
 	$admin = new admin('Settings', 'settings_advanced');
 }
 
+if (!$admin->checkFTAN())
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	exit();
+}
+
 // Validate all fields
 if($admin->get_post('title') == '') {
-	$admin->print_error($MESSAGE['GENERIC']['FILL_IN_ALL'], WB_URL.'/modules/droplets/modify_droplet.php?droplet_id='.$droplet_id);
+	$admin->print_error($MESSAGE['GENERIC']['FILL_IN_ALL'], WB_URL.'/modules/droplets/modify_droplet.php?droplet_id='. $admin->getIDKEY($droplet_id));
 } else {
 	$title = $admin->add_slashes($admin->get_post('title'));
 	$active = (int) $admin->get_post('active');
