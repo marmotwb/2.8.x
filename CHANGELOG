@@ -11,7 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
-16 Jan-2011 Build 1385 Frank Heyne (FrankH)
+16 Jan-2011 Build 1387 Dietmar Woellbrink (Luisehahne)
+# fix class.wb
+16 Jan-2011 Build 1386 Dietmar Woellbrink (Luisehahne)
 ! update headerinfos
 16 Jan-2011 Build 1385 Frank Heyne (FrankH)
 # Security fix to filter out droplets from user input in news and form modules
