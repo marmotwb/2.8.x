@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+16 Jan-2011 Build 1394 Dietmar Woellbrink (Luisehahne)
+! set construct to FRONTEND class.wb
+! set 2.8.2 to RC5
 16 Jan-2011 Build 1393 Frank Heyne (FrankH)
 # Bugfix in Security fix
 16 Jan-2011 Build 1392 Dietmar Woellbrink (Luisehahne)

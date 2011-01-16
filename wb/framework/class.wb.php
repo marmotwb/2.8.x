@@ -33,8 +33,8 @@ class wb extends SecureForm
 	// General initialization function
 	// performed when frontend or backend is loaded.
 
-	public function  __construct() {
-		parent::__construct();
+	public function  __construct($mode = SecureForm::FRONTEND) {
+		parent::__construct($mode);
 	}
 
 /* ****************
