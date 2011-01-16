@@ -20,7 +20,6 @@
 $template = new Template(WB_PATH.'/modules/code');
 $template->set_file('page', 'htt/modify.htt');
 $template->set_block('page', 'main_block', 'main');
-require_once(WB_PATH.'/modules/admin.php');
 
 // Get page content
 $query = "SELECT content FROM ".TABLE_PREFIX."mod_code WHERE section_id = '$section_id'";
