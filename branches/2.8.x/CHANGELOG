@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+17 Jan-2011 Build 1395 Frank Heyne (FrankH)
+# Security fix in admin/addons
 16 Jan-2011 Build 1394 Dietmar Woellbrink (Luisehahne)
 ! set construct to FRONTEND class.wb
 ! set 2.8.2 to RC5

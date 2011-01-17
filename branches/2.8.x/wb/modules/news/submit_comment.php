@@ -52,6 +52,9 @@ if(isset($_GET['page_id']) AND is_numeric($_GET['page_id'])
 
 	$comment = $wb->add_slashes(strip_tags($comment));
 	$title = $wb->add_slashes(strip_tags($_POST['title']));
+	// do not allow droplets in user input!
+	$title = str_replace(array("[[", "]]"), array("&#91;&#91;", "&#93;&#93;"), $title);
+	$comment = str_replace(array("[[", "]]"), array("&#91;&#91;", "&#93;&#93;"), $comment);
 	$page_id = $_GET['page_id'];
 	$section_id = $_GET['section_id'];
 	$post_id = $_GET['post_id'];
