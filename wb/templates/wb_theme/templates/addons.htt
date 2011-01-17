@@ -48,6 +48,7 @@
 		<tr>
 			<td class="description">
 				<form action="{RELOAD_URL}" method="post">
+				{FTAN}
 				{MESSAGE_RELOAD_ADDONS}<br style="margin-bottom: 0.5em" />
 				<input {DISPLAY_MODULES} type="checkbox" name="reload_modules" id="reload_modules" value="true" />
 				<label {DISPLAY_MODULES} for="reload_modules">{MODULES}</label>

@@ -73,7 +73,7 @@ $template->set_var(array(
                 ? '<a href="' . ADMIN_URL . '/addons/index.php?advanced">' . $TEXT['ADVANCED'] . '</a>' : '',
 	'ADVANCED_URL' => $admin->get_permission('admintools') ? ADMIN_URL . '/addons/index.php' : '',
     'TEXT_ADVANCED' => $TEXT['ADVANCED'],
-
+	'FTAN'			=> $admin->getFTAN()
 	)
 );
 
