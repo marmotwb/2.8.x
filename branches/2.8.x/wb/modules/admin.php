@@ -17,10 +17,7 @@
 */
 
 // Stop this file being access directly
-if(!defined('WB_URL')) {
-	header('Location: ../index.php');
-	exit(0);
-}
+if(!defined('WB_PATH')) { die('Direct access to this file is not allowed'); }
 
 // Get page id
 if(isset($_GET['page_id']) && is_numeric($_GET['page_id'])) {
