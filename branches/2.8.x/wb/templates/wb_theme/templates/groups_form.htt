@@ -5,10 +5,10 @@
 <form name="group" action="{ACTION_URL}" method="post" class="{DISPLAY_ADD}">
 <input type="hidden" name="advanced" value="{ADVANCED}" />
 <input type="hidden" name="group_id" value="{GROUP_ID}" />
-
+{FTAN}
 <table cellpadding="5" cellspacing="0" border="0" width="100%">
 <tr>
-	<td width="150">{TEXT_NAME}:</td>
+	<td width="152">{TEXT_NAME}:</td>
 	<td>
 		<input type="text" name="group_name" maxlength="255" value="{GROUP_NAME}" style="width: 100%" />
 	</td>
@@ -283,6 +283,7 @@
 	<form name="advanced" action="{ADVANCED_ACTION}" method="post">
         <input type="hidden" name="group_id" value="{GROUP_ID}" />
         <input type="hidden" name="action" value="modify" />
+		{FTAN}
         <input type="submit" name="advanced" onclick="window.location = '{ADVANCED_LINK}';" value="{ADVANCED_BUTTON}" />
     </form>
 	</td>

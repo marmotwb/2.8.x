@@ -20,6 +20,7 @@
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Access', 'groups');
+$ftan = $admin->getFTAN();
 
 // Create new template object for the modify/remove menu
 $template = new Template(THEME_PATH.'/templates');
@@ -30,7 +31,8 @@ $template->set_block('main_block', 'manage_users_block', 'users');
 $template->set_var(array(
 	'ADMIN_URL' => ADMIN_URL,
 	'WB_URL' => WB_URL,
-	'THEME_URL' => THEME_URL
+	'THEME_URL' => THEME_URL,
+	'FTAN' => $ftan
 	)
 );
 
@@ -183,7 +185,8 @@ $template->set_var(array(
 								'ADMIN_URL' => ADMIN_URL,
 								'WB_URL' => WB_URL,
 								'WB_PATH' => WB_PATH,
-								'THEME_URL' => THEME_URL
+								'THEME_URL' => THEME_URL,
+								'FTAN' => $ftan
 								)
 						);
 
