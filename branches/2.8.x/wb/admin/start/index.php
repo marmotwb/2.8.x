@@ -68,7 +68,7 @@ if(file_exists(WB_PATH.'/install/')) {
 	// Check if user is part of Adminstrators group
 	if(in_array(1, $admin->get_groups_id()))
     {
-		$template->set_var('WARNING', $MESSAGE['START']['INSTALL_DIR_EXISTS']);
+		$template->set_var('WARNING', $MESSAGE['START']['INSTALL_DIR_EXISTS'].'<br />'.'upgrade-script.php '.$TEXT['DELETE']);
 	} else {
 		$template->set_var('DISPLAY_WARNING', 'display:none;');
 	}

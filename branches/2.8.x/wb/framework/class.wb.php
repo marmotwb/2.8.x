@@ -352,7 +352,7 @@ class wb extends SecureForm
 	function print_success( $message, $redirect = 'index.php' ) {
 	    global $TEXT;
 	    // fetch redirect timer for sucess messages from settings table
-	    $redirect_timer = ((defined( 'REDIRECT_TIMER' )) && (REDIRECT_TIMER >= 1500)) ? REDIRECT_TIMER : 0;
+	    $redirect_timer = ((defined( 'REDIRECT_TIMER' )) && (REDIRECT_TIMER <= 10000)) ? REDIRECT_TIMER : 0;
 	    // add template variables
 	    $tpl = new Template( THEME_PATH.'/templates' );
 	    $tpl->set_file( 'page', 'success.htt' );
@@ -363,7 +363,7 @@ class wb extends SecureForm
 	    $tpl->set_var( 'REDIRECT_TIMER', $redirect_timer );
 	    $tpl->set_var( 'NEXT', $TEXT['NEXT'] );
 	    $tpl->set_var( 'BACK', $TEXT['BACK'] );
-	    if ($redirect_timer == 0) {
+	    if ($redirect_timer == -1) {
 	        $tpl->set_block( 'show_redirect', '' );
 	    }
 	    else {
