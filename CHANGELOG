@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+20 Jan-2011 Build 1398 Frank Heyne (FrankH)
+# Security fix in admin/admintools and admin/groups
 20 Jan-2011 Build 1397 Dietmar Woellbrink (Luisehahne)
 ! recoded rediect timer in print_success (tks to Chio)
 19 Jan-2011 Build 1396 Werner von den Decken (DarkViper)

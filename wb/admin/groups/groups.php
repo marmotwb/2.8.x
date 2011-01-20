@@ -43,6 +43,12 @@ if(!isset($_POST['group_id']) OR !is_numeric($_POST['group_id']) OR $_POST['grou
 if($_POST['action'] == 'modify') {
 	// Create new admin object
 	$admin = new admin('Access', 'groups_modify', false);
+
+	if (!$admin->checkFTAN())
+	{
+		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+		exit();
+	}
 	// Print header
 	$admin->print_header();
 	// Get existing values
@@ -53,13 +59,13 @@ if($_POST['action'] == 'modify') {
 	$template->set_file('page', 'groups_form.htt');
 	$template->set_block('page', 'main_block', 'main');
 	$template->set_var(	array(
-										'ACTION_URL' => ADMIN_URL.'/groups/save.php',
-										'SUBMIT_TITLE' => $TEXT['SAVE'],
-										'GROUP_ID' => $group['group_id'],
-										'GROUP_NAME' => $group['name'],
-										'ADVANCED_ACTION' => 'groups.php'
-										)
-							);
+							'ACTION_URL' => ADMIN_URL.'/groups/save.php',
+							'SUBMIT_TITLE' => $TEXT['SAVE'],
+							'GROUP_ID' => $group['group_id'],
+							'GROUP_NAME' => $group['name'],
+							'ADVANCED_ACTION' => 'groups.php',
+							'FTAN' => $admin->getFTAN()
+						));
 	// Tell the browser whether or not to show advanced options
 	if( true == (isset( $_POST['advanced']) AND ( strpos( $_POST['advanced'], ">>") > 0 ) ) ) {
 		$template->set_var('DISPLAY_ADVANCED', '');
@@ -118,46 +124,45 @@ if($_POST['action'] == 'modify') {
 		
 	// Insert language text and messages
 	$template->set_var(array(
-									'TEXT_RESET' => $TEXT['RESET'],
-									'TEXT_ACTIVE' => $TEXT['ACTIVE'],
-									'TEXT_DISABLED' => $TEXT['DISABLED'],
-									'TEXT_PLEASE_SELECT' => $TEXT['PLEASE_SELECT'],
-									'TEXT_USERNAME' => $TEXT['USERNAME'],
-									'TEXT_PASSWORD' => $TEXT['PASSWORD'],
-									'TEXT_RETYPE_PASSWORD' => $TEXT['RETYPE_PASSWORD'],
-									'TEXT_DISPLAY_NAME' => $TEXT['DISPLAY_NAME'],
-									'TEXT_EMAIL' => $TEXT['EMAIL'],
-									'TEXT_GROUP' => $TEXT['GROUP'],
-									'TEXT_SYSTEM_PERMISSIONS' => $TEXT['SYSTEM_PERMISSIONS'],
-									'TEXT_MODULE_PERMISSIONS' => $TEXT['MODULE_PERMISSIONS'],
-									'TEXT_TEMPLATE_PERMISSIONS' => $TEXT['TEMPLATE_PERMISSIONS'],
-									'TEXT_NAME' => $TEXT['NAME'],
-									'SECTION_PAGES' => $MENU['PAGES'],
-									'SECTION_MEDIA' => $MENU['MEDIA'],
-									'SECTION_MODULES' => $MENU['MODULES'],
-									'SECTION_TEMPLATES' => $MENU['TEMPLATES'],
-									'SECTION_LANGUAGES' => $MENU['LANGUAGES'],
-									'SECTION_SETTINGS' => $MENU['SETTINGS'],
-									'SECTION_USERS' => $MENU['USERS'],
-									'SECTION_GROUPS' => $MENU['GROUPS'],
-									'SECTION_ADMINTOOLS' => $MENU['ADMINTOOLS'],
-									'TEXT_VIEW' => $TEXT['VIEW'],
-									'TEXT_ADD' => $TEXT['ADD'],
-									'TEXT_LEVEL' => $TEXT['LEVEL'],
-									'TEXT_MODIFY' => $TEXT['MODIFY'],
-									'TEXT_DELETE' => $TEXT['DELETE'],
-									'TEXT_MODIFY_CONTENT' => $TEXT['MODIFY_CONTENT'],
-									'TEXT_MODIFY_SETTINGS' => $TEXT['MODIFY_SETTINGS'],
-									'HEADING_MODIFY_INTRO_PAGE' => $HEADING['MODIFY_INTRO_PAGE'],
-									'TEXT_CREATE_FOLDER' => $TEXT['CREATE_FOLDER'],
-									'TEXT_RENAME' => $TEXT['RENAME'],
-									'TEXT_UPLOAD_FILES' => $TEXT['UPLOAD_FILES'],
-									'TEXT_BASIC' => $TEXT['BASIC'],
-									'TEXT_ADVANCED' => $TEXT['ADVANCED'],
-									'CHANGING_PASSWORD' => $MESSAGE['USERS']['CHANGING_PASSWORD'],
-									'HEADING_MODIFY_GROUP' => $HEADING['MODIFY_GROUP']
-									)
-							);
+				'TEXT_RESET' => $TEXT['RESET'],
+				'TEXT_ACTIVE' => $TEXT['ACTIVE'],
+				'TEXT_DISABLED' => $TEXT['DISABLED'],
+				'TEXT_PLEASE_SELECT' => $TEXT['PLEASE_SELECT'],
+				'TEXT_USERNAME' => $TEXT['USERNAME'],
+				'TEXT_PASSWORD' => $TEXT['PASSWORD'],
+				'TEXT_RETYPE_PASSWORD' => $TEXT['RETYPE_PASSWORD'],
+				'TEXT_DISPLAY_NAME' => $TEXT['DISPLAY_NAME'],
+				'TEXT_EMAIL' => $TEXT['EMAIL'],
+				'TEXT_GROUP' => $TEXT['GROUP'],
+				'TEXT_SYSTEM_PERMISSIONS' => $TEXT['SYSTEM_PERMISSIONS'],
+				'TEXT_MODULE_PERMISSIONS' => $TEXT['MODULE_PERMISSIONS'],
+				'TEXT_TEMPLATE_PERMISSIONS' => $TEXT['TEMPLATE_PERMISSIONS'],
+				'TEXT_NAME' => $TEXT['NAME'],
+				'SECTION_PAGES' => $MENU['PAGES'],
+				'SECTION_MEDIA' => $MENU['MEDIA'],
+				'SECTION_MODULES' => $MENU['MODULES'],
+				'SECTION_TEMPLATES' => $MENU['TEMPLATES'],
+				'SECTION_LANGUAGES' => $MENU['LANGUAGES'],
+				'SECTION_SETTINGS' => $MENU['SETTINGS'],
+				'SECTION_USERS' => $MENU['USERS'],
+				'SECTION_GROUPS' => $MENU['GROUPS'],
+				'SECTION_ADMINTOOLS' => $MENU['ADMINTOOLS'],
+				'TEXT_VIEW' => $TEXT['VIEW'],
+				'TEXT_ADD' => $TEXT['ADD'],
+				'TEXT_LEVEL' => $TEXT['LEVEL'],
+				'TEXT_MODIFY' => $TEXT['MODIFY'],
+				'TEXT_DELETE' => $TEXT['DELETE'],
+				'TEXT_MODIFY_CONTENT' => $TEXT['MODIFY_CONTENT'],
+				'TEXT_MODIFY_SETTINGS' => $TEXT['MODIFY_SETTINGS'],
+				'HEADING_MODIFY_INTRO_PAGE' => $HEADING['MODIFY_INTRO_PAGE'],
+				'TEXT_CREATE_FOLDER' => $TEXT['CREATE_FOLDER'],
+				'TEXT_RENAME' => $TEXT['RENAME'],
+				'TEXT_UPLOAD_FILES' => $TEXT['UPLOAD_FILES'],
+				'TEXT_BASIC' => $TEXT['BASIC'],
+				'TEXT_ADVANCED' => $TEXT['ADVANCED'],
+				'CHANGING_PASSWORD' => $MESSAGE['USERS']['CHANGING_PASSWORD'],
+				'HEADING_MODIFY_GROUP' => $HEADING['MODIFY_GROUP'],
+			));
 	
 	// Parse template object
 	$template->parse('main', 'main_block', false);
@@ -165,6 +170,13 @@ if($_POST['action'] == 'modify') {
 } elseif($_POST['action'] == 'delete') {
 	// Create new admin object
 	$admin = new admin('Access', 'groups_delete', false);
+
+	if (!$admin->checkFTAN())
+	{
+		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+		exit();
+	}
+
 	// Print header
 	$admin->print_header();
 	// Delete the group
