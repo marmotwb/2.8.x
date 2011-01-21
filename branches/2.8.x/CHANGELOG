@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+21 Jan-2011 Build 1400 Frank Heyne (FrankH)
+# Security fix in account 
+# Security fix in admin/media, thanks to hal 9000
 21 Jan-2011 Build 1399 Dietmar Woellbrink (Luisehahne)
 # Ticket 1090 fix wrong translation
 20 Jan-2011 Build 1398 Frank Heyne (FrankH)
