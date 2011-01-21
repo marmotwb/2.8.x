@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+21 Jan-2011 Build 1399 Dietmar Woellbrink (Luisehahne)
+# Ticket 1090 fix wrong translation
 20 Jan-2011 Build 1398 Frank Heyne (FrankH)
 # Security fix in admin/admintools and admin/groups
 20 Jan-2011 Build 1397 Dietmar Woellbrink (Luisehahne)
