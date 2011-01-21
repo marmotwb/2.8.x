@@ -25,6 +25,12 @@ if(!defined('WB_URL')) {
 $current_password = $wb->get_post('current_password');
 $email = $wb->get_post('email');
 
+if (!$wb->checkFTAN())
+{
+	$wb->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
+	exit();
+}
+
 // Create a javascript back link
 $js_back = "javascript: history.go(-1);";
 

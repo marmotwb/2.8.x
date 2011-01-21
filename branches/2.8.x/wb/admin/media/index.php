@@ -1,27 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/**
+ *
+ * @category        admin
+ * @package         admintools
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2011, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 5.2.2 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL:  $
+ * @lastmodified    $Date:  $
+ *
+ */
 
 // Print admin header
 require('../../config.php');
@@ -108,7 +101,8 @@ $template->set_var(array(
 								'CHANGE_SETTINGS' => $TEXT['MODIFY_SETTINGS'],
 								'OPTIONS' => $TEXT['OPTION'],
 								'TEXT_UNZIP_FILE' => $TEXT['UNZIP_FILE'],
-								'TEXT_DELETE_ZIP' => $TEXT['DELETE_ZIP']
+								'TEXT_DELETE_ZIP' => $TEXT['DELETE_ZIP'],
+								'FTAN' => $admin->getFTAN()
 								)
 						);
 

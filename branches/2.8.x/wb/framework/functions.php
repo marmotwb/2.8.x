@@ -1332,4 +1332,20 @@ if(!function_exists('get_variable_content'))
 		return $retval;
 	}
 
-
+/*
+ * filter directory traversal more thoroughly, thanks to hal 9000
+ * @param string $dir: directory relative to MEDIA_DIRECTORY
+ * @param bool $with_media_dir: true when to include MEDIA_DIRECTORY
+ * @return: false if directory traversal detected, real path if not
+ */
+	function check_media_path($directory, $with_media_dir = true)
+	{
+		$md = ($with_media_dir) ? MEDIA_DIRECTORY : ''; 
+		$dir = realpath(WB_PATH . $md . '/' . utf8_decode($directory));
+		$required = realpath(WB_PATH . MEDIA_DIRECTORY);
+		if (strstr($dir, $required)) {
+			return $dir;
+		} else {
+			return false;
+		}
+	}

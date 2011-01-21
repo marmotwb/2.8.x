@@ -34,6 +34,12 @@ $username = strtolower(strip_tags($wb->get_post_escaped('username')));
 $display_name = strip_tags($wb->get_post_escaped('display_name'));
 $email = $wb->get_post('email');
 
+if (!$wb->checkFTAN())
+{
+	$wb->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
+	exit();
+}
+
 // Create a javascript back link
 $js_back = "javascript: history.go(-1);";
 

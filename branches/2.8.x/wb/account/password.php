@@ -26,6 +26,12 @@ $current_password = $_POST['current_password'];
 $new_password = $_POST['new_password'];
 $new_password2 = $_POST['new_password2'];
 
+if (!$wb->checkFTAN())
+{
+	$wb->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
+	exit();
+}
+
 // Create a javascript back link
 $js_back = "javascript: history.go(-1);";
 
@@ -57,6 +63,5 @@ if($database->is_error()) {
 } else {
 	$wb->print_success($MESSAGE['PREFERENCES']['PASSWORD_CHANGED'], WB_URL.'/account/preferences.php');
 }
-
 
 ?>

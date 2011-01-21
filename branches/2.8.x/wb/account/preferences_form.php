@@ -17,14 +17,14 @@
  */
 
 if(!defined('WB_URL')) die(header('Location: ../../index.php'));
-
+$ftan = $wb->getFTAN();
 ?>
 
 <h2>&nbsp;<?php print $HEADING['MY_SETTINGS']; ?></h2>
 
 <form name="user" action="<?php print WB_URL.'/account/preferences.php'; ?>" method="post" style="margin-bottom: 5px;">
 <input type="hidden" name="user_id" value="{USER_ID}" />
-
+<?php echo $ftan; ?>
 <table cellpadding="5" cellspacing="0" border="0" width="97%">
 <tr>
 	<td width="140"><?php print $TEXT['DISPLAY_NAME']; ?>:</td>
@@ -146,7 +146,7 @@ if(!defined('WB_URL')) die(header('Location: ../../index.php'));
 
 <form name="email" action="<?php print WB_URL.'/account/preferences.php'; ?>" method="post" style="margin-bottom: 5px;">
 <input type="hidden" name="user_id" value="{USER_ID}" />
-
+<?php echo $ftan; ?>
 <table cellpadding="5" cellspacing="0" border="0" width="97%">
 <tr>
 	<td width="140"><?php print $TEXT['CURRENT_PASSWORD']; ?>:</td>
@@ -176,7 +176,7 @@ if(!defined('WB_URL')) die(header('Location: ../../index.php'));
 
 <form name="user" action="<?php print WB_URL.'/account/preferences.php'; ?>" method="post">
 <input type="hidden" name="user_id" value="{USER_ID}" />
-
+<?php echo $ftan; ?>
 <table cellpadding="5" cellspacing="0" border="0" width="97%">
 <tr>
 	<td width="140"><?php print $TEXT['CURRENT_PASSWORD']; ?>:</td>

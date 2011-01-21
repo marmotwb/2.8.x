@@ -6,7 +6,8 @@
     <td width="300" valign="top" align="left">
 	<h2>{HEADING_UPLOAD_FILES}</h2>
       <form name="upload" action="upload.php" method="post" enctype="multipart/form-data" class="{DISPLAY_UPLOAD}">
-        <table cellpadding="3" cellspacing="0" border="0" width="100%">
+		{FTAN}
+		<table cellpadding="3" cellspacing="0" border="0" width="100%">
           <tr>
             <td>{TEXT_TARGET_FOLDER}:<br />
               <select name="target" style="width:100%;" 
@@ -79,6 +80,7 @@ please set the class below to "hide", else to "show".
       <div class="show">
 	  <br /><br />
         <form name="create" action="create.php" method="post" class="{DISPLAY_CREATE}">
+		{FTAN}
           <h2>{HEADING_CREATE_FOLDER}</h2>
           <table cellpadding="3" cellspacing="0" border="0" width="100%">
             <tr>
