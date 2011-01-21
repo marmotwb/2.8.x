@@ -14,7 +14,7 @@
 <input type="hidden" name="dir" value="{DIR}" />
 <input type="hidden" name="old_name" value="{FILENAME}" />
 <input type="hidden" name="id" value="{FILE_ID}" />
-
+{FTAN}
 <table cellpadding="5" cellspacing="0" border="0" width="400" align="center">
 <tr>
 	<td align="center" colspan="2">{TEXT_RENAME} '{FILENAME}' {TEXT_TO}:</td>

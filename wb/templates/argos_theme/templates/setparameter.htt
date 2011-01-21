@@ -40,6 +40,7 @@ a:hover {
 </tr>
 </table>
 <form method="post" action="{ADMIN_URL}/media/setparameter.php">
+	{FTAN}
 <table cellpadding="4" cellspacing="0" border="0" width="100%" class="{DISPLAY_LIST_TABLE}">
 	<tr><td>{SETTINGS}</td><td><input type="checkbox" name="show_thumbs" {NO_SHOW_THUMBS_SELECTED}> {NO_SHOW_THUMBS}</td></tr>
 	<tr class="{DISPLAY_ADMIN}"><td></td>&nbsp;<td><input type="checkbox" name="admin_only" {ADMIN_ONLY_SELECTED}> {ADMIN_ONLY}</td></tr>
@@ -55,7 +56,7 @@ a:hover {
 		<td><input type="submit" name="save" value="{SAVE_TEXT}"></td>
 	</tr>
 </table>
-
+</form>
 </body>
 </html>
 

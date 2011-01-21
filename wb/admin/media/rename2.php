@@ -1,63 +1,60 @@
 <?php
-
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/**
+ *
+ * @category        admin
+ * @package         admintools
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2011, Website Baker Org. e.V.
+ * @link			http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 5.2.2 and higher
+ * @version         $Id$
+ * @filesource		$HeadURL:  $
+ * @lastmodified    $Date:  $
+ *
+ */
 
 // Create admin object
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Media', 'media_rename', false);
 
+if (!$admin->checkFTAN())
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
+	exit();
+}
+
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 
 // Get list of file types to which we're supposed to append 'txt'
-$get_result=$database->query("SELECT value FROM ".TABLE_PREFIX."settings WHERE name='rename_files_on_upload' LIMIT 1");
-$file_extension_string='';
+$get_result = $database->query("SELECT value FROM ".TABLE_PREFIX."settings WHERE name='rename_files_on_upload' LIMIT 1");
+$file_extension_string = '';
 if ($get_result->numRows()>0) {
-	$fetch_result=$get_result->fetchRow();
-	$file_extension_string=$fetch_result['value'];
+	$fetch_result = $get_result->fetchRow();
+	$file_extension_string = $fetch_result['value'];
 }
 $file_extensions=explode(",",$file_extension_string);
-
 
 // Get the current dir
 $directory = $admin->get_post('dir');
 if($directory == '/') {
 	$directory = '';
 }
-// Check to see if it contains ../
-if(strstr($directory, '../')) {
+
+// Check to see if it contains ..
+if (!check_media_path($directory)) {
 	$admin->print_header();
 	$admin->print_error($MESSAGE['MEDIA']['DIR_DOT_DOT_SLASH']);
 }
 
 // Get the temp id
-if(!is_numeric($admin->get_post('id'))) {
-	header("Location: browse.php?dir=$directory");
-	exit(0);
-} else {
-	$file_id = $admin->get_post('id');
+$file_id = $admin->checkIDKEY('id', false, 'POST');
+if (!$file_id) {
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
 }
 
 // Get home folder not to show

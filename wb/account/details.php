@@ -28,6 +28,12 @@ $timezone = $wb->get_post_escaped('timezone')*60*60;
 $date_format = $wb->get_post_escaped('date_format');
 $time_format = $wb->get_post_escaped('time_format');
 
+if (!$wb->checkFTAN())
+{
+	$wb->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
+	exit();
+}
+
 // Create a javascript back link
 $js_back = "javascript: history.go(-1);";
 

@@ -27,7 +27,7 @@ require_once(WB_PATH.'/include/captcha/captcha.php');
 <h1>&nbsp;<?php echo $TEXT['SIGNUP']; ?></h1>
 
 <form name="user" action="<?php echo WB_URL.'/account/signup.php'; ?>" method="post">
-
+	<?php echo $admin->getFTAN(); ?>
 	<?php if(ENABLED_ASP) { // add some honeypot-fields
 	?>
     <div style="display:none;">
