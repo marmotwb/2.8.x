@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+22 Jan-2011 Build 1405 Frank Heyne (FrankH)
+# Security fix (XSS) in form module, thanks to Michael Schwarz 
 22 Jan-2011 Build 1404 Dietmar Woellbrink (Luisehahne)
 # Security fix in pages 
 22 Jan-2011 Build 1403 Dietmar Woellbrink (Luisehahne)
@@ -19,7 +21,7 @@ Legend:
 ! secure peparing and beginning fix admin/pages
 21 Jan-2011 Build 1401 Frank Heyne (FrankH)
 ! fixed changelog
-#21 Jan-2011 Build 1400 Frank Heyne (FrankH)
+21 Jan-2011 Build 1400 Frank Heyne (FrankH)
 # Security fix in account 
 # Security fix in admin/media, thanks to hal 9000
 21 Jan-2011 Build 1399 Dietmar Woellbrink (Luisehahne)
