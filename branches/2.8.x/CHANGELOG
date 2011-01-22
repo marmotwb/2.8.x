@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+22 Jan-2011 Build 1407 Frank Heyne (FrankH)
+# various Security fixes, thanks to secunia and others 
 22 Jan-2011 Build 1406 Frank Heyne (FrankH)
 # Security fix to stop users from changing module contents without permission, thanks to Michael Schwarz 
 22 Jan-2011 Build 1405 Frank Heyne (FrankH)

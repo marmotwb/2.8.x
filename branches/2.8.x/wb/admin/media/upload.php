@@ -123,6 +123,18 @@ if (isset($_POST['unzip']) && isset($filename1) && file_exists($filename1) ) {
 		// error while trying to extract the archive (most likely wrong format)
 		$admin->print_error('UNABLE TO UNZIP FILE' . $archive -> errorInfo(true));
 	}
+	
+	// rename executable files!
+	foreach ($list as $val) {
+		$fn = $val['filename'];
+		$fnp = pathinfo($fn);
+		if (isset($fnp['extension'])) {
+			$fext = $fnp['extension'];
+			if (in_array($fext, $file_extensions)) {
+				rename($fn, $fn.".txt");
+			}
+		}
+	}
 }
 
 if($good_uploads == 1) {

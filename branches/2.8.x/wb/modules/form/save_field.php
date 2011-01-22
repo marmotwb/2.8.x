@@ -40,7 +40,7 @@ if (!$admin->checkFTAN())
 if($admin->get_post('title') == '' OR $admin->get_post('type') == '') {
 	$admin->print_error($MESSAGE['GENERIC']['FILL_IN_ALL'], WB_URL.'/modules/form/modify_field.php?page_id='.$page_id.'&section_id='.$section_id.'&field_id='.$admin->getIDKEY($field_id));
 } else {
-	$title = htmlspecialchars($admin->get_post_escaped('title'), ENT_QUOTES);
+	$title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('title'), ENT_QUOTES));
 	$type = $admin->add_slashes($admin->get_post('type'));
 	$required = (int) $admin->add_slashes($admin->get_post('required'));
 }
@@ -64,13 +64,13 @@ if(is_numeric($list_count)) {
 // Get extra fields for field-type-specific settings
 if($admin->get_post('type') == 'textfield') {
 	$length = $admin->get_post_escaped('length');
-	$value = $admin->get_post_escaped('value');
+	$value = str_replace(array("[[", "]]"), '', $admin->get_post_escaped('value'));
 	$database->query("UPDATE ".TABLE_PREFIX."mod_form_fields SET value = '$value', extra = '$length' WHERE field_id = '$field_id'");
 } elseif($admin->get_post('type') == 'textarea') {
-	$value = $admin->get_post_escaped('value');
+	$value = str_replace(array("[[", "]]"), '', $admin->get_post_escaped('value'));
 	$database->query("UPDATE ".TABLE_PREFIX."mod_form_fields SET value = '$value', extra = '' WHERE field_id = '$field_id'");
 } elseif($admin->get_post('type') == 'heading') {
-	$extra = $admin->get_post('template');
+	$extra = str_replace(array("[[", "]]"), '', $admin->get_post('template'));
 	if(trim($extra) == '') $extra = '<tr><td class="field_heading" colspan="2">{TITLE}{FIELD}</td></tr>';
 	$extra = $admin->add_slashes($extra);
 	$database->query("UPDATE ".TABLE_PREFIX."mod_form_fields SET value = '', extra = '$extra' WHERE field_id = '$field_id'");
@@ -78,10 +78,10 @@ if($admin->get_post('type') == 'textfield') {
 	$extra = $admin->get_post_escaped('size').','.$admin->get_post_escaped('multiselect');
 	$database->query("UPDATE ".TABLE_PREFIX."mod_form_fields SET value = '$value', extra = '$extra' WHERE field_id = '$field_id'");
 } elseif($admin->get_post('type') == 'checkbox') {
-	$extra = $admin->get_post_escaped('seperator');
+	$extra = str_replace(array("[[", "]]"), '', $admin->get_post_escaped('seperator'));
 	$database->query("UPDATE ".TABLE_PREFIX."mod_form_fields SET value = '$value', extra = '$extra' WHERE field_id = '$field_id'");
 } elseif($admin->get_post('type') == 'radio') {
-	$extra = $admin->get_post_escaped('seperator');
+	$extra = str_replace(array("[[", "]]"), '', $admin->get_post_escaped('seperator'));
 	$database->query("UPDATE ".TABLE_PREFIX."mod_form_fields SET value = '$value', extra = '$extra' WHERE field_id = '$field_id'");
 }
 

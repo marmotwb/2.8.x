@@ -49,11 +49,11 @@ if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD'])))
 require_once(WB_PATH.'/framework/functions.php');
 
 // Get values
-$page_title = htmlspecialchars($admin->get_post_escaped('page_title') );
-$menu_title = htmlspecialchars($admin->get_post_escaped('menu_title') );
+$page_title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('page_title')));
+$menu_title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('menu_title')));
 $page_code = (int) $admin->get_post_escaped('page_code');
-$description = htmlspecialchars($admin->add_slashes($admin->get_post('description')) );
-$keywords = htmlspecialchars($admin->add_slashes($admin->get_post('keywords')) );
+$description = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->add_slashes($admin->get_post('description'))));
+$keywords = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->add_slashes($admin->get_post('keywords'))));
 $parent = (int) $admin->get_post_escaped('parent'); // fix secunia 2010-91-3
 $visibility = $admin->get_post_escaped('visibility');
 if (!in_array($visibility, array('public', 'private', 'registered', 'hidden', 'none'))) {$visibility = 'public';} // fix secunia 2010-93-3
@@ -61,7 +61,7 @@ $template = preg_replace("/\W/", "", $admin->get_post_escaped('template')); // f
 $target = preg_replace("/\W/", "", $admin->get_post_escaped('target'));
 $admin_groups = $admin->get_post_escaped('admin_groups');
 $viewing_groups = $admin->get_post_escaped('viewing_groups');
-$searching = $admin->get_post_escaped('searching');
+$searching = (int) $admin->get_post_escaped('searching');
 $language = strtoupper($admin->get_post('language'));
 $language = (preg_match('/^[A-Z]{2}$/', $language) ? $language : DEFAULT_LANGUAGE);
 $menu = (int) $admin->get_post_escaped('menu'); // fix secunia 2010-91-3
