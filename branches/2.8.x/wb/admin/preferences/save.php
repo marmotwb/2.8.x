@@ -30,7 +30,7 @@ function save_preferences( &$admin, &$database)
 	$err_msg = array();
 	$min_pass_length = 6;
 // first check form-tan
-	if(!$admin->checkFTAN()){ $err_msg[] = $MESSAGE['PAGES']['NOT_SAVED']; }
+	if(!$admin->checkFTAN()){ $err_msg[] = $MESSAGE['GENERIC_SECURITY_ACCESS']; }
 // Get entered values and validate all
 	// remove any dangerouse chars from display_name
 	$display_name     = $admin->add_slashes(strip_tags(trim($admin->get_post('display_name'))));
