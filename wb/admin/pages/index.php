@@ -157,7 +157,7 @@ function make_list($parent = 0, $editable_pages = 0) {
 				</td>
 				<?php if($admin->get_permission('pages_modify') == true && $can_modify == true) { ?>
 				<td class="list_menu_title">
-					<a href="<?php echo ADMIN_URL; ?>/pages/modify.php?page_id=<?php echo /*$admin->getIDKEY($page['page_id'])*/ $page['page_id']; ?>" title="<?php echo $TEXT['MODIFY']; ?>">
+					<a href="<?php echo ADMIN_URL; ?>/pages/modify.php?page_id=<?php echo  $page['page_id']; ?>" title="<?php echo $TEXT['MODIFY']; ?>">
 						<?php if($page['visibility'] == 'public') { ?>
 							<img src="<?php echo THEME_URL; ?>/images/visible_16.png" alt="<?php echo $TEXT['VISIBILITY']; ?>: <?php echo $TEXT['PUBLIC']; ?>" class="page_list_rights" />
 						<?php } elseif($page['visibility'] == 'private') { ?>
@@ -209,12 +209,12 @@ function make_list($parent = 0, $editable_pages = 0) {
 				<td class="list_actions">
 					<?php if($page['visibility'] != 'deleted') { ?>
 						<?php if($admin->get_permission('pages_settings') == true && $can_modify == true) { ?>
-						<a href="<?php echo ADMIN_URL; ?>/pages/settings.php?page_id=<?php echo /*$admin->getIDKEY($page['page_id'])*/ $page['page_id']; ?>" title="<?php echo $TEXT['SETTINGS']; ?>">
+						<a href="<?php echo ADMIN_URL; ?>/pages/settings.php?page_id=<?php echo $page['page_id']; ?>" title="<?php echo $TEXT['SETTINGS']; ?>">
 							<img src="<?php echo THEME_URL; ?>/images/modify_16.png" alt="<?php echo $TEXT['SETTINGS']; ?>" />
 						</a>
 						<?php } ?>
 					<?php } else { ?>
-						<a href="<?php echo ADMIN_URL; ?>/pages/restore.php?page_id=<?php echo /*$admin->getIDKEY($page['page_id'])*/ $page['page_id']; ?>" title="<?php echo $TEXT['RESTORE']; ?>">
+						<a href="<?php echo ADMIN_URL; ?>/pages/restore.php?page_id=<?php echo $page['page_id']; ?>" title="<?php echo $TEXT['RESTORE']; ?>">
 							<img src="<?php echo THEME_URL; ?>/images/restore_16.png" alt="<?php echo $TEXT['RESTORE']; ?>" />
 						</a>
 					<?php } ?>
@@ -246,11 +246,11 @@ function make_list($parent = 0, $editable_pages = 0) {
                         {
 							$file=$admin->page_is_active($page)?"clock_16.png":"clock_red_16.png";
 							?>
-							<a href="<?php echo ADMIN_URL; ?>/pages/sections.php?page_id=<?php echo /*$admin->getIDKEY($page['page_id'])*/ $page['page_id']; ?>" title="<?php echo $HEADING['MANAGE_SECTIONS']; ?>">
+							<a href="<?php echo ADMIN_URL; ?>/pages/sections.php?page_id=<?php echo $page['page_id']; ?>" title="<?php echo $HEADING['MANAGE_SECTIONS']; ?>">
 							<img src="<?php echo THEME_URL."/images/$file"; ?>" alt="<?php echo $HEADING['MANAGE_SECTIONS']; ?>" />
 							</a>
 						<?php } else { ?>
-							<a href="<?php echo ADMIN_URL; ?>/pages/sections.php?page_id=<?php echo /*$admin->getIDKEY($page['page_id'])*/ $page['page_id']; ?>" title="<?php echo $HEADING['MANAGE_SECTIONS']; ?>">
+							<a href="<?php echo ADMIN_URL; ?>/pages/sections.php?page_id=<?php echo $page['page_id']; ?>" title="<?php echo $HEADING['MANAGE_SECTIONS']; ?>">
 							<img src="<?php echo THEME_URL; ?>/images/noclock_16.png" alt="<?php echo $HEADING['MANAGE_SECTIONS']; ?>" /></a>
 						<?php } ?>
 					<?php } ?>
@@ -280,7 +280,7 @@ function make_list($parent = 0, $editable_pages = 0) {
 				</td>
 				<td class="list_actions">
 					<?php if($admin->get_permission('pages_delete') == true && $can_modify == true) { // add IdKey ?>
-					<a href="javascript:confirm_link('<?php echo $MESSAGE['PAGES_DELETE_CONFIRM']; ?>?','<?php echo ADMIN_URL; ?>/pages/delete.php?page_id=<?php echo /*$admin->getIDKEY($page['page_id'])*/ $page['page_id']; ?>');" title="<?php echo $TEXT['DELETE']; ?>">
+					<a href="javascript:confirm_link('<?php echo $MESSAGE['PAGES_DELETE_CONFIRM']; ?>?','<?php echo ADMIN_URL; ?>/pages/delete.php?page_id=<?php echo $admin->getIDKEY($page['page_id']); ?>');" title="<?php echo $TEXT['DELETE']; ?>">
 						<img src="<?php echo THEME_URL; ?>/images/delete_16.png" alt="<?php echo $TEXT['DELETE']; ?>" />
 					</a>
 					<?php } ?>
