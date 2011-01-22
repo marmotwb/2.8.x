@@ -25,6 +25,12 @@ if(MANAGE_SECTIONS != 'enabled')
 	header('Location: '.ADMIN_URL.'/pages/index.php');
 	exit(0);
 }
+/* */
+$debug = false; // to show position and section_id
+If(!defined('DEBUG')) { define('DEBUG',$debug);}
+// Create new admin object
+require_once(WB_PATH.'/framework/class.admin.php');
+$admin = new admin('Pages', 'pages_modify');
 
 // Get page id
 if(!isset($_GET['page_id']) || !is_numeric($_GET['page_id']))
@@ -35,11 +41,13 @@ if(!isset($_GET['page_id']) || !is_numeric($_GET['page_id']))
 	$page_id = $_GET['page_id'];
 }
 
-$debug = false; // to show position and section_id
-If(!defined('DEBUG')) { define('DEBUG',$debug);}
-// Create new admin object
-require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Pages', 'pages_modify');
+/*
+if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD']))) )
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+	exit();
+}
+*/
 
 // Check if we are supposed to add or delete a section
 if(isset($_GET['section_id']) && is_numeric($_GET['section_id']))
@@ -71,7 +79,7 @@ if(isset($_GET['section_id']) && is_numeric($_GET['section_id']))
 		require(WB_PATH.'/framework/class.order.php');
 		$order = new order(TABLE_PREFIX.'sections', 'position', 'section_id', 'page_id');
 		$order->clean($page_id);
-		$admin->print_success($TEXT['SUCCESS'], ADMIN_URL.'/pages/sections.php?page_id='.$page_id);
+		$admin->print_success($TEXT['SUCCESS'], ADMIN_URL.'/pages/sections.php?page_id='.$admin->getIDKEY($page_id));
 		$admin->print_footer();
 		exit();
 	}
@@ -181,6 +189,8 @@ $template->set_var('FTAN', $admin->getFTAN());
 // set first defaults and messages
 $template->set_var(array(
 				'PAGE_ID' => $results_array['page_id'],
+				// 'PAGE_IDKEY' => $admin->getIDKEY($results_array['page_id']),
+				'PAGE_IDKEY' => $results_array['page_id'],
 				'TEXT_PAGE' => $TEXT['PAGE'],
 				'PAGE_TITLE' => ($results_array['page_title']),
 				'MENU_TITLE' => ($results_array['menu_title']),
@@ -203,11 +213,13 @@ $template->set_var(array(
 
 // Insert variables
 $template->set_var(array(
-				'VAR_PAGE_ID' => $results_array['page_id'],
+				'PAGE_ID' => $results_array['page_id'],
+				// 'PAGE_IDKEY' => $admin->getIDKEY($results_array['page_id']),
+				'PAGE_IDKEY' => $results_array['page_id'],
 				'VAR_PAGE_TITLE' => $results_array['page_title'],
-				'SETTINGS_LINK' => ADMIN_URL.'/pages/settings.php?page_id='.$results_array['page_id'],
-				'MODIFY_LINK' => ADMIN_URL.'/pages/modify.php?page_id='.$results_array['page_id']
-				) 
+				'SETTINGS_LINK' => ADMIN_URL.'/pages/settings.php?page_id='./*$admin->getIDKEY()*/$results_array['page_id'],
+				'MODIFY_LINK' => ADMIN_URL.'/pages/modify.php?page_id='./*$admin->getIDKEY()*/$results_array['page_id']
+				)
 			);
 
 $sql  = 'SELECT `section_id`,`module`,`position`,`block`,`publ_start`,`publ_end` ';
@@ -233,7 +245,7 @@ if($query_sections->numRows() > 0)
 			{
 				$edit_page = '';
 			}
-			$edit_page_0 = '<a id="sid'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id;
+			$edit_page_0 = '<a id="sid'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='./*$admin->getIDKEY()*/$results_array['page_id'];
 			$edit_page_1 = $section['section_id'].'">'.$section['module'].'</a>';
 			if(SECTION_BLOCKS)
             {
@@ -252,6 +264,8 @@ if($query_sections->numRows() > 0)
 						'NAME_SIZE' => 300,
 						'INPUT_ATTRIBUTE' => $input_attribute,
 						'VAR_SECTION_ID' => $section['section_id'],
+						// 'VAR_SECTION_IDKEY' => $admin->getIDKEY($section['section_id']),
+						'VAR_SECTION_IDKEY' => $section['section_id'],
 						'VAR_POSITION' => $section['position'],
 						'LINK_MODIFY_URL_VAR_MODUL_NAME' => $edit_page,
 						'SELECT' => '',
@@ -284,6 +298,8 @@ if($query_sections->numRows() > 0)
 						'NAME_SIZE' => 300,
 						'INPUT_ATTRIBUTE' => $input_attribute,
 						'VAR_SECTION_ID' => $section['section_id'],
+						// 'VAR_SECTION_IDKEY' => $admin->getIDKEY($section['section_id']),
+						'VAR_SECTION_IDKEY' => $section['section_id'],
 						'VAR_POSITION' => $section['position'],
 						'LINK_MODIFY_URL_VAR_MODUL_NAME' => $edit_page,
 						'NAME' => htmlentities(strip_tags($block[1])),

@@ -15,21 +15,8 @@
  * @lastmodified    $Date$
  *
  */
-
-// Get page & section id
-if(!isset($_POST['page_id']) || !is_numeric($_POST['page_id'])) {
-	header("Location: index.php");
-	exit(0);
-} else {
-	$page_id = intval($_POST['page_id']);
-}
-if(!isset($_POST['section_id']) || !is_numeric($_POST['section_id'])) {
-	header("Location: index.php");
-	exit(0);
-} else {
-	$section_id = intval($_POST['section_id']);
-}
-
+/*
+*/
 // Create new admin object
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
@@ -40,6 +27,36 @@ if (!$admin->checkFTAN())
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],'index.php');
 	exit();
 }
+
+// Get page & section id
+if(!isset($_POST['page_id']) || !is_numeric($_POST['page_id'])) {
+	header("Location: index.php");
+	exit(0);
+} else {
+	$page_id = intval($_POST['page_id']);
+}
+
+if(!isset($_POST['section_id']) || !is_numeric($_POST['section_id'])) {
+	header("Location: index.php");
+	exit(0);
+} else {
+	$section_id = intval($_POST['section_id']);
+}
+
+/*
+if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD']))) )
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+	exit();
+}
+
+if( (!($section_id= $admin->checkIDKEY('section_id', 0, $_SERVER['REQUEST_METHOD']))) )
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+	exit();
+}
+*/
+
 $js_back = "javascript: history.go(-1);";
 
 // Get perms
@@ -96,7 +113,7 @@ if($database->is_error())
 {
 	$admin->print_error($database->get_error(), $js_back);
 } else {
-	$admin->print_success($MESSAGE['PAGES']['SAVED'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+	$admin->print_success($MESSAGE['PAGES']['SAVED'], ADMIN_URL.'/pages/modify.php?page_id='.$results_array['page_id'] );
 }
 
 // Print admin footer

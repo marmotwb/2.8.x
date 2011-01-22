@@ -16,13 +16,6 @@
  *
  */
 
-// Get page id
-if(!isset($_GET['page_id']) || !is_numeric($_GET['page_id'])) {
-	header("Location: index.php");
-	exit(0);
-} else {
-	$page_id = $_GET['page_id'];
-}
 
 // Create new admin object and print admin header
 require('../../config.php');
@@ -31,13 +24,23 @@ $admin = new admin('Pages', 'pages_delete');
 
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
+
 /*
-if (!$admin->checkIDKEY('page_id', 0, 'GET'))
+if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD']))) )
 {
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
 	exit();
 }
 */
+
+// Get page id
+if(!isset($_GET['page_id']) || !is_numeric($_GET['page_id'])) {
+	header("Location: index.php");
+	exit(0);
+} else {
+	$page_id = $_GET['page_id'];
+}
+
 // Get perms
 if (!$admin->get_page_permission($page_id,'admin')) {
 	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
