@@ -79,7 +79,7 @@ if(isset($_GET['section_id']) && is_numeric($_GET['section_id']))
 		require(WB_PATH.'/framework/class.order.php');
 		$order = new order(TABLE_PREFIX.'sections', 'position', 'section_id', 'page_id');
 		$order->clean($page_id);
-		$admin->print_success($TEXT['SUCCESS'], ADMIN_URL.'/pages/sections.php?page_id='.$admin->getIDKEY($page_id));
+		$admin->print_success($TEXT['SUCCESS'], ADMIN_URL.'/pages/sections.php?page_id='.$page_id );
 		$admin->print_footer();
 		exit();
 	}
