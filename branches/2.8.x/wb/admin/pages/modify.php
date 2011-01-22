@@ -15,6 +15,13 @@
  * @lastmodified    $Date$
  *
 */
+/*
+*/
+// Create new admin object
+require('../../config.php');
+require_once(WB_PATH.'/framework/class.admin.php');
+
+$admin = new admin('Pages', 'pages_modify');
 
 // Get page id
 if(!isset($_GET['page_id']) || !is_numeric($_GET['page_id'])) {
@@ -24,11 +31,13 @@ if(!isset($_GET['page_id']) || !is_numeric($_GET['page_id'])) {
 	$page_id = $_GET['page_id'];
 }
 
-// Create new admin object
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
-
-$admin = new admin('Pages', 'pages_modify');
+/*
+if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD']))) )
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+	exit();
+}
+*/
 
 // Get perms
 if(!$admin->get_page_permission($page_id,'admin')) {
@@ -57,9 +66,10 @@ $template->set_var('FTAN', $admin->getFTAN());
 
 $template->set_var(array(
 			'PAGE_ID' => $results_array['page_id'],
+			// 'PAGE_IDKEY' => $admin->getIDKEY($results_array['page_id']),
+			'PAGE_IDKEY' => $results_array['page_id'],
 			'PAGE_TITLE' => ($results_array['page_title']),
 			'MENU_TITLE' => ($results_array['menu_title']),
-            'FTAN' => 'FTAN',
 			'ADMIN_URL' => ADMIN_URL,
 			'WB_URL' => WB_URL,
 			'WB_PATH' => WB_PATH,

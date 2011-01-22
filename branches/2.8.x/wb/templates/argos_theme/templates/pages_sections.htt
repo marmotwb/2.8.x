@@ -6,14 +6,14 @@
 		<td align="left" width="20%">ID: {PAGE_ID}</td>
 		<td align="right">{TEXT_CURRENT_PAGE}: <b>{PAGE_TITLE}</b>
 			-
-			<a href="{ADMIN_URL}/pages/modify.php?page_id={PAGE_ID}">{HEADING_MODIFY_PAGE}</a>
+			<a href="{ADMIN_URL}/pages/modify.php?page_id={PAGE_IDKEY}">{HEADING_MODIFY_PAGE}</a>
 			-
-			<a href="{ADMIN_URL}/pages/settings.php?page_id={PAGE_ID}">{TEXT_CHANGE_SETTINGS}</a>
+			<a href="{ADMIN_URL}/pages/settings.php?page_id={PAGE_IDKEY}">{TEXT_CHANGE_SETTINGS}</a>
 		</td>
      </tr>
 </table>
 
-        <form name="section_properties" action="{ADMIN_URL}/pages/sections_save.php?page_id={VAR_PAGE_ID}" method="post">
+        <form name="section_properties" action="{ADMIN_URL}/pages/sections_save.php?page_id={PAGE_IDKEY}" method="post">
 		{FTAN}
 		
         <table cellpadding="0" cellspacing="0" border="0" width="100%" class="img_noborder">
@@ -29,7 +29,7 @@
 <!-- BEGIN section_block -->
             	<tr class="sectionrow">
     				<td align="right" style="display:none;">
-                      <input type="hidden" name="page_id" value="{VAR_PAGE_ID}"  />
+                      <input type="hidden" name="page_id" value="{PAGE_IDKEY}"  />
                       <input type="hidden" name="section_id" value="{VAR_SECTION_ID}"  />
                       {VAR_SECTION_ID}
                     </td>
@@ -58,9 +58,9 @@
 					<td>{VAR_MOVE_UP_URL}</td>
 					
                     <td>{VAR_MOVE_DOWN_URL}</td>
-					
+
                     <td>
-                        <a href="javascript: confirm_link('{TEXT_ARE_YOU_SURE}', '{ADMIN_URL}/pages/sections.php?page_id={VAR_PAGE_ID}&amp;section_id={VAR_SECTION_ID}');">
+                        <a href="javascript: confirm_link('{TEXT_ARE_YOU_SURE}', '{ADMIN_URL}/pages/sections.php?page_id={PAGE_IDKEY}&amp;section_id={VAR_SECTION_ID}');">
                         <img src="{THEME_URL}/images/{DELETE_16_PNG}" alt="{TEXT_DELETE}" border="0" />
                         </a>
                     </td>
@@ -80,8 +80,8 @@
     </form>
 <br />
 	<h2>{TEXT_ADD_SECTION}</h2>
-	<form name="add" action="{ADMIN_URL}/pages/sections.php?page_id={VAR_PAGE_ID}" method="post">
-        <input type="hidden" name="page_id" value="{VAR_PAGE_ID}"  />
+	<form name="add" action="{ADMIN_URL}/pages/sections.php?page_id={PAGE_IDKEY}" method="post">
+        <input type="hidden" name="page_id" value="{PAGE_IDKEY}"  />
 		{FTAN}
     	<table cellpadding="5" cellspacing="0" border="0" align="center" width="100%">
     	<tr>

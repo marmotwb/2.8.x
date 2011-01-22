@@ -116,29 +116,29 @@ class admin extends wb {
 		}
 
 		$header_template->set_var(	array(
-													'SECTION_NAME' => $MENU[strtoupper($this->section_name)],
-													'BODY_TAGS' => $body_tags,
-													'WEBSITE_TITLE' => ($title['value']),
-													'TEXT_ADMINISTRATION' => $TEXT['ADMINISTRATION'],
-													'CURRENT_USER' => $MESSAGE['START']['CURRENT_USER'],
-													'DISPLAY_NAME' => $this->get_display_name(),
-													'CHARSET' => $charset,
-													'LANGUAGE' => strtolower(LANGUAGE),
-													'VERSION' => VERSION,
-													'REVISION' => REVISION,
-													'WB_URL' => WB_URL,
-													'ADMIN_URL' => ADMIN_URL,
-													'THEME_URL' => THEME_URL,
-													'TITLE_START' => $MENU['START'],
-													'TITLE_VIEW' => $MENU['VIEW'],
-													'TITLE_HELP' => $MENU['HELP'],
-													'TITLE_LOGOUT' =>  $MENU['LOGOUT'],
-													'URL_VIEW' => $view_url,
-													'URL_HELP' => 'http://www.websitebaker2.org/',
-													'BACKEND_MODULE_CSS' => $this->register_backend_modfiles('css'),	// adds backend.css
-													'BACKEND_MODULE_JS'  => $this->register_backend_modfiles('js')		// adds backend.js
-													)
-											);
+							'SECTION_NAME' => $MENU[strtoupper($this->section_name)],
+							'BODY_TAGS' => $body_tags,
+							'WEBSITE_TITLE' => ($title['value']),
+							'TEXT_ADMINISTRATION' => $TEXT['ADMINISTRATION'],
+							'CURRENT_USER' => $MESSAGE['START']['CURRENT_USER'],
+							'DISPLAY_NAME' => $this->get_display_name(),
+							'CHARSET' => $charset,
+							'LANGUAGE' => strtolower(LANGUAGE),
+							'VERSION' => VERSION,
+							'REVISION' => REVISION,
+							'WB_URL' => WB_URL,
+							'ADMIN_URL' => ADMIN_URL,
+							'THEME_URL' => THEME_URL,
+							'TITLE_START' => $MENU['START'],
+							'TITLE_VIEW' => $MENU['VIEW'],
+							'TITLE_HELP' => $MENU['HELP'],
+							'TITLE_LOGOUT' =>  $MENU['LOGOUT'],
+							'URL_VIEW' => $view_url,
+							'URL_HELP' => 'http://www.websitebaker2.org/',
+							'BACKEND_MODULE_CSS' => $this->register_backend_modfiles('css'),	// adds backend.css
+							'BACKEND_MODULE_JS'  => $this->register_backend_modfiles('js')		// adds backend.js
+						)
+					);
 
 		// Create the menu
 		$menu = array(
@@ -188,7 +188,6 @@ class admin extends wb {
 		$footer_template->set_var(array(
 						'BACKEND_BODY_MODULE_JS' => $this->register_backend_modfiles_body('js'),
 						'WB_URL' => WB_URL,
-						'WB_PATH' => WB_PATH,
 						'ADMIN_URL' => ADMIN_URL,
 						'THEME_URL' => THEME_URL,
 			 ) );

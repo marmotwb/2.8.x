@@ -15,15 +15,7 @@
  * @lastmodified    $Date$
  *
  */
-
-// Get page id
-if(!isset($_POST['page_id']) || !is_numeric($_POST['page_id']))
-{
-	header("Location: index.php");
-	exit(0);
-} else {
-	$page_id = $_POST['page_id'];
-}
+/* */
 
 // Create new admin object and print admin header
 require('../../config.php');
@@ -35,6 +27,23 @@ if (!$admin->checkFTAN())
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],'index.php');
 	exit();
 }
+
+// Get page id
+if(!isset($_POST['page_id']) || !is_numeric($_POST['page_id']))
+{
+	header("Location: index.php");
+	exit(0);
+} else {
+	$page_id = $_POST['page_id'];
+}
+
+/*
+if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD']))) )
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+	exit();
+}
+*/
 
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');

@@ -26,15 +26,7 @@ if(MANAGE_SECTIONS != 'enabled') {
 }
 
 require_once(WB_PATH."/include/jscalendar/jscalendar-functions.php");
-
-// Get page id
-if(!isset($_GET['page_id']) || !is_numeric($_GET['page_id'])) {
-	header("Location: index.php");
-	exit(0);
-} else {
-	$page_id = $_GET['page_id'];
-}
-
+/**/
 // Create new admin object
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_modify');
@@ -45,6 +37,20 @@ if (!$admin->checkFTAN())
 	exit();
 }
 
+// Get page id
+if(!isset($_GET['page_id']) || !is_numeric($_GET['page_id'])) {
+	header("Location: index.php");
+	exit(0);
+} else {
+	$page_id = $_GET['page_id'];
+}
+/*
+if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD']))) )
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+	exit();
+}
+*/
 // Get perms
 // $database = new database();
 $results = $database->query("SELECT admin_groups,admin_users FROM ".TABLE_PREFIX."pages WHERE page_id = '$page_id'");
@@ -117,9 +123,9 @@ if($query_sections->numRows() > 0) {
 }
 // Check for error or print success message
 if($database->is_error()) {
-	$admin->print_error($database->get_error(), ADMIN_URL.'/pages/sections.php?page_id='.$page_id);
+	$admin->print_error($database->get_error(), ADMIN_URL.'/pages/sections.php?page_id='.$page_id );
 } else {
-	$admin->print_success($MESSAGE['PAGES']['SECTIONS_PROPERTIES_SAVED'], ADMIN_URL.'/pages/sections.php?page_id='.$page_id);
+	$admin->print_success($MESSAGE['PAGES']['SECTIONS_PROPERTIES_SAVED'], ADMIN_URL.'/pages/sections.php?page_id='.$page_id );
 }
 
 // Print admin footer

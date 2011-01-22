@@ -1,6 +1,6 @@
 <!-- BEGIN main_block -->
 
-<script src="{ADMIN_URL}/pages/page_settings.js" type="text/javascript" language="javascript"></script>
+<script src="{ADMIN_URL}/pages/page_settings.js" type="text/javascript"></script>
 
 <table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="100%" style="margin-bottom: 10px;">
 <tr style="background-color: #F0F0F0;">
@@ -12,9 +12,9 @@
 		{TEXT_CURRENT_PAGE}:
 		<b>{PAGE_TITLE}</b>
 		-
-		<a href="{ADMIN_URL}/pages/modify.php?page_id={PAGE_ID}">{TEXT_MODIFY_PAGE}</a>
+		<a href="{ADMIN_URL}/pages/modify.php?page_id={PAGE_IDKEY}">{TEXT_MODIFY_PAGE}</a>
 		<font style="{DISPLAY_MANAGE_SECTIONS}">-</font>
-		<a href="{ADMIN_URL}/pages/sections.php?page_id={PAGE_ID}" style="{DISPLAY_MANAGE_SECTIONS}">{TEXT_MANAGE_SECTIONS}</a>
+		<a href="{ADMIN_URL}/pages/sections.php?page_id={PAGE_IDKEY}" style="{DISPLAY_MANAGE_SECTIONS}">{TEXT_MANAGE_SECTIONS}</a>
 		<br />
 		<font style="color: #999999;" class="{DISPLAY_MODIFIED}">
 			{LAST_MODIFIED} {MODIFIED_BY} ({MODIFIED_BY_USERNAME}), {MODIFIED_WHEN}

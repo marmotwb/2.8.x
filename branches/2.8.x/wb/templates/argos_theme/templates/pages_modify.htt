@@ -8,10 +8,10 @@
 		{TEXT_CURRENT_PAGE}:
 		<b>{PAGE_TITLE}</b>
 		- 
-		<a href="{ADMIN_URL}/pages/settings.php?page_id={PAGE_ID}&amp;{FTAN2}">{TEXT_CHANGE_SETTINGS}</a>
+		<a href="{ADMIN_URL}/pages/settings.php?page_id={PAGE_IDKEY}">{TEXT_CHANGE_SETTINGS}</a>
 <!-- BEGIN show_section_block -->
 		<font style="{DISPLAY_MANAGE_SECTIONS}">-</font>
-		<a href="{ADMIN_URL}/pages/sections.php?page_id={PAGE_ID}&amp;{FTAN2}" style="{DISPLAY_MANAGE_SECTIONS}">{TEXT_MANAGE_SECTIONS}</a>
+		<a href="{ADMIN_URL}/pages/sections.php?page_id={PAGE_IDKEY}" style="{DISPLAY_MANAGE_SECTIONS}">{TEXT_MANAGE_SECTIONS}</a>
 <!-- END show_section_block -->
 		<font style="color:#999;" class="{CLASS_DISPLAY_MODIFIED}"><br />
 <!-- BEGIN show_modify_block -->

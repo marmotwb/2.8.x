@@ -16,6 +16,15 @@
  *
  */
 
+/*
+*/
+// Create new admin object
+require('../../config.php');
+require_once(WB_PATH.'/framework/class.admin.php');
+$admin = new admin('Pages', 'pages_settings');
+// Include the WB functions file
+require_once(WB_PATH.'/framework/functions-utf8.php');
+
 // Get page id
 if(!isset($_GET['page_id']) || !is_numeric($_GET['page_id']))
 {
@@ -25,16 +34,13 @@ if(!isset($_GET['page_id']) || !is_numeric($_GET['page_id']))
 	$page_id = $_GET['page_id'];
 }
 
-// Create new admin object
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Pages', 'pages_settings');
-
-// Include the WB functions file
-require_once(WB_PATH.'/framework/functions-utf8.php');
-
-// Get perms
-/*$database = new database(); */
+/*
+if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD']))) )
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+	exit();
+}
+*/
 
 $sql = 'SELECT * FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
 $results = $database->query($sql);
@@ -94,6 +100,8 @@ $template->set_var('FTAN', $admin->getFTAN());
 
 $template->set_var(array(
 				'PAGE_ID' => $results_array['page_id'],
+				// 'PAGE_IDKEY' => $admin->getIDKEY($results_array['page_id']),
+				'PAGE_IDKEY' => $results_array['page_id'],
 				'PAGE_TITLE' => ($results_array['page_title']),
 				'MENU_TITLE' => ($results_array['menu_title']),
 				'DESCRIPTION' => ($results_array['description']),
