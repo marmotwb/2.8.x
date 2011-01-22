@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+22 Jan-2011 Build 1406 Frank Heyne (FrankH)
+# Security fix to stop users from changing module contents without permission, thanks to Michael Schwarz 
 22 Jan-2011 Build 1405 Frank Heyne (FrankH)
 # Security fix (XSS) in form module, thanks to Michael Schwarz 
 22 Jan-2011 Build 1404 Dietmar Woellbrink (Luisehahne)
