@@ -217,8 +217,8 @@ $template->set_var(array(
 				// 'PAGE_IDKEY' => $admin->getIDKEY($results_array['page_id']),
 				'PAGE_IDKEY' => $results_array['page_id'],
 				'VAR_PAGE_TITLE' => $results_array['page_title'],
-				'SETTINGS_LINK' => ADMIN_URL.'/pages/settings.php?page_id='./*$admin->getIDKEY()*/$results_array['page_id'],
-				'MODIFY_LINK' => ADMIN_URL.'/pages/modify.php?page_id='./*$admin->getIDKEY()*/$results_array['page_id']
+				'SETTINGS_LINK' => ADMIN_URL.'/pages/settings.php?page_id='.$results_array['page_id'],
+				'MODIFY_LINK' => ADMIN_URL.'/pages/modify.php?page_id='.$results_array['page_id']
 				)
 			);
 
@@ -245,7 +245,7 @@ if($query_sections->numRows() > 0)
 			{
 				$edit_page = '';
 			}
-			$edit_page_0 = '<a id="sid'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='./*$admin->getIDKEY()*/$results_array['page_id'];
+			$edit_page_0 = '<a id="sid'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$results_array['page_id'];
 			$edit_page_1 = $section['section_id'].'">'.$section['module'].'</a>';
 			if(SECTION_BLOCKS)
             {
