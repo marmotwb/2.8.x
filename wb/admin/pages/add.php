@@ -49,6 +49,7 @@ $field_set = $field_sql->numRows();
 $admin_groups[] = 1;
 $viewing_groups[] = 1;
 
+// check parent page permissions:
 if ($parent!=0) {
 	if (!$admin->get_page_permission($parent,'admin'))
     {
@@ -56,6 +57,12 @@ if ($parent!=0) {
     }
 
 } elseif (!$admin->get_permission('pages_add_l0','system'))
+{
+	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
+}	
+
+// check module permissions:
+if (!$admin->get_permission($module, 'module'))
 {
 	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
 }	
@@ -75,7 +82,7 @@ if(!in_array(1, $admin->get_groups_id()))
 		if (in_array($adm_group, $admin->get_groups_id()))
         {
 			$admin_perm_ok = true;
-		}
+		} 
 	}
 	if ($admin_perm_ok == false)
     {

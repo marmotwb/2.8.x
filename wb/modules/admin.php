@@ -70,6 +70,28 @@ if((!$in_group) && !is_numeric(array_search($admin->get_user_id(), $old_admin_us
 	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
 }
 
+// some additional security checks:
+// Check whether the section_id belongs to the page_id at all
+if ($section_id != 0) {
+	$sql  = "SELECT module FROM `".TABLE_PREFIX."sections` WHERE `page_id` = '$page_id' AND `section_id` = '$section_id'";
+	$res_sec = $database->query($sql);
+	if ($database->is_error())
+	{
+		$admin->print_error($database->get_error());
+	}
+	if ($res_sec->numRows() == 0)
+	{
+		$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
+	}
+
+	// check module permissions:
+	$sec = $res_sec->fetchRow();
+	if (!$admin->get_permission($sec['module'], 'module'))
+	{
+		$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
+	}	
+}
+
 // Workout if the developer wants to show the info banner
 if(isset($print_info_banner) && $print_info_banner == true) {
 	
