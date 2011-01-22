@@ -49,14 +49,14 @@ function byte_convert($bytes) {
 // Get file extension
 function get_filetype($fname) {
 	$pathinfo = pathinfo($fname);
-	$extension = strtolower($pathinfo['extension']);
+	$extension = (isset($pathinfo['extension'])) ? strtolower($pathinfo['extension']) : '';
 	return $extension;
 }
 
 // Get file extension for icons
 function get_filetype_icon($fname) {
 	$pathinfo = pathinfo($fname);
-	$extension = strtolower($pathinfo['extension']);
+	$extension = (isset($pathinfo['extension'])) ? strtolower($pathinfo['extension']) : '';
 	if (file_exists(THEME_PATH.'/images/files/'.$extension.'.png')) {
 		return $extension;
 	} else {
