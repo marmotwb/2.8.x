@@ -216,19 +216,19 @@ class SM2_Formatter
     // replace the keywords
     function replace($aMatch) {
         $retval = '['.$aMatch.'=UNKNOWN]';
-		$retval_1 = '';
         switch ($aMatch) {
         case 'a':
-            $retval_1 = '<a href="'.$this->url.'"';
+            $retval = '<a href="'.$this->url.'"';
+			// break; // ignore 'break' to add the rest of <a>-tag
 		case 'ac':
-            $retval = '<a href="'.$this->url.'" class="'.$this->currClass.'"';
-			$retval = ($retval_1 == '') ? $retval : $retval_1;
-			if(($this->flags & SM2_XHTML_STRICT)) {
-				$retval .= ' title="'.(($this->flags & SM2_NO_TITLE) ? '&nbsp;' : $this->page['tooltip']).'"';
+			if( substr($retval, 0, 2) != '<a'){
+				$retval = '<a href="'.$this->url.'" class="'.$this->currClass.'"';
 			}
-			else {
+			if(($this->flags & SM2_NO_TITLE)) {
+				$retval .= ' title="'.$this->page['tooltip'].'"';
+			}
+			if(!($this->flags & SM2_XHTML_STRICT)) {
 				$retval .= ' target="'.$this->page['target'].'"';
-				$retval .= ($this->flags & SM2_NO_TITLE) ? '' : ' title="'.$this->page['tooltip'].'"';
 			}
 			$retval .= '>';
 			break;
