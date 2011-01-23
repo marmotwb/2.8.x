@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+23 Jan-2011 Build 1413 Frank Heyne (FrankH)
+# Bugfix for Ticket 900
 23 Jan-2011 Build 1412 Werner v.d.Decken(DarkViper)
 # fixed wb::password_chars 
 23 Jan-2011 Build 1411 Frank Heyne (FrankH)
