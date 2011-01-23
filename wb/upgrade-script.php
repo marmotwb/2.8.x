@@ -270,6 +270,18 @@ foreach($cfg as $key=>$value) {
 }
 
 /**********************************************************
+ *  - Adding field warn_page_leave to settings table
+ */
+echo "<br />Adding warn_page_leave to settings table<br />";
+$cfg = array(
+	'warn_page_leave' => '1'
+);
+
+foreach($cfg as $key=>$value) {
+	db_add_key_value($key, $value);
+}
+
+/**********************************************************
  *  - install droplets
  */
     $drops = (!in_array ( "mod_droplets", $all_tables)) ? "<br />Install droplets<br />" : "<br />Upgrade droplets<br />";

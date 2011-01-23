@@ -363,6 +363,14 @@ if($is_advanced)
 	        $template->set_var('PAGE_LANGUAGES_DISABLED', ' checked="checked"');
 	}
 
+	// Work-out if warn_page_leave feature is enabled
+	if (defined('WARN_PAGE_LEAVE') && WARN_PAGE_LEAVE == true)
+	{
+		$template->set_var('WARN_PAGE_LEAVE_ENABLED', ' checked="checked"');
+	} else {
+		$template->set_var('WARN_PAGE_LEAVE_DISABLED', ' checked="checked"');
+	}
+
 	// Work-out if smart login feature is enabled
 	if(defined('SMART_LOGIN') && SMART_LOGIN == true)
 	{
@@ -682,6 +690,7 @@ if($is_advanced)
 								'TEXT_READ' => $TEXT['READ'],
 								'TEXT_WRITE' => $TEXT['WRITE'],
 								'TEXT_EXECUTE' => $TEXT['EXECUTE'],
+								'TEXT_WARN_PAGE_LEAVE' => $TEXT['WARN_PAGE_LEAVE'],
 								'TEXT_SMART_LOGIN' => $TEXT['SMART_LOGIN'],
 								'TEXT_MULTIPLE_MENUS' => $TEXT['MULTIPLE_MENUS'],
 								'TEXT_HOMEPAGE_REDIRECTION' => $TEXT['HOMEPAGE_REDIRECTION'],

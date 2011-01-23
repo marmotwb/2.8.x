@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+23 Jan-2011 Build 1409 Frank Heyne (FrankH)
++ Ticket 1058 added warn_page_leave (currently only in wysiwyg) 
 23 Jan-2011 Build 1408 Werner v.d.Decken(DarkViper)
 # small changes in sm2menu() [SM2_NO_TITLE + SM2_XHTML_STRICT]
 22 Jan-2011 Build 1407 Frank Heyne (FrankH)
