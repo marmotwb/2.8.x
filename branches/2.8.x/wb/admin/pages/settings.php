@@ -118,7 +118,7 @@ $template->set_var(array(
 // Work-out if we should show the "manage sections" link
 $sql = 'SELECT `section_id` FROM `'.TABLE_PREFIX.'sections` WHERE `page_id`='.$page_id.' AND `module`="menu_link"';
 $query_sections = $database->query($sql);
-if($query_sections->numRows() > 0)
+if (isset($query_sections) && $query_sections->numRows() > 0)
 {
     $template->set_var('DISPLAY_MANAGE_SECTIONS', 'display:none;');
 } elseif(MANAGE_SECTIONS == 'enabled')
@@ -472,8 +472,7 @@ $template->set_block('main_block', 'template_list_block', 'template_list');
 
 $sql = 'SELECT * FROM `'.TABLE_PREFIX.'addons` WHERE `type` = "template" AND `function` = "template" order by `name`';
 $result = $database->query($sql);
-
-if($result->numRows() > 0)
+if (isset($result) && $result->numRows() > 0)
 {
 	while($addon = $result->fetchRow())
     {
@@ -535,8 +534,7 @@ $template->set_block('main_block', 'language_list_block', 'language_list');
 
 $sql = 'SELECT * FROM `'.TABLE_PREFIX.'addons` WHERE `type` = "language" ORDER BY `name`';
 $result = $database->query($sql);
-
-if($result->numRows() > 0)
+if (isset($result) && $result->numRows() > 0)
 {
 	while($addon = $result->fetchRow())
     {
