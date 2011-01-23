@@ -29,7 +29,7 @@ require_once(WB_PATH."/framework/SecureForm.php");
 class wb extends SecureForm
 {
 
-	private $password_chars = 'a-zA-Z0-9\_\-\!\#\*\+';
+	public $password_chars = 'a-zA-Z0-9\_\-\!\#\*\+';
 	// General initialization function
 	// performed when frontend or backend is loaded.
 
