@@ -231,7 +231,7 @@ function make_list($parent = 0, $editable_pages = 0) {
 
 					// $query_sections = $database->query("SELECT publ_start, publ_end FROM ".TABLE_PREFIX."sections WHERE page_id = '{$page['page_id']}' AND module != 'menu_link'");
 
-					if($query_sections->numRows() > 0)
+					if (isset($query_sections) && $query_sections->numRows() > 0)
                     {
 						$mdate_display=false;
 						while($mdate_res = $query_sections->fetchRow())
