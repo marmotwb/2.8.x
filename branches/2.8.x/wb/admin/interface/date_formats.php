@@ -47,6 +47,7 @@ $DATE_FORMATS['d.m.Y'] = gmdate('d.m.Y', $actual_time).' (D.M.Y)';
 $DATE_FORMATS['m.d.Y'] = gmdate('m.d.Y', $actual_time).' (M.D.Y)';
 $DATE_FORMATS['d/m/Y'] = gmdate('d/m/Y', $actual_time).' (D/M/Y)';
 $DATE_FORMATS['m/d/Y'] = gmdate('m/d/Y', $actual_time).' (M/D/Y)';
+$DATE_FORMATS['j.n.Y'] = gmdate('j.n.Y', $actual_time).' (j.n.Y)';
 
 // Add "System Default" to list (if we need to)
 if(isset($user_time) && $user_time == true)
