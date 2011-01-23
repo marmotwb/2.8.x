@@ -32,14 +32,14 @@ if($directory == '/') {
 
 // Check to see if it contains ..
 if (!check_media_path($directory)) {
-	$admin->print_header();
-	$admin->print_error($MESSAGE['MEDIA']['DOT_DOT_SLASH']);
+	// $admin->print_header();
+	$admin->print_error($MESSAGE['MEDIA']['DIR_DOT_DOT_SLASH'],WB_URL.'/admin/media/browse.php?dir=',false );
 }
 
 // Get the temp id
 $file_id = $admin->checkIDKEY('id', false, 'GET');
 if (!$file_id) {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL,false);
 }
 
 // Get home folder not to show

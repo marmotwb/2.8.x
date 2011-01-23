@@ -63,12 +63,15 @@ if($admin->get_permission('admintools') != true)
 	$template->set_var('DISPLAY_ADMINTOOLS', 'display:none;');
 }
 
+$msg = (file_exists(WB_PATH.'/install/')) ?  $MESSAGE['START']['INSTALL_DIR_EXISTS'] : '';
+$msg .= (file_exists(WB_PATH.'/upgrade-script.php')) ? '<br />'.'upgrade-script.php '.$TEXT['DELETE'] : '';
+
 // Check if installation directory still exists
-if(file_exists(WB_PATH.'/install/')) {
+if(file_exists(WB_PATH.'/install/') || file_exists(WB_PATH.'/upgrade-script.php') ) {
 	// Check if user is part of Adminstrators group
 	if(in_array(1, $admin->get_groups_id()))
     {
-		$template->set_var('WARNING', $MESSAGE['START']['INSTALL_DIR_EXISTS'].'<br />'.'upgrade-script.php '.$TEXT['DELETE']);
+		$template->set_var('WARNING', $msg );
 	} else {
 		$template->set_var('DISPLAY_WARNING', 'display:none;');
 	}

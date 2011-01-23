@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+23 Jan-2011 Build 1404 Dietmar Woellbrink (Luisehahne)
+# fix wrong error message in media
+! backend start warning if upgrade-script exists
 23 Jan-2011 Build 1413 Frank Heyne (FrankH)
 # Bugfix for Ticket 900
 23 Jan-2011 Build 1412 Werner v.d.Decken(DarkViper)
