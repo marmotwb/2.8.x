@@ -459,6 +459,7 @@ if($install_tables == true) {
 	." ('default_time_format', 'g:i A'),"
 	." ('redirect_timer', '1500'),"
 	." ('home_folders', 'true'),"
+	." ('warn_page_leave', '1'),"
 	." ('default_template', 'round'),"
 	." ('default_theme', 'wb_theme'),"
 	." ('default_charset', 'utf-8'),"

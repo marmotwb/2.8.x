@@ -46,14 +46,27 @@ if(!isset($wysiwyg_editor_loaded)) {
 
 ?>
 
-<form name="wysiwyg<?php echo $section_id; ?>" action="<?php echo WB_URL; ?>/modules/wysiwyg/save.php" method="post">
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+  // Added to confirm leaving the page without saving changes first (even if there aren't any)
+  var needToConfirm = <?php echo WARN_PAGE_LEAVE; ?>;
+  window.onbeforeunload = confirmExit;
+  function confirmExit()
+  {
+    if (needToConfirm)
+      return "<?php print(html_entity_decode($MESSAGE['SETTINGS']['MODE_SWITCH_WARNING'], ENT_NOQUOTES, 'UTF-8')); ?>";
+  }
+//]]>
+</script>
+
+<form name="wysiwyg<?php echo $section_id; ?>" action="<?php echo WB_URL; ?>/modules/wysiwyg/save.php" method="post" onclick="needToConfirm=false;">
 
 <input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
 <input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
 
 <?php
 echo $admin->getFTAN()."\n"; 
-show_wysiwyg_editor('content'.$section_id,'content'.$section_id,$content,'100%','350px');
+show_wysiwyg_editor('content'.$section_id,'content'.$section_id,$content,'100%','350');
 ?>
 
 <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding-bottom: 10px;">

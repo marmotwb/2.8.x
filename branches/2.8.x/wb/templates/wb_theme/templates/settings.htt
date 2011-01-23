@@ -134,6 +134,15 @@
 	</td>
 </tr>
 <tr{DISPLAY_ADVANCED}>
+	<td class="setting_name">{TEXT_WARN_PAGE_LEAVE}:</td>
+	<td class="setting_value" colspan="2">
+		<input type="radio" name="warn_page_leave" id="warn_page_leave_true" style="width: 14px; height: 14px;" value="true"{WARN_PAGE_LEAVE_ENABLED} />
+		<label for="smart_login_true">{TEXT_ENABLED}</label>
+		<input type="radio" name="warn_page_leave" id="warn_page_leave_false" style="width: 14px; height: 14px;" value="false"{WARN_PAGE_LEAVE_DISABLED} />
+		<label for="smart_login_false">{TEXT_DISABLED}</label>
+	</td>
+</tr>
+<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_SMART_LOGIN}:</td>
 	<td class="setting_value" colspan="2">
 		<input type="radio" name="smart_login" id="smart_login_true" style="width: 14px; height: 14px;" value="true"{SMART_LOGIN_ENABLED} />
