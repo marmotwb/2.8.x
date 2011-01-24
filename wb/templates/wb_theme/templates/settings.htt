@@ -134,15 +134,6 @@
 	</td>
 </tr>
 <tr{DISPLAY_ADVANCED}>
-	<td class="setting_name">{TEXT_WARN_PAGE_LEAVE}:</td>
-	<td class="setting_value" colspan="2">
-		<input type="radio" name="warn_page_leave" id="warn_page_leave_true" style="width: 14px; height: 14px;" value="true"{WARN_PAGE_LEAVE_ENABLED} />
-		<label for="warn_page_leave_true">{TEXT_ENABLED}</label>
-		<input type="radio" name="warn_page_leave" id="warn_page_leave_false" style="width: 14px; height: 14px;" value="false"{WARN_PAGE_LEAVE_DISABLED} />
-		<label for="warn_page_leave_false">{TEXT_DISABLED}</label>
-	</td>
-</tr>
-<tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_SMART_LOGIN}:</td>
 	<td class="setting_value" colspan="2">
 		<input type="radio" name="smart_login" id="smart_login_true" style="width: 14px; height: 14px;" value="true"{SMART_LOGIN_ENABLED} />
@@ -164,8 +155,9 @@
 <!-- BEGIN show_redirect_timer_block -->
 <tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_REDIRECT_AFTER}:</td>
-	<td class="setting_value" colspan="2">
-		<input type="text" name="redirect_timer" value="{REDIRECT_TIMER}" />
+	<td class="setting_value" colspan="3">
+		<input type="text" name="redirect_timer" value="{REDIRECT_TIMER}" style="width:50%;" />
+		<label>&nbsp;&nbsp;( <strong>-1</strong> = {TEXT_DISABLED}, <strong>0 -10000</strong> )</label><br />
 	</td>
 </tr>
 <!-- END show_redirect_timer_block -->
@@ -194,6 +186,12 @@
 </tr>
 <!-- END show_php_error_level_block -->
 <!-- BEGIN show_wysiwyg_block -->
+<tr{DISPLAY_ADVANCED}>
+	<td class="setting_name">{TEXT_WYSIWYG_STYLE}:</td>
+	<td class="setting_value" colspan="2">
+		<input type="text" name="wysiwyg_style" value="{WYSIWYG_STYLE}" />
+	</td>
+</tr>
 <tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_WYSIWYG_EDITOR}:</td>
 	<td class="setting_value" colspan="2">
