@@ -41,7 +41,6 @@ if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD'])))
 	exit();
 }
 */
-
 $sql = 'SELECT * FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
 $results = $database->query($sql);
 $results_array = $results->fetchRow();
@@ -116,9 +115,9 @@ $template->set_var(array(
 		);
 
 // Work-out if we should show the "manage sections" link
-$sql = 'SELECT `section_id` FROM `'.TABLE_PREFIX.'sections` WHERE `page_id`='.$page_id.' AND `module`="menu_link"';
-$query_sections = $database->query($sql);
-if (isset($query_sections) && $query_sections->numRows() > 0)
+$sql = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'sections` WHERE `page_id`='.$page_id.' AND `module`="menu_link"';
+$sections_available = (intval($database->get_one($sql)) != 0);
+if ($sections_available)
 {
     $template->set_var('DISPLAY_MANAGE_SECTIONS', 'display:none;');
 } elseif(MANAGE_SECTIONS == 'enabled')
@@ -194,6 +193,7 @@ if($results_array['visibility'] == 'public') {
 			$template->parse('group_list', 'group_list_block', true);
 		}
 	}
+
 // Group list 2 (viewing_groups)
 	$viewing_groups = explode(',', str_replace('_', '', $results_array['viewing_groups']));
 
@@ -471,17 +471,16 @@ if($modified_ts == 'Unknown')
 $template->set_block('main_block', 'template_list_block', 'template_list');
 
 $sql = 'SELECT * FROM `'.TABLE_PREFIX.'addons` WHERE `type` = "template" AND `function` = "template" order by `name`';
-$result = $database->query($sql);
-if (isset($result) && $result->numRows() > 0)
+if( ($res_templates = $database->query($sql)) )
 {
-	while($addon = $result->fetchRow())
+	while($rec_template = $res_templates->fetchRow())
     {
 		// Check if the user has perms to use this template
-		if($addon['directory'] == $results_array['template'] OR $admin->get_permission($addon['directory'], 'template') == true)
+		if($rec_template['directory'] == $results_array['template'] OR $admin->get_permission($rec_template['directory'], 'template') == true)
         {
-			$template->set_var('VALUE', $addon['directory']);
-			$template->set_var('NAME', $addon['name']);
-			if($addon['directory'] == $results_array['template'])
+			$template->set_var('VALUE', $rec_template['directory']);
+			$template->set_var('NAME', $rec_template['name']);
+			if($rec_template['directory'] == $results_array['template'])
             {
 				$template->set_var('SELECTED', ' selected="selected"');
 			} else {
@@ -533,13 +532,12 @@ foreach($menu AS $number => $name)
 $template->set_block('main_block', 'language_list_block', 'language_list');
 
 $sql = 'SELECT * FROM `'.TABLE_PREFIX.'addons` WHERE `type` = "language" ORDER BY `name`';
-$result = $database->query($sql);
-if (isset($result) && $result->numRows() > 0)
+if( ($res_languages = $database->query($sql)) )
 {
-	while($addon = $result->fetchRow())
+	while($rec_language = $res_languages->fetchRow())
     {
-		$l_codes[$addon['name']] = $addon['directory'];
-		$l_names[$addon['name']] = entities_to_7bit($addon['name']); // sorting-problem workaround
+		$l_codes[$rec_language['name']] = $rec_language['directory'];
+		$l_names[$rec_language['name']] = entities_to_7bit($rec_language['name']); // sorting-problem workaround
 	}
 	asort($l_names);
 	foreach($l_names as $l_name=>$v)
