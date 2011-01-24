@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+24 Jan-2011 Build 1416 Dietmar Woellbrink (Luisehahne)
+# fixed unsafe sql queries
 24 Jan-2011 Build 1415 Werner v.d.Decken(DarkViper)
 # fixed unsafe sql queries
 23 Jan-2011 Build 1414 Dietmar Woellbrink (Luisehahne)

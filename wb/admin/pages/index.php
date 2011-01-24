@@ -227,11 +227,8 @@ function make_list($parent = 0, $editable_pages = 0) {
                 {
                     $sql = 'SELECT `publ_start`, `publ_end` FROM `'.TABLE_PREFIX.'sections` ';
                     $sql .= 'WHERE `page_id` = '.$page['page_id'].' AND `module` != \'menu_link\' ';
-                    $query_sections = $database->query($sql);
-
 					// $query_sections = $database->query("SELECT publ_start, publ_end FROM ".TABLE_PREFIX."sections WHERE page_id = '{$page['page_id']}' AND module != 'menu_link'");
-
-					if (isset($query_sections) && $query_sections->numRows() > 0)
+					if( ($query_sections = $database->query($sql)) )
                     {
 						$mdate_display=false;
 						while($mdate_res = $query_sections->fetchRow())
