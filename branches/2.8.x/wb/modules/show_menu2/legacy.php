@@ -64,6 +64,9 @@
  * 10. $current_class: The class of the currently viewed page
  * 11. $parent:    (used internally) The page_id of the menu's root node, defaults is '0' (root level)
  */
+
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
  
 class SM2_ShowMenuFormatter
 {

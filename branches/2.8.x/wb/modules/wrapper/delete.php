@@ -16,6 +16,9 @@
  *
  */
 
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+
 // Delete page from mod_wrapper
 $database->query("DELETE FROM ".TABLE_PREFIX."mod_wrapper WHERE section_id = '$section_id'");
 

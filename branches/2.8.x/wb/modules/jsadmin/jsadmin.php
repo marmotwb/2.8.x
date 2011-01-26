@@ -16,6 +16,9 @@
  *
 */
 
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+
 function get_setting($name, $default = '') {
 	global $database;
 	$rs = $database->query("SELECT value FROM ".TABLE_PREFIX."mod_jsadmin WHERE name = '".$name."'");

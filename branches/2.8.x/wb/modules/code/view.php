@@ -23,6 +23,8 @@
 
 */
 
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 // Get content
 $get_content = $database->query("SELECT content FROM ".TABLE_PREFIX."mod_code WHERE section_id = '$section_id'");
 $fetch_content = $get_content->fetchRow();

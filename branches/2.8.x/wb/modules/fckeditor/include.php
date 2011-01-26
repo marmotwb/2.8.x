@@ -15,6 +15,8 @@
  * @lastmodified    $Date$
  *
  */
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
 function reverse_htmlentities($mixed) {
 	$mixed = str_replace(array('&gt;','&lt;','&quot;','&amp;'), array('>','<','"','&'), $mixed);

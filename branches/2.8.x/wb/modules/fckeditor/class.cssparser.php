@@ -37,6 +37,8 @@
  * added function GetXML to the cssparser class (Christian Sommer, 2007)
  *
  */
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
 class cssparser {
 	var $css;

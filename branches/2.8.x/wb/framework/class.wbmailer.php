@@ -23,13 +23,8 @@
 
 */
 
-/*
-
-wbmailer class
-
-This class is a subclass of the PHPMailer class and replaces the mail() function of PHP
-
-*/
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
 // Include PHPMailer class
 require_once(WB_PATH."/include/phpmailer/class.phpmailer.php");

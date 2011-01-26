@@ -15,6 +15,8 @@
  * @lastmodified    $Date:  $
  * @description     
  */
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
 function form_search($func_vars) {
 	extract($func_vars, EXTR_PREFIX_ALL, 'func');

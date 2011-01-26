@@ -25,11 +25,8 @@ and the Website Baker code
 
 */
 
-// Stop this file from being accessed directly
-if(!defined('WB_URL')) {
-	header('Location: ../index.php');
-	exit(0);
-}
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
 if(!defined('DB_URL')) {
 	//define('DB_URL', DB_TYPE.'://'.DB_USERNAME.':'.DB_PASSWORD.'@'.DB_HOST.'/'.DB_NAME);

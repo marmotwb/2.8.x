@@ -15,6 +15,8 @@
  * @lastmodified    $Date:  $
  * @description     
  */
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
 // Insert an extra rows into the database
 $header = '<table cellpadding=\"2\" cellspacing=\"0\" border=\"0\" width=\"98%\">';

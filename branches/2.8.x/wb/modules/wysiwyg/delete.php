@@ -15,7 +15,8 @@
  * @lastmodified    $Date: 2011-01-10 13:21:47 +0100 (Mo, 10 Jan 2011) $
  *
  */
-
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 // Delete record from the database
 $database->query("DELETE FROM ".TABLE_PREFIX."mod_wysiwyg WHERE section_id = '$section_id'");
 
