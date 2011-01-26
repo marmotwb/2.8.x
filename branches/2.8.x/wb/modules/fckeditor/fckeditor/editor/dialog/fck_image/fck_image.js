@@ -189,10 +189,57 @@ function LoadSelection()
 		if ( sLinkUrl == null )
 			sLinkUrl = oLink.getAttribute('href',2) ;
 
+		var sLinkRel = GetE('cmbLnkContentRel');
+
+		if ( sLinkRel.lenght == null ) 
+		{
+			var myselect = document.getElementById("cmbLnkContentRel")
+			var found = false;
+
+			for (var i=0; i < myselect.options.length; i++)
+			{
+				if (myselect.options[i].value == oLink.rel)
+				{
+				  found = true;
+				  break;
+				} 
+			}			
+
+			if ( found == false ) 
+			{
+				try {
+					myselect.add(new Option(oLink.rel, oLink.rel,true ), myselect.options[1]) //add new option to beginning of "cmbLnkContentRel"
+					}
+				catch(e) { //in IE, try the below version instead of add()
+					myselect.add(new Option( oLink.rel, oLink.rel,true ),1 ) //add new option to beginning of "cmbLnkContentRel"
+					//myselect.options[1].selected=true;
+					}
+			}
+		} 
 		GetE('txtLnkUrl').value		= sLinkUrl ;
 		GetE('cmbLnkTarget').value	= oLink.target ;
-	}
+		// Get Advances Attributes
+		GetE('txtLnkTitle').value		= oLink.title ;
+		GetE('cmbLnkContentRel').value	= oLink.rel ;
+		GetE('txtLnkCharSet').value		= oLink.charset ;
+		GetE('txtLnkId').value			= oLink.id ;
+		GetE('txtLnkLangCode').value	= oLink.lang ;
 
+		var sClass ;
+		if ( oEditor.FCKBrowserInfo.IsIE )
+		{
+			sClass	= oLink.getAttribute('className',2) || '' ;
+			// Clean up temporary classes for internal use:
+			sClass = sClass.replace( FCKRegexLib.FCK_Class, '' ) ;
+			GetE('txtLnkStyle').value	= oLink.style.cssText ;
+		}
+		else
+		{
+			sClass	= oLink.getAttribute('class',2) || '' ;
+			GetE('txtLnkStyle').value	= oLink.getAttribute('style',2) || '' ;
+		}
+		GetE('txtLnkClasses').value	= sClass ;
+	}
 	UpdatePreview() ;
 }
 
@@ -238,7 +285,6 @@ function Ok()
 	UpdateImage( oImage ) ;
 
 	var sLnkUrl = GetE('txtLnkUrl').value.Trim() ;
-
 	if ( sLnkUrl.length == 0 )
 	{
 		if ( oLink )
@@ -247,7 +293,9 @@ function Ok()
 	else
 	{
 		if ( oLink )	// Modifying an existent link.
+		{
 			oLink.href = sLnkUrl ;
+		}
 		else			// Creating a new link.
 		{
 			if ( !bHasImage )
@@ -264,6 +312,30 @@ function Ok()
 
 		SetAttribute( oLink, '_fcksavedurl', sLnkUrl ) ;
 		SetAttribute( oLink, 'target', GetE('cmbLnkTarget').value ) ;
+		// Advances Attributes
+		SetAttribute( oLink, 'title'	, GetE('txtLnkTitle').value ) ;
+		SetAttribute( oLink, 'rel'		, GetE('cmbLnkContentRel').value ) ;
+		SetAttribute( oLink, 'lang'		, GetE('txtLnkLangCode').value ) ;
+		SetAttribute( oLink, 'charset'	, GetE('txtLnkCharSet').value ) ;
+/*
+		alert( FCKLang.DlgImgAlertUrl ) ;
+		SetAttribute( oLink, 'name'		, GetE('txtLnktName').value ) ;
+*/
+		if ( oEditor.FCKBrowserInfo.IsIE )
+		{
+			var sClass = GetE('txtLnkClasses').value ;
+			// If it's also an anchor add an internal class
+			if ( GetE('txtLnkName').value.length != 0 )
+				sClass += ' FCK__AnchorC' ;
+			SetAttribute( oLink, 'className', sClass ) ;
+			oLink.style.cssText = GetE('txtLnkStyle').value ;
+		}
+		else
+		{
+			SetAttribute( oLink, 'class', GetE('txtLnkClasses').value ) ;
+			SetAttribute( oLink, 'style', GetE('txtLnkStyle').value ) ;
+		}
+
 	}
 
 	return true ;
