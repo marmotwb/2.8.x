@@ -363,7 +363,6 @@ $TEXT['VIEW'] = 'View';
 $TEXT['VIEW_DELETED_PAGES'] = 'View Deleted Pages';
 $TEXT['VIEW_DETAILS'] = 'View Details';
 $TEXT['VISIBILITY'] = 'Visibility';
-$TEXT['WARN_PAGE_LEAVE'] = 'Warn when leaving page';
 $TEXT['WBMAILER_DEFAULT_SENDER_MAIL'] = 'Default From Mail';
 $TEXT['WBMAILER_DEFAULT_SENDER_NAME'] = 'Default Sender Name';
 $TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Please specify a default "FROM" address and "SENDER" name below. It is recommended to use a FROM address like: <strong>admin@yourdomain.com</strong>. Some mail provider (e.g. <em>mail.com</em>) may reject mails with a FROM: address like <em>name@mail.com</em> sent via a foreign relay to avoid spam.<br /><br />The default values are only used if no other values are specified by WebsiteBaker. If your server supports <acronym title="Simple mail transfer protocol">SMTP</acronym>, you may want use this option for outgoing mails.';

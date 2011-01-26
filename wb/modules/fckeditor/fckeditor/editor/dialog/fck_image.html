@@ -172,14 +172,21 @@ document.write( FCKTools.GetStyleHtml( GetCommonDialogCss() ) ) ;
 	<div id="divLink" style="display: none">
 		<table cellspacing="1" cellpadding="1" border="0" width="100%">
 			<tr>
-				<td>
-					<div>
+				<td style="width: 100%" colspan="2">
+					<div valign="middle">
 						<span fcklang="DlgLnkURL">URL</span><br />
 						<input id="txtLnkUrl" style="width: 100%" type="text" onblur="UpdatePreview();" />
 					</div>
+				</td>
+				<td>
 					<div id="divLnkBrowseServer" align="right">
+						<span>&nbsp;</span><br />
 						<input type="button" value="Browse Server" fcklang="DlgBtnBrowseServer" onclick="LnkBrowseServer();" />
 					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
 					<div>
 						<span fcklang="DlgLnkTarget">Target</span><br />
 						<select id="cmbLnkTarget">
@@ -190,58 +197,74 @@ document.write( FCKTools.GetStyleHtml( GetCommonDialogCss() ) ) ;
 							<option value="_parent" fcklang="DlgLnkTargetParent">Parent Window (_parent)</option>
 						</select>
 					</div>
-					<div>
-						<span fckLang="DlgGenContRel">Advisory Relation</span><br />
-						<select id="cmbLnkContentRel">
-							<option value="" fckLang="DlgGenNotSet" selected>&lt;not set&gt;</option>
-							<option value="fancybox" fckLang="Fancybox">Fancybox</option>
-							<option value="prettyPhoto" fckLang="PrettyPhoto">PrettyPhoto</option>
-<!--							<option value="prettyPhoto[gallery]" fckLang="PrettyPhoto Image Gallery">PrettyPhoto Image Gallery</option>
-							<option value="prettyPhoto[flash]" fckLang="PrettyPhoto Flash">PrettyPhoto Flash</option>
-							<option value="prettyPhoto[iframes]" fckLang="PrettyPhoto IFrames">PrettyPhoto IFrames</option>
-							<option value="prettyPhoto[movies]" fckLang="PrettyPhoto Movies">PrettyPhoto Movies</option>
-							<option value="prettyPopin" fckLang="PrettyPopin">Pretty Popin</option>
-							<option value="prettyGallery" fckLang="PrettyGallery">Pretty Gallery</option>   -->
-							<option value="alternate" fckLang="Alternate">Alternate</option>
-							<option value="copyright" fckLang="copyright">Copyright</option>
-							<option value="designates" fckLang="designates">Designates</option>
-							<option value="nofollow" fckLang="nofollow">Nofollow</option>
-							<option value="lightbox" fckLang="Lightbox">Lightbox</option>
-							<option value="stylesheet" fckLang="stylesheet">Stylesheet</option>
-							<option value="thumbnail" fckLang="Thumbnail">Thumbnail</option>
-						</select>
-					</div>
-
 				</td>
 			</tr>
-
-				<tr>
-					<td valign="top">
+			<tr>
+				<td colspan="3">&nbsp;</td>
+			</tr>
+			<tr>
+				<td nowrap="nowrap">
+					<span fckLang="DlgGenContRel">Advisory Relation</span><br />
+					<select id="cmbLnkContentRel"  style="width: 100%">
+						<option value="" fckLang="DlgGenNotSet" selected>&lt;not set&gt;</option>
+						<option value="cslide" fckLang="cSlide">cslide</option>
+                        <option value="gal" fckLang="gal">nyroModal</option>
+						<option value="csingle" fckLang="cSingle">csingle</option>
+                        <option value="group1" fckLang="group1">Group1</option>
+						<option value="fancybox" fckLang="Fancybox">Fancybox</option>
+						<option value="colorbox" fckLang="Colorbox">Colorbox</option>
+						<option value="prettyPhoto" fckLang="PrettyPhoto">PrettyPhoto</option>
+						<option value="alternate" fckLang="Alternate">Alternate</option>
+						<option value="copyright" fckLang="copyright">Copyright</option>
+						<option value="designates" fckLang="designates">Designates</option>
+						<option value="nofollow" fckLang="nofollow">Nofollow</option>
+						<option value="lightbox" fckLang="Lightbox">Lightbox</option>
+						<option value="stylesheet" fckLang="stylesheet">Stylesheet</option>
+						<option value="thumbnail" fckLang="Thumbnail">Thumbnail</option>
+					</select>
+				</td>
+				<td>
+					<span fckLang="DlgGenLinkCharset">Linked Resource Charset</span><br />
+					<input id="txtLnkCharSet" style="WIDTH: 100%" type="text" />
+				</td>
+				<td width="60%">
+					<span fckLang="DlgGenLangCode">Language Code</span><br />
+					<input id="txtLnkLangCode" style="WIDTH: 100%" type="text" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">&nbsp;</td>
+			</tr>
+			<tr>
+				<td valign="top" width="50%">
+					<span fcklang="DlgGenId">Id</span><br />
+					<input id="txtLnkId" style="width: 100%" type="text" />
+				</td>
+					<td valign="top" colspan="2">
 						<span fckLang="DlgGenClass">Stylesheet Classes</span><br />
 						<input id="txtLnkClasses" style="WIDTH: 100%" type="text" />
 					</td>
-					<td></td>
-					<td valign="top" width="50%">
-						<span fckLang="DlgGenId">Id</span><br />
-						<input id="txtLnkId" style="WIDTH: 100%" type="text" />
-					</td>
-				</tr>
-			</table>
-			<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
-				<tr>
-					<td>
+					<td>&nbsp;</td>
+			</tr>
+			<tr>
+					<td colspan="3">
 						<span fckLang="DlgGenStyle">Style</span><br />
 						<input id="txtLnkStyle" style="WIDTH: 100%" type="text" />
 					</td>
 				</tr>
+			<tr>
+				<td colspan="3">&nbsp;</td>
+			</tr>
 				<tr>
-					<td valign="top" width="100%">
+					<td colspan="3">
 						<span fckLang="DlgGenTitle">Advisory Title</span><br />
 						<input id="txtLnkTitle" style="WIDTH: 100%" type="text" />
 					</td>
 				</tr>
-			</table>
+
+		</table>
 	</div>
+
 	<div id="divAdvanced" style="display: none">
 		<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
 			<tr>
@@ -291,16 +314,28 @@ document.write( FCKTools.GetStyleHtml( GetCommonDialogCss() ) ) ;
 					<span fcklang="DlgGenClass">Stylesheet Classes</span><br />
 					<input id="txtAttClasses" style="width: 100%" type="text" />
 				</td>
-				<td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<span fcklang="DlgGenStyle">Style</span><br />
+					<input id="txtAttStyle" style="width: 100%" type="text" />
 				</td>
-				<td valign="top">
+			</tr>
+			<tr>
+				<td colspan="3">
+					&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="3">
 					&nbsp;<span fcklang="DlgGenTitle">Advisory Title</span><br />
 					<input id="txtAttTitle" style="width: 100%" type="text" />
 				</td>
 			</tr>
 		</table>
-		<span fcklang="DlgGenStyle">Style</span><br />
-		<input id="txtAttStyle" style="width: 100%" type="text" />
 	</div>
 </body>
 </html>

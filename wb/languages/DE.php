@@ -364,7 +364,6 @@ $TEXT['VIEW'] = 'Ansicht';
 $TEXT['VIEW_DELETED_PAGES'] = 'gel&ouml;schte Seiten anschauen';
 $TEXT['VIEW_DETAILS'] = 'Details';
 $TEXT['VISIBILITY'] = 'Sichtbarkeit';
-$TEXT['WARN_PAGE_LEAVE'] = 'Warnung bei Seitenwechsel';
 $TEXT['WBMAILER_DEFAULT_SENDER_MAIL'] = 'Standard "VON" Adresse';
 $TEXT['WBMAILER_DEFAULT_SENDER_NAME'] = 'Standard Absender Name';
 $TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'] = 'Bitte geben Sie eine Standard "VON" Adresse und einen Sendernamen an. Als Absender Adresse empfiehlt sich ein Format wie: <strong>admin@IhreWebseite.de</strong>. Manche E-Mail Provider (z.B. <em>mail.de</em>) stellen keine E-Mails zu, die nicht &uuml;ber den Provider selbst verschickt wurden, in der Absender Adresse aber den Namen des E-Mail Providers <em>name@mail.de</em> enthalten. Die Standard Werte werden nur verwendet, wenn keine anderen Werte von WebsiteBaker gesetzt wurden. Wenn Ihr Service Provider <acronym title="Simple Mail Transfer Protocol">SMTP</acronym> anbietet, sollten Sie diese Option f&uuml;r ausgehende E-Mails verwenden.';
