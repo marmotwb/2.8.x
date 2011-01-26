@@ -16,6 +16,9 @@
  *
  */
 
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+
 define('SM2_ROOT',          -1000);
 define('SM2_CURR',          -2000);
 define('SM2_ALLMENU',          -1);

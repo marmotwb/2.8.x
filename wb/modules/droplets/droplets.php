@@ -23,6 +23,9 @@
  *
  */
 
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+
 	function do_eval($_x_codedata, $_x_varlist, &$wb_page_data)
 	{
 		extract($_x_varlist, EXTR_SKIP);

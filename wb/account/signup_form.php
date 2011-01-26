@@ -16,10 +16,9 @@
  *
  */
 
-if(!defined('WB_URL')) {
-	header('Location: ../index.php');
-	exit(0);
-}
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+
 require_once(WB_PATH.'/include/captcha/captcha.php');
 
 ?>

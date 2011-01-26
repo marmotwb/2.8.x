@@ -16,6 +16,9 @@
  *
  */
 
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+
 // make the url-string for highlighting
 function make_url_searchstring($search_match, $search_url_array)
 {

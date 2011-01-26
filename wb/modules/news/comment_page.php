@@ -16,11 +16,9 @@
  *
  */
 
-// Make sure page cannot be accessed directly
-if(!defined('WB_URL')) {
-	header('Location: ../index.php');
-	exit(0);
-}
+
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
 /* check if frontend.css file needs to be included into the <body></body> of page  */
 if ( (!function_exists('register_frontend_modfiles') || !defined('MOD_FRONTEND_CSS_REGISTERED')) && file_exists(WB_PATH .'/modules/news/frontend.css')) {

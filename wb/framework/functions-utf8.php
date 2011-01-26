@@ -43,10 +43,8 @@
 //   entities_to_umlauts2()
 //   umlauts_to_entities2()
 
-if(!defined('WB_URL')) {
-	header('Location: ../index.php');
-	exit(0);
-}
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
 /*
  * check for mb_string support

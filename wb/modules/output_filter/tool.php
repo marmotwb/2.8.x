@@ -16,8 +16,8 @@
  *
  */
 
-// prevent this file from being accessed directly
-if(!defined('WB_PATH')) die(header('Location: ../index.php'));
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
 // check if module language file exists for the language set by the user (e.g. DE, EN)
 $MOD_MAIL_FILTER['WARNING']	= '<p style="color: red; line-height:1.5em;"><strong>Warning: </strong>This function is now available as a Droplet. The next major release of website baker will not include this filter anymore. Please concider using the <a href="?tool=droplets">Droplet</a> [[EmailFilter]]</p>';
