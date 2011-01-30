@@ -352,6 +352,17 @@ foreach($cfg as $key=>$value) {
 }
 
 /**********************************************************
+ *  - Adding fingerprint_with_ip_octets to settings table
+ */
+echo "<br />Adding fingerprint_with_ip_octets to settings table<br />";
+$cfg = array(
+	'fingerprint_with_ip_octets' => '3'
+);
+foreach($cfg as $key=>$value) {
+	db_add_key_value($key, $value);
+}
+
+/**********************************************************
  *  - Add field "redirect_type" to table "mod_menu_link"
  */
 echo "<br />Adding field redirect_type to mod_menu_link table<br />";
