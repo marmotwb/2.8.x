@@ -22,6 +22,7 @@ class SecureForm {
 	const FRONTEND = 0;
 	const BACKEND  = 1;
 
+
 	private $_FTAN        = '';
 	private $_IDKEYs      = array('0'=>'0');
 	private $_ftan_name   = '';
@@ -39,7 +40,8 @@ class SecureForm {
 		$this->_ftan_name = substr($this->_fingerprint, -(16 + hexdec($this->_fingerprint[0])), 16);
 	// make sure there is a alpha-letter at first position
 		$this->_ftan_name[0] = dechex(10 + (hexdec($this->_ftan_name[0]) % 5));
-		$this->_idkey_name = substr($this->_fingerprint, hexdec($this->_fingerprint[strlen($this->_fingerprint)-1]), 16);
+		$this->_idkey_name = substr($this->_fingerprint,
+				                    hexdec($this->_fingerprint[strlen($this->_fingerprint)-1]), 16);
 	// make sure there is a alpha-letter at first position
 		$this->_idkey_name[0] = dechex(10 + (hexdec($this->_idkey_name[0]) % 5));
 	// takeover id_keys from session if available
@@ -76,13 +78,19 @@ class SecureForm {
 		$fingerprint .= ( isset($_SERVER['SERVER_ADMIN']) ) ? $_SERVER['SERVER_ADMIN'] : '13';
 		$fingerprint .= PHP_VERSION;
 	// client depending values
-		$fingerprint .= ( isset($_SERVER['HTTP_ACCEPT']) ) ? $_SERVER['HTTP_ACCEPT'] : '17';
-		$fingerprint .= ( isset($_SERVER['HTTP_ACCEPT_CHARSET']) ) ? $_SERVER['HTTP_ACCEPT_CHARSET'] : '19';
-		$fingerprint .= ( isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) ? $_SERVER['HTTP_ACCEPT_ENCODING'] : '23';
-		$fingerprint .= ( isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '29';
-		$fingerprint .= ( isset($_SERVER['HTTP_CONNECTION']) ) ? $_SERVER['HTTP_CONNECTION'] : '31';
-		$fingerprint .= ( isset($_SERVER['HTTP_USER_AGENT']) ) ? $_SERVER['HTTP_USER_AGENT'] : '37';
-		$fingerprint .= ( isset($_SERVER['REMOTE_ADDR']) ) ? $_SERVER['REMOTE_ADDR'] : '41';
+		$fingerprint .= ( isset($_SERVER['HTTP_USER_AGENT']) ) ? $_SERVER['HTTP_USER_AGENT'] : '17';
+		$usedOctets = ( defined('FINGERPRINT_WITH_IP_OCTETS') ) ? intval(defined('FINGERPRINT_WITH_IP_OCTETS')) : 0;
+		$clientIp = ( isset($_SERVER['REMOTE_ADDR'])  ? $_SERVER['REMOTE_ADDR'] : '' );
+		if(($clientIp != '') && ($usedOctets > 0)){
+			$ip = explode('.', $clientIp);
+			if($usedOctets > 0){
+				while(sizeof($ip) >= $usedOctets) { unset($ip[$usedOctets]); }
+			}
+			$clientIp = implode('.', $ip);
+		}else {
+			$clientIp = 19;
+		}
+		$fingerprint .= $clientIp;
 		return md5($fingerprint);
 	}
 
@@ -98,7 +106,7 @@ class SecureForm {
  * creates Formular transactionnumbers for unique use
  * @access public
  * @param bool $asTAG: true returns a complete prepared, hidden HTML-Input-Tag (default)
- *                    false returns an array including FTAN0 and FTAN1
+ *                     false returns an GET argument 'key=value'
  * @return mixed:      array or string
  *
  * requirements: an active session must be available
@@ -115,7 +123,7 @@ class SecureForm {
 		{ // by default return a complete, hidden <input>-tag
 			return '<input type="hidden" name="'.$ftan[0].'" value="'.$ftan[1].'" title="" alt="" />';
 		}else{ // return an array with raw FTAN0 and FTAN1
-			return array('FTAN0' => $ftan[0], 'FTAN1'=>$ftan[1]);
+			return $ftan[0].'='.$ftan[1];
 		}
 	}
 

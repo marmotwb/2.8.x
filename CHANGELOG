@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+30 Jan-2011 Build 1422 Dietmar Woellbrink (Luisehahne)
+! update SecureForm.php to work behind Proxies
 27 Jan-2011 Build 1421 Dietmar Woellbrink (Luisehahne)
 # fix Undefined index: WARN_PAGE_LEAVE
 26 Jan-2011 Build 1420 Dietmar Woellbrink (Luisehahne)
