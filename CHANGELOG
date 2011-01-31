@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+31 Jan-2011 Build 1424 Werner v.d.Decken(DarkViper)
+# typo fix and simplify used_octets calculation
 30 Jan-2011 Build 1423 Werner v.d.Decken(DarkViper)
 ! add FINGERPRINT_WITH_IP_OCTETS to table settings
 30 Jan-2011 Build 1422 Dietmar Woellbrink (Luisehahne)
