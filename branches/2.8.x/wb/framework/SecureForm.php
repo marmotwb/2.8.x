@@ -83,9 +83,7 @@ class SecureForm {
 		$clientIp = ( isset($_SERVER['REMOTE_ADDR'])  ? $_SERVER['REMOTE_ADDR'] : '' );
 		if(($clientIp != '') && ($usedOctets > 0)){
 			$ip = explode('.', $clientIp);
-			if($usedOctets > 0){
-				while(sizeof($ip) >= $usedOctets) { unset($ip[$usedOctets]); }
-			}
+			while(sizeof($ip) > $usedOctets) { array_pop($ip); }
 			$clientIp = implode('.', $ip);
 		}else {
 			$clientIp = 19;
