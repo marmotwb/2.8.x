@@ -19,6 +19,15 @@
 // Must include code to stop this file being access directly
 if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
+// Create a javascript back link
+$js_back = WB_URL.'/account/preferences.php';
+
+if (!$wb->checkFTAN())
+{
+	$wb->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $js_back);
+	exit();
+}
+
 // Get and sanitize entered values
 $display_name = $wb->add_slashes(strip_tags($wb->get_post('display_name')));
 $language = strtoupper($wb->get_post('language'));
@@ -43,23 +52,14 @@ $time_format = (array_key_exists($time_format_key, $TIME_FORMATS) ? $time_format
 $time_format = ($time_format == 'system_default' ? '' : $time_format);
 unset($TIME_FORMATS);
 
-if (!$wb->checkFTAN())
-{
-	$wb->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
-	exit();
-}
-
-// Create a javascript back link
-$js_back = "javascript: history.go(-1);";
-
 // Update the database
 // $database = new database();
 $query = "UPDATE ".TABLE_PREFIX."users SET display_name = '$display_name', language = '$language', timezone = '$timezone', date_format = '$date_format', time_format = '$time_format' WHERE user_id = '".$wb->get_user_id()."'";
 $database->query($query);
 if($database->is_error()) {
-	$wb->print_error($database->get_error,'index.php',false);
+	$wb->print_error($database->get_error,$js_back,false);
 } else {
-	$wb->print_success($MESSAGE['PREFERENCES']['DETAILS_SAVED'], WB_URL.'/account/preferences.php');
+	$wb->print_success($MESSAGE['PREFERENCES']['DETAILS_SAVED'] );
 	$_SESSION['DISPLAY_NAME'] = $display_name;
 	$_SESSION['LANGUAGE'] = $language;
 	// Update date format

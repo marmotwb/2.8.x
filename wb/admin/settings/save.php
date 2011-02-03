@@ -33,14 +33,14 @@ if($advanced == '')
 	$admin = new admin('Settings', 'settings_advanced');
 }
 
+// Create a javascript back link
+$js_back = ADMIN_URL.'/settings/index.php'.$advanced;
+
 if( !$admin->checkFTAN() )
 {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],'index.php');
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$js_back );
 	exit();
 }
-
-// Create a javascript back link
-$js_back = "javascript: history.go(-1);";
 
 // Ensure that the specified default email is formally valid
 if(isset($_POST['server_email']))
@@ -189,7 +189,7 @@ while($setting = $res_settings->fetchRow())
         if (!$database->query($sql))
         {
 			if($database->is_error()) {
-				$admin->print_error($database->get_error, ADMIN_URL.'/settings/index.php'.$advanced);
+				$admin->print_error($database->get_error, $js_back );
 			}
         }
 	}
@@ -201,7 +201,7 @@ $sql .= 'WHERE `extra` = ""';
 $res_search = $database->query($sql);
 
 if($database->is_error()) {
-	$admin->print_error($database->is_error(), ADMIN_URL.'/settings/index.php'.$advanced);
+	$admin->print_error($database->is_error(), $js_back );
 }
 
 while($search_setting = $res_search->fetchRow())
@@ -229,9 +229,9 @@ while($search_setting = $res_search->fetchRow())
 
 // Check if there was an error updating the db
 if($database->is_error()) {
-	$admin->print_error($database->get_error, ADMIN_URL.'/settings/index.php'.$advanced);
+	$admin->print_error($database->get_error, $js_back );
 } else {
-	$admin->print_success($MESSAGE['SETTINGS']['SAVED'], ADMIN_URL.'/settings/index.php'.$advanced);
+	$admin->print_success($MESSAGE['SETTINGS']['SAVED'], $js_back );
 }
 $admin->print_footer();
 

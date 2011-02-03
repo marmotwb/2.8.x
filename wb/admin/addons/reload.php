@@ -34,21 +34,15 @@ require_once('../../framework/class.admin.php');
 
 // check user permissions for admintools (redirect users with wrong permissions)
 $admin = new admin('Admintools', 'admintools', false, false);
+
 if ($admin->get_permission('admintools') == false) die(header('Location: ../../index.php'));
 
-if (!$admin->checkFTAN())
-{
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
-	exit();
-}
-
 // check if the referer URL if available
-$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 
+$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] :
 	(isset($HTTP_SERVER_VARS['HTTP_REFERER']) ? $HTTP_SERVER_VARS['HTTP_REFERER'] : '');
-
 // if referer is set, check if script was invoked from "admin/modules/index.php"
 $required_url = ADMIN_URL . '/addons/index.php';
-if ($referer != '' && (!(strpos($referer, $required_url) !== false || strpos($referer, $required_url) !== false))) 
+if ($referer != '' && (!(strpos($referer, $required_url) !== false || strpos($referer, $required_url) !== false)))
 	die(header('Location: ../../index.php'));
 
 // include WB functions file
@@ -60,6 +54,12 @@ require_once(WB_PATH . '/languages/' . LANGUAGE .'.php');
 // create Admin object with admin header
 $admin = new admin('Addons', '', true, false);
 $js_back = ADMIN_URL . '/addons/index.php?advanced';
+
+if (!$admin->checkFTAN())
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$js_back);
+	exit();
+}
 
 /**
  * Reload all specified Addons

@@ -23,9 +23,9 @@ require(WB_PATH.'/modules/admin.php');
 
 $comment_id = $admin->checkIDKEY('comment_id', false, 'GET');
 if (!$comment_id) {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],  ADMIN_URL.'/pages/modify.php?page_id='.$page_id );
 	exit();
-} 
+}
 
 // Get header and footer
 $query_content = $database->query("SELECT post_id,title,comment FROM ".TABLE_PREFIX."mod_news_comments WHERE comment_id = '$comment_id'");

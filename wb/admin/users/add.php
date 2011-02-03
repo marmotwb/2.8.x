@@ -21,11 +21,14 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Access', 'users_add');
 
+// Create a javascript back link
+$js_back = ADMIN_URL.'/users/index.php';
+
 // Create new database object
 //$database = new database();
 if( !$admin->checkFTAN() )
 {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],'index.php');
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $js_back);
 	exit();
 }
 
@@ -41,9 +44,6 @@ $display_name = $admin->get_post_escaped('display_name');
 $email = $admin->get_post_escaped('email');
 $home_folder = $admin->get_post_escaped('home_folder');
 $default_language = DEFAULT_LANGUAGE;
-
-// Create a javascript back link
-$js_back = 'javascript: history.go(-1);';
 
 // Check values
 if($groups_id == '') {

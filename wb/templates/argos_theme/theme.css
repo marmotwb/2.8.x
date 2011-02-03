@@ -124,6 +124,11 @@ img.page_list_rights {border:none;float:left;margin:0;vertical-align:middle; pad
 */
 .header_list_menu_title {text-align:left;}
 .header_list_page_title {width:300px; text-align:left;}
+td.list_page_title { line-height: 1.3em;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
 .header_list_page_id {width:50px; text-align: right; padding-right:15px;}
 .header_list_actions {width:150px; text-align:left;}
 

@@ -37,7 +37,7 @@ $admin = new admin('Media', 'media_create');
 
 if (!$admin->checkFTAN())
 {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
+	$admin->print_error('CR5::'.$MESSAGE['GENERIC_SECURITY_ACCESS']);
 	exit();
 }
 

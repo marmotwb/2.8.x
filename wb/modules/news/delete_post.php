@@ -24,7 +24,7 @@ require(WB_PATH.'/modules/admin.php');
 
 $pid = $admin->checkIDKEY('post_id', false, 'GET');
 if (!$pid) {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 	exit();
 } else {
 	$post_id = $pid;

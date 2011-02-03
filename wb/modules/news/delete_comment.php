@@ -25,7 +25,7 @@ require(WB_PATH.'/modules/admin.php');
 $cid = $admin->checkIDKEY('comment_id', false, 'GET');
 $pid = $admin->checkIDKEY('post_id', false, 'GET');
 if (!$pid || !$cid) {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.'&section_id='.$section_id/*.'&post_id='.$post_id */);
 	exit();
 } else {
 	$comment_id = $cid;
@@ -38,7 +38,7 @@ $database->query("DELETE FROM ".TABLE_PREFIX."mod_news_comments  WHERE comment_i
 // Check if there is a db error, otherwise say successful
 if($database->is_error())
 {
-	$admin->print_error($database->get_error(), WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.'&section_id='.$section_id.'&post_id='.$post_id);
+	$admin->print_error($database->get_error(), WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.'&section_id='.$section_id.'&post_id='.$post_id );
 }
 else
 {

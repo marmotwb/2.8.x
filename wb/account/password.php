@@ -24,14 +24,14 @@ $current_password = $_POST['current_password'];
 $new_password = $_POST['new_password'];
 $new_password2 = $_POST['new_password2'];
 
+// Create a javascript back link
+$js_back = WB_URL.'/account/preferences.php';
+
 if (!$wb->checkFTAN())
 {
-	$wb->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
+	$wb->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $js_back, false);
 	exit();
 }
-
-// Create a javascript back link
-$js_back = "javascript: history.go(-1);";
 
 // Get existing password
 // $database = new database();
@@ -42,6 +42,7 @@ $results = $database->query($query);
 if($results->numRows() == 0) {
 	$wb->print_error($MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'], $js_back, false);
 }
+
 if(strlen($new_password) < 3) {
 	$wb->print_error($MESSAGE['USERS']['PASSWORD_TOO_SHORT'], $js_back, false);
 }
@@ -57,9 +58,9 @@ $md5_password = md5($new_password);
 $query = "UPDATE ".TABLE_PREFIX."users SET password = '$md5_password' WHERE user_id = '".$wb->get_user_id()."'";
 $database->query($query);
 if($database->is_error()) {
-	$wb->print_error($database->get_error, 'index.php', false);
+	$wb->print_error($database->get_error, $js_back, false);
 } else {
-	$wb->print_success($MESSAGE['PREFERENCES']['PASSWORD_CHANGED'], WB_URL.'/account/preferences.php');
+	$wb->print_success($MESSAGE['PREFERENCES']['PASSWORD_CHANGED']);
 }
 
 ?>

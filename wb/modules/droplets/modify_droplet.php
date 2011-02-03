@@ -29,7 +29,7 @@ $admin = new admin('admintools', 'admintools');
 // Get id
 $droplet_id = $admin->checkIDKEY('droplet_id', false, 'GET');
 if (!$droplet_id) {
- $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+ $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $module_edit_link);
  exit();
 }
 

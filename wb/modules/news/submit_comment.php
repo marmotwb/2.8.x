@@ -24,13 +24,14 @@ if(function_exists('ini_set')) {
 	ini_set('arg_separator.output', '&amp;');
 }
 */
+
 require_once(WB_PATH.'/framework/class.wb.php');
 $wb = new wb;
-         /*  */
-
+$post_id = (int)$_GET['post_id'];
+$section_id = (int)$_GET['section_id'];
 if (!$wb->checkFTAN())
 {
-	$wb->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
+	$wb->print_error('SC5::'.$MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL."/modules/news/comment.php?post_id=".$post_id."&section_id=".$section_id);
 	exit();
 }
 
@@ -55,9 +56,9 @@ if(isset($_GET['page_id']) AND is_numeric($_GET['page_id'])
 	// do not allow droplets in user input!
 	$title = str_replace(array("[[", "]]"), array("&#91;&#91;", "&#93;&#93;"), $title);
 	$comment = str_replace(array("[[", "]]"), array("&#91;&#91;", "&#93;&#93;"), $comment);
-	$page_id = $_GET['page_id'];
-	$section_id = $_GET['section_id'];
-	$post_id = $_GET['post_id'];
+	$page_id = (int)$_GET['page_id'];
+	$section_id = (int)$_GET['section_id'];
+	$post_id = (int)$_GET['post_id'];
 
 	// Check captcha
 	$query_settings = $database->query("SELECT use_captcha FROM ".TABLE_PREFIX."mod_news_settings WHERE section_id = '$section_id'");
@@ -150,7 +151,7 @@ else
 	if( isset($_GET['post_id']) AND is_numeric($_GET['post_id'])
         AND isset($_GET['section_id']) AND is_numeric($_GET['section_id']) )
     {
- 		header("Location: ".WB_URL."/modules/news/comment.php?post_id=".($_GET['post_id'])."&section_id=".($_GET['section_id'])."" ) ;
+ 		header("Location: ".WB_URL."/modules/news/comment.php?post_id=".(int)$_GET['post_id']."&section_id=".(int)$_GET['section_id']."" ) ;
 	    exit( 0 );
     }
 	else

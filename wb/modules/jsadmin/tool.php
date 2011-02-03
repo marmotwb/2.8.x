@@ -41,7 +41,7 @@ require_once(WB_PATH.'/modules/jsadmin/jsadmin.php');
 if(isset($_POST['submit']) AND $_POST['submit'] != '') {
 	if (!$admin->checkFTAN())
 	{
-		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$_SERVER['REQUEST_URI']);
 		exit();
 	}
 

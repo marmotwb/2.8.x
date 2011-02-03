@@ -32,7 +32,7 @@ $admin = new admin('Addons', 'templates_install');
 
 if( !$admin->checkFTAN() )
 {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],'index.php');
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
 	exit();
 }
 

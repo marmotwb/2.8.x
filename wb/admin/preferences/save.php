@@ -22,7 +22,7 @@
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Preferences');
-$js_back = "javascript: history.go(-1);"; // Create a javascript back link
+// $js_back = "javascript: history.go(-1);"; // Create a javascript back link
 
 function save_preferences( &$admin, &$database)
 {
@@ -173,7 +173,7 @@ if( $retval == '')
 	$admin->print_success($MESSAGE['PREFERENCES']['DETAILS_SAVED']);
 	$admin->print_footer();
 }else {
-	$admin->print_error($retval, $js_back);
+	$admin->print_error($retval);
 }
 
 ?>

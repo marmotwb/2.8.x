@@ -23,7 +23,7 @@ $admin = new admin('Media', 'media_rename', false);
 
 if (!$admin->checkFTAN())
 {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
+	$admin->print_error('RN5::'.$MESSAGE['GENERIC_SECURITY_ACCESS']);
 	exit();
 }
 
@@ -54,7 +54,7 @@ if (!check_media_path($directory)) {
 // Get the temp id
 $file_id = $admin->checkIDKEY('id', false, 'POST');
 if (!$file_id) {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
 }
 
 // Get home folder not to show

@@ -39,7 +39,7 @@ if (!check_media_path($directory)) {
 // Get the temp id
 $file_id = $admin->checkIDKEY('id', false, 'GET');
 if (!$file_id) {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL,false);
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL.'/admin/media/browse.php?dir=',false);
 }
 
 // Get home folder not to show

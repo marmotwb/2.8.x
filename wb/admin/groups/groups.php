@@ -43,12 +43,13 @@ if(!isset($_POST['group_id']) OR !is_numeric($_POST['group_id']) OR $_POST['grou
 if($_POST['action'] == 'modify') {
 	// Create new admin object
 	$admin = new admin('Access', 'groups_modify', false);
-
+/*  */
 	if (!$admin->checkFTAN())
 	{
 		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
 		exit();
 	}
+
 	// Print header
 	$admin->print_header();
 	// Get existing values
@@ -170,7 +171,7 @@ if($_POST['action'] == 'modify') {
 } elseif($_POST['action'] == 'delete') {
 	// Create new admin object
 	$admin = new admin('Access', 'groups_delete', false);
-
+/*  */
 	if (!$admin->checkFTAN())
 	{
 		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
