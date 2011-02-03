@@ -26,7 +26,7 @@ if(!isset($_POST['comment_id']) OR !is_numeric($_POST['comment_id']) OR !isset($
 }
 else
 {
-	$comment_id = $_POST['comment_id'];
+	$comment_id = (int)$_POST['comment_id'];
 }
 
 // Include WB admin wrapper script
@@ -35,7 +35,7 @@ require(WB_PATH.'/modules/admin.php');
 
 if (!$admin->checkFTAN())
 {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id );
 	exit();
 }
 
@@ -51,7 +51,7 @@ else
 	$title = strip_tags($admin->get_post_escaped('title'));
 	$comment = strip_tags($admin->get_post_escaped('comment'));
 	$post_id = $admin->getIDKEY($admin->get_post('post_id'));
-	
+
 	// do not allow droplets in user input!
 	$title = str_replace(array("[[", "]]"), array("&#91;&#91;", "&#93;&#93;"), $title);
 	$comment = str_replace(array("[[", "]]"), array("&#91;&#91;", "&#93;&#93;"), $comment);
@@ -67,7 +67,7 @@ if($database->is_error())
 }
 else
 {
-	$admin->print_success($TEXT['SUCCESS'], WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.'&section_id='.$section_id.'&post_id='.$post_id);
+	$admin->print_success($TEXT['SUCCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 }
 
 // Print admin footer

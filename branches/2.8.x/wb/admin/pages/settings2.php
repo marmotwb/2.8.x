@@ -22,12 +22,6 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_settings');
 
-if (!$admin->checkFTAN())
-{
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],'index.php');
-	exit();
-}
-
 // Get page id
 if(!isset($_POST['page_id']) || !is_numeric($_POST['page_id']))
 {
@@ -35,6 +29,14 @@ if(!isset($_POST['page_id']) || !is_numeric($_POST['page_id']))
 	exit(0);
 } else {
 	$page_id = $_POST['page_id'];
+}
+$pagetree_url = ADMIN_URL.'/pages/index.php';
+$target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
+
+if (!$admin->checkFTAN())
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$target_url);
+	exit();
 }
 
 /*
@@ -310,8 +312,8 @@ fix_page_trail($page_id,$root_parent);
 
 /* END page "access file" code */
 
-$pagetree_url = ADMIN_URL.'/pages/index.php';
-$target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
+//$pagetree_url = ADMIN_URL.'/pages/index.php';
+//$target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
 // Check if there is a db error, otherwise say successful
 if($database->is_error())
 {

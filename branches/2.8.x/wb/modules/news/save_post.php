@@ -28,7 +28,7 @@ if(!isset($_POST['post_id']) OR !is_numeric($_POST['post_id']))
 }
 else
 {
-	$id = $_POST['post_id'];
+	$id = (int)$_POST['post_id'];
 	$post_id = $id;
 }
 
@@ -38,7 +38,7 @@ require(WB_PATH.'/modules/admin.php');
 
 if (!$admin->checkFTAN())
 {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id );
 	exit();
 }
 
@@ -93,7 +93,7 @@ require(WB_PATH."/index.php");
 // Validate all fields
 if($admin->get_post('title') == '' AND $admin->get_post('url') == '')
 {
-	$admin->print_error($MESSAGE['GENERIC']['FILL_IN_ALL'], WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.'&section_id='.$section_id.'&post_id='.$id);
+	$admin->print_error($MESSAGE['GENERIC']['FILL_IN_ALL'], WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.'&section_id='.$section_id.'&post_id='.$admin->getIDKEY($id));
 }
 else
 {
@@ -156,7 +156,7 @@ $database->query("UPDATE ".TABLE_PREFIX."mod_news_posts SET group_id = '$group_i
 // Check if there is a db error, otherwise say successful
 if($database->is_error())
 {
-	$admin->print_error($database->get_error(), WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.'&section_id='.$section_id.'&post_id='.$id);
+	$admin->print_error($database->get_error(), WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.'&section_id='.$section_id.'&post_id='.$admin->getIDKEY($id));
 }
 else
 {

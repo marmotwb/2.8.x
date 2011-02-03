@@ -466,15 +466,13 @@ function LoadSelection()
 		}
 	}
 
-		var sLnkRel = GetE('cmbAttContentRel').value.Trim() ;
+		var sLnkRel = GetE('cmbAttContentRel') ;
 		if (  (sLnkRel.length == 0) && (oLink.rel.lenght != 0) )	// Modifying an existent rel.
 		{
 			sLnkRel = oLink.rel;
 		}
 
-		var sLinkRel = GetE('cmbAttContentRel');
-
-		if ( sLinkRel.lenght == null ) 
+		if ( sLnkRel.lenght == null ) 
 		{
 			var myselect = document.getElementById("cmbAttContentRel")
 			var found = false;
@@ -802,7 +800,7 @@ function Ok()
 		SetAttribute( oLink, 'tabindex'	, ( GetE('txtAttTabIndex').value > 0 ? GetE('txtAttTabIndex').value : null ) ) ;
 		SetAttribute( oLink, 'title'	, GetE('txtAttTitle').value ) ;
 		SetAttribute( oLink, 'type'		, GetE('txtAttContentType').value ) ;
-		SetAttribute( oLink, 'rel'		, sLnkRel ) ;
+		SetAttribute( oLink, 'rel'		, GetE('cmbAttContentRel').value  ) ;
 		SetAttribute( oLink, 'charset'	, GetE('txtAttCharSet').value ) ;
 
 		if ( oEditor.FCKBrowserInfo.IsIE )

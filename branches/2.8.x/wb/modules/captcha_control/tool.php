@@ -36,13 +36,13 @@ if(!file_exists(WB_PATH .'/modules/captcha_control/languages/'.LANGUAGE .'.php')
 }
 
 $table = TABLE_PREFIX.'mod_captcha_control';
-$js_back = "javascript: history.go(-1);";
+$js_back = ADMIN_URL.'/admintools/tool.php?tool=captcha_control';
 
 // check if data was submitted
 if(isset($_POST['save_settings'])) {
 	if (!$admin->checkFTAN())
 	{
-		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $js_back );
 		exit();
 	}
 	
@@ -70,7 +70,7 @@ if(isset($_POST['save_settings'])) {
 	if($database->is_error()) {
 		$admin->print_error($database->get_error(), $js_back);
 	} else {
-		$admin->print_success($MESSAGE['PAGES']['SAVED'], ADMIN_URL.'/admintools/tool.php?tool=captcha_control');
+		$admin->print_success($MESSAGE['PAGES']['SAVED'], $js_back);
 	}
 
 } else {

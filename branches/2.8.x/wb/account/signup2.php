@@ -32,14 +32,14 @@ $username = strtolower(strip_tags($wb->get_post_escaped('username')));
 $display_name = strip_tags($wb->get_post_escaped('display_name'));
 $email = $wb->get_post('email');
 
+// Create a javascript back link
+$js_back = WB_URL.'/account/signup.php';
+
 if (!$wb->checkFTAN())
 {
-	$wb->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
+	$wb->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $js_back, false);
 	exit();
 }
-
-// Create a javascript back link
-$js_back = "javascript: history.go(-1);";
 
 // Check values
 if($groups_id == "") {
@@ -123,7 +123,7 @@ if($database->is_error()) {
 	// Try sending the email
 	if($wb->mail(SERVER_EMAIL,$mail_to,$mail_subject,$mail_message)) { 
 		$display_form = false;
-		$wb->print_success($MESSAGE['FORGOT_PASS']['PASSWORD_RESET'], WB_URL.'/account/login.php');
+		$wb->print_success($MESSAGE['FORGOT_PASS']['PASSWORD_RESET'], WB_URL.'/account/login.php' );
 	} else {
 		$database->query("DELETE FROM ".TABLE_PREFIX."users WHERE username = '$username'");
 		$wb->print_error($MESSAGE['FORGOT_PASS']['CANNOT_EMAIL'], $js_back, false);

@@ -35,7 +35,7 @@ if(!file_exists(THEME_PATH .'/languages/'.LANGUAGE .'.php')) {
 if ( !is_null($admin->get_post_escaped("save"))) {
 	if (!$admin->checkFTAN())
 	{
-		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
+		$admin->print_error('SP5::'.$MESSAGE['GENERIC_SECURITY_ACCESS']);
 		exit();
 	}
 	

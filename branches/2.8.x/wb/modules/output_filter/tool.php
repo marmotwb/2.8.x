@@ -33,7 +33,7 @@ if(isset($_POST['save_settings'])) {
 	
 	if (!$admin->checkFTAN())
 	{
-		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$_SERVER['REQUEST_URI'],false);
 		exit();
 	}
 	// get overall output filter settings

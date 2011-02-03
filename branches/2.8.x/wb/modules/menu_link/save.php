@@ -24,7 +24,7 @@ require(WB_PATH.'/modules/admin.php');
 
 if (!$admin->checkFTAN())
 {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
 	exit();
 }
 

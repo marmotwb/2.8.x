@@ -21,9 +21,12 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Access', 'groups_modify');
 
+// Create a javascript back link
+$js_back = ADMIN_URL.'/groups/index.php';
+
 if (!$admin->checkFTAN())
 {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$js_back);
 	exit();
 }
 
@@ -37,9 +40,6 @@ if(!isset($_POST['group_id']) OR !is_numeric($_POST['group_id']) OR $_POST['grou
 
 // Gather details entered
 $group_name = $admin->get_post_escaped('group_name');
-
-// Create a javascript back link
-$js_back = "javascript: history.go(-1);";
 
 // Check values
 if($group_name == "") {

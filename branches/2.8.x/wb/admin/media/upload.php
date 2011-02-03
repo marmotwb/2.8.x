@@ -35,7 +35,7 @@ $admin = new admin('Media', 'media_upload');
 
 if (!$admin->checkFTAN())
 {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
+	$admin->print_error('UP5::'.$MESSAGE['GENERIC_SECURITY_ACCESS']);
 	exit();
 }
 
@@ -43,8 +43,9 @@ if (!$admin->checkFTAN())
 require_once(WB_PATH.'/framework/functions.php');
 
 // Check to see if target contains ../
-if (!check_media_path($target, false)) {
-	$admin->print_error($MESSAGE['MEDIA']['TARGET_DOT_DOT_SLASH']);
+if (!check_media_path($target, false))
+{
+	$admin->print_error('TD5::'.$MESSAGE['MEDIA']['TARGET_DOT_DOT_SLASH']);
 }
 
 // Create relative path of the target location for the file

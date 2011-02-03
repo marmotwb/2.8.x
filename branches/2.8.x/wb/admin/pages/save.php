@@ -22,12 +22,6 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_modify');
 
-if (!$admin->checkFTAN())
-{
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],'index.php');
-	exit();
-}
-
 // Get page & section id
 if(!isset($_POST['page_id']) || !is_numeric($_POST['page_id'])) {
 	header("Location: index.php");
@@ -43,6 +37,15 @@ if(!isset($_POST['section_id']) || !is_numeric($_POST['section_id'])) {
 	$section_id = intval($_POST['section_id']);
 }
 
+// $js_back = "javascript: history.go(-1);";
+$js_back = ADMIN_URL.'/pages/modify.php?page_id='.$page_id
+
+if (!$admin->checkFTAN())
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$js_back );
+	exit();
+}
+
 /*
 if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD']))) )
 {
@@ -56,8 +59,6 @@ if( (!($section_id= $admin->checkIDKEY('section_id', 0, $_SERVER['REQUEST_METHOD
 	exit();
 }
 */
-
-$js_back = "javascript: history.go(-1);";
 
 // Get perms
 $sql  = 'SELECT `admin_groups`,`admin_users` FROM `'.TABLE_PREFIX.'pages` ';
@@ -111,7 +112,7 @@ if(file_exists(WB_PATH.'/modules/'.$module.'/save.php'))
 // Check if there is a db error, otherwise say successful
 if($database->is_error())
 {
-	$admin->print_error($database->get_error(), $js_back);
+	$admin->print_error($database->get_error(), ADMIN_URL.'/pages/modify.php?page_id='.$results_array['page_id'] );
 } else {
 	$admin->print_success($MESSAGE['PAGES']['SAVED'], ADMIN_URL.'/pages/modify.php?page_id='.$results_array['page_id'] );
 }

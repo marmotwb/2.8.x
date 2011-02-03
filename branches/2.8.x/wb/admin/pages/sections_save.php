@@ -33,7 +33,7 @@ $admin = new admin('Pages', 'pages_modify');
 
 if (!$admin->checkFTAN())
 {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],'index.php');
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],ADMIN_URL.'/pages/sections.php?page_id='.$page_id);
 	exit();
 }
 

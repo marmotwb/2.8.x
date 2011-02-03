@@ -23,8 +23,8 @@ $update_when_modified = true; // Tells script to update when this page was last 
 require(WB_PATH.'/modules/admin.php');
 
 $gid = $admin->checkIDKEY('group_id', false, 'GET');
-if (!$pid) {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+if (!$gid) {
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 	exit();
 } else {
 	$group_id = $gid;

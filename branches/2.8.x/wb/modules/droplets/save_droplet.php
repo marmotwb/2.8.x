@@ -42,7 +42,7 @@ if(file_exists(ADMIN_PATH .'/admintools/tool.php')) {
 
 if (!$admin->checkFTAN())
 {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $module_edit_link);
 	exit();
 }
 
@@ -58,7 +58,7 @@ if($admin->get_post('title') == '') {
 	$description = $admin->add_slashes($admin->get_post('description'));
 	$tags = array('<?php', '?>' , '<?');
 	$content = $admin->add_slashes(str_replace($tags, '', $_POST['savecontent']));
-	
+
 	$comments = $admin->add_slashes($admin->get_post('comments'));
 	$modified_when = time();
 	$modified_by = (int) $admin->get_user_id(); 

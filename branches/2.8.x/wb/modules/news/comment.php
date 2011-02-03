@@ -22,12 +22,15 @@ require_once(WB_PATH.'/framework/class.wb.php');
 $wb = new wb;
 
 // Check if there is a post id
-$post_id = $wb->checkIDKEY('post_id', false, 'GET');
+// $post_id = $wb->checkIDKEY('post_id', false, 'GET');
+
+$post_id = (int)$_GET['post_id'];
+$section_id = (int)$_GET['section_id'];
+
 if (!$post_id OR !isset($_GET['section_id']) OR !is_numeric($_GET['section_id'])) {
-	$wb->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL);
+	$wb->print_error('ABORT::'.$MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL.PAGES_DIRECTORY );
 	exit();
 }
-$section_id = $_GET['section_id'];
 
 // Query post for page id
 $query_post = $database->query("SELECT post_id,title,section_id,page_id FROM ".TABLE_PREFIX."mod_news_posts WHERE post_id = '$post_id'");
