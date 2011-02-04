@@ -53,10 +53,10 @@ if(!isset($wysiwyg_editor_loaded)) {
 
 <?php
 echo $admin->getFTAN()."\n"; 
-show_wysiwyg_editor('content'.$section_id,'content'.$section_id,$content,'100%','350px');
+show_wysiwyg_editor('content'.$section_id,'content'.$section_id,$content,'100%','350');
 ?>
 
-<table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding-bottom: 10px;">
+<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" style="padding-bottom: 10px;">
 <tr>
 	<td align="left">
 		<input type="submit" value="<?php echo $TEXT['SAVE']; ?>" style="width: 100px; margin-top: 5px;" />
