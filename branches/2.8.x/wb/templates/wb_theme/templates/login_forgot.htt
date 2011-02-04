@@ -11,7 +11,7 @@
 </head>
 <body onload="document.forgot_pass.email.focus();">
 
-<table cellpadding="0" cellspacing="0" border="0" width="770" align="center">
+<table summary="" cellpadding="0" cellspacing="0" border="0" width="770" align="center">
 <tr>
 	<td width="60" valign="top">
 		<img src="{THEME_URL}/images/logo.png" alt="Logo" />
@@ -23,13 +23,13 @@
 </tr>
 </table>
 
-<table cellpadding="0" cellspacing="0" border="0" width="770" align="center" style="margin-top: 30px;" class="container">
+<table summary="" cellpadding="0" cellspacing="0" border="0" width="770" align="center" style="margin-top: 30px;" class="container">
 <tr>
 	<td class="content">
 	
 	<form name="forgot_pass" action="{ACTION_URL}" method="post">
 	<input type="hidden" name="url" value="{URL}" />
-		<table cellpadding="5" cellspacing="0" border="0" align="center" width="500">
+		<table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="500">
 		<tr>
 			<td height="40" align="center" style="color: #{MESSAGE_COLOR}" colspan="2">{MESSAGE}</td>
 		</tr>
@@ -61,7 +61,7 @@
 </tr>
 </table>
 
-<table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding: 10px 0px 10px 0px;">
+<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" style="padding: 10px 0px 10px 0px;">
 <tr>
 	<td style="font-size:12px;text-align:center;">
       <!-- Please note: the below reference to the GNU GPL should not be removed, as it provides a link for users to read about warranty, etc. -->

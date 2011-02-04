@@ -3,11 +3,11 @@
 	{URL_ADVANCED}
 </div>
 
-<table cellpadding="0" cellspacing="0" border="0" width="99%" align="center">
+<table summary="" cellpadding="0" cellspacing="0" border="0" width="99%" align="center">
 <tr>
 	<td align="center" valign="top">
 		<!-- BEGIN modules_block -->
-		<table cellpadding="0" cellspacing="0" border="0" class="section" {DISPLAY_MODULES} >
+		<table summary="" cellpadding="0" cellspacing="0" border="0" class="section" {DISPLAY_MODULES} >
 		<tr>
 			<td class="graphic" align="center" valign="middle" rowspan="2"><a href="{ADMIN_URL}/modules/index.php"><img src="{THEME_URL}/icons/modules.png" alt="0" /></a></td>
 			<td class="title"><a href="{ADMIN_URL}/modules/index.php">{MODULES}</a></td>
@@ -18,7 +18,7 @@
 		</table>
 		<!-- END modules_block -->		
 		<!-- BEGIN templates_block -->
-		<table cellpadding="0" cellspacing="0" border="0" class="section" {DISPLAY_TEMPLATES} >
+		<table summary="" cellpadding="0" cellspacing="0" border="0" class="section" {DISPLAY_TEMPLATES} >
 		<tr>
 			<td class="graphic" align="center" valign="middle" rowspan="2"><a href="{ADMIN_URL}/templates/index.php"><img src="{THEME_URL}/icons/templates.png" alt="{TEMPLATES}" /></a></td>
 			<td class="title"><a href="{ADMIN_URL}/templates/index.php">{TEMPLATES}</a></td>
@@ -29,7 +29,7 @@
 		</table>
 		<!-- END templates_block -->
 		<!-- BEGIN languages_block -->
-		<table cellpadding="0" cellspacing="0" border="0" class="section" {DISPLAY_LANGUAGES} >
+		<table summary="" cellpadding="0" cellspacing="0" border="0" class="section" {DISPLAY_LANGUAGES} >
 		<tr>
 			<td class="graphic" align="center" valign="middle" rowspan="2"><a href="{ADMIN_URL}/languages/index.php"><img src="{THEME_URL}/icons/languages.png" alt="{LANGUAGES}" /></a></td>
 			<td class="title"><a href="{ADMIN_URL}/languages/index.php">{LANGUAGES}</a></td>
@@ -40,7 +40,7 @@
 		</table>
 		<!-- END languages_block -->
 		<!-- BEGIN reload_block -->
-		<table cellpadding="0" cellspacing="0" border="0" class="section" {DISPLAY_RELOAD} >
+		<table summary="" cellpadding="0" cellspacing="0" border="0" class="section" {DISPLAY_RELOAD} >
 		<tr>
 			<td class="graphic" align="center" valign="middle" rowspan="2"><img src="{THEME_URL}/icons/admintools.png" alt="{TXT_ADMIN_SETTINGS}" /></td>
 			<td class="title">{TXT_ADMIN_SETTINGS}</td>

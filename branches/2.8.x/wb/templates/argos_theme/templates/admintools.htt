@@ -4,7 +4,7 @@
 	<ul>
 	<!-- BEGIN tool_list_block -->
 	<li>
-		<table cellpadding="0" cellspacing="0" border="0" class="section" width="100%">
+		<table summary="" cellpadding="0" cellspacing="0" border="0" class="section" width="100%">
 		<tr>
 			<td class="graphic" align="center" valign="middle" rowspan="2">
 				<a class= "title" href="{ADMIN_URL}/admintools/tool.php?tool={TOOL_DIR}"><img src="{THEME_URL}/icons/admintools.png" border="0" align="left"></a>

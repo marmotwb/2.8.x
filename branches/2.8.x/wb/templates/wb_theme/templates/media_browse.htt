@@ -33,11 +33,11 @@ $(document).ready(function(){
 
 </head>
 <body onload="parent.document.create.target.value = '{MEDIA_DIRECTORY}{CURRENT_DIR}'; parent.document.upload.target.value = '{MEDIA_DIRECTORY}{CURRENT_DIR}';">
-<table cellpadding="4" cellspacing="0" border="0" width="100%" class="browse_header">
+<table summary="" cellpadding="4" cellspacing="0" border="0" width="100%" class="browse_header">
 	<tr>
 		<td align="left" width="100">
 			<a href="{PARENT_DIR_LINK}">
-				<img src="{THEME_URL}/images/up_folder_16.png" border="0" class="{DISPLAY_UP_ARROW}" alt="^" align="absmiddle" />
+				<img src="{THEME_URL}/images/up_folder_16.png" border="0" class="{DISPLAY_UP_ARROW}" alt="^" />
 			</a>
 			<a href="{PARENT_DIR_LINK}" class="{DISPLAY_UP_ARROW}">
 				{TEXT_UP}
@@ -48,7 +48,7 @@ $(document).ready(function(){
 		</td>
 		<td align="right" width="100" >
 			<a href="browse.php?dir={CURRENT_DIR}">
-				<img src="{THEME_URL}/images/reload_16.png" border="0" alt="" align="absmiddle" />
+				<img src="{THEME_URL}/images/reload_16.png" border="0" alt="" />
 			</a>
 			<a id="reload" href="browse.php?dir={CURRENT_DIR}">
 				{TEXT_RELOAD}
@@ -57,7 +57,7 @@ $(document).ready(function(){
 	</tr>
 </table>
 
-<table id="browser" cellpadding="4" cellspacing="0" border="0" width="100%" class="{DISPLAY_LIST_TABLE}">
+<table summary="" id="browser" cellpadding="4" cellspacing="0" border="0" width="100%" class="{DISPLAY_LIST_TABLE}">
 	<thead>
 		<tr style="background-color: #EEE;">
 			<th width="18" class="headline">{TEXT_TYPE}</th>
@@ -82,17 +82,18 @@ $(document).ready(function(){
 			<td align="right" style="font-size: 10px;">{SIZE}</td>
 			<td align="right" style="font-size: 10px;">{DATE}</td>
 			<td align="right" class="{DISPLAY_RENAME}">
-				<a href="rename.php?dir={CURRENT_DIR}&id={TEMP_ID}" title="{TEXT_RENAME}">
+				<a href="rename.php?dir={CURRENT_DIR}&amp;id={TEMP_ID}" title="{TEXT_RENAME}">
 					<img src="{THEME_URL}/images/modify_16.png" alt="" border="0" />
 				</a>
 			</td>
 			<td style="padding-right: 5px;" align="right" class="{DISPLAY_DELETE}">
-				<a href="#" onclick="javascript: confirm_link('{CONFIRM_DELETE}\n {NAME_SLASHED}', 'delete.php?dir={CURRENT_DIR}&id={TEMP_ID}');" title="{TEXT_DELETE}">
+				<a href="#" onclick="javascript: confirm_link('{CONFIRM_DELETE}\n {NAME_SLASHED}', 'delete.php?dir={CURRENT_DIR}%26id={TEMP_ID}');" title="{TEXT_DELETE}">
 					<img src="{THEME_URL}/images/delete_16.png" alt="" border="0" />
 				</a>
 			</td>
 		</tr>
 		<!-- END list_block -->
+	</tbody>
 </table>
 
 <span class="{DISPLAY_NONE_FOUND}">

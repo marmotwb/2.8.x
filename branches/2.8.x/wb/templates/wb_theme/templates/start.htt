@@ -1,6 +1,6 @@
 <!-- BEGIN main_block -->
 
-<table cellpadding="0" cellspacing="0" border="0" width="99%" align="center">
+<table summary="" cellpadding="0" cellspacing="0" border="0" width="99%" align="center">
 <tr>
 	<td colspan="3" align="center">
 		{WELCOME_MESSAGE}. {CURRENT_USER} {DISPLAY_NAME}
@@ -14,7 +14,7 @@
 <tr>
 	<td align="center" valign="top">
 		
-		<table cellpadding="0" cellspacing="0" border="0" class="section" style="{DISPLAY_PAGES}">
+		<table summary="" cellpadding="0" cellspacing="0" border="0" class="section" style="{DISPLAY_PAGES}">
 		<tr>
 			<td class="graphic" align="center" valign="middle" rowspan="2">
 				<a href="{ADMIN_URL}/pages/index.php">
@@ -32,7 +32,7 @@
 		</tr>
 		</table>
 		
-		<table cellpadding="0" cellspacing="0" border="0" class="section" style="{DISPLAY_ADDONS}">
+		<table summary="" cellpadding="0" cellspacing="0" border="0" class="section" style="{DISPLAY_ADDONS}">
 		<tr>
 			<td class="graphic" align="center" valign="middle" rowspan="2">
 				<a href="{ADMIN_URL}/addons/index.php">
@@ -50,7 +50,7 @@
 		</tr>
 		</table>
 
-		<table cellpadding="0" cellspacing="0" border="0" class="section" style="{DISPLAY_SETTINGS}">
+		<table summary="" cellpadding="0" cellspacing="0" border="0" class="section" style="{DISPLAY_SETTINGS}">
 		<tr>
 			<td class="graphic" align="center" valign="middle" rowspan="2">
 				<a href="{ADMIN_URL}/settings/index.php">
@@ -68,7 +68,7 @@
 		</tr>
 		</table>
 
-		<table cellpadding="0" cellspacing="0" border="0" class="section" style="{DISPLAY_ACCESS}">
+		<table summary="" cellpadding="0" cellspacing="0" border="0" class="section" style="{DISPLAY_ACCESS}">
 		<tr>
 			<td class="graphic" align="center" valign="middle" rowspan="2">
 				<a href="{ADMIN_URL}/access/index.php">
@@ -92,7 +92,7 @@
 	</td>
 	<td align="center" valign="top">
 		
-		<table cellpadding="0" cellspacing="0" border="0" class="section" style="{DISPLAY_MEDIA}">
+		<table summary="" cellpadding="0" cellspacing="0" border="0" class="section" style="{DISPLAY_MEDIA}">
 		<tr>
 			<td class="graphic" align="center" valign="middle" rowspan="2">
 				<a href="{ADMIN_URL}/media/index.php">
@@ -110,7 +110,7 @@
 		</tr>
 		</table>
 
-		<table cellpadding="0" cellspacing="0" border="0" class="section">
+		<table summary="" cellpadding="0" cellspacing="0" border="0" class="section">
 		<tr>
 			<td class="graphic" align="center" valign="middle" rowspan="2">
 				<a href="{ADMIN_URL}/preferences/index.php">
@@ -128,7 +128,7 @@
 		</tr>
 		</table>
 
-		<table cellpadding="0" cellspacing="0" border="0" class="section" style="{DISPLAY_ADMINTOOLS}">
+		<table summary="" cellpadding="0" cellspacing="0" border="0" class="section" style="{DISPLAY_ADMINTOOLS}">
 		<tr>
 			<td class="graphic" align="center" valign="middle" rowspan="2">
 				<a href="{ADMIN_URL}/admintools/index.php">

@@ -94,7 +94,7 @@ if(!file_exists(WB_PATH.MEDIA_DIRECTORY.$directory)) {
 // Check to see if the user wanted to go up a directory into the parent folder
 if($admin->get_get('up') == 1) {
 	$parent_directory = dirname($directory);
-	header("Location: browse.php?dir=$parent_directory");	
+	header("Location: browse.php?dir=$parent_directory");
 	exit(0);
 }
 
@@ -103,7 +103,7 @@ if ($_SESSION['GROUP_ID'] != 1 && $pathsettings['global']['admin_only']) { // On
 }
 
 // Workout the parent dir link
-$parent_dir_link = ADMIN_URL.'/media/browse.php?dir='.$directory.'&up=1';
+$parent_dir_link = ADMIN_URL.'/media/browse.php?dir='.$directory.'&amp;up=1';
 // Workout if the up arrow should be shown
 if(($directory == '') or ($directory==$currentHome)) {
 	$display_up_arrow = 'hide';
@@ -152,7 +152,7 @@ if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 											'NAME_SLASHED' => addslashes($name),
 											'TEMP_ID' => $admin->getIDKEY($temp_id),
 											'LINK' => "browse.php?dir=$directory/$link_name",
-											'LINK_TARGET' => '',
+											'LINK_TARGET' => '_SELF',
 											'ROW_BG_COLOR' => $row_bg_color,
 											'FT_ICON' => THEME_URL.'/images/folder_16.png',
 											'FILETYPE_ICON' => THEME_URL.'/images/folder_16.png',
@@ -182,7 +182,7 @@ if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 			$date = gmdate(DATE_FORMAT.' '.TIME_FORMAT, $fdate);
 			$filetypeicon = get_filetype_icon(WB_URL.MEDIA_DIRECTORY.$directory.'/'.$name);
 			$filetype = get_filetype(WB_URL.MEDIA_DIRECTORY.$directory.'/'.$name);
-				
+
 			if (in_array($filetype, $filepreview)) {
 				$preview = 'preview';
 			} else {
@@ -198,8 +198,8 @@ if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 				$info = getimagesize(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$name);
 				if ($info[0]) {
 					$imgdetail = fsize(filesize(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$name)).'<br /> '.$info[0].' x '.$info[1].' px';
-					$icon = 'thumb.php?t=1&img='.$directory.'/'.$name;
-					$tooltip = ShowTip('thumb.php?t=2&img='.$directory.'/'.$name);
+					$icon = 'thumb.php?t=1&amp;img='.$directory.'/'.$name;
+					$tooltip = ShowTip('thumb.php?t=2&amp;img='.$directory.'/'.$name);
 				}
 			}
 			$template->set_var(array(
