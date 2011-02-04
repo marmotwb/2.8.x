@@ -33,7 +33,7 @@ if( !$admin->checkFTAN() )
 }
 
 // Get details entered
-$groups_id = implode(",", $admin->add_slashes($_POST['groups'])); //should check permissions
+$groups_id = (isset($_POST['groups'])) ? implode(",", $admin->add_slashes($_POST['groups'])) : ''; //should check permissions
 $groups_id = trim($groups_id, ','); // there will be an additional ',' when "Please Choose" was selected, too
 $active = $admin->add_slashes($_POST['active'][0]);
 $username_fieldname = $admin->get_post_escaped('username_fieldname');

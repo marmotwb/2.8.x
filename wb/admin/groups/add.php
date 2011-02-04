@@ -31,7 +31,7 @@ if (!$admin->checkFTAN())
 }
 
 // Gather details entered
-$group_name = $admin->get_post('group_name');
+$group_name = mysql_real_escape_string(strip_tags(trim($admin->get_post('group_name'))));
 
 // Check values
 if($group_name == "") {
