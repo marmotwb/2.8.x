@@ -5,7 +5,7 @@
 <input type="hidden" name="advanced" value="{ADVANCED}" />
 <input type="hidden" name="group_id" value="{GROUP_ID}" />
 {FTAN}
-<table cellpadding="2" cellspacing="0" border="0" width="100%">
+<table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
 <tr>
 	<td width="150">{TEXT_NAME}:</td>
 	<td>
@@ -13,7 +13,7 @@
 	</td>
 </tr>
 </table>
-<table cellpadding="2" cellspacing="0" border="0" width="100%" style="{DISPLAY_BASIC}">
+<table summary="" cellpadding="2" cellspacing="0" border="0" width="100%" style="{DISPLAY_BASIC}">
 <tr>
 	<td width="150" valign="top">{TEXT_SYSTEM_PERMISSIONS}:</td>
 	<td>
@@ -67,12 +67,12 @@
 	</td>
 </tr>
 </table>
-<table cellpadding="2" cellspacing="0" border="0" width="100%" style="{DISPLAY_ADVANCED}">
+<table summary="" cellpadding="2" cellspacing="0" border="0" width="100%" style="{DISPLAY_ADVANCED}">
 <tr>
 	<td width="150" valign="top">{TEXT_SYSTEM_PERMISSIONS}:</td>
 	<td align="left">
 
-<table cellpadding="0" cellspacing="0" border="0" width="330">
+<table summary="" cellpadding="0" cellspacing="0" border="0" width="330">
 <tr>
 	<td colspan="4"><h3>{SECTION_PAGES}</h3></td>
 </tr>

@@ -1,6 +1,6 @@
 <!-- BEGIN main_block -->
         <div class="jsadmin jcalendar hide"></div>
-        <table cellpadding="0" cellspacing="0" class="sections_header">
+        <table summary="" cellpadding="0" cellspacing="0" class="sections_header">
             <tr>
                 <td valign="middle" align="left">
                     <h2>{HEADING_MANAGE_SECTIONS}</h2>
@@ -18,7 +18,7 @@
         <form name="section_properties" action="{ADMIN_URL}/pages/sections_save.php?page_id={PAGE_IDKEY}" method="post">
 		{FTAN}
 		
-        <table cellpadding="5" cellspacing="0" align="center" border="0" width="100%">
+        <table summary="" cellpadding="5" cellspacing="0" align="center" border="0" width="100%">
                 <tr class="sections_list">
                 	<td valign="middle" width="{NAME_SIZE}">{TEXT_TYPE}:</td>
                 	<td {STYLE_DISPLAY_SECTION_BLOCK}>{TEXT_BLOCK}:</td>
@@ -88,7 +88,7 @@
 	<form name="add" action="{ADMIN_URL}/pages/sections.php?page_id={PAGE_IDKEY}" method="post">
         <input type="hidden" name="page_id" value="{PAGE_IDKEY}"  />
 		{FTAN}
-    	<table cellpadding="5" cellspacing="0" border="0" align="center" width="100%">
+    	<table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="100%">
     	<tr>
     		<td width="100%">
     			<select name="module" class="input_full">
