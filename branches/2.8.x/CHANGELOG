@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+07 Feb-2011 Build 1428 Dietmar Woellbrink (Luisehahne)
+! update Argostheme to version 1.5 (Tks to Argos)
+! validation fixes
+! call edit_full_area on the fly
 04 Feb-2011 Build 1427 Dietmar Woellbrink (Luisehahne)
 ! validation fixes in wb_theme
 04 Feb-2011 Build 1426 Dietmar Woellbrink (Luisehahne)

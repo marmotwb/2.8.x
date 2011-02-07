@@ -18,6 +18,9 @@
 
 // Must include code to stop this file being access directly
 if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+
+require_once(WB_PATH . '/include/editarea/wb_wrapper_edit_area.php');
+
 // Setup template object
 $template = new Template(WB_PATH.'/modules/code');
 $template->set_file('page', 'htt/modify.htt');

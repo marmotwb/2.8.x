@@ -1,6 +1,6 @@
 <!-- BEGIN main_block -->
 <div class="jsadmin jcalendar hide"></div>
-<table cellpadding="5" cellspacing="0" border="0" align="center" width="100%" style="margin-bottom:10px;">
+<table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="100%" style="margin-bottom:10px;">
 	<tr style="background:#f0f0f0;">
 		<td valign="middle" align="left"><h2>{HEADING_MANAGE_SECTIONS}</h2></td>
 		<td align="left" width="20%">ID: {PAGE_ID}</td>
@@ -16,7 +16,7 @@
         <form name="section_properties" action="{ADMIN_URL}/pages/sections_save.php?page_id={PAGE_IDKEY}" method="post">
 		{FTAN}
 		
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="img_noborder">
+        <table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="img_noborder">
 			<tr class="sections_list">
 				<td class="header_list_type">{TEXT_TYPE}</td>
 				<td class="header_list_block"><span {STYLE_DISPLAY_SECTION_BLOCK}>{TEXT_BLOCK}&nbsp;</span></td>
@@ -60,13 +60,13 @@
                     <td>{VAR_MOVE_DOWN_URL}</td>
 
                     <td>
-                        <a href="javascript: confirm_link('{TEXT_ARE_YOU_SURE}', '{ADMIN_URL}/pages/sections.php?page_id={PAGE_IDKEY}&amp;section_id={VAR_SECTION_ID}');">
+                        <a href="#" onclick="javascript: confirm_link('{TEXT_ARE_YOU_SURE}', '{ADMIN_URL}/pages/sections.php?page_id={PAGE_IDKEY}&amp;section_id={VAR_SECTION_ID}');">
                         <img src="{THEME_URL}/images/{DELETE_16_PNG}" alt="{TEXT_DELETE}" border="0" />
                         </a>
                     </td>
-					
+
                     <td class="list_section_id">{VAR_SECTION_ID}</td>
-					
+
                     <td {DISPLAY_DEBUG}>{POSITION}</td>
                 </tr>
 <!-- END section_block -->
@@ -83,7 +83,7 @@
 	<form name="add" action="{ADMIN_URL}/pages/sections.php?page_id={PAGE_IDKEY}" method="post">
         <input type="hidden" name="page_id" value="{PAGE_IDKEY}"  />
 		{FTAN}
-    	<table cellpadding="5" cellspacing="0" border="0" align="center" width="100%">
+    	<table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="100%">
     	<tr>
     		<td width="50%" valign="middle">
     			<select name="module" class="input_large">

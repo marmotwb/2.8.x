@@ -25,7 +25,7 @@ require_once(WB_PATH.'/framework/class.wb.php');
 require_once(ADMIN_PATH.'/interface/version.php');
 
 // Include EditArea wrapper functions
-require_once(WB_PATH . '/include/editarea/wb_wrapper_edit_area.php');
+// require_once(WB_PATH . '/include/editarea/wb_wrapper_edit_area.php');
 require_once(WB_PATH . '/framework/SecureForm.php');
 
 

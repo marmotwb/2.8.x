@@ -23,6 +23,8 @@ if(!(isset($_POST['page_id']) && isset($_POST['section_id']) && isset($_POST['ac
 // include configuration file and admin wrapper script
 require('../config.php');
 
+require_once(WB_PATH . '/include/editarea/wb_wrapper_edit_area.php');
+
 // include the and admin wrapper script
 require(WB_PATH.'/modules/admin.php');
 
@@ -31,9 +33,7 @@ if(!file_exists(WB_PATH .'/framework/module.functions.php')) {
 	echo 'The required file: /framework/module.functions.php is missing - script stopped.';
 	die;
 }
-
-echo (function_exists('registerEditArea')) ? registerEditArea('code_area', 'css', false) : 'none';
-
+echo (function_exists('registerEditArea')) ? registerEditArea('code_area', 'css') : 'none';
 // set default text output if varibles are not defined in the global WB language files
 $HEADING_CSS_FILE = (isset($GLOBALS['TEXT']['HEADING_CSS_FILE'])) ?$GLOBALS['TEXT']['HEADING_CSS_FILE'] :'Actual module file: ';
 $TXT_EDIT_CSS_FILE = (isset($GLOBALS['TEXT']['TXT_EDIT_CSS_FILE'])) ?$GLOBALS['TEXT']['TXT_EDIT_CSS_FILE'] :'Edit the CSS definitions in the textarea below.';
@@ -110,7 +110,7 @@ if($_POST['action'] == 'save' && mod_file_exists($mod_dir, $_POST['edit_file']))
 		// write out heading
 		echo '<h2>' .$HEADING_CSS_FILE .'"' .$css_file .'"</h2>';
 		// include button to switch between frontend.css and backend.css (only shown if both files exists)
-		toggle_css_file($mod_dir, $css_file); 
+		toggle_css_file($mod_dir, $css_file);
 		echo '<p>' .$TXT_EDIT_CSS_FILE .'</p>';
 
 		// output content of module file to textareas
@@ -121,12 +121,9 @@ if($_POST['action'] == 'save' && mod_file_exists($mod_dir, $_POST['edit_file']))
 	  	<input type="hidden" name="mod_dir" value="<?php echo $mod_dir; ?>" />
 		<input type="hidden" name="edit_file" value="<?php echo $css_file; ?>" />
 	  	<input type="hidden" name="action" value="save" />
-		<textarea id="code_area" name="css_data" cols="115" rows="25" wrap="VIRTUAL" style="margin:2px;width:100%;"><?php
-			echo htmlspecialchars($css_content); ?>
+		<textarea id="code_area" name="css_data" cols="100" rows="25" wrap="VIRTUAL" style="margin:2px;width:100%;">
+		<?php echo htmlspecialchars($css_content); ?>
 		</textarea>
-<?php
-
-?>
   			<table cellpadding="0" cellspacing="0" border="0" width="100%">
   			<tr>
     			<td class="left">

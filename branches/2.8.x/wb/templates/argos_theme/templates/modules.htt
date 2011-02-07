@@ -1,5 +1,5 @@
 <!-- BEGIN main_block -->
-<table cellpadding="5" cellspacing="0" border="0" align="center" width="100%" style="margin-bottom:10px;">
+<table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="100%" style="margin-bottom:10px;">
 	<tr style="background:#f0f0f0;">
 		<td align="right">
 			{URL_TEMPLATES}
@@ -13,10 +13,10 @@
 
 <form name="install" enctype="multipart/form-data" action="install.php" method="post" class="{DISPLAY_INSTALL}">
   <h2>{HEADING_INSTALL_MODULE}</h2>
-  <table cellpadding="2" cellspacing="0" border="0" width="100%">
+  <table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
     <tr>
       <td valign="middle">
-        <input type="file" name="userfile" size="97%" />
+        <input type="file" name="userfile" size="97" />
         <script type="text/javascript">
 		document.install.userfile.focus();
 		</script><br />
@@ -32,10 +32,10 @@
 </form>
 <form name="uninstall" action="uninstall.php" method="post" class="{DISPLAY_UNINSTALL}">
   <h2>{HEADING_UNINSTALL_MODULE}</h2>
-  <table cellpadding="2" cellspacing="0" border="0" width="100%">
+  <table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
     <tr>
       <td>
-        <select name="file" style="width: 97%;">
+        <select name="file" style="width: 97;">
 		<option value="" selected="selected">{TEXT_PLEASE_SELECT}...</option>
 		<!-- BEGIN module_list_block -->
 			<option value="{VALUE}">{NAME}</option>
@@ -51,7 +51,7 @@
 </form>
 <form name="details" action="details.php" method="post" class="{DISPLAY_LIST}">
   <h2>{HEADING_MODULE_DETAILS}</h2>
-  <table cellpadding="2" cellspacing="0" border="0" width="100%">
+  <table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
     <tr>
       <td>
         <select name="file" style="width: 97%;">
@@ -71,8 +71,8 @@
 <div class="{DISPLAY_MANUAL_INSTALL}">
   <h2>{HEADING_INVOKE_MODULE_FILES}</h2>
   <p>{TEXT_MANUAL_INSTALLATION}</p>
-  <form name="details" action="manual_install.php" method="post" class="{INSTALL_VISIBLE}">
-  <table cellpadding="0" cellspacing="2" border="0" width="80%">
+  <form name="manual_install" action="manual_install.php" method="post" class="{INSTALL_VISIBLE}">
+  <table summary="" cellpadding="0" cellspacing="2" border="0" width="80%">
 	  <tr>
 		<td width="150" valign="middle" nowrap="nowrap">{TEXT_FILE}: "install.php"</td>
 		<td valign="middle">
@@ -89,8 +89,8 @@
   </table>
   </form>
   
-  <form name="details" action="manual_install.php" method="post" class="{UPGRADE_VISIBLE}">
-  <table cellpadding="0" cellspacing="2" border="0" width="80%">
+  <form name="manual_upgrade" action="manual_install.php" method="post" class="{UPGRADE_VISIBLE}">
+  <table summary="" cellpadding="0" cellspacing="2" border="0" width="80%">
 	  <tr>
 		<td width="150" valign="middle" nowrap="nowrap">{TEXT_FILE}: "upgrade.php"</td>
 		<td valign="middle" >
@@ -107,8 +107,8 @@
   </table>
   </form>
 
-  <form name="details" action="manual_install.php" method="post" class="{UNINSTALL_VISIBLE}">
-  <table cellpadding="0" cellspacing="2" border="0" width="80%">
+  <form name="manual_uninstall" action="manual_install.php" method="post" class="{UNINSTALL_VISIBLE}">
+  <table summary="" cellpadding="0" cellspacing="2" border="0" width="80%">
 	  <tr>
 		<td width="150" valign="middle" nowrap="nowrap">{TEXT_FILE}: "uninstall.php"</td>
 		<td valign="middle">

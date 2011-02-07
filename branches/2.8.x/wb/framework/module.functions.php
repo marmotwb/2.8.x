@@ -62,7 +62,7 @@ if (!function_exists('mod_file_exists')) {
 if (!function_exists('edit_module_css')) {
 	function edit_module_css($mod_dir) {
 		global $page_id, $section_id;
-				
+
 		// check if the required edit_module_css.php file exists
 		if(!file_exists(WB_PATH .'/modules/edit_module_files.php')) return;
 		
@@ -83,7 +83,7 @@ if (!function_exists('edit_module_css')) {
 				<input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
 				<input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
 				<input type="hidden" name="mod_dir" value="<?php echo $mod_dir; ?>" />
-				<input type="hidden" name="edit_file" value="<?php echo ($frontend_css) ?'frontend.css' : 'backend.css';?>" />
+				<input type="hidden" name="edit_file" value="<?php echo ($frontend_css) ? 'frontend.css' : 'backend.css';?>" />
 				<input type="hidden" name="action" value="edit" />
 				<input type="submit" value="<?php echo $edit_css_caption;?>" class="mod_<?php echo $mod_dir;?>_edit_css" />
 			</form>

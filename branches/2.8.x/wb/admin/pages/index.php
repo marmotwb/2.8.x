@@ -40,7 +40,7 @@ function url_encode($string) {
     return str_replace($entities, $replacements, rawurlencode($string));
 }
 // fixes A URI contains impermissible characters or quotes around the URI are not closed.
-$MESSAGE['PAGES_DELETE_CONFIRM'] = url_encode( ( $MESSAGE['PAGES_DELETE_CONFIRM']) );
+$MESSAGE['PAGES_DELETE_CONFIRM'] = url_encode(  $MESSAGE['PAGES_DELETE_CONFIRM'] );
 
 function set_node ($parent,& $par)
 {
