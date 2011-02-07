@@ -48,6 +48,17 @@ if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD'])))
 	exit();
 }
 */
+/*
+urlencode function and rawurlencode are mostly based on RFC 1738.
+However, since 2005 the current RFC in use for URIs standard is RFC 3986.
+Here is a function to encode URLs according to RFC 3986.
+*/
+function url_encode($string) {
+    $string = html_entity_decode($string,ENT_QUOTES,'UTF-8');
+    $entities = array('%20', '%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%2B', '%24', '%2C', '%2F', '%3F', '%25', '%23', '%5B', '%5D');
+    $replacements = array(' ','!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "+", "$", ",", "/", "?", "%", "#", "[", "]");
+    return str_replace($entities, $replacements, rawurlencode($string));
+}
 
 // Check if we are supposed to add or delete a section
 if(isset($_GET['section_id']) && is_numeric($_GET['section_id']))
@@ -471,7 +482,7 @@ if($query_sections->numRows() == 0)
 // Insert language text and messages
 $template->set_var(array(
 					'TEXT_MANAGE_SECTIONS' => $HEADING['MANAGE_SECTIONS'],
-					'TEXT_ARE_YOU_SURE' => $TEXT['ARE_YOU_SURE'],
+					'TEXT_ARE_YOU_SURE' => url_encode($TEXT['ARE_YOU_SURE']),
 					'TEXT_TYPE' => $TEXT['TYPE'],
 					'TEXT_ADD' => $TEXT['ADD'],
 					'TEXT_SAVE' =>  $TEXT['SAVE'],

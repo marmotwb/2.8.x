@@ -19,18 +19,26 @@
 
 function loader_help()
 {
+
 ?>
-   <script type="text/javascript">
-      var head= document.getElementsByTagName('head')[0];
-      var script= document.createElement('script');
-      script.type= 'text/javascript';
-      script.src= '<?php print WB_URL; ?>/include/editarea/edit_area_full.js';
-      head.appendChild(script);
-   </script>
+<script type="text/javascript">
+/*<![CDATA[*/
+		try{
+			script = document.createElement("script");
+			script.type = "text/javascript";
+			script.src  = '<?php print WB_URL; ?>/include/editarea/edit_area_full.js';
+			script.charset= "UTF-8";
+			head = document.getElementsByTagName("head");
+			head[0].appendChild(script);
+		}catch(e){
+			document.write("<script type='text/javascript' src='" + url + "' charset=\"UTF-8\"><"+"/script>");
+		}
+/*]]>*/
+</script>
+
 <?php
 
 }
-
 if (!function_exists('registerEditArea')) {
 	function registerEditArea(
                 $id = 'code_area',
@@ -40,9 +48,8 @@ if (!function_exists('registerEditArea')) {
                 $allow_toggle = true,
                 $start_highlight = true,
                 $min_width = 600,
-                $min_height = 300,
-                $toolbar = 'default'
-            )
+                $min_height = 450,
+                $toolbar = 'default'  )
 	{
 
 		// set default toolbar if no user defined was specified
@@ -64,6 +71,11 @@ if (!function_exists('registerEditArea')) {
 		// check if resize option is supported by edit_area
 		$allow_resize = in_array($allow_resize, array('no', 'both', 'x', 'y')) ? $allow_resize : 'no';
 
+		if(!defined('LOADER_HELP')) {
+			loader_help();
+	        define('LOADER_HELP', true);
+		}
+
 		// return the Javascript code
 		$result = <<< EOT
 		<script type="text/javascript">
@@ -80,7 +92,7 @@ if (!function_exists('registerEditArea')) {
 			});
 		</script>
 EOT;
-		return $result;	
+		return $result;
 	}
 }
 

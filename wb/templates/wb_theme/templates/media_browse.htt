@@ -87,7 +87,7 @@ $(document).ready(function(){
 				</a>
 			</td>
 			<td style="padding-right: 5px;" align="right" class="{DISPLAY_DELETE}">
-				<a href="#" onclick="javascript: confirm_link('{CONFIRM_DELETE}\n {NAME_SLASHED}', 'delete.php?dir={CURRENT_DIR}%26id={TEMP_ID}');" title="{TEXT_DELETE}">
+				<a href="#" onclick="javascript: confirm_link('{CONFIRM_DELETE}\n {NAME_SLASHED}', 'delete.php?dir={CURRENT_DIR}&amp;id={TEMP_ID}');" title="{TEXT_DELETE}">
 					<img src="{THEME_URL}/images/delete_16.png" alt="" border="0" />
 				</a>
 			</td>

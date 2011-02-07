@@ -1,4 +1,4 @@
-<!-- BEGIN main_block --> 
+<!-- BEGIN main_block -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -34,14 +34,14 @@ a:hover {
 </head>
 <body>
 
-<table cellpadding="4" cellspacing="0" border="0" width="100%" style="border-bottom: 1px solid #666; width: 100%;">
+<table summary="" cellpadding="4" cellspacing="0" border="0" width="100%" style="border-bottom: 1px solid #666; width: 100%;">
 <tr style="background-color: #DDD;">
 	<td align="center">{TEXT_HEADER}</td>
 </tr>
 </table>
 <form method="post" action="{ADMIN_URL}/media/setparameter.php">
 	{FTAN}
-<table cellpadding="4" cellspacing="0" border="0" width="100%" class="{DISPLAY_LIST_TABLE}">
+<table summary="" cellpadding="4" cellspacing="0" border="0" width="100%" class="{DISPLAY_LIST_TABLE}">
 	<tr><td>{SETTINGS}</td><td><input type="checkbox" name="show_thumbs" {NO_SHOW_THUMBS_SELECTED}> {NO_SHOW_THUMBS}</td></tr>
 	<tr class="{DISPLAY_ADMIN}"><td></td>&nbsp;<td><input type="checkbox" name="admin_only" {ADMIN_ONLY_SELECTED}> {ADMIN_ONLY}</td></tr>
 	<tr><td colspan="2" style="border-bottom: 1px solid #666; line-height: 1px;">&nbsp;</td></tr>

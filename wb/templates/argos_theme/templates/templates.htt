@@ -1,6 +1,6 @@
 <!-- BEGIN main_block -->
 
-<table cellpadding="5" cellspacing="0" border="0" align="center" width="100%" style="margin-bottom:10px;">
+<table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="100%" style="margin-bottom:10px;">
 	<tr style="background:#f0f0f0;">
 		<td align="left">{CHANGE_TEMPLATE_NOTICE}</td>
 		<td align="right">
@@ -18,10 +18,10 @@
 
 <h2>{HEADING_INSTALL_TEMPLATE}</h2>
 
-<table cellpadding="2" cellspacing="0" border="0" width="100%">
+<table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
 <tr>
 	<td>
-		<input type="file" name="userfile" size="82%" />
+		<input type="file" name="userfile" size="82" />
 		<script type="text/javascript">
 		document.install.userfile.focus();
 		</script>
@@ -41,7 +41,7 @@
 
 <h2>{HEADING_UNINSTALL_TEMPLATE}</h2>
 
-<table cellpadding="2" cellspacing="0" border="0" width="100%">
+<table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
 <tr>
 	<td>
 		<select name="file" style="width: 97%;">
@@ -66,7 +66,7 @@
 
 <h2>{HEADING_TEMPLATE_DETAILS}</h2>
 
-<table cellpadding="2" cellspacing="0" border="0" width="100%">
+<table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
 <tr>
 	<td>
 		<select name="file" style="width: 97%;">

@@ -17,7 +17,7 @@
 <tr>
 	<td width="150" valign="top">{TEXT_SYSTEM_PERMISSIONS}:</td>
 	<td>
-		<table cellpadding="0" cellspacing="0" width="100%" border="0">
+		<table summary="" cellpadding="0" cellspacing="0" width="100%" border="0">
 		<tr>
 			<td>
 				<input type="checkbox" name="pages" id="pages" value="1" {pages_checked} />
@@ -223,7 +223,7 @@
 </tr>
 </table>
 
-<table cellpadding="2" cellspacing="0" border="0" width="100%" style="padding-top: 5px; padding-bottom: 5px;">
+<table summary="" cellpadding="2" cellspacing="0" border="0" width="100%" style="padding-top: 5px; padding-bottom: 5px;">
 <tr>
 	<td valign="top" align="left" width="150">{TEXT_MODULE_PERMISSIONS}:</td>
 	<td valign="top" align="left">
@@ -266,7 +266,7 @@
 <input type="hidden" name="group_id" value="{GROUP_ID}" />
 <input type="hidden" name="action" value="modify" />
 {FTAN}
-<table cellpadding="2" cellspacing="0" border="0" width="100%">
+<table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
 <tr>
     <td>&nbsp;</td>
 	<td style="text-align:center;">
