@@ -23,10 +23,11 @@ function loader_help()
 ?>
 <script type="text/javascript">
 /*<![CDATA[*/
+		var url  = '<?php print WB_URL; ?>/include/editarea/edit_area_full.js';
 		try{
 			script = document.createElement("script");
 			script.type = "text/javascript";
-			script.src  = '<?php print WB_URL; ?>/include/editarea/edit_area_full.js';
+			script.src  = url;
 			script.charset= "UTF-8";
 			head = document.getElementsByTagName("head");
 			head[0].appendChild(script);
