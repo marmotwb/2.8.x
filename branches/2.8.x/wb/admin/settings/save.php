@@ -148,7 +148,7 @@ $sql = 'SELECT `name`, `value` FROM `'.TABLE_PREFIX.'settings`';
 $sql .= 'ORDER BY `name`';
 
 $res_settings = $database->query($sql);
-
+$passed = false;
 while($setting = $res_settings->fetchRow())
 {
 	$old_settings[$setting['name']] = $setting['value'];
@@ -158,17 +158,20 @@ while($setting = $res_settings->fetchRow())
 	switch ($setting_name) {
 		case 'default_timezone':
 			$value=$value*60*60;
+			$passed = true;
 			break;
 		case 'string_dir_mode':
 			$value=$dir_mode;
+			$passed = true;
 			break;
 		case 'string_file_mode':
 			$value=$file_mode;
-			break;
+ 			$passed = true;
+		break;
 		case 'pages_directory':
 			break;
 		default :
-
+		    $passed = in_array($setting_name, $allow_empty_values);
 			break;
 	}
     if (!in_array($setting_name, $allow_tags_in_fields))
@@ -176,7 +179,6 @@ while($setting = $res_settings->fetchRow())
         $value = strip_tags($value);
     }
 
-    $passed = in_array($setting_name, $allow_empty_values);
 
     if ( !in_array($value, $disallow_in_fields) && (isset($_POST[$setting_name]) || $passed == true) )
     {

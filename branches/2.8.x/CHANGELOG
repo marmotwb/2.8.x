@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+09 Feb-2011 Build 1430 Dietmar Woellbrink (Luisehahne)
+# fix save settings dir and file mode (Tks to the community)
 09 Feb-2011 Build 1429 Dietmar Woellbrink (Luisehahne)
 # add forgotten javascript variable
 07 Feb-2011 Build 1428 Dietmar Woellbrink (Luisehahne)
