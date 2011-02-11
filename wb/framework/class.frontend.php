@@ -25,14 +25,14 @@ require_once(WB_PATH.'/framework/SecureForm.php');
 class frontend extends wb {
 	// defaults
 	public $default_link,$default_page_id;
-	// when multiple blocks are used, show home page blocks on 
+	// when multiple blocks are used, show home page blocks on
 	// pages where no content is defined (search, login, ...)
 	public $default_block_content=true;
 
 	// page details
 	// page database row
 	public $page;
-	public $page_id,$page_title,$menu_title,$parent,$root_parent,$level,$visibility;
+	public $page_id,$page_title,$menu_title,$parent,$root_parent,$level,$position,$visibility;
 	public $page_description,$page_keywords,$page_link;
 	public $page_trail=array();
 	
@@ -162,6 +162,8 @@ class frontend extends wb {
 			// Page level
 			if(!defined('LEVEL')) {define('LEVEL', $this->page['level']);}
 			$this->level=$this->page['level'];
+			// Page position
+			$this->level=$this->page['position'];
 			// Page visibility
 			if(!defined('VISIBILITY')) {define('VISIBILITY', $this->page['visibility']);}
 			$this->visibility=$this->page['visibility'];
