@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+13 Mae-2011 Build 1433 Dietmar Woellbrink (Luisehahne)
+# fixed bug : Call to undefined method wb::preprocess() 
 14 Feb-2011 Build 1432 Dietmar Woellbrink (Luisehahne)
 # update NL language file (Tks to Argos)
 11 Feb-2011 Build 1431 Dietmar Woellbrink (Luisehahne)
