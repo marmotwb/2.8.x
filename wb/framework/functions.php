@@ -1173,11 +1173,11 @@ function load_language($file)
 		// read contents of the template language file into string
 		$data = @file_get_contents(WB_PATH.'/languages/'.str_replace('.php','',basename($file)).'.php');
 		// use regular expressions to fetch the content of the variable from the string
-		$language_name = get_variable_content('language_name', $data, false);
-		$language_code = get_variable_content('language_code', $data, false);
-		$language_author = get_variable_content('language_author', $data);
-		$language_version = get_variable_content('language_version', $data, false);
-		$language_platform = get_variable_content('language_platform', $data, false);
+		$language_name = get_variable_content('language_name', $data, false, false);
+		$language_code = get_variable_content('language_code', $data, false, false);
+		$language_author = get_variable_content('language_author', $data, false, false);
+		$language_version = get_variable_content('language_version', $data, false, false);
+		$language_platform = get_variable_content('language_platform', $data, false, false);
 
 		if(isset($language_name))
 		{
