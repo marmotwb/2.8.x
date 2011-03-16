@@ -45,7 +45,7 @@ function build_page( &$admin, &$database )
 	}
 // read available languages from table addons and assign it to the template
 	$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';
-	$sql .= 'WHERE `type` = "language" ORDER BY `directory`';
+	$sql .= 'WHERE `type` = \'language\' ORDER BY `directory`';
 	if( $res_lang = $database->query($sql) )
 	{
 		$template->set_block('main_block', 'language_list_block', 'language_list');

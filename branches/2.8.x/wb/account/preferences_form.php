@@ -46,13 +46,15 @@ $ftan = $wb->getFTAN();
 		 *	storred in the field "directory" ...
 		 *
 		 */
-		$query = "SELECT directory, name from ".TABLE_PREFIX."addons where type='language' order by 'name'";
+		$query  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';
+		$query .= 'WHERE `type` = \'language\' ORDER BY `directory`';
 		$result = $database->query($query);
 		if ($result) {
 			$options_html = "";
 			while($data = $result->fetchRow()) {
 				$sel = ($data['directory'] == LANGUAGE) ? " selected=\"selected\" " : "";
-				$options_html .= "<option value=\"".$data['directory']."\" ".$sel.">".$data['name']." (".$data['directory'].")</option>\n";
+				// $options_html .= "<option value=\"".$data['directory']."\" ".$sel.">".$data['name']." (".$data['directory'].")</option>\n";
+				$options_html .= "<option value=\"".$data['directory']."\" ".$sel." style=\"background: url(".THEME_URL.'/images/flags/'.strtolower($data['directory']).".png) no-repeat center left; padding-left: 20px;\">".$data['name']." (".$data['directory'].")</option>\n";
 			}
 			echo $options_html;
 		}

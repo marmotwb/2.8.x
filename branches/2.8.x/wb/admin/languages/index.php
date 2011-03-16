@@ -35,7 +35,7 @@ $template->set_block('page', 'main_block', 'main');
 
 // Insert values into language list
 $template->set_block('main_block', 'language_list_block', 'language_list');
-$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'language' order by name");
+$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'language' order by directory");
 if($result->numRows() > 0) {
 	while($addon = $result->fetchRow()) {
 		$template->set_var('VALUE', $addon['directory']);

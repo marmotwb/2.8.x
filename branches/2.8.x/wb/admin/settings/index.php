@@ -155,27 +155,14 @@ if($is_advanced)
 					 ));
 
 	// Insert language values
-	$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'language' ORDER BY name");
+	$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'language' ORDER BY directory");
 	if($result->numRows() > 0)
 	{
 		while($addon = $result->fetchRow()) {
-			$l_codes[$addon['name']] = $addon['directory'];
-			$l_names[$addon['name']] = entities_to_7bit($addon['name']); // sorting-problem workaround
-		}
-		asort($l_names);
-		foreach($l_names as $l_name=>$v) {
-			// Insert code and name
-			$template->set_var(array(
-									'CODE' => $l_codes[$l_name],
-									'NAME' => $l_name,
-									'FLAG' => THEME_URL.'/images/flags/'.strtolower($l_codes[$l_name]),
-									));
-			// Check if it is selected
-			if(DEFAULT_LANGUAGE == $l_codes[$l_name]) {
-				$template->set_var('SELECTED', ' selected="selected"');
-			} else {
-				$template->set_var('SELECTED', '');
-			}
+			$template->set_var('CODE',        $addon['directory']);
+			$template->set_var('NAME',        $addon['name']);
+			$template->set_var('FLAG',        THEME_URL.'/images/flags/'.strtolower($addon['directory']));
+			$template->set_var('SELECTED',    (DEFAULT_LANGUAGE == $addon['directory'] ? ' selected="selected"' : '') );
 			$template->parse('language_list', 'language_list_block', true);
 		}
 	}
