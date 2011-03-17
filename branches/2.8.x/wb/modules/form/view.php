@@ -60,7 +60,7 @@ if (!function_exists('make_checkbox')) {
 function make_checkbox(&$n, $idx, $params) {
 	$field_id = $params[0][0];
 	$seperator = $params[0][1];
-	$label_id = 'wb_'.str_replace(" ", "_", $n);
+	$label_id = 'wb_'.preg_replace('/[^a-z0-1]/i', '_', $n);
 	if(in_array($n, $params[1])) {
 		$n = '<input class="field_checkbox" type="checkbox" id="'.$label_id.'" name="field'.$field_id.'['.$idx.']" value="'.$n.'" checked="checked" />'.'<label for="'.$label_id.'" class="checkbox_label">'.$n.'</lable>'.$seperator;
 	} else {
@@ -74,7 +74,7 @@ function make_radio(&$n, $idx, $params) {
 	$field_id = $params[0];
 	$group = $params[1];
 	$seperator = $params[2];
-	$label_id = 'wb_'.str_replace(" ", "_", $n);
+	$label_id = 'wb_'.preg_replace('/[^a-z0-1]/i', '_', $n);
 	if($n == $params[3]) { 
 		$n = '<input class="field_radio" type="radio" id="'.$label_id.'" name="field'.$field_id.'" value="'.$n.'" checked="checked" />'.'<label for="'.$label_id.'" class="radio_label">'.$n.'</label>'.$seperator;
 	} else {
@@ -178,7 +178,8 @@ if($query_fields->numRows() > 0) {
 		}
 		if($field['type'] == 'textfield') {
 			$vars[] = '{FIELD}';
-			$values[] = '<input type="text" name="field'.$field_id.'" id="field'.$field_id.'" maxlength="'.$field['extra'].'" value="'.(isset($_SESSION['field'.$field_id])?$_SESSION['field'.$field_id]:$value).'" class="textfield" />';
+			$max_lenght_para = (intval($field['extra']) ? ' maxlenght="'.intval($field['extra']).'"' : '');
+			$values[] = '<input type="text" name="field'.$field_id.'" id="field'.$field_id.'"'.$max_lenght_para.' value="'.(isset($_SESSION['field'.$field_id])?$_SESSION['field'.$field_id]:$value).'" class="textfield" />';
 		} elseif($field['type'] == 'textarea') {
 			$vars[] = '{FIELD}';
 			$values[] = '<textarea name="field'.$field_id.'" id="field'.$field_id.'" class="textarea" cols="25" rows="5">'.(isset($_SESSION['field'.$field_id])?$_SESSION['field'.$field_id]:$value).'</textarea>';
@@ -208,7 +209,8 @@ if($query_fields->numRows() > 0) {
 			$values[] = implode($options);
 		} elseif($field['type'] == 'email') {
 			$vars[] = '{FIELD}';
-			$values[] = '<input type="text" name="field'.$field_id.'" id="field'.$field_id.'" value="'.(isset($_SESSION['field'.$field_id])?$_SESSION['field'.$field_id]:'').'" maxlength="'.$field['extra'].'" class="email" />';
+			$max_lenght_para = (intval($field['extra']) ? ' maxlenght="'.intval($field['extra']).'"' : '');
+			$values[] = '<input type="text" name="field'.$field_id.'" id="field'.$field_id.'" value="'.(isset($_SESSION['field'.$field_id])?$_SESSION['field'.$field_id]:'').'"'.$max_lenght_para.' class="email" />';
 		}
 		if(isset($_SESSION['field'.$field_id])) unset($_SESSION['field'.$field_id]);
 		if($field['type'] != '') {

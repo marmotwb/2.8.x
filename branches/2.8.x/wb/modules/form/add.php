@@ -19,7 +19,7 @@
 if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
 // Insert an extra rows into the database
-$header = '<table cellpadding=\"2\" cellspacing=\"0\" border=\"0\" width=\"98%\">';
+$header = '<table cellpadding=\"2\" cellspacing=\"0\" border=\"0\" width=\"98%\" summary=\"form\">';
 $field_loop = '<tr><td class=\"field_title\">{TITLE}{REQUIRED}:</td><td>{FIELD}</td></tr>';
 $footer = '<tr><td>&nbsp;</td>
 <td>
