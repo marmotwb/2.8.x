@@ -11,6 +11,12 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+17 Mae-2011 Build 1439 Werner v.d.Decken(DarkViper)
+! syncronice version (no data changes)
+17 Mae-2011 Build 1438 Werner v.d.Decken(DarkViper)
+# little fixes for xhtml-validity in '/include/captcha/captcha.php'
+17 Mae-2011 Build 1437 Werner v.d.Decken(DarkViper)
+# little fixes for xhtml-validity module 'form'
 17 Mae-2011 Build 1436 Dietmar Woellbrink (Luisehahne)
 ! update jquery to Version 1.5.1 and jQuery UI to Version 1.8.10
 17 Mae-2011 Build 1435 Dietmar Woellbrink (Luisehahne)
