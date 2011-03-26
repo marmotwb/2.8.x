@@ -40,6 +40,30 @@ class wb extends SecureForm
 	}
 
 /* ****************
+ * check if one or more group_ids are in both group_lists
+ *
+ * @access public
+ * @param mixed $groups_list1: an array or a coma seperated list of group-ids
+ * @param mixed $groups_list2: an array or a coma seperated list of group-ids
+ * @param array &$matches: an array-var whitch will return possible matches
+ * @return bool: true there is a match, otherwise false
+ */
+	function is_group_match( $groups_list1 = '', $groups_list2 = '', &$matches = null )
+	{
+		if( $groups_list1 == '' ) { return false; }
+		if( $groups_list2 == '' ) { return false; }
+		if( !is_array($groups_list1) )
+		{
+			$groups_list1 = explode(',', $groups_list1);
+		}
+		if( !is_array($groups_list2) )
+		{
+			$groups_list2 = explode(',', $groups_list2);
+		}
+		$matches = array_intersect( $groups_list1, $groups_list2);
+		return ( sizeof($matches) != 0 );
+	}
+/* ****************
  * check if current user is member of at least one of given groups
  * ADMIN (uid=1) always is treated like a member of any groups
  *
