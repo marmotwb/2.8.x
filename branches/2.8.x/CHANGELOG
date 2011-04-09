@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+10 Apr-2011 Build 1441 Dietmar Woellbrink (Luisehahne)
+# recoded /modules/admin.php info_banner, now compare with modify in pages
+# security fixes remove defined WB_PATH for backend templates
+# fixed class.admin.php missing $TEXT declaration, add get_section_details
 26 Mar-2011 Build 1440 Dietmar Woellbrink (Luisehahne)
 # add missing methode is_group_match in class.wb.php 
 17 Mar-2011 Build 1439 Werner v.d.Decken(DarkViper)

@@ -553,7 +553,6 @@ if($result->numRows() > 0) {
 $template->set_var(array(
 								'THEME_URL' => THEME_URL,
 								'WB_URL' => WB_URL,
-								'WB_PATH' => WB_PATH,
 								'ADMIN_URL' => ADMIN_URL,
 								)
 						);

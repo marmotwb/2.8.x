@@ -76,7 +76,6 @@ $template->set_var(array(
 $template->set_var(array(
 		'ADMIN_URL' => ADMIN_URL,
 		'WB_URL' => WB_URL,
-		'WB_PATH' => WB_PATH,
 		'THEME_URL' => THEME_URL
 		)
 );
@@ -106,7 +105,6 @@ $template->set_var('FTAN', $admin->getFTAN());
 $template->set_var(array(
 		'ADMIN_URL' => ADMIN_URL,
 		'WB_URL' => WB_URL,
-		'WB_PATH' => WB_PATH,
 		'THEME_URL' => THEME_URL
 		)
 );

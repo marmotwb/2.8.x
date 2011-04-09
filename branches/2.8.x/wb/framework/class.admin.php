@@ -223,40 +223,73 @@ class admin extends wb {
 			}
 		}
 	}
-		
+/*
 	function get_user_details($user_id) {
 		global $database;
-		$query_user = "SELECT username,display_name FROM ".TABLE_PREFIX."users WHERE user_id = '$user_id'";
-		$get_user = $database->query($query_user);
-		if($get_user->numRows() != 0) {
-			$user = $get_user->fetchRow();
-		} else {
-			$user['display_name'] = 'Unknown';
-			$user['username'] = 'unknown';
+		$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'users` ';
+		$sql .= 'WHERE `user_id`='.(int)$user_id.' LIMIT 1';
+		if(($resUser = $database->query($sql))){
+			if(!($recUser = $resUser->fetchRow())) {
+				$recUser['display_name'] = 'Unknown';
+				$recUser['username'] = 'unknown';
+			}
 		}
-		return $user;
-	}	
-	
-	function get_page_details($page_id) {
-		global $database;
-		$query = "SELECT page_id,page_title,menu_title,modified_by,modified_when FROM ".TABLE_PREFIX."pages WHERE page_id = '$page_id'";
-		$results = $database->query($query);
-		if($database->is_error()) {
-			$this->print_header();
-			$this->print_error($database->get_error());
-		}
-		if($results->numRows() == 0) {
-			$this->print_header();
-			$this->print_error($MESSAGE['PAGES']['NOT_FOUND']);
-		}
-		$results_array = $results->fetchRow();
-		return $results_array;
-	}	
-	
+		return $recUser;
+	}
+*/
+ function get_user_details($user_id) {
+  global $database;
+  $retval = array('username'=>'unknown','display_name'=>'Unknown','email'=>'');
+  $sql  = 'SELECT `username`,`display_name`,`email` ';
+  $sql .= 'FROM `'.TABLE_PREFIX.'users` ';
+  $sql .= 'WHERE `user_id`='.(int)$user_id.' ';
+  // $sql .= 'AND (`statusflags` & '.USERS_DELETED.') > 0';
+  if( ($resUsers = $database->query($sql)) ) {
+   if( ($recUser = $resUsers->fetchRow()) ) {
+    $retval = $recUser;
+   }
+  }
+  return $retval;
+ }
+
+    //
+	function get_section_details( $section_id, $backLink = 'index.php' ) {
+	global $database, $TEXT;
+		$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'sections` ';
+		$sql .= 'WHERE `section_id`='.intval($section_id).' LIMIT 1';
+		if(($resSection = $database->query($sql))){
+			if(!($recSection = $resSection->fetchRow())) {
+				$this->print_header();
+				$this->print_error($TEXT['SECTION'].' '.$TEXT['NOT_FOUND'], $backLink, true);
+			}
+			} else {
+				$this->print_header();
+				$this->print_error($database->get_error(), $backLink, true);
+			}
+		return $recSection;
+	}
+
+	function get_page_details( $page_id, $backLink = 'index.php' ) {
+	  global $database, $TEXT;
+	  $sql  = 'SELECT * FROM `'.TABLE_PREFIX.'pages` ';
+	  $sql .= 'WHERE `page_id`='.(int)$page_id.' LIMIT 1';
+	  if(($resPages = $database->query($sql))){
+	   if(!($recPage = $resPages->fetchRow())) {
+	    $this->print_header();
+	    $this->print_error($TEXT['PAGE'].' '.$TEXT['NOT_FOUND'], $backLink, true);
+	   }
+	  } else {
+	   $this->print_header();
+	   $this->print_error($database->get_error(), $backLink, true);
+	  }
+	  return $recPage;
+	 }
+
 	/** Function get_page_permission takes either a numerical page_id,
 	 * upon which it looks up the permissions in the database,
-	 * or an array with keys admin_groups and admin_users  
+	 * or an array with keys admin_groups and admin_users
 	 */
+/*
 	function get_page_permission($page,$action='admin') {
 		if ($action!='viewing') $action='admin';
 		$action_groups=$action.'_groups';
@@ -264,7 +297,7 @@ class admin extends wb {
 		if (is_array($page)) {
 				$groups=$page[$action_groups];
 				$users=$page[$action_users];
-		} else {				
+		} else {
 			global $database;
 			$results = $database->query("SELECT $action_groups,$action_users FROM ".TABLE_PREFIX."pages WHERE page_id = '$page'");
 			$result = $results->fetchRow();
@@ -283,7 +316,30 @@ class admin extends wb {
 		}
 		return true;
 	}
-		
+*/
+
+	function get_page_permission($page,$action='admin') {
+		if($action != 'viewing') { $action = 'admin'; }
+		$action_groups = $action.'_groups';
+		$action_users  = $action.'_users';
+		$groups = $users = '0';
+		if(is_array($page)) {
+			$groups = $page[$action_groups];
+			$users  = $page[$action_users];
+		} else {
+			global $database;
+			$sql  = 'SELECT `'.$action_groups.'`,`'.$action_users.'` ';
+			$sql .= 'FROM `'.TABLE_PREFIX.'pages` ';
+			$sql .= 'WHERE `page_id`='.(int)$page;
+			if( ($res = $database->query($sql)) ) {
+				if( ($rec = $res->fetchRow()) ) {
+					$groups = $rec[$action_groups];
+					$users  = $rec[$action_users];
+				}
+			}
+		}
+		return ($this->ami_group_member($groups) || $this->is_group_match($this->get_user_id(), $users));
+	}
 
 	// Returns a system permission for a menu link
 	function get_link_permission($title) {
@@ -318,7 +374,7 @@ class admin extends wb {
         $body_links = "";
 		// define default baselink and filename for optional module javascript and stylesheet files
 		if($file_id == "js") {
-			$base_link = '<script type="text/javascript" src="'.WB_URL.'/modules/{MODULE_DIRECTORY}/backend_body.js"></script>';
+			$base_link = '<script src="'.WB_URL.'/modules/{MODULE_DIRECTORY}/backend_body.js" type="text/javascript"></script>';
 			$base_file = "backend_body.js";
 		}
 		// check if backend_body.js files needs to be included to the <body></body> section of the backend
@@ -382,7 +438,7 @@ class admin extends wb {
 			$base_link.= ' rel="stylesheet" type="text/css" media="screen" />';
 			$base_file = "backend.css";
 		} else {
-			$base_link = '<script type="text/javascript" src="'.WB_URL.'/modules/{MODULE_DIRECTORY}/backend.js"></script>';
+			$base_link = '<script src="'.WB_URL.'/modules/{MODULE_DIRECTORY}/backend.js" type="text/javascript"></script>';
 			$base_file = "backend.js";
 		}
 
@@ -400,7 +456,7 @@ class admin extends wb {
 					return str_replace("{MODULE_DIRECTORY}", $tool['directory'], $base_link);
 				}
 			}
-		} elseif(isset($_GET['page_id']) or isset($_POST['page_id'])) {
+		} elseif(isset($_GET['page_id']) || isset($_POST['page_id'])) {
 			// check if displayed page in the backend contains a page module
 			if (isset($_GET['page_id'])) {
 				$page_id = (int)$_GET['page_id'];
