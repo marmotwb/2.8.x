@@ -81,7 +81,6 @@ $template->set_var(array(
 								'DESIGNED_FOR' => $module['platform'],
 								'ADMIN_URL' => ADMIN_URL,
 								'WB_URL' => WB_URL,
-								'WB_PATH' => WB_PATH,
 								'THEME_URL' => THEME_URL
 								)
 						);

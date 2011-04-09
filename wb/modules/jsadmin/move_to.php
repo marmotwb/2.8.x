@@ -18,26 +18,41 @@
 
 require('../../config.php');
 
- if(isset($_GET['page_id']) AND is_numeric($_GET['page_id']) AND is_numeric(@$_GET['position'])) {
-	$position = $_GET['position'];
+if(isset($_GET['page_id']) AND is_numeric($_GET['page_id']) AND is_numeric(@$_GET['position'])) {
+	$position = (int)$_GET['position'];
 
 	// Include WB admin wrapper script
-	$update_when_modified = true; // Tells script to update when this page was last updated
+	$update_when_modified = true;
+	// Tells script to update when this page was last updated
 	require(WB_PATH.'/modules/admin.php');
 
+if( isset($_GET['file_id']) || (isset($_GET['group_id'])) ) {
+	if(isset($_GET['group_id']) && is_numeric($_GET['group_id'])) {
+		$id = (int)$_GET['group_id'];
+		$id_field = 'group_id';
+		$table = TABLE_PREFIX.'mod_download_gallery_groups';
+		$common_field = 'section_id';
+	} else {
+		$id = (int)$_GET['file_id'];
+		$id_field = 'file_id';
+		$table = TABLE_PREFIX.'mod_download_gallery_files';
+		$common_field = 'group_id';
+	}
+} elseif( isset($_GET['page_id']) || (isset($_GET['section_id'])) ) {
 	// Get common fields
-	if(isset($_GET['section_id']) AND is_numeric($_GET['section_id'])) {
-		$page_id = $_GET['page_id'];
-		$id = $_GET['section_id'];
+	if(isset($_GET['section_id']) && is_numeric($_GET['section_id'])) {
+		$page_id = (int)$_GET['page_id'];
+		$id = (int)$_GET['section_id'];
 		$id_field = 'section_id';
 		$common_field = 'page_id';
 		$table = TABLE_PREFIX.'sections';
 	} else {
-		$id = $_GET['page_id'];
+		$id = (int)$_GET['page_id'];
 		$id_field = 'page_id';
 		$common_field = 'parent';
 		$table = TABLE_PREFIX.'pages';
 	}
+}
 
 	// Get current index
 	$sql = <<<EOT
@@ -81,4 +96,3 @@ EOT;
 	header("Location: index.php");
 	exit(0);
 }
-?>

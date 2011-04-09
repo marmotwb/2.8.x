@@ -12,7 +12,7 @@
 **/
 JsAdmin.DD = {};
 JsAdmin.movable_rows = {};
-	
+
 JsAdmin.init_drag_drop = function() {
 
 	// There seems to be many different ways the ordering is set up
@@ -76,9 +76,46 @@ JsAdmin.init_drag_drop = function() {
 
 	} else if(document.URL.indexOf("/admin/pages/sections.php") > 0) {
 		page_type = 'sections';
+	} else if(document.URL.indexOf("/admin/pages/modify.php") > 0) {
+		page_type = 'modules';
+		is_tree = true;
+		// Stash all UL ids
+		var ids = {};
+		var lists = document.getElementsByTagName('ul');
+		for(var i = 0; i < lists.length; i++) {
+			if(lists[i].id) {
+				ids[lists[i].id] = true;
+			}
+		}
+
+		// Now fix all LIs
+		var items = document.getElementsByTagName('li');
+ 		for(var i = 0; i < items.length; i++) {
+			var item = items[i];
+
+			// Fix duplicate ID
+			if(ids[item.id]) {
+				item.id =  JsAdmin.util.getUniqueId();
+			}
+
+			// Fix UL parented by UL
+			var ul = JsAdmin.util.getNextSiblingNode(item, 'ul');
+			if(ul) {
+				var lis = ul.getElementsByTagName('li');
+ 				if(!lis || lis.length == 0) {
+					// Remove list without items
+					ul.parentNode.removeChild(ul);
+				} else {
+					// Make list child of list item
+					item.appendChild(ul);
+				}
+			}
+		}
+
 	} else {
 		// We don't do any other pages
 		return;
+		// page_type = 'modules';
 	}
 
 	var links = document.getElementsByTagName('a');
@@ -132,7 +169,7 @@ JsAdmin.DD.addMoveButton = function(tr, cell, op) {
 		var rows = tr.getElementsByTagName('tr');
 		tr = rows[0];
 	}
-	
+
 	var html = '<a href="' + item.url + 'move_' + op + '.php' + item.params
 				+ '"><img src="' + JsAdminTheme.THEME_URL + '/images/' + op
 				+ '_16.png" border="0" alt="' + op + '" /></a>';

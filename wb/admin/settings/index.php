@@ -147,10 +147,8 @@ if($is_advanced)
 	}
 
 	$template->set_var(array(
-						'WB_PATH' => WB_PATH,
 						'WB_URL' => WB_URL,
 						'THEME_URL' => THEME_URL,
-						'ADMIN_PATH' => ADMIN_PATH,
 						'ADMIN_URL' => ADMIN_URL,
 					 ));
 
