@@ -15,71 +15,96 @@
  * @lastmodified    $Date$
  *
  */
+/*
+	ATTN: to include your local changes DO NOT alter this file!
+	Instead, create your own local file search_convert_local.php
+	which will stay intact even after upgrading Website Baker.
 
-// Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
-
+	--Example search_convert_local.php --------------------------
+	// allows the user to enter Krasic to find Krašić
+	$t["s"]  = array("š","s");
+	$t["S"]  = array("Š","S");
+	$t["c"]  = array("ć","c");
+	$t["C"]  = array("Ć","C");
+	...
+	--END -------------------------------------------------------
+*/
+if(!defined('WB_URL')) {
+	header('Location: ../index.php');
+	exit(0);
+}
 if(!isset($search_lang)) $search_lang = LANGUAGE;
+$t = array();
 
-// umlaut to '(upper|lower)' for preg_match()
-// this is UTF-8-encoded
-// there is no need for a translation-table anymore since we use u-switch (utf-8) for preg-functions
-// remember that we use the i-switch, too. [No need for (ae|Ae)]
-
-$string_ul_umlaut = array();
-$string_ul_regex = array();
-
-// but add some national stuff
-if($search_lang=='DE') { // add special handling for german umlauts (ä==ae, ...)
-	$string_ul_umlaut_add = array(
-		"\xc3\x9f", // german SZ-Ligatur
-		"\xc3\xa4", // german ae
-		"\xc3\xb6", // german oe
-		"\xc3\xbc", // german ue
-		"\xc3\x84", // german Ae
-		"\xc3\x96", // german Oe
-		"\xc3\x9c", // german Ue
-		// these are not that usual
-		"\xEF\xAC\x84", // german ffl-ligatur
-		"ffl",          // german ffl-ligatur
-		"\xEF\xAC\x83", // german ffi-ligatur
-		"ffi",          // german ffi-ligatur
-		"0xEF\xAC\x80", // german ff-Ligatur
-		"ff",           // german ff-Ligatur
-		"\xEF\xAC\x81", // german fi-ligatur
-		"fi",           // german fi-ligatur
-		"\xEF\xAC\x82", // german fl-ligatur
-		"fl",           // german fl-ligatur
-		"\xEF\xAC\x85", // german st-Ligatur (long s)
-		"st",           // german st-Ligatur
-		"\xEF\xAC\x86"  // german st-ligatur (round-s)
-	);
-	$string_ul_regex_add = array(
-		"(\xc3\x9f|ss)", // german SZ.Ligatur
-		"(\xc3\xa4|ae)", // german ae
-		"(\xc3\xb6|oe)", // german oe
-		"(\xc3\xbc|ue)", // german ue
-		"(\xc3\x84|Ae)", // german Ae
-		"(\xc3\x96|Oe)", // german Oe
-		"(\xc3\x9c|Ue)", // german Ue
-		// these are not that usual
-		"(\xEF\xAC\x84|ffl)", // german ffl-ligatur
-		"(\xEF\xAC\x84|ffl)", // german ffl-ligatur
-		"(\xEF\xAC\x83|ffi)", // german ffi-ligatur
-		"(\xEF\xAC\x83|ffi)", // german ffi-ligatur
-		"(\xEF\xAC\x80|ff)",  // german ff-Ligatur
-		"(\xEF\xAC\x80|ff)",  // german ff-Ligatur
-		"(\xEF\xAC\x81|fi)",  // german fi-Ligatur
-		"(\xEF\xAC\x81|fi)",  // german fi-Ligatur
-		"(\xEF\xAC\x82|fl)",  // german fl-ligatur
-		"(\xEF\xAC\x82|fl)",  // german fl-ligatur
-		"(\xEF\xAC\x85|st)",  // german st-Ligatur (long s)
-		"(\xEF\xAC\x85|st|\xEF\xAC\x86)",  // german st-Ligaturs
-		"(\xEF\xAC\x86|st)"  // german st-ligatur (round-s)
-	);
-	$string_ul_umlaut = array_merge($string_ul_umlaut_add, $string_ul_umlaut);
-	$string_ul_regex = array_merge($string_ul_regex_add, $string_ul_regex);
+/*
+	ATTN:
+	This file MUST be UTF-8-encoded
+*/
+// test encoding
+if('á'!="\xc3\xa1") {
+	trigger_error('Wrong encoding for file search_convert.php!', E_USER_NOTICE);
+	return;
 }
 
+// local german settings
+if($search_lang=='DE') { // add special handling for german umlauts (ä==ae, ...)
+	// in german the character 'ß' may be written as 'ss', too. So for each 'ß' look for ('ß' OR 'ss')
+	$t["ß"]  = array("ß" ,"ss"); // german SZ-Ligatur
+	$t["ä"]  = array("ä" ,"ae"); // german ae
+	$t["ö"]  = array("ö" ,"oe"); // german oe
+	$t["ü"]  = array("ü" ,"ue"); // german ue
+	// the search itself is case-insensitiv, but strtr() (which is used to convert the search-string) isn't,
+	// so we have to supply upper-case characters, too!
+	$t["Ä"]  = array("Ä" ,"Ae"); // german Ae
+	$t["Ö"]  = array("Ö" ,"Oe"); // german Oe
+	$t["Ü"]  = array("Ü" ,"Ue"); // german Ue
+	// and for each 'ss' look for ('ß' OR 'ss'), too
+	$t["ss"] = array("ß" ,"ss"); // german SZ-Ligatur
+	$t["ae"] = array("ä" ,"ae"); // german ae
+	$t["oe"] = array("ö" ,"oe"); // german oe
+	$t["ue"] = array("ü" ,"ue"); // german ue
+	$t["Ae"] = array("Ä" ,"Ae"); // german Ae
+	$t["Oe"] = array("Ö" ,"Oe"); // german Oe
+	$t["Ue"] = array("Ü" ,"Ue"); // german Ue
+}
 
-?>
+// local Turkish settings
+if($search_lang=='TR') { // add special i/I-handling for Turkish
+	$t["i"] = array("i", "İ");
+	$t["I"] = array("I", "ı");
+}
+
+// include user-supplied file
+if(file_exists(WB_PATH.'/search/search_convert_local.php'))
+	include(WB_PATH.'/search/search_convert_local.php');
+
+// create arrays
+global $search_table_umlauts_local;
+$search_table_umlauts_local = array();
+foreach($t as $o=>$a) {
+	$alt = '';
+	if(empty($o) || empty($a) || !is_array($a)) continue;
+	foreach($a as $c) {
+		if(empty($c)) continue;
+		$alt .= preg_quote($c,'/').'|';
+	}
+	$alt = rtrim($alt, '|');
+	$search_table_umlauts_local[$o] = "($alt)";
+}
+// create array for use with frontent.functions.php (highlighting)
+$string_ul_umlaut = array_keys($search_table_umlauts_local);
+$string_ul_regex = array_values($search_table_umlauts_local);
+
+
+global $search_table_sql_local;
+$search_table_sql_local = array();
+foreach($t as $o=>$a) {
+	if(empty($o) || empty($a) || !is_array($a)) continue;
+	$i = 0;
+	foreach($a as $c) {
+		if(empty($c)) continue;
+		if($o==$c) { $i++; continue; }
+		$search_table_sql_local[$i++][$o] = $c;
+	}
+}
+
