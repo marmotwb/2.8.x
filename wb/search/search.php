@@ -186,28 +186,26 @@ $search_entities_string = ''; // for SQL's LIKE
 $search_display_string = ''; // for displaying
 $search_url_string = ''; // for $_GET -- ATTN: unquoted! Will become urldecoded later
 $string = '';
-if(isset($_REQUEST['string']))
-{
-	if($match!='exact') // $string will be cleaned below 
-    {
+if(isset($_REQUEST['string'])) {
+	if($match!='exact') { // $string will be cleaned below 
 		$string=str_replace(',', '', $_REQUEST['string']);
 	} else {
 		$string=$_REQUEST['string'];
 	}
     // redo possible magic quotes
     $string = $wb->strip_slashes($string);
-    $string = preg_replace('/[ \r\n\t]+/', ' ', $string);
+    $string = preg_replace('/\s+/', ' ', $string);
     $string = trim($string);
 	// remove some bad chars
 	$string = str_replace ( array('[[',']]'),'', $string);
 	$string = preg_replace('/(^|\s+)[|.]+(?=\s+|$)/', '', $string);
 	$search_display_string = htmlspecialchars($string);
-	$search_entities_string = addslashes(umlauts_to_entities(htmlspecialchars($string)));
-	// mySQL needs four backslashes to match one in LIKE comparisons)
-	$search_entities_string = str_replace('\\\\', '\\\\\\\\', $search_entities_string);
 	// convert string to utf-8
 	$string = entities_to_umlauts($string, 'UTF-8');
 	$search_url_string = $string;
+	$search_entities_string = addslashes(htmlentities($string, ENT_COMPAT, 'UTF-8'));
+	// mySQL needs four backslashes to match one in LIKE comparisons)
+	$search_entities_string = str_replace('\\\\', '\\\\\\\\', $search_entities_string);
 	$string = preg_quote($string);
 	// quote ' " and /  -we need quoted / for regex
 	$search_normal_string = str_replace(array('\'','"','/'), array('\\\'','\"','\/'), $string);
@@ -239,10 +237,14 @@ if($match == 'exact') {
 	}
 }
 // make an extra copy of search_normal_array for use in regex
-require(WB_PATH.'/search/search_convert.php');
 $search_words = array();
+require_once(WB_PATH.'/search/search_convert.php');
+global $search_table_umlauts_local;
+require_once(WB_PATH.'/search/search_convert_ul.php');
+global $search_table_ul_umlauts;
 foreach($search_normal_array AS $str) {
-	$str = str_replace($string_ul_umlaut, $string_ul_regex, $str);
+	$str = strtr($str, $search_table_umlauts_local);
+	$str = strtr($str, $search_table_ul_umlauts);
 	$search_words[] = $str;
 }
 
@@ -319,7 +321,6 @@ if($search_normal_string != '') {
 
 	// Use the module's search-extensions.
 	// This is somewhat slower than the orginial method.
-	
 	// call $search_funcs['__before'] first
 	$search_func_vars = array(
 		'database' => $database, // database-handle
@@ -336,6 +337,7 @@ if($search_normal_string != '') {
 		'search_words' => $search_words, // array of strings, prepared for regex
 		'search_match' => $match, // match-type
 		'search_url_array' => $search_url_array, // array of strings from the original search-string. ATTN: strings are not quoted!
+		'search_entities_array' => $search_entities_array, // entities
 		'results_loop_string' => $fetch_results_loop['value'],
 		'default_max_excerpt' => $search_max_excerpt,
 		'time_limit' => $search_time_limit, // time-limit in secs
@@ -392,6 +394,7 @@ if($search_normal_string != '') {
 						'search_words' => $search_words, // needed for preg_match
 						'search_match' => $match,
 						'search_url_array' => $search_url_array, // needed for url-string only
+						'search_entities_array' => $search_entities_array, // entities
 						'results_loop_string' => $fetch_results_loop['value'],
 						'default_max_excerpt' => $search_max_excerpt,
 						'enable_flush' => $cfg_enable_flush,
@@ -433,6 +436,7 @@ if($search_normal_string != '') {
 		'search_words' => $search_words, // array of strings, prepared for regex
 		'search_match' => $match, // match-type
 		'search_url_array' => $search_url_array, // array of strings from the original search-string. ATTN: strings are not quoted!
+		'search_entities_array' => $search_entities_array, // entities
 		'results_loop_string' => $fetch_results_loop['value'],
 		'default_max_excerpt' => $search_max_excerpt,
 		'time_limit' => $search_time_limit, // time-limit in secs
@@ -472,6 +476,7 @@ if($search_normal_string != '') {
 				'search_words' => $search_words, // needed for preg_match_all
 				'search_match' => $match,
 				'search_url_array' => $search_url_array, // needed for url-string only
+				'search_entities_array' => $search_entities_array, // entities
 				'results_loop_string' => $fetch_results_loop['value'],
 				'default_max_excerpt' => $max_excerpt_num,
 				'enable_flush' => $cfg_enable_flush

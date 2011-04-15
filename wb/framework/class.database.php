@@ -189,14 +189,14 @@ class database {
  */
 	public function field_add($table_name, $field_name, $description)
 	{
-		if( !$this->field_exists($field_name, $table_name) )
+		if( !$this->field_exists($table_name, $field_name) )
 		{ // add new field into a table
 			$sql = 'ALTER TABLE `'.$table_name.'` ADD '.$field_name.' '.$description.' ';
 			$query = $this->query($sql);
 			$this->set_error(mysql_error());
 			if( !$this->is_error() )
 			{
-				return ( $this->field_exists($field_name, $table_name) ) ? true : false;
+				return ( $this->field_exists($table_name, $field_name) ) ? true : false;
 			}
 		}else
 		{

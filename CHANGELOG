@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+15 Apr-2011 Build 1441 Dietmar Woellbrink (Luisehahne)
+# bug fixed in class.database.php methode field_add in call field_exists
+! update search, pls test, (Tks to Thorn)
 10 Apr-2011 Build 1441 Dietmar Woellbrink (Luisehahne)
 # recoded /modules/admin.php info_banner, now compare with modify in pages
 # security fixes remove defined WB_PATH for backend templates

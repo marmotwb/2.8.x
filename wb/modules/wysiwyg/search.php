@@ -20,6 +20,13 @@ if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
 function wysiwyg_search($func_vars) {
 	extract($func_vars, EXTR_PREFIX_ALL, 'func');
+	static $search_sql = FALSE;
+	if(function_exists('search_make_sql_part')) {
+		if($search_sql===FALSE)
+			$search_sql = search_make_sql_part($func_search_url_array, $func_search_match, array('`content`'));
+	} else {
+		$search_sql = '1=1';
+	}
 	
 	// how many lines of excerpt we want to have at most
 	$max_excerpt_num = $func_default_max_excerpt;
