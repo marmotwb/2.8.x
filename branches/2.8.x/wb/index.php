@@ -145,7 +145,9 @@ if(file_exists(WB_PATH .'/modules/output_filter/filter-routines.php'))
         $output = filter_frontend_output($output);
     }
 }
+
+// move css definitions into head section
+$output = moveCssToHead($output);
 echo $output;
 // end of wb-script
 exit;
-?>

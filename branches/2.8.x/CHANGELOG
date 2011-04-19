@@ -11,7 +11,12 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
-15 Apr-2011 Build 1441 Dietmar Woellbrink (Luisehahne)
+19 Apr-2011 Build 1443 Dietmar Woellbrink (Luisehahne)
+! remove auto including YUI Framework in backend for modules, enable with ->print_footer(true)
+! ->print_error and ->print_success too accept a message as array
+! auto validate in frontend if style block inside body tag
+! captcha now XHTML valide
+15 Apr-2011 Build 1442 Dietmar Woellbrink (Luisehahne)
 # bug fixed in class.database.php methode field_add in call field_exists
 ! update search, pls test, (Tks to Thorn)
 10 Apr-2011 Build 1441 Dietmar Woellbrink (Luisehahne)

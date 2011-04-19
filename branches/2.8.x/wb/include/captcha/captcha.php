@@ -27,16 +27,22 @@
 if(!function_exists('display_captcha_real')) {
 	function display_captcha_real($kind='image') {
 		$t = time();
+		$output  = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" ";
+		$output .= "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n";
+		$output .= "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"";
+		$output .= strtolower(LANGUAGE)."\" lang=\"".strtolower(LANGUAGE)."\">\n";
+		$output .= "\t<head>\n\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>\n";
+		$output .= "\t\t<title>captcha</title>\n\t</head>\n\t<body>\n";
 		$_SESSION['captcha_time'] = $t;
-		$sec_id = '';
-		if(isset($_GET['s']) && is_numeric($_GET['s'])) $sec_id = $_GET['s'];
 		if($kind=='image') {
-			?><a title="reload" href="<?php echo WB_URL.'/include/captcha/captcha.php?display_captcha_X986E21=2'; ?>">
-			  <img style="border: none;" src="<?php echo WB_URL.'/include/captcha/captchas/'.CAPTCHA_TYPE.".php?t=$t&amp;s=$sec_id"; ?>" alt="Captcha" />
-				</a><?php
+			$output .= "\t\t<a title=\"reload\" href=\"".WB_REL."/include/captcha/captcha.php?display_captcha_X986E21=2\">";
+			$output .= "<img style=\"border: none;\" src=\"".WB_REL."/include/captcha/captchas/";
+			$output .= CAPTCHA_TYPE.".php?t=".$t."\" alt=\"Captcha\" /></a>\n";
 		} else {
-			echo 'error';
+			$output .= "\t\t<h2>error</h2>";
 		}
+		$output .= "\t</body>\n</html>";
+		echo $output;
 	}
 }
 
