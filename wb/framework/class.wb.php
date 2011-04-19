@@ -377,6 +377,9 @@ class wb extends SecureForm
 	// Print a success message which then automatically redirects the user to another page
 	function print_success( $message, $redirect = 'index.php' ) {
 	    global $TEXT;
+        if(is_array($message)) {
+           $message = implode ('<br />',$message);
+        }
 	    // fetch redirect timer for sucess messages from settings table
 	    $redirect_timer = ((defined( 'REDIRECT_TIMER' )) && (REDIRECT_TIMER <= 10000)) ? REDIRECT_TIMER : 0;
 	    // add template variables
@@ -402,6 +405,9 @@ class wb extends SecureForm
 	// Print an error message
 	function print_error($message, $link = 'index.php', $auto_footer = true) {
 		global $TEXT;
+        if(is_array($message)) {
+           $message = implode ('<br />',$message);
+        }
 		$success_template = new Template(THEME_PATH.'/templates');
 		$success_template->set_file('page', 'error.htt');
 		$success_template->set_block('page', 'main_block', 'main');
@@ -461,4 +467,3 @@ class wb extends SecureForm
 	}
 
 }
-?>

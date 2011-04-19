@@ -593,6 +593,26 @@ if(!function_exists('register_frontend_modfiles'))
     }
 }
 
+	function moveCssToHead($content) {
+		// move css definitions into head section
+		$pattern1 = '/(?:.*?<body.*?)(<link[^>]*?\"text\/css\".*?\/>)(?:.*)/si';
+		$pattern2 = '/(?:.*?<body.*?)(<style[^>]*?\"text\/css\"[^>]*?>.*?<\/style>)(?:.*)/si';
+		$insert1 = array();
+		$insert2 = array();
+		if(preg_match_all($pattern1, $content, $matches)) {
+			$insert1 = $matches[1];
+			$content = str_replace($insert1, '', $content);
+		}
+		if(preg_match_all($pattern2, $content, $matches)) {
+			$insert2 = $matches[1];
+			$content = str_replace($insert2, '', $content);
+		}
+		$insert = array_merge($insert1, $insert2);
+		$insert = "\n".implode("\n", $insert)."\n</head>\n<body";
+		$content = preg_replace('/<\/head>.*?<body/si', $insert, $content);
+		return $content;
+	}
+
 // Begin WB < 2.4.x template compatibility code
 	// Make extra_sql accessable through private_sql
 	$private_sql = $extra_sql;
@@ -610,5 +630,3 @@ if(!function_exists('register_frontend_modfiles'))
 // End WB < 2.4.x template compatibility code
 // Include template file
 
-
-?>
