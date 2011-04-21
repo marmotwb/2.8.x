@@ -35,8 +35,8 @@ if(!function_exists('display_captcha_real')) {
 		$output .= "\t\t<title>captcha</title>\n\t</head>\n\t<body>\n";
 		$_SESSION['captcha_time'] = $t;
 		if($kind=='image') {
-			$output .= "\t\t<a title=\"reload\" href=\"".WB_REL."/include/captcha/captcha.php?display_captcha_X986E21=2\">";
-			$output .= "<img style=\"border: none;\" src=\"".WB_REL."/include/captcha/captchas/";
+			$output .= "\t\t<a title=\"reload\" href=\"".WB_URL."/include/captcha/captcha.php?display_captcha_X986E21=2\">";
+			$output .= "<img style=\"border: none;\" src=\"".WB_URL."/include/captcha/captchas/";
 			$output .= CAPTCHA_TYPE.".php?t=".$t."\" alt=\"Captcha\" /></a>\n";
 		} else {
 			$output .= "\t\t<h2>error</h2>";
