@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+22 Apr-2011 Build 1443 Dietmar Woellbrink (Luisehahne)
+# fix wrong url in captacha 
 19 Apr-2011 Build 1443 Dietmar Woellbrink (Luisehahne)
 ! remove auto including YUI Framework in backend for modules, enable with ->print_footer(true)
 ! ->print_error and ->print_success too accept a message as array
