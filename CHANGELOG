@@ -11,7 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
-22 Apr-2011 Build 1443 Dietmar Woellbrink (Luisehahne)
+27 Apr-2011 Build 1445 Dietmar Woellbrink (Luisehahne)
+# small validation fixes in backend themes
+22 Apr-2011 Build 1444 Dietmar Woellbrink (Luisehahne)
 # fix wrong url in captacha 
 19 Apr-2011 Build 1443 Dietmar Woellbrink (Luisehahne)
 ! remove auto including YUI Framework in backend for modules, enable with ->print_footer(true)
