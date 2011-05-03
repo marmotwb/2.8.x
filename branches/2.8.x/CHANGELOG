@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+03 May-2011 Build 1447 Werner v.d.Decken(DarkViper)
+! syncronice version (no data changes)
+03 May-2011 Build 1446 Werner v.d.Decken(DarkViper)
+# fixed validation of username in users and signup
 27 Apr-2011 Build 1445 Dietmar Woellbrink (Luisehahne)
 # small validation fixes in backend themes
 22 Apr-2011 Build 1444 Dietmar Woellbrink (Luisehahne)
