@@ -56,8 +56,9 @@ $home_folder = $admin->get_post_escaped('home_folder');
 if($groups_id == "") {
 	$admin->print_error($MESSAGE['USERS']['NO_GROUP'], $js_back);
 }
-if(strlen($username) < 2) {
-	$admin->print_error($MESSAGE['USERS']['USERNAME_TOO_SHORT'], $js_back);
+if(!preg_match('/^[a-z]{1}[a-z0-9_-]{2,}$/i', $username)) {
+	$admin->print_error( $MESSAGE['USERS_NAME_INVALID_CHARS'].' / '.
+	                  $MESSAGE['USERS_USERNAME_TOO_SHORT'], $js_back);
 }
 if($password != "") {
 	if(strlen($password) < 2) {
@@ -114,5 +115,3 @@ if($database->is_error()) {
 
 // Print admin footer
 $admin->print_footer();
-
-?>

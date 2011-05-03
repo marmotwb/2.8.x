@@ -49,8 +49,9 @@ $default_language = DEFAULT_LANGUAGE;
 if($groups_id == '') {
 	$admin->print_error($MESSAGE['USERS']['NO_GROUP'], $js_back);
 }
-if(strlen($username) < 2) {
-	$admin->print_error($MESSAGE['USERS']['USERNAME_TOO_SHORT'], $js_back);
+if(!preg_match('/^[a-z]{1}[a-z0-9_-]{2,}$/i', $username)) {
+	$admin->print_error( $MESSAGE['USERS_NAME_INVALID_CHARS'].' / '.
+	                  $MESSAGE['USERS_USERNAME_TOO_SHORT'], $js_back);
 }
 if(strlen($password) < 2) {
 	$admin->print_error($MESSAGE['USERS']['PASSWORD_TOO_SHORT'], $js_back);

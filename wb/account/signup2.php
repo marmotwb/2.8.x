@@ -45,8 +45,9 @@ if (!$wb->checkFTAN())
 if($groups_id == "") {
 	$wb->print_error($MESSAGE['USERS']['NO_GROUP'], $js_back, false);
 }
-if(strlen($username) < 3) {
-	$wb->print_error($MESSAGE['USERS']['USERNAME_TOO_SHORT'], $js_back, false);
+if(!preg_match('/^[a-z]{1}[a-z0-9_-]{2,}$/i', $username)) {
+	$wb->print_error( $MESSAGE['USERS_NAME_INVALID_CHARS'].' / '.
+	                  $MESSAGE['USERS_USERNAME_TOO_SHORT'], $js_back);
 }
 if($email != "") {
 	if($wb->validate_email($email) == false) {
