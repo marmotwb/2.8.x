@@ -29,7 +29,7 @@ function loader_help()
 			script.type = "text/javascript";
 			script.src  = url;
 			script.charset= "UTF-8";
-			head = document.getElementsByTagName("head");
+			head = document.getElementsByTagName("head")[0];
 			head[0].appendChild(script);
 		}catch(e){
 			document.write("<script type='text/javascript' src='" + url + "' charset=\"UTF-8\"><"+"/script>");

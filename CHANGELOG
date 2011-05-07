@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+07 May-2011 Build 1448 Dietmar Woellbrink (Luisehahne)
+# secure fix edit_module_files.php
+# fix wb_wrapper_edit_area.php
 03 May-2011 Build 1447 Werner v.d.Decken(DarkViper)
 ! syncronice version (no data changes)
 03 May-2011 Build 1446 Werner v.d.Decken(DarkViper)
