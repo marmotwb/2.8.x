@@ -51,36 +51,25 @@
 	if(!isset($TEXT['TXT_EDIT_CSS_FILE'])) { $TEXT['TXT_EDIT_CSS_FILE'] = 'Edit the CSS definitions in the textarea below.'; }
 
 // check if action is: save or edit
-	if($_action == 'save' && mod_file_exists($mod_dir, $_edit_file)) {
+	if($_action == 'save') {
 	// SAVE THE UPDATED CONTENTS TO THE CSS FILE
 		$css_content = '';
 		if (isset($_POST['css_data']) && strlen($_POST['css_data']) > 0) {
 			$css_content = stripslashes($_POST['css_data']);
 		}
-		$bytes = 0;
-		if ($css_content != '') {
-		// open the module CSS file for writting
-			$mod_file = @fopen(WB_PATH .'/modules/' .$mod_dir .'/' .$_edit_file, 'wb');
-		// write new content to the module CSS file
-			$bytes = @fwrite($mod_file, $css_content);
-		// close the file
-			@fclose($mod_file);
+		$modFileName = WB_PATH .'/modules/' .$mod_dir .'/' .$_edit_file;
+		if(($fileHandle = fopen($modFileName, 'wb'))) {
+			if(fwrite($mod_file, $css_content)) {
+				close($fileHandle);
+				$admin->print_success($TEXT['SUCCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+				exit;
+			}
+			close($fileHandle);
 		}
-		// write out status message
-		if($bytes == 0 ) {
-			$admin->print_error($TEXT['ERROR'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
-		} else {
-			$admin->print_success($TEXT['SUCCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
-		}
+		$admin->print_error($TEXT['ERROR'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+		exit;
 	} else {
 	// MODIFY CONTENTS OF THE CSS FILE VIA TEXT AREA
-	// check if module backend.css file needs to be included into the <body>
-		if((!method_exists($admin, 'register_backend_modfiles') || !$page_id)
-				&& file_exists(WB_PATH .'/modules/'.$mod_dir.'/backend.css')) {
-			echo '<style type="text/css">';
-			include(WB_PATH .'/modules/' .$mod_dir .'/backend.css');
-			echo "\n</style>\n";
-		}
 	// check which module file to edit (frontend.css, backend.css or '')
 		$css_file = (in_array($_edit_file, array('frontend.css', 'backend.css'))) ? $_edit_file : '';
 
