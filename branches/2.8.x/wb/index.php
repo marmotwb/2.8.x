@@ -27,17 +27,19 @@ if(file_exists($config_file))
 }
 
 // Check if the config file has been set-up
-if(!defined('WB_PATH'))
+if(!defined('TABLE_PREFIX'))
 {
 /*
- * Anmerkung:  HTTP/1.1 verlangt einen absoluten URI inklusive dem Schema,
- * Hostnamen und absoluten Pfad als Argument von Location:, manche aber nicht alle
- * Clients akzeptieren jedoch auch relative URIs.
+ * Remark:  HTTP/1.1 requires a qualified URI incl. the scheme, name
+ * of the host and absolute path as the argument of location. Some, but
+ * not all clients will accept relative URIs also.
  */
 	$host       = $_SERVER['HTTP_HOST'];
 	$uri        = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 	$file       = 'install/index.php';
 	$target_url = 'http://'.$host.$uri.'/'.$file;
+	$sResponse  = $_SERVER['SERVER_PROTOCOL'].' 307 Temporary Redirect';
+	header($sResponse);
 	header('Location: '.$target_url);
 	exit;	// make sure that subsequent code will not be executed
 }
@@ -145,9 +147,11 @@ if(file_exists(WB_PATH .'/modules/output_filter/filter-routines.php'))
         $output = filter_frontend_output($output);
     }
 }
-
 // move css definitions into head section
-$output = moveCssToHead($output);
+if(function_exists('moveCssToHead')) {
+	$output = moveCssToHead($output);
+}
+// now send complete page to the browser
 echo $output;
 // end of wb-script
 exit;
