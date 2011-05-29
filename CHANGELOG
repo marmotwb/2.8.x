@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+29 May-2011 Build 1451 Dietmar Woellbrink (Luisehahne)
+# replace eregi with pregmatch in search_modext (Tks to Thorn)
 22 May-2011 Build 1450 Werner v.d.Decken(DarkViper)
 # small fix at calling of moveCssToHead() in /index.php
 07 May-2011 Build 1449 Werner v.d.Decken(DarkViper)

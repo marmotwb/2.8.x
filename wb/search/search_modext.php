@@ -362,11 +362,11 @@ function clear_filelist($files, $str, $keep=true) {
 		return $files;
 	foreach($files as $file) {
 		if($keep) {
-			if(eregi($str, $file)) {
+			if(preg_match("~$str~i", $file)) {
 				$c_filelist[] = $file;
 			}
 		} else {
-			if(!eregi($str, $file)) {
+			if(!preg_match("~$str~i", $file)) {
 				$c_filelist[] = $file;
 			}
 		}
