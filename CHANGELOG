@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+02 Jun-2011 Build 1452 Dietmar Woellbrink (Luisehahne)
+! change status to RC6
 29 May-2011 Build 1451 Dietmar Woellbrink (Luisehahne)
 # replace eregi with pregmatch in search_modext (Tks to Thorn)
 22 May-2011 Build 1450 Werner v.d.Decken(DarkViper)
