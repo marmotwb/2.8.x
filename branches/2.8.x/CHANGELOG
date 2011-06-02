@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+02 Jun-2011 Build 1453 Dietmar Woellbrink (Luisehahne)
+# fix target in admin/media/browse.php 
+# http://www.websitebaker2.org/forum/index.php/topic,21688.msg145812.html#msg145812
+# Tks to the community
 02 Jun-2011 Build 1452 Dietmar Woellbrink (Luisehahne)
 ! change status to RC6
 29 May-2011 Build 1451 Dietmar Woellbrink (Luisehahne)
