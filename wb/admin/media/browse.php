@@ -152,7 +152,7 @@ if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 											'NAME_SLASHED' => addslashes($name),
 											'TEMP_ID' => $admin->getIDKEY($temp_id),
 											'LINK' => "browse.php?dir=$directory/$link_name",
-											'LINK_TARGET' => '_SELF',
+											'LINK_TARGET' => '_self',
 											'ROW_BG_COLOR' => $row_bg_color,
 											'FT_ICON' => THEME_URL.'/images/folder_16.png',
 											'FILETYPE_ICON' => THEME_URL.'/images/folder_16.png',
