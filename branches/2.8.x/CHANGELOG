@@ -10,7 +10,9 @@ Legend:
 # = Bugfix
 ! = Update/Change
 
-------------------------------------- 2.8.2 -------------------------------------
+------------------------------------- 2.8.2 ------------------------------------
+06 Jun-2011 Build 1455 Werner v.d.Decken(DarkViper)
+# fixed Bug-Ticket #1096: editing of files via modules/edit_module_files.php
 06 Jun-2011 Build 1454 Werner v.d.Decken(DarkViper)
 # in /framework/functions.php::media_filename - replace whitespaces by _
 # /upgrade-script.php - some small fixes
