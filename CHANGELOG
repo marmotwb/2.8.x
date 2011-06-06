@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 -------------------------------------
+06 Jun-2011 Build 1454 Werner v.d.Decken(DarkViper)
+# in /framework/functions.php::media_filename - replace whitespaces by _
+# /upgrade-script.php - some small fixes
 02 Jun-2011 Build 1453 Dietmar Woellbrink (Luisehahne)
 # fix target in admin/media/browse.php 
 # http://www.websitebaker2.org/forum/index.php/topic,21688.msg145812.html#msg145812

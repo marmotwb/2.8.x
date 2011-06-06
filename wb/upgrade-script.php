@@ -24,7 +24,6 @@ function status_msg($message, $class='check', $element='span') {
 	echo '<'.$element .' class="' .$class .'">' .$message .'</' .$element.'>';
 }
 
-$version = '2.8.2';
 // database tables including in WB package
 $table_list = array (
     'settings','groups','addons','pages','sections','search','users',
@@ -108,6 +107,9 @@ function show_array($array=array())
     print '</pre>';
 }
 
+require_once(WB_PATH.'/framework/functions.php');
+require_once(WB_PATH.'/framework/class.admin.php');
+$admin = new admin('Addons', 'modules', false, false);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -177,9 +179,19 @@ h3 { font-size: 120%; }
 <body>
 <div id="container">
 <img src="templates/wb_theme/images/logo.png" alt="WebsiteBaker Project" />
-
 <h1>WebsiteBaker Upgrade</h1>
-<p>This script upgrades an existing WebsiteBaker <strong>Version 2.7 and higher</strong> installation to the <strong>Version <?php echo $version ?></strong>. The upgrade script alters the existing WB database to reflect the changes introduced with WB 2.8.x</p>
+<?php
+	if( version_compare( WB_VERSION, '2.7.0', '<' )) {
+		status_msg('<strong>Warning:</strong><br />It is not possible to upgrade from WebsiteBaker Versions bevor 2.7.0.<br />For upgrading to version '.VERSION.' you must upgrade first to v.2.7.0 at least!!!', 'warning', 'div');
+		echo '<br /><br />';
+		echo "</div>
+		</body>
+		</html>
+		";
+		exit();
+	}
+?>
+<p>This script upgrades an existing WebsiteBaker <strong>Version <?php echo WB_VERSION; ?></strong> installation to the <strong>Version <?php echo VERSION ?></strong>. The upgrade script alters the existing WB database to reflect the changes introduced with WB 2.8.x</p>
 
 <?php
 /**
@@ -205,13 +217,7 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
     ";
 	exit();
 }
-
 echo '<h2>Step 2: Updating database entries</h2>';
-
-require_once(WB_PATH.'/framework/functions.php');
-require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Addons', 'modules', false, false);
-
 $OK   = '<span class="ok">OK</span>';
 $FAIL = '<span class="error">FAILED</span>';
 
@@ -493,34 +499,36 @@ if(in_array('mod_news_settings', $all_tables))
         	echo mysql_error().'<br />';
 
         }
-
-
-      if ((version_compare(WB_VERSION, '2.8.1') <= 0) && file_exists(WB_PATH."/modules/news/upgrade.php"))
-      {
-              echo '<h4>Upgrade existings postfiles to new format</h4><br />';
-              // change old postfiles to new postfiles
-              require_once(WB_PATH."/modules/news/upgrade.php");
-      }
-    }
-
+     }
    }
-
 }
-
 /**********************************************************
- *  - Set Version to WB 2.8.2
+ * upgrade news if newer version is available
  */
-echo "<br />Update database version number to 2.8.2 : ";
-echo ($database->query("UPDATE `".TABLE_PREFIX."settings` SET `value` = '$version' WHERE `name` = 'wb_version'")) ? " $OK<br />" : " $FAIL<br />";
+	if(file_exists(WB_PATH.'/modules/news/upgrade.php'))
+	{
+		$currNewsVersion = get_modul_version ('news', false);
+		$newNewsVersion =  get_modul_version ('news', true);
+		if((version_compare($currNewsVersion, $newNewsVersion) <= 0)) {
+			echo '<h4>Upgrade existings basically news module</h4><br />';
+			// change old postfiles to new postfiles
+			require_once(WB_PATH."/modules/news/upgrade.php");
+		}
+	}
+/**********************************************************
+ *  - Set Version to new Version
+ */
+echo '<br />Update database version number to '.VERSION.' : ';
+echo ($database->query("UPDATE `".TABLE_PREFIX."settings` SET `value`='".VERSION."' WHERE `name` = 'wb_version'")) ? " $OK<br />" : " $FAIL<br />";
 
 /**********************************************************
  *  - Reload all addons
  */
 
-//delete modules
-$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'module'");
+////delete modules
+//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'module'");
 // Load all modules
-if($handle = opendir(WB_PATH.'/modules/')) {
+if( ($handle = opendir(WB_PATH.'/modules/')) ) {
 	while(false !== ($file = readdir($handle))) {
 		if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'admin.php' AND $file != 'index.php') {
 			load_module(WB_PATH.'/modules/'.$file);
@@ -530,10 +538,10 @@ if($handle = opendir(WB_PATH.'/modules/')) {
 }
 echo '<br />Modules reloaded<br />';
 
-//delete templates		
-$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'template'");
+////delete templates
+//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'template'");
 // Load all templates
-if($handle = opendir(WB_PATH.'/templates/')) {
+if( ($handle = opendir(WB_PATH.'/templates/')) ) {
 	while(false !== ($file = readdir($handle))) {
 		if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'index.php') {
 			load_template(WB_PATH.'/templates/'.$file);
@@ -543,10 +551,10 @@ if($handle = opendir(WB_PATH.'/templates/')) {
 }
 echo '<br />Templates reloaded<br />';
 
-//delete languages
-$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'language'");
+////delete languages
+//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'language'");
 // Load all languages
-if($handle = opendir(WB_PATH.'/languages/')) {
+if( ($handle = opendir(WB_PATH.'/languages/')) ) {
 	while(false !== ($file = readdir($handle))) {
 		if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'index.php') {
 			load_language(WB_PATH.'/languages/'.$file);
