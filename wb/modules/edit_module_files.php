@@ -59,12 +59,12 @@
 		}
 		$modFileName = WB_PATH .'/modules/' .$mod_dir .'/' .$_edit_file;
 		if(($fileHandle = fopen($modFileName, 'wb'))) {
-			if(fwrite($mod_file, $css_content)) {
-				close($fileHandle);
+			if(fwrite($fileHandle, $css_content)) {
+				fclose($fileHandle);
 				$admin->print_success($TEXT['SUCCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 				exit;
 			}
-			close($fileHandle);
+			fclose($fileHandle);
 		}
 		$admin->print_error($TEXT['ERROR'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 		exit;
