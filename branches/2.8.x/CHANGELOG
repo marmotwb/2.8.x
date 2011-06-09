@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 ------------------------------------
+10 Jun-2011 Build 1456 Dietmar Woellbrink (Luisehahne)
++ add PL languages to news and captcha_control (tks to vixrealitum)
+! update PL language for WebsiteBaker (tks to vixrealitum)
 06 Jun-2011 Build 1455 Werner v.d.Decken(DarkViper)
 # fixed Bug-Ticket #1096: editing of files via modules/edit_module_files.php
 06 Jun-2011 Build 1454 Werner v.d.Decken(DarkViper)
