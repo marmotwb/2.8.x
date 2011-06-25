@@ -19,13 +19,15 @@
 // Create new admin object and print admin header
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Pages', 'pages_add');
-
+// suppress to print the header, so no new FTAN will be set
+$admin = new admin('Pages', 'pages_add', false);
 if (!$admin->checkFTAN())
 {
+	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
-	exit();
 }
+// After check print the header
+$admin->print_header();
 
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
@@ -41,9 +43,7 @@ $admin_groups = $admin->get_post('admin_groups');
 $viewing_groups = $admin->get_post('viewing_groups');
 
 // Work-out if we should check for existing page_code
-$sql = 'DESCRIBE `'.TABLE_PREFIX.'pages` `page_code`';
-$field_sql = $database->query($sql);
-$field_set = $field_sql->numRows();
+$field_set = $database->field_exists(TABLE_PREFIX.'pages', 'page_code');
 
 // add Admin to admin and viewing-groups
 $admin_groups[] = 1;

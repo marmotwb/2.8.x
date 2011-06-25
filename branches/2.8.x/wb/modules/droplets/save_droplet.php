@@ -33,18 +33,19 @@ require_once(WB_PATH.'/framework/functions.php');
 if(file_exists(ADMIN_PATH .'/admintools/tool.php')) {
 	$admintool_link = ADMIN_URL .'/admintools/index.php';
 	$module_edit_link = ADMIN_URL .'/admintools/tool.php?tool=droplets';
-	$admin = new admin('admintools', 'admintools');
+	$admin = new admin('admintools', 'admintools',false);
 } else {
 	$admintool_link = ADMIN_URL .'/settings/index.php?advanced=yes#administration_tools"';
 	$module_edit_link = ADMIN_URL .'/settings/tool.php?tool=droplets';
-	$admin = new admin('Settings', 'settings_advanced');
+	$admin = new admin('Settings', 'settings_advanced',false);
 }
 
 if (!$admin->checkFTAN())
 {
+	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $module_edit_link);
-	exit();
 }
+$admin->print_header();
 
 // Validate all fields
 if($admin->get_post('title') == '') {
@@ -76,5 +77,3 @@ if($database->is_error()) {
 
 // Print admin footer
 $admin->print_footer();
-
-?>

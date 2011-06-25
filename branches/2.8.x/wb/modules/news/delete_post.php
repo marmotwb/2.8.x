@@ -18,17 +18,18 @@
 
 require('../../config.php');
 
+$admin_header = false;
+// Tells script to update when this page was last updated
+$update_when_modified = true;
 // Include WB admin wrapper script
-$update_when_modified = true; // Tells script to update when this page was last updated
 require(WB_PATH.'/modules/admin.php');
 
-$pid = $admin->checkIDKEY('post_id', false, 'GET');
-if (!$pid) {
+$post_id = ($admin->checkIDKEY('post_id', false, 'GET'));
+if (!$post_id) {
+	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
-	exit();
-} else {
-	$post_id = $pid;
 }
+$admin->print_header();
 
 // Get post details
 $query_details = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_news_posts WHERE post_id = '$post_id'");
@@ -61,5 +62,3 @@ if($database->is_error()) {
 
 // Print admin footer
 $admin->print_footer();
-
-?>

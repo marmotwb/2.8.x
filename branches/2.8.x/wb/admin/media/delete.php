@@ -44,7 +44,17 @@ if (!$file_id) {
 
 // Get home folder not to show
 $home_folders = get_home_folders();
+$usedFiles = array();
+// feature freeze
+// require_once(ADMIN_PATH.'/media/dse.php');
+/*
 
+if(!empty($currentdir)) {
+	$usedFiles = $Dse->getMatchesFromDir( $directory, DseTwo::RETURN_USED);
+}
+print '<pre><strong>function '.__FUNCTION__.'();</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
+print_r( $usedFiles ); print '</pre>'; // flush ();sleep(10); die();
+*/
 // Figure out what folder name the temp id is
 if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 	// Loop through the files and dirs an add to list

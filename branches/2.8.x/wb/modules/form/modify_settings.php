@@ -11,27 +11,25 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date:  $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  * @description     
  */
 
 require('../../config.php');
 
+$print_info_banner = true;
+// Tells script to update when this page was last updated
+$update_when_modified = false;
 // Include WB admin wrapper script
 require(WB_PATH.'/modules/admin.php');
 
 // include core functions of WB 2.7 to edit the optional module CSS files (frontend.css, backend.css)
 @include_once(WB_PATH .'/framework/module.functions.php');
 
-// check if module language file exists for the language set by the user (e.g. DE, EN)
-if(!file_exists(WB_PATH .'/modules/form/languages/'.LANGUAGE .'.php')) {
-	// no module language file exists for the language set by the user, include default module language file EN.php
-	require_once(WB_PATH .'/modules/form/languages/EN.php');
-} else {
-	// a module language file exists for the language defined by the user, load it
-	require_once(WB_PATH .'/modules/form/languages/'.LANGUAGE .'.php');
-}
+// load module language file
+$lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
+require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
 
 // Get header and footer
 $query_content = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_form_settings WHERE section_id = '$section_id'");
@@ -40,14 +38,14 @@ $setting = $query_content->fetchRow();
 // Set raw html <'s and >'s to be replace by friendly html code
 $raw = array('<', '>');
 $friendly = array('&lt;', '&gt;');
-
+/*
 // check if backend.css file needs to be included into the <body></body> of modify.php
 if(!method_exists($admin, 'register_backend_modfiles') && file_exists(WB_PATH ."/modules/form/backend.css")) {
 	echo '<style type="text/css">';
 	include(WB_PATH .'/modules/form/backend.css');
 	echo "\n</style>\n";
 }
-
+*/
 ?>
 <h2><?php echo $MOD_FORM['SETTINGS']; ?></h2>
 <?php
@@ -247,5 +245,3 @@ if(function_exists('edit_module_css')) {
 
 // Print admin footer
 $admin->print_footer();
-
-?>

@@ -92,6 +92,8 @@ class admin extends wb {
 		global $TEXT;
 		// Connect to database and get website title
 		global $database;
+		// $GLOBALS['FTAN'] = $this->getFTAN();
+		$this->createFTAN();
 		$get_title = $database->query("SELECT value FROM ".TABLE_PREFIX."settings WHERE name = 'website_title'");
 		$title = $get_title->fetchRow();
 		$header_template = new Template(THEME_PATH.'/templates');

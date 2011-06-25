@@ -26,21 +26,23 @@ $advanced = ($_POST['advanced'] == 'yes') ? '?advanced=yes' : '';
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 
+// suppress to print the header, so no new FTAN will be set
 if($advanced == '')
 {
-	$admin = new admin('Settings', 'settings_basic');
+	$admin = new admin('Settings', 'settings_basic',false);
 } else {
-	$admin = new admin('Settings', 'settings_advanced');
+	$admin = new admin('Settings', 'settings_advanced',false);
 }
 
 // Create a javascript back link
 $js_back = ADMIN_URL.'/settings/index.php'.$advanced;
-
 if( !$admin->checkFTAN() )
 {
+	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$js_back );
-	exit();
 }
+// After check print the header
+$admin->print_header();
 
 // Ensure that the specified default email is formally valid
 if(isset($_POST['server_email']))

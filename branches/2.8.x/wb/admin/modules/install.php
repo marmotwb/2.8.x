@@ -16,19 +16,25 @@
  *
  */
 
-// Check if user uploaded a file
-if(!isset($_FILES['userfile'])) {
-	header("Location: index.php");
-	exit(0);
-}
-
 // do not display notices and warnings during installation
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 
 // Setup admin object
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Addons', 'modules_install');
+$admin = new admin('Addons', 'modules_install', false);
+if( !$admin->checkFTAN() )
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+}
+// After check print the header
+$admin->print_header();
+
+// Check if user uploaded a file
+if(!isset($_FILES['userfile'])) {
+	header("Location: index.php");
+	exit(0);
+}
 
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');

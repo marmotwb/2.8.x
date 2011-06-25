@@ -29,21 +29,26 @@ else
 	$comment_id = (int)$_POST['comment_id'];
 }
 
+$admin_header = false;
+// Tells script to update when this page was last updated
+$update_when_modified = true;
+// show the info banner
+// $print_info_banner = true;
 // Include WB admin wrapper script
-$update_when_modified = true; // Tells script to update when this page was last updated
 require(WB_PATH.'/modules/admin.php');
 
 if (!$admin->checkFTAN())
 {
+	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id );
-	exit();
 }
 
-$id = $admin->getIDKEY($comment_id);
+$id = intval($admin->getIDKEY($comment_id));
 
 // Validate all fields
 if($admin->get_post('title') == '' AND $admin->get_post('comment') == '')
 {
+	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC']['FILL_IN_ALL'], WB_URL.'/modules/news/modify_comment.php?page_id='.$page_id.'&section_id='.$section_id.'comment_id='.$id);
 }
 else
@@ -60,6 +65,7 @@ else
 // Update row
 $database->query("UPDATE ".TABLE_PREFIX."mod_news_comments SET title = '$title', comment = '$comment' WHERE comment_id = '$comment_id'");
 
+$admin->print_header();
 // Check if there is a db error, otherwise say successful
 if($database->is_error())
 {

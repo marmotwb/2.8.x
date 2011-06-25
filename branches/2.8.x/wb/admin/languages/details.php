@@ -26,6 +26,16 @@
 // Include the config code
 require('../../config.php');
 
+// Print admin header
+require_once(WB_PATH.'/framework/class.admin.php');
+$admin = new admin('Addons', 'languages_view', false);
+if( !$admin->checkFTAN() )
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+}
+// After check print the header
+$admin->print_header();
+
 // Get language name
 if(!isset($_POST['code']) OR $_POST['code'] == "") {
 	$code = '';
@@ -44,10 +54,6 @@ if(!file_exists(WB_PATH.'/languages/'.$code.'.php')) {
 	header("Location: index.php");
 	exit(0);
 }
-
-// Print admin header
-require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Addons', 'languages_view');
 
 // Setup language object
 $template = new Template(THEME_PATH.'/templates');

@@ -47,7 +47,6 @@ if($_POST['action'] == 'modify') {
 	if (!$admin->checkFTAN())
 	{
 		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
-		exit();
 	}
 
 	// Print header
@@ -175,9 +174,7 @@ if($_POST['action'] == 'modify') {
 	if (!$admin->checkFTAN())
 	{
 		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
-		exit();
 	}
-
 	// Print header
 	$admin->print_header();
 	// Delete the group

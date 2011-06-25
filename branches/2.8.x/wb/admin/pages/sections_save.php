@@ -11,8 +11,8 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL: http://svn.websitebaker2.org/branches/2.8.x/wb/admin/pages/sections.php $
- * @lastmodified    $Date: 2011-01-10 13:14:10 +0100 (Mo, 10. Jan 2011) $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 
@@ -29,13 +29,16 @@ require_once(WB_PATH."/include/jscalendar/jscalendar-functions.php");
 /**/
 // Create new admin object
 require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Pages', 'pages_modify');
+// suppress to print the header, so no new FTAN will be set
+$admin = new admin('Pages', 'pages_modify',false);
 
 if (!$admin->checkFTAN())
 {
+	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],ADMIN_URL.'/pages/sections.php?page_id='.$page_id);
-	exit();
 }
+// After check print the header
+$admin->print_header();
 
 // Get page id
 if(!isset($_GET['page_id']) || !is_numeric($_GET['page_id'])) {

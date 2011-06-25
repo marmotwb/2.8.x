@@ -11,24 +11,25 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date:  $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 
 // Print admin header
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Access', 'groups_modify');
-
+// suppress to print the header, so no new FTAN will be set
+$admin = new admin('Access', 'groups_modify', false);
 // Create a javascript back link
 $js_back = ADMIN_URL.'/groups/index.php';
 
 if (!$admin->checkFTAN())
 {
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$js_back);
-	exit();
 }
+// After check print the header
+$admin->print_header();
 
 // Check if group group_id is a valid number and doesnt equal 1
 if(!isset($_POST['group_id']) OR !is_numeric($_POST['group_id']) OR $_POST['group_id'] == 1) {

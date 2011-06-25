@@ -23,6 +23,17 @@
 
 */
 
+// Setup admin object
+require('../../config.php');
+require_once(WB_PATH.'/framework/class.admin.php');
+$admin = new admin('Addons', 'languages_uninstall', false);
+if( !$admin->checkFTAN() )
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+}
+// After check print the header
+$admin->print_header();
+
 // Check if user selected language
 if(!isset($_POST['code']) OR $_POST['code'] == "") {
 	header("Location: index.php");
@@ -34,11 +45,6 @@ if(trim($_POST['code']) == '') {
 	header("Location: index.php");
 	exit(0);
 }
-
-// Setup admin object
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Addons', 'languages_uninstall');
 
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');

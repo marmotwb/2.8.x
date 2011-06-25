@@ -21,9 +21,6 @@
  * check if there is anything to do
  */
 
-if (!(isset($_POST['action']) && in_array($_POST['action'], array('install', 'upgrade', 'uninstall')))) { die(header('Location: index.php?advanced')); }
-if (!(isset($_POST['file']) && $_POST['file'] != '' && (strpos($_POST['file'], '..') === false))){  die(header('Location: index.php?advanced'));  }
-
 /**
  * check if user has permissions to access this file
  */
@@ -33,6 +30,17 @@ require_once('../../framework/class.admin.php');
 
 // check user permissions for admintools (redirect users with wrong permissions)
 $admin = new admin('Admintools', 'admintools', false, false);
+
+if (!(isset($_POST['action']) && in_array($_POST['action'], array('install', 'upgrade', 'uninstall')))) { die(header('Location: index.php?advanced')); }
+if (!(isset($_POST['file']) && $_POST['file'] != '' && (strpos($_POST['file'], '..') === false))){  die(header('Location: index.php?advanced'));  }
+
+$js_back = ADMIN_URL . '/modules/index.php?advanced';
+if( !$admin->checkFTAN() )
+{
+	$admin->print_header();
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$js_back);
+}
+
 if ($admin->get_permission('admintools') == false) { die(header('Location: ../../index.php')); }
 
 // check if the referer URL if available
@@ -52,7 +60,6 @@ require_once(WB_PATH . '/languages/' . LANGUAGE .'.php');
 
 // create Admin object with admin header
 $admin = new admin('Addons', '', true, false);
-$js_back = ADMIN_URL . '/modules/index.php?advanced';
 
 /**
  * Manually execute the specified module file (install.php, upgrade.php or uninstall.php)
@@ -64,6 +71,7 @@ $mod_path = WB_PATH . '/modules/' . basename(WB_PATH . '/' . $_POST['file']);
 $module_dir = $mod_path;
 if (!file_exists($mod_path . '/' . $_POST['action'] . '.php'))
 {
+	$admin->print_header();
     $admin->print_error($TEXT['NOT_FOUND'].': <tt>"'.htmlentities(basename($mod_path)).'/'.$_POST['action'].'.php"</tt> ', $js_back);
 }
 
@@ -77,17 +85,19 @@ $msg = $TEXT['EXECUTE'] . ': <tt>"' . htmlentities(basename($mod_path)) . '/' . 
 switch ($_POST['action'])
 {
 	case 'install':
+		// $admin->print_header();
 		$admin->print_success($msg, $js_back);
 		break;
 
 	case 'upgrade':
 		upgrade_module(basename($mod_path), false);
+		// $admin->print_header();
 		$admin->print_success($msg, $js_back);
 		break;
 	
 	case 'uninstall':
+		// $admin->print_header();
 		$admin->print_success($msg, $js_back);
 		break;
 }
 
-?>

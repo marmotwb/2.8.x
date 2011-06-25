@@ -503,6 +503,19 @@ if(in_array('mod_news_settings', $all_tables))
    }
 }
 /**********************************************************
+ * upgrade media folder index protect files
+ */
+$dir = (WB_PATH.MEDIA_DIRECTORY);
+echo '<h4>Upgrade '.MEDIA_DIRECTORY.'/ index.php protect files</h4>';
+$array = rebuildFolderProtectFile($dir);
+if( sizeof( $array ) ){
+	print 'Upgrade '.MEDIA_DIRECTORY.'/ index.php protect files'." $OK<br />";
+} else {
+	print 'Upgrade '.MEDIA_DIRECTORY.'/ index.php protect files'." $FAIL!<br />";
+	print implode ('<br />',$array);
+}
+
+/**********************************************************
  * upgrade news if newer version is available
  */
 	if(file_exists(WB_PATH.'/modules/news/upgrade.php'))

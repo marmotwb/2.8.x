@@ -20,7 +20,9 @@
 // Create new admin object
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Pages', 'pages_modify');
+
+// suppress to print the header, so no new FTAN will be set
+$admin = new admin('Pages', 'pages_modify', false);
 
 // Get page & section id
 if(!isset($_POST['page_id']) || !is_numeric($_POST['page_id'])) {
@@ -38,25 +40,25 @@ if(!isset($_POST['section_id']) || !is_numeric($_POST['section_id'])) {
 }
 
 // $js_back = "javascript: history.go(-1);";
-$js_back = ADMIN_URL.'/pages/modify.php?page_id='.$page_id
+$js_back = ADMIN_URL.'/pages/modify.php?page_id='.$page_id;
 
 if (!$admin->checkFTAN())
 {
+	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$js_back );
-	exit();
 }
+// After check print the header
+$admin->print_header();
 
 /*
 if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD']))) )
 {
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
-	exit();
 }
 
 if( (!($section_id= $admin->checkIDKEY('section_id', 0, $_SERVER['REQUEST_METHOD']))) )
 {
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
-	exit();
 }
 */
 

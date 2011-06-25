@@ -5,7 +5,7 @@
 </div>
 
 <form name="install" enctype="multipart/form-data" action="install.php" method="post" class="{DISPLAY_INSTALL}">
-
+{FTAN}
 <h2>{HEADING_INSTALL_MODULE}</h2>
 
 <table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
@@ -29,7 +29,7 @@
 </form>
 
 <form name="uninstall" action="uninstall.php" method="post" class="{DISPLAY_UNINSTALL}">
-
+{FTAN}
 <h2>{HEADING_UNINSTALL_MODULE}</h2>
 
 <table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
@@ -53,7 +53,7 @@
 </form>
 
 <form name="details" action="details.php" method="post" class="{DISPLAY_LIST}">
-
+{FTAN}
 <h2>{HEADING_MODULE_DETAILS}</h2>
 
 <table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
@@ -80,6 +80,7 @@
 <p>{TEXT_MANUAL_INSTALLATION}</p>
 
 <form name="manual_install" action="manual_install.php" method="post" class="{INSTALL_VISIBLE}">
+{FTAN}
 	<strong>{TEXT_FILE}:</strong> "install.php"&nbsp;&nbsp;&nbsp;
 	<input type="hidden" name="action" value="install" />
 	<select name="file" style="width: 250px;">
@@ -92,6 +93,7 @@
 </form>
 
 <form name="manual_upgrade" action="manual_install.php" method="post" class="{UPGRADE_VISIBLE}">
+{FTAN}
 	<br />{TEXT_FILE}: "upgrade.php"
 	<input type="hidden" name="action" value="upgrade" />
 	<select name="file" style="width: 250px;">
@@ -104,6 +106,7 @@
 </form>
 
 <form name="manual_uninstall" action="manual_install.php" method="post" class="{UNINSTALL_VISIBLE}">
+{FTAN}
 	<br />{TEXT_FILE}: "uninstall.php"
 	<input type="hidden" name="action" value="uninstall" />
 	<select name="file" style="width: 250px;">

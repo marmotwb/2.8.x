@@ -76,7 +76,7 @@ else
 	<input id="comment" name="comment" size="60" value="" /><br />
 	</p>
 	<?php }
-	echo $admin->getFTAN(); 
+	// echo $admin->getFTAN();
 	echo $TEXT['TITLE']; ?>:
 	<br />
 	<input type="text" name="title" maxlength="255" style="width: 90%;"<?php if(isset($_SESSION['comment_title'])) { echo ' value="'.$_SESSION['comment_title'].'"'; unset($_SESSION['comment_title']); } ?> />

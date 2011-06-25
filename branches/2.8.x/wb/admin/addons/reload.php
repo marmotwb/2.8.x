@@ -11,8 +11,8 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date:  $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 
@@ -52,13 +52,13 @@ require_once(WB_PATH . '/framework/functions.php');
 require_once(WB_PATH . '/languages/' . LANGUAGE .'.php');
 
 // create Admin object with admin header
-$admin = new admin('Addons', '', true, false);
+$admin = new admin('Addons', '', false, false);
 $js_back = ADMIN_URL . '/addons/index.php?advanced';
 
 if (!$admin->checkFTAN())
 {
+	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$js_back);
-	exit();
 }
 
 /**
@@ -109,6 +109,7 @@ foreach ($post_check as $key) {
 
 			} else {
 				// provide error message and stop
+				$admin->print_header();
 				$admin->print_error($MESSAGE['ADDON']['ERROR_RELOAD'], $js_back);
 			}
 			break;
@@ -131,6 +132,7 @@ foreach ($post_check as $key) {
 				
 			} else {
 				// provide error message and stop
+				$admin->print_header();
 				$admin->print_error($MESSAGE['ADDON']['ERROR_RELOAD'], $js_back);
 			}
 			break;
@@ -138,6 +140,7 @@ foreach ($post_check as $key) {
 }
 
 // output success message
+$admin->print_header();
 $admin->print_success(implode($msg, '<br />'), $js_back);
 $admin->print_footer();
 

@@ -11,22 +11,45 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date:  $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  * @description     
  */
 
 require('../../config.php');
-require(WB_PATH.'/modules/admin.php');
 
+// suppress to print the header, so no new FTAN will be set
+$admin_header = false;
+// Tells script to update when this page was last updated
+$update_when_modified = true;
+// Include WB admin wrapper script
+require(WB_PATH.'/modules/admin.php');
+/* */
+
+// check FTAN
+if (!$admin->checkFTAN())
+{
+	$admin->print_header();
+	$admin->print_error('::'.$MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+}
+// After check print the header
+$admin->print_header();
+
+
+/*  */
+// Get id
+$field_id = intval($admin->checkIDKEY('field_id', false ));
+if (!$field_id) {
+ $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'].'::', ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+}
+/*
 // Get id
 if(!isset($_POST['field_id']) OR !is_numeric($_POST['field_id'])) {
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
-	exit(0);
 } else {
-	$field_id = $_POST['field_id'];
+	$field_id = (int)$_POST['field_id'];
 }
-
+/*
 // Include WB admin wrapper script
 $update_when_modified = true; // Tells script to update when this page was last updated
 
@@ -35,7 +58,7 @@ if (!$admin->checkFTAN())
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 	exit();
 }
-
+*/
 // Validate all fields
 if($admin->get_post('title') == '' OR $admin->get_post('type') == '') {
 	$admin->print_error($MESSAGE['GENERIC']['FILL_IN_ALL'], WB_URL.'/modules/form/modify_field.php?page_id='.$page_id.'&section_id='.$section_id.'&field_id='.$admin->getIDKEY($field_id));
@@ -94,5 +117,3 @@ if($database->is_error()) {
 
 // Print admin footer
 $admin->print_footer();
-
-?>

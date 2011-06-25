@@ -20,6 +20,9 @@
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Media', 'media');
+
+$starttime = explode(" ", microtime());
+$starttime = $starttime[0]+$starttime[1];
 include ('parameters.php');
 
 // Setup template object
@@ -73,44 +76,55 @@ if(($dirs == '') or ($dirs==$currentHome) or (!array_key_exists('dir', $_GET))) 
 
 // Insert language headings
 $template->set_var(array(
-								'HEADING_BROWSE_MEDIA' => $HEADING['BROWSE_MEDIA'],
-								'HOME_DIRECTORY' => $currentHome,
-								'DISPLAY_UP_ARROW' => $display_up_arrow, // **!
-								'HEADING_CREATE_FOLDER' => $HEADING['CREATE_FOLDER'],
-								'HEADING_UPLOAD_FILES' => $HEADING['UPLOAD_FILES']
-								)
-						);
+					'HEADING_BROWSE_MEDIA' => $HEADING['BROWSE_MEDIA'],
+					'HOME_DIRECTORY' => $currentHome,
+					'DISPLAY_UP_ARROW' => $display_up_arrow, // **!
+					'HEADING_CREATE_FOLDER' => $HEADING['CREATE_FOLDER'],
+					'HEADING_UPLOAD_FILES' => $HEADING['UPLOAD_FILES']
+				)
+			);
 // insert urls
 $template->set_var(array(
-								'ADMIN_URL' => ADMIN_URL,
-								'WB_URL' => WB_URL,
-								'WB_PATH' => WB_PATH,
-								'THEME_URL' => THEME_URL
-								)
-						);
+					'ADMIN_URL' => ADMIN_URL,
+					'WB_URL' => WB_URL,
+					'WB_PATH' => WB_PATH,
+					'THEME_URL' => THEME_URL
+				)
+			);
 // Insert language text and messages
 $template->set_var(array(
-								'MEDIA_DIRECTORY' => MEDIA_DIRECTORY,
-								'TEXT_NAME' => $TEXT['TITLE'],
-								'TEXT_RELOAD' => $TEXT['RELOAD'],
-								'TEXT_TARGET_FOLDER' => $TEXT['TARGET_FOLDER'],
-								'TEXT_OVERWRITE_EXISTING' => $TEXT['OVERWRITE_EXISTING'],
-								'TEXT_FILES' => $TEXT['FILES'],
-								'TEXT_CREATE_FOLDER' => $TEXT['CREATE_FOLDER'],
-								'TEXT_UPLOAD_FILES' => $TEXT['UPLOAD_FILES'],
-								'CHANGE_SETTINGS' => $TEXT['MODIFY_SETTINGS'],
-								'OPTIONS' => $TEXT['OPTION'],
-								'TEXT_UNZIP_FILE' => $TEXT['UNZIP_FILE'],
-								'TEXT_DELETE_ZIP' => $TEXT['DELETE_ZIP'],
-								'FTAN' => $admin->getFTAN()
-								)
-						);
+					'MEDIA_DIRECTORY' => MEDIA_DIRECTORY,
+					'TEXT_NAME' => $TEXT['TITLE'],
+					'TEXT_RELOAD' => $TEXT['RELOAD'],
+					'TEXT_TARGET_FOLDER' => $TEXT['TARGET_FOLDER'],
+					'TEXT_OVERWRITE_EXISTING' => $TEXT['OVERWRITE_EXISTING'],
+					'TEXT_FILES' => $TEXT['FILES'],
+					'TEXT_CREATE_FOLDER' => $TEXT['CREATE_FOLDER'],
+					'TEXT_UPLOAD_FILES' => $TEXT['UPLOAD_FILES'],
+					'CHANGE_SETTINGS' => $TEXT['MODIFY_SETTINGS'],
+					'OPTIONS' => $TEXT['OPTION'],
+					'TEXT_UNZIP_FILE' => $TEXT['UNZIP_FILE'],
+					'TEXT_DELETE_ZIP' => $TEXT['DELETE_ZIP'],
+					'FTAN' => $admin->getFTAN()
+				)
+			);
 
 // Parse template object
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
 
-// Print admin 
+$endtime=explode(" ", microtime());
+$endtime=$endtime[0]+$endtime[1];
+$debugVMsg = '';
+if($admin->ami_group_member('1') ) {
+	$debugVMsg  = "<p>Mask loaded in ".round($endtime - $starttime,6)." Sec,&nbsp;&nbsp;";
+	$debugVMsg .= "Memory in use ".number_format(memory_get_usage(true), 0, ',', '.')."&nbsp;Byte,&nbsp;&nbsp;";
+	$debugVMsg .= sizeof(get_included_files())."&nbsp;included files</p>";
+	// $debugVMsg = print_message($debugVMsg,'#','debug',-1,false);
+	print $debugVMsg.'<br />';
+ }
+
+// Print admin
 $admin->print_footer();
 
 ?>

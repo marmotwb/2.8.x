@@ -66,6 +66,7 @@ $(document).ready(function(){
 			<th align="right" width="80" class="headline">{TEXT_DATE}</th>
 			<th align="right" width="40" class="headline">{TEXT_RENAME}</th>
 			<th align="right" width="40" class="headline">{TEXT_DELETE}</th>
+			<th align="right" width="40" class="headline">&nbsp;</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -91,6 +92,9 @@ $(document).ready(function(){
 					<img src="{THEME_URL}/images/delete_16.png" alt="" border="0" />
 				</a>
 			</td>
+   <td width="16" align="right" class="">
+	   <img src="{THEME_URL}/images/{IMAGE_EXIST}" title="{IMAGE_TITLE}" alt="{IMAGE_TITLE}" />
+   </td>
 		</tr>
 		<!-- END list_block -->
 	</tbody>

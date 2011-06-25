@@ -11,8 +11,8 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL: http://svn.websitebaker2.org/branches/2.8.x/wb/admin/users/save.php $
- * @lastmodified    $Date: 2011-01-10 13:21:47 +0100 (Mo, 10. Jan 2011) $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 
@@ -22,6 +22,12 @@ require_once(WB_PATH .'/framework/functions.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 // No print admin header
 $admin = new admin('Addons', 'modules_view', false);
+if( !$admin->checkFTAN() )
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+}
+// After check print the header
+$admin->print_header();
 
 // Get module name
 if(!isset($_POST['file']) OR $_POST['file'] == "")
@@ -39,9 +45,6 @@ if(!file_exists(WB_PATH.'/modules/'.$file)) {
 	header("Location: index.php");
 	exit(0);
 }
-
-// Print admin header
-$admin = new admin('Addons', 'modules_view');
 
 // Setup module object
 $template = new Template(THEME_PATH.'/templates');

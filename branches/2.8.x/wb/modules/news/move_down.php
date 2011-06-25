@@ -52,5 +52,3 @@ if($order->move_down($id)) {
 
 // Print admin footer
 $admin->print_footer();
-
-?>

@@ -16,14 +16,6 @@
  *
  */
 
-// Target location
-if(!isset($_POST['target']) OR $_POST['target'] == '') {
-	header("Location: index.php");
-	exit(0);
-} else {
-	$target = $_POST['target'];
-}
-
 // Print admin header
 require('../../config.php');
 include_once('resize_img.php');
@@ -31,13 +23,20 @@ include_once('parameters.php');
 
 require_once(WB_PATH.'/framework/class.admin.php');
 require_once(WB_PATH.'/include/pclzip/pclzip.lib.php');	// Required to unzip file.
-$admin = new admin('Media', 'media_upload');
+// suppress to print the header, so no new FTAN will be set
+$admin = new admin('Media', 'media_upload', false);
 
-if (!$admin->checkFTAN())
+if( !$admin->checkFTAN() )
 {
-	$admin->print_error('UP5::'.$MESSAGE['GENERIC_SECURITY_ACCESS']);
-	exit();
+	$admin->print_header();
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'] );
 }
+// After check print the header
+$admin->print_header();
+
+// Target location
+$requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
+$target = (isset(${$requestMethod}['target'])) ? ${$requestMethod}['target'] : '';
 
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
@@ -45,7 +44,7 @@ require_once(WB_PATH.'/framework/functions.php');
 // Check to see if target contains ../
 if (!check_media_path($target, false))
 {
-	$admin->print_error('TD5::'.$MESSAGE['MEDIA']['TARGET_DOT_DOT_SLASH']);
+	$admin->print_error($MESSAGE['MEDIA']['TARGET_DOT_DOT_SLASH'] );
 }
 
 // Create relative path of the target location for the file
@@ -67,7 +66,6 @@ if ($get_result->numRows()>0) {
 	$file_extension_string=$fetch_result['value'];
 }
 $file_extensions=explode(",",$file_extension_string);
-
 
 // Loop through the files
 $good_uploads = 0;
@@ -139,15 +137,13 @@ if (isset($_POST['unzip']) && isset($filename1) && file_exists($filename1) ) {
 }
 
 if($good_uploads == 1) {
-	$admin->print_success($good_uploads.' '.$MESSAGE['MEDIA']['SINGLE_UPLOADED']);
+	$admin->print_success($good_uploads.' '.$MESSAGE['MEDIA']['SINGLE_UPLOADED'] );
 	if (isset($_POST['delzip'])) {
 		unlink($filename1);
 	}
 } else {
-	$admin->print_success($good_uploads.' '.$MESSAGE['MEDIA']['UPLOADED']);
+	$admin->print_success($good_uploads.' '.$MESSAGE['MEDIA']['UPLOADED'] );
 }
 
 // Print admin 
 $admin->print_footer();
-
-?>

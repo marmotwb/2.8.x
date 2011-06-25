@@ -24,7 +24,6 @@ require(WB_PATH.'/modules/admin.php');
 $comment_id = $admin->checkIDKEY('comment_id', false, 'GET');
 if (!$comment_id) {
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],  ADMIN_URL.'/pages/modify.php?page_id='.$page_id );
-	exit();
 }
 
 // Get header and footer

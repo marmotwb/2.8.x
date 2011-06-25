@@ -20,7 +20,9 @@
 // Create new admin object and print admin header
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Pages', 'pages_settings');
+
+// suppress to print the header, so no new FTAN will be set
+$admin = new admin('Pages', 'pages_settings',false);
 
 // Get page id
 if(!isset($_POST['page_id']) || !is_numeric($_POST['page_id']))
@@ -28,24 +30,25 @@ if(!isset($_POST['page_id']) || !is_numeric($_POST['page_id']))
 	header("Location: index.php");
 	exit(0);
 } else {
-	$page_id = $_POST['page_id'];
-}
-$pagetree_url = ADMIN_URL.'/pages/index.php';
-$target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
-
-if (!$admin->checkFTAN())
-{
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$target_url);
-	exit();
+	$page_id = (int)$_POST['page_id'];
 }
 
 /*
 if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD']))) )
 {
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
-	exit();
 }
 */
+$pagetree_url = ADMIN_URL.'/pages/index.php';
+$target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
+
+if (!$admin->checkFTAN())
+{
+	$admin->print_header();
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$target_url);
+}
+// After check print the header
+$admin->print_header();
 
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
@@ -92,9 +95,7 @@ $old_admin_groups = explode(',', str_replace('_', '', $results_array['admin_grou
 $old_admin_users = explode(',', str_replace('_', '', $results_array['admin_users']));
 
 // Work-out if we should check for existing page_code
-$sql = 'DESCRIBE `'.TABLE_PREFIX.'pages` `page_code`';
-$field_sql = $database->query($sql);
-$field_set = $field_sql->numRows();
+$field_set = $database->field_exists(TABLE_PREFIX.'pages', 'page_code');
 
 $in_old_group = FALSE;
 foreach($admin->get_groups_id() as $cur_gid)

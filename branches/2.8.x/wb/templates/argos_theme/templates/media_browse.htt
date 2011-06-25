@@ -36,13 +36,16 @@ function confirm_link(message, url) {
 	<td>
 		<a {MOUSEOVER} href="{LINK}" target="{LINK_TARGET}">{NAME}</a>
 	</td>
-	<td width="190">
+	<td width="120">
 		<small>{IMAGEDETAIL}<br />{DATE}</small>
 	</td>
 	<td width="60" align="right" class="{DISPLAY_RENAME}">
 		<a href="rename.php?dir={CURRENT_DIR}&amp;id={TEMP_ID}"><img src="{THEME_URL}/images/modify_16.png" alt="{TEXT_RENAME}" border="0" /> </a> &nbsp;&nbsp;
 		<a href="#" onclick="javascript: confirm_link('{CONFIRM_DELETE}\n {NAME_SLASHED}', 'delete.php?dir={CURRENT_DIR}&amp;id={TEMP_ID}');"><img src="{THEME_URL}/images/delete_16.png" alt="{TEXT_DELETE}" border="0" /></a>&nbsp;&nbsp;
 	</td>
+   <td width="16" align="right" class="">
+	   <img src="{THEME_URL}/images/{IMAGE_EXIST}" title="{IMAGE_TITLE}" alt="{IMAGE_TITLE}" />
+   </td>
 </tr>
 <!-- END list_block -->
 </table>

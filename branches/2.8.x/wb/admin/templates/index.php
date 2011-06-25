@@ -58,16 +58,24 @@ if($admin->get_permission('templates_view') != true) {
 
 // Insert language headings
 $template->set_var(array(
-								'HEADING_INSTALL_TEMPLATE' => $HEADING['INSTALL_TEMPLATE'],
-								'HEADING_UNINSTALL_TEMPLATE' => $HEADING['UNINSTALL_TEMPLATE'],
-								'HEADING_TEMPLATE_DETAILS' => $HEADING['TEMPLATE_DETAILS']
-								)
-						);
+					'HEADING_INSTALL_TEMPLATE' => $HEADING['INSTALL_TEMPLATE'],
+					'HEADING_UNINSTALL_TEMPLATE' => $HEADING['UNINSTALL_TEMPLATE'],
+					'HEADING_TEMPLATE_DETAILS' => $HEADING['TEMPLATE_DETAILS']
+				)
+			);
+// insert urls
+$template->set_var(array(
+					'ADMIN_URL' => ADMIN_URL,
+					'WB_URL' => WB_URL,
+					'THEME_URL' => THEME_URL,
+					'FTAN' => $admin->getFTAN()
+				)
+			);
 // Insert language text and messages
 $template->set_var(array(
 	'URL_MODULES' => $admin->get_permission('modules') ? 
 		'<a href="' . ADMIN_URL . '/modules/index.php">' . $MENU['MODULES'] . '</a>' : '',
-	'URL_LANGUAGES' => $admin->get_permission('languages') ? 
+	'URL_LANGUAGES' => $admin->get_permission('languages') ?
 		'<a href="' . ADMIN_URL . '/languages/index.php">' . $MENU['LANGUAGES'] . '</a>' : '',
 	'URL_ADVANCED' => $admin->get_permission('admintools') ? 
 	'<a href="' . ADMIN_URL . '/modules/index.php?advanced">' . $TEXT['ADVANCED'] . '</a>' : '',
@@ -85,5 +93,3 @@ $template->pparse('output', 'page');
 
 // Print admin footer
 $admin->print_footer();
-
-?>

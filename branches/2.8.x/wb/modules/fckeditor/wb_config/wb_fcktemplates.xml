@@ -25,16 +25,15 @@
  * See FCKConfig.TemplatesXmlPath in the configuration file.
 -->
 <Templates imagesBasePath="fck_template/images/">
-	<Template title="Rechtliche Hinweise" image="template1.gif">
-		<Description>Rechtliche Hinweise Links</Description>
+	<Template title="Import Block3" image="template1.gif">
+		<Description>Import Block3</Description>
 		<Html>
 			<![CDATA[
-                <div class="recht">
-                    <p><b>Rechtliche Hinweise</b><br />
-                    1. Externe Links ( <a class="next" onclick="window.open(this.href,'','resizable=yes,location=no,menubar=no,scrollbars=yes,status=yes,toolbar=no,fullscreen=no,dependent=yes,width=600,height=300,left=150,top=150,status'); return false" href="http://www.disclaimer.de/disclaimer.htm"><font color="#810081">Bitte Disclaimer-Haftungsausschluss lesen</font></a> ) <br />
-                    Die Inhalte externer Links werden nicht gepr&uuml;ft. Sie unterliegen der Haftung der jeweiligen Anbieter.<br />
-                    &nbsp;</p>
-                </div>
+				<div class="block3">
+				<div class="text3 rounded">
+				<div>[[showrandomwysiwyg?section=206,207,208,209,628]]</div>
+				</div>
+				</div>
             ]]>
 		</Html>
 	</Template>
@@ -42,9 +41,9 @@
 		<Description>One main image with a title and text that surround the image.</Description>
 		<Html>
 			<![CDATA[
-				<img style="MARGIN-RIGHT: 10px" height="100" alt="" width="100" align="left"/>
+				<div><img align="left" width="61" vspace="2" hspace="10" height="57" alt="" src="http://staging.websitebaker.org/start/media/common/backend.png" /></div>
 				<h3>Type the title here</h3>
-				<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tatio</p>
+				<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tatio</p>			
 			]]>
 		</Html>
 	</Template>

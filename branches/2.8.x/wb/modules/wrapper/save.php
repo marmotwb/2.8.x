@@ -18,15 +18,17 @@
 
 require('../../config.php');
 
+$admin_header = false;
+// Tells script to update when this page was last updated
+$update_when_modified = true;
 // Include WB admin wrapper script
-$update_when_modified = true; // Tells script to update when this page was last updated
 require(WB_PATH.'/modules/admin.php');
-
 if (!$admin->checkFTAN())
 {
+	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
-	exit();
 }
+$admin->print_header();
 
 // Update the mod_wrapper table with the contents
 if(isset($_POST['url'])) {
@@ -36,7 +38,7 @@ if(isset($_POST['url'])) {
 		$height = 400;
 	}
 	$query = "UPDATE ".TABLE_PREFIX."mod_wrapper SET url = '$url', height = '$height' WHERE section_id = '$section_id'";
-	$database->query($query);	
+	$database->query($query);
 }
 
 // Check if there is a database error, otherwise say successful

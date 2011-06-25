@@ -1,6 +1,6 @@
 <?php
 
-// $Id$
+// $Id: NO.php 966 2009-04-17 12:41:33Z Ruebenwurzel $
 
 /*
 

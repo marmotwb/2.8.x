@@ -11,8 +11,8 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date:  $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  * @description     
  */
 

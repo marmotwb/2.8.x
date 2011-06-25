@@ -12,6 +12,7 @@
 </table>
 
 <form name="install" enctype="multipart/form-data" action="install.php" method="post" class="{DISPLAY_INSTALL}">
+{FTAN}
   <h2>{HEADING_INSTALL_MODULE}</h2>
   <table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
     <tr>
@@ -31,6 +32,7 @@
   <br />
 </form>
 <form name="uninstall" action="uninstall.php" method="post" class="{DISPLAY_UNINSTALL}">
+{FTAN}
   <h2>{HEADING_UNINSTALL_MODULE}</h2>
   <table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
     <tr>
@@ -50,6 +52,7 @@
   <br />
 </form>
 <form name="details" action="details.php" method="post" class="{DISPLAY_LIST}">
+{FTAN}
   <h2>{HEADING_MODULE_DETAILS}</h2>
   <table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
     <tr>
@@ -72,6 +75,7 @@
   <h2>{HEADING_INVOKE_MODULE_FILES}</h2>
   <p>{TEXT_MANUAL_INSTALLATION}</p>
   <form name="manual_install" action="manual_install.php" method="post" class="{INSTALL_VISIBLE}">
+{FTAN}
   <table summary="" cellpadding="0" cellspacing="2" border="0" width="80%">
 	  <tr>
 		<td width="150" valign="middle" nowrap="nowrap">{TEXT_FILE}: "install.php"</td>
@@ -90,6 +94,7 @@
   </form>
   
   <form name="manual_upgrade" action="manual_install.php" method="post" class="{UPGRADE_VISIBLE}">
+{FTAN}
   <table summary="" cellpadding="0" cellspacing="2" border="0" width="80%">
 	  <tr>
 		<td width="150" valign="middle" nowrap="nowrap">{TEXT_FILE}: "upgrade.php"</td>
@@ -108,6 +113,7 @@
   </form>
 
   <form name="manual_uninstall" action="manual_install.php" method="post" class="{UNINSTALL_VISIBLE}">
+{FTAN}
   <table summary="" cellpadding="0" cellspacing="2" border="0" width="80%">
 	  <tr>
 		<td width="150" valign="middle" nowrap="nowrap">{TEXT_FILE}: "uninstall.php"</td>

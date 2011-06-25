@@ -33,6 +33,7 @@ hr {margin:15px 0;color:#003366;height:1px;}
 
 .hide {display:none;}
 .note {color:#666;font-size:11px;}
+.center { text-align :center; }
 
 form {margin:0;}
 label {cursor:pointer;}
@@ -81,7 +82,7 @@ select option.disabled {color:#aaa;}
 #file_mode input, #dir_mode input {width:12px;height:12px;}
 #hide2 {display:none;}
 
-.pages_list {font-weight:bold;}
+.pages_list {font-weight:bold; margin :10px auto;}
 .pages_list .icon_col td img {display:block;border-style:none;float:left;padding-right:7px;}
 .pages_list table {width:900px;}
 .pages_list ul {margin:0;font-weight:normal;padding:0;}
@@ -177,3 +178,10 @@ img.page_list_rights {border:none;float:left;margin:0;vertical-align:middle;padd
 
 div#username {height:17px;width:640px;text-align:left;font-weight:bold;margin:0;} 
 .save_section {margin:20px auto 5px auto;}
+.section-info { margin : 1.5em 0; }
+
+.rounded { border-radius :10px; -khtml-border-radius :10px; -webkit-border-radius :10px; -moz-border-radius :10px; }
+.msg-box { background : #e5ffe6; border :0.2em #009900 solid; color :#336600; margin-bottom :1em; padding :0.63em; text-align :center; }
+.error-box { background :#fee; border :0.2em #844 solid; color :#400; margin-bottom :1em; padding :0.63em; text-align :center; }
+.bigger { font-size :150%; }
+.strong { font-weight :bold; }

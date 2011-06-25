@@ -11,8 +11,8 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date:  $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  * @description     
  */
 
@@ -25,7 +25,6 @@ require(WB_PATH.'/modules/admin.php');
 $field_id = $admin->checkIDKEY('field_id', false, 'GET');
 if (!$field_id) {
  $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
- exit();
 }
 
 // Include the ordering class
@@ -41,5 +40,3 @@ if($order->move_up($field_id)) {
 
 // Print admin footer
 $admin->print_footer();
-
-?>

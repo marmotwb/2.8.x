@@ -29,4 +29,3 @@ if ($query && $query->numRows() > 0) {
 	$database->query ( "INSERT INTO ".TABLE_PREFIX."settings (`name`,`value`) VALUES ('mediasettings','')" );
 }
 
-?>

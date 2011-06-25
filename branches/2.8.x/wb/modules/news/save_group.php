@@ -29,20 +29,23 @@ else
 	$group_id = $_POST['group_id'];
 }
 
+$admin_header = false;
+// Tells script to update when this page was last updated
+$update_when_modified = true;
 // Include WB admin wrapper script
-$update_when_modified = true; // Tells script to update when this page was last updated
 require(WB_PATH.'/modules/admin.php');
 
 if (!$admin->checkFTAN())
 {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
-	exit();
+	$admin->print_header();
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 }
+$admin->print_header();
 
 // Include WB functions file
 require(WB_PATH.'/framework/functions.php');
 
-// Vagroup_idate all fields
+// Validate all fields
 if($admin->get_post('title') == '')
 {
 	$admin->print_error($MESSAGE['GENERIC']['FILL_IN_ALL'], WB_URL.'/modules/news/modify_group.php?page_id='.$page_id.'&section_id='.$section_id.'&group_id='.$admin->getIDKEY($group_id));
@@ -57,23 +60,38 @@ else
 $database->query("UPDATE ".TABLE_PREFIX."mod_news_groups SET title = '$title', active = '$active' WHERE group_id = '$group_id'");
 
 // Check if the user uploaded an image or wants to delete one
-if(isset($_FILES['image']['tmp_name']) AND $_FILES['image']['tmp_name'] != '')
-{
+if(isset($_FILES['image']['tmp_name']) AND $_FILES['image']['tmp_name'] != '') {
 	// Get real filename and set new filename
 	$filename = $_FILES['image']['name'];
+	$file_image_type = $_FILES['image']['type'];
 	$new_filename = WB_PATH.MEDIA_DIRECTORY.'/.news/image'.$group_id.'.jpg';
 	// Make sure the image is a jpg file
 	$file4=substr($filename, -4, 4);
+
+	switch ($file_image_type) :
+		case 'image/jpeg' :
+		case 'image/pjpeg' :
+		case 'image/png' :
+		case 'image/x-png' :
+		break;
+		default:
+			$admin->print_error($MESSAGE['GENERIC']['FILE_TYPE'].' JPG (JPEG) or PNG',ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+		break;
+	endswitch;
+
+/*
 	if(($file4 != '.jpg')and($file4 != '.JPG')and($file4 != '.png')and($file4 != '.PNG') and ($file4 !='jpeg') and ($file4 != 'JPEG'))
     {
-		$admin->print_error($MESSAGE['GENERIC']['FILE_TYPE'].' JPG (JPEG) or PNG a');
+		$admin->print_error($MESSAGE['GENERIC']['FILE_TYPE'].' JPG (JPEG) or PNG',ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 	} elseif(
 	(($_FILES['image']['type']) != 'image/jpeg' AND mime_content_type($_FILES['image']['tmp_name']) != 'image/jpg')
 	and
 	(($_FILES['image']['type']) != 'image/png' AND mime_content_type($_FILES['image']['tmp_name']) != 'image/png')
 	){
-		$admin->print_error($MESSAGE['GENERIC']['FILE_TYPE'].' JPG (JPEG) or PNG b');
+		$admin->print_error($MESSAGE['GENERIC']['FILE_TYPE'].' JPG (JPEG) or PNG',ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 	}
+*/
+
 	// Make sure the target directory exists
 	make_dir(WB_PATH.MEDIA_DIRECTORY.'/.news');
 	// Upload image
@@ -112,5 +130,3 @@ if($database->is_error()) {
 
 // Print admin footer
 $admin->print_footer();
-
-?>

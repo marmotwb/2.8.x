@@ -21,7 +21,9 @@
 // Print admin header
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Preferences');
+
+// suppress to print the header, so no new FTAN will be set
+$admin = new admin('Preferences','start', false);
 // $js_back = "javascript: history.go(-1);"; // Create a javascript back link
 
 function save_preferences( &$admin, &$database)
@@ -31,6 +33,8 @@ function save_preferences( &$admin, &$database)
 	$min_pass_length = 6;
 // first check form-tan
 	if(!$admin->checkFTAN()){ $err_msg[] = $MESSAGE['GENERIC_SECURITY_ACCESS']; }
+// After check print the header
+	$admin->print_header();
 // Get entered values and validate all
 	// remove any dangerouse chars from display_name
 	$display_name     = $admin->add_slashes(strip_tags(trim($admin->get_post('display_name'))));

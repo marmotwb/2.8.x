@@ -1,6 +1,6 @@
 <?php
 
-// $Id$
+// $Id: view.php 1420 2011-01-26 17:43:56Z Luisehahne $
 
 /*
 

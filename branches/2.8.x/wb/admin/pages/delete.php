@@ -11,8 +11,8 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL: http://svn.websitebaker2.org/branches/2.8.x/wb/admin/pages/add.php $
- * @lastmodified    $Date: 2011-01-10 13:14:10 +0100 (Mo, 10. Jan 2011) $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 

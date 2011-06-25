@@ -21,13 +21,19 @@
 	require('../config.php');
 // include edit area wrapper script
 	require_once(WB_PATH.'/include/editarea/wb_wrapper_edit_area.php');
-// include the admin wrapper script
-	require(WB_PATH.'/modules/admin.php');
 // include functions to edit the optional module CSS files (frontend.css, backend.css)
 	require_once(WB_PATH.'/framework/module.functions.php');
-
+// $admin_header = false;
+// Tells script to update when this page was last updated
+	$update_when_modified = false;
+// show the info banner
+	$print_info_banner = true;
+// Include WB admin wrapper script
+	require(WB_PATH.'/modules/admin.php');
+/*
 	$page_id = (isset($_REQUEST['page_id']) ? intval($_REQUEST['page_id']) : 0  );
 	$section_id = (isset($_POST['section_id']) ? intval($_POST['section_id']) : 0  );
+*/
 	$_action = (isset($_POST['action']) ? strtolower($_POST['action']) : '');
 	$_action = ($_action != 'save' ? 'edit' : 'save');
 	$mod_dir = (isset($_POST['mod_dir']) ? $_POST['mod_dir'] : '');

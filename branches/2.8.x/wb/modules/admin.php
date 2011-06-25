@@ -22,43 +22,29 @@ if(defined('WB_PATH') == false)
 	die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
 }
 
-// if admin is be call from admin modify core you have $page_id
-if(!isset($page_id)) {
-	// Get page id
-	if(isset($_GET['page_id']) && is_numeric($_GET['page_id'])) {
-		$page_id = (int)$_GET['page_id'];
-	} elseif(isset($_POST['page_id']) && is_numeric($_POST['page_id'])) {
-		$page_id = (int)$_POST['page_id'];
-	} else {
+// Get page id
+	$requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
+	$page_id = intval(isset(${$requestMethod}['page_id'])) ? ${$requestMethod}['page_id'] : (isset($page_id) ? intval($page_id) : 0);
+	if(	($page_id == 0)) {
 		header("Location: index.php");
 		exit(0);
 	}
-}
 
-// if admin is be call from admin modify core you have $section_id
-if(!isset($section_id)) {
 // Get section id if there is one
-	if(isset($_GET['section_id']) && is_numeric($_GET['section_id'])) {
-		$section_id = (int)$_GET['section_id'];
-	} elseif(isset($_POST['section_id']) && is_numeric($_POST['section_id'])) {
-		$section_id = (int)$_POST['section_id'];
-	} else {
-		// Check if we should redirect the user if there is no section id
-		if(!isset($section_required)) {
-			$section_id = 0;
-		} else {
-			header("Location: $section_required");
-			exit(0);
-		}
+	$requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
+	$section_id = intval(isset(${$requestMethod}['section_id'])) ? ${$requestMethod}['section_id'] : (isset($section_id) ? intval($section_id) : 0);
+	if(	($section_id == 0) && isset($section_required)) {
+		header("Location: $section_required");
+		exit(0);
 	}
-}
+/*
 // be sure is is numeric
 $page_id = intval($page_id);
 $section_id = intval($section_id);
-
+*/
 // Create js back link
 // $js_back = 'javascript: history.go(-1);';
-$js_back = ADMIN_URL.'/pages/sections.php?page_id='.(int)$page_id;
+$js_back = ADMIN_URL.'/pages/sections.php?page_id='.$page_id;
 // Create new admin object, you can set the next variable in your module
 // to print with or without header, default is with header
 // it is recommed to set the variable before including the /modules/admin.php
@@ -82,7 +68,7 @@ foreach($admin->get_groups_id() as $cur_gid){
 
 if((!$in_group) && !is_numeric(array_search($admin->get_user_id(), $old_admin_users))) {
 	print $admin->get_group_id().$admin->get_user_id();
-	print_r ($old_admin_groups);
+	// print_r ($old_admin_groups);
 	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
 }
 
@@ -93,7 +79,7 @@ if ($section_id != 0) {
 	if (!$admin->get_permission($section['module'], 'module'))
 	{
 		$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
-	}	
+	}
 }
 
 // Workout if the developer wants to show the info banner
@@ -178,12 +164,27 @@ if(isset($print_info_banner) && $print_info_banner == true) {
 	// Parse and print header template
 	$template->parse('main', 'main_block', false);
 	$template->pparse('output', 'page');
-
 	// unset($print_info_banner);
 	unset($template);
-	print '<div id="wb_'.$section['section_id'].'"><b>' . $TEXT['BLOCK'] . ': </b>' . $section['block'];
-	print '<b>  Modul: </b>' . $section['module']." ";
-	print '<b>  ID: </b>' . $section_id."</div>\n";
+
+	if (SECTION_BLOCKS) {
+		if (isset($block[$section['block']]) && trim(strip_tags(($block[$section['block']]))) != '')
+                 {
+			$block_name = htmlentities(strip_tags($block[$section['block']]));
+		} else {
+			if ($section['block'] == 1)
+                     {
+				$block_name = $TEXT['MAIN'];
+			} else {
+				$block_name = '#' . (int) $section['block'];
+			}
+		}
+
+		$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? 'id="'.SEC_ANCHOR.$section['section_id'].'"' : '');
+		print '<div class="section-info" '.$sec_anchor.' ><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
+		print '<b>  Modul: </b>' . $section['module']." ";
+		print '<b>  ID: </b>' . $section_id."</div>\n";
+	}
 
 } //
 

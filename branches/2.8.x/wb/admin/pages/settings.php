@@ -49,9 +49,7 @@ $old_admin_groups = explode(',', $results_array['admin_groups']);
 $old_admin_users = explode(',', $results_array['admin_users']);
 
 // Work-out if we should check for existing page_code
-$sql = 'DESCRIBE `'.TABLE_PREFIX.'pages` `page_code`';
-$field_sql = $database->query($sql);
-$field_set = $field_sql->numRows();
+$field_set = $database->field_exists(TABLE_PREFIX.'pages', 'page_code');
 
 $in_old_group = FALSE;
 foreach($admin->get_groups_id() as $cur_gid)
@@ -411,7 +409,7 @@ function parent_list($parent)
 			}
 			// Title -'s prefix
 			$title_prefix = '';
-			for($i = 1; $i <= $page['level']; $i++) { $title_prefix .= ' - '; }
+			for($i = 1; $i <= $page['level']; $i++) { $title_prefix .= ' - - &nbsp;'; }
 			$template->set_var(array(
 								'ID' => $page['page_id'],
 								'TITLE' => ($title_prefix.$page['menu_title']),
@@ -540,13 +538,15 @@ if( ($res_languages = $database->query($sql)) )
 		$l_names[$rec_language['name']] = entities_to_7bit($rec_language['name']); // sorting-problem workaround
 	}
 	asort($l_names);
+
 	foreach($l_names as $l_name=>$v)
     {
+        $langIcons = (empty($l_codes[$l_name])) ? 'none' : strtolower($l_codes[$l_name]);
 		// Insert code and name
 		$template->set_var(array(
 								'VALUE' => $l_codes[$l_name],
 								'NAME' => $l_name,
-								'FLAG_LANG_ICONS' => 'url('.THEME_URL.'/images/flags/'.strtolower($l_codes[$l_name]).'.png)',
+								'FLAG_LANG_ICONS' => 'url('.THEME_URL.'/images/flags/'.$langIcons.'.png)',
 								));
 		// Check if it is selected
 		if($results_array['language'] == $l_codes[$l_name])
