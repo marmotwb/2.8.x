@@ -18,18 +18,18 @@
 
 require('../../config.php');
 
+$admin_header = true;
+// Tells script to update when this page was last updated
+$update_when_modified = true;
 // Include WB admin wrapper script
-$update_when_modified = true; // Tells script to update when this page was last updated
 require(WB_PATH.'/modules/admin.php');
 
-$cid = $admin->checkIDKEY('comment_id', false, 'GET');
-$pid = $admin->checkIDKEY('post_id', false, 'GET');
-if (!$pid || !$cid) {
+$comment_id = intval($admin->checkIDKEY('comment_id', false, 'GET'));
+$post_id = intval($admin->checkIDKEY('post_id', false, 'GET'));
+if (!$post_id || !$comment_id) {
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.'&section_id='.$section_id/*.'&post_id='.$post_id */);
-	exit();
 } else {
-	$comment_id = $cid;
-	$post_id = $admin->getIDKEY($pid);
+	$post_id = $admin->getIDKEY($post_id);
 }
 
 // Update row
@@ -42,10 +42,8 @@ if($database->is_error())
 }
 else
 {
-	$admin->print_success($TEXT['SUCCESS'], WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.'&section_id='.$section_id.'&post_id='.$post_id);
+	$admin->print_success($TEXT['SUCCESS'], WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.'&section_id='.$section_id.'&post_id='.$post_id );
 }
 
 // Print admin footer
 $admin->print_footer();
-
-?>

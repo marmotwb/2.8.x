@@ -17,29 +17,33 @@
  */
 
 // Get dir name and target location
-if(!isset($_POST['name']) OR $_POST['name'] == '') {
+$requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
+$name = (isset(${$requestMethod}['name'])) ? ${$requestMethod}['name'] : '';
+if($name == '') {
 	header("Location: index.php");
 	exit(0);
-} else {
-	$name = $_POST['name'];
 }
-if(!isset($_POST['target']) OR $_POST['target'] == '') {
+
+// Target location
+$requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
+$target = (isset(${$requestMethod}['target'])) ? ${$requestMethod}['target'] : '';
+if($target == '') {
 	header("Location: index.php");
 	exit(0);
-} else {
-	$target = $_POST['target'];
 }
 
 // Print admin header
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Media', 'media_create');
-
+// suppress to print the header, so no new FTAN will be set
+$admin = new admin('Media', 'media_create', false);
 if (!$admin->checkFTAN())
 {
-	$admin->print_error('CR5::'.$MESSAGE['GENERIC_SECURITY_ACCESS']);
-	exit();
+	$admin->print_header();
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
 }
+// After check print the header
+$admin->print_header();
 
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
@@ -57,32 +61,24 @@ if (!check_media_path($target, false)) {
 $name = media_filename($name);
   
 // Create relative path of the new dir name
-$relative = WB_PATH.$target.'/'.$name;
+$directory = WB_PATH.$target.'/'.$name;
 
+/*
 // Check to see if the folder already exists
 if(file_exists($relative)) {
 	$admin->print_error($MESSAGE['MEDIA']['DIR_EXISTS']);
 }
+*/
 
-// Try and make the dir
-if(make_dir($relative)) {
-	// Create index.php file
-	$content = ''.
-"<?php
-
-header('Location: ../');
-
-?>";
-	$handle = fopen($relative.'/index.php', 'w');
-	fwrite($handle, $content);
-	fclose($handle);
-	change_mode($relative.'/index.php', 'file');
-	$admin->print_success($MESSAGE['MEDIA']['DIR_MADE']);
-} else {
+if ( sizeof(createFolderProtectFile( $directory )) )
+{
 	$admin->print_error($MESSAGE['MEDIA']['DIR_NOT_MADE']);
+} else {
+	$usedFiles = array();
+    // feature freeze
+	// require_once(ADMIN_PATH.'/media/dse.php');
+	$admin->print_success($MESSAGE['MEDIA']['DIR_MADE']);
 }
 
-// Print admin 
+// Print admin
 $admin->print_footer();
-
-?>

@@ -38,7 +38,9 @@ if(!method_exists($admin, 'register_backend_modfiles') && file_exists(WB_PATH .'
 
 // Get userid for showing admin only droplets or not
 $loggedin_user = $admin->get_user_id();
-	
+$loggedin_group = $admin->get_groups_id();
+$admin_user = ( ($admin->get_home_folder() == '') && ($admin->ami_group_member('1') ) || ($loggedin_user == '1'));
+
 // And... action
 $admintool_url = ADMIN_URL .'/admintools/index.php';
 
@@ -47,7 +49,7 @@ $database->query("DELETE FROM ".TABLE_PREFIX."mod_droplets WHERE name=''");
 ?>
 
 <br />
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%">
 <tr>
 	<td valign="bottom" width="50%">
 		<button class="add" type="button" name="add_droplet" onclick="javascript: window.location = '<?php echo WB_URL; ?>/modules/droplets/add_droplet.php';"><?php echo $TEXT['ADD'].' '.$DR_TEXT['DROPLETS']; ?></button>	
@@ -58,7 +60,7 @@ $database->query("DELETE FROM ".TABLE_PREFIX."mod_droplets WHERE name=''");
 	<td valign="top" width="50%" align="right">
 		<a href="#" onclick="javascript: window.open('<?php echo WB_URL; ?>/modules/droplets/readme/<?php echo $DR_TEXT['README']; ?>','helpwindow','width=700,height=550,directories=no,location=no,menubar=no,scrollbars=yes,status=no,toolbar=no,resizable=yes');"><?php echo $DR_TEXT['HELP']; ?></a>
 		<br /><br />
-		<a href="#" onclick="javascript: window.location = '<?php echo WB_URL; ?>/modules/droplets/backup_droplets.php?id=<?php echo $admin->getIDKEY(999) . '\';">' .$DR_TEXT['BACKUP']; ?></a>
+		<a href="#" onclick="javascript: window.location = '<?php echo WB_URL; ?>/modules/droplets/backup_droplets.php?id=<?php echo $admin->getIDKEY(999); ?>'"><?php echo $DR_TEXT['BACKUP']; ?></a>
 	</td>
 </tr>
 </table>
@@ -66,7 +68,8 @@ $database->query("DELETE FROM ".TABLE_PREFIX."mod_droplets WHERE name=''");
 
 <h2><?php echo $TEXT['MODIFY'].'/'.$TEXT['DELETE'].' '.$DR_TEXT['DROPLETS']; ?></h2>
 <?php
-if ($loggedin_user == '1') {
+// if ($loggedin_user == '1') {
+if ($admin_user) {
 	$query_droplets = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_droplets ORDER BY modified_when DESC");
 } else { 
 	$query_droplets = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_droplets WHERE admin_view <> '1' ORDER BY modified_when DESC");
@@ -74,7 +77,7 @@ if ($loggedin_user == '1') {
 $num_droplets = $query_droplets->numRows();
 if($num_droplets > 0) {
 	?>
-	<table class="row_a" border="0" cellspacing="0" cellpadding="3" width="100%">
+	<table summary="" class="row_a" border="0" cellspacing="0" cellpadding="3" width="100%">
 	<thead>
 		<tr>
 			<td width="3%"></td>
@@ -153,4 +156,3 @@ function check_unique($name) {
 	$query_droplets = $database->query("SELECT name FROM ".TABLE_PREFIX."mod_droplets WHERE name = '$name'");
 	return ($query_droplets->numRows() == 1);
 }
-?>

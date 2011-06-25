@@ -11,8 +11,8 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL: $
- * @lastmodified    $Date:  $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 
@@ -31,8 +31,7 @@ require_once(WB_PATH."/framework/SecureForm.php");
 class wb extends SecureForm
 {
 
-	public $password_chars = 'a-zA-Z0-9\_\-\!\#\*\+';
-	// General initialization function
+ 	public $password_chars = 'a-zA-Z0-9\_\-\!\#\*\+\@\$\&\:';	// General initialization function
 	// performed when frontend or backend is loaded.
 
 	public function  __construct($mode = SecureForm::FRONTEND) {
@@ -400,6 +399,7 @@ class wb extends SecureForm
 	    }
 	    $tpl->parse( 'main', 'main_block', false );
 	    $tpl->pparse( 'output', 'page' );
+		exit();
 	}
 
 	// Print an error message

@@ -18,15 +18,17 @@
 
 require_once('../../config.php');
 
+$admin_header = false;
+// Tells script to update when this page was last updated
+$update_when_modified = true;
 // Include WB admin wrapper script
-$update_when_modified = true; // Tells script to update when this page was last updated
 require(WB_PATH.'/modules/admin.php');
-
 if (!$admin->checkFTAN())
 {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
-	exit();
+	$admin->print_header();
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'] );
 }
+$admin->print_header();
 
 // Update id, anchor and target
 if(isset($_POST['menu_link'])) {

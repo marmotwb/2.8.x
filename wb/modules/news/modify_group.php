@@ -18,13 +18,17 @@
 
 require('../../config.php');
 
+// $admin_header = true;
+// Tells script to update when this page was last updated
+$update_when_modified = false;
+// show the info banner
+$print_info_banner = true;
 // Include WB admin wrapper script
 require(WB_PATH.'/modules/admin.php');
 /* */
-$group_id = $admin->checkIDKEY('group_id', false, 'GET');
+$group_id = intval($admin->checkIDKEY('group_id', false, 'GET'));
 if (!$group_id) {
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL.'/modules/news/modify_group.php?page_id='.$page_id.'&section_id='.$section_id.'&group_id='.$admin->getIDKEY($group_id));
-	exit();
 }
 
 // Get header and footer
@@ -95,5 +99,3 @@ $fetch_content = $query_content->fetchRow();
 
 // Print admin footer
 $admin->print_footer();
-
-?>

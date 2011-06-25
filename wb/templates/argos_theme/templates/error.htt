@@ -1,6 +1,6 @@
 <!-- BEGIN main_block -->
-<div style="text-align:center;">
-	{MESSAGE}<br />
-	<h3 style="text-align:center;"><a href="{LINK}">{BACK}</a></h3>
+<div class="error-box rounded">
+	<p>{MESSAGE}</p>
+<input type="button" name="submit" value="{BACK}" onclick="javascript: window.location = '{LINK}';" />
 </div>
 <!-- END main_block -->

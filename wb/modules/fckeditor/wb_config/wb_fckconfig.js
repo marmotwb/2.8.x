@@ -104,7 +104,7 @@ FCKConfig.AutoGrowMax = 600 ;
    FCKConfig.ToolbarSets["WBToolbar"] = [
 	['Source','DocProps','-','NewPage','Preview','-','Templates'],
 	['Cut','Copy','Paste','PasteText','PasteWord','-','Print','SpellCheck'],
-    ['FitWindow','ShowBlocks', '-', /* 'SyntaxHighLight2', */ /* 'flvPlayer', */ '-','About'],
+    ['FitWindow','ShowBlocks', '-', 'SyntaxHighLight2',  /**/ /* 'flvPlayer', */ '-','About'],
 	'/',
 	['Form','Checkbox','Radio','TextField','Textarea','Select','Button','ImageButton','HiddenField'],
     ['TextColor','BGColor'],
@@ -168,7 +168,7 @@ FCKConfig.AutoGrowMax = 600 ;
    CSS definition file and place it as "editor.css" in your template folder.
    All styles will automatically be updated and used with the FCK editor.
 
-   If you don´t want to put custom "editor.css" files into your templates folder, you can
+   If you donï¿½t want to put custom "editor.css" files into your templates folder, you can
    try the other approach introduced below:
    
    copy all CSS definitions of your template into file: /my_config/my_fckeditorarea.css
@@ -178,7 +178,7 @@ FCKConfig.AutoGrowMax = 600 ;
    Via file (/my_config/my_fckstyles.xml) you can define additional styles for default
    elements. Use this option, if you want to display conditional styles only if a special
    HTML element is selected (e.g. after selecting an <img> element, the style menu will
-   provide additional elements like align=left, align=right, which don´t show up for other
+   provide additional elements like align=left, align=right, which donï¿½t show up for other
    elements like <p>
 
    CSS definitions declared in the XML file are realised as INLINE styles. If you want avoid

@@ -11,8 +11,8 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date:  $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 
@@ -59,5 +59,3 @@ $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
 
 $admin->print_footer();
-
-?>

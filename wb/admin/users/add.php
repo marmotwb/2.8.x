@@ -19,18 +19,18 @@
 // Print admin header
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Access', 'users_add');
+// suppress to print the header, so no new FTAN will be set
+$admin = new admin('Access', 'users_add', false);
 
 // Create a javascript back link
 $js_back = ADMIN_URL.'/users/index.php';
 
-// Create new database object
-//$database = new database();
 if( !$admin->checkFTAN() )
 {
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $js_back);
-	exit();
 }
+// After check print the header
+$admin->print_header();
 
 // Get details entered
 $groups_id = (isset($_POST['groups'])) ? implode(",", $admin->add_slashes($_POST['groups'])) : ''; //should check permissions
@@ -108,4 +108,4 @@ if($database->is_error()) {
 // Print admin footer
 $admin->print_footer();
 
-?>
+

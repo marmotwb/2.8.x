@@ -18,6 +18,11 @@
 
 require('../../config.php');
 
+// $admin_header = false;
+// Tells script to update when this page was last updated
+$update_when_modified = false;
+// show the info banner
+$print_info_banner = true;
 // Include WB admin wrapper script
 require(WB_PATH.'/modules/admin.php');
 

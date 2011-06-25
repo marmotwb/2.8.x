@@ -11,10 +11,22 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL: http://svn.websitebaker2.org/branches/2.8.x/wb/admin/settings/save.php $
- * @lastmodified    $Date: 2011-01-10 13:21:47 +0100 (Mo, 10. Jan 2011) $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
+
+// Setup admin object
+require('../../config.php');
+require_once(WB_PATH.'/framework/class.admin.php');
+// suppress to print the header, so no new FTAN will be set
+$admin = new admin('Addons', 'templates_uninstall', false);
+if( !$admin->checkFTAN() )
+{
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+}
+// After check print the header
+$admin->print_header();
 
 // Check if user selected template
 if(!isset($_POST['file']) OR $_POST['file'] == "") {
@@ -28,17 +40,6 @@ if(!isset($_POST['file']) OR $_POST['file'] == "") {
 if(trim($file) == '') {
 	header("Location: index.php");
 	exit(0);
-}
-
-// Setup admin object
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Addons', 'templates_uninstall');
-
-if( !$admin->checkFTAN() )
-{
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
-	exit();
 }
 
 // Include the WB functions file

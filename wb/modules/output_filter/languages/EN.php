@@ -29,7 +29,7 @@
 // Headings and text outputs
 $MOD_MAIL_FILTER['HEADING']				= 'Options: Output Filter';
 $MOD_MAIL_FILTER['HOWTO']						= 'You can configure the output filtering with the options below.<p style="line-height:1.5em;"><strong>Tip: </strong>Mailto links can be encrypted by a Javascript function. To make use of this option, one needs to add the PHP code <code style="background:#FFA;color:#900;">&lt;?php register_frontend_modfiles(\'js\');?&gt;</code> into the &lt;head&gt; section of the index.php of your template. Without this modification, only the @ character in the mailto part will be replaced.</p>';
-$MOD_MAIL_FILTER['WARNING']						= '<p style="color: red; line-height:1.5em;"><strong>Warning: </strong>This function is now available as a Droplet. The next major release of website baker will not include this filter anymore. Please concider using the <a href="?tool=droplets">Droplet</a> [[EmailFilter]]</p>';
+$MOD_MAIL_FILTER['WARNING']				= '';
 
 // Text and captions of form elements
 $MOD_MAIL_FILTER['BASIC_CONF']			= 'Basic Email Configuration';

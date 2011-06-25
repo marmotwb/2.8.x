@@ -28,14 +28,13 @@ if(!isset($_GET['page_id']) || !is_numeric($_GET['page_id'])) {
 	header("Location: index.php");
 	exit(0);
 } else {
-	$page_id = $_GET['page_id'];
+	$page_id = (int)$_GET['page_id'];
 }
 
 /*
-if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD']))) )
+if( (!($page_id = $admin->checkIDKEY('page_id', $page_id, $_SERVER['REQUEST_METHOD']))) )
 {
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
-	exit();
 }
 */
 
@@ -55,14 +54,14 @@ $user=$admin->get_user_details($results_array['modified_by']);
 // Convert the unix ts for modified_when to human a readable form
 
 $modified_ts = ($results_array['modified_when'] != 0)
-        ? $modified_ts = gmdate(TIME_FORMAT.', '.DATE_FORMAT, $results_array['modified_when']+TIMEZONE)
+        ? $modified_ts = date(TIME_FORMAT.', '.DATE_FORMAT, $results_array['modified_when']+TIMEZONE)
         : 'Unknown';
-
+// $ftan_module = $GLOBALS['ftan_module'];
 // Include page info script
 $template = new Template(THEME_PATH.'/templates');
 $template->set_file('page', 'pages_modify.htt');
 $template->set_block('page', 'main_block', 'main');
-$template->set_var('FTAN', $admin->getFTAN());
+$template->set_var('FTAN', $admin->getFTAN() );
 
 $template->set_var(array(
 			'PAGE_ID' => $results_array['page_id'],
@@ -180,9 +179,12 @@ if($query_sections->numRows() > 0)
 							$block_name = '#' . (int) $section['block'];
 						}
 					}
-					print '<div id="wb_'.$section['section_id'].'"><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
+
+                    $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? 'id="'.SEC_ANCHOR.$section['section_id'].'"' : '');
+					print '<div class="section-info" '.$sec_anchor.' ><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
 					print '<b>  Modul: </b>' . $section['module']." ";
 					print '<b>  ID: </b>' . $section_id."</div>\n";
+
 				}
 				require(WB_PATH.'/modules/'.$module.'/modify.php');
 			}
@@ -192,5 +194,3 @@ if($query_sections->numRows() > 0)
 
 // Print admin footer
 $admin->print_footer();
-
-?>

@@ -11,8 +11,8 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher and higher
  * @version         $Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date:  $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 
@@ -344,9 +344,9 @@ if($admin->get_permission('pages_view') == true) {
 	</tr>
 	</table>
 	<?php
-    // Work-out if we should check for existing page_code
-    $field_sql = $database->query("DESCRIBE ".TABLE_PREFIX."pages page_code");
-    $field_set = $field_sql->numRows();
+	// Work-out if we should check for existing page_code
+	$field_set = $database->field_exists(TABLE_PREFIX.'pages', 'page_code');
+
     $par = array();
 	$par['num_subs'] = 1;
 	$editable_pages = make_list(0, 0);
@@ -498,7 +498,7 @@ function parent_list($parent)
 			}
 			// Title -'s prefix
 			$title_prefix = '';
-			for($i = 1; $i <= $page['level']; $i++) { $title_prefix .= ' - '; }
+			for($i = 1; $i <= $page['level']; $i++) { $title_prefix .= ' - - &nbsp;'; }
 				$template->set_var(array(
 										'ID' => $page['page_id'],
 										'TITLE' => ($title_prefix.$page['menu_title']),
@@ -518,12 +518,12 @@ function parent_list($parent)
 $template->set_block('main_block', 'page_list_block2', 'page_list2');
 if($admin->get_permission('pages_add_l0') == true) {
 	$template->set_var(array(
-									'ID' => '0',
-									'TITLE' => $TEXT['NONE'],
-									'SELECTED' => ' selected="selected"',
-									'DISABLED' => ''
-									)
-							);
+						'ID' => '0',
+						'TITLE' => $TEXT['NONE'],
+						'SELECTED' => ' selected="selected"',
+						'DISABLED' => ''
+					)
+				);
 	$template->parse('page_list2', 'page_list_block2', true);
 }
 parent_list(0);

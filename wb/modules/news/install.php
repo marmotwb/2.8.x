@@ -32,6 +32,8 @@ if(defined('WB_URL'))
 					 . '`content_short` TEXT NOT NULL ,'
 					 . '`content_long` TEXT NOT NULL ,'
 					 . '`commenting` VARCHAR(7) NOT NULL DEFAULT \'\','
+					 . '`created_when` INT NOT NULL DEFAULT \'0\','
+					 . '`created_by` INT NOT NULL DEFAULT \'0\','
 					 . '`published_when` INT NOT NULL DEFAULT \'0\','
 					 . '`published_until` INT NOT NULL DEFAULT \'0\','
 					 . '`posted_when` INT NOT NULL DEFAULT \'0\','
@@ -60,7 +62,7 @@ if(defined('WB_URL'))
 					 . '`post_id` INT NOT NULL DEFAULT \'0\','
 					 . '`title` VARCHAR(255) NOT NULL DEFAULT \'\','
 					 . '`comment` TEXT NOT NULL ,'
-		   	    . '`commented_when` INT NOT NULL DEFAULT \'0\','
+					 . '`commented_when` INT NOT NULL DEFAULT \'0\','
 					 . '`commented_by` INT NOT NULL DEFAULT \'0\','
 					 . 'PRIMARY KEY (comment_id)'
                 . ' )';
@@ -168,5 +170,3 @@ header('Location: ../');
 		change_mode(WB_PATH.PAGES_DIRECTORY.'/posts/index.php', 'file');
 	}
 };
-
-?>

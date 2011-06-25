@@ -18,13 +18,17 @@
 
 require('../../config.php');
 
+// $admin_header = true;
+// Tells script to update when this page was last updated
+$update_when_modified = false;
+// show the info banner
+$print_info_banner = true;
 // Include WB admin wrapper script
 require(WB_PATH.'/modules/admin.php');
 
-$post_id = $admin->checkIDKEY('post_id', false, 'GET');
+$post_id = intval($admin->checkIDKEY('post_id', false, 'GET'));
 if (!$post_id) {
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
-	exit();
 }
 
 // Get header and footer

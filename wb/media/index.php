@@ -23,6 +23,4 @@
 
 */
 
-header('Location: ../');
-
-?>
+header('Location: ../index.php');

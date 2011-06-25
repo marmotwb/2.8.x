@@ -10,9 +10,9 @@
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
- * @version         $Id$
- * @filesource		$HeadURL$
- * @lastmodified    $Date$
+ * @version         $Id: info.php 1389 2011-01-16 12:39:50Z FrankH $
+ * @filesource		$HeadURL: http://svn.websitebaker2.org/branches/2.8.x/wb/modules/code/info.php $
+ * @lastmodified    $Date: 2011-01-16 13:39:50 +0100 (So, 16. Jan 2011) $
  *
 */
 

@@ -18,17 +18,18 @@
 
 require('../../config.php');
 
+$admin_header = false;
+// Tells script to update when this page was last updated
+$update_when_modified = true;
 // Include WB admin wrapper script
-$update_when_modified = true; // Tells script to update when this page was last updated
 require(WB_PATH.'/modules/admin.php');
 
-$gid = $admin->checkIDKEY('group_id', false, 'GET');
-if (!$gid) {
+$group_id = intval($admin->checkIDKEY('group_id', false, 'GET'));
+if (!$group_id) {
+	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
-	exit();
-} else {
-	$group_id = $gid;
 }
+$admin->print_header();
 
 $database->query("UPDATE ".TABLE_PREFIX."mod_news_posts SET group_id = '0' where group_id='$group_id'");
 // Update row

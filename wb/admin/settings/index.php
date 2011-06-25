@@ -157,9 +157,11 @@ if($is_advanced)
 	if($result->numRows() > 0)
 	{
 		while($addon = $result->fetchRow()) {
+	        $langIcons = (empty($addon['directory'])) ? 'none' : strtolower($addon['directory']);
+
 			$template->set_var('CODE',        $addon['directory']);
 			$template->set_var('NAME',        $addon['name']);
-			$template->set_var('FLAG',        THEME_URL.'/images/flags/'.strtolower($addon['directory']));
+			$template->set_var('FLAG',        THEME_URL.'/images/flags/'.$langIcons);
 			$template->set_var('SELECTED',    (DEFAULT_LANGUAGE == $addon['directory'] ? ' selected="selected"' : '') );
 			$template->parse('language_list', 'language_list_block', true);
 		}

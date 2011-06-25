@@ -24,5 +24,3 @@ if(defined('WB_PATH') == false) {
 
 $table = TABLE_PREFIX ."mod_menu_link";
 $database->query("INSERT INTO `$table` (`page_id`, `section_id`, `target_page_id`, `anchor`, `extern`) VALUES ('$page_id', '$section_id', '0', '0', '')");
-
-?>

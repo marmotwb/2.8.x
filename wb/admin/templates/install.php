@@ -11,16 +11,10 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL: http://svn.websitebaker2.org/branches/2.8.x/wb/admin/settings/save.php $
- * @lastmodified    $Date: 2011-01-10 13:21:47 +0100 (Mo, 10. Jan 2011) $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
-
-// Check if user uploaded a file
-if(!isset($_FILES['userfile'])) {
-	header("Location: index.php");
-	exit(0);
-}
 
 // do not display notices and warnings during installation
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
@@ -28,12 +22,19 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 // Setup admin object
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Addons', 'templates_install');
-
+// suppress to print the header, so no new FTAN will be set
+$admin = new admin('Addons', 'templates_install', false);
 if( !$admin->checkFTAN() )
 {
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
-	exit();
+}
+// After check print the header
+$admin->print_header();
+
+// Check if user uploaded a file
+if(!isset($_FILES['userfile'])) {
+	header("Location: index.php");
+	exit(0);
 }
 
 // Include the WB functions file

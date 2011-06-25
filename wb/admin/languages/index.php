@@ -64,18 +64,19 @@ $template->set_var(array(
 						);
 // insert urls
 $template->set_var(array(
-								'ADMIN_URL' => ADMIN_URL,
-								'WB_URL' => WB_URL,
-								'THEME_URL' => THEME_URL
-								)
-						);
+					'ADMIN_URL' => ADMIN_URL,
+					'WB_URL' => WB_URL,
+					'THEME_URL' => THEME_URL,
+					'FTAN' => $admin->getFTAN()
+				)
+			);
 // Insert language text and messages
 $template->set_var(array(
-	'URL_MODULES' => $admin->get_permission('modules') ? 
+	'URL_MODULES' => $admin->get_permission('modules') ?
 		'<a href="' . ADMIN_URL . '/modules/index.php">' . $MENU['MODULES'] . '</a>' : '',
-	'URL_ADVANCED' => $admin->get_permission('admintools') ? 
-		'<a href="' . ADMIN_URL . '/modules/index.php?advanced">' . $TEXT['ADVANCED'] . '</a>' : '',		
-	'URL_TEMPLATES' => $admin->get_permission('templates') ? 
+	'URL_ADVANCED' => $admin->get_permission('admintools') ?
+		'<a href="' . ADMIN_URL . '/modules/index.php?advanced">' . $TEXT['ADVANCED'] . '</a>' : '',
+	'URL_TEMPLATES' => $admin->get_permission('templates') ?
 		'<a href="' . ADMIN_URL . '/templates/index.php">' . $MENU['TEMPLATES'] . '</a>' : '',
 	'TEXT_INSTALL' => $TEXT['INSTALL'],
 	'TEXT_UNINSTALL' => $TEXT['UNINSTALL'],
@@ -90,5 +91,3 @@ $template->pparse('output', 'page');
 
 // Print admin footer
 $admin->print_footer();
-
-?>

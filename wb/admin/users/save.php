@@ -19,19 +19,19 @@
 // Print admin header
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Access', 'users_modify');
-
+// suppress to print the header, so no new FTAN will be set
+$admin = new admin('Access', 'users_modify', false);
 
 // Create a javascript back link
 $js_back = ADMIN_URL.'/users/index.php';
 
-// Create new database object
-//$database = new database();
 if( !$admin->checkFTAN() )
 {
+	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$js_back);
-	exit();
 }
+// After check print the header
+$admin->print_header();
 
 // Check if user id is a valid number and doesnt equal 1
 if(!isset($_POST['user_id']) OR !is_numeric($_POST['user_id']) OR $_POST['user_id'] == 1) {

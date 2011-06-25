@@ -21,12 +21,6 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Media', 'media_rename', false);
 
-if (!$admin->checkFTAN())
-{
-	$admin->print_error('RN5::'.$MESSAGE['GENERIC_SECURITY_ACCESS']);
-	exit();
-}
-
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 
@@ -40,7 +34,11 @@ if ($get_result->numRows()>0) {
 $file_extensions=explode(",",$file_extension_string);
 
 // Get the current dir
-$directory = $admin->get_post('dir');
+// $directory = $admin->get_post('dir');
+
+// Target location
+$requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
+$directory = (isset(${$requestMethod}['dir'])) ? ${$requestMethod}['dir'] : '';
 if($directory == '/') {
 	$directory = '';
 }
@@ -96,7 +94,7 @@ if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 		}
 	}
 }
-
+$file_id = $admin->getIDKEY($file_id);
 if(!isset($rename_file)) {
 	$admin->print_error($MESSAGE['MEDIA']['FILE_NOT_FOUND'], "browse.php?dir=$directory", false);
 }
@@ -158,8 +156,11 @@ if($admin->get_post('overwrite') != 'yes' AND file_exists(WB_PATH.MEDIA_DIRECTOR
 
 // Try and rename the file/folder
 if(rename(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$rename_file, WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$name)) {
+	$usedFiles = array();
+    // feature freeze
+	// require_once(ADMIN_PATH.'/media/dse.php');
+
 	$admin->print_success($MESSAGE['MEDIA']['RENAMED'], "browse.php?dir=$directory");
 } else {
 	$admin->print_error($MESSAGE['MEDIA']['CANNOT_RENAME'], "rename.php?dir=$directory&id=$file_id", false);
 }
-?>

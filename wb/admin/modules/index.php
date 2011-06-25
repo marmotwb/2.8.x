@@ -11,8 +11,8 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL: http://svn.websitebaker2.org/branches/2.8.x/wb/admin/modules/install.php $
- * @lastmodified    $Date: 2010-12-21 23:00:08 +0100 (Di, 21. Dez 2010) $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 
@@ -104,7 +104,8 @@ $template->set_var(array(
 $template->set_var(array(
 					'ADMIN_URL' => ADMIN_URL,
 					'WB_URL' => WB_URL,
-					'THEME_URL' => THEME_URL
+					'THEME_URL' => THEME_URL,
+					'FTAN' => $admin->getFTAN()
 					)
 				);
 // Insert language text and messages
@@ -132,5 +133,3 @@ $template->pparse('output', 'page');
 
 // Print admin footer
 $admin->print_footer();
-
-?>

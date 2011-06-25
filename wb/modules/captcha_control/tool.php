@@ -42,8 +42,8 @@ $js_back = ADMIN_URL.'/admintools/tool.php?tool=captcha_control';
 if(isset($_POST['save_settings'])) {
 	if (!$admin->checkFTAN())
 	{
+		$admin->print_header();
 		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $js_back );
-		exit();
 	}
 	
 	// get configuration settings
@@ -67,6 +67,7 @@ if(isset($_POST['save_settings'])) {
 	}
 	
 	// check if there is a database error, otherwise say successful
+	$admin->print_header();
 	if($database->is_error()) {
 		$admin->print_error($database->get_error(), $js_back);
 	} else {

@@ -27,7 +27,6 @@ $gid = $admin->checkIDKEY('group_id', false, 'GET');
 if (!$pid) {
 	if (!$gid) {
 		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
-		exit();
 	} else {
 		$id = $gid;
 		$id_field = 'group_id';
@@ -52,5 +51,3 @@ if($order->move_up($id)) {
 
 // Print admin footer
 $admin->print_footer();
-
-?>

@@ -27,15 +27,15 @@ $template->set_block('page', 'main_block', 'main');
 
 // Insert values into the template object
 $template->set_var(array(
-								'WELCOME_MESSAGE' => $MESSAGE['START']['WELCOME_MESSAGE'],
-								'CURRENT_USER' => $MESSAGE['START']['CURRENT_USER'],
-								'DISPLAY_NAME' => $admin->get_display_name(),
-								'ADMIN_URL' => ADMIN_URL,
-								'WB_URL' => WB_URL,
-								'THEME_URL' => THEME_URL,
-								'WB_VERSION' => WB_VERSION
-								)
-						);
+					'WELCOME_MESSAGE' => $MESSAGE['START']['WELCOME_MESSAGE'],
+					'CURRENT_USER' => $MESSAGE['START']['CURRENT_USER'],
+					'DISPLAY_NAME' => $admin->get_display_name(),
+					'ADMIN_URL' => ADMIN_URL,
+					'WB_URL' => WB_URL,
+					'THEME_URL' => THEME_URL,
+					'WB_VERSION' => WB_VERSION
+				)
+			);
 
 // Insert permission values into the template object
 if($admin->get_permission('pages') != true)
@@ -64,7 +64,7 @@ if($admin->get_permission('admintools') != true)
 }
 
 $msg = (file_exists(WB_PATH.'/install/')) ?  $MESSAGE['START']['INSTALL_DIR_EXISTS'] : '';
-$msg .= (file_exists(WB_PATH.'/upgrade-script.php')) ? '<br />'.'upgrade-script.php '.$TEXT['DELETE'] : '';
+$msg .= (file_exists(WB_PATH.'/upgrade-script.php')) ? '<br />'.$TEXT['DELETE'].' upgrade-script.php ' : '';
 
 // Check if installation directory still exists
 if(file_exists(WB_PATH.'/install/') || file_exists(WB_PATH.'/upgrade-script.php') ) {
@@ -114,23 +114,23 @@ if($admin->get_permission('groups') == true) {
 
 // Insert section names and descriptions
 $template->set_var(array(
-								'PAGES' => $MENU['PAGES'],
-								'MEDIA' => $MENU['MEDIA'],
-								'ADDONS' => $MENU['ADDONS'],
-								'ACCESS' => $MENU['ACCESS'],
-								'PREFERENCES' => $MENU['PREFERENCES'],
-								'SETTINGS' => $MENU['SETTINGS'],
-								'ADMINTOOLS' => $MENU['ADMINTOOLS'],
-								'HOME_OVERVIEW' => $OVERVIEW['START'],
-								'PAGES_OVERVIEW' => $OVERVIEW['PAGES'],
-								'MEDIA_OVERVIEW' => $OVERVIEW['MEDIA'],
-								'ADDONS_OVERVIEW' => $addons_overview,
-								'ACCESS_OVERVIEW' => $access_overview,
-								'PREFERENCES_OVERVIEW' => $OVERVIEW['PREFERENCES'],
-								'SETTINGS_OVERVIEW' => $OVERVIEW['SETTINGS'],
-								'ADMINTOOLS_OVERVIEW' => $OVERVIEW['ADMINTOOLS']
-								)
-						);
+					'PAGES' => $MENU['PAGES'],
+					'MEDIA' => $MENU['MEDIA'],
+					'ADDONS' => $MENU['ADDONS'],
+					'ACCESS' => $MENU['ACCESS'],
+					'PREFERENCES' => $MENU['PREFERENCES'],
+					'SETTINGS' => $MENU['SETTINGS'],
+					'ADMINTOOLS' => $MENU['ADMINTOOLS'],
+					'HOME_OVERVIEW' => $OVERVIEW['START'],
+					'PAGES_OVERVIEW' => $OVERVIEW['PAGES'],
+					'MEDIA_OVERVIEW' => $OVERVIEW['MEDIA'],
+					'ADDONS_OVERVIEW' => $addons_overview,
+					'ACCESS_OVERVIEW' => $access_overview,
+					'PREFERENCES_OVERVIEW' => $OVERVIEW['PREFERENCES'],
+					'SETTINGS_OVERVIEW' => $OVERVIEW['SETTINGS'],
+					'ADMINTOOLS_OVERVIEW' => $OVERVIEW['ADMINTOOLS']
+				)
+			);
 
 // Parse template object
 $template->parse('main', 'main_block', false);

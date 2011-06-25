@@ -11,8 +11,8 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date:  $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  * @description     
  */
 
@@ -26,7 +26,6 @@ require(WB_PATH.'/modules/admin.php');
 $submission_id = $admin->checkIDKEY('submission_id', false, 'GET');
 if (!$submission_id) {
  $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
- exit();
 }
 
 // Delete row
@@ -41,5 +40,3 @@ if($database->is_error()) {
 
 // Print admin footer
 $admin->print_footer();
-
-?>

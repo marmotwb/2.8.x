@@ -11,8 +11,8 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL: http://svn.websitebaker2.org/branches/2.8.x/wb/admin/settings/save.php $
- * @lastmodified    $Date: 2011-01-10 13:21:47 +0100 (Mo, 10. Jan 2011) $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 
@@ -20,12 +20,11 @@
 require('../../config.php');
 require_once(WB_PATH .'/framework/functions.php');
 require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Addons', 'templates_view',false);
-
+// suppress to print the header, so no new FTAN will be set
+$admin = new admin('Addons', 'templates_view', false);
 if( !$admin->checkFTAN() )
 {
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
-	exit();
 }
 
 // Get template name

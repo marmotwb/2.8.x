@@ -11,8 +11,8 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL: http://svn282.websitebaker-dev.de/branches/2.8.x/wb/admin/pages/empty_trash.php $
- * @lastmodified    $Date: 2010-05-29 10:36:20 +0200 (Sa, 29. Mai 2010) $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 

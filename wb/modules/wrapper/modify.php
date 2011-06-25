@@ -33,18 +33,18 @@ $height = $settings['height'];
 
 // Insert vars
 $template->set_var(array(
-								'PAGE_ID' => $page_id,
-								'SECTION_ID' => $section_id,
-								'WB_URL' => WB_URL,
-								'URL' => $url,
-								'HEIGHT' => $height,
-								'TEXT_URL' => $TEXT['URL'],
-								'TEXT_HEIGHT' => $TEXT['HEIGHT'],
-								'TEXT_SAVE' => $TEXT['SAVE'],
-								'TEXT_CANCEL' => $TEXT['CANCEL'],
-								'FTAN' => $admin->getFTAN()
-								)
-						);
+					'PAGE_ID' => $page_id,
+					'SECTION_ID' => $section_id,
+					'WB_URL' => WB_URL,
+					'URL' => $url,
+					'HEIGHT' => $height,
+					'TEXT_URL' => $TEXT['URL'],
+					'TEXT_HEIGHT' => $TEXT['HEIGHT'],
+					'TEXT_SAVE' => $TEXT['SAVE'],
+					'TEXT_CANCEL' => $TEXT['CANCEL'],
+					'FTAN' => $admin->getFTAN()
+				)
+			);
 
 // Parse template object
 $template->parse('main', 'main_block', false);

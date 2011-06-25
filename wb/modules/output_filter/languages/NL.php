@@ -29,7 +29,7 @@
 // Headings and text outputs
 $MOD_MAIL_FILTER['HEADING']				= 'Beheersinstellingen: Output Filter';
 $MOD_MAIL_FILTER['HOWTO']				= 'Hier kan je de uitvoer filteren met onderstaande opties.<p style="line-height:1.5em;"><strong>Tip: </strong>Mailto links kunnen gecodeerd worden door een Javascript functie. Om van deze optie gebruik te kunnen maken moet je de PHP code <code style="background:#FFA;color:#900;">&lt;?php register_frontend_modfiles(\'js\');?&gt;</code> in de &lt;head&gt; sectie van het index.php bestand van je template plaatsen. Zonder deze aanpassing zal enkel het @ teken in het mailto deel vervangen worden.</p>';
-$MOD_MAIL_FILTER['WARNING']				= '<p style="color: red; line-height:1.5em;"><strong>Waarschuwing: </strong>Deze functionaliteit is vanaf nu ook beschikbaar als Droplet. De volgende versie van Website Baker (2.9) zal dit filter dan ook niet meer ondersteunen. Gebruik voortaan de <a href="?tool=droplets">Droplet</a> [[EmailFilter]]</p>';
+$MOD_MAIL_FILTER['WARNING']				= '';
 
 // Text and captions of form elements
 $MOD_MAIL_FILTER['BASIC_CONF']			= 'E-mail Configuratie';

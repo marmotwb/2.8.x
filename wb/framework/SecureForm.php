@@ -37,13 +37,14 @@ class SecureForm {
 		$this->_salt = $this->_generate_salt();
 		$this->_fingerprint = $this->_generate_fingerprint();
 	// generate names for session variables
-		$this->_ftan_name = substr($this->_fingerprint, -(16 + hexdec($this->_fingerprint[0])), 16);
+		$this->_ftan_name =
+			substr($this->_fingerprint, -(16 + hexdec($this->_fingerprint[0])), 16);
 	// make sure there is a alpha-letter at first position
-		$this->_ftan_name[0] = dechex(10 + (hexdec($this->_ftan_name[0]) % 5));
-		$this->_idkey_name = substr($this->_fingerprint,
-				                    hexdec($this->_fingerprint[strlen($this->_fingerprint)-1]), 16);
+		$this->_ftan_name = $this->_makeFirst2Letter($this->_ftan_name);
+		$this->_idkey_name = 
+			substr($this->_fingerprint, hexdec($this->_fingerprint[strlen($this->_fingerprint)-1]), 16);
 	// make sure there is a alpha-letter at first position
-		$this->_idkey_name[0] = dechex(10 + (hexdec($this->_idkey_name[0]) % 5));
+		$this->_idkey_name = $this->_makeFirst2Letter($this->_idkey_name);
 	// takeover id_keys from session if available
 		if(isset($_SESSION[$this->_idkey_name]) && is_array($_SESSION[$this->_idkey_name]))
 		{
@@ -52,6 +53,12 @@ class SecureForm {
 			$this->_IDKEYs = array('0'=>'0');
 			$_SESSION[$this->_idkey_name] = $this->_IDKEYs;
 		}
+	}
+
+	private function _makeFirst2Letter($string)
+	{
+		$string[0] = dechex(10 + (hexdec($string[0]) % 5));
+		return $string;
 	}
 
 	private function _generate_salt()
@@ -79,7 +86,7 @@ class SecureForm {
 		$fingerprint .= PHP_VERSION;
 	// client depending values
 		$fingerprint .= ( isset($_SERVER['HTTP_USER_AGENT']) ) ? $_SERVER['HTTP_USER_AGENT'] : '17';
-		$usedOctets = ( defined('FINGERPRINT_WITH_IP_OCTETS') ) ? intval(defined('FINGERPRINT_WITH_IP_OCTETS')) : 0;
+		$usedOctets = ( defined('FINGERPRINT_WITH_IP_OCTETS') ) ? (intval(FINGERPRINT_WITH_IP_OCTETS) % 5) : 2;
 		$clientIp = ( isset($_SERVER['REMOTE_ADDR'])  ? $_SERVER['REMOTE_ADDR'] : '' );
 		if(($clientIp != '') && ($usedOctets > 0)){
 			$ip = explode('.', $clientIp);
@@ -96,31 +103,38 @@ class SecureForm {
 	{
 		$ftan = md5($tanPart . $this->_fingerprint);
 		$name = substr($ftan, -(16 + hexdec($ftan[0])), 16);
-		$name[0] = dechex(10 + (hexdec($name[0]) % 5));
+		$name = $this->_makeFirst2Letter($name);
 		$value = substr($ftan, hexdec($ftan[strlen($ftan)-1]), 16);
 		return array( $name, $value);
 	}
-/*
+/**
  * creates Formular transactionnumbers for unique use
- * @access public
- * @param bool $asTAG: true returns a complete prepared, hidden HTML-Input-Tag (default)
- *                     false returns an GET argument 'key=value'
- * @return mixed:      array or string
  *
+ * @return void
  * requirements: an active session must be available
  */
-	final public function getFTAN( $as_tag = true)
+	final protected function createFTAN()
 	{
 		if( $this->_FTAN == '')
 		{ // if no FTAN exists, create new one from time and salt
 			$this->_FTAN = md5($this->_fingerprint.$this->_salt);
 			$_SESSION[$this->_ftan_name] = $this->_FTAN; // store FTAN into session
 		}
+	}
+/*
+ * returns the current FTAN
+ * @access public
+ * @param bool $mode: true or POST returns a complete prepared, hidden HTML-Input-Tag (default)
+ *                    false or GET returns an GET argument 'key=value'
+ * @return mixed:     array or string
+ */
+	final public function getFTAN( $mode = 'POST')
+	{
 		$ftan = $this->_calcFtan($this->_FTAN);
-		if($as_tag == true)
+		if((is_string($mode) && strtolower($mode) == 'post') || ($mode === true))
 		{ // by default return a complete, hidden <input>-tag
 			return '<input type="hidden" name="'.$ftan[0].'" value="'.$ftan[1].'" title="" alt="" />';
-		}else{ // return an array with raw FTAN0 and FTAN1
+		}else{ // return an string with GET params (FTAN0=FTAN1)
 			return $ftan[0].'='.$ftan[1];
 		}
 	}
@@ -137,16 +151,18 @@ class SecureForm {
 	final public function checkFTAN( $mode = 'POST')
 	{
 		$retval = false;
-		if(isset($_SESSION[$this->_ftan_name]) &&
-		   (strlen($_SESSION[$this->_ftan_name]) == strlen(md5('dummy'))))
+		if(isset($_SESSION[$this->_ftan_name]))
 		{
-			$ftan = $this->_calcFtan($_SESSION[$this->_ftan_name]);
-			unset($_SESSION[$this->_ftan_name]);
-			$mode = (strtoupper($mode) != 'POST' ? '_GET' : '_POST');
-			if( isset($GLOBALS[$mode][$ftan[0]]))
+			if( $_SESSION[$this->_ftan_name] && (strlen($_SESSION[$this->_ftan_name]) == strlen(md5('dummy'))))
 			{
-				$retval = ($GLOBALS[$mode][$ftan[0]] == $ftan[1]);
-				unset($GLOBALS[$mode][$ftan[0]]);
+				$ftan = $this->_calcFtan($_SESSION[$this->_ftan_name]);
+				unset($_SESSION[$this->_ftan_name]);
+				$mode = (strtoupper($mode) != 'POST' ? '_GET' : '_POST');
+				if( isset($GLOBALS[$mode][$ftan[0]]))
+				{
+					$retval = ($GLOBALS[$mode][$ftan[0]] == $ftan[1]);
+					unset($GLOBALS[$mode][$ftan[0]]);
+				}
 			}
 		}
 		return $retval;
@@ -211,6 +227,7 @@ class SecureForm {
 			default:
 				$key = $fieldname;
 		}
+
 		if( preg_match('/[0-9a-f]{16}$/', $key) )
 		{ // key must be a 16-digit hexvalue
 			if( array_key_exists($key, $this->_IDKEYs))

@@ -11,21 +11,23 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date:  $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  * @description     
  */
 
 require('../../config.php');
 
+$print_info_banner = true;
+// Tells script to update when this page was last updated
+$update_when_modified = false;
 // Include WB admin wrapper script
 require(WB_PATH.'/modules/admin.php');
-
+/* */
 // Get id
 $field_id = $admin->checkIDKEY('field_id', false, 'GET');
 if (!$field_id) {
  $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']." MF: $field_id :-(", ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
- exit();
 }
 
 // Get header and footer
@@ -36,13 +38,14 @@ if($type == '') {
 	$type = 'none';
 }
 
+// set new token
+$field_id = $admin->getIDKEY($form['field_id']);
 // Set raw html <'s and >'s to be replaced by friendly html code
 $raw = array('<', '>');
 $friendly = array('&lt;', '&gt;');
 ?>
 
 <form name="modify" action="<?php echo WB_URL; ?>/modules/form/save_field.php" method="post" style="margin: 0;">
-
 <input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
 <input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
 <input type="hidden" name="field_id" value="<?php echo $field_id; ?>" />
@@ -213,5 +216,3 @@ $friendly = array('&lt;', '&gt;');
 
 // Print admin footer
 $admin->print_footer();
-
-?>

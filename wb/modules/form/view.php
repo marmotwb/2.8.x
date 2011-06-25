@@ -11,8 +11,8 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date:  $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  * @description     
  */
 
@@ -265,13 +265,13 @@ if($filter_settings['email_filter'] && !($filter_settings['at_replacement']=='@'
 		)) {
 			exit(header("Location: ".WB_URL.PAGES_DIRECTORY.""));
 		}
-
+/*
 		if (!$admin->checkFTAN())
 		{
-			$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']); 
+			$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
 			exit();
 		}
-
+*/
 		// Submit form data
 		// First start message settings
 		$query_settings = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_form_settings WHERE section_id = '$section_id'");
@@ -480,5 +480,3 @@ if($filter_settings['email_filter'] && !($filter_settings['at_replacement']=='@'
 		}
 	}
 }
-
-?>

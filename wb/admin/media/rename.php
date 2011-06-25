@@ -32,7 +32,7 @@ if($directory == '/') {
 
 // Check to see if it contains ..
 if (!check_media_path($directory)) {
-	$admin->print_error($MESSAGE['MEDIA']['DIR_DOT_DOT_SLASH'], WB_URL, false);
+	$admin->print_error($MESSAGE['MEDIA']['DIR_DOT_DOT_SLASH'], "browse.php?dir=$directory", false);
 }
 
 // Get the temp id
@@ -105,29 +105,27 @@ if($type == 'folder') {
 }
 
 $template->set_var(array(
-								'THEME_URL' => THEME_URL,
-								'FILENAME' => $rename_file,
-								'DIR' => $directory,
-								'FILE_ID' => $admin->getIDKEY($file_id),
-								'TYPE' => $type,
-								'EXTENSION' => $extension,
-								'FTAN' => $admin->getFTAN()
-								)
-						);
+					'THEME_URL' => THEME_URL,
+					'FILENAME' => $rename_file,
+					'DIR' => $directory,
+					'FILE_ID' => $admin->getIDKEY($file_id),
+					'TYPE' => $type,
+					'EXTENSION' => $extension,
+					'FTAN' => $admin->getFTAN()
+				)
+			);
 
 
 // Insert language text and messages
 $template->set_var(array(
-								'TEXT_TO' => $TEXT['TO'],
-								'TEXT_RENAME' => $TEXT['RENAME'],
-								'TEXT_CANCEL' => $TEXT['CANCEL'],
-								'TEXT_UP' => $TEXT['UP'],
-								'TEXT_OVERWRITE_EXISTING' => $TEXT['OVERWRITE_EXISTING']
-								)
-						);
+					'TEXT_TO' => $TEXT['TO'],
+					'TEXT_RENAME' => $TEXT['RENAME'],
+					'TEXT_CANCEL' => $TEXT['CANCEL'],
+					'TEXT_UP' => $TEXT['UP'],
+					'TEXT_OVERWRITE_EXISTING' => $TEXT['OVERWRITE_EXISTING']
+				)
+			);
 
 // Parse template object
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
-
-?>

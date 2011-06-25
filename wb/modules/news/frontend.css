@@ -1,4 +1,4 @@
-.captcha-table,
+		.captcha-table,
 .captcha_table,
 .news-table {
 	border: 0px;
@@ -7,11 +7,11 @@
 .post_title, .post_date,
 .post-title, .post-date {
 	border-bottom: 1px solid #DDDDDD;
+   font-size :1.0em;
 }
 .post_title,
 .post-title {
 	font-weight: bold;
-	font-size: 12px;
 	color: #000000;
 }
 .post_date,
@@ -94,3 +94,6 @@
 .group-page {
 	text-align: center;
 }
+
+.post_loop { font-size :1.0em; margin :0px 0px 10px; }
+.post_loop div {  line-height :1.6em; margin :0px 0px 2px; }		

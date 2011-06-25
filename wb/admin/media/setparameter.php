@@ -33,12 +33,12 @@ if(!file_exists(THEME_PATH .'/languages/'.LANGUAGE .'.php')) {
 
 //Save post vars to the parameters file
 if ( !is_null($admin->get_post_escaped("save"))) {
+/*
 	if (!$admin->checkFTAN())
 	{
-		$admin->print_error('SP5::'.$MESSAGE['GENERIC_SECURITY_ACCESS']);
-		exit();
+		$admin->print_error('::'.$MESSAGE['GENERIC_SECURITY_ACCESS'],'browse.php',false);
 	}
-	
+*/
 	//Check for existing settings entry, if not existing, create a record first!
 	if (!$database->query ( "SELECT * FROM ".TABLE_PREFIX."settings where `name`='mediasettings'" )) {
 		$database->query ( "INSERT INTO ".TABLE_PREFIX."settings (`name`,`value`) VALUES ('mediasettings','')" );
@@ -76,12 +76,11 @@ if ($_SESSION['GROUP_ID'] != 1) {
 	$template->set_var('DISPLAY_ADMIN', 'hide');
 }
 $template->set_var(array( 
-					'TEXT_HEADER' => $TEXT['TEXT_HEADER'],
-					'SAVE_TEXT' => $TEXT['SAVE'],
-					'BACK' => $TEXT['BACK'],
-				)
-			);
-
+				'TEXT_HEADER' => $TEXT['TEXT_HEADER'],
+				'SAVE_TEXT' => $TEXT['SAVE'],
+				'BACK' => $TEXT['BACK'],
+			)
+		);
 
 $template->set_block('main_block', 'list_block', 'list');
 $row_bg_color = '';
@@ -104,28 +103,25 @@ foreach($dirs AS $name) {
 	else $row_bg_color = 'DEDEDE';
 
 	$template->set_var(array( 
-								'ADMIN_URL' => ADMIN_URL,
-								'PATH_NAME' => $relative,
-								'WIDTH' => $TEXT['WIDTH'],
-								'HEIGHT' => $TEXT['HEIGHT'],
-								'FIELD_NAME_W' => $safepath.'-w',
-								'FIELD_NAME_H' => $safepath.'-h',
-								'CUR_WIDTH' => $cur_width,
-								'CUR_HEIGHT' => $cur_height,
-								'SETTINGS' => $TEXT['SETTINGS'],
-								'ADMIN_ONLY' => $TEXT['ADMIN_ONLY'],
-								'ADMIN_ONLY_SELECTED' => $pathsettings['global']['admin_only'],
-								'NO_SHOW_THUMBS' => $TEXT['NO_SHOW_THUMBS'],
-								'NO_SHOW_THUMBS_SELECTED' => $pathsettings['global']['show_thumbs'],
-								'ROW_BG_COLOR' => $row_bg_color,
-								'FTAN' => $admin->getFTAN()
-							)
-					);
+					'ADMIN_URL' => ADMIN_URL,
+					'PATH_NAME' => $relative,
+					'WIDTH' => $TEXT['WIDTH'],
+					'HEIGHT' => $TEXT['HEIGHT'],
+					'FIELD_NAME_W' => $safepath.'-w',
+					'FIELD_NAME_H' => $safepath.'-h',
+					'CUR_WIDTH' => $cur_width,
+					'CUR_HEIGHT' => $cur_height,
+					'SETTINGS' => $TEXT['SETTINGS'],
+					'ADMIN_ONLY' => $TEXT['ADMIN_ONLY'],
+					'ADMIN_ONLY_SELECTED' => $pathsettings['global']['admin_only'],
+					'NO_SHOW_THUMBS' => $TEXT['NO_SHOW_THUMBS'],
+					'NO_SHOW_THUMBS_SELECTED' => $pathsettings['global']['show_thumbs'],
+					'ROW_BG_COLOR' => $row_bg_color,
+					'FTAN' => $admin->getFTAN()
+				)
+		);
 	$template->parse('list', 'list_block', true);
 }
 
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
-
-
-?>

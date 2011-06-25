@@ -18,15 +18,20 @@
 
 require('../../config.php');
 
+// suppress to print the header, so no new FTAN will be set
+$admin_header = false;
+// Tells script to update when this page was last updated
+$update_when_modified = true;
 // Include WB admin wrapper script
-$update_when_modified = true; // Tells script to update when this page was last updated
 require(WB_PATH.'/modules/admin.php');
 
 if (!$admin->checkFTAN())
 {
+	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
-	exit();
 }
+// After check print the header
+$admin->print_header();
 
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
@@ -43,9 +48,7 @@ if(isset($_POST['content'.$section_id])) {
 if(defined('EDIT_ONE_SECTION') and EDIT_ONE_SECTION)
 {
     $edit_page = ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'&wysiwyg='.$section_id;
-}
-else
-{
+} else {
     $edit_page = ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'#wb'.$section_id;
 }
 
