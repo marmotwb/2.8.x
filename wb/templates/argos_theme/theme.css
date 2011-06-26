@@ -181,7 +181,10 @@ div#username {height:17px;width:640px;text-align:left;font-weight:bold;margin:0;
 .section-info { margin : 1.5em 0; }
 
 .rounded { border-radius :10px; -khtml-border-radius :10px; -webkit-border-radius :10px; -moz-border-radius :10px; }
-.msg-box { background : #e5ffe6; border :0.2em #009900 solid; color :#336600; margin-bottom :1em; padding :0.63em; text-align :center; }
-.error-box { background :#fee; border :0.2em #844 solid; color :#400; margin-bottom :1em; padding :0.63em; text-align :center; }
 .bigger { font-size :150%; }
 .strong { font-weight :bold; }
+
+.msg-box { background : #e5ffe6; border :0.2em #009900 solid; color :#336600; margin-bottom :1em; padding :0.63em; text-align :center; }
+.error-box { background :#fee; border :0.2em #844 solid; color :#400; margin-bottom :1em; padding :0.63em; text-align :center; }
+.msg-box p,
+.error-box p { font-size :120%; }

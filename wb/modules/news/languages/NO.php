@@ -34,6 +34,7 @@ $MOD_NEWS['TEXT_COMMENT'] = 'Kommentar';
 $MOD_NEWS['TEXT_ADD_COMMENT'] = 'Legg Til Kommentar';
 $MOD_NEWS['TEXT_BY'] = 'Av';
 $MOD_NEWS['PAGE_NOT_FOUND'] = 'Finner ikke siden ';
+$MOD_NEWS['NO_COMMENT_FOUND'] = 'No comment found';
 $TEXT['UNKNOWN'] = 'Guest';
 
 ?>

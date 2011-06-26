@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 ------------------------------------
+26 Jun-2011 Build 1458 Dietmar Woellbrink (Luisehahne)
+# Ticket 833 fixed markup for table cells in view.php
+! change themes.css to make style more flexible in success.htt and error.htt
++ backend themes: add js function redirect_to_page(url, timer) to redirect without message
 25 Jun-2011 Build 1457 Dietmar Woellbrink (Luisehahne)
 ! Preparing 2.8.2 stable, last tests
 10 Jun-2011 Build 1456 Dietmar Woellbrink (Luisehahne)

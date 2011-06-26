@@ -375,7 +375,6 @@ elseif(isset($post_id) && is_numeric($post_id))
 		}
 	} else {
 	    	$wb->print_error($MESSAGE['FRONTEND']['SORRY_NO_ACTIVE_SECTIONS'], 'view.php', false);
-	    	exit(0);
 	}
 
 	// Print post header
@@ -420,12 +419,9 @@ elseif(isset($post_id) && is_numeric($post_id))
 		} else {
 			// Say no comments found
 			$content = '';
-			if(isset($TEXT['NONE_FOUND'])) {
-				$content .= '<tr><td>'.$TEXT['NONE_FOUND'].'<br /></td></tr>';
-			} else {
-				$content .= '<tr><td>None Found<br /></td></tr>';
-			}
-			print $content;
+			$vars = array('[TITLE]','[COMMENT]','[TEXT_ON]','[DATE]','[TEXT_AT]','[TIME]','[TEXT_BY]','[USER_ID]','[USERNAME]','[DISPLAY_NAME]', '[EMAIL]');
+			$values = array( '', $MOD_NEWS['NO_COMMENT_FOUND'], '', '', '', '', '', '', '', '');
+			print str_replace($vars, $values, $setting_comments_loop);
 		}
 
 		// Print comments footer
