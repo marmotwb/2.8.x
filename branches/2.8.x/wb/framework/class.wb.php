@@ -399,7 +399,6 @@ class wb extends SecureForm
 	    }
 	    $tpl->parse( 'main', 'main_block', false );
 	    $tpl->pparse( 'output', 'page' );
-		exit();
 	}
 
 	// Print an error message

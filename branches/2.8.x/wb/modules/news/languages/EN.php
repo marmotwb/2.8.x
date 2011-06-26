@@ -34,6 +34,7 @@ $MOD_NEWS['TEXT_COMMENT'] = 'Comment';
 $MOD_NEWS['TEXT_ADD_COMMENT'] = 'Add Comment';
 $MOD_NEWS['TEXT_BY'] = 'By';
 $MOD_NEWS['PAGE_NOT_FOUND'] = 'Page not found';
+$MOD_NEWS['NO_COMMENT_FOUND'] = 'No comment found';
 $TEXT['UNKNOWN'] = 'Guest';
 
 ?>
