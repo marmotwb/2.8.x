@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 ------------------------------------
+26 Jun-2011 Build 1459 Dietmar Woellbrink (Luisehahne)
+# Ticket 1099: change title for add_child_page in page tree
 26 Jun-2011 Build 1458 Dietmar Woellbrink (Luisehahne)
 # Ticket 833 fixed markup for table cells in view.php
 ! change themes.css to make style more flexible in success.htt and error.htt
