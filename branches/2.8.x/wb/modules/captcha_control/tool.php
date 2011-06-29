@@ -42,7 +42,7 @@ $js_back = ADMIN_URL.'/admintools/tool.php?tool=captcha_control';
 if(isset($_POST['save_settings'])) {
 	if (!$admin->checkFTAN())
 	{
-		$admin->print_header();
+		if(!$admin_header) { $admin->print_header(); }
 		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $js_back );
 	}
 	
@@ -67,7 +67,7 @@ if(isset($_POST['save_settings'])) {
 	}
 	
 	// check if there is a database error, otherwise say successful
-	$admin->print_header();
+	if(!$admin_header) { $admin->print_header(); }
 	if($database->is_error()) {
 		$admin->print_error($database->get_error(), $js_back);
 	} else {
@@ -75,6 +75,7 @@ if(isset($_POST['save_settings'])) {
 	}
 
 } else {
+}
 	
 	// include captcha-file
 	require_once(WB_PATH .'/include/captcha/captcha.php');
@@ -200,6 +201,5 @@ if(isset($_POST['save_settings'])) {
 	<input type="submit" name="save_settings" style="margin-top:10px; width:140px;" value="<?php echo $TEXT['SAVE']; ?>" />
 </form>
 <?php
-}
 
 ?>

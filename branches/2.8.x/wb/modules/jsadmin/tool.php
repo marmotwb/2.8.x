@@ -39,12 +39,12 @@ require_once(WB_PATH.'/modules/jsadmin/jsadmin.php');
 
 // Check if user selected what add-ons to reload
 if(isset($_POST['save_settings']))  {
+
 	if (!$admin->checkFTAN())
 	{
-		$admin->print_header();
+		if(!$admin_header) { $admin->print_header(); }
 		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$_SERVER['REQUEST_URI']);
 	}
-	$admin->print_header();
 
 	// Include functions file
 	require_once(WB_PATH.'/framework/functions.php');
@@ -53,6 +53,7 @@ if(isset($_POST['save_settings']))  {
 	save_setting('mod_jsadmin_ajax_order_sections', isset($_POST['ajax_order_sections']));
    // 	echo '<div style="border: solid 2px #9c9; background: #ffd; padding: 0.5em; margin-top: 1em">'.$MESSAGE['SETTINGS']['SAVED'].'</div>';
 	// check if there is a database error, otherwise say successful
+	if(!$admin_header) { $admin->print_header(); }
 	if($database->is_error()) {
 		$admin->print_error($database->get_error(), $js_back);
 	} else {
