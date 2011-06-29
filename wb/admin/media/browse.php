@@ -151,10 +151,10 @@ $usedFiles = array();
 // $filename =  $currentdir;
 if(!empty($currentdir)) {
 	$usedFiles = $Dse->getMatchesFromDir( $currentdir, DseTwo::RETURN_USED);
-/* */
+/*
 print '<pre><strong>function '.__FUNCTION__.'();</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
 print_r( $usedFiles ); print '</pre>'; // flush ();sleep(10); die();
-
+*/
 }
 
 if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
@@ -253,8 +253,7 @@ if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 								'DATE' => $date,
 								'PREVIEW' => $preview,
 								'IMAGE_TITLE' => $name,
-								// 'IMAGE_EXIST' =>  search_image($directory.'/',$name)
-								'IMAGE_EXIST' =>  (in_array($name, $usedFiles) ? 'view_16.png' : 'pic_16.png')
+								'IMAGE_EXIST' =>  'blank_16.gif'
 							)
 						);
 			$template->parse('list', 'list_block', true);

@@ -33,7 +33,7 @@ if(isset($_POST['save_settings'])) {
 	
 	if (!$admin->checkFTAN())
 	{
-		$admin->print_header();
+		if(!$admin_header) { $admin->print_header(); }
 		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$_SERVER['REQUEST_URI'],false);
 	}
 	// get overall output filter settings
@@ -51,7 +51,7 @@ if(isset($_POST['save_settings'])) {
 		mailto_filter = '$mailto_filter', at_replacement = '$at_replacement', dot_replacement = '$dot_replacement'");
 
 	// check if there is a database error, otherwise say successful
-	$admin->print_header();
+	if(!$admin_header) { $admin->print_header(); }
 	if($database->is_error()) {
 		$admin->print_error($database->get_error(), $js_back);
 	} else {
@@ -59,6 +59,7 @@ if(isset($_POST['save_settings'])) {
 	}
 
 } else {
+}
 	// write out heading
 	echo '<h2>' .$MOD_MAIL_FILTER['HEADING'] .'</h2>';
 
@@ -109,6 +110,5 @@ if(isset($_POST['save_settings'])) {
 	<input type="submit" name="save_settings" style="margin-top:10px; width:140px;" value="<?php echo $TEXT['SAVE']; ?>" />
 </form>
 <?php
-}
 
 ?>
