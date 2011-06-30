@@ -20,7 +20,7 @@
 if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
 require_once(WB_PATH.'/framework/class.wb.php');
-require_once(WB_PATH.'/framework/SecureForm.php');
+//require_once(WB_PATH.'/framework/SecureForm.php');
 
 class frontend extends wb {
 	// defaults

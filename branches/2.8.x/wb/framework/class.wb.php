@@ -26,7 +26,7 @@ require_once(WB_PATH.'/framework/class.database.php');
 // Include new wbmailer class (subclass of PHPmailer)
 require_once(WB_PATH."/framework/class.wbmailer.php");
 
-require_once(WB_PATH."/framework/SecureForm.php");
+//require_once(WB_PATH."/framework/SecureForm.php");
 
 class wb extends SecureForm
 {
