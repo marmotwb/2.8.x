@@ -22,6 +22,7 @@ if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
 if (file_exists(WB_PATH.'/framework/class.database.php')) {
 
+	date_default_timezone_set('UTC');
 	require_once(WB_PATH.'/framework/class.database.php');
 
 	// Create database class
@@ -49,11 +50,13 @@ if (file_exists(WB_PATH.'/framework/class.database.php')) {
 	define('OCTAL_FILE_MODE',(int) octdec($string_file_mode));
 	$string_dir_mode = STRING_DIR_MODE;
 	define('OCTAL_DIR_MODE',(int) octdec($string_dir_mode));
-	
+	$sSecMod = (defined('SECURE_FORM_MODULE')) ? '.'.SECURE_FORM_MODULE : '';
+	$sSecMod = WB_PATH.'/framework/SecureForm'.$sSecMod.'.php';
+	require_once($sSecMod);
 	if (!defined("WB_INSTALL_PROCESS")) {
 		// get CAPTCHA and ASP settings
 		$table = TABLE_PREFIX.'mod_captcha_control';
-		if($get_settings = $database->query("SELECT * FROM $table LIMIT 1")) {
+		if( ($get_settings = $database->query("SELECT * FROM $table LIMIT 1")) ) {
 			if($get_settings->numRows() == 0) { die("CAPTCHA-Settings not found"); }
 			$setting = $get_settings->fetchRow();
 			if($setting['enabled_captcha'] == '1') define('ENABLED_CAPTCHA', true);
