@@ -21,10 +21,8 @@
 // Print admin header
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
-
 // suppress to print the header, so no new FTAN will be set
 $admin = new admin('Preferences','start', false);
-// $js_back = "javascript: history.go(-1);"; // Create a javascript back link
 
 function save_preferences( &$admin, &$database)
 {
@@ -33,8 +31,6 @@ function save_preferences( &$admin, &$database)
 	$min_pass_length = 6;
 // first check form-tan
 	if(!$admin->checkFTAN()){ $err_msg[] = $MESSAGE['GENERIC_SECURITY_ACCESS']; }
-// After check print the header
-	$admin->print_header();
 // Get entered values and validate all
 	// remove any dangerouse chars from display_name
 	$display_name     = $admin->add_slashes(strip_tags(trim($admin->get_post('display_name'))));
@@ -67,17 +63,19 @@ function save_preferences( &$admin, &$database)
 	$time_format = ($time_format == 'system_default' ? '' : $time_format);
 	unset($TIME_FORMATS);
 // email should be validatet by core
-	$email            = ( $admin->get_post('email') == null ? '' : $admin->get_post('email') );
+	$email = trim( $admin->get_post('email') == null ? '' : $admin->get_post('email') );
 	if( !$admin->validate_email($email) )
 	{
 		$email = '';
 		$err_msg[] = $MESSAGE['USERS']['INVALID_EMAIL'];
 	}else {
-	// check that email is unique in whoole system
-		$email = $admin->add_slashes($email);
-		$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` ';
-		$sql .= 'WHERE `user_id` <> '.(int)$admin->get_user_id().' AND `email` LIKE "'.$email.'"';
-		if( $database->get_one($sql) > 0 ){ $err_msg[] = $MESSAGE['USERS']['EMAIL_TAKEN']; }
+		if($email != '') {
+		// check that email is unique in whoole system
+			$email = $admin->add_slashes($email);
+			$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` ';
+			$sql .= 'WHERE `user_id` <> '.(int)$admin->get_user_id().' AND `email` LIKE "'.$email.'"';
+			if( $database->get_one($sql) > 0 ){ $err_msg[] = $MESSAGE['USERS']['EMAIL_TAKEN']; }
+		}
 	}
 // receive password vars and calculate needed action
 	$current_password = $admin->get_post('current_password');
@@ -130,7 +128,9 @@ function save_preferences( &$admin, &$database)
 		$sql  = 'UPDATE `'.TABLE_PREFIX.'users` ';
 		$sql .= 'SET `display_name` = "'.$display_name.'", ';
 		$sql .=     '`password` = "'.$new_password_1.'", ';
-		$sql .=     '`email` = "'.$email.'", ';
+		if($email != '') {
+			$sql .=     '`email` = "'.$email.'", ';
+		}
 		$sql .=     '`language` = "'.$language.'", ';
 		$sql .=     '`timezone` = "'.$timezone.'", ';
 		$sql .=     '`date_format` = "'.$date_format.'", ';
@@ -171,6 +171,8 @@ function save_preferences( &$admin, &$database)
 	}
 	return ( (sizeof($err_msg) > 0) ? implode('<br />', $err_msg) : '' );
 }
+// print the header
+$admin->print_header();
 $retval = save_preferences($admin, $database);
 if( $retval == '')
 {
@@ -179,5 +181,3 @@ if( $retval == '')
 }else {
 	$admin->print_error($retval);
 }
-
-?>
