@@ -438,9 +438,9 @@ class wb extends SecureForm
 		$fromaddress = preg_replace('/[\r\n]/', '', $fromaddress);
 		$toaddress = preg_replace('/[\r\n]/', '', $toaddress);
 		$subject = preg_replace('/[\r\n]/', '', $subject);
-		$message_alt = $message;
-		$message = preg_replace('/[\r\n]/', '<br \>', $message);
-		
+		// $message_alt = $message;
+		// $message = preg_replace('/[\r\n]/', '<br \>', $message);
+
 		// create PHPMailer object and define default settings
 		$myMail = new wbmailer();
 
@@ -454,9 +454,9 @@ class wb extends SecureForm
 		// define recepient and information to send out
 		$myMail->AddAddress($toaddress);                            // TO:
 		$myMail->Subject = $subject;                                // SUBJECT
-		$myMail->Body = $message;                                   // CONTENT (HTML)
-		$myMail->AltBody = strip_tags($message_alt);				// CONTENT (TEXT)
-		
+		$myMail->Body = nl2br($message);                                   // CONTENT (HTML)
+		$myMail->AltBody = strip_tags($message);				// CONTENT (TEXT)
+
 		// check if there are any send mail errors, otherwise say successful
 		if (!$myMail->Send()) {
 			return false;
