@@ -29,22 +29,14 @@ if(!isset($_GET['tool'])) {
 	$tool = $array[0];
 }
 
-$ModulesList = array();
+$ModulesUsingFTAN = '';
 $admin_header =  true;
 if(isset($_POST['save_settings'])) {
-	$ModulesUsingFTAN = ADMIN_PATH.'/admintools/modules.inc';
-	if(file_exists($ModulesUsingFTAN)){
-		if(($ModulesList = file($ModulesUsingFTAN, FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES)) !== false)
-		{
-			// remove remark-lines
-			$ModulesList = preg_grep('/^\s*?[^#;]/', $ModulesList);
-		}
-	}
+	$ModulesUsingFTAN = WB_PATH.'/modules/'.$tool.'/FTAN_SUPPORTED';
 }
 
-$admin_header = (!in_array($tool, $ModulesList));
+$admin_header = (file_exists($ModulesUsingFTAN) && is_file($ModulesUsingFTAN)) == false;
 $admin = new admin('admintools', 'admintools', $admin_header );
-unset($ModulesList);
 
 // Check if tool is installed
 $result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'module' AND function = 'tool' AND directory = '".preg_replace("/\W/", "", $tool)."'");
