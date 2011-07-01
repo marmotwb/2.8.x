@@ -595,21 +595,22 @@ if(!function_exists('register_frontend_modfiles'))
 
 	function moveCssToHead($content) {
 		// move css definitions into head section
-		$pattern1 = '/(?:.*?<body.*?)(<link[^>]*?\"text\/css\".*?\/>)(?:.*)/si';
-		$pattern2 = '/(?:.*?<body.*?)(<style[^>]*?\"text\/css\"[^>]*?>.*?<\/style>)(?:.*)/si';
-		$insert1 = array();
-		$insert2 = array();
-		if(preg_match_all($pattern1, $content, $matches)) {
-			$insert1 = $matches[1];
-			$content = str_replace($insert1, '', $content);
+		$pattern1 = '/(?:<body.*?)(<link[^>]*?\"text\/css\".*?\/>)/si';
+		$pattern2 = '/(?:<body.*?)(<style[^>]*?\"text\/css\"[^>]*?>.*?<\/style>)/si';
+		while(preg_match($pattern1, $content, $matches)==1) {
+		// loop through all linked CSS
+			$insert = $matches[1];
+			$content = str_replace($insert, '', $content);
+			$insert = "\n".$insert."\n</head>\n<body";
+			$content = preg_replace('/<\/head>.*?<body/si', $insert, $content);
 		}
-		if(preg_match_all($pattern2, $content, $matches)) {
-			$insert2 = $matches[1];
-			$content = str_replace($insert2, '', $content);
+		while(preg_match($pattern2, $content, $matches)==1) {
+		// loop through all inline CSS
+			$insert = $matches[1];
+			$content = str_replace($insert, '', $content);
+			$insert = "\n".$insert."\n</head>\n<body";
+			$content = preg_replace('/<\/head>.*?<body/si', $insert, $content);
 		}
-		$insert = array_merge($insert1, $insert2);
-		$insert = "\n".implode("\n", $insert)."\n</head>\n<body";
-		$content = preg_replace('/<\/head>.*?<body/si', $insert, $content);
 		return $content;
 	}
 
@@ -627,6 +628,4 @@ if(!function_exists('register_frontend_modfiles'))
 		// Get the pages submenu
 		$menu2 = $database->query("SELECT page_id,menu_title,page_title,link,target,visibility$extra_sql FROM ".TABLE_PREFIX."pages WHERE parent = '".PARENT."' AND $extra_where_sql ORDER BY position ASC");
 	}
-// End WB < 2.4.x template compatibility code
-// Include template file
 

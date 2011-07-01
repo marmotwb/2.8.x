@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 ------------------------------------
+01 Jun-2011 Build 1464 Werner v.d.Decken(DarkViper)
+# fixed little bug in moveCssToHead()
 01 Jul-2011 Build 1463 Dietmar Woellbrink (Luisehahne)
 # fixed Ticket 1050 Bug in include/phpmailer/class.phpmailer.php with Lotus Notes
 # fixed Ticket 573, 939 Bad formatting of e-mail received from form submissions
