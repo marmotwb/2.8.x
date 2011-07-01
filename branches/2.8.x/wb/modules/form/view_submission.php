@@ -20,13 +20,13 @@ require('../../config.php');
 
 // Include WB admin wrapper script
 require(WB_PATH.'/modules/admin.php');
-/*
+/* */
 // Get id
 $submission_id = $admin->checkIDKEY('submission_id', false, 'GET');
 if (!$submission_id) {
  $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 }
-*/
+
 // Get submission details
 $query_content = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_form_submissions WHERE submission_id = '$submission_id'");
 $submission = $query_content->fetchRow();

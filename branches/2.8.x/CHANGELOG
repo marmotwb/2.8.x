@@ -12,6 +12,8 @@ Legend:
 
 ------------------------------------- 2.8.2 ------------------------------------
 01 Jul-2011 Build 1465 Dietmar Woellbrink (Luisehahne)
+# fix form modul (tks to our Tester)
+01 Jul-2011 Build 1465 Dietmar Woellbrink (Luisehahne)
 # bugfix in initialize including SecureForm
 ! update admintools FTAN handling 
 01 Jul-2011 Build 1464 Werner v.d.Decken(DarkViper)
