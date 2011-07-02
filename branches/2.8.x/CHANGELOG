@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 ------------------------------------
+02 Jul-2011 Build 1465 Dietmar Woellbrink (Luisehahne)
+! update some headerinfos
+# fix missing header for some error messages
 01 Jul-2011 Build 1465 Dietmar Woellbrink (Luisehahne)
 # fix form modul (tks to our Tester)
 01 Jul-2011 Build 1465 Dietmar Woellbrink (Luisehahne)

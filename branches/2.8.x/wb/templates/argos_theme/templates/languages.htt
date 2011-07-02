@@ -14,6 +14,7 @@
 </table>
 
 <form name="install" enctype="multipart/form-data" action="install.php" method="post" class="{DISPLAY_INSTALL}">
+{FTAN}
   <h2>{HEADING_INSTALL_LANGUAGE}</h2>
   <table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
     <tr>
@@ -31,6 +32,7 @@
   <br />
 </form>
 <form name="uninstall" action="uninstall.php" method="post" class="{DISPLAY_UNINSTALL}">
+{FTAN}
   <h2>{HEADING_UNINSTALL_LANGUAGE}</h2>
   <table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
     <tr>
@@ -50,6 +52,7 @@
   <br />
 </form>
 <form name="details" action="details.php" method="post" class="{DISPLAY_LIST}">
+{FTAN}
   <h2>{HEADING_LANGUAGE_DETAILS}</h2>
   <table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
     <tr>

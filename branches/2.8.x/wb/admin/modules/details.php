@@ -24,6 +24,7 @@ require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Addons', 'modules_view', false);
 if( !$admin->checkFTAN() )
 {
+	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
 }
 // After check print the header
