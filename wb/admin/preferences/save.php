@@ -171,13 +171,15 @@ function save_preferences( &$admin, &$database)
 	}
 	return ( (sizeof($err_msg) > 0) ? implode('<br />', $err_msg) : '' );
 }
-// print the header
-$admin->print_header();
 $retval = save_preferences($admin, $database);
 if( $retval == '')
 {
+	// print the header
+	$admin->print_header();
 	$admin->print_success($MESSAGE['PREFERENCES']['DETAILS_SAVED']);
 	$admin->print_footer();
 }else {
+	// print the header
+	$admin->print_header();
 	$admin->print_error($retval);
 }

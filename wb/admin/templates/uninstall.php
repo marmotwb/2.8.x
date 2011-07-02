@@ -23,6 +23,7 @@ require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Addons', 'templates_uninstall', false);
 if( !$admin->checkFTAN() )
 {
+	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
 }
 // After check print the header
