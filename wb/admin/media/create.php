@@ -16,6 +16,12 @@
  *
  */
 
+// Print admin header
+require('../../config.php');
+require_once(WB_PATH.'/framework/class.admin.php');
+// suppress to print the header, so no new FTAN will be set
+$admin = new admin('Media', 'media_create', false);
+
 // Get dir name and target location
 $requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
 $name = (isset(${$requestMethod}['name'])) ? ${$requestMethod}['name'] : '';
@@ -63,12 +69,12 @@ $name = media_filename($name);
 // Create relative path of the new dir name
 $directory = WB_PATH.$target.'/'.$name;
 
-/*
+/*  */
 // Check to see if the folder already exists
-if(file_exists($relative)) {
+if(file_exists($directory)) {
 	$admin->print_error($MESSAGE['MEDIA']['DIR_EXISTS']);
 }
-*/
+
 
 if ( sizeof(createFolderProtectFile( $directory )) )
 {

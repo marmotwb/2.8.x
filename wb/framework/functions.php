@@ -702,7 +702,7 @@ if(!function_exists('page_link'))
 	}
 }
 
-// Create a new file in the pages directory
+// Create a new directory and/or protected file in the given directory
 function createFolderProtectFile($relative='',$make_dir=true)
 {
 	global $admin, $MESSAGE;
@@ -713,11 +713,11 @@ function createFolderProtectFile($relative='',$make_dir=true)
 		// Check to see if the folder already exists
 		if(file_exists($relative)) {
 			// $admin->print_error($MESSAGE['MEDIA_DIR_EXISTS']);
-			$retVal[] = $MESSAGE['MEDIA_DIR_EXISTS'];
+			$retVal[] = basename($relative).'::'.$MESSAGE['MEDIA_DIR_EXISTS'];
 		}
 		if ( !make_dir($relative) ) {
 			// $admin->print_error($MESSAGE['MEDIA_DIR_NOT_MADE']);
-			$retVal[] = $MESSAGE['MEDIA_DIR_NOT_MADE'];
+			$retVal[] = basename($relative).'::'.$MESSAGE['MEDIA_DIR_NOT_MADE'];
 		}
 	}
 
@@ -750,12 +750,12 @@ function createFolderProtectFile($relative='',$make_dir=true)
 		// $admin->print_success($MESSAGE['MEDIA']['DIR_MADE']);
 	} else {
 		// $admin->print_error($MESSAGE['GENERIC_BAD_PERMISSIONS']);
-			$retVal[] = '::'.$MESSAGE['GENERIC_BAD_PERMISSIONS'];
+			$retVal[] = $MESSAGE['GENERIC_BAD_PERMISSIONS'];
 	}
 	return $retVal;
 }
 
-// Rebuild a new file in the pages directory
+// Rebuild new protected files in the given directory and subs
 function rebuildFolderProtectFile($dir='')
 {
 	$retVal = array();
