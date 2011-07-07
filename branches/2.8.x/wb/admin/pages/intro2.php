@@ -42,14 +42,13 @@ require_once(WB_PATH.'/framework/functions.php');
 $admin->print_header();
 // Write new content
 $filename = WB_PATH.PAGES_DIRECTORY.'/intro'.PAGE_EXTENSION;
-if(is_writable($filename)) {
-	if(file_put_contents($filename, utf8_encode($content))===false){
-		$admin->print_error($MESSAGE['PAGES_NOT_SAVED']);
-	} else {
-		change_mode($filename);
-		$admin->print_success($MESSAGE['PAGES']['INTRO_SAVED']);
-	}
+if(file_put_contents($filename, utf8_encode($content))===false){
+	$admin->print_error($MESSAGE['PAGES_NOT_SAVED']);
 } else {
+	change_mode($filename);
+	$admin->print_success($MESSAGE['PAGES']['INTRO_SAVED']);
+}
+if(!is_writable($filename)) {
 	$admin->print_error($MESSAGE['PAGES']['INTRO_NOT_WRITABLE']);
 }
 
