@@ -354,6 +354,10 @@ mysql_query('CREATE DATABASE `'.$database_name.'`');
 // Close the mysql connection
 mysql_close();
 
+$sSecMod = (defined('SECURE_FORM_MODULE') && SECURE_FORM_MODULE != '') ? '.'.SECURE_FORM_MODULE : '';
+$sSecMod = WB_PATH.'/framework/SecureForm'.$sSecMod.'.php';
+require_once($sSecMod);
+
 // Include WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 
@@ -643,10 +647,10 @@ if($install_tables == true) {
 	$database->query("INSERT INTO `".TABLE_PREFIX."search` VALUES ('', 'cfg_enable_flush', 'false', '')");
 	// Search template
 	$database->query("INSERT INTO `".TABLE_PREFIX."search` (name) VALUES ('template')");
-		
+
 	require_once(WB_PATH.'/framework/initialize.php');
-	
-	// Include the PclZip class file (thanks to 
+
+	// Include the PclZip class file (thanks to
 	require_once(WB_PATH.'/include/pclzip/pclzip.lib.php');
 			
 	// Install add-ons

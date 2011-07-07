@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 ------------------------------------
+07 Jul-2011 Build 1470 Dietmar Woellbrink (Luisehahne)
+# languages Typo fix (Tks to pcwacht)
+! update intro, fixed saving
+# fixed install/save.php (Tks to pcwacht)
 07 Jul-2011 Build 1469 Dietmar Woellbrink (Luisehahne)
 ! Forgotten upload changelog and version.php
 07 Jul-2011 Build 1468 Dietmar Woellbrink (Luisehahne)
