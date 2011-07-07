@@ -151,11 +151,11 @@ $usedFiles = array();
 // $filename =  $currentdir;
 if(!empty($currentdir)) {
 	$usedFiles = $Dse->getMatchesFromDir( $currentdir, DseTwo::RETURN_USED);
-/*
-print '<pre><strong>function '.__FUNCTION__.'();</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
-print_r( $usedFiles ); print '</pre>'; // flush ();sleep(10); die();
-*/
 }
+
+$rename_file_types  = str_replace(',','|',RENAME_FILES_ON_UPLOAD);
+// hardcodet forbidden filetypes
+$forbidden_file_types = 'phtml|php5|php4|php|cgi|pl|exe|com|bat|src|'.$rename_file_types;
 
 if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 	// Loop through the files and dirs an add to list
@@ -166,7 +166,11 @@ if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 					$DIR[] = $file;
 				}
 			} else {
-				$FILE[] = $file;
+				$info = pathinfo($file);
+				$ext = isset($info['extension']) ? $info['extension'] : '';
+				if( !preg_match('/'.$forbidden_file_types.'$/i', $ext) ) {
+					$FILE[] = $file;
+				}
 			}
 		}
 	}
