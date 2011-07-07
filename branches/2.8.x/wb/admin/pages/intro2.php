@@ -16,6 +16,16 @@
  *
  */
 
+// Create new admin object
+require('../../config.php');
+require_once(WB_PATH.'/framework/class.admin.php');
+$admin = new admin('Pages', 'pages_intro',false);
+if (!$admin->checkFTAN())
+{
+	$admin->print_header();
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+}
+
 // Get posted content
 if(!isset($_POST['content'])) {
 	header("Location: intro".PAGE_EXTENSION."");
@@ -24,27 +34,20 @@ if(!isset($_POST['content'])) {
 	$content = $_POST['content'];
 }
 
-// Create new admin object
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Pages', 'pages_intro');
-
-$content=$admin->strip_slashes($content);
+$content = $admin->strip_slashes($content);
 
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 
+$admin->print_header();
 // Write new content
 $filename = WB_PATH.PAGES_DIRECTORY.'/intro'.PAGE_EXTENSION;
-$handle = fopen($filename, 'w');
 if(is_writable($filename)) {
-	if(fwrite($handle, $content)) {
-		fclose($handle);
-		change_mode($filename, 'file');
-		$admin->print_success($MESSAGE['PAGES']['INTRO_SAVED']);
+	if(file_put_contents($filename, utf8_encode($content))===false){
+		$admin->print_error($MESSAGE['PAGES_NOT_SAVED']);
 	} else {
-		fclose($handle);
-		$admin->print_error($MESSAGE['PAGES']['INTRO_NOT_WRITABLE']);
+		change_mode($filename);
+		$admin->print_success($MESSAGE['PAGES']['INTRO_SAVED']);
 	}
 } else {
 	$admin->print_error($MESSAGE['PAGES']['INTRO_NOT_WRITABLE']);
@@ -52,5 +55,3 @@ if(is_writable($filename)) {
 
 // Print admin footer
 $admin->print_footer();
-
-?>

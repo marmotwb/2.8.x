@@ -20,16 +20,11 @@
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_intro');
-
-// Get page content
-$filename = WB_PATH.PAGES_DIRECTORY.'/intro'.PAGE_EXTENSION;
-if(file_exists($filename)) {
-	$handle = fopen($filename, "r");
-	$content = fread($handle, filesize($filename));
-	fclose($handle);
-} else {
-	$content = '';
+$content = '';
+if(file_exists($filename) && filesize($filename) > 0) {
+$content = file_get_contents( $filename ) ;
 }
+
 
 if(!isset($_GET['wysiwyg']) OR $_GET['wysiwyg'] != 'no') {
 	if (!defined('WYSIWYG_EDITOR') OR WYSIWYG_EDITOR=="none" OR !file_exists(WB_PATH.'/modules/'.WYSIWYG_EDITOR.'/include.php')) {
@@ -45,7 +40,7 @@ if(!isset($_GET['wysiwyg']) OR $_GET['wysiwyg'] != 'no') {
 
 
 <form action="intro2.php" method="post">
-
+<?php print $admin->getFTAN(); ?>
 <input type="hidden" name="page_id" value="{PAGE_ID}" />
 
 <?php
