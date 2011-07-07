@@ -11,16 +11,25 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 ------------------------------------
-02 Jul-2011 Build 1465 Dietmar Woellbrink (Luisehahne)
+07 Jul-2011 Build 1469 Dietmar Woellbrink (Luisehahne)
+! Forgotten upload changelog and version.php
+07 Jul-2011 Build 1468 Dietmar Woellbrink (Luisehahne)
+! update jquery-min to version 1.6.2
+! update jquery-ui-min to version 1.8.14
+# fix index error in media upload (Tks to DBS)
++ add missing nopreview.jpg
+! update media browser not to show forbidden files
+- remove unused jquery archiv folder
+02 Jul-2011 Build 1467 Dietmar Woellbrink (Luisehahne)
 ! update some headerinfos
 # fix missing header for some error messages
-01 Jul-2011 Build 1465 Dietmar Woellbrink (Luisehahne)
+01 Jul-2011 Build 1466 Dietmar Woellbrink (Luisehahne)
 # fix form modul (tks to our Tester)
 01 Jul-2011 Build 1465 Dietmar Woellbrink (Luisehahne)
 # bugfix in initialize including SecureForm
 ! update admintools FTAN handling 
 01 Jul-2011 Build 1464 Werner v.d.Decken(DarkViper)
-# fixed little bug in moveCssToHead()
+#  Ticket 1102 fixed little bug in moveCssToHead() (Tks to Crnogorac081)
 01 Jul-2011 Build 1463 Dietmar Woellbrink (Luisehahne)
 # fixed Ticket 1050 Bug in include/phpmailer/class.phpmailer.php with Lotus Notes
 # fixed Ticket 573, 939 Bad formatting of e-mail received from form submissions
