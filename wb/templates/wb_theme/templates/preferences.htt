@@ -92,6 +92,7 @@
 					<input type="password" id="new_password_2" name="new_password_2" value="{EMPTY_STRING}" /><br />
 				</div>
 			</div>
+			<hr />
 			<div class="subcolumns">
 				<div class="c25l">
 					<label>{TEXT_NEED_CURRENT_PASSWORD}:</label><br />
@@ -101,12 +102,11 @@
 				</div>
 			</div>
 			<div class="subcolumns save_section">
-				<div class="c25l">
+				<div class="c60l">
 					<input type="submit" id="submit" name="submit" value="{TEXT_SAVE}" />
 					<input type="reset" id="reset" name="reset" value="{TEXT_RESET}" />
 				</div>
-				<div class="c25l">
-				</div>
+				<div class="c25l">&nbsp;</div>
 			</div>
 	</form>
 </div>

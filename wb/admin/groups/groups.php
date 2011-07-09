@@ -46,7 +46,8 @@ if($_POST['action'] == 'modify') {
 /*  */
 	if (!$admin->checkFTAN())
 	{
-		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+		$admin->print_header();
+		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
 	}
 
 	// Print header
@@ -194,5 +195,3 @@ if($_POST['action'] == 'modify') {
 
 // Print admin footer
 $admin->print_footer();
-
-?>

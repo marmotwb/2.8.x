@@ -32,6 +32,14 @@ require_once(WB_PATH.'/framework/class.admin.php');
 // suppress to print the header, so no new FTAN will be set
 $admin = new admin('Pages', 'pages_modify',false);
 
+// Get page id
+if(!isset($_GET['page_id']) || !is_numeric($_GET['page_id'])) {
+	header("Location: index.php");
+	exit(0);
+} else {
+	$page_id = (int)$_GET['page_id'];
+}
+
 if (!$admin->checkFTAN())
 {
 	$admin->print_header();
@@ -39,14 +47,6 @@ if (!$admin->checkFTAN())
 }
 // After check print the header
 $admin->print_header();
-
-// Get page id
-if(!isset($_GET['page_id']) || !is_numeric($_GET['page_id'])) {
-	header("Location: index.php");
-	exit(0);
-} else {
-	$page_id = $_GET['page_id'];
-}
 /*
 if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD']))) )
 {

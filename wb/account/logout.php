@@ -22,6 +22,8 @@ if(isset($_COOKIE['REMEMBER_KEY'])) {
 	setcookie('REMEMBER_KEY', '', time()-3600, '/');
 }
 
+$redirect = (isset($_SERVER['HTTP_REFERER'])) ?  $_SERVER['HTTP_REFERER'] : WB_URL.'/index.php';
+
 $_SESSION['USER_ID'] = null;
 $_SESSION['GROUP_ID'] = null;
 $_SESSION['GROUPS_ID'] = null;
@@ -36,7 +38,6 @@ session_destroy();
 if(INTRO_PAGE) {
 	header('Location: '.WB_URL.PAGES_DIRECTORY.'/index.php');
 } else {
-	header('Location: '.WB_URL.'/index.php');
+	header('Location: '.$redirect);
 }
 
-?>

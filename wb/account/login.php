@@ -46,29 +46,30 @@ define('PAGE_CONTENT', WB_PATH.'/account/login_form.php');
 require_once(WB_PATH.'/framework/class.login.php');
 
 // Create new login app
-$redirect = strip_tags((isset($_POST['redirect'])) ? $_POST['redirect'] : '');
+$requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
+$redirect = strip_tags(isset(${$requestMethod}['redirect']) ? ${$requestMethod}['redirect'] : '');
 $thisApp = new Login(
-							array(
-									"MAX_ATTEMPS" => "3",
-									"WARNING_URL" => THEME_URL."/templates/warning.html",
-									"USERNAME_FIELDNAME" => 'username',
-									"PASSWORD_FIELDNAME" => 'password',
-									"REMEMBER_ME_OPTION" => SMART_LOGIN,
-									"MIN_USERNAME_LEN" => "2",
-									"MIN_PASSWORD_LEN" => "2",
-									"MAX_USERNAME_LEN" => "30",
-									"MAX_PASSWORD_LEN" => "30",
-									"LOGIN_URL" => WB_URL."/account/login.php?redirect=" .$redirect,
-									"DEFAULT_URL" => WB_URL.PAGES_DIRECTORY."/index.php",
-									"TEMPLATE_DIR" => THEME_PATH."/templates",
-									"TEMPLATE_FILE" => "login.htt",
-									"FRONTEND" => true,
-									"FORGOTTEN_DETAILS_APP" => WB_URL."/account/forgot.php",
-									"USERS_TABLE" => TABLE_PREFIX."users",
-									"GROUPS_TABLE" => TABLE_PREFIX."groups",
-									"REDIRECT_URL" => $redirect
-							)
-					);
+				array(
+						"MAX_ATTEMPS" => "3",
+						"WARNING_URL" => THEME_URL."/templates/warning.html",
+						"USERNAME_FIELDNAME" => 'username',
+						"PASSWORD_FIELDNAME" => 'password',
+						"REMEMBER_ME_OPTION" => SMART_LOGIN,
+						"MIN_USERNAME_LEN" => "2",
+						"MIN_PASSWORD_LEN" => "2",
+						"MAX_USERNAME_LEN" => "30",
+						"MAX_PASSWORD_LEN" => "30",
+						"LOGIN_URL" => WB_URL."/account/login.php?redirect=" .$redirect,
+						"DEFAULT_URL" => WB_URL.PAGES_DIRECTORY."/index.php",
+						"TEMPLATE_DIR" => THEME_PATH."/templates",
+						"TEMPLATE_FILE" => "login.htt",
+						"FRONTEND" => true,
+						"FORGOTTEN_DETAILS_APP" => WB_URL."/account/forgot.php",
+						"USERS_TABLE" => TABLE_PREFIX."users",
+						"GROUPS_TABLE" => TABLE_PREFIX."groups",
+						"REDIRECT_URL" => $redirect
+				)
+		);
 
 // Set extra outsider var
 $globals[] = 'thisApp';
@@ -76,5 +77,3 @@ $globals[] = 'thisApp';
 // Include the index (wrapper) file
 require(WB_PATH.'/index.php');
 
-
-?>

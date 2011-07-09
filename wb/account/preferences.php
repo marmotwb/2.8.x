@@ -61,5 +61,3 @@ if(isset($_POST['current_password']) AND isset($_POST['new_password'])) {
 
 // Include the index (wrapper) file
 require(WB_PATH.'/index.php');
-
-?>

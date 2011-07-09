@@ -26,6 +26,7 @@ $js_back = ADMIN_URL.'/groups/index.php';
 
 if (!$admin->checkFTAN())
 {
+	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$js_back);
 }
 // After check print the header
@@ -62,5 +63,3 @@ if($database->is_error()) {
 
 // Print admin footer
 $admin->print_footer();
-
-?>

@@ -26,9 +26,10 @@ $print_info_banner = true;
 // Include WB admin wrapper script
 require(WB_PATH.'/modules/admin.php');
 
+$backlink = ADMIN_URL.'/pages/modify.php?page_id='.(int)$page_id;
 $post_id = intval($admin->checkIDKEY('post_id', false, 'GET'));
 if (!$post_id) {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $backlink);
 }
 
 // Get header and footer
@@ -255,5 +256,3 @@ if($query_comments->numRows() > 0) {
 
 // Print admin footer
 $admin->print_footer();
-
-?>

@@ -29,14 +29,13 @@ if(!isset($_POST['droplet_id']) OR !is_numeric($_POST['droplet_id'])) {
 require_once(WB_PATH.'/framework/class.admin.php');
 require_once(WB_PATH.'/framework/functions.php');
 
+$module_edit_link = ADMIN_URL .'/admintools/tool.php?tool=droplets';
 // check website baker platform (with WB 2.7, Admin-Tools were moved out of settings dialogue)
 if(file_exists(ADMIN_PATH .'/admintools/tool.php')) {
 	$admintool_link = ADMIN_URL .'/admintools/index.php';
-	$module_edit_link = ADMIN_URL .'/admintools/tool.php?tool=droplets';
 	$admin = new admin('admintools', 'admintools',false);
 } else {
 	$admintool_link = ADMIN_URL .'/settings/index.php?advanced=yes#administration_tools"';
-	$module_edit_link = ADMIN_URL .'/settings/tool.php?tool=droplets';
 	$admin = new admin('Settings', 'settings_advanced',false);
 }
 

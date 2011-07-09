@@ -21,13 +21,13 @@ if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
 // Create a javascript back link
 $js_back = WB_URL.'/account/preferences.php';
-
+/*
 if (!$wb->checkFTAN())
 {
 	$wb->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $js_back);
 	exit();
 }
-
+*/
 // Get and sanitize entered values
 $display_name = $wb->add_slashes(strip_tags($wb->get_post('display_name')));
 $language = strtoupper($wb->get_post('language'));
@@ -87,5 +87,3 @@ if($database->is_error()) {
 		if(isset($_SESSION['TIMEZONE'])) { unset($_SESSION['TIMEZONE']); }
 	}
 }
-
-?>
