@@ -34,13 +34,13 @@ $email = $wb->get_post('email');
 
 // Create a javascript back link
 $js_back = WB_URL.'/account/signup.php';
-
+/*
 if (!$wb->checkFTAN())
 {
 	$wb->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $js_back, false);
 	exit();
 }
-
+*/
 // Check values
 if($groups_id == "") {
 	$wb->print_error($MESSAGE['USERS']['NO_GROUP'], $js_back, false);
@@ -131,4 +131,3 @@ if($database->is_error()) {
 	}
 }
 
-?>

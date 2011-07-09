@@ -16,6 +16,9 @@
  *
  */
 
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+
 function __unserialize($sObject) {  // found in php manual :-)
 	$__ret =preg_replace('!s:(\d+):"(.*?)";!e', "'s:'.strlen('$2').':\"$2\";'", $sObject );
 	return unserialize($__ret);

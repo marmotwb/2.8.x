@@ -26,8 +26,6 @@ if (!$admin->checkFTAN())
 	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
 }
-// After check print the header
-$admin->print_header();
 
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
@@ -49,6 +47,8 @@ $field_set = $database->field_exists(TABLE_PREFIX.'pages', 'page_code');
 $admin_groups[] = 1;
 $viewing_groups[] = 1;
 
+// After check print the header
+$admin->print_header();
 // check parent page permissions:
 if ($parent!=0) {
 	if (!$admin->get_page_permission($parent,'admin'))

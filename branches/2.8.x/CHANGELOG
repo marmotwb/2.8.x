@@ -11,6 +11,12 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 ------------------------------------
+09 Jul-2011 Build 1473 Dietmar Woellbrink (Luisehahne)
+# found more backlinks to fix
+- remove not working ftan in frontend
+# fixed redirect in login procedure (Tks to mr-fan)
+! update droplet LoginBox, additional parameter $redirect
+# remove double config call in media (Tks to Testör)
 07 Jul-2011 Build 1472 Dietmar Woellbrink (Luisehahne)
 # fixed version.php
 07 Jul-2011 Build 1471 Dietmar Woellbrink (Luisehahne)

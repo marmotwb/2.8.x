@@ -26,13 +26,13 @@ $new_password2 = $_POST['new_password2'];
 
 // Create a javascript back link
 $js_back = WB_URL.'/account/preferences.php';
-
+/*
 if (!$wb->checkFTAN())
 {
 	$wb->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $js_back, false);
 	exit();
 }
-
+*/
 // Get existing password
 // $database = new database();
 $query = "SELECT user_id FROM ".TABLE_PREFIX."users WHERE user_id = '".$wb->get_user_id()."' AND password = '".md5($current_password)."'";
@@ -62,5 +62,3 @@ if($database->is_error()) {
 } else {
 	$wb->print_success($MESSAGE['PREFERENCES']['PASSWORD_CHANGED']);
 }
-
-?>

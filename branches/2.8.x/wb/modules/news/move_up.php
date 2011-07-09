@@ -21,12 +21,13 @@ require('../../config.php');
 // Include WB admin wrapper script
 require(WB_PATH.'/modules/admin.php');
 
+$backlink = ADMIN_URL.'/pages/modify.php?page_id='.(int)$page_id;
 // Get id
 $pid = $admin->checkIDKEY('post_id', false, 'GET');
 $gid = $admin->checkIDKEY('group_id', false, 'GET');
 if (!$pid) {
 	if (!$gid) {
-		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $backlink);
 	} else {
 		$id = $gid;
 		$id_field = 'group_id';
@@ -44,9 +45,9 @@ require(WB_PATH.'/framework/class.order.php');
 // Create new order object an reorder
 $order = new order($table, 'position', $id_field, 'section_id');
 if($order->move_up($id)) {
-	$admin->print_success($TEXT['SUCCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+	$admin->print_success($TEXT['SUCCESS'], $backlink);
 } else {
-	$admin->print_error($TEXT['ERROR'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+	$admin->print_error($TEXT['ERROR'], $backlink);
 }
 
 // Print admin footer

@@ -25,13 +25,13 @@ $email = $wb->get_post('email');
 
 // Create a javascript back link
 $js_back = WB_URL.'/account/preferences.php';
-
+/*
 if (!$wb->checkFTAN())
 {
 	$wb->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $js_back, false);
 	exit();
 }
-
+*/
 // Get existing password
 // $database = new database();
 $query = "SELECT user_id FROM ".TABLE_PREFIX."users WHERE user_id = '".$wb->get_user_id()."' AND password = '".md5($current_password)."'";
@@ -58,5 +58,3 @@ if($database->is_error()) {
 	$wb->print_success($MESSAGE['PREFERENCES']['EMAIL_UPDATED']);
 	$_SESSION['EMAIL'] = $email;
 }
-
-?>

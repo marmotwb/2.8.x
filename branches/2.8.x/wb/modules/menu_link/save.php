@@ -23,10 +23,11 @@ $admin_header = false;
 $update_when_modified = true;
 // Include WB admin wrapper script
 require(WB_PATH.'/modules/admin.php');
+$backlink = ADMIN_URL.'/pages/modify.php?page_id='.(int)$page_id;
 if (!$admin->checkFTAN())
 {
 	$admin->print_header();
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'] );
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$backlink );
 }
 $admin->print_header();
 
@@ -51,7 +52,7 @@ if(isset($_POST['menu_link'])) {
 if($database->is_error()) {
 	$admin->print_error($database->get_error(), $js_back);
 } else {
-	$admin->print_success($MESSAGE['PAGES']['SAVED'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+	$admin->print_success($MESSAGE['PAGES']['SAVED'],$backlink );
 }
 
 // Print admin footer

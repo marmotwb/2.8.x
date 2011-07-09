@@ -162,6 +162,9 @@ img.page_list_rights {border:none;float:left;margin:0;vertical-align:middle;padd
 .row_0 {background-color:transparent;}
 .row_1 {background-color:#ccddee;}
 
+div.content_box { margin :0em auto; }
+div.content_box form { width: 98%; }
+
 #language,
 #timezone,
 #date_format,
@@ -171,12 +174,12 @@ img.page_list_rights {border:none;float:left;margin:0;vertical-align:middle;padd
 #email,
 #new_password_1,
 #new_password_2,
-#current_password {width:640px;}
+#current_password {width:118%;}
 
 #submit,
 #reset {max-width:100px;}
 
-div#username {height:17px;width:640px;text-align:left;font-weight:bold;margin:0;} 
+div#username {height:17px;width:118%;text-align:left;font-weight:bold;margin:0;} 
 .save_section {margin:20px auto 5px auto;}
 .section-info { margin : 1.5em 0; }
 

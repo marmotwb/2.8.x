@@ -31,7 +31,7 @@ $template_edit_link = ADMIN_URL .'/admintools/tool.php?tool=templateedit';
 // protect from CSRF
 $id = $admin->checkIDKEY('id', false, 'GET');
 if (!$id or $id != 999) {
- $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL);
+ $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $module_edit_link);
  exit();
 }
 
@@ -72,7 +72,6 @@ else {
 delete_directory ( $temp_dir );
 $admin->print_footer();
 
-
 function delete_directory($dirname) {
     if (is_dir($dirname))
         $dir_handle = opendir($dirname);
@@ -90,4 +89,3 @@ function delete_directory($dirname) {
     rmdir($dirname);
     return true;
 }
-?>

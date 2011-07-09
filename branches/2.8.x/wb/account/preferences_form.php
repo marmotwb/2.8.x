@@ -19,14 +19,12 @@
 // Must include code to stop this file being access directly
 if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
-$ftan = $wb->getFTAN();
 ?>
 
 <h2>&nbsp;<?php print $HEADING['MY_SETTINGS']; ?></h2>
 
 <form name="user" action="<?php print WB_URL.'/account/preferences.php'; ?>" method="post" style="margin-bottom: 5px;">
 <input type="hidden" name="user_id" value="{USER_ID}" />
-<?php echo $ftan; ?>
 <table cellpadding="5" cellspacing="0" border="0" width="97%">
 <tr>
 	<td width="140"><?php print $TEXT['DISPLAY_NAME']; ?>:</td>
@@ -150,7 +148,6 @@ $ftan = $wb->getFTAN();
 
 <form name="email" action="<?php print WB_URL.'/account/preferences.php'; ?>" method="post" style="margin-bottom: 5px;">
 <input type="hidden" name="user_id" value="{USER_ID}" />
-<?php echo $ftan; ?>
 <table cellpadding="5" cellspacing="0" border="0" width="97%">
 <tr>
 	<td width="140"><?php print $TEXT['CURRENT_PASSWORD']; ?>:</td>
@@ -180,7 +177,6 @@ $ftan = $wb->getFTAN();
 
 <form name="user" action="<?php print WB_URL.'/account/preferences.php'; ?>" method="post">
 <input type="hidden" name="user_id" value="{USER_ID}" />
-<?php echo $ftan; ?>
 <table cellpadding="5" cellspacing="0" border="0" width="97%">
 <tr>
 	<td width="140"><?php print $TEXT['CURRENT_PASSWORD']; ?>:</td>
