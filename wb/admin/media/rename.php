@@ -26,38 +26,49 @@ require_once(WB_PATH.'/framework/functions.php');
 
 // Get the current dir
 $directory = $admin->get_get('dir');
-if($directory == '/') {
-	$directory = '';
-}
+$directory = ($directory == '/') ?  '' : $directory;
 
-// Check to see if it contains ..
+$dirlink = 'browse.php?dir='.$directory;
+$rootlink = 'browse.php?dir=';
+// $file_id = intval($admin->get_get('id'));
+
+// first Check to see if it contains ..
 if (!check_media_path($directory)) {
-	$admin->print_error($MESSAGE['MEDIA']['DIR_DOT_DOT_SLASH'], "browse.php?dir=$directory", false);
+	$admin->print_error($MESSAGE['MEDIA']['DIR_DOT_DOT_SLASH'],$rootlink, false);
 }
 
 // Get the temp id
-$file_id = $admin->checkIDKEY('id', false, 'GET');
+$file_id = intval($admin->checkIDKEY('id', false, $_SERVER['REQUEST_METHOD']));
 if (!$file_id) {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$dirlink, false);
 }
 
 // Get home folder not to show
 $home_folders = get_home_folders();
+// Check for potentially malicious files and append 'txt' to their name
+$rename_file_types  = str_replace(',','|',RENAME_FILES_ON_UPLOAD);
+// hardcodet forbidden filetypes
+$forbidden_file_types = 'phtml|php5|php4|php|cgi|pl|exe|com|bat|src|'.$rename_file_types;
 
 // Figure out what folder name the temp id is
 if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 	// Loop through the files and dirs an add to list
    while (false !== ($file = readdir($handle))) {
+		$info = pathinfo($file);
+		$ext = isset($info['extension']) ? $info['extension'] : '';
 		if(substr($file, 0, 1) != '.' AND $file != '.svn' AND $file != 'index.php') {
-			if(is_dir(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$file)) {
-				if(!isset($home_folders[$directory.'/'.$file])) {
-					$DIR[] = $file;
+			if( !preg_match('/'.$forbidden_file_types.'$/i', $ext) ) {
+				if(is_dir(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$file)) {
+					if(!isset($home_folders[$directory.'/'.$file])) {
+						$DIR[] = $file;
+					}
+				} else {
+					$FILE[] = $file;
 				}
-			} else {
-				$FILE[] = $file;
 			}
 		}
 	}
+
 	$temp_id = 0;
 	if(isset($DIR)) {
 		sort($DIR);
@@ -69,6 +80,7 @@ if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 			}
 		}
 	}
+
 	if(isset($FILE)) {
 		sort($FILE);
 		foreach($FILE AS $name) {
@@ -82,7 +94,7 @@ if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 }
 
 if(!isset($rename_file)) {
-	$admin->print_error($MESSAGE['MEDIA']['FILE_NOT_FOUND'], "browse.php?dir=$directory", false);
+	$admin->print_error($MESSAGE['MEDIA']['FILE_NOT_FOUND'], $dirlink, false);
 }
 
 // Setup template object
@@ -109,6 +121,7 @@ $template->set_var(array(
 					'FILENAME' => $rename_file,
 					'DIR' => $directory,
 					'FILE_ID' => $admin->getIDKEY($file_id),
+					// 'FILE_ID' => $file_id,
 					'TYPE' => $type,
 					'EXTENSION' => $extension,
 					'FTAN' => $admin->getFTAN()

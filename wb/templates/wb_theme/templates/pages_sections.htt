@@ -66,7 +66,7 @@
                     </td>
 
                     <td valign="middle" width="20">
-                        <a href="#" onclick="javascript: confirm_link('{TEXT_ARE_YOU_SURE}', '{ADMIN_URL}/pages/sections.php?page_id={PAGE_IDKEY}&amp;section_id={VAR_SECTION_ID}');">
+                        <a href="#" onclick="javascript: confirm_link('{TEXT_ARE_YOU_SURE}', '{ADMIN_URL}/pages/sections.php?page_id={PAGE_IDKEY}&amp;section_id={VAR_SECTION_IDKEY}');">
                         <img src="{THEME_URL}/images/{DELETE_16_PNG}" alt="X" />
                         </a>
                     </td>

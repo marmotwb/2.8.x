@@ -18,29 +18,31 @@
 
 // Print admin header
 require('../../config.php');
+
 require_once(WB_PATH.'/framework/class.admin.php');
+// Include the WB functions file
+require_once(WB_PATH.'/framework/functions.php');
+
 // suppress to print the header, so no new FTAN will be set
 $admin = new admin('Media', 'media_create', false);
 
 // Get dir name and target location
 $requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
 $name = (isset(${$requestMethod}['name'])) ? ${$requestMethod}['name'] : '';
-if($name == '') {
-	header("Location: index.php");
-	exit(0);
+
+// Check to see if name or target contains ../
+if(strstr($name, '..')) {
+	$admin->print_header();
+	$admin->print_error($MESSAGE['MEDIA']['NAME_DOT_DOT_SLASH']);
 }
+
+// Remove bad characters
+$name = trim(media_filename($name),'.');
 
 // Target location
 $requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
 $target = (isset(${$requestMethod}['target'])) ? ${$requestMethod}['target'] : '';
-if($target == '') {
-	header("Location: index.php");
-	exit(0);
-}
 
-require_once(WB_PATH.'/framework/class.admin.php');
-// suppress to print the header, so no new FTAN will be set
-$admin = new admin('Media', 'media_create', false);
 if (!$admin->checkFTAN())
 {
 	$admin->print_header();
@@ -49,30 +51,17 @@ if (!$admin->checkFTAN())
 // After check print the header
 $admin->print_header();
 
-// Include the WB functions file
-require_once(WB_PATH.'/framework/functions.php');
-
-// Check to see if name or target contains ../
-if(strstr($name, '..')) {
-	$admin->print_error($MESSAGE['MEDIA']['NAME_DOT_DOT_SLASH']);
-}
 if (!check_media_path($target, false)) {
-	w_debug("target: $target");
 	$admin->print_error($MESSAGE['MEDIA']['TARGET_DOT_DOT_SLASH']);
 }
 
-// Remove bad characters
-$name = media_filename($name);
-  
 // Create relative path of the new dir name
 $directory = WB_PATH.$target.'/'.$name;
 
-/*  */
 // Check to see if the folder already exists
 if(file_exists($directory)) {
 	$admin->print_error($MESSAGE['MEDIA']['DIR_EXISTS']);
 }
-
 
 if ( sizeof(createFolderProtectFile( $directory )) )
 {

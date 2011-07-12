@@ -632,6 +632,7 @@ $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Debe ingresar una direccion de email';
 $MESSAGE['START_CURRENT_USER'] = 'Est&aacute;s conectado como:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'El directorio de instalaci&oacute;n todav&iacute;a existe. Es buena idea eliminarlo!';
+$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Bienvenido a la consola de Administraci&oacute;n';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Atenci&oacute;n: para cambiar la plantilla ir a la secci&oacute;n de Configuraci&oacute;n';
 $MESSAGE['USERS_ADDED'] = 'Nuevo usuario agregado';

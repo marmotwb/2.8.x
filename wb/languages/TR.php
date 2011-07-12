@@ -632,6 +632,7 @@ $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Bir email adresi girmelisiniz.';
 $MESSAGE['START_CURRENT_USER'] = 'Sizin kulland&yacute;&eth;&yacute;n&yacute;z giri&thorn; ismi:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Uyar&yacute;! Y&uuml;kleme dizini halen duruyor!';
+$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Ho&thorn;geldiniz WebsiteBaker Y&ouml;netimine';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Please note: to change the template you must go to the Settings section';
 $MESSAGE['USERS_ADDED'] = 'Kullan&yacute;c&yacute;, ba&thorn;ar&yacute;l&yacute; bir &thorn;ekilde ekledi';

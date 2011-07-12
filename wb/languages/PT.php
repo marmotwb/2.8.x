@@ -632,6 +632,7 @@ $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Voc&ecirc; precisa informar um endere&ccdil;o de email';
 $MESSAGE['START_CURRENT_USER'] = 'Voc&ecirc; est&aacute; logado como:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Aviso, O diret&oacute;rio "INSTALL" ainda existe!';
+$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Bem-Vindo &agrave; Administra&ccdil;&atilde;o do WebsiteBaker';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Aten&ccdil;&atilde;o: para alterar o tema (template) voc&ecirc; precisa ir at&eacute; a sess&atilde;o Configura&ccdil;&otilde;es';
 $MESSAGE['USERS_ADDED'] = 'Usu&aacute;rio adicionado com sucesso';

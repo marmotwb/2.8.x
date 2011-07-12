@@ -628,6 +628,7 @@ $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Dine p&aring;-loggings detaljer...';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Du m&aring; skrive inn en e-post adresse';
 $MESSAGE['START_CURRENT_USER'] = 'Du er logget inn som:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Advarsel, installasjonskatalogen eksisterer forsatt!';
+$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Velkommen til WebsiteBaker Administrasjon';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Merk: For &aring; endre malen m&aring; man gj&oslash;re dette i Instillinger seksjonen';
 $MESSAGE['USERS_ADDED'] = 'Lykkes &aring; opprette ny bruker';

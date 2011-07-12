@@ -632,6 +632,7 @@ $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Heu d\'Introduir una adre&ccedil;a de correu';
 $MESSAGE['START_CURRENT_USER'] = 'Actualment esteu identificat com a:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Atenci&oacute;, el Directori d\'Instal&middot;laci&oacute; Encara Existeix!';
+$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Benvingut/da al Panell de Control de WebsiteBaker';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Av&iacute;s: per a canviar la plantilla heu d\'anar a la secci&oacute; Par&agrave;metres';
 $MESSAGE['USERS_ADDED'] = 'Usuari afegit amb &egrave;xit';

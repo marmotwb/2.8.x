@@ -28,12 +28,14 @@ if (!function_exists('get_output_filter_settings')) {
 		if($result && $result->numRows() > 0) {
 			// get all data
 			$data = $result->fetchRow();
+			$filter_settings['sys_rel'] = $admin->strip_slashes($data['sys_rel']);
 			$filter_settings['email_filter'] = $admin->strip_slashes($data['email_filter']);
 			$filter_settings['mailto_filter'] = $admin->strip_slashes($data['mailto_filter']);
 			$filter_settings['at_replacement'] = $admin->strip_slashes($data['at_replacement']);
 			$filter_settings['dot_replacement'] = $admin->strip_slashes($data['dot_replacement']);
 		} else {
 			// something went wrong, use default values
+			$filter_settings['sys_rel'] = '0';
 			$filter_settings['email_filter'] = '0';
 			$filter_settings['mailto_filter'] = '0';
 			$filter_settings['at_replacement'] = '(at)';
@@ -50,7 +52,33 @@ if (!function_exists('filter_frontend_output')) {
 	function filter_frontend_output($content) {
 		// get output filter settings from database
 		$filter_settings = get_output_filter_settings();
-		
+		$location = '';
+        if($filter_settings['sys_rel'] == '1'){
+			if( !isset($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS']) == 'off' )
+			{
+				define('SYS_HTTPS', false);
+				define('SYS_PORT', (($_SERVER['SERVER_PORT'] != '80') ? ':'.$_SERVER['SERVER_PORT'] : '') );
+				define('SYS_PROTOCOL', 'http');
+			}else
+			{
+				define('SYS_HTTPS', true);
+				define('SYS_PORT', (($_SERVER['SERVER_PORT'] != '443') ? ':'.$_SERVER['SERVER_PORT'] : '') );
+				define('SYS_PROTOCOL', 'https');
+			}
+			$tmp = '';
+			if( isset($_SERVER['HTTP_HOST']) )
+			{
+				$tmp = $_SERVER['HTTP_HOST'];
+			}elseif( isset($_SERVER['SERVER_NAME']) )
+			{
+				$tmp = $_SERVER['SERVER_NAME'];
+			}
+
+			define('WB_HOST', preg_replace('/:[0-9]*$/', '', $tmp));
+	        $location = SYS_PROTOCOL.'://'.WB_HOST.SYS_PORT;
+
+        }
+
 		// work out the defined output filter mode: possible output filter modes: [0], 1, 2, 3, 6, 7
 		// 2^0 * (0.. disable, 1.. enable) filtering of mail addresses in text
 		// 2^1 * (0.. disable, 1.. enable) filtering of mail addresses in mailto links
@@ -58,7 +86,8 @@ if (!function_exists('filter_frontend_output')) {
 
 		// only filter output if we are supposed to
 		if($filter_settings['email_filter'] != '1' && $filter_settings['mailto_filter'] != '1'){
-			// nothing to do ...
+			$searchfor = '/(<.*?=\s*?\")(?:'.preg_quote($location, '/').')(.*?\".*?>)/i';
+			$content = preg_replace($searchfor, '$1$2', $content);
 			return $content;
 		}
 
@@ -104,6 +133,9 @@ if (!function_exists('filter_frontend_output')) {
 			
 		// find all email addresses embedded in the content and filter them using a callback function
 		$content = preg_replace_callback($pattern, 'filter_mail_addresses', $content);
+		// href can't be empty
+		$searchfor = '/(<.*?=\s*?\")(?:'.preg_quote($location, '/').')(.*?\".*?>)/i';
+		$content = preg_replace($searchfor, '$1$2', $content);
 		return $content;
 	}
 }		

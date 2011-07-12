@@ -807,7 +807,7 @@ function sm2_recurse(
         if ($pageLevel >= $aStartLevel) {
             // massage the link into the correct form
             if(!INTRO_PAGE && $page['link'] == $wb->default_link) {
-                $url = WB_URL;
+                $url = WB_URL.'/';
             }
             else {
                 $url = $wb->page_link($page['link']);
@@ -843,4 +843,3 @@ function sm2_recurse(
     }
 }
 
-?>

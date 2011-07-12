@@ -630,6 +630,7 @@ $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Uw inloggegevens...';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'U moet een e-mailadres invullen';
 $MESSAGE['START_CURRENT_USER'] = 'U bent ingelogd als';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Waarschuwing, de installatiemap bestaat nog steeds. U dient deze te verwijderen om veiligheidsrisico&rsquo;s te vermijden!';
+$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Welkom bij het websitebeheer';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Attentie: om de template aan te passen moet u naar de instellingensectie';
 $MESSAGE['USERS_ADDED'] = 'Gebruiker toegevoegd';

@@ -22,7 +22,7 @@ include_once('resize_img.php');
 include_once('parameters.php');
 
 require_once(WB_PATH.'/framework/class.admin.php');
-require_once(WB_PATH.'/include/pclzip/pclzip.lib.php');	// Required to unzip file.
+// require_once(WB_PATH.'/include/pclzip/pclzip.lib.php');	// Required to unzip file.
 // suppress to print the header, so no new FTAN will be set
 $admin = new admin('Media', 'media_upload', false);
 
@@ -52,11 +52,7 @@ $relative = WB_PATH.$target.'/';
 $resizepath = str_replace(array('/',' '),'_',$target);
 
 // Find out whether we should replace files or give an error
-if($admin->get_post('overwrite') != '') {
-	$overwrite = true;
-} else {
-	$overwrite = false;
-}
+$overwrite = ($admin->get_post('overwrite') != '') ? true : false;
 
 // Get list of file types to which we're supposed to append 'txt'
 $get_result=$database->query("SELECT value FROM ".TABLE_PREFIX."settings WHERE name='rename_files_on_upload' LIMIT 1");
@@ -65,6 +61,7 @@ if ($get_result->numRows()>0) {
 	$fetch_result=$get_result->fetchRow();
 	$file_extension_string=$fetch_result['value'];
 }
+
 $file_extensions=explode(",",$file_extension_string);
 // get from settings and add to forbidden list
 $rename_file_types  = str_replace(',','|',RENAME_FILES_ON_UPLOAD);

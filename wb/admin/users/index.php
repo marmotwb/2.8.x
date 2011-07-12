@@ -16,7 +16,6 @@
  *
 */
 
-
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Access', 'users');
@@ -27,6 +26,7 @@ $template->set_file('page', 'users.htt');
 $template->set_block('page', 'main_block', 'main');
 $template->set_block("main_block", "manage_groups_block", "groups");
 $template->set_var('ADMIN_URL', ADMIN_URL);
+$template->set_var('FTAN', $admin->getFTAN());
 
 // Get existing value from database
 // $database = new database();
@@ -45,7 +45,7 @@ if($results->numRows() > 0) {
 	$template->parse('list', 'list_block', true);
 	// Loop through users
 	while($user = $results->fetchRow()) {
-		$template->set_var('VALUE', $user['user_id']);
+		$template->set_var('VALUE',$admin->getIDKEY($user['user_id'])); 
 		$template->set_var('NAME', $user['display_name'].' ('.$user['username'].')');
 		$template->parse('list', 'list_block', true);
 	}
@@ -197,5 +197,3 @@ $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
 
 $admin->print_footer();
-
-?>

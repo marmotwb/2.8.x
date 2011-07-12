@@ -11,6 +11,18 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 ------------------------------------
+13 Jul-2011 Build 1475 Dietmar Woellbrink (Luisehahne)
++ add SecureForm.mtab.php under mantennance by WebsiteBaker Community
+! security fixes media, groups, users, sections
+# change lang variable to remove upgrade-script
+! reworked add sections in pages
+! fix set empty href in show_menu2
+! set show_menu2 version to 4.9.6 
+! reworked Droplet LoginBox, add redirect query
+- remove unneeded folder js
+! set Droplet to version 1.1.0
++ add checkboxes to change frontend absolute url to relative urls
+! set output_filter version to 0.2
 12 Jul-2011 Build 1474 Werner v.d.Decken(DarkViper)
 #  for security reasons the 'remember me' functionality is deaktivated in
    class login

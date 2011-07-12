@@ -16,14 +16,11 @@
  *
  */
 
-
-$module_directory 	= 'output_filter';
-$module_name 				= 'Frontend Output Filter';
-$module_function 		= 'tool';
-$module_version 		= '0.12';
-$module_platform 		= '2.7 | 2.8.x';
-$module_author 			= 'Christian Sommer (doc)';
-$module_license 		= 'GNU General Public License';
+$module_directory = 'output_filter';
+$module_name = 'Frontend Output Filter';
+$module_function = 'tool';
+$module_version	= '0.2';
+$module_platform = '2.7 | 2.8.x';
+$module_author = 'Christian Sommer (doc)';
+$module_license = 'GNU General Public License';
 $module_description = 'This module allows to filter the output before displaying it on the frontend. Support for filtering mailto links and mail addresses in strings.';
-
-?>

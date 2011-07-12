@@ -53,7 +53,7 @@ if($results->numRows() > 0) {
 	$template->parse('list', 'list_block', true);
 	// Loop through groups
 	while($group = $results->fetchRow()) {
-		$template->set_var('VALUE', $group['group_id']);
+		$template->set_var('VALUE',$admin->getIDKEY($group['group_id']));
 		$template->set_var('NAME', $group['name']);
 		$template->parse('list', 'list_block', true);
 	}
@@ -195,5 +195,3 @@ $template->pparse('output', 'page');
 
 // Print the admin footer
 $admin->print_footer();
-
-?>

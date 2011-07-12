@@ -64,7 +64,7 @@ if($admin->get_permission('admintools') != true)
 }
 
 $msg = (file_exists(WB_PATH.'/install/')) ?  $MESSAGE['START']['INSTALL_DIR_EXISTS'] : '';
-$msg .= (file_exists(WB_PATH.'/upgrade-script.php')) ? '<br />'.$TEXT['DELETE'].' upgrade-script.php ' : '';
+$msg .= (file_exists(WB_PATH.'/upgrade-script.php')) ? '<br />'.$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] : '';
 
 // Check if installation directory still exists
 if(file_exists(WB_PATH.'/install/') || file_exists(WB_PATH.'/upgrade-script.php') ) {
@@ -138,5 +138,3 @@ $template->pparse('output', 'page');
 
 // Print admin footer
 $admin->print_footer();
-
-?>

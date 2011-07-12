@@ -632,6 +632,7 @@ $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Unesite email adresu';
 $MESSAGE['START_CURRENT_USER'] = 'Trenutno ste logirani kao:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Upozorenje, instalacijski direktoriji nije jo&scaron; obrisan!';
+$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Dobro do&scaron;li u WebsiteBaker administraciju';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Obavijest: Za promjenu predlo&scaron;ka idite na dio s Postavkama';
 $MESSAGE['USERS_ADDED'] = 'Korisnik je dodan supje&scaron;no';

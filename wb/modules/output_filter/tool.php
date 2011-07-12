@@ -37,6 +37,7 @@ if(isset($_POST['save_settings'])) {
 		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$_SERVER['REQUEST_URI'],false);
 	}
 	// get overall output filter settings
+	$sys_rel = (isset($_POST['sys_rel']) && $_POST['sys_rel'] == '1') ? '1' : '0';
 	$email_filter = (isset($_POST['email_filter']) && $_POST['email_filter'] == '1') ? '1' : '0';
 	$mailto_filter = (isset($_POST['mailto_filter']) && $_POST['mailto_filter'] == '1') ? '1' : '0';
 	
@@ -47,8 +48,8 @@ if(isset($_POST['save_settings'])) {
 	$dot_replacement = (strlen(trim($dot_replacement)) > 0) ? $admin->add_slashes($dot_replacement) : '(dot)';
 	
 	// update database settings
-	$database->query("UPDATE " .TABLE_PREFIX ."mod_output_filter SET email_filter = '$email_filter', 
-		mailto_filter = '$mailto_filter', at_replacement = '$at_replacement', dot_replacement = '$dot_replacement'");
+	$database->query("UPDATE " .TABLE_PREFIX ."mod_output_filter SET email_filter = '$email_filter',
+		sys_rel = '$sys_rel', mailto_filter = '$mailto_filter', at_replacement = '$at_replacement', dot_replacement = '$dot_replacement'");
 
 	// check if there is a database error, otherwise say successful
 	if(!$admin_header) { $admin->print_header(); }
@@ -77,6 +78,15 @@ if(isset($_POST['save_settings'])) {
 <?php echo $admin->getFTAN(); ?>
 	<table width="98%" cellspacing="0" cellpadding="5px" class="row_a">
 	<tr><td colspan="2"><strong><?php echo $MOD_MAIL_FILTER['BASIC_CONF'];?>:</strong></td></tr>
+	<tr>
+		<td width="35%"><?php echo $MOD_MAIL_FILTER['SYS_REL'];?>:</td>
+		<td>
+			<input type="radio" <?php echo ($data['sys_rel']=='1') ? 'checked="checked"' :'';?>
+				name="sys_rel" value="1"><?php echo $MOD_MAIL_FILTER['ENABLED'];?>
+			<input type="radio" <?php echo (($data['sys_rel'])=='0') ? 'checked="checked"' :'';?>
+				name="sys_rel" value="0"><?php echo $MOD_MAIL_FILTER['DISABLED'];?>
+		</td>
+	</tr>
 	<tr>
 		<td width="35%"><?php echo $MOD_MAIL_FILTER['EMAIL_FILTER'];?>:</td>
 		<td>
@@ -109,6 +119,3 @@ if(isset($_POST['save_settings'])) {
 	</table>
 	<input type="submit" name="save_settings" style="margin-top:10px; width:140px;" value="<?php echo $TEXT['SAVE']; ?>" />
 </form>
-<?php
-
-?>
