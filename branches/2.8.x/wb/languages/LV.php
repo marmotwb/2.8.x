@@ -632,6 +632,7 @@ $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Jaievada e-pasta adrese';
 $MESSAGE['START_CURRENT_USER'] = 'Tu &scaron;obrid esi ielogojies ka:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Bridinajums, instalacijas mape vel arvien eksiste!';
+$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Esi sveicinats WebsiteBaker administracija';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Ludzu iegaume: lai mainitu &scaron;ablonu, jadotas uz iestatijumu sadalu';
 $MESSAGE['USERS_ADDED'] = 'Lietotajs veiksmigi pievienots';

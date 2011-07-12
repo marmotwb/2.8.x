@@ -20,13 +20,14 @@
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 // suppress to print the header, so no new FTAN will be set
-$admin = new admin('Access', 'users_add', false);
+$admin = new admin('Access', 'users_add',false);
 
 // Create a javascript back link
 $js_back = ADMIN_URL.'/users/index.php';
 
 if( !$admin->checkFTAN() )
 {
+	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $js_back);
 }
 // After check print the header
@@ -107,5 +108,3 @@ if($database->is_error()) {
 
 // Print admin footer
 $admin->print_footer();
-
-

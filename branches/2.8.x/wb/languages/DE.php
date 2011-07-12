@@ -629,6 +629,7 @@ $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Deine WB Logindaten ...';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Bitte geben Sie Ihre E-Mail Adresse an';
 $MESSAGE['START_CURRENT_USER'] = 'Sie sind momentan angemeldet als:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Das Installations-Verzeichnis "/install" existiert noch! Dies stellt ein Sicherheitsrisiko dar. Bitte l&ouml;schen.';
+$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Bitte die Datei "upgrade-script.php" vom Webserver l&ouml;schen.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Willkommen in der WebsiteBaker Verwaltung';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Bitte beachten Sie: Um eine andere Designvorlage auszuw&auml;hlen, benutzen Sie den Bereich "Optionen"';
 $MESSAGE['USERS_ADDED'] = 'Der Benutzer wurde erfolgreich hinzugef&uuml;gt';

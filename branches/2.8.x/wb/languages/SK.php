@@ -632,6 +632,7 @@ $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Vase prihlasovacie udaje...';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Mus&iacute;te zada&#357; e-mailovou adresu';
 $MESSAGE['START_CURRENT_USER'] = 'Ste prihl&aacute;sen&yacute; ako:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Pozor, st&aacute;le existuje in&#353;tala&#269;n&yacute; adres&aacute;r!';
+$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Vitajte v administrat&iacute;vnej &#269;asti';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Pozn.: zmena &#353;ablony sa prov&aacute;dza v sekcii Nastavenia';
 $MESSAGE['USERS_ADDED'] = 'U&#382;&iacute;vate&#318; bol &uacute;spe&#353;ne pridan&yacute;';

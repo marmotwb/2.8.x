@@ -19,5 +19,14 @@
 // Must include code to stop this file being access directly
 if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
-$table = TABLE_PREFIX .'mod_output_filter';
-$database->query("DROP TABLE IF EXISTS `$table`");
+$table_name = TABLE_PREFIX .'mod_output_filter';
+$field_name = 'sys_rel';
+$description = 'VARCHAR(1) NOT NULL DEFAULT \'0\'';
+$msg_flag = ($database->field_add($table_name,$field_name,$description ));
+$sql = 'UPDATE ';
+$sql .= '`'.$table.'` ';
+$sql .= 'SET `'.$field_name.'` = \'1\' ';
+if( !$database->query($sql.$sqlwhere) )
+{
+	$sql_info = mysql_info($database->db_handle);
+}

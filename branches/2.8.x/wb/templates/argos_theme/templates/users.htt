@@ -2,6 +2,7 @@
 
 <form name="users" action="users.php" method="post">
 <input type="hidden" name="action" value="delete" />
+{FTAN}
 
 <table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="100%" style="margin-bottom:10px;">
 	<tr style="background:#f0f0f0;">

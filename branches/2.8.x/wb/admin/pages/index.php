@@ -28,17 +28,7 @@ require_once(WB_PATH.'/framework/functions.php');
 ?>
 <script type="text/javascript" src="<?php print ADMIN_URL; ?>/pages/eggsurplus.js"></script>
 <?php
-/*
-urlencode function and rawurlencode are mostly based on RFC 1738.
-However, since 2005 the current RFC in use for URIs standard is RFC 3986.
-Here is a function to encode URLs according to RFC 3986.
-*/
-function url_encode($string) {
-    $string = html_entity_decode($string,ENT_QUOTES,'UTF-8');
-    $entities = array('%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%2B', '%24', '%2C', '%2F', '%3F', '%25', '%23', '%5B', '%5D');
-    $replacements = array('!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "+", "$", ",", "/", "?", "%", "#", "[", "]");
-    return str_replace($entities, $replacements, rawurlencode($string));
-}
+
 // fixes A URI contains impermissible characters or quotes around the URI are not closed.
 $MESSAGE['PAGES_DELETE_CONFIRM'] = url_encode(  $MESSAGE['PAGES_DELETE_CONFIRM'] );
 
@@ -607,5 +597,3 @@ if(file_exists(WB_PATH.'/modules/jsadmin/jsadmin_backend_include.php'))
 
 // Print admin
 $admin->print_footer();
-
-?>

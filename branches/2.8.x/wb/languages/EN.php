@@ -632,6 +632,7 @@ $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'You must enter an email address';
 $MESSAGE['START_CURRENT_USER'] = 'You are currently logged in as:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Warning, Installation Directory Still Exists!';
+$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Welcome to WebsiteBaker Administration';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Please note: to change the template you must go to the Settings section';
 $MESSAGE['USERS_ADDED'] = 'User added successfully';

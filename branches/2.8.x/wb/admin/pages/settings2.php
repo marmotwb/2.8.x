@@ -56,20 +56,20 @@ require_once(WB_PATH.'/framework/functions.php');
 // Get values
 $page_title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('page_title')));
 $menu_title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('menu_title')));
-$page_code = (int) $admin->get_post_escaped('page_code');
+$page_code = intval($admin->get_post('page_code')) ;
 $description = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->add_slashes($admin->get_post('description'))));
 $keywords = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->add_slashes($admin->get_post('keywords'))));
-$parent = (int) $admin->get_post_escaped('parent'); // fix secunia 2010-91-3
+$parent = intval($admin->get_post('parent')); // fix secunia 2010-91-3
 $visibility = $admin->get_post_escaped('visibility');
 if (!in_array($visibility, array('public', 'private', 'registered', 'hidden', 'none'))) {$visibility = 'public';} // fix secunia 2010-93-3
-$template = preg_replace("/\W/", "", $admin->get_post_escaped('template')); // fix secunia 2010-93-3
-$target = preg_replace("/\W/", "", $admin->get_post_escaped('target'));
+$template = preg_replace("/\W/", "", $admin->get_post('template')); // fix secunia 2010-93-3
+$target = preg_replace("/\W/", "", $admin->get_post('target'));
 $admin_groups = $admin->get_post_escaped('admin_groups');
 $viewing_groups = $admin->get_post_escaped('viewing_groups');
-$searching = (int) $admin->get_post_escaped('searching');
+$searching = intval($admin->get_post('searching'));
 $language = strtoupper($admin->get_post('language'));
 $language = (preg_match('/^[A-Z]{2}$/', $language) ? $language : DEFAULT_LANGUAGE);
-$menu = (int) $admin->get_post_escaped('menu'); // fix secunia 2010-91-3
+$menu = intval($admin->get_post('menu')); // fix secunia 2010-91-3
 
 // Validate data
 if($page_title == '' || substr($page_title,0,1)=='.')
@@ -325,5 +325,3 @@ if($database->is_error())
 
 // Print admin footer
 $admin->print_footer();
-
-?>

@@ -1,5 +1,8 @@
 //:Puts a Login / Logout box on your page.
-//:Use: [[LoginBox?redirect=url]] Absolute or relative url possible Remember to enable frontend login in your website settings. 
+//:Use: [[LoginBox?redirect=url]]
+ Absolute or relative url possible
+ Remember to enable frontend login in your website settings.
+ 
 	global $wb,$page_id,$TEXT, $MENU, $HEADING;
 
 	$return_value = '<div class="login-box">'."\n";
@@ -66,8 +69,8 @@
 
 // Get redirect
 	$redirect_url = '';
-    	$redirect_url = isset($redirect)&&($redirect!='') ? '<input type="hidden" name="url" value="'.$redirect.'" />'."\n" : $redirect_url;
 	$redirect_url = (isset($_SERVER['HTTP_REFERER']) && ($redirect_url=='') ?  '<input type="hidden" name="url" value="'.$_SERVER['HTTP_REFERER'].'" />'."\n"  : $redirect_url );
+   	$redirect_url = isset($redirect)&&($redirect!='') ? '<input type="hidden" name="url" value="'.$redirect.'" />'."\n" : $redirect_url;
 
 	if ( ( FRONTEND_LOGIN == 'enabled') &&
 		    ( VISIBILITY != 'private') &&
@@ -75,14 +78,14 @@
 	{
 		$return_value .= '<form action="'.LOGIN_URL.'" method="post">'."\n";
 		$return_value .= $redirect_url."\n";
-	    	$return_value .= '<fieldset>'."\n";
+    	$return_value .= '<fieldset>'."\n";
 		$return_value .= '<h1>'.$TEXT['LOGIN'].'</h1>'."\n";
 		$return_value .= '<label for="username">'.$TEXT['USERNAME'].':</label>'."\n";
 		$return_value .= '<p><input type="text" name="username" id="username"  /></p>'."\n";
 		$return_value .= '<label for="password">'.$TEXT['PASSWORD'].':</label>'."\n";
 		$return_value .= '<p><input type="password" name="password" id="password"/></p>'."\n";
 		$return_value .= '<p><input type="submit" id="submit" value="'.$TEXT['LOGIN'].'" class="dbutton" /></p>'."\n";
-	    	$return_value .= '<ul class="login-advance">'."\n";
+    	$return_value .= '<ul class="login-advance">'."\n";
 		$return_value .= '<li class="forgot"><a href="'.FORGOT_URL.'"><span>'.$TEXT['FORGOT_DETAILS'].'</span></a></li>'."\n";
 
 		if (intval(FRONTEND_SIGNUP) > 0)
@@ -97,16 +100,16 @@
 				(is_numeric($wb->get_session('USER_ID'))) )
 	{
 			$return_value .= '<form action="'.LOGOUT_URL.'" method="post" class="login-table">'."\n";
-	        	$return_value .= '<fieldset>'."\n";
+        	$return_value .= '<fieldset>'."\n";
 			$return_value .= '<h1>'.$TEXT["LOGGED_IN"].'</h1>'."\n";
 			$return_value .= '<label>'.$TEXT['WELCOME_BACK'].', '.$wb->get_display_name().'</label>'."\n";
 			$return_value .= '<p><input type="submit" name="submit" value="'.$MENU['LOGOUT'].'" class="dbutton" /></p>'."\n";
-	        	$return_value .= '<ul class="logout-advance">'."\n";
+	        $return_value .= '<ul class="logout-advance">'."\n";
 			$return_value .= '<li class="preference"><a href="'.PREFERENCES_URL.'" title="'.$MENU['PREFERENCES'].'">'.$MENU['PREFERENCES'].'</a></li>'."\n";
 
 			if ($wb->ami_group_member('1'))  //change ot the group that should get special links
 	        {
-			        $return_admin .= '<li class="admin"><a target="_blank" href="'.ADMIN_URL.'/index.php" title="'.$TEXT['ADMINISTRATION'].'" class="blank_target">'.$TEXT["ADMINISTRATION"].'</a></li>'."\n";
+		        $return_admin .= '<li class="admin"><a target="_blank" href="'.ADMIN_URL.'/index.php" title="'.$TEXT['ADMINISTRATION'].'" class="blank_target">'.$TEXT["ADMINISTRATION"].'</a></li>'."\n";
 				//you can add more links for your users like userpage, lastchangedpages or something
 				$return_value .= $return_admin;
 			}

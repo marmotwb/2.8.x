@@ -632,6 +632,7 @@ $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Param&egrave;tres de votre connexion .
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'L&apos;adresse email est obligatoire';
 $MESSAGE['START_CURRENT_USER'] = 'Vous &ecirc;tes connect&eacute; en tant que : ';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Attention : le r&eacute;pertoire d&apos;installation existe toujours';
+$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Bienvenue dans la zone d&apos;administration';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Pour modifier le th&egrave;me du site, vous devez vous rendre dans la rubrique R&eacute;glages';
 $MESSAGE['USERS_ADDED'] = 'Utilisateur ajout&eacute; avec succ&egrave;s';

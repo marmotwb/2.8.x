@@ -631,6 +631,7 @@ $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Twoje dane logowania...';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Należy wprowadzić adres e-mail';
 $MESSAGE['START_CURRENT_USER'] = 'Jesteś obecnie zalogowany(-a) jako:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Uwaga: katalog instalacyjny wciąż istnieje!';
+$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Witamy w panelu administracyjnym WebsiteBakera';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Uwaga: aby zmienić szablon, należy przejść do sekcji Ustawienia';
 $MESSAGE['USERS_ADDED'] = 'Użytkownik został dodany';

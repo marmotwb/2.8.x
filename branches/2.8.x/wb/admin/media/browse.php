@@ -94,9 +94,12 @@ $directory =	(($currentHome) AND (!array_key_exists('dir',$_GET)))
 				$currentHome
 				:
 				$admin->strip_slashes($admin->get_get('dir')) ;
+
 if($directory == '/' OR $directory == '\\') {
 	$directory = '';
 }
+
+$dir_backlink = 'browse.php?dir='.$directory;
 
 // Check to see if it contains ../
 if (!check_media_path($directory)) {
@@ -159,16 +162,16 @@ $forbidden_file_types = 'phtml|php5|php4|php|cgi|pl|exe|com|bat|src|'.$rename_fi
 
 if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 	// Loop through the files and dirs an add to list
-	while(false !== ($file = readdir($handle))) {
+   while (false !== ($file = readdir($handle))) {
+		$info = pathinfo($file);
+		$ext = isset($info['extension']) ? $info['extension'] : '';
 		if(substr($file, 0, 1) != '.' AND $file != '.svn' AND $file != 'index.php') {
-			if(is_dir(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$file)) {
-				if(!isset($home_folders[$directory.'/'.$file])) {
-					$DIR[] = $file;
-				}
-			} else {
-				$info = pathinfo($file);
-				$ext = isset($info['extension']) ? $info['extension'] : '';
-				if( !preg_match('/'.$forbidden_file_types.'$/i', $ext) ) {
+			if( !preg_match('/'.$forbidden_file_types.'$/i', $ext) ) {
+				if(is_dir(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$file)) {
+					if(!isset($home_folders[$directory.'/'.$file])) {
+						$DIR[] = $file;
+					}
+				} else {
 					$FILE[] = $file;
 				}
 			}
@@ -186,6 +189,7 @@ if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 								'NAME' => $name,
 								'NAME_SLASHED' => addslashes($name),
 								'TEMP_ID' => $admin->getIDKEY($temp_id),
+								// 'TEMP_ID' => $temp_id,
 								'LINK' => "browse.php?dir=$directory/$link_name",
 								'LINK_TARGET' => '_self',
 								'ROW_BG_COLOR' => $row_bg_color,
@@ -246,6 +250,7 @@ if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 								'NAME' => $name,
 								'NAME_SLASHED' => addslashes($name),
 								'TEMP_ID' => $admin->getIDKEY($temp_id),
+								// 'TEMP_ID' => $temp_id,
 								'LINK' => WB_URL.MEDIA_DIRECTORY.$directory.'/'.$name,
 								'LINK_TARGET' => '_blank',
 								'ROW_BG_COLOR' => $row_bg_color,

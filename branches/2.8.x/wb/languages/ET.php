@@ -632,6 +632,7 @@ $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Sa pead sisestama emaili aadressi';
 $MESSAGE['START_CURRENT_USER'] = 'Sa oled praegu sisse logitud:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Hoiatus, Installatsiooni kataloog eksisteerib!';
+$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Teretulemast WebsiteBaker Administratsiooni';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'M&auml;rge: kujunduse muutmiseks sa pead minema Seadete sektsiooni';
 $MESSAGE['USERS_ADDED'] = 'Kasutaja edukalt lisatud';

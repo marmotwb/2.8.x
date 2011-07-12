@@ -632,6 +632,7 @@ $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Bejelentkez&eacute;si r&eacute;szletek
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'E-mail c&iacute;met meg kell adnia';
 $MESSAGE['START_CURRENT_USER'] = 'Bejelentkezve mint:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Figyelmeztet&eacute;s! A telep&iacute;t&eacute;si k&ouml;nyvt&aacute;r m&eacute;g nem lett t&ouml;r&ouml;lve!';
+$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = '&curren;v a WebsiteBaker Admin fel&uuml;let&eacute;n';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Figyelem: A sablon megv&aacute;ltoztat&aacute;s&aacute;t a be&aacute;ll&iacute;t&aacute;sokban teheti meg';
 $MESSAGE['USERS_ADDED'] = 'Felhaszn&aacute;l&oacute; sikeresen hozz&aacute;adva';

@@ -632,6 +632,7 @@ $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Anna s&auml;hk&ouml;postiosoite';
 $MESSAGE['START_CURRENT_USER'] = 'Olet kirjautunut nimell&auml;:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Poista asennuskansio!';
+$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Tervetuloa sivuston hallintaan';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Sivupohjan voi vaihtaa asetukset-kohdasta';
 $MESSAGE['USERS_ADDED'] = 'Lis&auml;tty';
