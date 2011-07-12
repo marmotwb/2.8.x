@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 ------------------------------------
+12 Jul-2011 Build 1474 Werner v.d.Decken(DarkViper)
+#  for security reasons the 'remember me' functionality is deaktivated in
+   class login
+!  'Get configuration values' is optimized
 09 Jul-2011 Build 1473 Dietmar Woellbrink (Luisehahne)
 # found more backlinks to fix
 - remove not working ftan in frontend
