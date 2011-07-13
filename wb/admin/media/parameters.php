@@ -2,7 +2,7 @@
 /**
  *
  * @category        admin
- * @package         admintools
+ * @package         media
  * @author          WebsiteBaker Project
  * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2011, Website Baker Org. e.V.
@@ -24,11 +24,13 @@ function __unserialize($sObject) {  // found in php manual :-)
 	return unserialize($__ret);
 }
 $pathsettings = array();
-$query = $database->query ( "SELECT * FROM ".TABLE_PREFIX."settings where `name`='mediasettings'" );
-if ($query && $query->numRows() > 0) {
-	$settings = $query->fetchRow();
-	$pathsettings = __unserialize($settings['value']);
-} else {
-	$database->query ( "INSERT INTO ".TABLE_PREFIX."settings (`name`,`value`) VALUES ('mediasettings','')" );
+if(DEFAULT_THEME != ' wb_theme') {
+	$query = $database->query ( "SELECT * FROM ".TABLE_PREFIX."settings where `name`='mediasettings'" );
+	if ($query && $query->numRows() > 0) {
+		$settings = $query->fetchRow();
+		$pathsettings = __unserialize($settings['value']);
+	} else {
+		$database->query ( "INSERT INTO ".TABLE_PREFIX."settings (`name`,`value`) VALUES ('mediasettings','')" );
+	}
 }
 

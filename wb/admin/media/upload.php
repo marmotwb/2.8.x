@@ -2,7 +2,7 @@
 /**
  *
  * @category        admin
- * @package         admintools
+ * @package         media
  * @author          WebsiteBaker Project
  * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2011, Website Baker Org. e.V.
@@ -41,6 +41,10 @@ $target = (isset(${$requestMethod}['target'])) ? ${$requestMethod}['target'] : '
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 
+$directory = ($target == '/') ?  '' : $target;
+$dirlink = 'index.php?dir='.$directory;
+$rootlink = 'index.php?dir=';
+
 // Check to see if target contains ../
 if (!check_media_path($target, false))
 {
@@ -64,17 +68,17 @@ if ($get_result->numRows()>0) {
 
 $file_extensions=explode(",",$file_extension_string);
 // get from settings and add to forbidden list
-$rename_file_types  = str_replace(',','|',RENAME_FILES_ON_UPLOAD);
-// hardcodet forbidden filetypes
-$forbidden_file_types = 'phtml|php5|php4|php|cgi|pl|exe|com|bat|src|'.$rename_file_types;
+$forbidden_file_types  = preg_replace( '/\s*[,;\|#]\s*/','|',RENAME_FILES_ON_UPLOAD);
 // Loop through the files
 $good_uploads = 0;
 $sum_dirs = 0;
 $sum_files = 0;
 
-for($count = 1; $count <= 10; $count++) {
+for($count = 1; $count <= 10; $count++)
+{
 	// If file was upload to tmp
-	if(isset($_FILES["file$count"]['name'])) {
+	if(isset($_FILES["file$count"]['name']))
+	{
 		// Remove bad characters
 		$filename = trim(media_filename($_FILES["file$count"]['name']),'.') ;
 		// Check if there is still a filename left
@@ -82,7 +86,8 @@ for($count = 1; $count <= 10; $count++) {
 		$info = pathinfo($filename);
 		$ext = isset($info['extension']) ? $info['extension'] : '';
 
-		if ( ($filename != '') && !preg_match("/\." . $forbidden_file_types . "$/i", $ext) ) {
+		if ( ($filename != '') && !preg_match("/\." . $forbidden_file_types . "$/i", $ext) )
+		{
 			// Move to relative path (in media folder)
 			if(file_exists($relative.$filename) AND $overwrite == true) {
 				if(move_uploaded_file($_FILES["file$count"]['tmp_name'], $relative.$filename)) {
@@ -120,10 +125,9 @@ for($count = 1; $count <= 10; $count++) {
  */
 function pclzipCheckValidFile($p_event, &$p_header)
 {
-                         //  return 1;
-	$rename_file_types  = str_replace(',','|',RENAME_FILES_ON_UPLOAD);
-	// hardcodet forbidden filetypes
-	$forbidden_file_types = 'phtml|php5|php4|php|cgi|pl|exe|com|bat|src|'.$rename_file_types;
+    //  return 1;
+// Check for potentially malicious files
+	$forbidden_file_types  = preg_replace( '/\s*[,;\|#]\s*/','|',RENAME_FILES_ON_UPLOAD);
 	$info = pathinfo($p_header['filename']);
 	$ext = isset($info['extension']) ? $info['extension'] : '';
 	$dots = (substr($info['basename'], 0, 1) == '.') || (substr($info['basename'], -1, 1) == '.');
@@ -139,8 +143,9 @@ function pclzipCheckValidFile($p_event, &$p_header)
 
 // If the user chose to unzip the first file, unzip into the current folder
 if (isset($_POST['unzip']) && isset($filename1) && file_exists($filename1) ) {
+	// Required to unzip file.
+	require_once(WB_PATH.'/include/pclzip/pclzip.lib.php');
 	$archive = new PclZip($filename1);
-
 	$list = $archive->extract(PCLZIP_OPT_PATH, $relative,PCLZIP_CB_PRE_EXTRACT, 'pclzipCheckValidFile');
 
 	if($list == 0) {
@@ -161,8 +166,10 @@ if (isset($_POST['unzip']) && isset($filename1) && file_exists($filename1) ) {
 unset($list);
 if($sum_files == 1) {
 	$admin->print_success($sum_files.' '.$MESSAGE['MEDIA']['SINGLE_UPLOADED'] );
-} else {
+} elseif($sum_files > 1) {
 	$admin->print_success($sum_files.' '.$MESSAGE['MEDIA']['UPLOADED'] );
+} else {
+	$admin->print_error($MESSAGE['MEDIA_NO_FILE_UPLOADED'] );
 }
 
 // Print admin
