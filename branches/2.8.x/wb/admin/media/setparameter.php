@@ -2,7 +2,7 @@
 /**
  *
  * @category        admin
- * @package         admintools
+ * @package         media
  * @author          WebsiteBaker Project
  * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2011, Website Baker Org. e.V.
@@ -39,10 +39,16 @@ if ( !is_null($admin->get_post_escaped("save"))) {
 		$admin->print_error('::'.$MESSAGE['GENERIC_SECURITY_ACCESS'],'browse.php',false);
 	}
 */
-	//Check for existing settings entry, if not existing, create a record first!
-	if (!$database->query ( "SELECT * FROM ".TABLE_PREFIX."settings where `name`='mediasettings'" )) {
-		$database->query ( "INSERT INTO ".TABLE_PREFIX."settings (`name`,`value`) VALUES ('mediasettings','')" );
+
+	if(DEFAULT_THEME != ' wb_theme') {
+		//Check for existing settings entry, if not existing, create a record first!
+		if (!$database->query ( "SELECT * FROM ".TABLE_PREFIX."settings where `name`='mediasettings'" )) {
+			$database->query ( "INSERT INTO ".TABLE_PREFIX."settings (`name`,`value`) VALUES ('mediasettings','')" );
+		}
+	} else {
+		$pathsettings = array();
 	}
+
 	$dirs = directory_list(WB_PATH.MEDIA_DIRECTORY);
 	$dirs[] = WB_PATH.MEDIA_DIRECTORY;
 	foreach($dirs AS $name) {

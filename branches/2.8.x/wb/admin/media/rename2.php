@@ -2,7 +2,7 @@
 /**
  *
  * @category        admin
- * @package         admintools
+ * @package         media
  * @author          WebsiteBaker Project
  * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2011, Website Baker Org. e.V.
@@ -44,10 +44,8 @@ if (!$file_id) {
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$dirlink, false);
 }
 
-// Check for potentially malicious files and append 'txt' to their name
-$rename_file_types  = str_replace(',','|',RENAME_FILES_ON_UPLOAD);
-// hardcodet forbidden filetypes
-$forbidden_file_types = 'phtml|php5|php4|php|cgi|pl|exe|com|bat|src|'.$rename_file_types;
+// Check for potentially malicious files
+$forbidden_file_types  = preg_replace( '/\s*[,;\|#]\s*/','|',RENAME_FILES_ON_UPLOAD);
 // Get home folder not to show
 $home_folders = get_home_folders();
 

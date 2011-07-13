@@ -351,7 +351,8 @@ foreach($cfg as $key=>$value) {
  */
 echo "<br />Adding mediasettings to settings table<br />";
 $cfg = array(
-	'mediasettings' => ''
+	'mediasettings' => '',
+	'rename_files_on_upload' => 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx'
 );
 foreach($cfg as $key=>$value) {
 	db_add_key_value($key, $value);
@@ -362,7 +363,8 @@ foreach($cfg as $key=>$value) {
  */
 echo "<br />Adding fingerprint_with_ip_octets to settings table<br />";
 $cfg = array(
-	'fingerprint_with_ip_octets' => '3'
+	'fingerprint_with_ip_octets' => '2',
+	'secure_form_module' => ''
 );
 foreach($cfg as $key=>$value) {
 	db_add_key_value($key, $value);

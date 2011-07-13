@@ -483,6 +483,7 @@ if($install_tables == true) {
 	." ('page_extension', '.php'),"
 	." ('page_spacer', '-'),"
 	." ('pages_directory', '/pages'),"
+	." ('rename_files_on_upload', 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx'),"
 	." ('media_directory', '/media'),"
 	." ('operating_system', '$operating_system'),"
 	." ('string_file_mode', '$file_mode'),"
@@ -495,6 +496,7 @@ if($install_tables == true) {
 	." ('wbmailer_smtp_username', ''),"
 	." ('wbmailer_smtp_password', ''),"
 	." ('fingerprint_with_ip_octets', '3'),"
+	." ('secure_form_module', ''),"
 	." ('mediasettings', '')";
 	$database->query($settings_rows);
 	
