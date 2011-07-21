@@ -703,30 +703,31 @@ if(!function_exists('page_link'))
 }
 
 // Create a new directory and/or protected file in the given directory
-function createFolderProtectFile($relative='',$make_dir=true)
+function createFolderProtectFile($sAbsDir='',$make_dir=true)
 {
 	global $admin, $MESSAGE;
 	$retVal = array();
-    if($relative=='') { return $retVal;}
+    if( ($sAbsDir=='') || ($sAbsDir == WB_PATH) ) { return $retVal;}
 
 	if ( $make_dir==true ) {
 		// Check to see if the folder already exists
-		if(file_exists($relative)) {
+		if(file_exists($sAbsDir)) {
 			// $admin->print_error($MESSAGE['MEDIA_DIR_EXISTS']);
-			$retVal[] = basename($relative).'::'.$MESSAGE['MEDIA_DIR_EXISTS'];
+			$retVal[] = basename($sAbsDir).'::'.$MESSAGE['MEDIA_DIR_EXISTS'];
 		}
-		if ( !make_dir($relative) ) {
+		if ( !make_dir($sAbsDir) ) {
 			// $admin->print_error($MESSAGE['MEDIA_DIR_NOT_MADE']);
-			$retVal[] = basename($relative).'::'.$MESSAGE['MEDIA_DIR_NOT_MADE'];
+			$retVal[] = basename($sAbsDir).'::'.$MESSAGE['MEDIA_DIR_NOT_MADE'];
+		} else {
+			change_mode($sAbsDir);
 		}
 	}
 
-	change_mode($relative);
-	if( is_writable($relative) )
+	if( is_writable($sAbsDir) )
 	{
-        if(file_exists($relative.'/index.php')) { unlink($relative.'/index.php'); }
+        // if(file_exists($sAbsDir.'/index.php')) { unlink($sAbsDir.'/index.php'); }
 	    // Create default "index.php" file
-		$rel_pages_dir = str_replace(WB_PATH, '', dirname($relative) );
+		$rel_pages_dir = str_replace(WB_PATH, '', dirname($sAbsDir) );
 		$step_back = str_repeat( '../', substr_count($rel_pages_dir, '/')+1 );
 
 		$sResponse  = $_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently';
@@ -740,7 +741,7 @@ function createFolderProtectFile($relative='',$make_dir=true)
 			"\t".'header(\''.$sResponse.'\');'."\n".
 			"\t".'header(\'Location: '.WB_URL.'/index.php\');'."\n".
 			'// *************************************************'."\n";
-		$filename = $relative.'/index.php';
+		$filename = $sAbsDir.'/index.php';
 		// write content into file
 		if ($handle = fopen($filename, 'w')) {
 			fwrite($handle, $content);
@@ -1422,8 +1423,8 @@ Here is a function to encode URLs according to RFC 3986.
 if(!function_exists('url_encode')){
 	function url_encode($string) {
 	    $string = html_entity_decode($string,ENT_QUOTES,'UTF-8');
-	    $entities = array('%20', '%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%2B', '%24', '%2C', '%2F', '%3F', '%25', '%23', '%5B', '%5D');
-	    $replacements = array(' ','!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "+", "$", ",", "/", "?", "%", "#", "[", "]");
-	    return str_replace($entities, $replacements, rawurlencode($string));
+	    $entities = array('%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%2B', '%24', '%2C', '%2F', '%3F', '%25', '%23', '%5B', '%5D');
+	    $replacements = array('!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "+", "$", ",", "/", "?", "%", "#", "[", "]");
+	    return str_replace($entities,$replacements, rawurlencode($string));
 	}
 }

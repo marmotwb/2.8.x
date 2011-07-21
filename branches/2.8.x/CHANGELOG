@@ -11,10 +11,21 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 ------------------------------------
+19 Jul-2011 Build 1477 Dietmar Woellbrink (Luisehahne)
+! update DA language (Tks to Achrist)
+! update some languages variables (Tks to Rübenwurzel, Testör)
+! move function url_encode from admin/pages to framework/functions.php 
+! add missing svn properties in some headerinfos
+! font-size correction in wb_theme (Tks to Rübenwurzel)
 13 Jul-2011 Build 1476 Dietmar Woellbrink (Luisehahne)
 ! optimize blacklist handling, add more separator ",#|;"
   set of a wildcard ".*?" e.g. ph.*? proof ext like php, php3, php4 etc.
-# fix sctrict warnings in media if default theme ist not Argos Theme
+# fix strict warnings in media if default theme ist not Argos Theme
++ add new settings value in install, upgrade-script and core module
+13 Jul-2011 Build 1476 Dietmar Woellbrink (Luisehahne)
+! optimize blacklist handling, add more separator ",#|;"
+  set of a wildcard ".*?" e.g. ph.*? proof ext like php, php3, php4 etc.
+# fix strict warnings in media if default theme ist not Argos Theme
 + add new settings value in install, upgrade-script and core module
 13 Jul-2011 Build 1475 Dietmar Woellbrink (Luisehahne)
 + add SecureForm.mtab.php under maintenance by WebsiteBaker Community

@@ -1,7 +1,7 @@
 //:Puts a Login / Logout box on your page.
 //:Use: [[LoginBox?redirect=url]]
- Absolute or relative url possible
- Remember to enable frontend login in your website settings.
+//:Absolute or relative url possible
+//:Remember to enable frontend login in your website settings.
  
 	global $wb,$page_id,$TEXT, $MENU, $HEADING;
 

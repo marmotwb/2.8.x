@@ -1,11 +1,11 @@
 * html div{ height :1em; /* Workaround gegen den 3-Pixel-Bug des Internet Explorers 6 *//* Workaround gegen den 3-Pixel-Bug des Internet Explorers 6 */ }
 html{ font-family :Verdana, "Trebuchet MS", Arial, Helvetica, sans-serif; font-size :100.1%; font-weight :normal; color :#404040; overflow :-moz-scrollbars-vertical; }
-body{ margin :0px; padding :0px; background :#a8bccb; text-align :left; }
-body { margin :0 auto; background-color :#a8bccb; background-repeat :repeat-x; }
+body{ margin :0 auto; padding :0px; background :#a8bccb; text-align :left; font-size :0.8em; }
+body { background-color :#a8bccb; background-repeat :repeat-x; }
 
 td,th,input,textarea {
    color :#000000;
-   font-size :0.9em;
+   font-size :1.0em;
    font-family :Verdana, Arial, Helvetica, sans-serif;
 }
 textarea { font-size :1em; }
@@ -28,7 +28,7 @@ iframe { border: 1px solid #35373a; }
 div.box { width: 100%; margin: -10px 0 0 0; font-size: small; text-align: right; }
 .header { width: 900px; margin: 0 auto; }
 .container { width: 85%; margin: 0 auto; background: #fff url(images/bgtitle.png); background-repeat: repeat-x; }
-.content { padding: 1.6em;  font-size :0.8em; margin: 0 auto; min-height: 300px;  vertical-align: top; }
+.content { padding: 1.6em; margin: 0 auto; min-height: 300px;  vertical-align: top; }
 
 #content_container {text-align:center;width:900px;clear:both;margin:0 auto;}
 

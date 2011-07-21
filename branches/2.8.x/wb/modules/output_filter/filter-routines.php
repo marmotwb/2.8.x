@@ -23,6 +23,11 @@ if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 if (!function_exists('get_output_filter_settings')) {
 	function get_output_filter_settings() {
 		global $database, $admin;
+	// be sure field is in table (suppresses strict warning)
+		$table_name = TABLE_PREFIX .'mod_output_filter';
+		$field_name = 'sys_rel';
+		$description = 'VARCHAR(1) NOT NULL DEFAULT \'0\'';
+		$msg_flag = ($database->field_add($table_name,$field_name,$description ));
 		// connect to database and read out filter settings
 		$result = $database->query("SELECT * FROM " .TABLE_PREFIX ."mod_output_filter");
 		if($result && $result->numRows() > 0) {
@@ -240,5 +245,3 @@ if (!function_exists('filter_mail_addresses')) {
 		return $match[0];
 	}		
 }
-
-?>
