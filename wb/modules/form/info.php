@@ -19,11 +19,10 @@
 $module_directory = 'form';
 $module_name = 'Form';
 $module_function = 'page';
-$module_version = '2.8';
-$module_platform = '2.7 | 2.8.x';
+$module_version = '2.8.1';
+$module_platform = '2.8.x';
 $module_author = 'Ryan Djurovich & Rudolph Lartey - additions John Maats - PCWacht';
 $module_license = 'GNU General Public License';
 $module_description = 'This module allows you to create customised online forms, such as a feedback form. '.
 'Thank-you to Rudolph Lartey who help enhance this module, providing code for extra field types, etc.';
 
-?>

@@ -182,7 +182,7 @@ h3 { font-size: 120%; }
 <h1>WebsiteBaker Upgrade</h1>
 <?php
 	if( version_compare( WB_VERSION, '2.7.0', '<' )) {
-		status_msg('<strong>Warning:</strong><br />It is not possible to upgrade from WebsiteBaker Versions bevor 2.7.0.<br />For upgrading to version '.VERSION.' you must upgrade first to v.2.7.0 at least!!!', 'warning', 'div');
+		status_msg('<strong>Warning:</strong><br />It is not possible to upgrade from WebsiteBaker Versions before 2.7.0.<br />For upgrading to version '.VERSION.' you must upgrade first to v.2.7.0 at least!!!', 'warning', 'div');
 		echo '<br /><br />';
 		echo "</div>
 		</body>
@@ -326,7 +326,6 @@ foreach($cfg as $key=>$value) {
 /**********************************************************
  *  - Adding field sec_anchor to settings table
  */
-
 echo "<br />Adding sec_anchor to settings table<br />";
 $cfg = array(
 	'sec_anchor' => 'wb_'
@@ -375,8 +374,6 @@ foreach($cfg as $key=>$value) {
  */
 echo "<br />Adding field redirect_type to mod_menu_link table<br />";
 db_add_field('redirect_type', 'mod_menu_link', "INT NOT NULL DEFAULT '302' AFTER `target_page_id`");
-
-
 
 if (version_compare(WB_VERSION, '2.8.0') < 0)
 {
@@ -443,66 +440,66 @@ if (version_compare(WB_VERSION, '2.8.0') < 0)
 <h2>[POST_TITLE]</h2>
 <br />';
 
-if(in_array('mod_news_settings', $all_tables))
-{
-   // Insert default settings into database
-   $query_dates = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_news_settings where section_id != 0 and page_id != 0");
-   if($query_dates->numRows() > 1)
-   {
-        while($result = $query_dates->fetchRow())
-        {
+	if(in_array('mod_news_settings', $all_tables))
+	{
+	   // Insert default settings into database
+	   $query_dates = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_news_settings where section_id != 0 and page_id != 0");
+	   if($query_dates->numRows() > 1)
+	   {
+	        while($result = $query_dates->fetchRow())
+	        {
 
-        	echo "<br /><u>Add default settings to database for news section_id= ".$result['section_id']."</u><br />";
-        	$section_id = $result['section_id'];
+	        	echo "<br /><u>Add default settings to database for news section_id= ".$result['section_id']."</u><br />";
+	        	$section_id = $result['section_id'];
 
-        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `header` = '$header' WHERE `section_id` = $section_id")) {
-        		echo 'Database data header added successfully';
-        	}
-        	echo mysql_error().'<br />';
+	        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `header` = '$header' WHERE `section_id` = $section_id")) {
+	        		echo 'Database data header added successfully';
+	        	}
+	        	echo mysql_error().'<br />';
 
-        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `post_loop` = '$post_loop' WHERE `section_id` = $section_id")) {
-        		echo 'Database data post_loop added successfully';
-        	}
-        	echo mysql_error().'<br />';
+	        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `post_loop` = '$post_loop' WHERE `section_id` = $section_id")) {
+	        		echo 'Database data post_loop added successfully';
+	        	}
+	        	echo mysql_error().'<br />';
 
-        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `footer` = '$footer' WHERE `section_id` = $section_id")) {
-        		echo 'Database data footer added successfully';
-        	}
-        	echo mysql_error().'<br />';
+	        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `footer` = '$footer' WHERE `section_id` = $section_id")) {
+	        		echo 'Database data footer added successfully';
+	        	}
+	        	echo mysql_error().'<br />';
 
-        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `post_header` = '$post_header' WHERE `section_id` = $section_id")) {
-        		echo 'Database data post_header added successfully';
-        	}
-        	echo mysql_error().'<br />';
+	        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `post_header` = '$post_header' WHERE `section_id` = $section_id")) {
+	        		echo 'Database data post_header added successfully';
+	        	}
+	        	echo mysql_error().'<br />';
 
-        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `post_footer` = '$post_footer' WHERE `section_id` = $section_id")) {
-        		echo 'Database data post_footer added successfully';
-        	}
-        	echo mysql_error().'<br />';
+	        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `post_footer` = '$post_footer' WHERE `section_id` = $section_id")) {
+	        		echo 'Database data post_footer added successfully';
+	        	}
+	        	echo mysql_error().'<br />';
 
-        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_header` = '$comments_header' WHERE `section_id` = $section_id")) {
-        		echo 'Database data comments_header added successfully';
-        	}
-        	echo mysql_error().'<br />';
+	        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_header` = '$comments_header' WHERE `section_id` = $section_id")) {
+	        		echo 'Database data comments_header added successfully';
+	        	}
+	        	echo mysql_error().'<br />';
 
-        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_loop` = '$comments_loop' WHERE `section_id` = $section_id")) {
-        		echo 'Database data comments_loop added successfully';
-        	}
-        	echo mysql_error().'<br />';
+	        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_loop` = '$comments_loop' WHERE `section_id` = $section_id")) {
+	        		echo 'Database data comments_loop added successfully';
+	        	}
+	        	echo mysql_error().'<br />';
 
-        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_footer` = '$comments_footer' WHERE `section_id` = $section_id")) {
-        		echo 'Database data comments_footer added successfully';
-        	}
-        	echo mysql_error().'<br />';
+	        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_footer` = '$comments_footer' WHERE `section_id` = $section_id")) {
+	        		echo 'Database data comments_footer added successfully';
+	        	}
+	        	echo mysql_error().'<br />';
 
-        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_page` = '$comments_page' WHERE `section_id` = $section_id")) {
-        		echo 'Database data comments_page added successfully';
-        	}
-        	echo mysql_error().'<br />';
+	        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_page` = '$comments_page' WHERE `section_id` = $section_id")) {
+	        		echo 'Database data comments_page added successfully';
+	        	}
+	        	echo mysql_error().'<br />';
 
-        }
-     }
-   }
+	        }
+	     }
+	   }
 }
 /**********************************************************
  * upgrade media folder index protect files
@@ -546,7 +543,8 @@ echo ($database->query("UPDATE `".TABLE_PREFIX."settings` SET `value`='".VERSION
 if( ($handle = opendir(WB_PATH.'/modules/')) ) {
 	while(false !== ($file = readdir($handle))) {
 		if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'admin.php' AND $file != 'index.php') {
-			load_module(WB_PATH.'/modules/'.$file);
+			load_module(WB_PATH.'/modules/'.$file );
+			upgrade_module($file, true);
 		}
 	}
 	closedir($handle);

@@ -18,15 +18,23 @@
 
 // Must include code to stop this file being access directly
 if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
-
+global $i;
 $table_name = TABLE_PREFIX .'mod_output_filter';
 $field_name = 'sys_rel';
-$description = 'VARCHAR(1) NOT NULL DEFAULT \'0\'';
-$msg_flag = ($database->field_add($table_name,$field_name,$description ));
-$sql = 'UPDATE ';
-$sql .= '`'.$table.'` ';
-$sql .= 'SET `'.$field_name.'` = \'1\' ';
-if( !$database->query($sql.$sqlwhere) )
-{
-	$sql_info = mysql_info($database->db_handle);
+$i = (!isset($i) ? 1 : $i);
+print "<div style=\"margin:1em auto;font-size:1.1em;\">";
+print "<h4>Step $i: Updating Output Filter</h4>\n";
+$i++;
+$OK   = "<span class=\"ok\">OK</span>";
+$FAIL = "<span class=\"error\">FAILED</span>";
+if ( ($database->field_exists($table_name,$field_name) )) {
+		print "<br /><strong>'Output Filter already updated'</strong> $OK<br />\n";
+} else {
+	$description = 'VARCHAR(1) NOT NULL DEFAULT \'0\'';
+	if( ($database->field_add($table_name,$field_name,$description )) ) {
+		print "<br /><strong>Updating Output Filter</strong> $OK<br />\n";
+	} else {
+			print "<br /><strong>Updating Output Filter</strong> $FAIL<br />\n";
+	}
 }
+print "</div>";

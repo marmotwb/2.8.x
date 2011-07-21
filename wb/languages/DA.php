@@ -17,7 +17,7 @@
  */
 
 // Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
+if(defined('WB_PATH') == false) { exit("Du kan ikke få direkte adgang til denne fil"); }
 
 // Define that this file is loaded
 if(!defined('LANGUAGE_LOADED')) {
@@ -29,17 +29,17 @@ $language_code = 'DA';
 $language_name = 'Dansk';
 $language_version = '2.8';
 $language_platform = '2.8.x';
-$language_author = 'Achrist';
+$language_author = 'Allan Christensen';
 $language_license = 'GNU General Public License';
 
 /* MENU */
 $MENU['ACCESS'] = 'Adgang';
-$MENU['ADDON'] = 'Add-on';
-$MENU['ADDONS'] = 'Add-ons';
+$MENU['ADDON'] = 'Tilf&oslash;jelse';
+$MENU['ADDONS'] = 'Tilf&oslash;jelser';
 $MENU['ADMINTOOLS'] = 'Admin-v&aelig;rkt&oslash;jer';
-$MENU['BREADCRUMB'] = 'You are here: ';
-$MENU['FORGOT'] = 'Modtag login oplysninger';
-$MENU['GROUP'] = 'Group';
+$MENU['BREADCRUMB'] = 'Du er her: ';
+$MENU['FORGOT'] = 'Send login oplysninger';
+$MENU['GROUP'] = 'Gruppe';
 $MENU['GROUPS'] = 'Grupper';
 $MENU['HELP'] = 'Hj&aelig;lp';
 $MENU['LANGUAGES'] = 'Sprog';
@@ -68,13 +68,13 @@ $TEXT['ADMINISTRATION_TOOL'] = 'Administrationsv&aelig;rkt&oslash;jer';
 $TEXT['ADMINISTRATOR'] = 'Administrator';
 $TEXT['ADMINISTRATORS'] = 'Administratorer';
 $TEXT['ADVANCED'] = 'Avanceret';
-$TEXT['ALLOWED_FILETYPES_ON_UPLOAD'] = 'Allowed filetypes on upload';
+$TEXT['ALLOWED_FILETYPES_ON_UPLOAD'] = 'Tilladte filtyper ved overf&oslash;rsel';
 $TEXT['ALLOWED_VIEWERS'] = 'Tilladte brugere';
 $TEXT['ALLOW_MULTIPLE_SELECTIONS'] = 'Tillad flere valg samtidig';
 $TEXT['ALL_WORDS'] = 'Alle ordene';
 $TEXT['ANCHOR'] = 'Bogm&aelig;rke';
 $TEXT['ANONYMOUS'] = 'Anonym';
-$TEXT['ANY_WORDS'] = 'Bare et af ordene';
+$TEXT['ANY_WORDS'] = 'Kun et af ordene';
 $TEXT['APP_NAME'] = 'Applikationsnavn';
 $TEXT['ARE_YOU_SURE'] = 'Er du sikker?';
 $TEXT['AUTHOR'] = 'Udvikler/forfatter';
@@ -88,7 +88,7 @@ $TEXT['BASIC'] = 'Basisindstillinger';
 $TEXT['BLOCK'] = 'Blok';
 $TEXT['CALENDAR'] = 'Kalender';
 $TEXT['CANCEL'] = 'Annull&eacute;r';
-$TEXT['CAN_DELETE_HIMSELF'] = 'Can delete himself';
+$TEXT['CAN_DELETE_HIMSELF'] = 'Kan slette sig selv';
 $TEXT['CAPTCHA_VERIFICATION'] = 'Captcha verifikation';
 $TEXT['CAP_EDIT_CSS'] = 'Rediger CSS';
 $TEXT['CHANGE'] = 'Ret';
@@ -149,7 +149,7 @@ $TEXT['FORGOT_DETAILS'] = 'Glemt login-oplysninger?';
 $TEXT['FROM'] = 'Fra';
 $TEXT['FRONTEND'] = 'Websted (vis siden)';
 $TEXT['FULL_NAME'] = 'Fulde navn';
-$TEXT['FUNCTION'] = 'Function';
+$TEXT['FUNCTION'] = 'Funktion';
 $TEXT['GROUP'] = 'Gruppe';
 $TEXT['HEADER'] = 'Hoved (overligger)';
 $TEXT['HEADING'] = 'Overskrift';
@@ -160,8 +160,8 @@ $TEXT['HIDE'] = 'Skjul';
 $TEXT['HIDE_ADVANCED'] = 'Skjul avancerede indstillinger';
 $TEXT['HOME'] = 'Hjem';
 $TEXT['HOMEPAGE_REDIRECTION'] = 'Viderestilling af hjemmeside';
-$TEXT['HOME_FOLDER'] = 'Personal Folder';
-$TEXT['HOME_FOLDERS'] = 'Personal Folders';
+$TEXT['HOME_FOLDER'] = 'Personlig folder';
+$TEXT['HOME_FOLDERS'] = 'Personlige foldere';
 $TEXT['HOST'] = 'V&aelig;rt';
 $TEXT['ICON'] = 'Ikon';
 $TEXT['IMAGE'] = 'Billede';
@@ -173,7 +173,7 @@ $TEXT['INSTALLATION_URL'] = 'Installations URL';
 $TEXT['INSTALLED'] = 'installeret';
 $TEXT['INTRO'] = 'Introduktion';
 $TEXT['INTRO_PAGE'] = 'Intro-side';
-$TEXT['INVALID_SIGNS'] = 'must begin with a letter or has invalid signs';
+$TEXT['INVALID_SIGNS'] = 'skal begynde med et bogstav eller indeholder ugyldige tegn';
 $TEXT['KEYWORDS'] = 'N&oslash;gleord';
 $TEXT['LANGUAGE'] = 'Sprog';
 $TEXT['LAST_UPDATED_BY'] = 'Sidst opdateret af:';
@@ -188,19 +188,19 @@ $TEXT['LONG'] = 'Lang';
 $TEXT['LONG_TEXT'] = 'Lang tekst';
 $TEXT['LOOP'] = 'Liste';
 $TEXT['MAIN'] = 'Hovedoversigt';
-$TEXT['MAINTENANCE_OFF'] = 'Maintenance off';
-$TEXT['MAINTENANCE_ON'] = 'Maintenance on';
+$TEXT['MAINTENANCE_OFF'] = 'Vedligeholdelse tilvalgt';
+$TEXT['MAINTENANCE_ON'] = 'MaVedligeholdelse fravalgt';
 $TEXT['MANAGE'] = 'Administr&eacute;r';
 $TEXT['MANAGE_GROUPS'] = 'Administr&eacute;r grupper';
 $TEXT['MANAGE_USERS'] = 'Administr&eacute;r brugere';
 $TEXT['MATCH'] = 'Match';
 $TEXT['MATCHING'] = 'Matchende';
-$TEXT['MAX_EXCERPT'] = 'Max linier i uddrag';
+$TEXT['MAX_EXCERPT'] = 'Max linier i udsnit';
 $TEXT['MAX_SUBMISSIONS_PER_HOUR'] = 'Max. indsendte bidrag pr. time';
 $TEXT['MEDIA_DIRECTORY'] = 'Mediebibliotek (mappe)';
 $TEXT['MENU'] = 'Menu';
-$TEXT['MENU_ICON_0'] = 'Menu-Icon normal';
-$TEXT['MENU_ICON_1'] = 'Menu-Icon hover';
+$TEXT['MENU_ICON_0'] = 'Menu-ikon normal';
+$TEXT['MENU_ICON_1'] = 'Menu-ikon sv&aelig;rende';
 $TEXT['MENU_TITLE'] = 'Menutitel';
 $TEXT['MESSAGE'] = 'Indl&aelig;g';
 $TEXT['MODIFY'] = 'Ret';
@@ -214,7 +214,7 @@ $TEXT['MOVE_UP'] = 'Flyt op';
 $TEXT['MULTIPLE_MENUS'] = 'Flere menuer';
 $TEXT['MULTISELECT'] = 'Multi-valg';
 $TEXT['NAME'] = 'Navn';
-$TEXT['NEED_CURRENT_PASSWORD'] = 'confirm with current password';
+$TEXT['NEED_CURRENT_PASSWORD'] = 'Bekr&aelig;ft med nuv&aelig;rende adgangskode';
 $TEXT['NEED_TO_LOGIN'] = 'Brug for at logge ind?';
 $TEXT['NEW_PASSWORD'] = 'Ny adgangskode';
 $TEXT['NEW_WINDOW'] = 'Nyt vindue';
@@ -225,7 +225,7 @@ $TEXT['NONE'] = 'Usynlig';
 $TEXT['NONE_FOUND'] = 'Ingen fundet';
 $TEXT['NOT_FOUND'] = 'Ikke fundet';
 $TEXT['NOT_INSTALLED'] = 'ikke installeret';
-$TEXT['NO_IMAGE_SELECTED'] = 'no image selected';
+$TEXT['NO_IMAGE_SELECTED'] = 'intet billede valgt';
 $TEXT['NO_RESULTS'] = 'Intet fundet';
 $TEXT['OF'] = 'af';
 $TEXT['ON'] = 'D.';
@@ -236,11 +236,11 @@ $TEXT['OUT_OF'] = 'ud af i alt';
 $TEXT['OVERWRITE_EXISTING'] = 'Overskriv eksisterende';
 $TEXT['PAGE'] = 'Side';
 $TEXT['PAGES_DIRECTORY'] = 'Sidebibliotek (mappe)';
-$TEXT['PAGES_PERMISSION'] = 'Pages Permission';
-$TEXT['PAGES_PERMISSIONS'] = 'Pages Permissions';
+$TEXT['PAGES_PERMISSION'] = 'Sideadgang';
+$TEXT['PAGES_PERMISSIONS'] = 'Sideadgange';
 $TEXT['PAGE_EXTENSION'] = 'Side-udvidelse';
-$TEXT['PAGE_ICON'] = 'Page Image';
-$TEXT['PAGE_ICON_DIR'] = 'Path pages/menu images';
+$TEXT['PAGE_ICON'] = 'Sidebillede';
+$TEXT['PAGE_ICON_DIR'] = 'Sti til sider/menu billeder';
 $TEXT['PAGE_LANGUAGES'] = 'Sprog';
 $TEXT['PAGE_LEVEL_LIMIT'] = 'Max. sideantal';
 $TEXT['PAGE_SPACER'] = 'Side pladsmark&oslash;r';
@@ -260,7 +260,7 @@ $TEXT['PREVIOUS'] = 'Forrige';
 $TEXT['PREVIOUS_PAGE'] = 'Forrige side';
 $TEXT['PRIVATE'] = 'Privat';
 $TEXT['PRIVATE_VIEWERS'] = 'Private bes&oslash;gende';
-$TEXT['PROFILES_EDIT'] = 'Change the profile';
+$TEXT['PROFILES_EDIT'] = 'Ret profil';
 $TEXT['PUBLIC'] = 'Offentlig';
 $TEXT['PUBL_END_DATE'] = 'Slutdato';
 $TEXT['PUBL_START_DATE'] = 'Startdato';
@@ -351,12 +351,12 @@ $TEXT['UPLOAD_FILES'] = 'Overf&oslash;r fil(er)';
 $TEXT['URL'] = 'URL';
 $TEXT['USER'] = 'Bruger';
 $TEXT['USERNAME'] = 'Brugernavn';
-$TEXT['USERS_ACTIVE'] = 'User is set active';
-$TEXT['USERS_CAN_SELFDELETE'] = 'User can delete himself';
-$TEXT['USERS_CHANGE_SETTINGS'] = 'User can change his own settings';
-$TEXT['USERS_DELETED'] = 'User is marked as deleted';
-$TEXT['USERS_FLAGS'] = 'User-Flags';
-$TEXT['USERS_PROFILE_ALLOWED'] = 'User can create extended profile';
+$TEXT['USERS_ACTIVE'] = 'Brugeren er sat aktiv';
+$TEXT['USERS_CAN_SELFDELETE'] = 'Brugeren kan slette sig selv';
+$TEXT['USERS_CHANGE_SETTINGS'] = 'Brugeren kan slette egne indstillinger';
+$TEXT['USERS_DELETED'] = 'Brugeren er slettemarkeret';
+$TEXT['USERS_FLAGS'] = 'Brugerm&aelig;rker';
+$TEXT['USERS_PROFILE_ALLOWED'] = 'Brugeren kan lave udvidet profil';
 $TEXT['VERIFICATION'] = 'Indtast verifikationstal';
 $TEXT['VERSION'] = 'Version';
 $TEXT['VIEW'] = 'Se';
@@ -393,9 +393,9 @@ $TEXT['YES'] = 'Ja';
 
 /* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On krav er ikke opfyldt';
-$HEADING['ADD_CHILD_PAGE'] = 'Add child page';
+$HEADING['ADD_CHILD_PAGE'] = 'Tilf&oslash;j underside';
 $HEADING['ADD_GROUP'] = 'Tilf&oslash;j gruppe';
-$HEADING['ADD_GROUPS'] = 'Add Groups';
+$HEADING['ADD_GROUPS'] = 'Tilf&oslash;j grupper';
 $HEADING['ADD_HEADING'] = 'Tilf&oslash;j overskrift';
 $HEADING['ADD_PAGE'] = 'Tilf&oslash;j side';
 $HEADING['ADD_USER'] = 'Tilf&oslash;j bruger';
@@ -409,9 +409,9 @@ $HEADING['GENERAL_SETTINGS'] = 'Generelle indstillinger';
 $HEADING['INSTALL_LANGUAGE'] = 'Install&eacute;r sprog';
 $HEADING['INSTALL_MODULE'] = 'Install&eacute;r modul';
 $HEADING['INSTALL_TEMPLATE'] = 'Install&eacute;r skabelon';
-$HEADING['INVOKE_LANGUAGE_FILES'] = 'Execute language files manually';
-$HEADING['INVOKE_MODULE_FILES'] = 'Eksekver modulfiler manuelt';
-$HEADING['INVOKE_TEMPLATE_FILES'] = 'Execute template files manually';
+$HEADING['INVOKE_LANGUAGE_FILES'] = 'H&aring;ndter sprogfiler manuelt';
+$HEADING['INVOKE_MODULE_FILES'] = 'H&aring;ndter modulfiler manuelt';
+$HEADING['INVOKE_TEMPLATE_FILES'] = 'H&aring;ndter skabelonfiler manuelt';
 $HEADING['LANGUAGE_DETAILS'] = 'Info om sprog';
 $HEADING['MANAGE_SECTIONS'] = 'Administr&eacute;r sektioner';
 $HEADING['MODIFY_ADVANCED_PAGE_SETTINGS'] = 'Rediger avancerede indstillinger for hjemmesiden';
@@ -419,7 +419,7 @@ $HEADING['MODIFY_DELETE_GROUP'] = 'Ret/slet gruppe';
 $HEADING['MODIFY_DELETE_PAGE'] = 'Ret/slet side';
 $HEADING['MODIFY_DELETE_USER'] = 'Ret/slet bruger';
 $HEADING['MODIFY_GROUP'] = 'Ret gruppe';
-$HEADING['MODIFY_GROUPS'] = 'Modify Groups';
+$HEADING['MODIFY_GROUPS'] = 'Ret grupper';
 $HEADING['MODIFY_INTRO_PAGE'] = 'Rediger intro-side';
 $HEADING['MODIFY_PAGE'] = 'Rediger side';
 $HEADING['MODIFY_PAGE_SETTINGS'] = 'Rediger side-indstillinger';
@@ -434,24 +434,24 @@ $HEADING['TEMPLATE_DETAILS'] = 'Info om skabelon';
 $HEADING['UNINSTALL_LANGUAGE'] = 'Afinstall&eacute;r sprog';
 $HEADING['UNINSTALL_MODULE'] = 'Afinstall&eacute;r modul';
 $HEADING['UNINSTALL_TEMPLATE'] = 'Afinstall&eacute;r skabelon';
-$HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
+$HEADING['UPGRADE_LANGUAGE'] = 'Sprogopgradering';
 $HEADING['UPLOAD_FILES'] = 'Overf&oslash;r fil(er)';
 $HEADING['WBMAILER_SETTINGS'] = 'E-mail-indstillinger';
 
 /* MESSAGE */
-$MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
-$MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
-$MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
-$MESSAGE['ADDON_MANUAL_FTP_WARNING'] = 'Warning: Existing module database entries will get lost. ';
-$MESSAGE['ADDON_MANUAL_INSTALLATION'] = 'When modules are uploaded via FTP (not recommended), the module installation functions <tt>install</tt>, <tt>upgrade</tt> or <tt>uninstall</tt> will not be executed automatically. Those modules may not work correct or do not uninstall properly.<br /><br />You can execute the module functions manually for modules uploaded via FTP below.';
-$MESSAGE['ADDON_MANUAL_INSTALLATION_WARNING'] = 'Warning: Existing module database entries will get lost. Only use this option if you experience problems with modules uploaded via FTP.';
-$MESSAGE['ADDON_MANUAL_RELOAD_WARNING'] = 'Warning: Existing module database entries will get lost. ';
-$MESSAGE['ADDON_MODULES_RELOADED'] = 'Modules reloaded successfully';
-$MESSAGE['ADDON_OVERWRITE_NEWER_FILES'] = 'Overwrite newer Files';
-$MESSAGE['ADDON_PRECHECK_FAILED'] = 'Add-on installation failed. Your system does not fulfill the requirements of this Add-on. To make this Add-on working on your system, please fix the issues summarized below.';
-$MESSAGE['ADDON_RELOAD'] = 'Update database with information from Add-on files (e.g. after FTP upload).';
-$MESSAGE['ADDON_TEMPLATES_RELOADED'] = 'Templates reloaded successfully';
-$MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES'] = 'Du har ikke den forn&oslash;dne adgang til dette omr&aring;de';
+$MESSAGE['ADDON_ERROR_RELOAD'] = 'Fejl under opdatering af tilf&oslash;jelse.';
+$MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Sprog indl&aelig;st';
+$MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>PAS P&aring;!</strong> Af sikkerhedsgrunde b&oslash;r sprogfiler kun indl&aelig;ses i folderen /languages/ med FTP, og opgraderingsfunktionen b&oslash;r bruges til registrering/opdatering.';
+$MESSAGE['ADDON_MANUAL_FTP_WARNING'] = 'Advarsel: Eksisterende moduler i databasen vil g&aring; tabt. ';
+$MESSAGE['ADDON_MANUAL_INSTALLATION'] = 'N&aring;r moduler overf&oslash;res med FTP (anbefales ikke), udf&oslash;res installatonsfunktionerne  <tt>installer</tt>, <tt>opgrader</tt> eller <tt>afinstaller</tt> ikke automatisk. Modulerne vil m&aring;ske ikke fungere korrekt eller bliver rigtigt afinstallerett.<br /><br />Du kan nedenfor udf&oslash;re modulfunktionerne manuelt for moduler, der er overf&oslash;rt via FTP.';
+$MESSAGE['ADDON_MANUAL_INSTALLATION_WARNING'] = 'Advarsel: Eksisterende moduler i databasen vil g&aring; tabt. Brug kun denne funktion, hvis du oplever problemer med moduler, der er overf&oslash;rt med FTP.';
+$MESSAGE['ADDON_MANUAL_RELOAD_WARNING'] = 'Advarsel: Eksisterende moduler i databasen vil g&aring; tabt. ';
+$MESSAGE['ADDON_MODULES_RELOADED'] = 'Moduler er genindl&aelig;st';
+$MESSAGE['ADDON_OVERWRITE_NEWER_FILES'] = 'Overskriv nyere filer';
+$MESSAGE['ADDON_PRECHECK_FAILED'] = 'Installation af tilf&oring;jelsen mislykkedes. Dit system opfylder ikke kravene til denne tilf&oring;jelse. For at f&aring; denne tilf&oslash;jelse til at virke i dit system, skal du rette de forhold, der opregnes nedenfor.';
+$MESSAGE['ADDON_RELOAD'] = 'Opdater databasen med information fra tilf&oslash;jelsesfiler (f.eks. efter FTP-overf&oslash;rsel).';
+$MESSAGE['ADDON_TEMPLATES_RELOADED'] = 'Skabeloner genindl&aelig;st';
+$MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES'] = 'Du har ikke den n&oslash;dvendige adgang til dette omr&aring;de';
 $MESSAGE['FORGOT_PASS_ALREADY_RESET'] = 'Adgangskode kan kun nulstilles 1 gang i timen - beklager!';
 $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] = 'Kunne ikke sende din adgangskode til din email-adresse - Kontakt en systemadministrator';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'Den email-adresse du indtastede findes ikke i vores database';
@@ -461,45 +461,45 @@ $MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] = 'Beklager - intet aktivit indhol
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Beklager - du har ikke adgang til at se denne side';
 $MESSAGE['GENERIC_ALREADY_INSTALLED'] = 'Er allerede installeret';
 $MESSAGE['GENERIC_BAD_PERMISSIONS'] = 'Kan ikke skrive i det valgte modtagebibliotek (mappe)';
-$MESSAGE['GENERIC_BE_PATIENT'] = 'Please be patient.';
+$MESSAGE['GENERIC_BE_PATIENT'] = 'Hav lidt t&aring;lmodighed';
 $MESSAGE['GENERIC_CANNOT_UNINSTALL'] = 'Kan ikke afinstallere';
 $MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE'] = 'Kan ikke afinstallere: Den valgte fil er i brug';
 $MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE_TMPL'] = '<br /><br />{{type}} <b>{{type_name}}</b> kan ikke afinstalleres, da den stadig bruges p&aring; {{pages}}.<br /><br />';
-$MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE_TMPL_PAGES'] = 'denne side;disse sider';
+$MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE_TMPL_PAGES'] = 'denne side/disse sider';
 $MESSAGE['GENERIC_CANNOT_UNINSTALL_IS_DEFAULT_TEMPLATE'] = 'Kan ikke afinstallere skabelonen <b>{{name}}</b>, da den er standardskabelonen!';
-$MESSAGE['GENERIC_CANNOT_UNINSTALL_IS_DEFAULT_THEME'] = 'Can\'t uninstall the template <b>{{name}}</b>, because it is the default backend theme!';
+$MESSAGE['GENERIC_CANNOT_UNINSTALL_IS_DEFAULT_THEME'] = 'kan ikek afinstallere skabelonen <b>{{name}}</b>, da den er standard administrator-skabelon!';
 $MESSAGE['GENERIC_CANNOT_UNZIP'] = 'Kan ikke udpakke fil';
-$MESSAGE['GENERIC_CANNOT_UPLOAD'] = 'Kunne ikke over&oslash;re filen';
-$MESSAGE['GENERIC_COMPARE'] = ' successfully';
+$MESSAGE['GENERIC_CANNOT_UPLOAD'] = 'Kunne ikke overf&oslash;re filen';
+$MESSAGE['GENERIC_COMPARE'] = ' uden fejl';
 $MESSAGE['GENERIC_ERROR_OPENING_FILE'] = 'Fejl ved &aring;bning af filen.';
-$MESSAGE['GENERIC_FAILED_COMPARE'] = ' failed';
-$MESSAGE['GENERIC_FILE_TYPE'] = 'OBS: V&aelig;r opm&aelig;rksom p&aring; at den fil du vil over&oslash;re skal v&aelig;re i flg. format:';
-$MESSAGE['GENERIC_FILE_TYPES'] = 'OBS: V&aelig;r opm&aelig;rksom p&aring; at den fil du vil over&oslash;re skal v&aelig;re i et af flg. formater:';
+$MESSAGE['GENERIC_FAILED_COMPARE'] = ' mislykkedes';
+$MESSAGE['GENERIC_FILE_TYPE'] = 'OBS: V&aelig;r opm&aelig;rksom p&aring; at den fil du vil overf&oslash;re skal v&aelig;re i flg. format:';
+$MESSAGE['GENERIC_FILE_TYPES'] = 'OBS: V&aelig;r opm&aelig;rksom p&aring; at den fil du vil overf&oslash;re skal v&aelig;re i et af flg. formater:';
 $MESSAGE['GENERIC_FILL_IN_ALL'] = 'G&aring; venligst tilbage og udfyld alle felter';
-$MESSAGE['GENERIC_FORGOT_OPTIONS'] = 'You have selected no choice!';
+$MESSAGE['GENERIC_FORGOT_OPTIONS'] = 'Du har intet valgt!';
 $MESSAGE['GENERIC_INSTALLED'] = 'Installeret';
-$MESSAGE['GENERIC_INVALID'] = 'Filen du over&oslash;rte er fejlbeh&aelig;ftet';
+$MESSAGE['GENERIC_INVALID'] = 'Filen du overf&oslash;rte er fejlbeh&aelig;ftet';
 $MESSAGE['GENERIC_INVALID_ADDON_FILE'] = 'WebsiteBaker installationsfil ikke i korrekt format. Kontroller *.zip formatet.';
 $MESSAGE['GENERIC_INVALID_LANGUAGE_FILE'] = 'WebsiteBaker sprogfil ikke i korrekt format. Kontroller tekstfilen.';
-$MESSAGE['GENERIC_INVALID_MODULE_FILE'] = 'Invalid WebsiteBaker module file. Please check the text file.';
-$MESSAGE['GENERIC_INVALID_TEMPLATE_FILE'] = 'Invalid WebsiteBaker template file. Please check the text file.';
-$MESSAGE['GENERIC_IN_USE'] = ' but used in ';
-$MESSAGE['GENERIC_MISSING_ARCHIVE_FILE'] = 'Missing Archiv file!';
-$MESSAGE['GENERIC_MODULE_VERSION_ERROR'] = 'The module is not installed properly!';
-$MESSAGE['GENERIC_NOT_COMPARE'] = ' not possibly';
+$MESSAGE['GENERIC_INVALID_MODULE_FILE'] = 'WebsiteBaker modulfil ikke gyldig. Kontroller tekstfilen.';
+$MESSAGE['GENERIC_INVALID_TEMPLATE_FILE'] = 'WebsiteBaker skabelon ikke gyldig. Kontroller tekstfilen.';
+$MESSAGE['GENERIC_IN_USE'] = ' men bruges i ';
+$MESSAGE['GENERIC_MISSING_ARCHIVE_FILE'] = 'Arkivfil mangler!';
+$MESSAGE['GENERIC_MODULE_VERSION_ERROR'] = 'Modulet er ikke korrekt installeret!';
+$MESSAGE['GENERIC_NOT_COMPARE'] = ' ikke mulig';
 $MESSAGE['GENERIC_NOT_INSTALLED'] = 'Ikke installeret';
-$MESSAGE['GENERIC_NOT_UPGRADED'] = 'Actualization not possibly';
+$MESSAGE['GENERIC_NOT_UPGRADED'] = 'Opdatering ikke mulig';
 $MESSAGE['GENERIC_PLEASE_BE_PATIENT'] = 'V&aelig;r t&aring;lmodig, dette kan godt vare et stykke tid.';
 $MESSAGE['GENERIC_PLEASE_CHECK_BACK_SOON'] = 'Kom venligst igen senere...';
-$MESSAGE['GENERIC_SECURITY_ACCESS'] = 'Security offense!! Access denied!';
-$MESSAGE['GENERIC_SECURITY_OFFENSE'] = 'Security offense!! data storing was refused!!';
+$MESSAGE['GENERIC_SECURITY_ACCESS'] = 'Sikerhedsbrud! Adgang afsl&aring;et!';
+$MESSAGE['GENERIC_SECURITY_OFFENSE'] = 'Sikerhedsbrud! Lagring n&aelig;gtet!';
 $MESSAGE['GENERIC_UNINSTALLED'] = 'Afinstalleret';
 $MESSAGE['GENERIC_UPGRADED'] = 'Opgraderet';
-$MESSAGE['GENERIC_VERSION_COMPARE'] = 'Version comparison';
-$MESSAGE['GENERIC_VERSION_GT'] = 'Upgrade necessary!';
-$MESSAGE['GENERIC_VERSION_LT'] = 'Downgrade';
-$MESSAGE['GENERIC_WEBSITE_LOCKED'] = 'this site is temporarily down for maintenance';
-$MESSAGE['GENERIC_WEBSITE_UNDER_CONSTRUCTION'] = 'Website under konstruktion';
+$MESSAGE['GENERIC_VERSION_COMPARE'] = 'Versionssammenligning';
+$MESSAGE['GENERIC_VERSION_GT'] = 'Opgraderng n&oslash;dvending!';
+$MESSAGE['GENERIC_VERSION_LT'] = 'Nedgraderng';
+$MESSAGE['GENERIC_WEBSITE_LOCKED'] = 'Dette websted er midlertidigt lukket p&aring; grund af vedligeholdelse';
+$MESSAGE['GENERIC_WEBSITE_UNDER_CONSTRUCTION'] = 'Websted under konstruktion';
 $MESSAGE['GROUPS_ADDED'] = 'Gruppen er tilf&oslash;jet';
 $MESSAGE['GROUPS_CONFIRM_DELETE'] = 'Er du helt sikker p&aring; du vil slette denne gruppe (og alle brugere som tilh&oslash;rer den)?';
 $MESSAGE['GROUPS_DELETED'] = 'Gruppen er slettet';
@@ -534,13 +534,13 @@ $MESSAGE['MEDIA_FILE_NOT_FOUND'] = 'Filen ikke fundet';
 $MESSAGE['MEDIA_NAME_DOT_DOT_SLASH'] = 'Kan ikke inkludere ../ i navnet';
 $MESSAGE['MEDIA_NAME_INDEX_PHP'] = 'Kan ikke anvende index.php som navn';
 $MESSAGE['MEDIA_NONE_FOUND'] = 'Der blev ikke fundet medie-filer i det p&aring;g&aelig;ldende bibliotek (mappe)';
-$MESSAGE['MEDIA_NO_FILE_UPLOADED'] = 'No file was recieved';
+$MESSAGE['MEDIA_NO_FILE_UPLOADED'] = 'Ingen fil overf&oslash;rt';
 $MESSAGE['MEDIA_RENAMED'] = 'Omd&oslash;bning udf&oslash;rt';
 $MESSAGE['MEDIA_SINGLE_UPLOADED'] = 'fil blev overf&oslash;rt';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Kan ikke have ../ i placeringen af biblioteket (mappen)';
 $MESSAGE['MEDIA_UPLOADED'] = 'filer blev overf&oslash;rt';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Beklager! Denne formular er blevet afsendt for mange gange indenfor den sidste time, og du vil derfor blive afvist - Pr&oslash;v igen om en times tid!';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Verifikations tallene (ogs&aring; kendt som Captcha) som du tastede er ikke korrekte. Hvis du har problemer med at l&aelig;se Captha tallene, s&aring; kontakt venligst sidens Administrator p&aring; denne mailadresse: SERVER_EMAIL';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Verifikationstallene (ogs&aring; kendt som Captcha) som du tastede er ikke korrekte. Hvis du har problemer med at l&aelig;se Captha tallene, s&aring; kontakt venligst sidens Administrator p&aring; denne mailadresse: SERVER_EMAIL';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Du skal udfylde f&oslash;lgende felter:';
 $MESSAGE['PAGES_ADDED'] = 'Siden er tilf&oslash;jet';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Overskrift til side tilf&oslash;jet';
@@ -568,75 +568,74 @@ $MESSAGE['PAGES_SECTIONS_PROPERTIES_SAVED'] = 'Egenskaber for sektion er &aelig;
 $MESSAGE['PREFERENCES_CURRENT_PASSWORD_INCORRECT'] = 'Den (nuv&aelig;rende) adgangskode som du indtastede er ikke korrekt';
 $MESSAGE['PREFERENCES_DETAILS_SAVED'] = 'Oplysningerne er gemt';
 $MESSAGE['PREFERENCES_EMAIL_UPDATED'] = 'Email-adresse opdateret';
-$MESSAGE['PREFERENCES_INVALID_CHARS'] = 'Invalid password chars used';
+$MESSAGE['PREFERENCES_INVALID_CHARS'] = 'Ugyldige tegn i adgangskode';
 $MESSAGE['PREFERENCES_PASSWORD_CHANGED'] = 'Adgangskode &aelig;ndret';
-$MESSAGE['RECORD_MODIFIED_FAILED'] = 'The change of the record has missed.';
-$MESSAGE['RECORD_MODIFIED_SAVED'] = 'The changed record was updated successfully.';
-$MESSAGE['RECORD_NEW_FAILED'] = 'Adding a new record has missed.';
-$MESSAGE['RECORD_NEW_SAVED'] = 'New record was added successfully.';
+$MESSAGE['RECORD_MODIFIED_FAILED'] = '&Aelig;ndring mislykket';
+$MESSAGE['RECORD_MODIFIED_SAVED'] = '&Aelig;ndring udf&oslash;rt.';
+$MESSAGE['RECORD_NEW_FAILED'] = 'Tilf&oslash;jelse af nu post mislykkedes.';
+$MESSAGE['RECORD_NEW_SAVED'] = 'Ny post tilf&oslash;jet.';
 $MESSAGE['SETTINGS_MODE_SWITCH_WARNING'] = '<br>OBS: Ved at klikke p&aring; denne knap tabes alle &aelig;ndringer, der ikke er gemt!';
 $MESSAGE['SETTINGS_SAVED'] = 'Indstillingerne er gemt';
 $MESSAGE['SETTINGS_UNABLE_OPEN_CONFIG'] = 'Er ikke i stand til at &aring;bne konfigurationsfilen';
 $MESSAGE['SETTINGS_UNABLE_WRITE_CONFIG'] = 'Kan ikke skrive til konfigurationsfilen (check rettigheder for filen)';
 $MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'] = 'OBS! Dette anbefales kun i testmilj&oslash;er ';
 $MESSAGE['SIGNUP2_ADMIN_INFO'] = '
-A new user was registered.
+En ny bruger er registreret.
 
-Username: {LOGIN_NAME}
-UserId: {LOGIN_ID}
-E-Mail: {LOGIN_EMAIL}
-IP-Adress: {LOGIN_IP}
-Registration date: {SIGNUP_DATE}
+Brugernavn: {LOGIN_NAME}
+BrugerId: {LOGIN_ID}
+Email: {LOGIN_EMAIL}
+IP-adresse: {LOGIN_IP}
+Registreringsdato: {SIGNUP_DATE}
 ----------------------------------------
-This message was automatic generated!
+Denne meddelselse er sendt automatisk.
 
 ';
 $MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT'] = '
-Hello {LOGIN_DISPLAY_NAME},
+Hej {LOGIN_DISPLAY_NAME},
 
-This mail was sent because the \'forgot password\' function has been applied to your account.
+Denne besked er sendt, fordi funktionen  \'Glemt adgangskode\' er blevet anvendt.
 
-Your new \'{LOGIN_WEBSITE_TITLE}\' login details are:
+Dine nye \'{LOGIN_WEBSITE_TITLE}\' logind-oplysninger er:
 
-Username: {LOGIN_NAME}
-Password: {LOGIN_PASSWORD}
+Brugernavn: {LOGIN_NAME}
+Adgangskode: {LOGIN_PASSWORD}
 
-Your password has been reset to the one above.
-This means that your old password will no longer work anymore!
-If you\'ve got any questions or problems within the new login-data
-you should contact the website-team or the admin of \'{LOGIN_WEBSITE_TITLE}\'.
-Please remember to clean you browser-cache before using the new one to avoid unexpected fails.
+Din adgangskode er &aelig;ndret til ovenst&aring;ende.
+Det betyder, at din gamle adgangskode ikke kan anvendes mere.
+hvis du har sp&oslash;rgsm&aring;l til eller problemer med dine nye adgangsoplysninger
+b&oslash;r du kontakte webstedet eller administatoren for \'{LOGIN_WEBSITE_TITLE}\'.
+Husk at slette din browsers hukommelse (cache) for at undg&aring; problemer med at logge ind.
 
-Regards
+Venlig hilsen
 ------------------------------------
-This message was automatic generated
+Denne besked er sendt automatisk
 
 ';
 $MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = '
-Hello {LOGIN_DISPLAY_NAME},
+Hej {LOGIN_DISPLAY_NAME},
 
-Welcome to our \'{LOGIN_WEBSITE_TITLE}\'.
+Velkommen til \'{LOGIN_WEBSITE_TITLE}\'.
 
-Your \'{LOGIN_WEBSITE_TITLE}\' login details are:
-Username: {LOGIN_NAME}
-Password: {LOGIN_PASSWORD}
+Dine adgangsoplysninger til \'{LOGIN_WEBSITE_TITLE}\' er:
+Brugernavn: {LOGIN_NAME}
+Adgangskode: {LOGIN_PASSWORD}
 
-Regards
+Venlig hilsen
 
-Please:
-if you have received this message by an error, please delete it immediately!
--------------------------------------
-This message was automatic generated!
+Hvis du har modtaget denne besked ved en fejl, bedes du straks slette den.
+------------------------------------
+Denne besked er sendt automatisk
+
 ';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Dine login-oplysninger...';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Du skal indtaste en gyldig email-adresse';
 $MESSAGE['START_CURRENT_USER'] = 'Du er lige nu logget ind som:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'ADVARSEL! Installationsbiblioteket (mappen) findes stadig p&aring; serveren. Du b&oslash;r slette den straks af hensyn til sikkerheden!';
-$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Velkommen til administration af din WebsiteBaker';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'OBS: For at &aelig;ndre skabelonen skal du g&aring; til punktet indstillinger';
 $MESSAGE['USERS_ADDED'] = 'Brugeren er oprettet';
-$MESSAGE['USERS_CANT_SELFDELETE'] = 'Function rejected, You can not delete yourself!';
+$MESSAGE['USERS_CANT_SELFDELETE'] = 'Funktionen udf&oslash;res ikke - du kan ikke slette dig selv';
 $MESSAGE['USERS_CHANGING_PASSWORD'] = 'OBS! Du skal kun indtaste v&aelig;rdier i felterne ovenfor, s&aring;fremt du &oslash;nsker at &aelig;ndre denne brugers adgangskode';
 $MESSAGE['USERS_CONFIRM_DELETE'] = 'Er du sikker p&aring; at du vil slette den valgte bruger?';
 $MESSAGE['USERS_DELETED'] = 'Brugeren er slettet';

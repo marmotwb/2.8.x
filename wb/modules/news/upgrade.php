@@ -20,6 +20,8 @@
 if(!defined('WB_URL')) { throw new Exception('illegal file access!! ['.$_SERVER['PHP_SELF'].']'); }
 
 /* **** START UPGRADE ******************************************************* */
+if(!function_exists('mod_news_Upgrade'))
+{
 	function mod_news_Upgrade()
 	{
 		global $database, $admin, $MESSAGE;
@@ -161,5 +163,7 @@ if(!defined('WB_URL')) { throw new Exception('illegal file access!! ['.$_SERVER[
 		if($globalStarted) { echo 'created '.$count.' new accessfiles.'; }
 		if(!$globalStarted) { $admin->print_footer(); }
 	}
+}
+
 	mod_news_Upgrade();
 /* **** END UPGRADE ********************************************************* */
