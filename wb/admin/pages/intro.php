@@ -21,6 +21,7 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_intro');
 $content = '';
+$filename = WB_PATH.PAGES_DIRECTORY.'/intro'.PAGE_EXTENSION;
 if(file_exists($filename) && filesize($filename) > 0) {
 $content = file_get_contents( $filename ) ;
 }

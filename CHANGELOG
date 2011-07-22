@@ -11,7 +11,10 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 ------------------------------------
-19 Jul-2011 Build 1477 Dietmar Woellbrink (Luisehahne)
+22 Jul-2011 Build 1477 Dietmar Woellbrink (Luisehahne)
+# fix mssing filename in intro.php
+! inactive user in dropwonlist are show with line-through
+21 Jul-2011 Build 1477 Dietmar Woellbrink (Luisehahne)
 ! update DA language (Tks to Achrist)
 ! update some languages variables (Tks to Rübenwurzel, Testör)
 ! move function url_encode from admin/pages to framework/functions.php 
