@@ -45,7 +45,8 @@ if($results->numRows() > 0) {
 	$template->parse('list', 'list_block', true);
 	// Loop through users
 	while($user = $results->fetchRow()) {
-		$template->set_var('VALUE',$admin->getIDKEY($user['user_id'])); 
+		$template->set_var('VALUE',$admin->getIDKEY($user['user_id']));
+		$template->set_var('STATUS', ($user['active']==false ? 'text-decoration:line-through' : 'text-decoration :none;') );
 		$template->set_var('NAME', $user['display_name'].' ('.$user['username'].')');
 		$template->parse('list', 'list_block', true);
 	}

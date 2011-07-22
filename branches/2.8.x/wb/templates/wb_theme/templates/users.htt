@@ -21,7 +21,7 @@
 
 <select name="user_id" style="width: 500px;">
 <!-- BEGIN list_block -->
-	<option value="{VALUE}">{NAME}</option>
+	<option value="{VALUE}" style="{STATUS}">{NAME}</option>
 <!-- END list_block -->
 </select>
 
