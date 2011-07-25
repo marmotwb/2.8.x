@@ -11,7 +11,10 @@ Legend:
 ! = Update/Change
 
 ------------------------------------- 2.8.2 ------------------------------------
-22 Jul-2011 Build 1477 Dietmar Woellbrink (Luisehahne)
+25 Jul-2011 Build 1479 Dietmar Woellbrink (Luisehahne)
+! preparing backend for the new installer
++ add SecureFormSwitcher (Admintool)
+22 Jul-2011 Build 1478 Dietmar Woellbrink (Luisehahne)
 # fix mssing filename in intro.php
 ! inactive user in dropwonlist are show with line-through
 21 Jul-2011 Build 1477 Dietmar Woellbrink (Luisehahne)

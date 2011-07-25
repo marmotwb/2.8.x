@@ -1,0 +1,40 @@
+<?php
+/**
+ *
+ * @category        modules
+ * @package         SecureFormSwitcher
+ * @author          WebsiteBaker Project
+ * @copyright       2004-2009, Ryan Djurovich
+ * @copyright       2009-2011, Website Baker Org. e.V.
+ * @link            http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.2
+ * @requirements    PHP 5.2.2 and higher
+ * @version         $Id$
+ * @filesource      $HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
+
+// Must include code to stop this file being access directly
+if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
+
+require_once(WB_PATH.'/framework/class.database.php');
+require_once(WB_PATH.'/framework/functions.php');
+
+$mod_path = (dirname(__FILE__));
+require_once( $mod_path.'/language_load.php' );
+
+$aDefault = array(
+	'secure_form_module' => '',
+	'wb_secform_secret' => '5609bnefg93jmgi99igjefg',
+	'wb_secform_secrettime' => '86400',
+	'wb_secform_timeout' => '7200',
+	'wb_secform_tokenname' => 'formtoken',
+	'wb_secform_usefp' => 'true',
+	'wb_secform_useip' => '2',
+);
+
+db_update_key_value('settings', $aDefault );
+
+
