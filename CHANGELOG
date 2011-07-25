@@ -10,7 +10,10 @@ Legend:
 # = Bugfix
 ! = Update/Change
 
+=============================== FEATURES FREEZE ================================
 ------------------------------------- 2.8.2 ------------------------------------
+25 Jul-2011 Build 1480 Dietmar Woellbrink (Luisehahne)
+! Changed version to 2.8.2
 25 Jul-2011 Build 1479 Dietmar Woellbrink (Luisehahne)
 ! preparing backend for the new installer
 + add SecureFormSwitcher (Admintool)
