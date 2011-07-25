@@ -19,7 +19,39 @@
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Start','start');
-
+// ---------------------------------------
+if(defined('FINALIZE_SETUP')) {
+	require_once(WB_PATH.'/framework/functions.php');
+	$dirs = array( 'modules'   => WB_PATH.'/modules/',
+	               'templates' => WB_PATH.'/templates/',
+	               'languages' => WB_PATH.'/languages/'
+	             );
+	foreach($dirs AS $type => $dir) {
+		if( ($handle = opendir($dir)) ) {
+			while(false !== ($file = readdir($handle))) {
+				if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'admin.php' AND $file != 'index.php') {
+					// Get addon type
+					if($type == 'modules') {
+						load_module($dir.'/'.$file, true);
+						// Pretty ugly hack to let modules run $admin->set_error
+						// See dummy class definition admin_dummy above
+						if(isset($admin->error) && $admin->error != '') {
+							$admin->print_error($admin->error);
+						}
+					} elseif($type == 'templates') {
+						load_template($dir.'/'.$file);
+					} elseif($type == 'languages') {
+						load_language($dir.'/'.$file);
+					}
+				}
+			}
+		closedir($handle);
+		}
+	}
+	$sql = 'DELETE FROM `'.TABLE_PREFIX.'settings` WHERE `name`=\'FINALIZE_SETUP\'';
+	$database->query($sql);
+}
+// ---------------------------------------
 // Setup template object
 $template = new Template(THEME_PATH.'/templates');
 $template->set_file('page', 'start.htt');
