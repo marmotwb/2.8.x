@@ -18,10 +18,23 @@
 
 @require_once('config.php');
 
-// this function checks the basic configurations of an existing WB intallation
-function status_msg($message, $class='check', $element='span') {
+require_once(WB_PATH.'/framework/functions.php');
+require_once(WB_PATH.'/framework/class.admin.php');
+$admin = new admin('Addons', 'modules', false, false);
+
+/* display a status message on the screen **************************************
+ * @param string $message: the message to show
+ * @param string $class:   kind of message as a css-class
+ * @param string $element: witch HTML-tag use to cover the message
+ * @return void
+ */
+function status_msg($message, $class='check', $element='span')
+{
 	// returns a status message
-	echo '<'.$element .' class="' .$class .'">' .$message .'</' .$element.'>';
+	$msg  = '<'.$element.' class="'.$class.'">';
+	$msg .= '<strong>'.strtoupper(strtok($class, ' ')).'</strong><br />';
+	$msg .= $message.'</'.$element.'>';
+	echo $msg;
 }
 
 // database tables including in WB package
@@ -32,6 +45,24 @@ $table_list = array (
     'mod_news_comments','mod_news_groups','mod_news_posts','mod_news_settings',
     'mod_output_filter','mod_wrapper','mod_wysiwyg'
 );
+
+$OK            = ' <span class="ok">OK</span> ';
+$FAIL          = ' <span class="error">FAILED</span> ';
+$DEFAULT_THEME = 'wb_theme';
+
+$files2remove = array(
+
+			'[ADMIN]/preferences/details.php',
+			'[ADMIN]/preferences/email.php',
+			'[ADMIN]/preferences/password.php',
+/*
+			'[TEMPLATE]/allcss/',
+			'[TEMPLATE]/blank/',
+			'[TEMPLATE]/round/',
+			'[TEMPLATE]/simple/',
+*/
+		 );
+
 
 // analyze/check database tables
 function mysqlCheckTables( $dbName )
@@ -63,13 +94,8 @@ function mysqlCheckTables( $dbName )
             $x++;
         }
     }
-
-
-
-
     return $data;
 }
-
 
 // check existings tables for upgrade or install
 function check_wb_tables()
@@ -99,17 +125,6 @@ function check_wb_tables()
 // check existing tables
 $all_tables = check_wb_tables();
 
-// only for array tests
-function show_array($array=array())
-{
-    print '<pre>';
-    print_r ($array);
-    print '</pre>';
-}
-
-require_once(WB_PATH.'/framework/functions.php');
-require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Addons', 'modules', false, false);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -218,8 +233,6 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 	exit();
 }
 echo '<h2>Step 2: Updating database entries</h2>';
-$OK   = '<span class="ok">OK</span>';
-$FAIL = '<span class="error">FAILED</span>';
 
 // function to add a var/value-pair into settings-table
 function db_add_key_value($key, $value) {
@@ -267,14 +280,15 @@ function db_add_field($field, $table, $desc) {
  *  - Adding field default_theme to settings table
  */
 echo "<br />Adding default_theme to settings table<br />";
+db_update_key_value('settings', 'default_theme', $DEFAULT_THEME);
+/*
 $cfg = array(
 	'default_theme' => 'wb_theme'
 );
-
 foreach($cfg as $key=>$value) {
 	db_add_key_value($key, $value);
 }
-
+*/
 /**********************************************************
  *  - install droplets
  */
@@ -351,8 +365,10 @@ foreach($cfg as $key=>$value) {
 echo "<br />Adding mediasettings to settings table<br />";
 $cfg = array(
 	'mediasettings' => '',
-	'rename_files_on_upload' => 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx'
+	'rename_files_on_upload' => 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js'
 );
+db_update_key_value('settings', 'rename_files_on_upload', $cfg['rename_files_on_upload']);
+
 foreach($cfg as $key=>$value) {
 	db_add_key_value($key, $value);
 }
@@ -505,12 +521,12 @@ if (version_compare(WB_VERSION, '2.8.0') < 0)
  * upgrade media folder index protect files
  */
 $dir = (WB_PATH.MEDIA_DIRECTORY);
-echo '<h4>Upgrade '.MEDIA_DIRECTORY.'/ index.php protect files</h4>';
+echo '<h4>Upgrade '.MEDIA_DIRECTORY.'/ index.php protect files</h4><br />';
 $array = rebuildFolderProtectFile($dir);
 if( sizeof( $array ) ){
-	print 'Upgrade '.MEDIA_DIRECTORY.'/ index.php protect files'." $OK<br />";
+	print '<br /><strong>Upgrade '.sizeof( $array ).' '.MEDIA_DIRECTORY.'/ protect files</strong>'." $OK<br />";
 } else {
-	print 'Upgrade '.MEDIA_DIRECTORY.'/ index.php protect files'." $FAIL!<br />";
+	print '<br /><strong>Upgrade '.MEDIA_DIRECTORY.'/ protect files</strong>'." $FAIL!<br />";
 	print implode ('<br />',$array);
 }
 
@@ -531,8 +547,50 @@ if( sizeof( $array ) ){
  *  - Set Version to new Version
  */
 echo '<br />Update database version number to '.VERSION.' : ';
-echo ($database->query("UPDATE `".TABLE_PREFIX."settings` SET `value`='".VERSION."' WHERE `name` = 'wb_version'")) ? " $OK<br />" : " $FAIL<br />";
+// echo ($database->query("UPDATE `".TABLE_PREFIX."settings` SET `value`='".VERSION."' WHERE `name` = 'wb_version'")) ? " $OK<br />" : " $FAIL<br />";
+db_update_key_value('settings', 'wb_version', VERSION);
 
+/* *****************************************************************************
+ * - check for deprecated / never needed files
+ */
+?>
+<h2>Step 3: Remove deprecated and old files</h2>
+<?php
+
+	$searches = array(
+		'[ADMIN]',
+		'[MEDIA]',
+		'[PAGES]'
+	);
+	$replacements = array(
+		substr(ADMIN_PATH, strlen(WB_PATH)),
+		MEDIA_DIRECTORY,
+		PAGES_DIRECTORY
+	);
+
+	$msg = '';
+	foreach( $files2remove as $file )
+	{
+		$file = str_replace($searches, $replacements, $file);
+		$file = WB_PATH.'/'.$file;
+		if( file_exists( $file ))
+		{ // try to unlink file
+			if(!unlink($file))
+			{ // save in err-list, if failed
+				$msg .= $file.'<br />';
+			}
+		}
+	}
+
+	if($msg != '')
+	{
+		$msg = 'Following files are deprecated, outdated or a security risk and
+			    can not be removed automatically.<br /><br />Please delete them
+				using FTP and restart upgrade-script!<br /><br />'.$msg;
+        status_msg($msg, 'error warning', 'div');
+		echo '<br /><br /></div></body></html>';
+		exit();
+	}
 /**********************************************************
  *  - Reload all addons
  */
@@ -544,7 +602,7 @@ if( ($handle = opendir(WB_PATH.'/modules/')) ) {
 	while(false !== ($file = readdir($handle))) {
 		if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'admin.php' AND $file != 'index.php') {
 			load_module(WB_PATH.'/modules/'.$file );
-			upgrade_module($file, true);
+		   // 	upgrade_module($file, true);
 		}
 	}
 	closedir($handle);
@@ -584,7 +642,7 @@ echo '<br />Languages reloaded<br />';
 
 // require(WB_PATH.'/framework/initialize.php');
 
-if(!defined('DEFAULT_THEME')) { define('DEFAULT_THEME', 'wb_theme'); }
+if(!defined('DEFAULT_THEME')) { define('DEFAULT_THEME', $DEFAULT_THEME); }
 if(!defined('THEME_PATH')) { define('THEME_PATH', WB_PATH.'/templates/'.DEFAULT_THEME);}
 
 echo '<p style="font-size:120%;"><strong>Congratulations: The upgrade script is finished ...</strong></p>';

@@ -86,7 +86,7 @@ for($count = 1; $count <= 10; $count++)
 		$info = pathinfo($filename);
 		$ext = isset($info['extension']) ? $info['extension'] : '';
 
-		if ( ($filename != '') && !preg_match("/\." . $forbidden_file_types . "$/i", $ext) )
+		if ( ($filename != '') && !preg_match("/" . $forbidden_file_types . "$/i", $ext) )
 		{
 			// Move to relative path (in media folder)
 			if(file_exists($relative.$filename) AND $overwrite == true) {

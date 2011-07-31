@@ -60,8 +60,8 @@ echo '<?xml version="1.0" encoding="'.$charset.'"?>';
 ?>
 		<language><?php echo strtolower(DEFAULT_LANGUAGE); ?></language>
 		<copyright><?php $thedate = date('Y'); $websitetitle = WEBSITE_TITLE; echo "Copyright {$thedate}, {$websitetitle}"; ?></copyright>
-		<managingEditor><?php echo SERVER_EMAIL; ?></managingEditor>
-		<webMaster><?php echo SERVER_EMAIL; ?></webMaster>
+		<managingEditor><?php echo 'info@wdsnet.de'; ?></managingEditor>
+		<webMaster><?php echo 'info@wdsnet.de'; ?></webMaster>
 		<category><?php echo WEBSITE_TITLE; ?></category>
 		<generator>WebsiteBaker Content Management System</generator>
 <?php
@@ -77,13 +77,18 @@ if(isset($group_id)) {
 $result = $database->query($query);
 
 //Generating the news items
-while($item = $result->fetchRow()){ ?>
-		<item>
-			<title><![CDATA[<?php echo stripslashes($item["title"]); ?>]]></title>
-			<description><![CDATA[<?php echo stripslashes($item["content_short"]); ?>]]></description>
-			<guid><?php echo WB_URL.PAGES_DIRECTORY.$item["link"].PAGE_EXTENSION; ?></guid>
-			<link><?php echo WB_URL.PAGES_DIRECTORY.$item["link"].PAGE_EXTENSION; ?></link>
-		</item>
+while($item = $result->fetchRow()){
+	$description = stripslashes($item["content_short"]);
+	// wb->preprocess() -- replace all [wblink123] with real, internal links
+	$wb->preprocess($description);
+?>
+	<item>
+		<title><![CDATA[<?php echo stripslashes($item["title"]); ?>]]></title>
+		<description><![CDATA[<?php echo $description; ?>]]></description>
+		<link><?php echo WB_URL.PAGES_DIRECTORY.$item["link"].PAGE_EXTENSION; ?></link>
+		<pubDate><?PHP echo date("D, d M Y", $item["published_when"]); ?></pubDate>
+		<guid><?php echo WB_URL.PAGES_DIRECTORY.$item["link"].PAGE_EXTENSION; ?></guid>
+	</item>
 <?php } ?>
 	</channel>
 </rss>

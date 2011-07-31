@@ -707,7 +707,8 @@ function createFolderProtectFile($sAbsDir='',$make_dir=true)
 {
 	global $admin, $MESSAGE;
 	$retVal = array();
-    if( ($sAbsDir=='') || ($sAbsDir == WB_PATH) ) { return $retVal;}
+	$wb_path = rtrim(str_replace('\/\\', '/', WB_PATH), '/');
+    if( ($sAbsDir=='') || ($sAbsDir == $wb_path) ) { return $retVal;}
 
 	if ( $make_dir==true ) {
 		// Check to see if the folder already exists
@@ -727,7 +728,7 @@ function createFolderProtectFile($sAbsDir='',$make_dir=true)
 	{
         // if(file_exists($sAbsDir.'/index.php')) { unlink($sAbsDir.'/index.php'); }
 	    // Create default "index.php" file
-		$rel_pages_dir = str_replace(WB_PATH, '', dirname($sAbsDir) );
+		$rel_pages_dir = str_replace($wb_path, '', dirname($sAbsDir) );
 		$step_back = str_repeat( '../', substr_count($rel_pages_dir, '/')+1 );
 
 		$sResponse  = $_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently';
@@ -742,41 +743,39 @@ function createFolderProtectFile($sAbsDir='',$make_dir=true)
 			"\t".'header(\'Location: '.WB_URL.'/index.php\');'."\n".
 			'// *************************************************'."\n";
 		$filename = $sAbsDir.'/index.php';
+
 		// write content into file
-		if ($handle = fopen($filename, 'w')) {
-			fwrite($handle, $content);
-			fclose($handle);
-			change_mode($filename, 'file');
+		if(is_writable($filename)) {
+		    if(file_put_contents($filename, $content)) {
+				print 'create => '.str_replace( $wb_path,'',$filename).'<br />';
+		        change_mode($filename, 'file');
+		    }
 		}
-		// $admin->print_success($MESSAGE['MEDIA']['DIR_MADE']);
 	} else {
-		// $admin->print_error($MESSAGE['GENERIC_BAD_PERMISSIONS']);
 			$retVal[] = $MESSAGE['GENERIC_BAD_PERMISSIONS'];
 	}
 	return $retVal;
 }
 
-// Rebuild new protected files in the given directory and subs
 function rebuildFolderProtectFile($dir='')
 {
-	$retVal = array();
+ $retVal = array();
+ $dir = rtrim(str_replace('\/\\', '/', $dir), '/');
     try {
-		$iterator = new RecursiveDirectoryIterator($dir);
-		foreach (new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::SELF_FIRST) as $file)
-		{
-		  if ($file->isDir()) {
-		     $protect_file = ($file->getPathname());
-		     $retVal[] = createFolderProtectFile($protect_file,false);
-		  } else {
-		     // print ($file->getPathname())."<br />";
-		  }
-		}
-	} catch ( Exception $e ) {
-		$retVal[] = $MESSAGE['MEDIA_DIR_ACCESS_DENIED'];
-	}
-
-    $retVal = array_merge($retVal);
-	return $retVal;
+  $files = array();
+  $files[] = $dir;
+  foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)) as $fileInfo){
+   $files[] = $fileInfo->getPath();
+  }
+  $files = array_unique($files);
+  foreach( $files as $file){
+   $protect_file = rtrim(str_replace('\/\\', '/', $file), '/');
+   $retVal[] = createFolderProtectFile($protect_file,false);
+  }
+ } catch ( Exception $e ) {
+  $retVal[] = $MESSAGE['MEDIA_DIR_ACCESS_DENIED'];
+ }
+ return $retVal;
 }
 
 // Create a new file in the pages directory

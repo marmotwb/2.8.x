@@ -11,6 +11,12 @@ Legend:
 ! = Update/Change
 
 =============================== FEATURES FREEZE ================================
+------------------------------------- 2.8.3 ------------------------------------
+31 Jul-2011 Build 1484 Dietmar Woellbrink (Luisehahne)
+! move fixes 2.8.2 to 2.8.3
+! fixes will be shown in an extra readme
+! an package with the fixed files will be created
+! for all users who downloaded the 2.8.2 before 29 Jul-2011
 ------------------------------------- 2.8.2 ------------------------------------
 25 Jul-2011 Build 1480 Dietmar Woellbrink (Luisehahne)
 ! Changed version to 2.8.2
