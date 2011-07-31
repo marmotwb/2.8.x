@@ -104,7 +104,7 @@
 		<input type="hidden" name="edit_file" value="<?php echo $css_file; ?>" />
 	  	<input type="hidden" name="action" value="save" />
 		<textarea id="code_area" name="css_data" cols="100" rows="25" wrap="VIRTUAL" style="margin:2px;width:100%;">
-		<?php echo htmlspecialchars($css_content); ?>
+<?php echo htmlspecialchars($css_content); ?>
 		</textarea>
   			<table cellpadding="0" cellspacing="0" border="0" width="100%">
   			<tr>

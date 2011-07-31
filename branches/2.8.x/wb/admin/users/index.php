@@ -30,7 +30,7 @@ $template->set_var('FTAN', $admin->getFTAN());
 
 // Get existing value from database
 // $database = new database();
-$query = "SELECT user_id, username, display_name FROM ".TABLE_PREFIX."users WHERE user_id != '1' ORDER BY display_name,username";
+$query = "SELECT user_id, username, display_name, active FROM ".TABLE_PREFIX."users WHERE user_id != '1' ORDER BY display_name,username";
 $results = $database->query($query);
 if($database->is_error()) {
 	$admin->print_error($database->get_error(), 'index.php');
@@ -42,6 +42,7 @@ if($results->numRows() > 0) {
 	// Insert first value to say please select
 	$template->set_var('VALUE', '');
 	$template->set_var('NAME', $TEXT['PLEASE_SELECT'].'...');
+	$template->set_var('STATUS', 'text-decoration :none;' );
 	$template->parse('list', 'list_block', true);
 	// Loop through users
 	while($user = $results->fetchRow()) {

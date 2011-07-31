@@ -33,4 +33,4 @@ $database->query("CREATE TABLE `$table` (
 
 // add default values to the module table
 $database->query("INSERT INTO ".TABLE_PREFIX
-	."mod_output_filter (sys_rel,email_filter, mailto_filter, at_replacement, dot_replacement) VALUES ('1','1', '1', '(at)', '(dot)')");
+	."mod_output_filter (sys_rel,email_filter, mailto_filter, at_replacement, dot_replacement) VALUES ('0','1', '1', '(at)', '(dot)')");
