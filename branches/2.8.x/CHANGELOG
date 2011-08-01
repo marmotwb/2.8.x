@@ -11,7 +11,10 @@ Legend:
 ! = Update/Change
 
 =============================== FEATURES FREEZE ================================
-------------------------------------- 2.8.3 ------------------------------------
+----------------------------------- Fixes 2.8.2 --------------------------------
+01 Aug-2011 Build 1485 Dietmar Woellbrink (Luisehahne)
+! rename config.php.bak to config.php.new
+# fixed rss.php SERVER_EMAIL
 31 Jul-2011 Build 1484 Dietmar Woellbrink (Luisehahne)
 ! move fixes 2.8.2 to 2.8.3
 ! fixes will be shown in an extra readme
