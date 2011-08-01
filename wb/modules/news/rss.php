@@ -60,8 +60,8 @@ echo '<?xml version="1.0" encoding="'.$charset.'"?>';
 ?>
 		<language><?php echo strtolower(DEFAULT_LANGUAGE); ?></language>
 		<copyright><?php $thedate = date('Y'); $websitetitle = WEBSITE_TITLE; echo "Copyright {$thedate}, {$websitetitle}"; ?></copyright>
-		<managingEditor><?php echo 'info@wdsnet.de'; ?></managingEditor>
-		<webMaster><?php echo 'info@wdsnet.de'; ?></webMaster>
+		<managingEditor><?php echo SERVER_EMAIL; ?></managingEditor>
+		<webMaster><?php echo SERVER_EMAIL; ?></webMaster>
 		<category><?php echo WEBSITE_TITLE; ?></category>
 		<generator>WebsiteBaker Content Management System</generator>
 <?php
