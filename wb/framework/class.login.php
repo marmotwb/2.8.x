@@ -74,7 +74,9 @@ class login extends admin {
 			// User has been "remembered"
 			// Get the users password
 			// $database = new database();
-			$query_details = $database->query("SELECT * FROM ".$this->users_table." WHERE user_id = '".$this->get_safe_remember_key()."' LIMIT 1");
+			$sql  = 'SELECT * FROM `'.$this->users_table.'` ';
+			$sql .= 'WHERE `user_id`=\''.$this->get_safe_remember_key().'\'';
+			$query_details = $database->query($sql);
 			$fetch_details = $query_details->fetchRow();
 			$this->username = $fetch_details['username'];
 			$this->password = $fetch_details['password'];
@@ -130,8 +132,9 @@ class login extends admin {
 		// $database = new database();
 		// $query = 'SELECT * FROM `'.$this->users_table.'` WHERE MD5(`username`) = "'.md5($this->username).'" AND `password` = "'.$this->password.'" AND `active` = 1';
  		$loginname = ( preg_match('/[\;\=\&\|\<\> ]/',$this->username) ? '' : $this->username );
-		$query = 'SELECT * FROM `'.$this->users_table.'` WHERE `username` = "'.$loginname.'" AND `password` = "'.$this->password.'" AND `active` = 1';
-		$results = $database->query($query);
+		$sql  = 'SELECT * FROM `'.$this->users_table.'` ';
+		$sql .= 'WHERE `username`=\''.$loginname.'\' AND `password`=\''.$this->password.'\' AND `active`=1';
+		$results = $database->query($sql);
 		$results_array = $results->fetchRow();
 		$num_rows = $results->numRows();
 		if($num_rows == 1) {
@@ -183,8 +186,8 @@ class login extends admin {
 			$first_group = true;
 			foreach (explode(",", $this->get_session('GROUPS_ID')) as $cur_group_id)
             {
-				$query = "SELECT * FROM ".$this->groups_table." WHERE group_id = '".$cur_group_id."'";
-				$results = $database->query($query);
+				$sql = 'SELECT * FROM `'.$this->groups_table.'` WHERE `group_id`=\''.$cur_group_id.'\'';
+				$results = $database->query($sql);
 				$results_array = $results->fetchRow();
 				$_SESSION['GROUP_NAME'][$cur_group_id] = $results_array['name'];
 				// Set system permissions
@@ -213,8 +216,10 @@ class login extends admin {
 			// Update the users table with current ip and timestamp
 			$get_ts = time();
 			$get_ip = $_SERVER['REMOTE_ADDR'];
-			$query = "UPDATE ".$this->users_table." SET login_when = '$get_ts', login_ip = '$get_ip' WHERE user_id = '$user_id'";
-			$database->query($query);
+			$sql  = 'UPDATE `'.$this->users_table.'` ';
+			$sql .= 'SET `login_when`=\''.$get_ts.'\', `login_ip`=\''.$get_ip.'\' ';
+			$sql .= 'WHERE `user_id`=\''.$user_id.'\'';
+			$database->query($sql);
 		}else {
 		  $num_rows = 0;
 		}

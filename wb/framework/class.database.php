@@ -214,10 +214,13 @@ class database {
 	public function field_modify($table_name, $field_name, $description)
 	{
 		$retval = false;
-		if( $this->field_exists($field_name, $table_name) )
+		if( $this->field_exists($table_name, $field_name) )
 		{ // modify a existing field in a table
-			$sql  = 'ALTER TABLE `'.$table_name.'` DROP `'.$field_name.'`';
+			$sql  = 'ALTER TABLE `'.$table_name.'` MODIFY `'.$field_name.'` '.$description;
+			$retval = ( $this->query($sql) ? true : false);
+			$this->set_error(mysql_error());
 		}
+		return $retval;
 	}
 
 /*
