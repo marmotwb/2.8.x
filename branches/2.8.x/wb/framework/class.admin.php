@@ -57,8 +57,9 @@ class admin extends wb {
 		}
 
 		// Check if the backend language is also the selected language. If not, send headers again.
-		$get_user_language = @$database->query("SELECT language FROM ".TABLE_PREFIX.
-			"users WHERE user_id = '" .(int) $this->get_user_id() ."'");
+		$sql  = 'SELECT `language` FROM `'.TABLE_PREFIX.'users` ';
+		$sql .= 'WHERE `user_id`='.(int)$this->get_user_id();
+		$get_user_language = @$database->query($sql);
 		$user_language = ($get_user_language) ? $get_user_language->fetchRow() : '';
 		// prevent infinite loop if language file is not XX.php (e.g. DE_du.php)
 		$user_language = substr($user_language[0],0,2);
@@ -94,7 +95,8 @@ class admin extends wb {
 		global $database;
 		// $GLOBALS['FTAN'] = $this->getFTAN();
 		$this->createFTAN();
-		$get_title = $database->query("SELECT value FROM ".TABLE_PREFIX."settings WHERE name = 'website_title'");
+		$sql = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` WHERE `name`=\'website_title\'';
+		$get_title = $database->query($sql);
 		$title = $get_title->fetchRow();
 		$header_template = new Template(THEME_PATH.'/templates');
 		$header_template->set_file('page', 'header.htt');
@@ -110,7 +112,9 @@ class admin extends wb {
 		$view_url = WB_URL;
 		if(isset($_GET['page_id'])) {
 			// extract page link from the database
-			$result = @$database->query("SELECT link FROM " .TABLE_PREFIX ."pages WHERE page_id = '" .(int) addslashes($_GET['page_id']) ."'");
+			$sql  = 'SELECT `link` FROM `'.TABLE_PREFIX.'pages` ';
+			$sql .= 'WHERE `page_id`='.intval($_GET['page_id']);
+			$result = @$database->query($sql);
 			$row = @$result->fetchRow();
 			if($row) $view_url .= PAGES_DIRECTORY .$row['link']. PAGE_EXTENSION;
 		}
@@ -247,8 +251,7 @@ class admin extends wb {
   $retval = array('username'=>'unknown','display_name'=>'Unknown','email'=>'');
   $sql  = 'SELECT `username`,`display_name`,`email` ';
   $sql .= 'FROM `'.TABLE_PREFIX.'users` ';
-  $sql .= 'WHERE `user_id`='.(int)$user_id.' ';
-  // $sql .= 'AND (`statusflags` & '.USERS_DELETED.') > 0';
+  $sql .= 'WHERE `user_id`='.(int)$user_id;
   if( ($resUsers = $database->query($sql)) ) {
    if( ($recUser = $resUsers->fetchRow()) ) {
     $retval = $recUser;
@@ -261,7 +264,7 @@ class admin extends wb {
 	function get_section_details( $section_id, $backLink = 'index.php' ) {
 	global $database, $TEXT;
 		$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'sections` ';
-		$sql .= 'WHERE `section_id`='.intval($section_id).' LIMIT 1';
+		$sql .= 'WHERE `section_id`='.intval($section_id);
 		if(($resSection = $database->query($sql))){
 			if(!($recSection = $resSection->fetchRow())) {
 				$this->print_header();
@@ -275,53 +278,20 @@ class admin extends wb {
 	}
 
 	function get_page_details( $page_id, $backLink = 'index.php' ) {
-	  global $database, $TEXT;
-	  $sql  = 'SELECT * FROM `'.TABLE_PREFIX.'pages` ';
-	  $sql .= 'WHERE `page_id`='.(int)$page_id.' LIMIT 1';
-	  if(($resPages = $database->query($sql))){
-	   if(!($recPage = $resPages->fetchRow())) {
-	    $this->print_header();
-	    $this->print_error($TEXT['PAGE'].' '.$TEXT['NOT_FOUND'], $backLink, true);
-	   }
-	  } else {
-	   $this->print_header();
-	   $this->print_error($database->get_error(), $backLink, true);
-	  }
-	  return $recPage;
-	 }
-
-	/** Function get_page_permission takes either a numerical page_id,
-	 * upon which it looks up the permissions in the database,
-	 * or an array with keys admin_groups and admin_users
-	 */
-/*
-	function get_page_permission($page,$action='admin') {
-		if ($action!='viewing') $action='admin';
-		$action_groups=$action.'_groups';
-		$action_users=$action.'_users';
-		if (is_array($page)) {
-				$groups=$page[$action_groups];
-				$users=$page[$action_users];
+		global $database, $TEXT;
+		$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'pages` ';
+		$sql .= 'WHERE `page_id`='.intval($page_id);
+		if(($resPages = $database->query($sql))){
+			if(!($recPage = $resPages->fetchRow())) {
+			$this->print_header();
+			$this->print_error($TEXT['PAGE'].' '.$TEXT['NOT_FOUND'], $backLink, true);
+			}
 		} else {
-			global $database;
-			$results = $database->query("SELECT $action_groups,$action_users FROM ".TABLE_PREFIX."pages WHERE page_id = '$page'");
-			$result = $results->fetchRow();
-			$groups = explode(',', str_replace('_', '', $result[$action_groups]));
-			$users = explode(',', str_replace('_', '', $result[$action_users]));
+			$this->print_header();
+			$this->print_error($database->get_error(), $backLink, true);
 		}
-
-		$in_group = FALSE;
-		foreach($this->get_groups_id() as $cur_gid){
-		    if (in_array($cur_gid, $groups)) {
-		        $in_group = TRUE;
-		    }
-		}
-		if((!$in_group) AND !is_numeric(array_search($this->get_user_id(), $users))) {
-			return false;
-		}
-		return true;
+		return $recPage;
 	}
-*/
 
 	function get_page_permission($page,$action='admin') {
 		if($action != 'viewing') { $action = 'admin'; }
@@ -386,8 +356,9 @@ class admin extends wb {
 		if(isset($_GET['tool']))
 			{
 			// check if displayed page contains a installed admin tool
-			$result = $database->query("SELECT * FROM " .TABLE_PREFIX ."addons
-				WHERE type = 'module' AND function = 'tool' AND directory = '".addslashes($_GET['tool'])."'");
+			$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';
+			$sql .= 'WHERE `type`=\'module\' AND `function`=\'tool\' AND `directory`=\''.addslashes($_GET['tool']).'\'';
+			$result = $database->query($sql);
 			if($result->numRows())
 				{
 				// check if admin tool directory contains a backend_body.js file to include
@@ -408,8 +379,8 @@ class admin extends wb {
 				$page_id = (int) addslashes($_POST['page_id']);
 			}
 			// gather information for all models embedded on actual page
-			$query_modules = $database->query("SELECT module FROM " .TABLE_PREFIX ."sections
-				WHERE page_id=$page_id");
+			$sql = 'SELECT `module` FROM `'.TABLE_PREFIX.'sections` WHERE `page_id`='.(int)$page_id;
+			$query_modules = $database->query($sql);
 			while($row = $query_modules->fetchRow()) {
 				// check if page module directory contains a backend_body.js file
 				if(file_exists(WB_PATH ."/modules/" .$row['module'] ."/$base_file")) {
@@ -450,9 +421,9 @@ class admin extends wb {
 		// check if backend.js or backend.css files needs to be included to the <head></head> section of the backend
 		if(isset($_GET['tool'])) {
 			// check if displayed page contains a installed admin tool
-			$result = $database->query("SELECT * FROM " .TABLE_PREFIX ."addons
-				WHERE type = 'module' AND function = 'tool' AND directory = '".addslashes($_GET['tool'])."'");
-
+			$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';
+			$sql .= 'WHERE `type`=\'module\' AND `function`=\'tool\' AND `directory`=\''.addslashes($_GET['tool']).'\'';
+			$result = $database->query($sql);
 			if($result->numRows()) {
 				// check if admin tool directory contains a backend.js or backend.css file to include
 				$tool = $result->fetchRow();
@@ -470,8 +441,8 @@ class admin extends wb {
 			}
 
     		// gather information for all models embedded on actual page
-			$query_modules = $database->query("SELECT module FROM " .TABLE_PREFIX ."sections
-				WHERE page_id=$page_id");
+			$sql = 'SELECT `module` FROM `'.TABLE_PREFIX.'sections` WHERE `page_id`='.(int)$page_id;
+			$query_modules = $database->query($sql);
 
     		while($row = $query_modules->fetchRow()) {
 				// check if page module directory contains a backend.js or backend.css file

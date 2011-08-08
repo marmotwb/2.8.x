@@ -69,21 +69,23 @@ class frontend extends wb {
 		}
 		// Check if we should add page language sql code
 		if(PAGE_LANGUAGES) {
-			$this->sql_where_language = " AND language = '".LANGUAGE."'";
+			$this->sql_where_language = ' AND `language`=\''.LANGUAGE.'\'';
 		}
 		// Get default page
 		// Check for a page id
 		$table_p = TABLE_PREFIX.'pages';
 		$table_s = TABLE_PREFIX.'sections';
 		$now = time();
-		$query_default = "
-			SELECT `p`.`page_id`, `link`
-			FROM `$table_p` AS `p` INNER JOIN `$table_s` USING(`page_id`)
-			WHERE `parent` = '0' AND `visibility` = 'public'
-			AND (($now>=`publ_start` OR `publ_start`=0) AND ($now<=`publ_end` OR `publ_end`=0))
-			$this->sql_where_language
-			ORDER BY `p`.`position` ASC LIMIT 1";
-		$get_default = $database->query($query_default);
+		$sql  = 'SELECT `p`.`page_id`, `link` ';
+		$sql .= 'FROM `'.$table_p.'` AS `p` INNER JOIN `'.$table_s.'` USING(`page_id`) ';
+		$sql .= 'WHERE `parent`=0 AND `visibility`=\'public\' ';
+		$sql .=     'AND (('.$now.'>=`publ_start` OR `publ_start`=0) ';
+		$sql .=     'AND ('.$now.'<=`publ_end` OR `publ_end`=0)) ';
+		if(trim($this->sql_where_language) != '') {
+			$sql .= trim($this->sql_where_language).' ';
+		}
+		$sql .= 'ORDER BY `p`.`position` ASC';
+		$get_default = $database->query($sql);
 		$default_num_rows = $get_default->numRows();
 		if(!isset($page_id) OR !is_numeric($page_id)){
 			// Go to or show default page
@@ -121,8 +123,8 @@ class frontend extends wb {
 		global $database;
 	    if($this->page_id != 0) {
 			// Query page details
-			$query_page = "SELECT * FROM ".TABLE_PREFIX."pages WHERE page_id = '{$this->page_id}'";
-			$get_page = $database->query($query_page);
+			$sql = 'SELECT * FROM `'.TABLE_PREFIX.'pages` WHERE `page_id`='.(int)$this->page_id;
+			$get_page = $database->query($sql);
 			// Make sure page was found in database
 			if($get_page->numRows() == 0) {
 				// Print page not found message
@@ -231,14 +233,14 @@ class frontend extends wb {
 
 		// set visibility SQL code
 		// never show no-vis, hidden or deleted pages
-		$this->extra_where_sql = "visibility != 'none' AND visibility != 'hidden' AND visibility != 'deleted'";
+		$this->extra_where_sql = '`visibility`!=\'none\' AND `visibility`!=\'hidden\' AND `visibility`!=\'deleted\'';
 		// Set extra private sql code
 		if($this->is_authenticated()==false) {
 			// if user is not authenticated, don't show private pages either
-			$this->extra_where_sql .= " AND visibility != 'private'";
+			$this->extra_where_sql .= ' AND `visibility`!=\'private\'';
 			// and 'registered' without frontend login doesn't make much sense!
 			if (FRONTEND_LOGIN==false) {
-				$this->extra_where_sql .= " AND visibility != 'registered'";
+				$this->extra_where_sql .= ' AND `visibility`!=\'registered\'';
 			}
 		}
 		$this->extra_where_sql .= $this->sql_where_language;
@@ -370,12 +372,17 @@ class frontend extends wb {
 	       return;
 		// Check if we should add menu number check to query
 		if($this->menu_parent == 0) {
-			$menu_number = "menu = '$this->menu_number'";
+			$menu_number = '`menu`='.intval($this->menu_number);
 		} else {
 			$menu_number = '1';
 		}
 		// Query pages
-		$query_menu = $database->query("SELECT page_id,menu_title,page_title,link,target,level,visibility,viewing_groups,viewing_users FROM ".TABLE_PREFIX."pages WHERE parent = '$this->menu_parent' AND $menu_number AND $this->extra_where_sql ORDER BY position ASC");
+		$sql  = 'SELECT `page_id`,`menu_title`,`page_title`,`link`,`target`,`level`,';
+		$sql .=        '`visibility`,viewing_groups,viewing_users ';
+		$sql .= 'FROM `'.TABLE_PREFIX.'pages` ';
+		$sql .= 'WHERE `parent`='.(int)$this->menu_parent.' AND '.$menu_number.' AND '.$this->extra_where_sql.' ';
+		$sql .= 'ORDER BY `position` ASC';
+		$query_menu = $database->query($sql);
 		// Check if there are any pages to show
 		if($query_menu->numRows() > 0) {
 			// Print menu header
