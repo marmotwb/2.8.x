@@ -1,153 +1,138 @@
 <?php
-
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
-
-/*
-
-Ordering class
-
-This class will be used to change the order of an item in a table
-which contains a special order field (type must be integer)
-
-*/
-
+/**
+ * @category        WebsiteBaker
+ * @package         WebsiteBaker_core
+ * @author          Werner v.d.Decken
+ * @copyright       WebsiteBaker.org e.V.
+ * @link            http://websitebaker2.org
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * Ordering class
+ * This class will be used to change the order of an item in a table
+ * which contains a special order field (type must be integer)
+ */
+/*******************************************************************************
+ * abstract factory for application
+ */
 // Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
-
-define('ORDERING_CLASS_LOADED', true);
-
+	if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+	define('ORDERING_CLASS_LOADED', true);
 // Load the other required class files if they are not already loaded
-require_once(WB_PATH."/framework/class.database.php");
+	require_once(WB_PATH."/framework/class.database.php");
 
 class order {
-	
-	// Get the db values
-	function order($table, $order_field, $id_field = 'id', $common_field) {
-		$this->table = $table;
-		$this->order_field = $order_field;
-		$this->id_field = $id_field;
-		$this->common_field = $common_field;
-	}
-	
-	// Move a row up
-	function move_up($id) {
-		global $database;
-		// Get current order
-		$query_order = "SELECT ".$this->order_field.",".$this->common_field." FROM ".$this->table." WHERE ".$this->id_field." = '$id'";
-		$get_order = $database->query($query_order);
-		$fetch_order = $get_order->fetchRow();
-		$order = $fetch_order[$this->order_field];
-		$parent = $fetch_order[$this->common_field];
-		// Find out what row is before current one
-		$query_previous = "SELECT ".$this->id_field.",".$this->order_field." FROM ".$this->table." WHERE ".$this->order_field." < '$order' AND ".$this->common_field." = '$parent' ORDER BY ".$this->order_field." DESC LIMIT 1";
-		$get_previous = $database->query($query_previous);
-		if($get_previous->numRows() > 0) {
-			// Change the previous row to the current order
-			$fetch_previous = $get_previous->fetchRow();
-			$previous_id = $fetch_previous[$this->id_field];
-			$decremented_order = $fetch_previous[$this->order_field];
-			$query = "UPDATE ".$this->table." SET ".$this->order_field." = '$order' WHERE ".$this->id_field." = '$previous_id' LIMIT 1";
-			$database->query($query);
-			// Change the row we want to the decremented order
-			$query = "UPDATE ".$this->table." SET ".$this->order_field." = '$decremented_order' WHERE ".$this->id_field." = '$id' LIMIT 1";
-			$database->query($query);
-			
-			if($database->is_error()) {
-				return false;
-			} else {
-				return true;
-			}
-		} else {
-			return false;
-		}
-	}
-	// Move a row up
-	function move_down($id) {
-		global $database;
-		// Get current order
-		$query_order = "SELECT ".$this->order_field.",".$this->common_field." FROM ".$this->table." WHERE ".$this->id_field." = '$id'";
-		$get_order = $database->query($query_order);
-		$fetch_order = $get_order->fetchRow();
-		$order = $fetch_order[$this->order_field];
-		$parent = $fetch_order[$this->common_field];
-		// Find out what row is before current one
-		$query_next = "SELECT $this->id_field,".$this->order_field." FROM ".$this->table." WHERE ".$this->order_field." > '$order' AND ".$this->common_field." = '$parent' ORDER BY ".$this->order_field." ASC LIMIT 1";
-		$get_next = $database->query($query_next);
-		if($get_next->numRows() > 0) {
-			// Change the previous row to the current order
-			$fetch_next = $get_next->fetchRow();
-			$next_id = $fetch_next[$this->id_field];
-			$incremented_order = $fetch_next[$this->order_field];
-			$query = "UPDATE ".$this->table." SET ".$this->order_field." = '$order' WHERE ".$this->id_field." = '$next_id' LIMIT 1";
-			$database->query($query);
-			// Change the row we want to the decremented order
-			$query = "UPDATE ".$this->table." SET ".$this->order_field." = '$incremented_order' WHERE ".$this->id_field." = '$id' LIMIT 1";
-			$database->query($query);
-			if($database->is_error()) {
-				return false;
-			} else {
-				return true;
-			}
-		} else {
-			return false;
-		}
-	}
-	
-	// Get new number for order
-	function get_new($cf_value) {
-		global $database;
-		// $database = new database();
-		// Get last order
-		$query_last = "SELECT ".$this->order_field." FROM ".$this->table." WHERE ".$this->common_field." = '$cf_value' ORDER BY ".$this->order_field." DESC LIMIT 1";
-		$get_last = $database->query($query_last);
-		if($get_last->numRows() > 0) {
-			$fetch_last = $get_last->fetchRow();
-			$last_order = $fetch_last[$this->order_field];
-			return $last_order+1;
-		} else {
-			return 1;
-		}
-	}
-	
-	// Clean ordering (should be called if a row in the middle has been deleted)
-	function clean($cf_value) {
-		global $database;
-		// Loop through all records and give new order
-		$query_all = "SELECT * FROM ".$this->table." WHERE ".$this->common_field." = '$cf_value' ORDER BY ".$this->order_field." ASC";
-		$get_all = $database->query($query_all);
-		if($get_all->numRows() > 0) {
-			$count = 1;
-			while($row = $get_all->fetchRow()) {
-				// Update row with new order
-				$database->query("UPDATE ".$this->table." SET ".$this->order_field." = '$count' WHERE ".$this->id_field." = '".$row[$this->id_field]."'");
-				$count = $count+1;
-			}
-		} else {
-			 return true;
-		}
-	}
-	
-}
 
-?>
+	const MOVE_UP   = 0;
+	const MOVE_DOWN = 1;
+
+	private $_Table      = '';
+	private $_FieldOrder = '';
+	private $_FieldId    = '';
+	private $_FieldGroup = '';
+	private $_DB         = null;
+
+	/**
+	 * Constructor
+	 * @param string $Table
+	 * @param string $FieldOrder
+	 * @param string $FieldId
+	 * @param string $FieldGroup
+	 * use $GLOBALS['database']
+	 */
+	public function __construct($Table, $FieldOrder, $FieldId, $FieldGroup) {
+		$this->_DB         = $GLOBALS['database'];
+		$this->_Table      = $Table;
+		$this->_FieldOrder = $FieldOrder;
+		$this->_FieldId    = $FieldId;
+		$this->_FieldGroup = $FieldGroup;
+	}
+	/**
+	 *
+	 * @param string|int $id
+	 * @param int $direction
+	 * @return bool
+	 */
+	public function move($id, $direction = self::MOVE_UP)
+	{
+		$retval = false;
+		$sql  = 'SELECT `'.$this->_FieldOrder.'` `order`, `'.$this->_FieldGroup.'` `group` ';
+		$sql .= 'FROM `'.$this->_Table.'` WHERE `'.$this->_FieldId.'`=\''.$id.'\'';
+		if(($res1 = $this->_DB->query($sql))) {
+			if(($rec1 = $res1->fetchRow())) {
+				$sql  = 'SELECT `'.$this->_FieldId.'` `id`, `'.$this->_FieldOrder.'` `order` ';
+				$sql .= 'FROM `'.$this->_Table.'` ';
+				$sql .= 'WHERE `'.$this->_FieldGroup.'`=\''.$rec1['group'].'\' ';
+				if($direction == self::MOVE_UP) {
+					$sql .=     'AND `'.$this->_FieldOrder.'`>\''.$rec1['order'].'\' ';
+					$sql .= 'ORDER BY `'.$this->_FieldOrder.'` ASC';
+				}else {
+					$sql .=     'AND `'.$this->_FieldOrder.'`<\''.$rec1['order'].'\' ';
+					$sql .= 'ORDER BY `'.$this->_FieldOrder.'` DESC';
+				}
+				if(($res2 = $this->_DB->query($sql))) {
+					if(($rec2 = $res2->fetchRow())) {
+						$sql  = 'UPDATE `'.$this->_Table.'` ';
+						$sql .= 'SET `'.$this->_FieldOrder.'`=\''.$rec1['order'].'\' ';
+						$sql .= 'WHERE `'.$this->_FieldId.'`=\''.$rec2['id'].'\'';
+						if($this->_DB->query($sql)) {
+							$sql  = 'UPDATE `'.$this->_Table.'` ';
+							$sql .= 'SET `'.$this->_FieldOrder.'`=\''.$rec2['order'].'\' ';
+							$sql .= 'WHERE `'.$this->_FieldId.'`=\''.$id.'\'';
+							$retval = $this->_DB->query($sql);
+						}
+					}
+				}
+			}
+		}
+		return $retval;
+	}
+
+	/**
+	 * Move a row up
+	 * @param string|int $id
+	 * @return bool
+	 */
+	public function move_up($id) {
+		// Get current order
+		return $this->move($id, self::MOVE_UP);
+	}
+
+	/**
+	 * Move a row down
+	 * @param string|int $id
+	 * @return bool
+	 */
+	public function move_down($id) {
+		// Get current order
+		return $this->move($id, self::MOVE_DOWN);
+	}
+	
+	/**
+	 * Get next free number for order
+	 * @param string|int $group
+	 * @return integer
+	 */
+	public function get_new($group) {
+		// Get last order
+		$sql  = 'SELECT MAX(`'.$this->_FieldOrder.'`) FROM `'.$this->_Table.'` ';
+		$sql .= 'WHERE `'.$this->_FieldGroup.'`=\''.$group.'\' ';
+		$max = intval($this->_DB->get_one($sql)) + 1;
+		return $max;
+	}
+	
+	/**
+	 * Renumbering a group from 1 to n (should be called if a row in the middle has been deleted)
+	 * @param string|int $group
+	 * @return bool
+	 */
+	public function clean($group) {
+		// Loop through all records and give new order
+		$sql  = 'SET @c := 0; ';
+		$sql .= 'UPDATE `'.$this->_Table.'` SET `'.$this->_FieldOrder.'`=( SELECT @c := @c + 1 ) ';
+		$sql .= 'WHERE `'.$this->_FieldGroup.'`=\''.$group.'\' ';
+		$sql .= 'ORDER BY `'.$this->_FieldOrder.'` ASC;';
+		return $this->_DB->query($sql);
+	}
+	
+} // end of class

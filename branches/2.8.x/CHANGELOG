@@ -12,6 +12,9 @@ Legend:
 
 =============================== FEATURES FREEZE ================================
 ----------------------------------- Fixes 2.8.2 --------------------------------
+10 Aug-2011 Build 1487 Werner v.d.Decken(DarkViper)
+# class.order completely recoded to reduce SQL requests
+# all other files: fix SQL-statements to SQL-strict
 08 Aug-2011 Build 1486 Werner v.d.Decken(DarkViper)
 # database::field_modify() there was a bug to fix
 # all other files: fix SQL-statements to SQL-strict

@@ -16,8 +16,14 @@
  *
  */
 
-// Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+//require_once(dirname(__FILE__).'/globalExceptionHandler.php');
+//// Must include code to stop this file being access directly
+//if(!defined('WB_PATH')) { throw new Exception('Illegaler Aufruf!'); }
+
+require_once('globalExceptionHandler.php');
+if(!defined('WB_PATH')) { throw new IllegalFileException(); }
+//if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+
 //set_include_path(get_include_path() . PATH_SEPARATOR . WB_PATH);
 
 if (file_exists(WB_PATH.'/framework/class.database.php')) {
