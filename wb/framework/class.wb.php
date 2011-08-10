@@ -138,13 +138,15 @@ class wb extends SecureForm
 		$has_active_sections = false;
 		$page_id = $page['page_id'];
 		$now = time();
-		$query_sections = $database->query("SELECT publ_start,publ_end FROM ".TABLE_PREFIX."sections WHERE page_id = '$page_id'");
-		if($query_sections->numRows() != 0)
-        {
-			while($section = $query_sections->fetchRow())
-            {
-				if($now<$section['publ_end'] && ($now>$section['publ_start'] || $section['publ_start']==0) || $now>$section['publ_start'] && $section['publ_end']==0)
-                {
+		$sql  = 'SELECT `publ_start`, `publ_end` ';
+		$sql .= 'FROM `'.TABLE_PREFIX.'sections` WHERE `page_id`='.(int)$page_id;
+		$query_sections = $database->query($sql);
+		if($query_sections->numRows() != 0) {
+			while($section = $query_sections->fetchRow()) {
+				if( $now<$section['publ_end'] &&
+					($now>$section['publ_start'] || $section['publ_start']==0) ||
+					$now>$section['publ_start'] && $section['publ_end']==0)
+				{
 					$has_active_sections = true;
 					break;
 				}
@@ -156,31 +158,24 @@ class wb extends SecureForm
 	// Check whether we should show a page or not (for front-end)
 	function show_page($page)
     {
-		if($this->page_is_visible($page) && $this->page_is_active($page))
-        {
-			return true;
-		} else {
-			return false;
-		}
+		$retval = ($this->page_is_visible($page) && $this->page_is_active($page));
+		return $retval;
 	}
 
 	// Check if the user is already authenticated or not
 	function is_authenticated() {
-		if(isset($_SESSION['USER_ID']) AND $_SESSION['USER_ID'] != "" AND is_numeric($_SESSION['USER_ID']))
-        {
-			return true;
-		} else {
-			return false;
-		}
+		$retval = ( isset($_SESSION['USER_ID']) AND
+		            $_SESSION['USER_ID'] != "" AND
+		            is_numeric($_SESSION['USER_ID']));
+        return $retval;
 	}
 
 	// Modified addslashes function which takes into account magic_quotes
 	function add_slashes($input) {
-		if ( get_magic_quotes_gpc() || ( !is_string($input) ) ) {
+		if( get_magic_quotes_gpc() || (!is_string($input)) ) {
 			return $input;
 		}
-		$output = addslashes($input);
-		return $output;
+		return addslashes($input);
 	}
 
 	// Ditto for stripslashes
@@ -191,8 +186,7 @@ class wb extends SecureForm
 		if ( !get_magic_quotes_gpc() || ( !is_string($input) ) ) {
 			return $input;
 		}
-		$output = stripslashes($input);
-		return $output;
+		return stripslashes($input);
 	}
 
 	// Escape backslashes for use with mySQL LIKE strings
@@ -211,11 +205,7 @@ class wb extends SecureForm
 	
 	// Get POST data
 	function get_post($field) {
-		if(isset($_POST[$field])) {
-			return $_POST[$field];
-		} else {
-			return null;
-		}
+		return (isset($_POST[$field]) ? $_POST[$field] : null);
 	}
 
 	// Get POST data and escape it
@@ -226,29 +216,17 @@ class wb extends SecureForm
 	
 	// Get GET data
 	function get_get($field) {
-		if(isset($_GET[$field])) {
-			return $_GET[$field];
-		} else {
-			return null;
-		}
+		return (isset($_GET[$field]) ? $_GET[$field] : null);
 	}
 
 	// Get SESSION data
 	function get_session($field) {
-		if(isset($_SESSION[$field])) {
-			return $_SESSION[$field];
-		} else {
-			return null;
-		}
+		return (isset($_SESSION[$field]) ? $_SESSION[$field] : null);
 	}
 
 	// Get SERVER data
 	function get_server($field) {
-		if(isset($_SERVER[$field])) {
-			return $_SERVER[$field];
-		} else {
-			return null;
-		}
+		return (isset($_SERVER[$field]) ? $_SERVER[$field] : null);
 	}
 
 	// Get the current users id
@@ -298,11 +276,7 @@ class wb extends SecureForm
 
 	// Get the current users timezone
 	function get_timezone() {
-		if(!isset($_SESSION['USE_DEFAULT_TIMEZONE'])) {
-			return $_SESSION['TIMEZONE'];
-		} else {
-			return '-72000';
-		}
+		return (isset($_SESSION['USE_DEFAULT_TIMEZONE']) ? '-72000' : $_SESSION['TIMEZONE']);
 	}
 
 	// Validate supplied email address
@@ -425,15 +399,15 @@ class wb extends SecureForm
 
 	// Validate send email
 	function mail($fromaddress, $toaddress, $subject, $message, $fromname='') {
-		/* 
-			INTEGRATED OPEN SOURCE PHPMAILER CLASS FOR SMTP SUPPORT AND MORE
-			SOME SERVICE PROVIDERS DO NOT SUPPORT SENDING MAIL VIA PHP AS IT DOES NOT PROVIDE SMTP AUTHENTICATION
-			NEW WBMAILER CLASS IS ABLE TO SEND OUT MESSAGES USING SMTP WHICH RESOLVE THESE ISSUE (C. Sommer)
+/* 
+	INTEGRATED OPEN SOURCE PHPMAILER CLASS FOR SMTP SUPPORT AND MORE
+	SOME SERVICE PROVIDERS DO NOT SUPPORT SENDING MAIL VIA PHP AS IT DOES NOT PROVIDE SMTP AUTHENTICATION
+	NEW WBMAILER CLASS IS ABLE TO SEND OUT MESSAGES USING SMTP WHICH RESOLVE THESE ISSUE (C. Sommer)
 
-			NOTE:
-			To use SMTP for sending out mails, you have to specify the SMTP host of your domain
-			via the Settings panel in the backend of Website Baker
-		*/ 
+	NOTE:
+	To use SMTP for sending out mails, you have to specify the SMTP host of your domain
+	via the Settings panel in the backend of Website Baker
+*/ 
 
 		$fromaddress = preg_replace('/[\r\n]/', '', $fromaddress);
 		$toaddress = preg_replace('/[\r\n]/', '', $toaddress);
@@ -443,20 +417,17 @@ class wb extends SecureForm
 
 		// create PHPMailer object and define default settings
 		$myMail = new wbmailer();
-
 		// set user defined from address
 		if ($fromaddress!='') {
-			if($fromname!='') $myMail->FromName = $fromname;         // FROM-NAME
-			$myMail->From = $fromaddress;                            // FROM:
-			$myMail->AddReplyTo($fromaddress);                       // REPLY TO:
+			if($fromname!='') $myMail->FromName = $fromname;  // FROM-NAME
+			$myMail->From = $fromaddress;                     // FROM:
+			$myMail->AddReplyTo($fromaddress);                // REPLY TO:
 		}
-		
 		// define recepient and information to send out
-		$myMail->AddAddress($toaddress);                            // TO:
-		$myMail->Subject = $subject;                                // SUBJECT
-		$myMail->Body = nl2br($message);                                   // CONTENT (HTML)
-		$myMail->AltBody = strip_tags($message);				// CONTENT (TEXT)
-
+		$myMail->AddAddress($toaddress);                      // TO:
+		$myMail->Subject = $subject;                          // SUBJECT
+		$myMail->Body = nl2br($message);                      // CONTENT (HTML)
+		$myMail->AltBody = strip_tags($message);              // CONTENT (TEXT)
 		// check if there are any send mail errors, otherwise say successful
 		if (!$myMail->Send()) {
 			return false;
