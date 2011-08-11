@@ -251,7 +251,7 @@
 <tr style="text-align:center;width:100%">
     <td>&nbsp;</td>
 	<td style="text-align:right;">
-		<input type="submit" name="submit" value="{SUBMIT_TITLE}" />
+		<input type="submit" name="save" value="{SUBMIT_TITLE}" />
 	</td>
 	<td style="text-align:left;">
 		<input type="reset" name="reset" value="{TEXT_RESET}" />
@@ -262,7 +262,7 @@
 </form>
 
 
-<form name="advanced" action="{ADVANCED_ACTION}" method="post">
+<form name="advanced" action="{ADVANCED_LINK}" method="post">
 <input type="hidden" name="group_id" value="{GROUP_ID}" />
 <input type="hidden" name="action" value="modify" />
 {FTAN}

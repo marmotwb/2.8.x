@@ -271,7 +271,7 @@
 </tr>
 
 <tr>
-	<td colspan="2"><input type="submit" name="submit" value="{SUBMIT_TITLE}" /></td>
+	<td colspan="2"><input type="submit" name="save" value="{SUBMIT_TITLE}" /></td>
     <td colspan="2" align="right"><input type="reset" name="reset" value="{TEXT_RESET}" /></td>
 </tr>
 </table>
@@ -280,7 +280,8 @@
 <table summary="" cellpadding="5" cellspacing="0" border="0" width="100%">
 <tr>
 	<td align="center">
-	<form name="advanced" action="{ADVANCED_ACTION}" method="post">
+	<form name="advanced" action="{ADVANCED_LINK}" method="post">
+		<input type="hidden" name="advanced" value="{ADVANCED}" />
         <input type="hidden" name="group_id" value="{GROUP_ID}" />
         <input type="hidden" name="action" value="modify" />
 		{FTAN}
