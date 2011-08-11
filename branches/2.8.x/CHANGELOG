@@ -12,6 +12,11 @@ Legend:
 
 =============================== FEATURES FREEZE ================================
 ----------------------------------- Fixes 2.8.2 --------------------------------
+11 Aug-2011 Build 1492 Dietmar Woellbrink (Luisehahne)
+# Ticket #1107 Deleting users not possible
+  Change handling, first user will be set to inactive
+  secound inactive user will be show in an extra dropdown
+  and can now deleted from user table or reactivated
 11 Aug-2011 Build 1491 Dietmar Woellbrink (Luisehahne)
 ! comment out $email_body .= "\n\nIP: ".$_SERVER['REMOTE_ADDR'];
 11 Aug-2011 Build 1490 Dietmar Woellbrink (Luisehahne)

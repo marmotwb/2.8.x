@@ -191,3 +191,5 @@ div#username {height:17px;width:118%;text-align:left;font-weight:bold;margin:0;}
 .error-box { background :#fee; border :0.2em #844 solid; color :#400; margin-bottom :1em; padding :0.63em; text-align :center; }
 .msg-box p,
 .error-box p { font-size :120%; }
+select > option.user-inactive { color :#990000; }
+button.status { cursor :pointer; border-radius :5px; -khtml-border-radius :5px; -webkit-border-radius :5px; -moz-border-radius :5px; }

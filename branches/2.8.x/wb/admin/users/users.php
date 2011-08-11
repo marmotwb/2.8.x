@@ -31,13 +31,16 @@ switch ($action):
 			$admin = new admin('Access', 'users_modify');
 			$user_id = intval($admin->checkIDKEY('user_id', 0, $_SERVER['REQUEST_METHOD']));
 			// Check if user id is a valid number and doesnt equal 1
+			if($user_id == 0){
+			$admin->print_error($MESSAGE['GENERIC_FORGOT_OPTIONS'] );
+            }
 			if( ($user_id < 2 ) )
 			{
 				// if($admin_header) { $admin->print_header(); }
 				$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'] );
 			}
 			// Get existing values
-			$results = $database->query("SELECT * FROM ".TABLE_PREFIX."users WHERE user_id = '".$user_id."'");
+			$results = $database->query("SELECT * FROM `".TABLE_PREFIX."users` WHERE `user_id` = '".$user_id."'");
 			$user = $results->fetchRow();
 
 			// Setup template object
@@ -149,6 +152,7 @@ switch ($action):
 			// Insert language text and messages
 			$template->set_var(array(
 								'TEXT_RESET' => $TEXT['RESET'],
+								'TEXT_CANCEL' => $TEXT['CANCEL'],
 								'TEXT_ACTIVE' => $TEXT['ACTIVE'],
 								'TEXT_DISABLED' => $TEXT['DISABLED'],
 								'TEXT_PLEASE_SELECT' => $TEXT['PLEASE_SELECT'],
@@ -169,28 +173,39 @@ switch ($action):
 			// Parse template object
 			$template->parse('main', 'main_block', false);
 			$template->pparse('output', 'page');
+			// Print admin footer
+			$admin->print_footer();
 			break;
 		case 'delete' :
 			// Print header
 			$admin = new admin('Access', 'users_delete');
 			$user_id = intval($admin->checkIDKEY('user_id', 0, $_SERVER['REQUEST_METHOD']));
 			// Check if user id is a valid number and doesnt equal 1
+			if($user_id == 0){
+			$admin->print_error($MESSAGE['GENERIC_FORGOT_OPTIONS'] );
+            }
 			if( ($user_id < 2 ) )
 			{
 				// if($admin_header) { $admin->print_header(); }
 				$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'] );
 			}
-			// Delete the user
-			$database->query("UPDATE `".TABLE_PREFIX."users` SET `active` = 0 WHERE `user_id` = '".$user_id."' ");
+			$sql  = 'SELECT `active` FROM `'.TABLE_PREFIX.'users` ';
+            $sql .= 'WHERE `user_id` = '.$user_id.'';
+            if( ($iDeleteUser = $database->get_one($sql)) == 1 ) {
+				// Delete the user
+				$database->query("UPDATE `".TABLE_PREFIX."users` SET `active` = 0 WHERE `user_id` = '".$user_id."' ");
+            } else {
+				$database->query("DELETE FROM `".TABLE_PREFIX."users` WHERE `user_id` = ".$user_id);
+            }
+
 			if($database->is_error()) {
 				$admin->print_error($database->get_error());
 			} else {
-				$admin->print_success($MESSAGE['USERS']['DELETED']);
+				$admin->print_success($MESSAGE['USERS_DELETED']);
 			}
+			// Print admin footer
+			$admin->print_footer();
 			break;
 	default:
 			break;
 endswitch;
-
-// Print admin footer
-$admin->print_footer();

@@ -20,6 +20,10 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Access', 'users');
 
+$iUserStatus = 1;
+$iUserStatus = ( ( $admin->get_get('status')==1 ) ? 0 : $iUserStatus );
+unset($_GET);
+
 // Create new template object for the modify/remove menu
 $template = new Template(THEME_PATH.'/templates');
 $template->set_file('page', 'users.htt');
@@ -27,27 +31,42 @@ $template->set_block('page', 'main_block', 'main');
 $template->set_block("main_block", "manage_groups_block", "groups");
 $template->set_var('ADMIN_URL', ADMIN_URL);
 $template->set_var('FTAN', $admin->getFTAN());
+$template->set_var('USER_STATUS', $iUserStatus );
+
+$UserStatusActive = 'url('.THEME_URL.'/images/user.png)';
+$UserStatusInactive = 'url('.THEME_URL.'/images/user_red.png)';
+
+$sUserTitle = ($iUserStatus == 0) ? $MENU['USERS'].' '.strtolower($TEXT['ACTIVE']) : $MENU['USERS'].' '.strtolower($TEXT['DELETED']) ;
+
+$template->set_var('TEXT_USERS', $sUserTitle.' '.$TEXT['SHOW'] );
+$template->set_var('STATUS_ICON', ( ($iUserStatus==0) ? $UserStatusActive : $UserStatusInactive) );
 
 // Get existing value from database
-// $database = new database();
+$sql  = 'SELECT `user_id`, `username`, `display_name`, `active` FROM `'.TABLE_PREFIX.'users` ' ;
+$sql .= 'WHERE user_id != 1 ';
+$sql .=     'AND active = '.$iUserStatus.' ';
+$sql .= 'ORDER BY `display_name`,`username`';
+
 $query = "SELECT user_id, username, display_name, active FROM ".TABLE_PREFIX."users WHERE user_id != '1' ORDER BY display_name,username";
-$results = $database->query($query);
+$results = $database->query($sql);
 if($database->is_error()) {
 	$admin->print_error($database->get_error(), 'index.php');
 }
 
+$sUserList  = $TEXT['LIST_OPTIONS'].' ';
+$sUserList .= ($iUserStatus == 1) ? $MENU['USERS'].' '.strtolower($TEXT['ACTIVE']) : $MENU['USERS'].' '.strtolower($TEXT['DELETED']) ;
 // Insert values into the modify/remove menu
 $template->set_block('main_block', 'list_block', 'list');
 if($results->numRows() > 0) {
 	// Insert first value to say please select
 	$template->set_var('VALUE', '');
-	$template->set_var('NAME', $TEXT['PLEASE_SELECT'].'...');
-	$template->set_var('STATUS', 'text-decoration :none;' );
+	$template->set_var('NAME', $sUserList);
+	$template->set_var('STATUS', 'class="user-active"' );
 	$template->parse('list', 'list_block', true);
 	// Loop through users
 	while($user = $results->fetchRow()) {
 		$template->set_var('VALUE',$admin->getIDKEY($user['user_id']));
-		$template->set_var('STATUS', ($user['active']==false ? 'text-decoration:line-through' : 'text-decoration :none;') );
+		$template->set_var('STATUS', ($user['active']==false ? 'class="user-inactive"' : 'class="user-active"') );
 		$template->set_var('NAME', $user['display_name'].' ('.$user['username'].')');
 		$template->parse('list', 'list_block', true);
 	}
@@ -67,10 +86,11 @@ if($admin->get_permission('users_modify') != true) {
 if($admin->get_permission('users_delete') != true) {
 	$template->set_var('DISPLAY_DELETE', 'hide');
 }
-
+$HeaderTitle = $HEADING['MODIFY_DELETE_USER'].' ';
+$HeaderTitle .= (($iUserStatus == 1) ? strtolower($TEXT['ACTIVE']) : strtolower($TEXT['DELETED']));
 // Insert language headings
 $template->set_var(array(
-		'HEADING_MODIFY_DELETE_USER' => $HEADING['MODIFY_DELETE_USER'],
+		'HEADING_MODIFY_DELETE_USER' => $HeaderTitle,
 		'HEADING_ADD_USER' => $HEADING['ADD_USER']
 		)
 );
@@ -86,7 +106,7 @@ $template->set_var(array(
 		'TEXT_MODIFY' => $TEXT['MODIFY'],
 		'TEXT_DELETE' => $TEXT['DELETE'],
 		'TEXT_MANAGE_GROUPS' => ( $admin->get_permission('groups') == true ) ? $TEXT['MANAGE_GROUPS'] : "**",
-		'CONFIRM_DELETE' => $MESSAGE['USERS']['CONFIRM_DELETE']
+		'CONFIRM_DELETE' => (($iUserStatus == 1) ? $TEXT['ARE_YOU_SURE'] : $MESSAGE['USERS']['CONFIRM_DELETE'])
 		)
 );
 if ( $admin->get_permission('groups') == true ) $template->parse("groups", "manage_groups_block", true);
@@ -177,6 +197,7 @@ foreach(directory_list(WB_PATH.MEDIA_DIRECTORY) AS $name) {
 
 // Insert language text and messages
 $template->set_var(array(
+			'TEXT_CANCEL' => $TEXT['CANCEL'],
 			'TEXT_RESET' => $TEXT['RESET'],
 			'TEXT_ACTIVE' => $TEXT['ACTIVE'],
 			'TEXT_DISABLED' => $TEXT['DISABLED'],
