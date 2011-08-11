@@ -23,7 +23,7 @@
 	class IllegalFileException extends LogicException {
 
 		public function __toString() {
-			$file = str_replace(dirname(dirname(__FILE__)), '', $e->getFile());
+			$file = str_replace(dirname(dirname(__FILE__)), '', $this->getFile());
 			$out  = '<div style="color: #ff0000; text-align: center;"><br /><br /><br /><h1>Illegale file access</h1>';
 			$out .= '<h2>'.$file.'</h2></div>';
 			return $out;
