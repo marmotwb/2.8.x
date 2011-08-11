@@ -33,7 +33,7 @@ require_once(WB_PATH.'/framework/functions.php');
 // Get values
 $title = $admin->get_post_escaped('title');
 $title = htmlspecialchars($title);
-$module = preg_replace("/\W/", "", $admin->get_post('type')); // fix secunia 2010-93-4
+$module = preg_replace('/[^a-z0-9_-]/i', "", $admin->get_post('type')); // fix secunia 2010-93-4
 $parent = intval($admin->get_post('parent')); // fix secunia 2010-91-2
 $visibility = $admin->get_post('visibility');
 if (!in_array($visibility, array('public', 'private', 'registered', 'hidden', 'none'))) {$visibility = 'public';} // fix secunia 2010-91-2

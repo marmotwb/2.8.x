@@ -33,7 +33,7 @@ if(!isset($_POST['file']) OR $_POST['file'] == "") {
 	header("Location: index.php");
 	exit(0);
 } else {
-	$file = preg_replace("/\W/", "", $_POST['file']);  // fix secunia 2010-92-2
+	$file = preg_replace('/[^a-z0-9_-]/i', "", $_POST['file']);  // fix secunia 2010-92-2
 }
 
 // Check if the template exists
