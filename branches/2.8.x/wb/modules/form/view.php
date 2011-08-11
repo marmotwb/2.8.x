@@ -401,8 +401,8 @@ if($filter_settings['email_filter'] && !($filter_settings['at_replacement']=='@'
 					/**	
 					 *	Adding the IP to the body and try to send the email
 					 */
-					$email_body .= "\n\nIP: ".$_SERVER['REMOTE_ADDR'];
-					
+					// $email_body .= "\n\nIP: ".$_SERVER['REMOTE_ADDR'];
+
 					if($email_to != '') {
 						if($email_from != '') {
 							if($wb->mail($email_from,$email_to,$email_subject,$email_body,$email_fromname)) {
