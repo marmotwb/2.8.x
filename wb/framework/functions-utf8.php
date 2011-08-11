@@ -43,9 +43,11 @@
 //   entities_to_umlauts2()
 //   umlauts_to_entities2()
 
-// Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
-
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+require_once('globalExceptionHandler.php');
+if(!defined('WB_PATH')) { throw new IllegalFileException(); }
+/* -------------------------------------------------------- */
 /*
  * check for mb_string support
  */

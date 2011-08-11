@@ -16,6 +16,11 @@
  * @lastmodified    $Date$
  * @description     
  */
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+require_once('globalExceptionHandler.php');
+if(!defined('WB_PATH')) { throw new IllegalFileException(); }
+/* -------------------------------------------------------- */
 
 class SecureForm {
 

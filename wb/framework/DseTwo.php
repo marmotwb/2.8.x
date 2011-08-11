@@ -13,6 +13,11 @@
  *                  this is a authorisised GPL-lizensed derivate from the original
  *                  ISTeasy class DseOne which is available under a cc-by-sa-3.0 license
 */
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+require_once('globalExceptionHandler.php');
+if(!defined('WB_PATH')) { throw new IllegalFileException(); }
+/* -------------------------------------------------------- */
 
 class DseTwo {
 
