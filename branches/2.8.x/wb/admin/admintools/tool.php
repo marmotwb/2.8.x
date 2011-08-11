@@ -39,7 +39,7 @@ $admin_header = (file_exists($ModulesUsingFTAN) && is_file($ModulesUsingFTAN)) =
 $admin = new admin('admintools', 'admintools', $admin_header );
 
 // Check if tool is installed
-$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'module' AND function = 'tool' AND directory = '".preg_replace("/\W/", "", $tool)."'");
+$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'module' AND function = 'tool' AND directory = '".preg_replace('/[^a-z0-9_-]/i', "", $tool)."'");
 if($result->numRows() == 0) {
 	header("Location: index.php");
 	exit(0);
