@@ -1,7 +1,7 @@
 <!-- BEGIN main_block -->
 
 <form name="users" action="users.php" method="post">
-<input type="hidden" name="action" value="delete" />
+<input type="hidden" name="userstatus" value="{USER_STATUS}" />
 {FTAN}
 
 <table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="100%" style="margin-bottom:10px;">
@@ -14,10 +14,10 @@
 		</td>
      </tr>
 </table>
-
+<button type="button" name="status" title="{TEXT_USERS}" style="width: 30px; background: {STATUS_ICON} no-repeat center" value="{USER_STATUS}" onclick="javascript: window.location = 'index.php?status={USER_STATUS}';" class="status {DISPLAY_MODIFY}" >&nbsp;</button>
 <select name="user_id" style="width: 500px;">
 <!-- BEGIN list_block -->
-	<option value="{VALUE}" style="{STATUS}">{NAME}</option>
+	<option value="{VALUE}" {STATUS}>{NAME}</option>
 <!-- END list_block -->
 </select>
 
@@ -27,7 +27,6 @@
 </form>
 
 <br />
-
 <h2 style="margin-top: 20px;" class="{DISPLAY_ADD}">{HEADING_ADD_USER}</h2>
 
 <!-- END main_block -->
