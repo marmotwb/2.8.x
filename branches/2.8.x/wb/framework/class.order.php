@@ -15,8 +15,11 @@
 /*******************************************************************************
  * abstract factory for application
  */
-// Must include code to stop this file being access directly
-	if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+require_once('globalExceptionHandler.php');
+if(!defined('WB_PATH')) { throw new IllegalFileException(); }
+/* -------------------------------------------------------- */
 	define('ORDERING_CLASS_LOADED', true);
 // Load the other required class files if they are not already loaded
 	require_once(WB_PATH."/framework/class.database.php");

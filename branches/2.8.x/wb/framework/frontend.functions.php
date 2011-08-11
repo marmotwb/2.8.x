@@ -16,9 +16,11 @@
  *
 */
 
-// Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
-
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+require_once('globalExceptionHandler.php');
+if(!defined('WB_PATH')) { throw new IllegalFileException(); }
+/* -------------------------------------------------------- */
 // compatibility mode for versions before 2.8.1
 	$admin            = $wb;
 	$default_link     = $wb->default_link;

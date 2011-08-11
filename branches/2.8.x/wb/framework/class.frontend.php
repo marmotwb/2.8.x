@@ -16,9 +16,11 @@
  *
 */
 
-// Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
-
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+require_once('globalExceptionHandler.php');
+if(!defined('WB_PATH')) { throw new IllegalFileException(); }
+/* -------------------------------------------------------- */
 require_once(WB_PATH.'/framework/class.wb.php');
 //require_once(WB_PATH.'/framework/SecureForm.php');
 
