@@ -12,6 +12,8 @@ Legend:
 
 =============================== FEATURES FREEZE ================================
 ----------------------------------- Fixes 2.8.2 --------------------------------
+11 Aug-2011 Build 1493 Dietmar Woellbrink (Luisehahne)
+# Ticket #1106 FatalError in groups module
 11 Aug-2011 Build 1492 Dietmar Woellbrink (Luisehahne)
 # Ticket #1107 Deleting users not possible
   Change handling, first user will be set to inactive

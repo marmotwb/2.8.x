@@ -23,6 +23,7 @@ require_once(WB_PATH.'/framework/class.admin.php');
 // Set parameter 'action' as alternative to javascript mechanism
 $action = 'cancel';
 // Set parameter 'action' as alternative to javascript mechanism
+$action = (isset($_POST['action']) && ($_POST['action'] ='modify')   ? 'modify' : $action );
 $action = (isset($_POST['modify']) ? 'modify' : $action );
 $action = (isset($_POST['delete']) ? 'delete' : $action );
 
@@ -33,6 +34,9 @@ switch ($action):
 			$admin = new admin('Access', 'groups_modify' );
 			// Check if group group_id is a valid number and doesnt equal 1
 			$group_id = intval($admin->checkIDKEY('group_id', 0, $_SERVER['REQUEST_METHOD']));
+            if($group_id == 0){
+				$admin->print_error($MESSAGE['USERS_NO_GROUP'] );
+            }
 			if( ($group_id < 2 ) )
 			{
 				// if($admin_header) { $admin->print_header(); }
@@ -49,9 +53,9 @@ switch ($action):
 			$template->set_var(	array(
 									'ACTION_URL' => ADMIN_URL.'/groups/save.php',
 									'SUBMIT_TITLE' => $TEXT['SAVE'],
-									'GROUP_ID' => $group['group_id'],
+									'GROUP_ID' => $admin->getIDKEY($group['group_id']),
 									'GROUP_NAME' => $group['name'],
-									'ADVANCED_ACTION' => 'groups.php',
+									'ADVANCED_LINK' => 'groups.php',
 									'FTAN' => $admin->getFTAN()
 								));
 			// Tell the browser whether or not to show advanced options
@@ -155,11 +159,15 @@ switch ($action):
 			// Parse template object
 			$template->parse('main', 'main_block', false);
 			$template->pparse('output', 'page');
-			break;
+			// Print admin footer
+			$admin->print_footer();			break;
 		case 'delete' :
 			// Create new admin object
 			$admin = new admin('Access', 'groups_delete');
 			$group_id = intval($admin->checkIDKEY('group_id', 0, $_SERVER['REQUEST_METHOD']));
+            if($group_id == 0){
+				$admin->print_error($MESSAGE['USERS_NO_GROUP'] );
+            }
 			// Check if user id is a valid number and doesnt equal 1
 			if( ($group_id < 2 ) )
 			{
@@ -169,22 +177,21 @@ switch ($action):
 			// Print header
 			$admin->print_header();
 			// Delete the group
-			$database->query("DELETE FROM ".TABLE_PREFIX."groups WHERE group_id = '".$group_id."' LIMIT 1");
+			$database->query("DELETE FROM `".TABLE_PREFIX."groups` WHERE `group_id` = '".$group_id."' LIMIT 1");
 			if($database->is_error()) {
 				$admin->print_error($database->get_error());
 			} else {
 				// Delete users in the group
-				$database->query("DELETE FROM ".TABLE_PREFIX."users WHERE group_id = '".$group_id."'");
+				$database->query("DELETE FROM `".TABLE_PREFIX."users` WHERE `group_id` = '".$group_id."'");
 				if($database->is_error()) {
 					$admin->print_error($database->get_error());
 				} else {
 					$admin->print_success($MESSAGE['GROUPS']['DELETED']);
 				}
 			}
+			// Print admin footer
+			$admin->print_footer();
 			break;
 	default:
 			break;
 endswitch;
-
-// Print admin footer
-$admin->print_footer();

@@ -100,7 +100,7 @@ $template->set_block('page', 'main_block', 'main');
 $template->set_var('DISPLAY_EXTRA', 'display:none;');
 $template->set_var('ACTION_URL', ADMIN_URL.'/groups/add.php');
 $template->set_var('SUBMIT_TITLE', $TEXT['ADD']);
-$template->set_var('ADVANCED_ACTION', 'index.php');
+$template->set_var('ADVANCED_LINK', 'index.php');
 
 // Tell the browser whether or not to show advanced options
 if ( true == (isset( $_POST['advanced']) AND ( strpos( $_POST['advanced'], ">>") > 0 ) ) ) {

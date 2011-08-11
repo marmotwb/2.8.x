@@ -1,8 +1,7 @@
 <!-- BEGIN main_block -->
 
 <form name="groups" action="groups.php" method="post">
-  <input type="hidden" name="action" value="delete" />
- {FTAN}  
+ {FTAN}
   <table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="100%" style="margin-bottom:10px;">
 	<tr style="background:#f0f0f0;">
 		<td align="left"><h2>{HEADING_MODIFY_DELETE_GROUP}</h2></td>

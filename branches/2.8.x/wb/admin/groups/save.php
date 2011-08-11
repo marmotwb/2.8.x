@@ -29,15 +29,14 @@ if (!$admin->checkFTAN())
 	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$js_back);
 }
-// After check print the header
-$admin->print_header();
 
 // Check if group group_id is a valid number and doesnt equal 1
-if(!isset($_POST['group_id']) OR !is_numeric($_POST['group_id']) OR $_POST['group_id'] == 1) {
-	header("Location: index.php");
-	exit(0);
-} else {
-	$group_id = $_POST['group_id'];
+$group_id = intval($admin->checkIDKEY('group_id', 0, $_SERVER['REQUEST_METHOD']));
+if( ($group_id < 2 ) )
+{
+	// if($admin_header) { $admin->print_header(); }
+	$admin->print_header();
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'] );
 }
 
 // Gather details entered
@@ -47,12 +46,14 @@ $group_name = $admin->get_post_escaped('group_name');
 if($group_name == "") {
 	$admin->print_error($MESSAGE['GROUPS']['GROUP_NAME_BLANK'], $js_back);
 }
+// After check print the header
+$admin->print_header();
 
 // Get system permissions
 require_once(ADMIN_PATH.'/groups/get_permissions.php');
 
 // Update the database
-$query = "UPDATE ".TABLE_PREFIX."groups SET name = '$group_name', system_permissions = '$system_permissions', module_permissions = '$module_permissions', template_permissions = '$template_permissions' WHERE group_id = '$group_id'";
+$query = "UPDATE `".TABLE_PREFIX."groups` SET `name` = '$group_name', `system_permissions` = '$system_permissions', `module_permissions` = '$module_permissions', `template_permissions` = '$template_permissions' WHERE `group_id` = '$group_id'";
 
 $database->query($query);
 if($database->is_error()) {
