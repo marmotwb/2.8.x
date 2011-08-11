@@ -62,7 +62,7 @@ FCKConfig.AutoGrowMax = 600 ;
    FCKConfig.ShiftEnterMode 	= 'br' ;	// allowed tags: p | div | br
    FCKConfig.StylesXmlPath		= FCKConfig.EditorPath + 'fckstyles.xml' ;
    // define how FCK should handle empty blocks
-   FCKConfig.FillEmptyBlocks	= false ;   //true (default value) sets <p></p> tags to empty blocks
+   FCKConfig.FillEmptyBlocks	= true ;   //true (default value) sets <p></p> tags to empty blocks
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Note: If you miss some options, have a look into fckconfig.js and add the lines below
