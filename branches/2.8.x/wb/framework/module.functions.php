@@ -27,7 +27,7 @@
 	This file contains routines to edit the optional module files: frontend.css and backend.css
 	Mechanism was introduced with WB 2.7 to provide a global solution for all modules
 	To use this function, include this file from your module (e.g. from modify.php)
-	Then simply call the function edit_css('your_module_directory') - that´s it
+	Then simply call the function edit_css('your_module_directory') - thatï¿½s it
 	NOTE: Some functions were added for module developers to make the creation of own module easier
 */
 
@@ -254,5 +254,3 @@ if (!function_exists('requires_module_body_js')) {
 		return true;
 	}
 }
-
-?>

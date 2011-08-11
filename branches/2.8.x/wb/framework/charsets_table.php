@@ -1017,5 +1017,3 @@ $UTF8_ROMANIZATION = array(
 	"\xe3\x85\x95"=>"ye","\xe3\x85\x9b"=>"oy","\xe3\x85\xa0"=>"yu","\xe3\x85\x92"=>"yay",
 	"\xe3\x85\x96"=>"yey"
 );
-
-?>

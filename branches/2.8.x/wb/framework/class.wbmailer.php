@@ -106,5 +106,3 @@ class wbmailer extends PHPMailer
 		$this->Timeout = 30;
 	}
 }
-
-?>
