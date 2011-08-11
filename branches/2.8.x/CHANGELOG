@@ -12,6 +12,8 @@ Legend:
 
 =============================== FEATURES FREEZE ================================
 ----------------------------------- Fixes 2.8.2 --------------------------------
+11 Aug-2011 Build 1488 Werner v.d.Decken(DarkViper)
++ globalExceptionHandler activated
 10 Aug-2011 Build 1487 Werner v.d.Decken(DarkViper)
 # class.order completely recoded to reduce SQL requests
 # all other files: fix SQL-statements to SQL-strict
