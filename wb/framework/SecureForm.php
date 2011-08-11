@@ -25,11 +25,11 @@ class SecureForm {
 
 	private $_FTAN        = '';
 	private $_IDKEYs      = array('0'=>'0');
-	private $_ftan_name   = '';
+	private $_ftan_name   = 'x';
 	private $_idkey_name  = '';
 	private $_salt        = '';
 	private $_fingerprint = '';
-
+	
 /* Construtor */
 	protected function __construct($mode = self::FRONTEND)
 	{
@@ -38,7 +38,7 @@ class SecureForm {
 		$this->_fingerprint = $this->_generate_fingerprint();
 	// generate names for session variables
 		$this->_ftan_name =
-			substr($this->_fingerprint, -(16 + hexdec($this->_fingerprint[0])), 16);
+			substr($this->_fingerprint, -(16 + hexdec(substr($this->_fingerprint, 0, 1))), 16);
 	// make sure there is a alpha-letter at first position
 		$this->_ftan_name = $this->_makeFirst2Letter($this->_ftan_name);
 		$this->_idkey_name = 
@@ -50,14 +50,19 @@ class SecureForm {
 		{
 			$this->_IDKEYs = $_SESSION[$this->_idkey_name];
 		}else{
-			$this->_IDKEYs = array('0'=>'0');
+			$this->_IDKEYs = array('FF'=>'FF');
 			$_SESSION[$this->_idkey_name] = $this->_IDKEYs;
 		}
 	}
-
+	/**
+	 * make sure, the first Char of the hexnumber is a valid letter a-f)
+	 * @param string $string hex - string
+	 * @return string
+	 */
 	private function _makeFirst2Letter($string)
 	{
-		$string[0] = dechex(10 + (hexdec($string[0]) % 5));
+		$replacement = dechex(10 + (hexdec(substr($string, 0, 1)) % 5));
+		$string = (string)substr_replace( $string , $replacement , 0, 1);
 		return $string;
 	}
 
@@ -130,6 +135,7 @@ class SecureForm {
  */
 	final public function getFTAN( $mode = 'POST')
 	{
+		if( $this->_FTAN == '') { $this->createFTAN(); }
 		$ftan = $this->_calcFtan($this->_FTAN);
 		if((is_string($mode) && strtolower($mode) == 'post') || ($mode === true))
 		{ // by default return a complete, hidden <input>-tag
@@ -153,15 +159,16 @@ class SecureForm {
 		$retval = false;
 		if(isset($_SESSION[$this->_ftan_name]))
 		{
-			if( $_SESSION[$this->_ftan_name] && (strlen($_SESSION[$this->_ftan_name]) == strlen(md5('dummy'))))
+			if( ($_SESSION[$this->_ftan_name] != '') &&
+			    (strlen((string)$_SESSION[$this->_ftan_name]) == strlen(md5('dummy'))))
 			{
 				$ftan = $this->_calcFtan($_SESSION[$this->_ftan_name]);
 				unset($_SESSION[$this->_ftan_name]);
 				$mode = (strtoupper($mode) != 'POST' ? '_GET' : '_POST');
-				if( isset($GLOBALS[$mode][$ftan[0]]))
+				if( isset(${$mode}[$ftan[0]]))
 				{
-					$retval = ($GLOBALS[$mode][$ftan[0]] == $ftan[1]);
-					unset($GLOBALS[$mode][$ftan[0]]);
+					$retval = (${$mode}[$ftan[0]] == $ftan[1]);
+					unset(${$mode}[$ftan[0]]);
 				}
 			}
 		}
@@ -253,6 +260,6 @@ class SecureForm {
  */
  	final public function clearIDKEY()
 	{
-		 $this->_IDKEYs = array('0'=>'0');
+		 $this->_IDKEYs = array('FF'=>'FF0');
 	}
 }

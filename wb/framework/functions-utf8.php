@@ -438,4 +438,3 @@ function umlauts_to_entities2($string, $charset_in=DEFAULT_CHARSET) {
 	return($string);
 }
 
-?>

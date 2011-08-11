@@ -31,52 +31,38 @@ define('FUNCTIONS_FILE_LOADED', true);
  * @from http://www.php.net/manual/de/function.rmdir.php#98499
  */
 function rm_full_dir($directory, $empty = false) {
-
-    if(substr($directory,-1) == "/")
-	{
+    
+	if(substr($directory,-1) == "/") {
         $directory = substr($directory,0,-1);
     }
-
     // If suplied dirname is a file then unlink it
-    if (is_file( $directory ))
-	{
+    if (is_file( $directory )) {
         return unlink($directory);
     }
-
-    if(!file_exists($directory) || !is_dir($directory))
-	{
+    if(!file_exists($directory) || !is_dir($directory)) {
         return false;
-    } elseif(!is_readable($directory))
-	{
+    } elseif(!is_readable($directory)) {
         return false;
     } else {
         $directoryHandle = opendir($directory);
-
         while ($contents = readdir($directoryHandle))
 		{
             if($contents != '.' && $contents != '..')
 			{
                 $path = $directory . "/" . $contents;
-
-                if(is_dir($path))
-				{
+                if(is_dir($path)) {
                     rm_full_dir($path);
                 } else {
                     unlink($path);
                 }
             }
         }
-
         closedir($directoryHandle);
-
-        if($empty == false)
-		{
-            if(!rmdir($directory))
-			{
+        if($empty == false) {
+            if(!rmdir($directory)) {
                 return false;
             }
         }
-
         return true;
     }
 }
@@ -106,18 +92,15 @@ function rm_full_dir($directory, $empty = false) {
 		{
 			if($entry == '.' || $entry == '..') { continue; } // Skip pointers
 			if($entry[0] == '.' && $show_hidden == false) { continue; } // Skip hidden files
-    		if (is_dir("$directory/$entry")) // Add dir and contents to list
-			{
+    		if (is_dir("$directory/$entry")) { // Add dir and contents to list
     			$result_list = array_merge($result_list, directory_list("$directory/$entry"));
     			$result_list[] = "$directory/$entry";
     		}
     	}
         $dir->close();
     }
-
 	// sorting
-	if(natcasesort($result_list))
-	{
+	if(natcasesort($result_list)) {
 		// new indexing
 		$result_list = array_merge($result_list);
 	}
@@ -138,8 +121,7 @@ function chmod_directory_contents($directory, $file_mode)
     		// Skip pointers
     		if($entry[0] == '.') { continue; }
     		// Chmod the sub-dirs contents
-    		if(is_dir("$directory/$entry"))
-			{
+    		if(is_dir("$directory/$entry")) {
     			chmod_directory_contents($directory.'/'.$entry, $file_mode);
     		}
     		change_mode($directory.'/'.$entry);
@@ -176,27 +158,22 @@ if(!function_exists('scan_current_dir'))
 	        {
 	            if (substr($file, 0, 1) != '.' && $file != 'index.php')
 	            {
-	                if (is_dir($root.'/'.$file))
-	                {
+	                if (is_dir($root.'/'.$file)) {
 	                    $FILE['path'][] = $file;
-	                } elseif (preg_match($search, $file, $array) )
-                    {
+	                } elseif (preg_match($search, $file, $array) ) {
 	                    $FILE['filename'][] = $array[0];
 	                }
 	            }
 	        }
 	        $close_verz = closedir($handle);
 	    }
-
 		// sorting
-	    if (isset ($FILE['path']) && natcasesort($FILE['path']))
-	    {
+	    if (isset ($FILE['path']) && natcasesort($FILE['path'])) {
 			// new indexing
 	        $FILE['path'] = array_merge($FILE['path']);
 	    }
 		// sorting
-	    if (isset ($FILE['filename']) && natcasesort($FILE['filename']))
-	    {
+	    if (isset ($FILE['filename']) && natcasesort($FILE['filename'])) {
 			// new indexing
 	        $FILE['filename'] = array_merge($FILE['filename']);
 	    }
@@ -216,8 +193,7 @@ function file_list($directory, $skip = array(), $show_hidden = false)
 			if($entry == '.' || $entry == '..') { continue; } // Skip pointers
 			if($entry[0] == '.' && $show_hidden == false) { continue; } // Skip hidden files
 			if( sizeof($skip) > 0 && in_array($entry, $skip) ) { continue; } // Check if we to skip anything else
-			if(is_file( $directory.'/'.$entry)) // Add files to list
-			{
+			if(is_file( $directory.'/'.$entry)) { // Add files to list
 				$result_list[] = $directory.'/'.$entry;
 			}
 		}
@@ -225,11 +201,9 @@ function file_list($directory, $skip = array(), $show_hidden = false)
 	}
 
     // make the list nice. Not all OS do this itself
-   if(natcasesort($result_list))
-   {
+	if(natcasesort($result_list)) {
 		$result_list = array_merge($result_list);
-   }
-
+	}
 	return $result_list;
 }
 
@@ -243,12 +217,12 @@ function get_home_folders()
 //	if(HOME_FOLDERS AND ($_SESSION['GROUP_ID']!='1')) {
 	if(HOME_FOLDERS AND (!in_array('1',explode(',', $_SESSION['GROUPS_ID']))))
 	{
-		$sql = 'SELECT `home_folder` FROM `'.TABLE_PREFIX.'users` WHERE `home_folder` != "'.$admin->get_home_folder().'"';
+		$sql  = 'SELECT `home_folder` FROM `'.TABLE_PREFIX.'users` ';
+		$sql .= 'WHERE `home_folder`!=\''.$admin->get_home_folder().'\'';
 		$query_home_folders = $database->query($sql);
 		if($query_home_folders->numRows() > 0)
 		{
-			while($folder = $query_home_folders->fetchRow())
-			{
+			while($folder = $query_home_folders->fetchRow()) {
 				$home_folders[$folder['home_folder']] = $folder['home_folder'];
 			}
 		}
@@ -263,21 +237,16 @@ function get_home_folders()
 					{
 						if(is_dir(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$file))
 						{
-							if($directory != '/')
-							{
+							if($directory != '/') {
 								$file = $directory.'/'.$file;
-							}
-							else
-							{
+							}else {
 								$file = '/'.$file;
 							}
 							foreach($home_folders AS $hf)
 							{
 								$hf_length = strlen($hf);
-								if($hf_length > 0)
-								{
-									if(substr($file, 0, $hf_length+1) == $hf)
-									{
+								if($hf_length > 0) {
+									if(substr($file, 0, $hf_length+1) == $hf) {
 										$home_folders[$file] = $file;
 									}
 								}
@@ -316,22 +285,20 @@ function media_dirs_ro( &$wb )
 	global $database;
 	// if user is admin or home-folders not activated then there are no restrictions
 	$allow_list = array();
-	if( $wb->get_user_id() == 1 || !HOME_FOLDERS )
-	{
+	if( $wb->get_user_id() == 1 || !HOME_FOLDERS ) {
 		return array();
 	}
 	// at first read any dir and subdir from /media
 	$full_list = directory_list( WB_PATH.MEDIA_DIRECTORY );
 	// add own home_folder to allow-list
-	if( $wb->get_home_folder() )
-	{
+	if( $wb->get_home_folder() ) {
 		// old: $allow_list[] = get_home_folder();
 		$allow_list[] = $wb->get_home_folder();
 	}
 	// get groups of current user
 	$curr_groups = $wb->get_groups_id();
 	// if current user is in admin-group
-	 if( ($admin_key = array_search('1', $curr_groups)) !== false)
+	if( ($admin_key = array_search('1', $curr_groups)) !== false)
 	{
 		// remove admin-group from list
 		unset($curr_groups[$admin_key]);
@@ -340,10 +307,8 @@ function media_dirs_ro( &$wb )
 		{
 			$sql  = 'SELECT `home_folder` FROM `'.TABLE_PREFIX.'users` ';
 			$sql .= 'WHERE (FIND_IN_SET(\''.$group.'\', `groups_id`) > 0) AND `home_folder` <> \'\' AND `user_id` <> '.$wb->get_user_id();
-			if( ($res_hf = $database->query($sql)) != null )
-			{
-				while( $rec_hf = $res_hf->fetchrow() )
-				{
+			if( ($res_hf = $database->query($sql)) != null ) {
+				while( $rec_hf = $res_hf->fetchrow() ) {
 					$allow_list[] = $rec_hf['home_folder'];
 				}
 			}
@@ -356,19 +321,16 @@ function media_dirs_ro( &$wb )
 	{
         $tmp = array_shift($tmp_array);
         $x = 0;
-		while($x < sizeof($allow_list))
-		{
+		while($x < sizeof($allow_list)) {
 			if(strpos ($tmp,$allow_list[$x])) {
 				$array[] = $tmp;
 			}
 			$x++;
 		}
 	}
-
 	$full_list = array_diff( $full_list, $array );
 	$tmp = array();
 	$full_list = array_merge($tmp,$full_list);
-
 	return $full_list;
 }
 
@@ -385,13 +347,11 @@ function media_dirs_rw ( &$wb )
 	$full_list = directory_list( WB_PATH.MEDIA_DIRECTORY );
     $array = array();
 	$allow_list = array();
-	if( ($wb->ami_group_member('1')) && !HOME_FOLDERS )
-	{
+	if( ($wb->ami_group_member('1')) && !HOME_FOLDERS ) {
 		return $full_list;
 	}
 	// add own home_folder to allow-list
-	if( $wb->get_home_folder() )
-	{
+	if( $wb->get_home_folder() ) {
 	  	$allow_list[] = $wb->get_home_folder();
 	} else {
 		$array = $full_list;
@@ -408,10 +368,8 @@ function media_dirs_rw ( &$wb )
 		{
 			$sql  = 'SELECT `home_folder` FROM `'.TABLE_PREFIX.'users` ';
 			$sql .= 'WHERE (FIND_IN_SET(\''.$group.'\', `groups_id`) > 0) AND `home_folder` <> \'\' AND `user_id` <> '.$wb->get_user_id();
-			if( ($res_hf = $database->query($sql)) != null )
-			{
-				while( $rec_hf = $res_hf->fetchrow() )
-				{
+			if( ($res_hf = $database->query($sql)) != null ) {
+				while( $rec_hf = $res_hf->fetchrow() ) {
 					$allow_list[] = $rec_hf['home_folder'];
 				}
 			}
@@ -424,21 +382,18 @@ function media_dirs_rw ( &$wb )
 	{
         $tmp = array_shift($tmp_array);
         $x = 0;
-		while($x < sizeof($allow_list))
-		{
+		while($x < sizeof($allow_list)) {
 			if(strpos ($tmp,$allow_list[$x])) {
 				$array[] = $tmp;
 			}
 			$x++;
 		}
 	}
-
 	$tmp = array();
     $array = array_unique($array);
 	$full_list = array_merge($tmp,$array);
     unset($array);
     unset($allow_list);
-
 	return $full_list;
 }
 
@@ -452,7 +407,7 @@ function make_dir($dir_name, $dir_mode = OCTAL_DIR_MODE)
 		umask($umask);
 		return true;
 	} else {
-		return false;	
+		return false;
 	}
 }
 
@@ -462,29 +417,20 @@ function change_mode($name)
 	if(OPERATING_SYSTEM != 'windows')
     {
 		// Only chmod if os is not windows
-		if(is_dir($name))
-        {
+		if(is_dir($name)) {
 			$mode = OCTAL_DIR_MODE;
-		}
-        else
-        {
+		}else {
 			$mode = OCTAL_FILE_MODE;
 		}
-
-		if(file_exists($name))
-        {
+		if(file_exists($name)) {
 			$umask = umask(0);
 			chmod($name, $mode);
 			umask($umask);
 			return true;
+		}else {
+			return false;
 		}
-        else
-        {
-			return false;	
-		}
-	}
-    else
-    {
+	}else {
 		return true;
 	}
 }
@@ -497,12 +443,9 @@ function is_parent($page_id)
 	$sql = 'SELECT `parent` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
 	$parent = $database->get_one($sql);
 	// If parent isnt 0 return its ID
-	if(is_null($parent))
-	{
+	if(is_null($parent)) {
 		return false;
-	}
-	else
-	{
+	}else {
 		return $parent;
 	}
 }
@@ -514,14 +457,12 @@ function level_count($page_id)
 	// Get page parent
 	$sql = 'SELECT `parent` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
 	$parent = $database->get_one($sql);
-	if($parent > 0) 
+	if($parent > 0)
 	{	// Get the level of the parent
 		$sql = 'SELECT `level` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$parent;
 		$level = $database->get_one($sql);
 		return $level+1;
-	}
-	else
-	{
+	}else {
 		return 0;
 	}
 }
@@ -535,17 +476,12 @@ function root_parent($page_id)
 	$query_page = $database->query($sql);
 	$fetch_page = $query_page->fetchRow();
 	$parent = $fetch_page['parent'];
-	$level = $fetch_page['level'];	
-	if($level == 1)
-	{
+	$level = $fetch_page['level'];
+	if($level == 1) {
 		return $parent;
-	}
-	elseif($parent == 0)
-	{
+	}elseif($parent == 0) {
 		return $page_id;
-	}
-	else
-	{	// Figure out what the root parents id is
+	}else {	// Figure out what the root parents id is
 		$parent_ids = array_reverse(get_parent_ids($page_id));
 		return $parent_ids[0];
 	}
@@ -575,8 +511,7 @@ function get_menu_title($id)
 function get_parent_titles($parent_id)
 {
 	$titles[] = get_menu_title($parent_id);
-	if(is_parent($parent_id) != false)
-	{
+	if(is_parent($parent_id) != false) {
 		$parent_titles = get_parent_titles(is_parent($parent_id));
 		$titles = array_merge($titles, $parent_titles);
 	}
@@ -587,8 +522,7 @@ function get_parent_titles($parent_id)
 function get_parent_ids($parent_id)
 {
 	$ids[] = $parent_id;
-	if(is_parent($parent_id) != false)
-	{
+	if(is_parent($parent_id) != false) {
 		$parent_ids = get_parent_ids(is_parent($parent_id));
 		$ids = array_merge($ids, $parent_ids);
 	}
@@ -596,7 +530,8 @@ function get_parent_ids($parent_id)
 }
 
 // Function to genereate page trail
-function get_page_trail($page_id) {
+function get_page_trail($page_id)
+{
 	return implode(',', array_reverse(get_parent_ids($page_id)));
 }
 
@@ -610,8 +545,7 @@ function get_subs($parent, $subs)
 	$query = $database->query($sql);
 	if($query->numRows() > 0)
 	{
-		while($fetch = $query->fetchRow())
-		{
+		while($fetch = $query->fetchRow()) {
 			$subs[] = $fetch['page_id'];
 			// Get subs of this sub
 			$subs = get_subs($fetch['page_id'], $subs);
@@ -759,81 +693,73 @@ function createFolderProtectFile($sAbsDir='',$make_dir=true)
 
 function rebuildFolderProtectFile($dir='')
 {
- $retVal = array();
- $dir = rtrim(str_replace('\/\\', '/', $dir), '/');
-    try {
-  $files = array();
-  $files[] = $dir;
-  foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)) as $fileInfo){
-   $files[] = $fileInfo->getPath();
-  }
-  $files = array_unique($files);
-  foreach( $files as $file){
-   $protect_file = rtrim(str_replace('\/\\', '/', $file), '/');
-   $retVal[] = createFolderProtectFile($protect_file,false);
-  }
- } catch ( Exception $e ) {
-  $retVal[] = $MESSAGE['MEDIA_DIR_ACCESS_DENIED'];
- }
- return $retVal;
+	$retVal = array();
+	$dir = rtrim(str_replace('\/\\', '/', $dir), '/');
+	try {
+		$files = array();
+		$files[] = $dir;
+		foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)) as $fileInfo) {
+			$files[] = $fileInfo->getPath();
+		}
+		$files = array_unique($files);
+		foreach( $files as $file) {
+			$protect_file = rtrim(str_replace('\/\\', '/', $file), '/');
+			$retVal[] = createFolderProtectFile($protect_file,false);
+		}
+	} catch ( Exception $e ) {
+		$retVal[] = $MESSAGE['MEDIA_DIR_ACCESS_DENIED'];
+	}
+	return $retVal;
 }
 
 // Create a new file in the pages directory
 function create_access_file($filename,$page_id,$level)
 {
 	global $admin, $MESSAGE;
-/*
-	if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/'))
+	// First make sure parent folder exists
+	$parent_folders = explode('/',str_replace(WB_PATH.PAGES_DIRECTORY, '', dirname($filename)));
+	$parents = '';
+	foreach($parent_folders AS $parent_folder)
 	{
-		$admin->print_error($MESSAGE['PAGES']['CANNOT_CREATE_ACCESS_FILE']);
-	} else {
- 	}
-*/
-		// First make sure parent folder exists
-		$parent_folders = explode('/',str_replace(WB_PATH.PAGES_DIRECTORY, '', dirname($filename)));
-		$parents = '';
-		foreach($parent_folders AS $parent_folder)
+		if($parent_folder != '/' AND $parent_folder != '')
 		{
-			if($parent_folder != '/' AND $parent_folder != '')
-			{
-				$parents .= '/'.$parent_folder;
-				$acces_file = WB_PATH.PAGES_DIRECTORY.$parents;
-				// can only be dirs
-				if(!file_exists($acces_file)) {
-					if(!make_dir($acces_file)) {
-						$admin->print_error($MESSAGE['PAGES']['CANNOT_CREATE_ACCESS_FILE_FOLDER']);
-					}
+			$parents .= '/'.$parent_folder;
+			$acces_file = WB_PATH.PAGES_DIRECTORY.$parents;
+			// can only be dirs
+			if(!file_exists($acces_file)) {
+				if(!make_dir($acces_file)) {
+					$admin->print_error($MESSAGE['PAGES']['CANNOT_CREATE_ACCESS_FILE_FOLDER']);
 				}
 			}
 		}
-		// The depth of the page directory in the directory hierarchy
-		// '/pages' is at depth 1
-		$pages_dir_depth=count(explode('/',PAGES_DIRECTORY))-1;
-		// Work-out how many ../'s we need to get to the index page
-		$index_location = '';
-		for($i = 0; $i < $level + $pages_dir_depth; $i++)
-		{
-			$index_location .= '../';
-		}
-		$content =
-			'<?php'."\n".
-			'// *** This file is generated by WebsiteBaker Ver.'.VERSION."\n".
-			'// *** Creation date: '.date('c')."\n".
-			'// *** Do not modify this file manually'."\n".
-			'// *** WB will rebuild this file from time to time!!'."\n".
-			'// *************************************************'."\n".
-			"\t".'$page_id    = '.$page_id.';'."\n".
-			"\t".'require(\''.$index_location.'index.php\');'."\n".
-			'// *************************************************'."\n";
+	}
+	// The depth of the page directory in the directory hierarchy
+	// '/pages' is at depth 1
+	$pages_dir_depth = count(explode('/',PAGES_DIRECTORY))-1;
+	// Work-out how many ../'s we need to get to the index page
+	$index_location = '';
+	for($i = 0; $i < $level + $pages_dir_depth; $i++) {
+		$index_location .= '../';
+	}
+	$content =
+		'<?php'."\n".
+		'// *** This file is generated by WebsiteBaker Ver.'.VERSION."\n".
+		'// *** Creation date: '.date('c')."\n".
+		'// *** Do not modify this file manually'."\n".
+		'// *** WB will rebuild this file from time to time!!'."\n".
+		'// *************************************************'."\n".
+		"\t".'$page_id    = '.$page_id.';'."\n".
+		"\t".'require(\''.$index_location.'index.php\');'."\n".
+		'// *************************************************'."\n";
 
-		if ($handle = fopen($filename, 'w')) {
-			fwrite($handle, $content);
-			fclose($handle);
-			// Chmod the file
-			change_mode($filename);
-		} else {
-			$admin->print_error($MESSAGE['PAGES']['CANNOT_CREATE_ACCESS_FILE']);
-		}
+	if( ($handle = fopen($filename, 'w')) ) {
+		fwrite($handle, $content);
+		fclose($handle);
+		// Chmod the file
+		change_mode($filename);
+	} else {
+		$admin->print_error($MESSAGE['PAGES']['CANNOT_CREATE_ACCESS_FILE']);
+	}
 	return;
  }
 
@@ -897,23 +823,16 @@ if(!function_exists('mime_content_type'))
             'odt'	=> 'application/vnd.oasis.opendocument.text',
             'ods'	=> 'application/vnd.oasis.opendocument.spreadsheet',
         );
-
         $temp = explode('.',$filename);
         $ext = strtolower(array_pop($temp));
-
-        if (array_key_exists($ext, $mime_types))
-		{
+        if (array_key_exists($ext, $mime_types)) {
             return $mime_types[$ext];
-        }
-        elseif (function_exists('finfo_open'))
-		{
+        }elseif (function_exists('finfo_open')) {
             $finfo = finfo_open(FILEINFO_MIME);
             $mimetype = finfo_file($finfo, $filename);
             finfo_close($finfo);
             return $mimetype;
-        }
-        else
-		{
+        }else {
             return 'application/octet-stream';
         }
     }
@@ -927,20 +846,17 @@ function make_thumb($source, $destination, $size)
 	{
 		// First figure out the size of the thumbnail
 		list($original_x, $original_y) = getimagesize($source);
-		if ($original_x > $original_y)
-		{
+		if ($original_x > $original_y) {
 			$thumb_w = $size;
 			$thumb_h = $original_y*($size/$original_x);
 		}
-		if ($original_x < $original_y)
-		{
+		if ($original_x < $original_y) {
 			$thumb_w = $original_x*($size/$original_y);
 			$thumb_h = $size;
 		}
-		if ($original_x == $original_y)
-		{
+		if ($original_x == $original_y) {
 			$thumb_w = $size;
-			$thumb_h = $size;	
+			$thumb_h = $size;
 		}
 		// Now make the thumbnail
 		$source = imageCreateFromJpeg($source);
@@ -968,16 +884,14 @@ function make_thumb($source, $destination, $size)
 function extract_permission($octal_value, $who, $action)
 {
 	// Make sure that all arguments are set and $octal_value is a real octal-integer
-	if( ($who == '') || ($action == '') || (preg_match( '/[^0-7]/', (string)$octal_value )) )
-	{
+	if(($who == '') || ($action == '') || (preg_match( '/[^0-7]/', (string)$octal_value ))) {
 		return false; // invalid argument, so return false
 	}
 	// convert $octal_value into a decimal-integer to be sure having a valid value
 	$right_mask = octdec($octal_value);
 	$action_mask = 0;
 	// set the $action related bit in $action_mask
-	switch($action[0]) // get action from first char of $action
-	{
+	switch($action[0]) { // get action from first char of $action
 		case 'r':
 		case 'R':
 			$action_mask = 4; // set read-bit only (2^2)
@@ -996,8 +910,7 @@ function extract_permission($octal_value, $who, $action)
 			return false; // undefined action name, so return false
 	}
 	// shift action-mask into the right position
-	switch($who[0]) // get who from first char of $who
-	{
+	switch($who[0]) { // get who from first char of $who
 		case 'u':
 		case 'U':
 			$action_mask <<= 3; // shift left 3 bits
@@ -1019,8 +932,9 @@ function extract_permission($octal_value, $who, $action)
 	{
 		global $admin, $database, $MESSAGE;
 		// Find out more about the page
-		$sql  = 'SELECT `page_id`, `menu_title`, `page_title`, `level`, `link`, `parent`, `modified_by`, `modified_when` ';
-		$sql .= 'FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
+		$sql  = 'SELECT `page_id`, `menu_title`, `page_title`, `level`, ';
+		$sql .=        '`link`, `parent`, `modified_by`, `modified_when` ';
+		$sql .= 'FROM `'.TABLE_PREFIX.'pages` WHERE `page_id`='.$page_id;
 		$results = $database->query($sql);
 		if($database->is_error())    { $admin->print_error($database->get_error()); }
 		if($results->numRows() == 0) { $admin->print_error($MESSAGE['PAGES']['NOT_FOUND']); }
@@ -1030,32 +944,29 @@ function extract_permission($octal_value, $who, $action)
 		$link       = $results_array['link'];
 		$page_title = $results_array['page_title'];
 		$menu_title = $results_array['menu_title'];
-
 		// Get the sections that belong to the page
-		$sql = 'SELECT `section_id`, `module` FROM `'.TABLE_PREFIX.'sections` WHERE `page_id` = '.$page_id;
+		$sql  = 'SELECT `section_id`, `module` FROM `'.TABLE_PREFIX.'sections` ';
+		$sql .= 'WHERE `page_id`='.$page_id;
 		$query_sections = $database->query($sql);
 		if($query_sections->numRows() > 0)
 		{
-			while($section = $query_sections->fetchRow())
-			{
+			while($section = $query_sections->fetchRow()) {
 				// Set section id
 				$section_id = $section['section_id'];
 				// Include the modules delete file if it exists
-				if(file_exists(WB_PATH.'/modules/'.$section['module'].'/delete.php'))
-				{
+				if(file_exists(WB_PATH.'/modules/'.$section['module'].'/delete.php')) {
 					include(WB_PATH.'/modules/'.$section['module'].'/delete.php');
 				}
 			}
 		}
 		// Update the pages table
-		$sql = 'DELETE FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
+		$sql = 'DELETE FROM `'.TABLE_PREFIX.'pages` WHERE `page_id`='.$page_id;
 		$database->query($sql);
-		if($database->is_error())
-		{
+		if($database->is_error()) {
 			$admin->print_error($database->get_error());
 		}
 		// Update the sections table
-		$sql = 'DELETE FROM `'.TABLE_PREFIX.'sections` WHERE `page_id` = '.$page_id;
+		$sql = 'DELETE FROM `'.TABLE_PREFIX.'sections` WHERE `page_id`='.$page_id;
 		$database->query($sql);
 		if($database->is_error()) {
 			$admin->print_error($database->get_error());
@@ -1070,12 +981,9 @@ function extract_permission($octal_value, $who, $action)
 		$directory .= '/';
 		if(file_exists($filename))
 		{
-			if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/'))
-			{
+			if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/')) {
 				$admin->print_error($MESSAGE['PAGES']['CANNOT_DELETE_ACCESS_FILE']);
-			}
-			else
-			{
+			}else {
 				unlink($filename);
 				if( file_exists($directory) &&
 				   (rtrim($directory,'/') != WB_PATH.PAGES_DIRECTORY) &&
@@ -1097,14 +1005,11 @@ function extract_permission($octal_value, $who, $action)
 		$file_content = '';
 		if( file_exists($file) && is_file($file) && is_readable($file))
 		{
-			if($size == 0)
-			{
+			if($size == 0) {
 				$size = filesize($file);
 			}
-			if(($fh = fopen($file, 'rb')))
-			{
-				if( ($file_content = fread($fh, $size)) !== false )
-				{
+			if(($fh = fopen($file, 'rb'))) {
+				if( ($file_content = fread($fh, $size)) !== false ) {
 					return $file_content;
 				}
 				fclose($fh);
@@ -1124,8 +1029,7 @@ function extract_permission($octal_value, $who, $action)
     {
 		if(is_array($replace))
 		{
-			foreach ($replace  as $key => $value)
-			{
+			foreach ($replace  as $key => $value) {
 				$subject = str_replace("{{".$key."}}", $value, $subject);
 			}
 		}
@@ -1149,30 +1053,27 @@ function load_module($directory, $install = false)
 			// Check that it doesn't already exist
 			$sqlwhere = 'WHERE `type` = \'module\' AND `directory` = \''.$module_directory.'\'';
 			$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'addons` '.$sqlwhere;
-			if( $database->get_one($sql) )
-			{
+			if( $database->get_one($sql) ) {
 				$sql  = 'UPDATE `'.TABLE_PREFIX.'addons` SET ';
 			}else{
 				// Load into DB
 				$sql  = 'INSERT INTO `'.TABLE_PREFIX.'addons` SET ';
 				$sqlwhere = '';
 			}
-			$sql .= '`directory` = \''.$module_directory.'\', ';
-			$sql .= '`name` = \''.$module_name.'\', ';
-			$sql .= '`description`= \''.addslashes($module_description).'\', ';
-			$sql .= '`type`= \'module\', ';
-			$sql .= '`function` = \''.$module_function.'\', ';
-			$sql .= '`version` = \''.$module_version.'\', ';
-			$sql .= '`platform` = \''.$module_platform.'\', ';
-			$sql .= '`author` = \''.addslashes($module_author).'\', ';
-			$sql .= '`license` = \''.addslashes($module_license).'\'';
+			$sql .= '`directory`=\''.$module_directory.'\', ';
+			$sql .= '`name`=\''.$module_name.'\', ';
+			$sql .= '`description`=\''.addslashes($module_description).'\', ';
+			$sql .= '`type`=\'module\', ';
+			$sql .= '`function`=\''.$module_function.'\', ';
+			$sql .= '`version`=\''.$module_version.'\', ';
+			$sql .= '`platform`=\''.$module_platform.'\', ';
+			$sql .= '`author`=\''.addslashes($module_author).'\', ';
+			$sql .= '`license`=\''.addslashes($module_license).'\'';
 			$sql .= $sqlwhere;
 			$retVal = $database->query($sql);
 			// Run installation script
-			if($install == true)
-			{
-				if(file_exists($directory.'/install.php'))
-				{
+			if($install == true) {
+				if(file_exists($directory.'/install.php')) {
 					require($directory.'/install.php');
 				}
 			}
@@ -1190,38 +1091,34 @@ function load_template($directory)
 		require($directory.'/info.php');
 		if(isset($template_name))
 		{
-			if(!isset($template_license))
-            {
+			if(!isset($template_license)) {
               $template_license = 'GNU General Public License';
             }
-			if(!isset($template_platform) && isset($template_designed_for))
-            {
+			if(!isset($template_platform) && isset($template_designed_for)) {
               $template_platform = $template_designed_for;
             }
-			if(!isset($template_function))
-            {
+			if(!isset($template_function)) {
               $template_function = 'template';
             }
 			// Check that it doesn't already exist
-			$sqlwhere = 'WHERE `type` = \'template\' AND `directory` = \''.$template_directory.'\'';
+			$sqlwhere = 'WHERE `type`=\'template\' AND `directory`=\''.$template_directory.'\'';
 			$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'addons` '.$sqlwhere;
-			if( $database->get_one($sql) )
-			{
+			if( $database->get_one($sql) ) {
 				$sql  = 'UPDATE `'.TABLE_PREFIX.'addons` SET ';
 			}else{
 				// Load into DB
 				$sql  = 'INSERT INTO `'.TABLE_PREFIX.'addons` SET ';
 				$sqlwhere = '';
 			}
-			$sql .= '`directory` = \''.$template_directory.'\', ';
-			$sql .= '`name` = \''.$template_name.'\', ';
-			$sql .= '`description`= \''.addslashes($template_description).'\', ';
-			$sql .= '`type`= \'template\', ';
-			$sql .= '`function` = \''.$template_function.'\', ';
-			$sql .= '`version` = \''.$template_version.'\', ';
-			$sql .= '`platform` = \''.$template_platform.'\', ';
-			$sql .= '`author` = \''.addslashes($template_author).'\', ';
-			$sql .= '`license` = \''.addslashes($template_license).'\' ';
+			$sql .= '`directory`=\''.$template_directory.'\', ';
+			$sql .= '`name`=\''.$template_name.'\', ';
+			$sql .= '`description`=\''.addslashes($template_description).'\', ';
+			$sql .= '`type`=\'template\', ';
+			$sql .= '`function`=\''.$template_function.'\', ';
+			$sql .= '`version`=\''.$template_version.'\', ';
+			$sql .= '`platform`=\''.$template_platform.'\', ';
+			$sql .= '`author`=\''.addslashes($template_author).'\', ';
+			$sql .= '`license`=\''.addslashes($template_license).'\' ';
 			$sql .= $sqlwhere;
 			$retVal = $database->query($sql);
 		}
@@ -1251,23 +1148,22 @@ function load_language($file)
 			if(!isset($language_license)) { $language_license = 'GNU General Public License'; }
 			if(!isset($language_platform) && isset($language_designed_for)) { $language_platform = $language_designed_for; }
 			// Check that it doesn't already exist
-			$sqlwhere = 'WHERE `type` = \'language\' AND `directory` = \''.$language_code.'\'';
+			$sqlwhere = 'WHERE `type`=\'language\' AND `directory`=\''.$language_code.'\'';
 			$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'addons` '.$sqlwhere;
-			if( $database->get_one($sql) )
-			{
+			if( $database->get_one($sql) ) {
 				$sql  = 'UPDATE `'.TABLE_PREFIX.'addons` SET ';
 			}else{
 				// Load into DB
 				$sql  = 'INSERT INTO `'.TABLE_PREFIX.'addons` SET ';
 				$sqlwhere = '';
 			}
-			$sql .= '`directory` = \''.$language_code.'\', ';
-			$sql .= '`name` = \''.$language_name.'\', ';
-			$sql .= '`type`= \'language\', ';
-			$sql .= '`version` = \''.$language_version.'\', ';
-			$sql .= '`platform` = \''.$language_platform.'\', ';
-			$sql .= '`author` = \''.addslashes($language_author).'\', ';
-			$sql .= '`license` = \''.addslashes($language_license).'\' ';
+			$sql .= '`directory`=\''.$language_code.'\', ';
+			$sql .= '`name`=\''.$language_name.'\', ';
+			$sql .= '`type`=\'language\', ';
+			$sql .= '`version`=\''.$language_version.'\', ';
+			$sql .= '`platform`=\''.$language_platform.'\', ';
+			$sql .= '`author`=\''.addslashes($language_author).'\', ';
+			$sql .= '`license`=\''.addslashes($language_license).'\' ';
 			$sql .= $sqlwhere;
 			$retVal = $database->query($sql);
 		}
@@ -1291,27 +1187,24 @@ function upgrade_module($directory, $upgrade = false)
 			$module_function = strtolower($module_function);
 			// Check that it does already exist
 			$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'addons` ';
-			$sql .= 'WHERE `directory` = \''.$module_directory.'\'';
+			$sql .= 'WHERE `directory`=\''.$module_directory.'\'';
 			if( $database->get_one($sql) )
 			{
 				// Update in DB
 				$sql  = 'UPDATE `'.TABLE_PREFIX.'addons` SET ';
-				$sql .= '`version` = "'.$module_version.'", ';
-				$sql .= '`description` = "'.addslashes($module_description).'", ';
-				$sql .= '`platform` = \''.$module_platform.'\', ';
-				$sql .= '`author` = \''.addslashes($module_author).'\', ';
-				$sql .= '`license` = \''.addslashes($module_license).'\' ';
-				$sql .= 'WHERE `directory` = \''.$module_directory.'\' ';
+				$sql .= '`version`=\''.$module_version.'\', ';
+				$sql .= '`description`=\''.addslashes($module_description).'\', ';
+				$sql .= '`platform`=\''.$module_platform.'\', ';
+				$sql .= '`author`=\''.addslashes($module_author).'\', ';
+				$sql .= '`license`=\''.addslashes($module_license).'\' ';
+				$sql .= 'WHERE `directory`=\''.$module_directory.'\' ';
 				$database->query($sql);
 				if($database->is_error()) {
 					$admin->print_error($database->get_error());
 				}
-
 				// Run upgrade script
-				if($upgrade == true)
-				{
-					if(file_exists($mod_directory.'/upgrade.php'))
-					{
+				if($upgrade == true) {
+					if(file_exists($mod_directory.'/upgrade.php')) {
 						require($mod_directory.'/upgrade.php');
 					}
 				}
@@ -1331,8 +1224,7 @@ if(!function_exists('get_variable_content'))
 		// the variable name is returned in $match[1], the content in $match[3]
 		if (preg_match('/(\$' .$search .')\s*=\s*("|\')(.*)\2\s*;/', $data, $match))
 		{
-			if(strip_tags(trim($match[1])) == '$' .$search)
-			{
+			if(strip_tags(trim($match[1])) == '$' .$search) {
 				// variable name matches, return it's value
 				$match[3] = ($striptags == true) ? strip_tags($match[3]) : $match[3];
 				$match[3] = ($convert_to_entities == true) ? htmlentities($match[3]) : $match[3];
@@ -1355,14 +1247,13 @@ if(!function_exists('get_variable_content'))
 		$version = null;
 		if( $source != true )
 		{
-			$sql = 'SELECT `version` FROM `'.TABLE_PREFIX.'addons` WHERE `directory`=\''.$modulname.'\'';
+			$sql  = 'SELECT `version` FROM `'.TABLE_PREFIX.'addons` ';
+			$sql .= 'WHERE `directory`=\''.$modulname.'\'';
 			$version = $database->get_one($sql);
 		} else {
 			$info_file = WB_PATH.'/modules/'.$modulname.'/info.php';
-			if(file_exists($info_file))
-			{
-				if(($info_file = file_get_contents($info_file)))
-				{
+			if(file_exists($info_file)) {
+				if(($info_file = file_get_contents($info_file))) {
 					$version = get_variable_content('module_version', $info_file, false, false);
 					$version = ($version !== false) ? $version : null;
 				}
@@ -1383,12 +1274,10 @@ if(!function_exists('get_variable_content'))
 			$vars = explode(',', $varlist);
 			foreach( $vars as $var)
 			{
-				if( isset($GLOBALS[$var]) )
-				{
+				if( isset($GLOBALS[$var]) ){
 					ErrorLog::write( 'variabe $'.$var.' already defined in global space!!',__FILE__, __FUNCTION__, __LINE__);
 					$retval = false;
-				}else
-				{
+				}else {
 					global $$var;
 				}
 			}
@@ -1404,7 +1293,7 @@ if(!function_exists('get_variable_content'))
  */
 	function check_media_path($directory, $with_media_dir = true)
 	{
-		$md = ($with_media_dir) ? MEDIA_DIRECTORY : ''; 
+		$md = ($with_media_dir) ? MEDIA_DIRECTORY : '';
 		$dir = realpath(WB_PATH . $md . '/' . utf8_decode($directory));
 		$required = realpath(WB_PATH . MEDIA_DIRECTORY);
 		if (strstr($dir, $required)) {
