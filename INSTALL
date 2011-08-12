@@ -1,26 +1,15 @@
-WebsiteBaker 2 Installation Instructions
+WebsiteBaker 2.8.2 Installation Instructions
 ============================================
-This will quickly explain what you will need
-to install websiteBaker.
 
-First of all, you must have a webserver with
-PHP and MySQL installed correctly. Once you 
-have got that, place the "wb" folder 
-somewhere on your server, probably under the
-document root:
-e.g. /documentroot/wb
+You can find detailed informations in the INSTALL
+file of the needed installer interface.
 
-This should be accessed by an address 
-something like this:
-e.g. http://localhost/wb/
+Short Instruction:
 
-Now create a blank MySQL database
-(Commonly called "wb").
+1.: create empty database and remember access data
+2.: Unzip WB and move it to the Server
+3.: Unzip Fix-Packet and move it to the Server  !!! very important !!!
+4.: chmod directories/files as usual if needed (most with mod-apache running)
+5.: rename config.php.new into config.php (never needed with micro-installer)
+6.: start installation
 
-Once that is all done simple run the
-install script from your browser:
-e.g. http://localhost/wb/install/index.php
-
-Fill-out the form and submit it, and if all
-the details are correct, you should be taken
-to WebsiteBaker Administration.

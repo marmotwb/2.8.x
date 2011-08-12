@@ -26,7 +26,7 @@ define('LANGUAGE_LOADED', true);
 
 // Set the language information
 $language_code = 'TR';
-$language_name = 'Turkish';
+$language_name = 'Türk';
 $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Atakan KO&Ccedil;';
