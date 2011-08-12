@@ -15,11 +15,12 @@
  * @lastmodified    $Date$
  *
 */
-
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
-require_once('globalExceptionHandler.php');
-if(!defined('WB_PATH')) { throw new IllegalFileException(); }
+if(!defined('WB_PATH')) {
+	require_once(dirname(__FILE__).'/globalExceptionHandler.php');
+	throw new IllegalFileException();
+}
 /* -------------------------------------------------------- */
 // Define that this file has been loaded
 define('FUNCTIONS_FILE_LOADED', true);

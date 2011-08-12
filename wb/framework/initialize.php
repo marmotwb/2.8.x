@@ -18,7 +18,7 @@
 
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
-require_once('globalExceptionHandler.php');
+require_once(dirname(__FILE__).'/globalExceptionHandler.php');
 if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 /* -------------------------------------------------------- */
 //set_include_path(get_include_path() . PATH_SEPARATOR . WB_PATH);
