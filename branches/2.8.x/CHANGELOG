@@ -12,6 +12,8 @@ Legend:
 
 =============================== FEATURES FREEZE ================================
 ----------------------------------- Fixes 2.8.2 --------------------------------
+11 Aug-2011 Build 1500 Werner v.d.Decken(DarkViper)
+# sync working copy
 11 Aug-2011 Build 1499 Werner v.d.Decken(DarkViper)
 # little fix in calling globalExceptionHandler from inner core files
 11 Aug-2011 Build 1498 Werner v.d.Decken(DarkViper)
