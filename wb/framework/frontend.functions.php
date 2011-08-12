@@ -1,5 +1,5 @@
 <?php
-/**
+/**$extra_sql
  *
  * @category        framework
  * @package         frontend.functions
@@ -29,11 +29,7 @@ if(!defined('WB_PATH')) {
 	$page_description = $wb->page_description;
 	$page_keywords    = $wb->page_keywords;
 	$page_link        = $wb->link;
-// ---------- //
-// extra_sql is not used anymore - this is basically a register_globals exploit prevention...
-	$extra_sql       = $wb->extra_sql;
-	$extra_where_sql = $wb->extra_where_sql;
-// ---------- //
+
 	$include_head_link_css = '';
 	$include_body_links    = '';
 	$include_head_links    = '';
@@ -664,21 +660,3 @@ if(!function_exists('register_frontend_modfiles'))
 		}
 		return $content;
 	}
-
-// Begin WB < 2.4.x template compatibility code
-	// Make extra_sql accessable through private_sql
-	$private_sql = $extra_sql;
-	$private_where_sql = $extra_where_sql;
-	// Query pages for menu
-	$sql  = 'SELECT `page_id`,`menu_title`,`page_title`,`link`,`target`,`visibility`'.$extra_sql.' ';
-	$sql .= 'FROM `'.TABLE_PREFIX.'pages` ';
-	$sql .= 'WHERE `parent`=0 AND '.$extra_where_sql.' ';
-	$sql .= 'ORDER BY `position` ASC';
-	$menu1 = $database->query($sql);
-	// Check if current pages is a parent page and if we need its submenu
-	$tmp = (PARENT == 0 ? PAGE_ID : PARENT);
-	$sql  = 'SELECT `page_id`,`menu_title`,`page_title`,`link`,`target`,`visibility`'.$extra_sql.' ';
-	$sql .= 'FROM `'.TABLE_PREFIX.'pages` ';
-	$sql .= 'WHERE `parent`='.$tmp.' AND '.$extra_where_sql.' ';
-	$sql .= 'ORDER BY `position` ASC';
-	$menu2 = $database->query($sql);
