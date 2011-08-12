@@ -18,8 +18,10 @@
 
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
-require_once('globalExceptionHandler.php');
-if(!defined('WB_PATH')) { throw new IllegalFileException(); }
+if(!defined('WB_PATH')) {
+	require_once(dirname(__FILE__).'/globalExceptionHandler.php');
+	throw new IllegalFileException();
+}
 /* -------------------------------------------------------- */
 function getVersion($version, $strip_suffix = true)
 {

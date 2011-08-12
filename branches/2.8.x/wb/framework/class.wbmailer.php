@@ -22,11 +22,12 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
-
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
-require_once('globalExceptionHandler.php');
-if(!defined('WB_PATH')) { throw new IllegalFileException(); }
+if(!defined('WB_PATH')) {
+	require_once(dirname(__FILE__).'/globalExceptionHandler.php');
+	throw new IllegalFileException();
+}
 /* -------------------------------------------------------- */
 // Include PHPMailer class
 require_once(WB_PATH."/include/phpmailer/class.phpmailer.php");

@@ -21,14 +21,13 @@
  * define Exception to show error after accessing a forbidden file
  */
 	class IllegalFileException extends LogicException {
-
 		public function __toString() {
 			$file = str_replace(dirname(dirname(__FILE__)), '', $this->getFile());
-			$out  = '<div style="color: #ff0000; text-align: center;"><br /><br /><br /><h1>Illegale file access</h1>';
+			$out  = '<div style="color: #ff0000; text-align: center;"><br />';
+			$out .= '<br /><br /><h1>Illegale file access</h1>';
 			$out .= '<h2>'.$file.'</h2></div>';
 			return $out;
 		}
-
 	} // end of class
 
 /**

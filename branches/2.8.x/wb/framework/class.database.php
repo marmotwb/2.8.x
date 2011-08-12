@@ -15,20 +15,17 @@
  * @lastmodified    $Date$
  *
  */
-
 /*
-
 Database class
-
 This class will be used to interface between the database
 and the Website Baker code
-
 */
-
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
-require_once('globalExceptionHandler.php');
-if(!defined('WB_PATH')) { throw new IllegalFileException(); }
+if(!defined('WB_PATH')) {
+	require_once(dirname(__FILE__).'/globalExceptionHandler.php');
+	throw new IllegalFileException();
+}
 /* -------------------------------------------------------- */
 if(!defined('DB_URL')) {
 	//define('DB_URL', DB_TYPE.'://'.DB_USERNAME.':'.DB_PASSWORD.'@'.DB_HOST.'/'.DB_NAME);

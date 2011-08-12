@@ -17,8 +17,10 @@
  */
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
-require_once('globalExceptionHandler.php');
-if(!defined('WB_PATH')) { throw new IllegalFileException(); }
+if(!defined('WB_PATH')) {
+	require_once(dirname(__FILE__).'/globalExceptionHandler.php');
+	throw new IllegalFileException();
+}
 /* -------------------------------------------------------- */
 	define('ORDERING_CLASS_LOADED', true);
 // Load the other required class files if they are not already loaded
