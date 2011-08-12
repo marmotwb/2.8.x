@@ -63,27 +63,33 @@ class order {
 		$retval = false;
 		$sql  = 'SELECT `'.$this->_FieldOrder.'` `order`, `'.$this->_FieldGroup.'` `group` ';
 		$sql .= 'FROM `'.$this->_Table.'` WHERE `'.$this->_FieldId.'`=\''.$id.'\'';
+		// get Position and Group for Element to move
 		if(($res1 = $this->_DB->query($sql))) {
 			if(($rec1 = $res1->fetchRow())) {
 				$sql  = 'SELECT `'.$this->_FieldId.'` `id`, `'.$this->_FieldOrder.'` `order` ';
 				$sql .= 'FROM `'.$this->_Table.'` ';
 				$sql .= 'WHERE `'.$this->_FieldGroup.'`=\''.$rec1['group'].'\' ';
 				if($direction == self::MOVE_UP) {
-					$sql .=     'AND `'.$this->_FieldOrder.'`>\''.$rec1['order'].'\' ';
-					$sql .= 'ORDER BY `'.$this->_FieldOrder.'` ASC';
-				}else {
+					// search for Element with next lower Position
 					$sql .=     'AND `'.$this->_FieldOrder.'`<\''.$rec1['order'].'\' ';
 					$sql .= 'ORDER BY `'.$this->_FieldOrder.'` DESC';
+				}else {
+					// search for Element with next higher Position
+					$sql .=     'AND `'.$this->_FieldOrder.'`>\''.$rec1['order'].'\' ';
+					$sql .= 'ORDER BY `'.$this->_FieldOrder.'` ASC';
 				}
+				// get Id and Position of the Element to change with
 				if(($res2 = $this->_DB->query($sql))) {
 					if(($rec2 = $res2->fetchRow())) {
 						$sql  = 'UPDATE `'.$this->_Table.'` ';
 						$sql .= 'SET `'.$this->_FieldOrder.'`=\''.$rec1['order'].'\' ';
 						$sql .= 'WHERE `'.$this->_FieldId.'`=\''.$rec2['id'].'\'';
+						// update Position number of target
 						if($this->_DB->query($sql)) {
 							$sql  = 'UPDATE `'.$this->_Table.'` ';
 							$sql .= 'SET `'.$this->_FieldOrder.'`=\''.$rec2['order'].'\' ';
 							$sql .= 'WHERE `'.$this->_FieldId.'`=\''.$id.'\'';
+							// update Position number source
 							$retval = $this->_DB->query($sql);
 						}
 					}
