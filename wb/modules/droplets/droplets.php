@@ -22,9 +22,14 @@
  *  1.0.3, optimize, reduce memory consumption, increase speed, remove CSS, enable nested droplets
  *
  */
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+if(!defined('WB_PATH')) {
 
-// Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+	require_once(dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
+}
+/* -------------------------------------------------------- */
 
 	function do_eval($_x_codedata, $_x_varlist, &$wb_page_data)
 	{
@@ -112,5 +117,3 @@ if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 		}
 		return $wb_page_data;
 	}
-
-?>

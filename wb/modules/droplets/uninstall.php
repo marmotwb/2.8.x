@@ -16,11 +16,14 @@
  * @lastmodified    $Date$
  *
  */
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+if(!defined('WB_PATH')) {
 
-// prevent this file from being accessed directly
-if(!defined('WB_PATH')) die(header('Location: ../index.php'));
+	require_once(dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
+}
+/* -------------------------------------------------------- */
 
-$table = TABLE_PREFIX .'mod_droplets';
-$database->query("DROP TABLE IF EXISTS `$table`");
-
-?>
+$sql  = 'DROP TABLE IF EXISTS `'.TABLE_PREFIX.'mod_droplets` ';
+$database->query($sql);

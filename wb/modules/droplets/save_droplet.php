@@ -18,31 +18,29 @@
  */
 
 require('../../config.php');
-
 // Get id
+/*
 if(!isset($_POST['droplet_id']) OR !is_numeric($_POST['droplet_id'])) {
 	header("Location: ".ADMIN_URL."/pages/index.php");
 } else {
 	$droplet_id = (int) $_POST['droplet_id'];
 }
+*/
+
 // Include WB admin wrapper script
 require_once(WB_PATH.'/framework/class.admin.php');
 require_once(WB_PATH.'/framework/functions.php');
 
+$admintool_link = ADMIN_URL .'/admintools/index.php';
 $module_edit_link = ADMIN_URL .'/admintools/tool.php?tool=droplets';
-// check website baker platform (with WB 2.7, Admin-Tools were moved out of settings dialogue)
-if(file_exists(ADMIN_PATH .'/admintools/tool.php')) {
-	$admintool_link = ADMIN_URL .'/admintools/index.php';
-	$admin = new admin('admintools', 'admintools',false);
-} else {
-	$admintool_link = ADMIN_URL .'/settings/index.php?advanced=yes#administration_tools"';
-	$admin = new admin('Settings', 'settings_advanced',false);
-}
 
-if (!$admin->checkFTAN())
-{
+$admin = new admin('admintools', 'admintools',false);
+
+$droplet_id = intval($admin->checkIDKEY('droplet_id', false, 'POST'));
+
+if(!$admin->checkFTAN() || !$droplet_id ) {
 	$admin->print_header();
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $module_edit_link);
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $module_edit_link );
 }
 $admin->print_header();
 
@@ -58,14 +56,25 @@ if($admin->get_post('title') == '') {
 	$description = $admin->add_slashes($admin->get_post('description'));
 	$tags = array('<?php', '?>' , '<?');
 	$content = $admin->add_slashes(str_replace($tags, '', $_POST['savecontent']));
-
 	$comments = $admin->add_slashes($admin->get_post('comments'));
 	$modified_when = time();
-	$modified_by = (int) $admin->get_user_id(); 
+	$modified_by = (int) $admin->get_user_id();
 }
 
 // Update row
-$database->query("UPDATE ".TABLE_PREFIX."mod_droplets SET name = '$title', active = '$active', admin_view = '$admin_view', admin_edit = '$admin_edit', show_wysiwyg = '$show_wysiwyg', description = '$description', code = '$content', comments = '$comments', modified_when = '$modified_when', modified_by = '$modified_by' WHERE id = '$droplet_id'");
+$sql = 'UPDATE `'.TABLE_PREFIX.'mod_droplets` SET ';
+$sql .= '`name` = \''.$title.'\', ';
+$sql .= '`active` = '.$active.', ';
+$sql .= '`admin_view` = '.$admin_view.', ';
+$sql .= '`admin_edit` = '.$admin_edit.', ';
+$sql .= '`show_wysiwyg` = '.$show_wysiwyg.', ';
+$sql .= '`description` = \''.$description.'\', ';
+$sql .= '`code` = \''.$content.'\', ';
+$sql .= '`comments` = \''.$comments.'\', ';
+$sql .= '`modified_when` = '.$modified_when.', ';
+$sql .= '`modified_by` = '.$modified_by.' ';
+$sql .= 'WHERE `id` = '.$droplet_id;
+$database->query($sql);
 
 // Check if there is a db error, otherwise say successful
 if($database->is_error()) {
