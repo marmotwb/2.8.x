@@ -21,21 +21,25 @@ require('../../config.php');
 
 require_once(WB_PATH.'/framework/class.admin.php');
 require_once(WB_PATH.'/framework/functions.php');
-$admin = new admin('admintools','admintools',false,false);
+$admin = new admin('admintools','admintools',true,false);
 if($admin->get_permission('admintools') == true) {
-	
+
 	$admintool_link = ADMIN_URL .'/admintools/index.php';
 	$module_edit_link = ADMIN_URL .'/admintools/tool.php?tool=droplets';
-	$admin = new admin('admintools', 'admintools');
+	// $admin = new admin('admintools', 'admintools');
 
 	$modified_when = time();
-	$modified_by = $admin->get_user_id();
+	$modified_by = intval($admin->get_user_id());
 
 	// Insert new row into database
-	$database->query("INSERT INTO ".TABLE_PREFIX."mod_droplets (active,modified_when,modified_by) VALUES ('1','$modified_when','$modified_by' )");
+	$sql = 'INSERT INTO `'.TABLE_PREFIX.'mod_droplets` SET ';
+	$sql .= '`active` = 1, ';
+	$sql .= '`modified_when` = '.$modified_when.', ';
+	$sql .= '`modified_by` = '.$modified_by.' ';
+	$database->query($sql);
 
 	// Get the id
-	$droplet_id = $database->get_one("SELECT LAST_INSERT_ID()");
+	$droplet_id = intval($database->get_one("SELECT LAST_INSERT_ID()"));
 
 	// Say that a new record has been added, then redirect to modify page
 	if($database->is_error()) {
@@ -44,9 +48,9 @@ if($admin->get_permission('admintools') == true) {
 		$admin->print_success($TEXT['SUCCESS'], WB_URL.'/modules/droplets/modify_droplet.php?droplet_id='. $admin->getIDKEY($droplet_id));
 	}
 
-	// Print admin footer
-	$admin->print_footer();
 } else {
-	die(header('Location: ../../index.php'));
-} 
-?>
+		$admin->print_error($database->get_error(), $module_edit_link);
+}
+
+// Print admin footer
+$admin->print_footer();

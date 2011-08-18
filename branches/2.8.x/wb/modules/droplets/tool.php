@@ -16,9 +16,14 @@
  * @lastmodified    $Date$
  *
  */
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+if(!defined('WB_PATH')) {
 
-// Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+	require_once(dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
+}
+/* -------------------------------------------------------- */
 
 // Load Language file
 if(LANGUAGE_LOADED) {
@@ -37,7 +42,7 @@ if(!method_exists($admin, 'register_backend_modfiles') && file_exists(WB_PATH .'
 }
 
 // Get userid for showing admin only droplets or not
-$loggedin_user = $admin->get_user_id();
+$loggedin_user = ($admin->ami_group_member('1') ? 1 : $admin->user_id());
 $loggedin_group = $admin->get_groups_id();
 $admin_user = ( ($admin->get_home_folder() == '') && ($admin->ami_group_member('1') ) || ($loggedin_user == '1'));
 
@@ -45,7 +50,10 @@ $admin_user = ( ($admin->get_home_folder() == '') && ($admin->ami_group_member('
 $admintool_url = ADMIN_URL .'/admintools/index.php';
 
 //removes empty entries from the table so they will not be displayed
-$database->query("DELETE FROM ".TABLE_PREFIX."mod_droplets WHERE name=''");
+$sql = 'DELETE FROM '.TABLE_PREFIX.'mod_droplets ';
+$sql .= 'WHERE name = \'\' ';
+$database->query($sql);
+
 ?>
 
 <br />
@@ -68,12 +76,13 @@ $database->query("DELETE FROM ".TABLE_PREFIX."mod_droplets WHERE name=''");
 
 <h2><?php echo $TEXT['MODIFY'].'/'.$TEXT['DELETE'].' '.$DR_TEXT['DROPLETS']; ?></h2>
 <?php
-// if ($loggedin_user == '1') {
-if ($admin_user) {
-	$query_droplets = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_droplets ORDER BY modified_when DESC");
-} else { 
-	$query_droplets = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_droplets WHERE admin_view <> '1' ORDER BY modified_when DESC");
+
+$sql = 'SELECT * FROM `'.TABLE_PREFIX.'mod_droplets` ';
+if (!$admin_user) {
+	$sql .= 'WHERE `admin_view` <> 1 ';
 }
+$sql .= 'ORDER BY `modified_when` DESC';
+$query_droplets = $database->query($sql);
 $num_droplets = $query_droplets->numRows();
 if($num_droplets > 0) {
 	?>
@@ -99,24 +108,25 @@ if($num_droplets > 0) {
 			$modified_user = $TEXT['UNKNOWN'];
 			$modified_userid = 0;
 		}
+        $iDropletIdKey = $admin->getIDKEY($droplet['id']);
 		$comments = str_replace(array("\r\n", "\n", "\r"), '<br />', $droplet['comments']);
 		if (!strpos($comments,"[[")) $comments = "Use: [[".$droplet['name']."]]<br />".$comments;
 		$comments = str_replace(array("[[", "]]"), array('<b>[[',']]</b>'), $comments);
 		$valid_code = check_syntax($droplet['code']);
 		if (!$valid_code === true) $comments = '<font color=\'red\'><strong>'.$DR_TEXT['INVALIDCODE'].'</strong></font><br /><br />'.$comments;
 		$unique_droplet = check_unique ($droplet['name']);
-		if ($unique_droplet === false) $comments = '<font color=\'red\'><strong>'.$DR_TEXT['NOTUNIQUE'].'</strong></font><br /><br />'.$comments;
+		if ($unique_droplet === false ) {$comments = '<font color=\'red\'><strong>'.$DR_TEXT['NOTUNIQUE'].'</strong></font><br /><br />'.$comments;}
 		$comments = '<span>'.$comments.'</span>';
 		?>
-		
+
 		<tr class="row_<?php echo $row; ?>" >
 			<td >
-				<a href="<?php echo WB_URL; ?>/modules/droplets/modify_droplet.php?droplet_id=<?php echo $admin->getIDKEY($droplet['id']); ?>" title="<?php echo $TEXT['MODIFY']; ?>">
-					<img src="<?php echo THEME_URL; ?>/images/modify_16.png" border="0" alt="Modify" /> 
+				<a href="<?php echo WB_URL; ?>/modules/droplets/modify_droplet.php?droplet_id=<?php echo $iDropletIdKey; ?>" title="<?php echo $TEXT['MODIFY']; ?>">
+					<img src="<?php echo THEME_URL; ?>/images/modify_16.png" border="0" alt="Modify" />
 				</a>
 			</td>
 			<td >
-				<a href="<?php echo WB_URL; ?>/modules/droplets/modify_droplet.php?droplet_id=<?php echo $admin->getIDKEY($droplet['id']); ?>" class="tooltip">
+				<a href="<?php echo WB_URL; ?>/modules/droplets/modify_droplet.php?droplet_id=<?php echo $iDropletIdKey; ?>" class="tooltip">
 							<?php if ($valid_code && $unique_droplet) { ?><img src="<?php echo WB_URL; ?>/modules/droplets/img/droplet.png" border="0" alt=""/>
 							<?php } else {  ?><img src="<?php echo WB_URL; ?>/modules/droplets/img/invalid.gif" border="0" title="" alt=""/><?php }  ?>
 					<?php echo $droplet['name']; ?><?php echo $comments; ?>
@@ -129,7 +139,7 @@ if($num_droplets > 0) {
 				<b><?php if($droplet['active'] == 1){ echo '<span style="color: green;">'. $TEXT['YES']. '</span>'; } else { echo '<span style="color: red;">'.$TEXT['NO'].'</span>';  } ?></b>
 			</td>
 			<td >
-				<a href="javascript: confirm_link('<?php echo $TEXT['ARE_YOU_SURE']; ?>', '<?php echo WB_URL; ?>/modules/droplets/delete_droplet.php?droplet_id=<?php echo $admin->getIDKEY($droplet['id']); ?>');" title="<?php echo $TEXT['DELETE']; ?>">
+				<a href="javascript: confirm_link('<?php echo $TEXT['ARE_YOU_SURE']; ?>', '<?php echo WB_URL; ?>/modules/droplets/delete_droplet.php?droplet_id=<?php echo $iDropletIdKey; ?>');" title="<?php echo $TEXT['DELETE']; ?>">
 					<img src="<?php echo THEME_URL; ?>/images/delete_16.png" border="0" alt="X" />
 				</a>
 			</td>
@@ -153,6 +163,9 @@ function check_syntax($code) {
 
 function check_unique($name) {
 	global $database;
-	$query_droplets = $database->query("SELECT name FROM ".TABLE_PREFIX."mod_droplets WHERE name = '$name'");
-	return ($query_droplets->numRows() == 1);
+	$retVal = 0;
+	$sql = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'mod_droplets` ';
+	$sql .= 'WHERE `name` = \''.$name.'\'';
+	$retVal = intval($database->get_one($sql));
+	return ($retVal == 1);
 }

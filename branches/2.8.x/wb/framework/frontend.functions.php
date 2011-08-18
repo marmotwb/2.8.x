@@ -23,12 +23,12 @@ if(!defined('WB_PATH')) {
 }
 /* -------------------------------------------------------- */
 // compatibility mode for versions before 2.8.1
-	$admin            = $wb;
-	$default_link     = $wb->default_link;
-	$page_trail       = $wb->page_trail;
-	$page_description = $wb->page_description;
-	$page_keywords    = $wb->page_keywords;
-	$page_link        = $wb->link;
+	if(isset($wb)) {$admin = $wb; }
+	if(isset($wb->default_link)) { $default_link = $wb->default_link; }
+	if(isset($wb->page_trail)) {$page_trail = $wb->page_trail; }
+	if(isset($wb->page_description)) {$page_description = $wb->page_description;}
+	if(isset($wb->page_keywords)) {$page_keywords = $wb->page_keywords;}
+	if(isset($wb->link)) {$page_link = $wb->link;}
 
 	$include_head_link_css = '';
 	$include_body_links    = '';

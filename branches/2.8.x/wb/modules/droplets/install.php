@@ -16,38 +16,44 @@
  * @lastmodified    $Date$
  *
  */
-// Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+if(!defined('WB_PATH')) {
+
+	require_once(dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
+}
+/* -------------------------------------------------------- */
 
 global $admin;
 
-$table = TABLE_PREFIX .'mod_droplets';
-$database->query("DROP TABLE IF EXISTS `$table`");
+$sql  = 'DROP TABLE IF EXISTS `'.TABLE_PREFIX.'mod_droplets` ';
+$database->query($sql);
 
-$database->query("CREATE TABLE `$table` (
-	`id` INT NOT NULL auto_increment,
-	`name` VARCHAR(32) NOT NULL,
-	`code` LONGTEXT NOT NULL ,
-	`description` TEXT NOT NULL,
-	`modified_when` INT NOT NULL default '0',
-	`modified_by` INT NOT NULL default '0',
-	`active` INT NOT NULL default '0',
-	`admin_edit` INT NOT NULL default '0',
-	`admin_view` INT NOT NULL default '0',
-	`show_wysiwyg` INT NOT NULL default '0',
-	`comments` TEXT NOT NULL,
-	PRIMARY KEY ( `id` )
-	)"
-);
+$sql  = 'CREATE TABLE IF NOT EXISTS `'.TABLE_PREFIX.'mod_droplets` ( ';
+$sql .= '`id` INT NOT NULL auto_increment, ';
+$sql .= '`name` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NOT NULL, ';
+$sql .= '`code` LONGTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci  NOT NULL , ';
+$sql .= '`description` TEXT  CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL, ';
+$sql .= '`modified_when` INT NOT NULL default \'0\', ';
+$sql .= '`modified_by` INT NOT NULL default \'0\', ';
+$sql .= '`active` INT NOT NULL default \'0\', ';
+$sql .= '`admin_edit` INT NOT NULL default \'0\', ';
+$sql .= '`admin_view` INT NOT NULL default \'0\', ';
+$sql .= '`show_wysiwyg` INT NOT NULL default \'0\', ';
+$sql .= '`comments` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci  NOT NULL, ';
+$sql .= 'PRIMARY KEY ( `id` ) ';
+$sql .= ') ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
+$database->query($sql);
 
 //add all droplets from the droplet subdirectory
-$folder=opendir(WB_PATH.'/modules/droplets/example/.'); 
+$folder=opendir(WB_PATH.'/modules/droplets/example/.');
 $names = array();
 while ($file = readdir($folder)) {
 	$ext=strtolower(substr($file,-4));
 	if ($ext==".php"){
 		if ($file<>"index.php" ) {
-			$names[count($names)] = $file; 
+			$names[count($names)] = $file;
 		}
 	}
 }
@@ -71,18 +77,23 @@ foreach ($names as $dropfile) {
 		$name = substr($dropfile,0,-4);
 		$modified_when = time();
 		$modified_by = method_exists($admin, 'get_user_id') ? $admin->get_user_id() : 1;
-		$database->query("INSERT INTO `$table`  
-			(name, code, description, comments, active, modified_when, modified_by) 
-			VALUES 
-			('$name', '$droplet', '$description', '$comments', '1', '$modified_when', '$modified_by')");
+		$sql  = 'INSERT INTO `'.TABLE_PREFIX.'mod_droplets` SET ';
+		$sql .= '`name` = \''.$name.'\', ';
+		$sql .= '`code` = \''.$droplet.'\', ';
+		$sql .= '`description` = \''.$description.'\', ';
+		$sql .= '`comments` = \''.$comments.'\', ';
+		$sql .= '`active` = 1, ';
+		$sql .= '`modified_when` = '.$modified_when.', ';
+		$sql .= '`modified_by` = '.$modified_by;
+		$database->query($sql);
 		
 		// do not output anything if this script is called during fresh installation
 		if (method_exists($admin, 'get_user_id')) echo "Droplet import: $name<br/>";
-	}  
+	}
 }
 
 function getDropletCodeFromFile ( $dropletfile ) {
-	$data = "";
+	$data = '';
 	$filename = WB_PATH."/modules/droplets/example/".$dropletfile;
 	if (file_exists($filename)) {
 		$filehandle = fopen ($filename, "r");
@@ -92,4 +103,3 @@ function getDropletCodeFromFile ( $dropletfile ) {
 	}	
 	return $data;
 }
-?>

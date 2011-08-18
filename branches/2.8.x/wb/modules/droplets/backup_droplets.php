@@ -27,19 +27,19 @@ $admin = new admin('admintools', 'admintools');
 $admintool_link = ADMIN_URL .'/admintools/index.php';
 $module_edit_link = ADMIN_URL .'/admintools/tool.php?tool=droplets';
 $template_edit_link = ADMIN_URL .'/admintools/tool.php?tool=templateedit';
+$sOverviewDroplets = $TEXT['LIST_OPTIONS'];
 
 // protect from CSRF
-$id = $admin->checkIDKEY('id', false, 'GET');
+$id = intval($admin->checkIDKEY('id', false, 'GET'));
 if (!$id or $id != 999) {
  $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $module_edit_link);
- exit();
 }
 
 ?>
 <h4 style="margin: 0; border-bottom: 1px solid #DDD; padding-bottom: 5px;">
-	<a href="<?php echo $admintool_link;?>"><?php echo $HEADING['ADMINISTRATION_TOOLS']; ?></a>
+	<a href="<?php echo $admintool_link;?>" title="<?php echo $HEADING['ADMINISTRATION_TOOLS']; ?>"><?php echo $HEADING['ADMINISTRATION_TOOLS']; ?></a>
 	->
-	<a href="<?php echo $module_edit_link;?>">Droplets</a>
+	<a href="<?php echo $module_edit_link;?>" title="<?php echo $sOverviewDroplets ?>" alt="<?php echo $sOverviewDroplets ?>">Droplet Edit</a>
 </h4>
 <?php
 
@@ -47,7 +47,9 @@ $temp_dir = WB_PATH.'/temp/droplets/';
 $temp_file = '/modules/droplets/backup-droplets.zip';
 // make the temporary working directory
 mkdir($temp_dir);
-$query_droplets = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_droplets ORDER BY modified_when DESC");
+$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'mod_droplets`  ';
+$sql .= 'ORDER BY `modified_when` DESC';
+$query_droplets = $database->query($sql);
 while($droplet = $query_droplets->fetchRow()) {
 	echo 'Saving: '.$droplet["name"].'.php<br />';
 	$sFile = $temp_dir.$droplet["name"].'.php';
@@ -69,8 +71,8 @@ if ($file_list == 0){
 else {
 	echo '<br /><br />Backup created - <a href="'.WB_URL.$temp_file.'">Download</a>';
 }
+
 delete_directory ( $temp_dir );
-$admin->print_footer();
 
 function delete_directory($dirname) {
     if (is_dir($dirname))
@@ -89,3 +91,5 @@ function delete_directory($dirname) {
     rmdir($dirname);
     return true;
 }
+
+$admin->print_footer();
