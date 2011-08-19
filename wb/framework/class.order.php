@@ -139,9 +139,10 @@ class order {
 	 */
 	public function clean($group) {
 		// Loop through all records and give new order
-		$sql  = 'SET @c := 0; ';
-		$sql .= 'UPDATE `'.$this->_Table.'` SET `'.$this->_FieldOrder.'`=( SELECT @c := @c + 1 ) ';
-		$sql .= 'WHERE `'.$this->_FieldGroup.'`=\''.$group.'\' ';
+		$sql  = 'SET @c:=0;'."\n";
+		$this->_DB->query($sql);
+		$sql .= 'UPDATE `'.$this->_Table.'` SET `'.$this->_FieldOrder.'`=(@c:=@c+1) ';
+		$sql .= 'WHERE `'.$this->_FieldGroup.'`='.$group.' ';
 		$sql .= 'ORDER BY `'.$this->_FieldOrder.'` ASC;';
 		return $this->_DB->query($sql);
 	}
