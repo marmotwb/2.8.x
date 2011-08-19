@@ -12,6 +12,8 @@ Legend:
 
 =============================== FEATURES FREEZE ================================
 ----------------------------------- Fixes 2.8.2 --------------------------------
+19 Aug-2011 Build 1504 Werner v.d.Decken(DarkViper)
+# fixed order::clean()
 18 Aug-2011 Build 1503 Dietmar Woellbrink (Luisehahne)
 ! change sql statements to strict in module droplets
 ! fix vars in compatibility mode for versions before 2.8.1 in frontend.functions.php
