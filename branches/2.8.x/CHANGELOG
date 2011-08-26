@@ -12,6 +12,9 @@ Legend:
 
 =============================== FEATURES FREEZE ================================
 ----------------------------------- Fixes 2.8.2 --------------------------------
+26 Aug-2011 Build 1506 Werner v.d.Decken(DarkViper)
++ new class PasswordHash
++ new Password-/Hash-generator
 19 Aug-2011 Build 1505 Dietmar Woellbrink (Luisehahne)
 # syntaxfix order::clean()
 19 Aug-2011 Build 1504 Werner v.d.Decken(DarkViper)
