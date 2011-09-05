@@ -230,7 +230,7 @@ class database {
 	public function field_remove($table_name, $field_name)
 	{
 		$retval = false;
-		if( $this->field_exists($field_name, $table_name) )
+		if( $this->field_exists($table_name, $field_name) )
 		{ // modify a existing field in a table
 			$sql  = 'ALTER TABLE `'.$table_name.'` DROP `'.$field_name.'`';
 			$retval = ( $this->query($sql) ? true : false );
