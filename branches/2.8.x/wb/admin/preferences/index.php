@@ -108,7 +108,6 @@ function build_page( &$admin, &$database )
 // assign systemvars to template
 	$template->set_var(array( 'ADMIN_URL'  => ADMIN_URL,
 	                          'WB_URL'     => WB_URL,
-                              'WB_PATH'    => WB_PATH,
                               'THEME_URL'  => THEME_URL,
 		                      'ACTION_URL' => ADMIN_URL.'/preferences/save.php'
                             )

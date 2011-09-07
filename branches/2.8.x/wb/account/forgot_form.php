@@ -101,8 +101,14 @@ if(!isset($message)) {
 } else {
 	$message_color = 'FF0000';
 }
+
+$_SESSION['PAGE_LINK'] = get_page_link( $_SESSION['PAGE_ID'] );
+$_SESSION['HTTP_REFERER'] = page_link($_SESSION['PAGE_LINK']);
 	
 ?>
+<div style="margin: 1em auto;">
+	<button type="button" value="cancel" onClick="javascript: window.location = '<?php print $_SESSION['HTTP_REFERER'] ?>';"><?php print $TEXT['CANCEL'] ?></button>
+</div>
 <h1 style="text-align: center;"><?php echo $MENU['FORGOT']; ?></h1>
 
 <form name="forgot_pass" action="<?php echo WB_URL.'/account/forgot.php'; ?>" method="post">
