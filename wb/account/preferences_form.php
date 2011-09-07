@@ -73,29 +73,22 @@ $_SESSION['HTTP_REFERER'] = page_link($_SESSION['PAGE_LINK']);
 	$template->set_var('DISPLAY_NAME', $row['display_name']);
 	$template->set_var('EMAIL', $row['email']);
 
-// Insert language values
-	$template->set_block('main_block', 'language_list_block', 'language_list');
-	$sql = "SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'language' order by name";
-	$rowset = $database->query($sql);
-	if($rowset->numRows() > 0) {
-		while($row = $rowset->fetchRow()) {
-			$l_codes[$row['name']] = $row['directory'];
-			$l_names[$row['name']] = entities_to_7bit($row['name']); // sorting-problem workaround
-		}
-		asort($l_names);
-		foreach($l_names as $l_name=>$v) {
-			// Insert code and name
-			$template->set_var(array( 'CODE' => $l_codes[$l_name], 'NAME' => $l_name ));
-		// Check if it is selected
-			if(LANGUAGE == $l_codes[$l_name]) {
-				$template->set_var('SELECTED', ' selected="selected"');
-			} else {
-				$template->set_var('SELECTED', '');
-			}
+// read available languages from table addons and assign it to the template
+	$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';
+	$sql .= 'WHERE `type` = \'language\' ORDER BY `directory`';
+	if( $res_lang = $database->query($sql) )
+	{
+		$template->set_block('main_block', 'language_list_block', 'language_list');
+		while( $rec_lang = $res_lang->fetchRow() )
+		{
+	        $langIcons = (empty($rec_lang['directory'])) ? 'none' : strtolower($rec_lang['directory']);
+			$template->set_var('CODE',        $rec_lang['directory']);
+			$template->set_var('NAME',        $rec_lang['name']);
+			$template->set_var('FLAG',        THEME_URL.'/images/flags/'.$langIcons);
+			$template->set_var('SELECTED',    (LANGUAGE == $rec_lang['directory'] ? ' selected="selected"' : '') );
 			$template->parse('language_list', 'language_list_block', true);
 		}
 	}
-
 // Insert default timezone values
 	$template->set_block('main_block', 'timezone_list_block', 'timezone_list');
 	foreach($TIMEZONES AS $hour_offset => $title) {

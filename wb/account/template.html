@@ -26,10 +26,10 @@
 		<tr>
 			<td>{TEXT_LANGUAGE}:</td>
 			<td>
-				<select name="language" style="width: 98%;">
-<!-- BEGIN language_list_block -->
-					<option value="{CODE}"{SELECTED}>{NAME} ({CODE})</option>
-<!-- END language_list_block -->
+				<select name="language" id="language">
+					<!-- BEGIN language_list_block -->
+						<option value="{CODE}"{SELECTED} style="background: url({FLAG}.png) no-repeat center left; padding-left: 20px;">{NAME} ({CODE})</option>
+					<!-- END language_list_block -->
 				</select>
 			</td>
 		</tr>
