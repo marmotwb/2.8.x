@@ -21,7 +21,7 @@ if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
 $username_fieldname = 'username';
 $password_fieldname = 'password';
-	
+
 if(defined('SMART_LOGIN') AND SMART_LOGIN == 'enabled') {
 	// Generate username field name
 	$username_fieldname = 'username_';
@@ -34,7 +34,16 @@ if(defined('SMART_LOGIN') AND SMART_LOGIN == 'enabled') {
 		$password_fieldname .= $temp[$i];
 	}
 }
+
+$page_id = !empty($_SESSION['PAGE_ID']) ? $_SESSION['PAGE_ID'] : 0;
+$_SESSION['PAGE_LINK'] = get_page_link( $page_id );
+if(!file_exists($_SESSION['PAGE_LINK'])) {$_SESSION['PAGE_LINK'] = WB_URL.'/'; }
+$thisApp->redirect_url = $_SESSION['HTTP_REFERER'] = page_link($_SESSION['PAGE_LINK']);
+
 ?>
+<div style="margin: 1em auto;">
+	<button type="button" value="cancel" onClick="javascript: window.location = '<?php print $_SESSION['HTTP_REFERER'] ?>';"><?php print $TEXT['CANCEL'] ?></button>
+</div>
 <h1>&nbsp;Login</h1>
 &nbsp;<?php echo $thisApp->message; ?>
 <br />
@@ -43,7 +52,7 @@ if(defined('SMART_LOGIN') AND SMART_LOGIN == 'enabled') {
 <form action="<?php echo WB_URL.'/account/login.php'; ?>" method="post">
 <p style="display:none;"><input type="hidden" name="username_fieldname" value="<?php echo $username_fieldname; ?>" /></p>
 <p style="display:none;"><input type="hidden" name="password_fieldname" value="<?php echo $password_fieldname; ?>" /></p>
-<p style="display:none;"><input type="hidden" name="url" value="<?php echo $thisApp->redirect_url;?>" /></p>
+<p style="display:none;"><input type="hidden" name="redirect" value="<?php echo $thisApp->redirect_url;?>" /></p>
 
 <table cellpadding="5" cellspacing="0" border="0" width="90%">
 <tr>

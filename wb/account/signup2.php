@@ -19,8 +19,11 @@
 // Must include code to stop this file being access directly
 if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
-require_once(WB_PATH.'/framework/class.wb.php');
+// require_once(WB_PATH.'/framework/class.wb.php');
 $wb = new wb('Start', 'start', false, false);
+
+$_SESSION['PAGE_LINK'] = get_page_link( $_SESSION['PAGE_ID'] );
+$_SESSION['HTTP_REFERER'] = page_link($_SESSION['PAGE_LINK']);
 
 // Create new database object
 // $database = new database();
