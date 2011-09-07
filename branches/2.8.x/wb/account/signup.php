@@ -46,12 +46,15 @@ if(!file_exists(WB_PATH.'/languages/'.DEFAULT_LANGUAGE.'.php')) {
 	$load_language = false;
 }
 
+require_once(WB_PATH.'/framework/class.frontend.php');
+$wb_inst = new wb();
+$page_id = !empty($_SESSION['PAGE_ID']) ? $_SESSION['PAGE_ID'] : 0;
 
 // Required page details
-$page_id = 0;
+// $page_id = 0;
 $page_description = '';
 $page_keywords = '';
-define('PAGE_ID', 0);
+define('PAGE_ID', $page_id);
 define('ROOT_PARENT', 0);
 define('PARENT', 0);
 define('LEVEL', 0);
@@ -72,5 +75,3 @@ $auto_auth = false;
 
 // Include the index (wrapper) file
 require(WB_PATH.'/index.php');
-
-?>

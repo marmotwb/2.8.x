@@ -16,193 +16,187 @@
  *
  */
 
-// Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+// prevent this file from being accesses directly
+if(defined('WB_PATH') == false) {	exit("Cannot access this file directly"); }
 
-?>
+	if($wb->is_authenticated() === false) {
+// User needs to login first
+		header("Location: ".WB_URL."/account/login.php?redirect=".$wb->link);
+		exit(0);
+	}
 
-<h2>&nbsp;<?php print $HEADING['MY_SETTINGS']; ?></h2>
+$_SESSION['PAGE_LINK'] = get_page_link( $_SESSION['PAGE_ID'] );
+$_SESSION['HTTP_REFERER'] = page_link($_SESSION['PAGE_LINK']);
 
-<form name="user" action="<?php print WB_URL.'/account/preferences.php'; ?>" method="post" style="margin-bottom: 5px;">
-<input type="hidden" name="user_id" value="{USER_ID}" />
-<table cellpadding="5" cellspacing="0" border="0" width="97%">
-<tr>
-	<td width="140"><?php print $TEXT['DISPLAY_NAME']; ?>:</td>
-	<td class="value_input">
-		<input type="text" name="display_name" style="width: 380px;" maxlength="255" value="<?php print $wb->get_display_name(); ?>" />
-	</td>
-</tr>
-<tr>
-	<td><?php print $TEXT['LANGUAGE']; ?>:</td>
-	<td>
-		<select name="language" style="width: 380px;">
-		<?php
-		/**
-		 *
-		 *	Getting the languages from the database. (addons)
-		 *	It's a little bit corious, but the language-shortform is
-		 *	storred in the field "directory" ...
-		 *
-		 */
-		$query  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';
-		$query .= 'WHERE `type` = \'language\' ORDER BY `directory`';
-		$result = $database->query($query);
-		if ($result) {
-			$options_html = "";
-			while($data = $result->fetchRow()) {
-				$sel = ($data['directory'] == LANGUAGE) ? " selected=\"selected\" " : "";
-				// $options_html .= "<option value=\"".$data['directory']."\" ".$sel.">".$data['name']." (".$data['directory'].")</option>\n";
-				$options_html .= "<option value=\"".$data['directory']."\" ".$sel." style=\"background: url(".THEME_URL.'/images/flags/'.strtolower($data['directory']).".png) no-repeat center left; padding-left: 20px;\">".$data['name']." (".$data['directory'].")</option>\n";
-			}
-			echo $options_html;
+// load module default language file (EN)
+	require_once(WB_PATH .'/account/languages/EN.php');
+// check for user defined language file, load it and override EN-Settings with
+	if(file_exists(WB_PATH .'/account/languages/' .LANGUAGE .'.php')) {
+		require_once(WB_PATH .'/account/languages/' .LANGUAGE .'.php');
+	}
+	require_once(WB_PATH.'/framework/functions-utf8.php');
+	echo '<style type="text/css">';
+	include(WB_PATH .'/account/frontend.css');
+	echo "\n</style>\n";
+	$user_time = true;
+	require(ADMIN_PATH.'/interface/timezones.php');
+	require(ADMIN_PATH.'/interface/date_formats.php');
+	require(ADMIN_PATH.'/interface/time_formats.php');
+	$error = array();
+	$success = array();
+	$template = new Template(WB_PATH .'/account','remove');
+
+	switch($wb->get_post('action')):
+		case 'details':
+			require_once(WB_PATH .'/account/details.php');
+			break;
+		case 'email':
+			require_once(WB_PATH .'/account/email.php');
+
+			break;
+		case 'password':
+			require_once(WB_PATH .'/account/password.php');
+			break;
+		default:
+			// do nothing
+	endswitch; // switch
+
+// show template
+	$template->set_file('page', 'template.html');
+	$template->set_block('page', 'main_block', 'main');
+// get existing values from database
+	$sql = "SELECT display_name,email FROM ".TABLE_PREFIX."users WHERE user_id = '".$wb->get_user_id()."'";
+	$rowset = $database->query($sql);
+	if($database->is_error()) $error[] = $database->get_error();
+	$row = $rowset->fetchRow();
+// insert values into form
+	$template->set_var('DISPLAY_NAME', $row['display_name']);
+	$template->set_var('EMAIL', $row['email']);
+
+// Insert language values
+	$template->set_block('main_block', 'language_list_block', 'language_list');
+	$sql = "SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'language' order by name";
+	$rowset = $database->query($sql);
+	if($rowset->numRows() > 0) {
+		while($row = $rowset->fetchRow()) {
+			$l_codes[$row['name']] = $row['directory'];
+			$l_names[$row['name']] = entities_to_7bit($row['name']); // sorting-problem workaround
 		}
-		?>
-		</select>
-	</td>
-</tr>
-<tr>
-	<td><?php print $TEXT['TIMEZONE']; ?>:</td>
-	<td>
-		<select name="timezone" style="width: 380px;">
-			<option value="-20"><?php print $TEXT['PLEASE_SELECT']; ?>...</option>
-			<?php
-				// Insert default timezone values
-				require_once(ADMIN_PATH.'/interface/timezones.php');
-				$test_time = $wb->get_timezone();
-				$options_html = "";
-				foreach($TIMEZONES as $hour_offset => $title) {
-					$sel = ($test_time == $hour_offset*60*60) ? " selected=\"selected\" " : ""; 
-					$options_html .= "<option value=\"".$hour_offset."\" ".$sel.">".$title."</option>\n";
-				}
-				print $options_html;
-?>
-
-		</select>
-	</td>
-</tr>
-<tr>
-	<td><?php print $TEXT['DATE_FORMAT']; ?>:</td>
-	<td>
-		<select name="date_format" style="width: 98%;">
-			<option value=""><?php print $TEXT['PLEASE_SELECT']; ?>...</option>
-			<?php
-			// Insert date format list
-			$user_time = true;
-			require_once(ADMIN_PATH.'/interface/date_formats.php');
-			foreach($DATE_FORMATS AS $format => $title) {
-				$format = str_replace('|', ' ', $format); // Add's white-spaces (not able to be stored in array key)
-				if($format != 'system_default') {
-					$value = $format;
-				} else {
-					$value = '';
-				}
-				if(DATE_FORMAT == $format AND !isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) {
-					$selected = ' selected="selected"';
-				} elseif($format == 'system_default' AND isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) {
-					$selected = ' selected="selected"';
-				} else {
-					$selected = '';
-				}
-				print '<option value="'.$value.'"'.$selected.'>'.$title.'</option>'."\n";
+		asort($l_names);
+		foreach($l_names as $l_name=>$v) {
+			// Insert code and name
+			$template->set_var(array( 'CODE' => $l_codes[$l_name], 'NAME' => $l_name ));
+		// Check if it is selected
+			if(LANGUAGE == $l_codes[$l_name]) {
+				$template->set_var('SELECTED', ' selected="selected"');
+			} else {
+				$template->set_var('SELECTED', '');
 			}
-			?>
-		</select>
-	</td>
-</tr>
-<tr>
-	<td><?php print $TEXT['TIME_FORMAT']; ?>:</td>
-	<td>
-		<select name="time_format" style="width: 98%;">
-			<option value=""><?php print $TEXT['PLEASE_SELECT']; ?>...</option>
-			<?php
-			// Insert time format list
-			$user_time = true;
-			require_once(ADMIN_PATH.'/interface/time_formats.php');
-			foreach($TIME_FORMATS AS $format => $title)
-            {
-				$format = str_replace('|', ' ', $format); // Add's white-spaces (not able to be stored in array key)
-                $value = ($format != 'system_default') ? $format : '';
+			$template->parse('language_list', 'language_list_block', true);
+		}
+	}
 
-                $selected = ((TIME_FORMAT == $format AND ! isset($_SESSION['USE_DEFAULT_TIME_FORMAT']))
-                    OR ($format == 'system_default' AND isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])))
-                	? ' selected="selected"' : '';
+// Insert default timezone values
+	$template->set_block('main_block', 'timezone_list_block', 'timezone_list');
+	foreach($TIMEZONES AS $hour_offset => $title) {
+		$template->set_var('VALUE', $hour_offset);
+		$template->set_var('NAME', $title);
+		if($wb->get_timezone() == $hour_offset*3600) {
+			$template->set_var('SELECTED', 'selected="selected"');
+		} else {
+			$template->set_var('SELECTED', '');
+		}
+		$template->parse('timezone_list', 'timezone_list_block', true);
+	}
 
-				print '<option value="'.$value.'"'.$selected.'>'.$title.'</option>';
-			}
-			?>
-		</select>
-	</td>
-</tr>
-<tr>
-	<td>&nbsp;</td>
-	<td>
-		<input type="submit" name="submit" value="<?php print $TEXT['SAVE']; ?>" />
-		<input type="reset" name="reset" value="<?php print $TEXT['RESET']; ?>" />
-	</td>
-</tr>
-</table>
+// Insert date format list
+	$template->set_block('main_block', 'date_format_list_block', 'date_format_list');
+	foreach($DATE_FORMATS AS $format => $title) {
+		$format = str_replace('|', ' ', $format); // Add's white-spaces (not able to be stored in array key)
+		if($format != 'system_default') {
+			$template->set_var('VALUE', $format);
+		} else {
+			$template->set_var('VALUE', '');
+		}
+		$template->set_var('NAME', $title);
+		if(DATE_FORMAT == $format AND !isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) {
+			$template->set_var('SELECTED', 'selected="selected"');
+		} elseif($format == 'system_default' AND isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) {
+			$template->set_var('SELECTED', 'selected="selected"');
+		} else {
+			$template->set_var('SELECTED', '');
+		}
+		$template->parse('date_format_list', 'date_format_list_block', true);
+	}
 
-</form>
+// Insert time format list
+	$template->set_block('main_block', 'time_format_list_block', 'time_format_list');
+	foreach($TIME_FORMATS AS $format => $title) {
+		$format = str_replace('|', ' ', $format); // Add's white-spaces (not able to be stored in array key)
+		if($format != 'system_default') {
+			$template->set_var('VALUE', $format);
+		} else {
+			$template->set_var('VALUE', '');
+		}
+		$template->set_var('NAME', $title);
+		if(TIME_FORMAT == $format AND !isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) {
+			$template->set_var('SELECTED', 'selected="selected"');
+		} elseif($format == 'system_default' AND isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) {
+			$template->set_var('SELECTED', 'selected="selected"');
+		} else {
+			$template->set_var('SELECTED', '');
+		}
+		$template->parse('time_format_list', 'time_format_list_block', true);
+	}
+// Insert language headings
+	$template->set_var(array(
+								'HEADING_MY_SETTINGS' => $HEADING['MY_SETTINGS'],
+								'HEADING_MY_EMAIL'    => $HEADING['MY_EMAIL'],
+								'HEADING_MY_PASSWORD' => $HEADING['MY_PASSWORD']
+								)
+						);
+// Insert language text and messages
+	$template->set_var(array(
+								'HTTP_REFERER' => $_SESSION['HTTP_REFERER'],
+								'TEXT_SAVE'	=> $TEXT['SAVE'],
+								'TEXT_RESET' => $TEXT['RESET'],
+								'TEXT_CANCEL' => $TEXT['CANCEL'],
+								'TEXT_DISPLAY_NAME'	=> $TEXT['DISPLAY_NAME'],
+								'TEXT_EMAIL' => $TEXT['EMAIL'],
+								'TEXT_LANGUAGE' => $TEXT['LANGUAGE'],
+								'TEXT_TIMEZONE' => $TEXT['TIMEZONE'],
+								'TEXT_DATE_FORMAT' => $TEXT['DATE_FORMAT'],
+								'TEXT_TIME_FORMAT' => $TEXT['TIME_FORMAT'],
+								'TEXT_CURRENT_PASSWORD' => $TEXT['CURRENT_PASSWORD'],
+								'TEXT_NEW_PASSWORD' => $TEXT['NEW_PASSWORD'],
+								'TEXT_RETYPE_NEW_PASSWORD' => $TEXT['RETYPE_NEW_PASSWORD']
+								)
+						);
 
-<h2>&nbsp;<?php print $HEADING['MY_EMAIL']; ?></h2>
+// Insert module releated language text and messages
+	$template->set_var(array(
+								'MOD_PREFERENCE_PLEASE_SELECT'	=> $MOD_PREFERENCE['PLEASE_SELECT'],
+								'MOD_PREFERENCE_SAVE_SETTINGS'	=> $MOD_PREFERENCE['SAVE_SETTINGS'],
+								'MOD_PREFERENCE_SAVE_EMAIL'			=> $MOD_PREFERENCE['SAVE_EMAIL'],
+								'MOD_PREFERENCE_SAVE_PASSWORD'	=> $MOD_PREFERENCE['SAVE_PASSWORD'],
+								)
+						);
+// Insert error and/or success messages
+	$template->set_block('main_block', 'error_block', 'error_list');
+	if(sizeof($error)>0){
+		foreach($error AS $value){
+			$template->set_var('ERROR_VALUE', $value);
+			$template->parse('error_list', 'error_block', true);
+		}
+	}
 
-<form name="email" action="<?php print WB_URL.'/account/preferences.php'; ?>" method="post" style="margin-bottom: 5px;">
-<input type="hidden" name="user_id" value="{USER_ID}" />
-<table cellpadding="5" cellspacing="0" border="0" width="97%">
-<tr>
-	<td width="140"><?php print $TEXT['CURRENT_PASSWORD']; ?>:</td>
-	<td>
-		<input type="password" name="current_password" style="width: 380px;" />
-	</td>
-</tr>
-<tr>
-	<td><?php print $TEXT['EMAIL']; ?>:</td>
-	<td class="value_input">
-		<input type="text" name="email" style="width: 380px;" maxlength="255" value="<?php print $wb->get_email(); ?>" />
-	</td>
-</tr>
-<tr>
-	<td>&nbsp;</td>
-	<td>
-		<input type="submit" name="submit" value="<?php print $TEXT['SAVE']; ?>" />
-		<input type="reset" name="reset" value="<?php print $TEXT['RESET']; ?>" />
-	</td>
-</tr>
-</table>
-
-</form>
-
-
-<h2>&nbsp;<?php print $HEADING['MY_PASSWORD']; ?></h2>
-
-<form name="user" action="<?php print WB_URL.'/account/preferences.php'; ?>" method="post">
-<input type="hidden" name="user_id" value="{USER_ID}" />
-<table cellpadding="5" cellspacing="0" border="0" width="97%">
-<tr>
-	<td width="140"><?php print $TEXT['CURRENT_PASSWORD']; ?>:</td>
-	<td>
-		<input type="password" name="current_password" style="width: 380px;" />
-	</td>
-</tr>
-<tr>
-	<td><?php print $TEXT['NEW_PASSWORD']; ?>:</td>
-	<td>
-		<input type="password" name="new_password" style="width: 380px;" />
-	</td>
-</tr>
-<tr>
-	<td><?php print $TEXT['RETYPE_NEW_PASSWORD']; ?>:</td>
-	<td>
-		<input type="password" name="new_password2" style="width: 380px;" />
-	</td>
-</tr>
-<tr>
-	<td>&nbsp;</td>
-	<td>
-		<input type="submit" name="submit" value="<?php print $TEXT['SAVE']; ?>" />
-		<input type="reset" name="reset" value="<?php print $TEXT['RESET']; ?>" />
-	</td>
-</tr>
-</table>
-
-</form>
+	$template->set_block('main_block', 'success_block', 'success_list');
+	if(sizeof($success)!=0){
+		foreach($success AS $value){
+			$template->set_var('SUCCESS_VALUE', $value);
+			$template->parse('success_list', 'success_block', true);
+		}
+	}
+// Parse template for preferences form
+	$template->parse('main', 'main_block', false);
+	$template->pparse('output', 'page');

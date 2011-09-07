@@ -21,8 +21,13 @@ if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
 require_once(WB_PATH.'/include/captcha/captcha.php');
 
-?>
+$_SESSION['PAGE_LINK'] = get_page_link( $_SESSION['PAGE_ID'] );
+$_SESSION['HTTP_REFERER'] = page_link($_SESSION['PAGE_LINK']);
 
+?>
+<div style="margin: 1em auto;">
+	<button type="button" value="cancel" onClick="javascript: window.location = '<?php print $_SESSION['HTTP_REFERER'] ?>';"><?php print $TEXT['CANCEL'] ?></button>
+</div>
 <h1>&nbsp;<?php echo $TEXT['SIGNUP']; ?></h1>
 
 <form name="user" action="<?php echo WB_URL.'/account/signup.php'; ?>" method="post">

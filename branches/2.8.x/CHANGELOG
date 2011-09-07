@@ -12,6 +12,8 @@ Legend:
 
 =============================== FEATURES FREEZE ================================
 ----------------------------------- Fixes 2.8.2 --------------------------------
+07 Sep-2011 Build 1508 Dietmar Woellbrink (Luisehahne)
+# fixed print_error exit in frontend account
 06 Sep-2011 Build 1507 Dietmar Woellbrink (Luisehahne)
 # fixed field_remove
 26 Aug-2011 Build 1506 Werner v.d.Decken(DarkViper)
