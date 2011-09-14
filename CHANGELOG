@@ -12,6 +12,10 @@ Legend:
 
 =============================== FEATURES FREEZE ================================
 ----------------------------------- Fixes 2.8.2 --------------------------------
+14 Sep-2011 Build 1511 Dietmar Woellbrink (Luisehahne)
+# fixed strict notice warning in class.wb
+! change editor for intropage to editarea
+! add missing slash in themes
 14 Sep-2011 Build 1510 Werner v.d.Decken(DarkViper)
 + new constant 'DO_NOT_TRACK' set to true if a client sends the DNT-Header
 07 Sep-2011 Build 1509 Dietmar Woellbrink (Luisehahne)

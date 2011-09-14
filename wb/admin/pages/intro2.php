@@ -31,10 +31,10 @@ if(!isset($_POST['content'])) {
 	header("Location: intro".PAGE_EXTENSION."");
 	exit(0);
 } else {
-	$content = $_POST['content'];
+	$content = $admin->strip_slashes($_POST['content']);
 }
 
-$content = $admin->strip_slashes($content);
+// $content = $admin->strip_slashes($content);
 
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
