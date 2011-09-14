@@ -49,6 +49,7 @@ if (file_exists(WB_PATH.'/framework/class.database.php')) {
 			$setting_value=true;
 		@define($setting_name,$setting_value);
 	}
+	@define('DO_NOT_TRACK', (isset($_SERVER['HTTP_DNT'])));
 	$string_file_mode = STRING_FILE_MODE;
 	define('OCTAL_FILE_MODE',(int) octdec($string_file_mode));
 	$string_dir_mode = STRING_DIR_MODE;
