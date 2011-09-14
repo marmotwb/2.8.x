@@ -70,7 +70,7 @@
 		<br />
 		<br />
 		<br />
-		<a href="{WB_URL}">{TEXT_HOME}</a>
+		<a href="{WB_URL}/">{TEXT_HOME}</a>
 	</center>
 
 	</td>

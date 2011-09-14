@@ -235,47 +235,47 @@ class wb extends SecureForm
 
 	// Get the current users id
 	function get_user_id() {
-		return $_SESSION['USER_ID'];
+		return $this->get_session('USER_ID');
 	}
 
 	// Get the current users group id
 	function get_group_id() {
-		return $_SESSION['GROUP_ID'];
+		return $this->get_session('GROUP_ID');
 	}
 
 	// Get the current users group ids
 	function get_groups_id() {
-		return explode(",", $_SESSION['GROUPS_ID']);
+		return explode(",", $this->get_session('GROUPS_ID'));
 	}
 
 	// Get the current users group name
 	function get_group_name() {
-		return implode(",", $_SESSION['GROUP_NAME']);
+		return implode(",", $this->get_session('GROUP_NAME'));
 	}
 
 	// Get the current users group name
 	function get_groups_name() {
-		return $_SESSION['GROUP_NAME'];
+		return $this->get_session('GROUP_NAME');
 	}
 
 	// Get the current users username
 	function get_username() {
-		return $_SESSION['USERNAME'];
+		return $this->get_session('USERNAME');
 	}
 
 	// Get the current users display name
 	function get_display_name() {
-		return ($_SESSION['DISPLAY_NAME']);
+		return $this->get_session('DISPLAY_NAME');
 	}
 
 	// Get the current users email address
 	function get_email() {
-		return $_SESSION['EMAIL'];
+		return $this->get_session('EMAIL');
 	}
 
 	// Get the current users home folder
 	function get_home_folder() {
-		return $_SESSION['HOME_FOLDER'];
+		return $this->get_session('HOME_FOLDER');
 	}
 
 	// Get the current users timezone
