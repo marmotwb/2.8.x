@@ -12,6 +12,8 @@ Legend:
 
 =============================== FEATURES FREEZE ================================
 ----------------------------------- Fixes 2.8.2 --------------------------------
+24 Sep-2011 Build 1512 Werner v.d.Decken(DarkViper)
+! settings for pwgen updated
 14 Sep-2011 Build 1511 Dietmar Woellbrink (Luisehahne)
 # fixed strict notice warning in class.wb
 ! change editor for intropage to editarea

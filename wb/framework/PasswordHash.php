@@ -12,6 +12,7 @@
  *
  * this class works with salted md5-hashes with several rounds. 
  * For backward compatibility it can compare normal md5-hashes also.
+ * Minimum requirements: PHP 5.2.2 or higher
  *
  * *****************************************************************************
  * This class is based on the Portable PHP password hashing framework.
@@ -23,6 +24,11 @@
  */
 class PasswordHash {
 
+	const SECURITY_WEAK      = 6;
+	const SECURITY_MEDIUM    = 8;
+	const SECURITY_NORMAL    = 10;
+	const SECURITY_STRONG    = 12;
+	const SECURITY_STRONGER  = 16;
 
 	private $_itoa64 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 	private $_iterationCountLog2 = 8;
@@ -91,8 +97,7 @@ class PasswordHash {
 	private function _GenSaltPrivate($input)
 	{
 		$output = '$P$';
-		$output .= $this->_itoa64[min($this->_iterationCountLog2 +
-		                          ((PHP_VERSION >= '5') ? 5 : 3), 30)];
+		$output .= $this->_itoa64[min($this->_iterationCountLog2 + 5, 30)];
 		$output .= $this->_Encode64($input, 6);
 		return $output;
 	}
@@ -123,17 +128,10 @@ class PasswordHash {
 		# in PHP would result in much worse performance and
 		# consequently in lower iteration counts and hashes that are
 		# quicker to crack (by non-PHP code).
-		if (PHP_VERSION >= '5') {
-			$hash = md5($salt . $password, TRUE);
-			do {
-				$hash = md5($hash . $password, TRUE);
-			} while (--$count);
-		} else {
-			$hash = pack('H*', md5($salt . $password));
-			do {
-				$hash = pack('H*', md5($hash . $password));
-			} while (--$count);
-		}
+		$hash = md5($salt . $password, TRUE);
+		do {
+			$hash = md5($hash . $password, TRUE);
+		} while (--$count);
 		$output = substr($setting, 0, 12);
 		$output .= $this->_Encode64($hash, 16);
 		return $output;
@@ -144,8 +142,9 @@ class PasswordHash {
 	 * @param string $password password as original string
 	 * @return string generated hash | '*' on error
 	 */
-	public function HashPassword($password)
+	public function HashPassword($password, $md5 = false)
 	{
+		if ($md5) { return(md5($password)); }
 		$random = '';
 		if (strlen($random) < 6) {
 			$random = $this->_getRandomBytes(6);
@@ -185,13 +184,14 @@ class PasswordHash {
 	 * @param int $length length of the generated password. default = 8
 	 * @return string
 	 */
-	public static function NewPassword($length = 8)
+	public static function NewPassword($length = self::SECURITY_MEDIUM)
 	{
 		$chars = array(
 			array('b','c','d','f','g','h','j','k','l','m','n','p','r','s','t','v','w','x','y','z'),
 			array('a','e','i','o','u'),
 			array('!','-','@','_',':','.','+','%','/','*')
 		);
+		if($length < self::SECURITY_WEAK) { $length = self::SECURITY_WEAK; }
 		$length = ceil($length / 2);
 		$Password = array();
 	// at first fill array alternating with vowels and consonants
@@ -200,18 +200,33 @@ class PasswordHash {
 			$Password[] = $char == 'l' ? 'L' : $char;
 			$Password[] = $chars[1][rand(1000, 10000) % sizeof($chars[1])];
 		}
-	// transform 2 random chars into uppercase
-		for($x = 0; $x < 2; $x++) {
-			$pos = rand(1000, 10000) % sizeof($Password);
+	// transform some random chars into uppercase
+		$pos = ((rand(1000, 10000) % 3) + 1);
+		while($pos < sizeof($Password)) {
 			$Password[$pos] = ($Password[$pos] == 'i' || $Password[$pos] == 'o')
 			                  ? $Password[$pos] : strtoupper($Password[$pos]);
+			$pos += ((rand(1000, 10000) % 3) + 1);
 		}
-	// randomly insert one special char, but not at position 0 or as last char
-		$pos = (rand(1000, 10000) % (sizeof($Password)-2))+1;
-		$Password[$pos] = $chars[2][rand(1000, 10000) % sizeof($chars[2])];
-	// randomly insert a numeric char, between 1 and 9
-		$pos = rand(1000, 10000) % sizeof($Password);
-		$Password[$pos] = (rand(1000, 10000) % 9) + 1;
+	// insert some numeric chars, between 1 and 9
+		$specialChars = array();
+		$specialCharsCount = floor(sizeof($Password) / 4);
+		while(sizeof($specialChars) < $specialCharsCount) {
+			$key = (rand(1000, 10000) % sizeof($Password));
+			if(!isset($specialChars[$key])) {
+				$specialChars[$key] = (rand(1000, 10000) % 9) + 1;
+			}
+		}
+	// insert some punctuation chars, but not leading or trailing
+		$specialCharsCount += floor((sizeof($Password)-1) / 6);
+		while(sizeof($specialChars) < $specialCharsCount) {
+			$key = (rand(1000, 10000) % (sizeof($Password)-2))+1;
+			if(!isset($specialChars[$key])) {
+				$specialChars[$key] = $chars[2][(rand(1000, 10000) % sizeof($chars[2]))];
+			}
+		}
+		foreach($specialChars as $key=>$val) {
+			$Password[$key] = $val;
+		}
 
 		return implode($Password);
 	}
