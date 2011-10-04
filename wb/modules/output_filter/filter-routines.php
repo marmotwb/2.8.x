@@ -58,31 +58,30 @@ if (!function_exists('filter_frontend_output')) {
 		// get output filter settings from database
 		$filter_settings = get_output_filter_settings();
 		$location = '';
-        if($filter_settings['sys_rel'] == '1'){
-			if( !isset($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS']) == 'off' )
-			{
+		if($filter_settings['sys_rel'] == '1'){
+			if( !isset($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS']) == 'off' ) {
 				define('SYS_HTTPS', false);
 				define('SYS_PORT', (($_SERVER['SERVER_PORT'] != '80') ? ':'.$_SERVER['SERVER_PORT'] : '') );
 				define('SYS_PROTOCOL', 'http');
-			}else
-			{
+			} else {
 				define('SYS_HTTPS', true);
 				define('SYS_PORT', (($_SERVER['SERVER_PORT'] != '443') ? ':'.$_SERVER['SERVER_PORT'] : '') );
 				define('SYS_PROTOCOL', 'https');
 			}
 			$tmp = '';
-			if( isset($_SERVER['HTTP_HOST']) )
-			{
+			if( isset($_SERVER['HTTP_HOST']) ) {
 				$tmp = $_SERVER['HTTP_HOST'];
-			}elseif( isset($_SERVER['SERVER_NAME']) )
-			{
+			} elseif( isset($_SERVER['SERVER_NAME']) ) {
 				$tmp = $_SERVER['SERVER_NAME'];
 			}
 
 			define('WB_HOST', preg_replace('/:[0-9]*$/', '', $tmp));
-	        $location = SYS_PROTOCOL.'://'.WB_HOST.SYS_PORT;
+			$location = SYS_PROTOCOL.'://'.WB_HOST.SYS_PORT;
+			$searchfor = '/(<.*?=\s*?\")(?:'.preg_quote($location, '/').'\/?)(.*?\".*?>)/i';
+			$content = preg_replace($searchfor, '$1/$2', $content);
+			$content = preg_replace('/(<.*?(?:href|src)\s*=\s*?\")(\".*?>)/i', '$1/$2', $content);
 
-        }
+		}
 
 		// work out the defined output filter mode: possible output filter modes: [0], 1, 2, 3, 6, 7
 		// 2^0 * (0.. disable, 1.. enable) filtering of mail addresses in text
@@ -91,8 +90,7 @@ if (!function_exists('filter_frontend_output')) {
 
 		// only filter output if we are supposed to
 		if($filter_settings['email_filter'] != '1' && $filter_settings['mailto_filter'] != '1'){
-			$searchfor = '/(<.*?=\s*?\")(?:'.preg_quote($location, '/').')(.*?\".*?>)/i';
-			$content = preg_replace($searchfor, '$1$2', $content);
+			// do nothing more
 			return $content;
 		}
 
