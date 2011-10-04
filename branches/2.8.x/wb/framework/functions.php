@@ -539,18 +539,16 @@ function get_page_trail($page_id)
 }
 
 // Function to get all sub pages id's
-function get_subs($parent, $subs)
+function get_subs($parent, array $subs )
 {
 	// Connect to the database
 	global $database;
 	// Get id's
 	$sql = 'SELECT `page_id` FROM `'.TABLE_PREFIX.'pages` WHERE `parent` = '.$parent;
-	$query = $database->query($sql);
-	if($query->numRows() > 0)
-	{
+	if( ($query = $database->query($sql)) ) {
 		while($fetch = $query->fetchRow()) {
 			$subs[] = $fetch['page_id'];
-			// Get subs of this sub
+			// Get subs of this sub recursive
 			$subs = get_subs($fetch['page_id'], $subs);
 		}
 	}

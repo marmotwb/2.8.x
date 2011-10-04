@@ -18,7 +18,8 @@
 
 require_once('../config.php');
 
-if(!is_numeric(FRONTEND_SIGNUP)) {
+if(!( intval(FRONTEND_SIGNUP) && (  0 == (isset($_SESSION['USER_ID']) ? intval($_SESSION['USER_ID']) : 0) )))
+{
 	if(INTRO_PAGE) {
 		header('Location: '.WB_URL.PAGES_DIRECTORY.'/index.php');
 		exit(0);
