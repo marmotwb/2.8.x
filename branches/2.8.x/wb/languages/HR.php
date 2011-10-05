@@ -508,6 +508,7 @@ $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Ime grupe ve&aelig; postoji';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Grupa nije na&eth;ena';
 $MESSAGE['GROUPS_SAVED'] = 'Grupa je uspje&scaron;no snimljena';
 $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
+$MESSAGE['LOGIN_BOTH_BLANK'] = 'Please enter your loginname and password below';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Molimo unesite svoju lozinku';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Lozinka je preduga';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Lozinka je prekratka';

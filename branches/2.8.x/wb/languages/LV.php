@@ -508,6 +508,7 @@ $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = '&scaron;ads grupas nosaukums jau ir';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Netika atrasta neviena grupa';
 $MESSAGE['GROUPS_SAVED'] = 'Grupa veiksmigi saglabata';
 $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
+$MESSAGE['LOGIN_BOTH_BLANK'] = 'Please enter your loginname and password below';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Ludzu ievadi paroli';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Ievadita parole par garu';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Ievadita parole par isu';

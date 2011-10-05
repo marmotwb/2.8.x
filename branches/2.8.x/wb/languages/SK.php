@@ -508,6 +508,7 @@ $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Tato skupina u&#382; existuje';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Nen&aacute;jden&aacute; &#382;iadn&aacute; skupina';
 $MESSAGE['GROUPS_SAVED'] = 'Skupina bola &uacute;spe&#353;ne ulo&#382;en&aacute;';
 $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
+$MESSAGE['LOGIN_BOTH_BLANK'] = 'Please enter your loginname and password below';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Zadejte svoje heslo';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Zadan&eacute; heslo je pr&iacute;li&#353; dlh&eacute;';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Zadan&eacute; heslo je pr&iacute;li&#353; kr&aacute;tke';

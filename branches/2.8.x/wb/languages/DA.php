@@ -508,6 +508,7 @@ $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Gruppens navn findes allerede';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Der blev ikke fundet nogen grupper';
 $MESSAGE['GROUPS_SAVED'] = 'Gruppen er gemt';
 $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
+$MESSAGE['LOGIN_BOTH_BLANK'] = 'Please enter your loginname and password below';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Angiv en adgangskode ';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Den indtastede adgangskode er for LANG';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Den indtastede adgangskode er for KORT';
