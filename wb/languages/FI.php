@@ -508,6 +508,7 @@ $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Ryhm&auml;n nimi varattu';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Ryhm&auml;&auml; ei l&ouml;ydy';
 $MESSAGE['GROUPS_SAVED'] = 'Rym&auml; talletettu';
 $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
+$MESSAGE['LOGIN_BOTH_BLANK'] = 'Please enter your loginname and password below';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Salasana';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Liian pitk&auml; salasana';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Salasana liian lyhyt';

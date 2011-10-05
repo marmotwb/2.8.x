@@ -508,6 +508,7 @@ $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Groepnaam is reeds in gebruik';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Geen groep gevonden';
 $MESSAGE['GROUPS_SAVED'] = 'Groep opgeslagen';
 $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
+$MESSAGE['LOGIN_BOTH_BLANK'] = 'Please enter your loginname and password below';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Vul uw wachtwoord in';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Dit wachtwoord is te lang';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Dit wachtwoord is te kort';

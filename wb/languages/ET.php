@@ -508,6 +508,7 @@ $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Group name already exists';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Gruppe ei leitud';
 $MESSAGE['GROUPS_SAVED'] = 'Grupp edukalt salvestatud';
 $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
+$MESSAGE['LOGIN_BOTH_BLANK'] = 'Please enter your loginname and password below';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Palun sisesta parool';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Sisestatud parool on liiga pikk';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Sisestatud parool on liiga l&uuml;hike';

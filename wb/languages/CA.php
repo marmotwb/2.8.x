@@ -508,6 +508,7 @@ $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Group name already exists';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'No s\'han trobat grups';
 $MESSAGE['GROUPS_SAVED'] = 'Grup desat amb &egrave;xit';
 $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
+$MESSAGE['LOGIN_BOTH_BLANK'] = 'Please enter your loginname and password below';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Per favor introdu&iuml;u una contrasenya';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'La contrasenya &eacute;s massa llarga';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'La contrasenya &eacute;s massa curta';

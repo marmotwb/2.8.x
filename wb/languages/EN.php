@@ -508,6 +508,7 @@ $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Group name already exists';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'No groups found';
 $MESSAGE['GROUPS_SAVED'] = 'Group saved successfully';
 $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
+$MESSAGE['LOGIN_BOTH_BLANK'] = 'Please enter your loginname and password below';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Please enter a password';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Supplied password to long';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Supplied password to short';

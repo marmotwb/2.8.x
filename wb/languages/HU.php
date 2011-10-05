@@ -508,6 +508,7 @@ $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Csoport n&eacute;v m&aacute;r l&eacute;t
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Nincs csoport';
 $MESSAGE['GROUPS_SAVED'] = 'Csoport elmentve';
 $MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
+$MESSAGE['LOGIN_BOTH_BLANK'] = 'Please enter your loginname and password below';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Please enter a password';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'T&uacute;l hossz&uacute; jelsz&oacute;';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'T&uacute;l r&ouml;vid jelsz&oacute;';
