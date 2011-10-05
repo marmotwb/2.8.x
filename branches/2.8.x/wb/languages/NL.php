@@ -350,7 +350,7 @@ $TEXT['UPGRADE'] = 'Upgraden';
 $TEXT['UPLOAD_FILES'] = 'Upload bestand(en)';
 $TEXT['URL'] = 'URL';
 $TEXT['USER'] = 'Gebruiker';
-$TEXT['USERNAME'] = 'Gebruikersnaam';
+$TEXT['USERNAME'] = 'Loginname';
 $TEXT['USERS_ACTIVE'] = 'gebruiker is op actief gezet';
 $TEXT['USERS_CAN_SELFDELETE'] = 'gebruiker kan zijn eigen account verwijderen';
 $TEXT['USERS_CHANGE_SETTINGS'] = 'Gebruiker kan de eigen instellingen aanpassen';
@@ -374,7 +374,7 @@ $TEXT['WBMAILER_SMTP_AUTH'] = 'SMTP-authenticatie';
 $TEXT['WBMAILER_SMTP_AUTH_NOTICE'] = 'Alleen wanneer men zich dient aan te melden bij de SMTP-host';
 $TEXT['WBMAILER_SMTP_HOST'] = 'SMTP-host';
 $TEXT['WBMAILER_SMTP_PASSWORD'] = 'SMTP-wachtwoord';
-$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP-gebruikersnaam';
+$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Loginname';
 $TEXT['WEBSITE'] = 'Website';
 $TEXT['WEBSITE_DESCRIPTION'] = 'Metatag "Description"';
 $TEXT['WEBSITE_FOOTER'] = 'Website-footer';
@@ -456,7 +456,7 @@ $MESSAGE['FORGOT_PASS_ALREADY_RESET'] = 'Sorry, het wachtwoord kan maximaal eens
 $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] = 'Het is niet mogelijk uw wachtwoord per e-mail te versturen. Neem contact op met de beheerder';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'Het door u opgegeven e-mailadres is niet gevonden in onze database';
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Vult u alstublieft uw e-mailadres hieronder in';
-$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Uw gebruikersnaam en wachtwoord zijn verzonden naar het opgegeven e-mailadres';
+$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Your loginname and password have been sent to your email address';
 $MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] = 'Sorry, er is niets om af te beelden';
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Sorry, u heeft geen bevoegdheden om deze pagina te bekijken';
 $MESSAGE['GENERIC_ALREADY_INSTALLED'] = 'Is al ge&iuml;nstalleerd';
@@ -507,14 +507,13 @@ $MESSAGE['GROUPS_GROUP_NAME_BLANK'] = 'Groepsnaam is niet ingevuld';
 $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Groepnaam is reeds in gebruik';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Geen groep gevonden';
 $MESSAGE['GROUPS_SAVED'] = 'Groep opgeslagen';
-$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Gebruikersnaam en/of wachtwoord incorrect';
-$MESSAGE['LOGIN_BOTH_BLANK'] = 'Vul uw gebruikersnaam en wachtwoord in:';
+$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Vul uw wachtwoord in';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Dit wachtwoord is te lang';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Dit wachtwoord is te kort';
-$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Vul uw gebruikersnaam in';
-$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Deze gebruikersnaam is te lang';
-$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Deze gebruikersnaam is te kort';
+$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Please enter a loginname';
+$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Supplied loginname to long';
+$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Supplied loginname to short';
 $MESSAGE['MEDIA_BLANK_EXTENSION'] = 'U heeft geen bestandsextensie opgegeven';
 $MESSAGE['MEDIA_BLANK_NAME'] = 'U heeft geen nieuwe naam opgegeven';
 $MESSAGE['MEDIA_CANNOT_DELETE_DIR'] = 'Kan geselecteerde map niet verwijderen';
@@ -582,7 +581,7 @@ $MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'] = 'Opgelet: dit is alleen bedoeld v
 $MESSAGE['SIGNUP2_ADMIN_INFO'] = '
 Een nieuwe gebruiker heeft zich aangemeld.
 
-Gebruikersnaam: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Gebruiker Id: {LOGIN_ID}
 E-mail: {LOGIN_EMAIL}
 IP-adres: {LOGIN_IP}
@@ -598,7 +597,7 @@ deze mail is aan u verzonden omdat u de \'wachtwoord vergeten\' functie heeft ge
 
 Uw nieuwe \'{LOGIN_WEBSITE_TITLE}\' inloggegevens zijn:
 
-Gebruikersnaam: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Wachtwoord: {LOGIN_PASSWORD}
 
 Let op: dit is een automatisch aangemaakt nieuw wachtwoord. Uw oude wachtwoord is niet meer geldig!
@@ -618,7 +617,7 @@ Beste {LOGIN_DISPLAY_NAME},
 Welkom bij \'{LOGIN_WEBSITE_TITLE}\'.
 
 Uw \'{LOGIN_WEBSITE_TITLE}\' inloggegevens zijn:
-Gebruikersnaam: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Wachtwoord: {LOGIN_PASSWORD}
 
 Vriendelijke groet
@@ -640,13 +639,13 @@ $MESSAGE['USERS_CONFIRM_DELETE'] = 'Weet u zeker dat u de geselecteerde gebruike
 $MESSAGE['USERS_DELETED'] = 'Gebruiker verwijderd';
 $MESSAGE['USERS_EMAIL_TAKEN'] = 'Het ingevoerde e-mailadres is al in gebruik';
 $MESSAGE['USERS_INVALID_EMAIL'] = 'Het ingevoerde e-mailadres is niet correct';
-$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Ongeldige tekens voor de gebruikersnaam ingevoerd';
+$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for loginname found';
 $MESSAGE['USERS_NO_GROUP'] = 'Geen groep geselecteerd';
 $MESSAGE['USERS_PASSWORD_MISMATCH'] = 'De ingevoerde wachtwoorden komen niet overeen';
 $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Het ingevoerde wachtwoord is te kort';
 $MESSAGE['USERS_SAVED'] = 'Gebruiker opgeslagen';
-$MESSAGE['USERS_USERNAME_TAKEN'] = 'De ingevoerde gebruikersnaam is al in gebruik';
-$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'De ingevoerde  gebruikersnaam is te kort';
+$MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
+$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
 
 /* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Diverse extra beheerinstellingen.';

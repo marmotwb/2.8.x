@@ -17,7 +17,7 @@
  */
 
 // Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { exit("Du kan ikke få direkte adgang til denne fil"); }
+if(defined('WB_PATH') == false) { exit("Du kan ikke fÃ¥ direkte adgang til denne fil"); }
 
 // Define that this file is loaded
 if(!defined('LANGUAGE_LOADED')) {
@@ -350,7 +350,7 @@ $TEXT['UPGRADE'] = 'Upgrade';
 $TEXT['UPLOAD_FILES'] = 'Overf&oslash;r fil(er)';
 $TEXT['URL'] = 'URL';
 $TEXT['USER'] = 'Bruger';
-$TEXT['USERNAME'] = 'Brugernavn';
+$TEXT['USERNAME'] = 'Loginname';
 $TEXT['USERS_ACTIVE'] = 'Brugeren er sat aktiv';
 $TEXT['USERS_CAN_SELFDELETE'] = 'Brugeren kan slette sig selv';
 $TEXT['USERS_CHANGE_SETTINGS'] = 'Brugeren kan slette egne indstillinger';
@@ -374,7 +374,7 @@ $TEXT['WBMAILER_SMTP_AUTH'] = 'SMTP brugeradgangskontrol';
 $TEXT['WBMAILER_SMTP_AUTH_NOTICE'] = '- skal kun anvendes hvis din SMTP-v&aelig;rt bruger adgangskontrol';
 $TEXT['WBMAILER_SMTP_HOST'] = 'SMTP-v&aelig;rt';
 $TEXT['WBMAILER_SMTP_PASSWORD'] = 'SMTP adgangskode';
-$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP brugernavn';
+$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Loginname';
 $TEXT['WEBSITE'] = 'Websted';
 $TEXT['WEBSITE_DESCRIPTION'] = 'Beskrivelse af dit websted';
 $TEXT['WEBSITE_FOOTER'] = 'Webstedsfod (bund)';
@@ -456,7 +456,7 @@ $MESSAGE['FORGOT_PASS_ALREADY_RESET'] = 'Adgangskode kan kun nulstilles 1 gang i
 $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] = 'Kunne ikke sende din adgangskode til din email-adresse - Kontakt en systemadministrator';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'Den email-adresse du indtastede findes ikke i vores database';
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Indtast din email-adresse nedenfor';
-$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Dit brugernavn og din adgangskode er nu afsendt til din email-adresse';
+$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Your loginname and password have been sent to your email address';
 $MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] = 'Beklager - intet aktivit indhold at vise';
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Beklager - du har ikke adgang til at se denne side';
 $MESSAGE['GENERIC_ALREADY_INSTALLED'] = 'Er allerede installeret';
@@ -507,14 +507,13 @@ $MESSAGE['GROUPS_GROUP_NAME_BLANK'] = 'Gruppenavn er ikke udfyldt';
 $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Gruppens navn findes allerede';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Der blev ikke fundet nogen grupper';
 $MESSAGE['GROUPS_SAVED'] = 'Gruppen er gemt';
-$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Brugernavn og/eller adgangskode er forkert';
-$MESSAGE['LOGIN_BOTH_BLANK'] = 'Indtast venligst dit brugernavn og din adgangskode nedenfor';
+$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Angiv en adgangskode ';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Den indtastede adgangskode er for LANG';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Den indtastede adgangskode er for KORT';
-$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Angiv et brugernavn';
-$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Det indtastede brugernavn er for LANGT';
-$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Det indtastede brugernavn er for KORT';
+$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Please enter a loginname';
+$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Supplied loginname to long';
+$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Supplied loginname to short';
 $MESSAGE['MEDIA_BLANK_EXTENSION'] = 'Du har ikke angivet en filtype';
 $MESSAGE['MEDIA_BLANK_NAME'] = 'Du indtastede ikke et nyt navn';
 $MESSAGE['MEDIA_CANNOT_DELETE_DIR'] = 'Kan ikke slette valgte bibliotek (mappe)';
@@ -582,7 +581,7 @@ $MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'] = 'OBS! Dette anbefales kun i testm
 $MESSAGE['SIGNUP2_ADMIN_INFO'] = '
 En ny bruger er registreret.
 
-Brugernavn: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 BrugerId: {LOGIN_ID}
 Email: {LOGIN_EMAIL}
 IP-adresse: {LOGIN_IP}
@@ -598,7 +597,7 @@ Denne besked er sendt, fordi funktionen  \'Glemt adgangskode\' er blevet anvendt
 
 Dine nye \'{LOGIN_WEBSITE_TITLE}\' logind-oplysninger er:
 
-Brugernavn: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Adgangskode: {LOGIN_PASSWORD}
 
 Din adgangskode er &aelig;ndret til ovenst&aring;ende.
@@ -618,7 +617,7 @@ Hej {LOGIN_DISPLAY_NAME},
 Velkommen til \'{LOGIN_WEBSITE_TITLE}\'.
 
 Dine adgangsoplysninger til \'{LOGIN_WEBSITE_TITLE}\' er:
-Brugernavn: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Adgangskode: {LOGIN_PASSWORD}
 
 Venlig hilsen
@@ -632,6 +631,7 @@ $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Dine login-oplysninger...';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Du skal indtaste en gyldig email-adresse';
 $MESSAGE['START_CURRENT_USER'] = 'Du er lige nu logget ind som:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'ADVARSEL! Installationsbiblioteket (mappen) findes stadig p&aring; serveren. Du b&oslash;r slette den straks af hensyn til sikkerheden!';
+$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Velkommen til administration af din WebsiteBaker';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'OBS: For at &aelig;ndre skabelonen skal du g&aring; til punktet indstillinger';
 $MESSAGE['USERS_ADDED'] = 'Brugeren er oprettet';
@@ -641,13 +641,13 @@ $MESSAGE['USERS_CONFIRM_DELETE'] = 'Er du sikker p&aring; at du vil slette den v
 $MESSAGE['USERS_DELETED'] = 'Brugeren er slettet';
 $MESSAGE['USERS_EMAIL_TAKEN'] = 'Den email-adresse du indtastede findes i forvejen';
 $MESSAGE['USERS_INVALID_EMAIL'] = 'Email-adressen du indtastede er ugyldig';
-$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for username found';
+$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for Loginname found';
 $MESSAGE['USERS_NO_GROUP'] = 'Ingen gruppe er valgt';
 $MESSAGE['USERS_PASSWORD_MISMATCH'] = 'De to adgangskoder du indtastede  er ikke ens';
 $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Den angivne adgangskode er for kort';
 $MESSAGE['USERS_SAVED'] = 'Brugeren er gemt';
-$MESSAGE['USERS_USERNAME_TAKEN'] = 'Brugernavnet du indtastede er allerede optaget af en anden bruger';
-$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'Det angivne brugernavn er for kort';
+$MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
+$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
 
 /* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'WebsiteBaker administrationsv&aelig;rkt&oslash;jer...';

@@ -350,7 +350,7 @@ $TEXT['UPGRADE'] = 'Upgrade';
 $TEXT['UPLOAD_FILES'] = 'Upload File(s)';
 $TEXT['URL'] = 'URL';
 $TEXT['USER'] = 'User';
-$TEXT['USERNAME'] = 'Username';
+$TEXT['USERNAME'] = 'Loginname';
 $TEXT['USERS_ACTIVE'] = 'User is set active';
 $TEXT['USERS_CAN_SELFDELETE'] = 'User can delete himself';
 $TEXT['USERS_CHANGE_SETTINGS'] = 'User can change his own settings';
@@ -374,7 +374,7 @@ $TEXT['WBMAILER_SMTP_AUTH'] = 'SMTP Authentification';
 $TEXT['WBMAILER_SMTP_AUTH_NOTICE'] = 'only activate if your SMTP host requires authentification';
 $TEXT['WBMAILER_SMTP_HOST'] = 'SMTP Host';
 $TEXT['WBMAILER_SMTP_PASSWORD'] = 'SMTP Password';
-$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Username';
+$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Loginname';
 $TEXT['WEBSITE'] = 'Website';
 $TEXT['WEBSITE_DESCRIPTION'] = 'Website Description';
 $TEXT['WEBSITE_FOOTER'] = 'Website Footer';
@@ -456,7 +456,7 @@ $MESSAGE['FORGOT_PASS_ALREADY_RESET'] = 'Password cannot be reset more than once
 $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] = 'Unable to email password, please contact system administrator';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'The email that you entered cannot be found in the database';
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Please enter your email address below';
-$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Your username and password have been sent to your email address';
+$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Your loginname and password have been sent to your email address';
 $MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] = 'Sorry, no active content to display';
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Sorry, you do not have permissions to view this page';
 $MESSAGE['GENERIC_ALREADY_INSTALLED'] = 'Already installed';
@@ -507,14 +507,13 @@ $MESSAGE['GROUPS_GROUP_NAME_BLANK'] = 'Group name is blank';
 $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Group name already exists';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'No groups found';
 $MESSAGE['GROUPS_SAVED'] = 'Group saved successfully';
-$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Username or password incorrect';
-$MESSAGE['LOGIN_BOTH_BLANK'] = 'Please enter your username and password below';
+$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Please enter a password';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Supplied password to long';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Supplied password to short';
-$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Please enter a username';
-$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Supplied username to long';
-$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Supplied username to short';
+$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Please enter a loginname';
+$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Supplied loginname to long';
+$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Supplied loginname to short';
 $MESSAGE['MEDIA_BLANK_EXTENSION'] = 'You did not enter a file extension';
 $MESSAGE['MEDIA_BLANK_NAME'] = 'You did not enter a new name';
 $MESSAGE['MEDIA_CANNOT_DELETE_DIR'] = 'Cannot delete the selected folder';
@@ -540,7 +539,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' file was successfully uploaded';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Cannot have ../ in the folder target';
 $MESSAGE['MEDIA_UPLOADED'] = ' files were successfully uploaded';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Sorry, this form has been submitted too many times so far this hour. Please retry in the next hour.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email: SERVER_EMAIL';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email: '.SERVER_EMAIL;
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'You must enter details for the following fields';
 $MESSAGE['PAGES_ADDED'] = 'Page added successfully';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Page heading added successfully';
@@ -582,7 +581,7 @@ $MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'] = 'Please note: this is only recomm
 $MESSAGE['SIGNUP2_ADMIN_INFO'] = '
 A new user was registered.
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 UserId: {LOGIN_ID}
 E-Mail: {LOGIN_EMAIL}
 IP-Adress: {LOGIN_IP}
@@ -598,7 +597,7 @@ This mail was sent because the \'forgot password\' function has been applied to 
 
 Your new \'{LOGIN_WEBSITE_TITLE}\' login details are:
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
 Your password has been reset to the one above.
@@ -618,7 +617,7 @@ Hello {LOGIN_DISPLAY_NAME},
 Welcome to our \'{LOGIN_WEBSITE_TITLE}\'.
 
 Your \'{LOGIN_WEBSITE_TITLE}\' login details are:
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
 Regards
@@ -642,13 +641,13 @@ $MESSAGE['USERS_CONFIRM_DELETE'] = 'Are you sure you want to delete the selected
 $MESSAGE['USERS_DELETED'] = 'User deleted successfully';
 $MESSAGE['USERS_EMAIL_TAKEN'] = 'The email you entered is already in use';
 $MESSAGE['USERS_INVALID_EMAIL'] = 'The email address you entered is invalid';
-$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for username found';
+$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for loginname found';
 $MESSAGE['USERS_NO_GROUP'] = 'No group was selected';
 $MESSAGE['USERS_PASSWORD_MISMATCH'] = 'The passwords you entered do not match';
 $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'The password you entered was too short';
 $MESSAGE['USERS_SAVED'] = 'User saved successfully';
-$MESSAGE['USERS_USERNAME_TAKEN'] = 'The username you entered is already taken';
-$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The username you entered was too short';
+$MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
+$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
 
 /* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';

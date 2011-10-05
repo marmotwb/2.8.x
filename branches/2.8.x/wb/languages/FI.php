@@ -134,7 +134,7 @@ $TEXT['ERROR'] = 'Virhe';
 $TEXT['EXACT_MATCH'] = 'Tarkalleen';
 $TEXT['EXECUTE'] = 'Suorita';
 $TEXT['EXPAND'] = 'Laajenna';
-$TEXT['EXTENSION'] = 'Lisäosa';
+$TEXT['EXTENSION'] = 'LisÃ¤osa';
 $TEXT['FIELD'] = 'Kentt&auml;';
 $TEXT['FILE'] = 'Tiedosto';
 $TEXT['FILES'] = 'Tiedostot';
@@ -350,7 +350,7 @@ $TEXT['UPGRADE'] = 'Upgrade';
 $TEXT['UPLOAD_FILES'] = 'Lataa palvelimelle';
 $TEXT['URL'] = 'URL';
 $TEXT['USER'] = 'K&auml;ytt&auml;j&auml;';
-$TEXT['USERNAME'] = 'K&auml;ytt&auml;j&auml;nimi';
+$TEXT['USERNAME'] = 'Loginname';
 $TEXT['USERS_ACTIVE'] = 'User is set active';
 $TEXT['USERS_CAN_SELFDELETE'] = 'User can delete himself';
 $TEXT['USERS_CHANGE_SETTINGS'] = 'User can change his own settings';
@@ -374,7 +374,7 @@ $TEXT['WBMAILER_SMTP_AUTH'] = 'SMTP Authentification';
 $TEXT['WBMAILER_SMTP_AUTH_NOTICE'] = 'only activate if your SMTP host requires authentification';
 $TEXT['WBMAILER_SMTP_HOST'] = 'SMTP Host';
 $TEXT['WBMAILER_SMTP_PASSWORD'] = 'SMTP Password';
-$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Username';
+$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Loginname';
 $TEXT['WEBSITE'] = 'www-sivu';
 $TEXT['WEBSITE_DESCRIPTION'] = 'Sivuston kuvaus';
 $TEXT['WEBSITE_FOOTER'] = 'Alatunniste';
@@ -456,7 +456,7 @@ $MESSAGE['FORGOT_PASS_ALREADY_RESET'] = 'Salasanan vaiho vain kerran tunnissa!';
 $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] = 'Salasanan postitus ei onnistu, ota yhteytt&auml; p&auml;&auml;k&auml;ytt&auml;j&auml;&auml;n';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'Virheellinen s&auml;hk&ouml;postiosoite';
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Anna s&auml;hk&ouml;postiosoite';
-$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Salasana ja k&auml;ytt&auml;j&auml;tunnus postitettu';
+$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Your loginname and password have been sent to your email address';
 $MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] = 'Sorry, no active content to display';
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Oikeutesi eiv&auml;t riit&auml;...';
 $MESSAGE['GENERIC_ALREADY_INSTALLED'] = 'Asennettu, uudelleen asennus ei onnistu';
@@ -499,7 +499,7 @@ $MESSAGE['GENERIC_VERSION_COMPARE'] = 'Version comparison';
 $MESSAGE['GENERIC_VERSION_GT'] = 'Upgrade necessary!';
 $MESSAGE['GENERIC_VERSION_LT'] = 'Downgrade';
 $MESSAGE['GENERIC_WEBSITE_LOCKED'] = 'this site is temporarily down for maintenance';
-$MESSAGE['GENERIC_WEBSITE_UNDER_CONSTRUCTION'] = 'Verkkosivusto on työn alla';
+$MESSAGE['GENERIC_WEBSITE_UNDER_CONSTRUCTION'] = 'Verkkosivusto on tyÃ¶n alla';
 $MESSAGE['GROUPS_ADDED'] = 'Ryhm&auml;n lis&auml;ys onnistui';
 $MESSAGE['GROUPS_CONFIRM_DELETE'] = 'Haluatko poistaa ryhm&auml;n ja kakki sen k&auml;ytt&auml;j&auml;t?';
 $MESSAGE['GROUPS_DELETED'] = 'Ryhm&auml; poistettu';
@@ -507,14 +507,13 @@ $MESSAGE['GROUPS_GROUP_NAME_BLANK'] = 'Ryhm&auml;n nimi puuttuu';
 $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Ryhm&auml;n nimi varattu';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Ryhm&auml;&auml; ei l&ouml;ydy';
 $MESSAGE['GROUPS_SAVED'] = 'Rym&auml; talletettu';
-$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'K&auml;ytt&auml;j&auml;tunnus/salsana v&auml;&auml;r&auml;';
-$MESSAGE['LOGIN_BOTH_BLANK'] = 'Kirjoita k&auml;ytt&auml;j&auml;tunnus ja salasana';
+$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Salasana';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Liian pitk&auml; salasana';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Salasana liian lyhyt';
-$MESSAGE['LOGIN_USERNAME_BLANK'] = 'K&auml;ytt&auml;j&auml;tunnus!';
-$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Lian pitk&auml; tunnus';
-$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Tunnus liian lyhyt';
+$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Please enter a loginname';
+$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Supplied loginname to long';
+$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Supplied loginname to short';
 $MESSAGE['MEDIA_BLANK_EXTENSION'] = 'Et kirjoittanut tiedoston tarkennetta';
 $MESSAGE['MEDIA_BLANK_NAME'] = 'Et antanut nime&auml;';
 $MESSAGE['MEDIA_CANNOT_DELETE_DIR'] = 'Kansion poistamienen ei onnistu';
@@ -582,7 +581,7 @@ $MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'] = 'Susitellaan ainoastaan testitark
 $MESSAGE['SIGNUP2_ADMIN_INFO'] = '
 A new user was registered.
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 UserId: {LOGIN_ID}
 E-Mail: {LOGIN_EMAIL}
 IP-Adress: {LOGIN_IP}
@@ -598,7 +597,7 @@ This mail was sent because the \'forgot password\' function has been applied to 
 
 Your new \'{LOGIN_WEBSITE_TITLE}\' login details are:
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
 Your password has been reset to the one above.
@@ -618,7 +617,7 @@ Hello {LOGIN_DISPLAY_NAME},
 Welcome to our \'{LOGIN_WEBSITE_TITLE}\'.
 
 Your \'{LOGIN_WEBSITE_TITLE}\' login details are:
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
 Regards
@@ -642,13 +641,13 @@ $MESSAGE['USERS_CONFIRM_DELETE'] = 'Haluatko poistaa k&auml;ytt&auml;j&auml;n?';
 $MESSAGE['USERS_DELETED'] = 'Poistettu';
 $MESSAGE['USERS_EMAIL_TAKEN'] = 'S&auml;hk&ouml;postiosoite k&auml;yt&ouml;ss&auml;!';
 $MESSAGE['USERS_INVALID_EMAIL'] = 'Virheellinen s&auml;hk&ouml;postiosoite';
-$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for username found';
+$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for Loginname found';
 $MESSAGE['USERS_NO_GROUP'] = 'Valitse ryhm&auml;!';
 $MESSAGE['USERS_PASSWORD_MISMATCH'] = 'Salasanat eiv&auml;t t&auml;sm&auml;&auml;';
 $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Salasana liian lyhyt';
 $MESSAGE['USERS_SAVED'] = 'Talletettu';
-$MESSAGE['USERS_USERNAME_TAKEN'] = 'K&auml;ytt&auml;j&auml;tynnus varattu, valitse uusi';
-$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'K&auml;ytt&auml;j&auml;tunnus liian lyhyt';
+$MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
+$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
 
 /* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
@@ -670,4 +669,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
-?>
+

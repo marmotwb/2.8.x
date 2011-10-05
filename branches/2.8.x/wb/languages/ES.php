@@ -350,7 +350,7 @@ $TEXT['UPGRADE'] = 'Upgrade';
 $TEXT['UPLOAD_FILES'] = 'Subir Archivo(s)';
 $TEXT['URL'] = 'URL';
 $TEXT['USER'] = 'Ususario';
-$TEXT['USERNAME'] = 'Usuario';
+$TEXT['USERNAME'] = 'Loginname';
 $TEXT['USERS_ACTIVE'] = 'User is set active';
 $TEXT['USERS_CAN_SELFDELETE'] = 'User can delete himself';
 $TEXT['USERS_CHANGE_SETTINGS'] = 'User can change his own settings';
@@ -374,7 +374,7 @@ $TEXT['WBMAILER_SMTP_AUTH'] = 'SMTP Authentification';
 $TEXT['WBMAILER_SMTP_AUTH_NOTICE'] = 'only activate if your SMTP host requires authentification';
 $TEXT['WBMAILER_SMTP_HOST'] = 'SMTP Host';
 $TEXT['WBMAILER_SMTP_PASSWORD'] = 'SMTP Password';
-$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Username';
+$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Loginname';
 $TEXT['WEBSITE'] = 'Website';
 $TEXT['WEBSITE_DESCRIPTION'] = 'Descripci&oacute;n del Web';
 $TEXT['WEBSITE_FOOTER'] = 'Pie de p&aacute;gina del Web';
@@ -456,7 +456,7 @@ $MESSAGE['FORGOT_PASS_ALREADY_RESET'] = 'La contrase&ntilde;a no puede ser cambi
 $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] = 'No puedo enviarle la contrase&ntilde;a, contacte a su Administrador';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'Email no encontrado en base de datos';
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Por favor ingrese su direccion de email';
-$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Nombre de Usuario y Contrase&ntilde;a enviados a su direccion de email';
+$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Your loginname and password have been sent to your email address';
 $MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] = 'Sorry, no active content to display';
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Perd&oacute;n, no tiene permiso para ver esta p&aacute;gina';
 $MESSAGE['GENERIC_ALREADY_INSTALLED'] = 'Ya instalado';
@@ -507,14 +507,13 @@ $MESSAGE['GROUPS_GROUP_NAME_BLANK'] = 'El nombre del grupo est&aacute; vaci&oacu
 $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Nombre de grupo ya existe';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'No hay ning&ntilde;n grupo';
 $MESSAGE['GROUPS_SAVED'] = 'Grupo guardado';
-$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'El Nombre de Usuario o Pasword incorrecto';
-$MESSAGE['LOGIN_BOTH_BLANK'] = 'Ingrese su Nombre de Usuario y Contrase&ntilde;a';
+$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'ingrese su Contrase&ntilde;a';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Contrase&ntilde;a muy larga';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Contrase&ntilde;a muy corta';
-$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Ingrese su Nombre de Usuario';
-$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Nombre de Usuario muy largo';
-$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Nombre de Usuario muy corto';
+$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Please enter a loginname';
+$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Supplied loginname to long';
+$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Supplied loginname to short';
 $MESSAGE['MEDIA_BLANK_EXTENSION'] = 'No ha ingresado una extensi&oacute;n de archivo';
 $MESSAGE['MEDIA_BLANK_NAME'] = 'No ha ingresado un nombre nuevo';
 $MESSAGE['MEDIA_CANNOT_DELETE_DIR'] = 'No se puede eliminar la carpeta seleccionada';
@@ -582,7 +581,7 @@ $MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'] = 'Atenci&oacute;n: S&oacute;lo rec
 $MESSAGE['SIGNUP2_ADMIN_INFO'] = '
 A new user was registered.
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 UserId: {LOGIN_ID}
 E-Mail: {LOGIN_EMAIL}
 IP-Adress: {LOGIN_IP}
@@ -598,7 +597,7 @@ This mail was sent because the \'forgot password\' function has been applied to 
 
 Your new \'{LOGIN_WEBSITE_TITLE}\' login details are:
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
 Your password has been reset to the one above.
@@ -618,7 +617,7 @@ Hello {LOGIN_DISPLAY_NAME},
 Welcome to our \'{LOGIN_WEBSITE_TITLE}\'.
 
 Your \'{LOGIN_WEBSITE_TITLE}\' login details are:
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
 Regards
@@ -642,13 +641,13 @@ $MESSAGE['USERS_CONFIRM_DELETE'] = '&iquest;Esta seguro que desea eliminar el us
 $MESSAGE['USERS_DELETED'] = 'Usuario eliminado';
 $MESSAGE['USERS_EMAIL_TAKEN'] = 'Email en uso';
 $MESSAGE['USERS_INVALID_EMAIL'] = 'Email inv&aacute;lido';
-$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for username found';
+$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for Loginname found';
 $MESSAGE['USERS_NO_GROUP'] = 'Ning&uacute;n grupo fue seleccionado';
 $MESSAGE['USERS_PASSWORD_MISMATCH'] = 'Las contrase&ntilde;as no coinciden';
 $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Contrase&ntilde;a muy corta';
 $MESSAGE['USERS_SAVED'] = 'Usuario guardado';
-$MESSAGE['USERS_USERNAME_TAKEN'] = 'Nombre de Usuario ocupado';
-$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'Nombre de Usuario muy corto';
+$MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
+$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
 
 /* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';

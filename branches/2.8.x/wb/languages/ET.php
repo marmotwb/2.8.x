@@ -350,7 +350,7 @@ $TEXT['UPGRADE'] = 'Upgrade';
 $TEXT['UPLOAD_FILES'] = 'Saada Fail(id)';
 $TEXT['URL'] = 'URL';
 $TEXT['USER'] = 'Kasutaja';
-$TEXT['USERNAME'] = 'Kasutajanimi';
+$TEXT['USERNAME'] = 'Loginname';
 $TEXT['USERS_ACTIVE'] = 'User is set active';
 $TEXT['USERS_CAN_SELFDELETE'] = 'User can delete himself';
 $TEXT['USERS_CHANGE_SETTINGS'] = 'User can change his own settings';
@@ -374,7 +374,7 @@ $TEXT['WBMAILER_SMTP_AUTH'] = 'SMTP Authentification';
 $TEXT['WBMAILER_SMTP_AUTH_NOTICE'] = 'only activate if your SMTP host requires authentification';
 $TEXT['WBMAILER_SMTP_HOST'] = 'SMTP Host';
 $TEXT['WBMAILER_SMTP_PASSWORD'] = 'SMTP Password';
-$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Username';
+$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Loginname';
 $TEXT['WEBSITE'] = 'Veebisait';
 $TEXT['WEBSITE_DESCRIPTION'] = 'Veebisaidi Kirjeldus';
 $TEXT['WEBSITE_FOOTER'] = 'Veebisaidi Jalus';
@@ -456,7 +456,7 @@ $MESSAGE['FORGOT_PASS_ALREADY_RESET'] = 'Parooliei saa taastada rohkem kui &uuml
 $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] = 'V&otilde;imetu emailima parooli, palun kontakteeru s&uuml;steemi administraatoriga';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'Sisestatud emaili eileitud andmebaasist';
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Palun sisesta oma emaili aadress allapoole';
-$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Sinukasutajanimi ja parool on saadetud su emaili aadressile';
+$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Your loginname and password have been sent to your email address';
 $MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] = 'Sorry, no active content to display';
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Vabandame, sul ei ole &otilde;igusi selle lehe vaatamiseks';
 $MESSAGE['GENERIC_ALREADY_INSTALLED'] = 'Juba paigaldatud';
@@ -507,14 +507,13 @@ $MESSAGE['GROUPS_GROUP_NAME_BLANK'] = 'Grupi nimi on t&uuml;hi';
 $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Group name already exists';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Gruppe ei leitud';
 $MESSAGE['GROUPS_SAVED'] = 'Grupp edukalt salvestatud';
-$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Kasutajanimi v&otilde;i parool on vigane';
-$MESSAGE['LOGIN_BOTH_BLANK'] = 'Palun sisesta oma kasutajanimi ja parool allapoole';
+$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Palun sisesta parool';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Sisestatud parool on liiga pikk';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Sisestatud parool on liiga l&uuml;hike';
-$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Palun sisesta kasutajanimi';
-$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Sisestatud kasutajanimi on liiga pikk';
-$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Sisestatud kasutajanimi on liiga l&uuml;hike';
+$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Please enter a loginname';
+$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Supplied loginname to long';
+$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Supplied loginname to short';
 $MESSAGE['MEDIA_BLANK_EXTENSION'] = 'Sa ei sisestanud faili ulatust';
 $MESSAGE['MEDIA_BLANK_NAME'] = 'Sa ei sisestanud uut nime';
 $MESSAGE['MEDIA_CANNOT_DELETE_DIR'] = 'Ei saa selekteeritud kausta kustutada';
@@ -582,7 +581,7 @@ $MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'] = 'M&auml;rge: see on vajalik ainul
 $MESSAGE['SIGNUP2_ADMIN_INFO'] = '
 A new user was registered.
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 UserId: {LOGIN_ID}
 E-Mail: {LOGIN_EMAIL}
 IP-Adress: {LOGIN_IP}
@@ -598,7 +597,7 @@ This mail was sent because the \'forgot password\' function has been applied to 
 
 Your new \'{LOGIN_WEBSITE_TITLE}\' login details are:
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
 Your password has been reset to the one above.
@@ -618,7 +617,7 @@ Hello {LOGIN_DISPLAY_NAME},
 Welcome to our \'{LOGIN_WEBSITE_TITLE}\'.
 
 Your \'{LOGIN_WEBSITE_TITLE}\' login details are:
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
 Regards
@@ -642,13 +641,13 @@ $MESSAGE['USERS_CONFIRM_DELETE'] = 'Kas sa oled kindel et tahad seda kasutajat k
 $MESSAGE['USERS_DELETED'] = 'Kasutaja edukalt kustutatud';
 $MESSAGE['USERS_EMAIL_TAKEN'] = 'Sisestatud e-mail on juba kasutusel';
 $MESSAGE['USERS_INVALID_EMAIL'] = 'Sisestatud emaili aadress on vigane';
-$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for username found';
+$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for Loginname found';
 $MESSAGE['USERS_NO_GROUP'] = 'Grupp selekteerimata';
 $MESSAGE['USERS_PASSWORD_MISMATCH'] = 'Sisestatud paroolid ei kattu';
 $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Sisestatud parool on liiga l&uuml;hike';
 $MESSAGE['USERS_SAVED'] = 'Kasutaja edukalt salvestatud';
-$MESSAGE['USERS_USERNAME_TAKEN'] = 'Sisestatud kasutajanimi on jubakasutusel';
-$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'Sisestatud kasutajanimi on liiga l&uuml;hike';
+$MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
+$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
 
 /* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';

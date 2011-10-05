@@ -350,7 +350,7 @@ $TEXT['UPGRADE'] = 'Upgrade';
 $TEXT['UPLOAD_FILES'] = 'Nahra&#357; s&uacute;bor(y)';
 $TEXT['URL'] = 'URL';
 $TEXT['USER'] = 'U&#382;&iacute;vate&#318;';
-$TEXT['USERNAME'] = 'Meno';
+$TEXT['USERNAME'] = 'Loginname';
 $TEXT['USERS_ACTIVE'] = 'User is set active';
 $TEXT['USERS_CAN_SELFDELETE'] = 'User can delete himself';
 $TEXT['USERS_CHANGE_SETTINGS'] = 'User can change his own settings';
@@ -374,7 +374,7 @@ $TEXT['WBMAILER_SMTP_AUTH'] = 'SMTP Overenie';
 $TEXT['WBMAILER_SMTP_AUTH_NOTICE'] = 'only activate if your SMTP host requires authentification';
 $TEXT['WBMAILER_SMTP_HOST'] = 'SMTP server';
 $TEXT['WBMAILER_SMTP_PASSWORD'] = 'SMTP heslo';
-$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP meno';
+$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Loginname';
 $TEXT['WEBSITE'] = 'WWW';
 $TEXT['WEBSITE_DESCRIPTION'] = 'Popis webu';
 $TEXT['WEBSITE_FOOTER'] = 'Z&aacute;p&auml;tie webu';
@@ -456,7 +456,7 @@ $MESSAGE['FORGOT_PASS_ALREADY_RESET'] = 'Heslo nem&ocirc;&#382;e by&#357; prenas
 $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] = 'Nejde odosla&#357;  heslo e-mailom, kontaktujte pros&iacute;m spr&aacute;vcu syst&eacute;mu';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'Zadan&aacute; e-mailov&aacute; adresa alebola n&aacute;jden&aacute;';
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Zadajte svoju e-mailovou adresu:';
-$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Va&#353;e u&#382;&iacute;vate&#318;sk&eacute; meno a heslo boli odoslan&eacute; na Va&#353;u e-mailovou adresu';
+$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Your loginname and password have been sent to your email address';
 $MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] = 'Sorry, no active content to display';
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Nem&aacute;te opr&aacute;vnenie prezera&#357; t&uacute;to str&aacute;nku';
 $MESSAGE['GENERIC_ALREADY_INSTALLED'] = 'U&#382; nain&#353;talovan&eacute;';
@@ -507,14 +507,13 @@ $MESSAGE['GROUPS_GROUP_NAME_BLANK'] = 'N&aacute;zov skupiny je pr&aacute;zdny';
 $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Tato skupina u&#382; existuje';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Nen&aacute;jden&aacute; &#382;iadn&aacute; skupina';
 $MESSAGE['GROUPS_SAVED'] = 'Skupina bola &uacute;spe&#353;ne ulo&#382;en&aacute;';
-$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Meno alebo heslo nie je platn&eacute;';
-$MESSAGE['LOGIN_BOTH_BLANK'] = 'Zadejte pros&iacute;m svoje prihlasovacie &uacute;daje:';
+$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Zadejte svoje heslo';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Zadan&eacute; heslo je pr&iacute;li&#353; dlh&eacute;';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Zadan&eacute; heslo je pr&iacute;li&#353; kr&aacute;tke';
-$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Zadejte svoje u&#382;ivate&#318;sk&eacute; meno';
-$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Zadan&eacute; meno je pr&iacute;li&#353; dlh&eacute;';
-$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Zadan&eacute; meno je pr&iacute;li&#353; kr&aacute;tke';
+$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Please enter a loginname';
+$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Supplied loginname to long';
+$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Supplied loginname to short';
 $MESSAGE['MEDIA_BLANK_EXTENSION'] = 'Nezadali ste pr&iacute;ponu s&uacute;boru';
 $MESSAGE['MEDIA_BLANK_NAME'] = 'Nezadali ste nov&yacute; n&aacute;zov';
 $MESSAGE['MEDIA_CANNOT_DELETE_DIR'] = 'Ned&aacute; sa zmaza&#357; vybran&yacute; adres&aacute;r';
@@ -582,7 +581,7 @@ $MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'] = 'Pozn.: zapnutie tejto vo&#318;by
 $MESSAGE['SIGNUP2_ADMIN_INFO'] = '
 A new user was registered.
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 UserId: {LOGIN_ID}
 E-Mail: {LOGIN_EMAIL}
 IP-Adress: {LOGIN_IP}
@@ -598,7 +597,7 @@ This mail was sent because the \'forgot password\' function has been applied to 
 
 Your new \'{LOGIN_WEBSITE_TITLE}\' login details are:
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
 Your password has been reset to the one above.
@@ -618,7 +617,7 @@ Hello {LOGIN_DISPLAY_NAME},
 Welcome to our \'{LOGIN_WEBSITE_TITLE}\'.
 
 Your \'{LOGIN_WEBSITE_TITLE}\' login details are:
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
 Regards
@@ -642,13 +641,13 @@ $MESSAGE['USERS_CONFIRM_DELETE'] = 'Ste si ist&yacute;, &#382;e chcete vymaza&#3
 $MESSAGE['USERS_DELETED'] = 'U&#382;&iacute;vate&#318; bol &uacute;spe&#353;ne zmazan&yacute;';
 $MESSAGE['USERS_EMAIL_TAKEN'] = 'Zadan&aacute; e-mailov&aacute; adresa je u&#382; pou&#382;&iacute;van&aacute;';
 $MESSAGE['USERS_INVALID_EMAIL'] = 'Zadan&aacute; e-mailov&aacute; adresa je neplatn&aacute;';
-$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for username found';
+$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for Loginname found';
 $MESSAGE['USERS_NO_GROUP'] = 'alebola vybran&aacute; skupina';
 $MESSAGE['USERS_PASSWORD_MISMATCH'] = 'Zadan&eacute; hesl&aacute; nie s&uacute; zhodn&eacute;';
 $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Zadan&eacute; heslo je pr&iacute;li&#353; kr&aacute;tk&eacute;';
 $MESSAGE['USERS_SAVED'] = 'U&#382;&iacute;vate&#318; bol &uacute;spe&#353;ne ulo&#382;en&yacute;';
-$MESSAGE['USERS_USERNAME_TAKEN'] = 'U&#382;ivate&#318; s rovnak&yacute;m u&#382;&iacute;vate&#318;sk&yacute;m menom  u&#382; existuje';
-$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'Zadan&eacute; u&#382;ivate&#318;sk&eacute; meno je pr&iacute;li&#353; kr&aacute;tke';
+$MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
+$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
 
 /* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Administra&#269;n&eacute; n&aacute;stroje...';

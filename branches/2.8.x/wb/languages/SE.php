@@ -350,7 +350,7 @@ $TEXT['UPGRADE'] = 'Upgrade';
 $TEXT['UPLOAD_FILES'] = 'Ladda upp filer';
 $TEXT['URL'] = 'URL';
 $TEXT['USER'] = 'Anv&auml;ndare';
-$TEXT['USERNAME'] = 'Anv&auml;ndarnamn';
+$TEXT['USERNAME'] = 'Loginname';
 $TEXT['USERS_ACTIVE'] = 'User is set active';
 $TEXT['USERS_CAN_SELFDELETE'] = 'User can delete himself';
 $TEXT['USERS_CHANGE_SETTINGS'] = 'User can change his own settings';
@@ -374,7 +374,7 @@ $TEXT['WBMAILER_SMTP_AUTH'] = 'SMTP Authentification';
 $TEXT['WBMAILER_SMTP_AUTH_NOTICE'] = 'only activate if your SMTP host requires authentification';
 $TEXT['WBMAILER_SMTP_HOST'] = 'SMTP Host';
 $TEXT['WBMAILER_SMTP_PASSWORD'] = 'SMTP Password';
-$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Username';
+$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Loginname';
 $TEXT['WEBSITE'] = 'Websida';
 $TEXT['WEBSITE_DESCRIPTION'] = 'Websitens beskrivning';
 $TEXT['WEBSITE_FOOTER'] = 'Websitens fot';
@@ -456,7 +456,7 @@ $MESSAGE['FORGOT_PASS_ALREADY_RESET'] = 'L&ouml;senordet kan bara &auml;ndras ma
 $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] = 'Kunde inte skicka l&ouml;senordet, v&auml;nligen kontakta administratat&ouml;ren';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'E-postadressen som du skrev in kan inte hittas i v&aring;r databas';
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Skriv din e-postadress';
-$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Ditt anv&auml;ndarnamn & l&ouml;senord har skickats till din e-postadress';
+$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Your loginname and password have been sent to your email address';
 $MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] = 'Sorry, no active content to display';
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Tyv&auml;rr, du har inte till&aring;telse att titta p&aring; denna sida';
 $MESSAGE['GENERIC_ALREADY_INSTALLED'] = 'Redan installerat';
@@ -507,14 +507,13 @@ $MESSAGE['GROUPS_GROUP_NAME_BLANK'] = 'Gruppen m&aring;ste ha ett namn';
 $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Gruppnamnet finns redan';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Ingen grupp hittades';
 $MESSAGE['GROUPS_SAVED'] = 'Gruppen sparades';
-$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Felaktigt anv&auml;ndarnamn eller l&ouml;senord';
-$MESSAGE['LOGIN_BOTH_BLANK'] = 'Skriv in ditt anv&auml;ndarnamn & L&ouml;senord';
+$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Skriv ditt l&ouml;senord';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'L&ouml;senordet &auml;r f&ouml;r l&aring;ngt';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'L&ouml;senordet &auml;r f&ouml;r kort';
-$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Skriv ditt anv&auml;ndarnamn';
-$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Anv&auml;ndarnamnet &auml;r f&ouml;r l&aring;ngt';
-$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Anv&auml;ndarnamnet &auml;r f&ouml;r kort';
+$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Please enter a loginname';
+$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Supplied loginname to long';
+$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Supplied loginname to short';
 $MESSAGE['MEDIA_BLANK_EXTENSION'] = 'Du skrev ingen fil&auml;ndelse';
 $MESSAGE['MEDIA_BLANK_NAME'] = 'Du skrev inget nytt namn';
 $MESSAGE['MEDIA_CANNOT_DELETE_DIR'] = 'Kan inte radera mappen';
@@ -582,7 +581,7 @@ $MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'] = 'Observera: detta rekomenderas en
 $MESSAGE['SIGNUP2_ADMIN_INFO'] = '
 A new user was registered.
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 UserId: {LOGIN_ID}
 E-Mail: {LOGIN_EMAIL}
 IP-Adress: {LOGIN_IP}
@@ -598,7 +597,7 @@ This mail was sent because the \'forgot password\' function has been applied to 
 
 Your new \'{LOGIN_WEBSITE_TITLE}\' login details are:
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
 Your password has been reset to the one above.
@@ -618,7 +617,7 @@ Hello {LOGIN_DISPLAY_NAME},
 Welcome to our \'{LOGIN_WEBSITE_TITLE}\'.
 
 Your \'{LOGIN_WEBSITE_TITLE}\' login details are:
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
 Regards
@@ -642,13 +641,13 @@ $MESSAGE['USERS_CONFIRM_DELETE'] = 'Vill du verkligen radera anv&auml;ndaren?';
 $MESSAGE['USERS_DELETED'] = 'Anv&auml;ndaren Raderades';
 $MESSAGE['USERS_EMAIL_TAKEN'] = 'E-post adressen du skrev finns redan i v&aring;r Databas';
 $MESSAGE['USERS_INVALID_EMAIL'] = 'E-post adressen &auml;r felaktig';
-$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for username found';
+$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for Loginname found';
 $MESSAGE['USERS_NO_GROUP'] = 'Ingen grupp valdes';
 $MESSAGE['USERS_PASSWORD_MISMATCH'] = 'L&ouml;senorden du skrev var inte lika';
 $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'L&ouml;senordet &auml;r for kort';
 $MESSAGE['USERS_SAVED'] = 'Anv&auml;ndaren sparades';
-$MESSAGE['USERS_USERNAME_TAKEN'] = 'Anv&auml;ndarnamnet du skrev &auml;r upptaget';
-$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'Anv&auml;ndarnamnet &auml;r f&ouml;r kort';
+$MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
+$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
 
 /* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';

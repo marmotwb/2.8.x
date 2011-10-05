@@ -350,7 +350,7 @@ $TEXT['UPGRADE'] = 'Upgrade';
 $TEXT['UPLOAD_FILES'] = 'Last opp fil(er)';
 $TEXT['URL'] = 'URL';
 $TEXT['USER'] = 'Bruker';
-$TEXT['USERNAME'] = 'Brukernavn';
+$TEXT['USERNAME'] = 'Loginname';
 $TEXT['USERS_ACTIVE'] = 'User is set active';
 $TEXT['USERS_CAN_SELFDELETE'] = 'User can delete himself';
 $TEXT['USERS_CHANGE_SETTINGS'] = 'User can change his own settings';
@@ -374,7 +374,7 @@ $TEXT['WBMAILER_SMTP_AUTH'] = 'SMTP Autentifisering';
 $TEXT['WBMAILER_SMTP_AUTH_NOTICE'] = 'aktiveres kun hvis din SMTP v&aelig;rt krever autentifisering';
 $TEXT['WBMAILER_SMTP_HOST'] = 'SMTP V&aelig;rt';
 $TEXT['WBMAILER_SMTP_PASSWORD'] = 'SMTP Passord';
-$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Brukernavn';
+$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Loginname';
 $TEXT['WEBSITE'] = 'Internett Side';
 $TEXT['WEBSITE_DESCRIPTION'] = 'Nettstedets Beskrivelse';
 $TEXT['WEBSITE_FOOTER'] = 'Nettsted Bunntekst ';
@@ -456,7 +456,7 @@ $MESSAGE['FORGOT_PASS_ALREADY_RESET'] = 'Beklager, men passord kan ikke tilbakes
 $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] = 'Kunne ikke sende passord. Kontakt system administrator';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'E-post adressen ble ikke funnet i databasen';
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Vennligst skriv e-post adressen nedenfor';
-$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Brukernavn og passord er sendt i e-post';
+$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Your loginname and password have been sent to your email address';
 $MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] = 'Beklager, ikke noe aktivt innhold &aring; vise.';
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Beklager, du har ikke tillgang til &aring; se denne siden';
 $MESSAGE['GENERIC_ALREADY_INSTALLED'] = 'Allerede installert';
@@ -507,14 +507,13 @@ $MESSAGE['GROUPS_GROUP_NAME_BLANK'] = 'Gruppe navn ikke angitt';
 $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Gruppenavn finnes allerede';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Ingen gruppe funnet';
 $MESSAGE['GROUPS_SAVED'] = 'Lykkes &aring; lagre gruppe';
-$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Brukernavnet eller passordet er feil';
-$MESSAGE['LOGIN_BOTH_BLANK'] = 'Vennligst skriv brukernavn og passord nedenfor';
+$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Vennligst skriv et passord';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Det angitte passordet er for langt';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Det angitte passordet er for kort';
-$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Vennligst skriv et brukernavn';
-$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Det angitte brukernavnet er for langt';
-$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Det angitte brukernavnet er for kort';
+$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Please enter a loginname';
+$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Supplied loginname to long';
+$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Supplied loginname to short';
 $MESSAGE['MEDIA_BLANK_EXTENSION'] = 'Du tastet ikke inn en fil utvidelse';
 $MESSAGE['MEDIA_BLANK_NAME'] = 'Du anga ikke et nytt navn';
 $MESSAGE['MEDIA_CANNOT_DELETE_DIR'] = 'Kan ikke slette valgte katalog';
@@ -582,7 +581,7 @@ $MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'] = 'Merk: Dette er kun ment for test
 $MESSAGE['SIGNUP2_ADMIN_INFO'] = '
 En ny bruker ble registrert.
 
-Brukernavn: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 BrukerID: {LOGIN_ID}
 e-post: {LOGIN_EMAIL}
 IP-Adresse: {LOGIN_IP}
@@ -597,7 +596,7 @@ Hei {LOGIN_DISPLAY_NAME},
 Denne e-posten ble sendt til deg fordi \'glemt passord\' funksjonen er blitt benyttet p&aring; din konto.
 Dine nye \'{LOGIN_WEBSITE_TITLE}\' p&aring;loggingsdetalejer er:
 
-Brukernavn: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Passord: {LOGIN_PASSWORD}
 
 Passordet dit er endret til det som st&aring;r over.
@@ -615,7 +614,7 @@ Hei {LOGIN_DISPLAY_NAME},
 Velkommen til v&aring;r hjemmeside \'{LOGIN_WEBSITE_TITLE}\'.
 
 Dine \'{LOGIN_WEBSITE_TITLE}\' p&aring;loggingsdetaljer er:
-Brukernavn: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Passord: {LOGIN_PASSWORD}
 
 Med hilsen
@@ -638,13 +637,13 @@ $MESSAGE['USERS_CONFIRM_DELETE'] = 'Vil du virkelig slette den valgte brukeren?'
 $MESSAGE['USERS_DELETED'] = 'Lykkes &aring; slette bruker';
 $MESSAGE['USERS_EMAIL_TAKEN'] = 'E-post adresse allerede i bruk';
 $MESSAGE['USERS_INVALID_EMAIL'] = 'E-post adresse ikke gyldig';
-$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for username found';
+$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for Loginname found';
 $MESSAGE['USERS_NO_GROUP'] = 'Ingen gruppe ble valgt';
 $MESSAGE['USERS_PASSWORD_MISMATCH'] = 'Passordene er ikke like';
 $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Angitt passord for kort';
 $MESSAGE['USERS_SAVED'] = 'Lykkes &aring; lagre bruker';
-$MESSAGE['USERS_USERNAME_TAKEN'] = 'Brukernavn er allerede brukt, du m&aring; anngi et annet brukernavn';
-$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'Angitt brukernavn for kort';
+$MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
+$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
 
 /* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'G&aring; inn p&aring; WebsiteBaker sine administrasjonsverkt&oslash;y...';

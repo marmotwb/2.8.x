@@ -350,7 +350,7 @@ $TEXT['UPGRADE'] = 'Upgrade';
 $TEXT['UPLOAD_FILES'] = 'Dosya Y&uuml;kle';
 $TEXT['URL'] = 'URL';
 $TEXT['USER'] = 'Kullan&yacute;c&yacute;';
-$TEXT['USERNAME'] = 'Kullan&yacute;c&yacute; Ad&yacute;';
+$TEXT['USERNAME'] = 'Loginname';
 $TEXT['USERS_ACTIVE'] = 'User is set active';
 $TEXT['USERS_CAN_SELFDELETE'] = 'User can delete himself';
 $TEXT['USERS_CHANGE_SETTINGS'] = 'User can change his own settings';
@@ -374,7 +374,7 @@ $TEXT['WBMAILER_SMTP_AUTH'] = 'SMTP Authentification';
 $TEXT['WBMAILER_SMTP_AUTH_NOTICE'] = 'only activate if your SMTP host requires authentification';
 $TEXT['WBMAILER_SMTP_HOST'] = 'SMTP Host';
 $TEXT['WBMAILER_SMTP_PASSWORD'] = 'SMTP Password';
-$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Username';
+$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Loginname';
 $TEXT['WEBSITE'] = 'Website';
 $TEXT['WEBSITE_DESCRIPTION'] = 'Website A&ccedil;&yacute;klamas&yacute;';
 $TEXT['WEBSITE_FOOTER'] = 'Website Alt K&yacute;s&yacute;m';
@@ -456,7 +456,7 @@ $MESSAGE['FORGOT_PASS_ALREADY_RESET'] = 'Paralonuzu 1 saat aral&yacute;klarla de
 $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] = 'Uygunsuz email &thorn;ifresi, L&uuml;tfen Y&ouml;netici ile Kontak kurun';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'Bu email adresi veritaban&yacute;nda bulunamad&yacute;';
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'L&uuml;tfen email adresini girin';
-$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Sizin kullan&yacute;c&yacute; ad&yacute;n&yacute;z ve &thorn;ifreniz email adresinize g&ouml;nderildi';
+$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Your loginname and password have been sent to your email address';
 $MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] = 'Sorry, no active content to display';
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = '&Uuml;zg&uuml;n&uuml;m, bu sayfay&yacute; g&ouml;r&uuml;nt&uuml;lemeye yetkiniz yok';
 $MESSAGE['GENERIC_ALREADY_INSTALLED'] = 'Daha &ouml;nce y&uuml;klenmi&thorn;ti';
@@ -507,14 +507,13 @@ $MESSAGE['GROUPS_GROUP_NAME_BLANK'] = 'Grup ad&yacute; bo&thorn;';
 $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Bu grup ad&yacute; zaten var';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Hi&ccedil;bir grup bulmad&yacute;';
 $MESSAGE['GROUPS_SAVED'] = 'Grup, ba&thorn;ar&yacute;l&yacute; bir &thorn;ekilde kay&yacute;t edildi';
-$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Kullan&yacute;c&yacute; ad&yacute; ve &thorn;ifreniz yanl&yacute;&thorn;';
-$MESSAGE['LOGIN_BOTH_BLANK'] = 'Kullan&yacute;c&yacute; ad&yacute; ve &thorn;ifre giriniz';
+$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'L&uuml;tfen &thorn;ifre girin';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = '&THORN;ifreniz &ccedil;ok uzun';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = '&THORN;ifreniz &ccedil;ok k&yacute;sa';
-$MESSAGE['LOGIN_USERNAME_BLANK'] = 'L&uuml;tfen kullanc&yacute; ad&yacute; girin';
-$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Kullan&yacute;c&yacute; ad&yacute;n&yacute;z &ccedil;ok uzun';
-$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Kullan&yacute;c&yacute; ad&yacute; &ccedil;ok k&yacute;sa';
+$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Please enter a loginname';
+$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Supplied loginname to long';
+$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Supplied loginname to short';
 $MESSAGE['MEDIA_BLANK_EXTENSION'] = 'Mutlaka bir uzant&yacute; girmelisinz';
 $MESSAGE['MEDIA_BLANK_NAME'] = 'Mutlaka bir isim girmelisiniz';
 $MESSAGE['MEDIA_CANNOT_DELETE_DIR'] = 'Se&ccedil;ti&eth;iniz dizin silinemiyor';
@@ -582,7 +581,7 @@ $MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'] = 'Please note: this is only recomm
 $MESSAGE['SIGNUP2_ADMIN_INFO'] = '
 A new user was registered.
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 UserId: {LOGIN_ID}
 E-Mail: {LOGIN_EMAIL}
 IP-Adress: {LOGIN_IP}
@@ -598,7 +597,7 @@ This mail was sent because the \'forgot password\' function has been applied to 
 
 Your new \'{LOGIN_WEBSITE_TITLE}\' login details are:
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
 Your password has been reset to the one above.
@@ -618,7 +617,7 @@ Hello {LOGIN_DISPLAY_NAME},
 Welcome to our \'{LOGIN_WEBSITE_TITLE}\'.
 
 Your \'{LOGIN_WEBSITE_TITLE}\' login details are:
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
 Regards
@@ -642,13 +641,13 @@ $MESSAGE['USERS_CONFIRM_DELETE'] = 'Se&ccedil;ti&eth;iniz kullan&yacute;c&yacute
 $MESSAGE['USERS_DELETED'] = 'Kullan&yacute;c&yacute;, ba&thorn;ar&yacute;l&yacute; bir &thorn;ekilde silindi';
 $MESSAGE['USERS_EMAIL_TAKEN'] = 'Girdi&eth;iniz email ba&thorn;kas&yacute; taraf&yacute;ndan kullan&yacute;l&yacute;yor';
 $MESSAGE['USERS_INVALID_EMAIL'] = 'Girdi&eth;iniz email adresi ge&ccedil;ersiz';
-$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for username found';
+$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for Loginname found';
 $MESSAGE['USERS_NO_GROUP'] = 'Hi&ccedil;bir grup se&ccedil;ilmedi';
 $MESSAGE['USERS_PASSWORD_MISMATCH'] = 'Girdi&eth;iniz &thorn;ifre bulunamad&yacute;';
 $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Girdi&eth;iniz &thorn;ifre k&yacute;sa';
 $MESSAGE['USERS_SAVED'] = 'Kullan&yacute;c&yacute;, ba&thorn;ar&yacute;l&yacute; bir &thorn;ekilde kay&yacute;t edildi';
-$MESSAGE['USERS_USERNAME_TAKEN'] = 'Girdi&eth;iniz kullan&yacute;c&yacute; ad&yacute; ba&thorn;kas&yacute; taraf&yacute;ndan kullan&yacute;l&yacute;yor';
-$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'Girdi&eth;iniz kullan&yacute;c&yacute; ad&yacute; k&yacute;sa';
+$MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
+$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
 
 /* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
