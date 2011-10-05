@@ -350,7 +350,7 @@ $TEXT['UPGRADE'] = 'Upgrade';
 $TEXT['UPLOAD_FILES'] = 'Penja Fitxer(s)';
 $TEXT['URL'] = 'URL';
 $TEXT['USER'] = 'Usuari';
-$TEXT['USERNAME'] = 'Nom d\'Usuari';
+$TEXT['USERNAME'] = 'Loginname';
 $TEXT['USERS_ACTIVE'] = 'User is set active';
 $TEXT['USERS_CAN_SELFDELETE'] = 'User can delete himself';
 $TEXT['USERS_CHANGE_SETTINGS'] = 'User can change his own settings';
@@ -374,7 +374,7 @@ $TEXT['WBMAILER_SMTP_AUTH'] = 'SMTP Authentification';
 $TEXT['WBMAILER_SMTP_AUTH_NOTICE'] = 'only activate if your SMTP host requires authentification';
 $TEXT['WBMAILER_SMTP_HOST'] = 'SMTP Host';
 $TEXT['WBMAILER_SMTP_PASSWORD'] = 'SMTP Password';
-$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Username';
+$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Loginname';
 $TEXT['WEBSITE'] = 'P&agrave;gina Web';
 $TEXT['WEBSITE_DESCRIPTION'] = 'Descripci&oacute; del Lloc Web';
 $TEXT['WEBSITE_FOOTER'] = 'Peu del Lloc Web';
@@ -456,7 +456,7 @@ $MESSAGE['FORGOT_PASS_ALREADY_RESET'] = 'La contrasenya no es pot reiniciar m&ea
 $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] = 'No ha estat possible enviar la contrasenya, per favor contacteu amb l\'administrador del sistema';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'El correu que heu introdu&iuml;t no s\'ha trobat a la base de dades';
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Per favor introdu&iuml;u la vostra adre&ccedil;a de correu a baix';
-$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'El nom d\'usuari i contrasenya han estat enviats a la vostra adre&ccedil;a de correu';
+$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Your loginname and password have been sent to your email address';
 $MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] = 'Sorry, no active content to display';
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Ho sentim, no teniu permisos per a veure aquesta p&agrave;gina';
 $MESSAGE['GENERIC_ALREADY_INSTALLED'] = 'Ja est&agrave; instal&middot;lat';
@@ -507,14 +507,13 @@ $MESSAGE['GROUPS_GROUP_NAME_BLANK'] = 'El nom del grup &eacute;s buit';
 $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Group name already exists';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'No s\'han trobat grups';
 $MESSAGE['GROUPS_SAVED'] = 'Grup desat amb &egrave;xit';
-$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Nom d\'usuari o contrasenya incorrectes';
-$MESSAGE['LOGIN_BOTH_BLANK'] = 'Per favor introdu&iuml;u el vostre nom d\'usuari i contrasenya a baix';
+$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Per favor introdu&iuml;u una contrasenya';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'La contrasenya &eacute;s massa llarga';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'La contrasenya &eacute;s massa curta';
-$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Per favor introdu&iuml;u un nom d\'usuari';
-$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'El nom d\'usuari &eacute;s massa llarg';
-$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'El nom d\'usuari &eacute;s massa curt';
+$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Please enter a loginname';
+$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Supplied loginname to long';
+$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Supplied loginname to short';
 $MESSAGE['MEDIA_BLANK_EXTENSION'] = 'No heu introdu&iuml;t una extensi&oacute; de fitxer';
 $MESSAGE['MEDIA_BLANK_NAME'] = 'No heu introdu&iuml;t un nou nom';
 $MESSAGE['MEDIA_CANNOT_DELETE_DIR'] = 'No es pot esborrar la carpeta seleccionada';
@@ -582,7 +581,7 @@ $MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'] = 'Av&iacute;s: a&ccedil;&ograve; n
 $MESSAGE['SIGNUP2_ADMIN_INFO'] = '
 A new user was registered.
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 UserId: {LOGIN_ID}
 E-Mail: {LOGIN_EMAIL}
 IP-Adress: {LOGIN_IP}
@@ -598,7 +597,7 @@ This mail was sent because the \'forgot password\' function has been applied to 
 
 Your new \'{LOGIN_WEBSITE_TITLE}\' login details are:
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
 Your password has been reset to the one above.
@@ -618,7 +617,7 @@ Hello {LOGIN_DISPLAY_NAME},
 Welcome to our \'{LOGIN_WEBSITE_TITLE}\'.
 
 Your \'{LOGIN_WEBSITE_TITLE}\' login details are:
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
 Regards
@@ -642,13 +641,13 @@ $MESSAGE['USERS_CONFIRM_DELETE'] = 'Esteu segur de voler esborrar l\'usuari sele
 $MESSAGE['USERS_DELETED'] = 'Usuari esborrat amb &egrave;xit';
 $MESSAGE['USERS_EMAIL_TAKEN'] = 'L\'adre&ccedil;a de correu que heu introdu&iuml;t ja est&agrave; en &uacute;s';
 $MESSAGE['USERS_INVALID_EMAIL'] = 'L\'adre&ccedil;a de correu introdu&iuml;da &eacute;s inv&agrave;lida';
-$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for username found';
+$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for Loginname found';
 $MESSAGE['USERS_NO_GROUP'] = 'No s\'ha seleccionat cap grup';
 $MESSAGE['USERS_PASSWORD_MISMATCH'] = 'La contrasenya introdu&iuml;da no coincideix';
 $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'La contrasenya introdu&iuml;da &eacute;s massa curta';
 $MESSAGE['USERS_SAVED'] = 'Usuari desat amb &egrave;xit';
-$MESSAGE['USERS_USERNAME_TAKEN'] = 'El nom d\'usuari introdu&iuml;t ja est&agrave; en &uacute;s';
-$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'El nom d\'usuari introdu&iuml;t &eacute;s massa curt';
+$MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
+$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
 
 /* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';

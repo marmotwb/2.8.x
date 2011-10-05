@@ -12,6 +12,8 @@ Legend:
 
 =============================== FEATURES FREEZE ================================
 ----------------------------------- Fixes 2.8.2 --------------------------------
+05 Okt-2011 Build 1515 Dietmar Woellbrink (Luisehahne)
+# typofix and changes in languages
 04 Okt-2011 Build 1514 Dietmar Woellbrink (Luisehahne)
 # account/signup.php, check if user is already logged
 # fix non object message in framework/functions.php

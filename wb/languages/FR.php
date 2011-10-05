@@ -350,7 +350,7 @@ $TEXT['UPGRADE'] = 'Upgrade';
 $TEXT['UPLOAD_FILES'] = 'Uploader un/des fichier(s)';
 $TEXT['URL'] = 'URL';
 $TEXT['USER'] = 'Utilisateur';
-$TEXT['USERNAME'] = 'Identifiant';
+$TEXT['USERNAME'] = 'Loginname';
 $TEXT['USERS_ACTIVE'] = 'User is set active';
 $TEXT['USERS_CAN_SELFDELETE'] = 'User can delete himself';
 $TEXT['USERS_CHANGE_SETTINGS'] = 'User can change his own settings';
@@ -374,7 +374,7 @@ $TEXT['WBMAILER_SMTP_AUTH'] = 'Authentification SMTP';
 $TEXT['WBMAILER_SMTP_AUTH_NOTICE'] = 'n&apos;utilisez l&apos;authentification que si votre seveur SMTP ne l&apos;exige';
 $TEXT['WBMAILER_SMTP_HOST'] = 'H&ocirc;te SMTP';
 $TEXT['WBMAILER_SMTP_PASSWORD'] = 'mot de passe SMTP';
-$TEXT['WBMAILER_SMTP_USERNAME'] = 'nom d&apos;utilisateur SMTP';
+$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Loginname';
 $TEXT['WEBSITE'] = 'Site internet';
 $TEXT['WEBSITE_DESCRIPTION'] = 'Description du site';
 $TEXT['WEBSITE_FOOTER'] = 'Pied de page du site';
@@ -456,7 +456,7 @@ $MESSAGE['FORGOT_PASS_ALREADY_RESET'] = 'D&eacute;sol&eacute;, vous ne pouvez pa
 $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] = 'Impossible de vous renvoyer vos identifiants, merci de contacter l&apos;administrateur du site';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'L&apos;adresse email que vous avez saisi est introuvable dans la base de donn&eacute;es';
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Merci de saisir votre adresse email';
-$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Vos identifiants vous ont &eacute;t&eacute; envoy&eacute; par email';
+$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Your loginname and password have been sent to your email address';
 $MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] = 'D&eacute;sol&eacute;, aucun contenu actif &agrave; afficher';
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'D&eacute;sol&eacute;, vous n&apos;avez pas les droits pour visualiser cette page';
 $MESSAGE['GENERIC_ALREADY_INSTALLED'] = 'D&eacute;j&agrave; install&eacute;';
@@ -507,14 +507,13 @@ $MESSAGE['GROUPS_GROUP_NAME_BLANK'] = 'Le nom du groupe est vide';
 $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Le nom du groupe est d&eacute;ja existant';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Groupe introuvable';
 $MESSAGE['GROUPS_SAVED'] = 'Groupe sauvegard&eacute; avec succ&egrave;s';
-$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Votre nom d&apos;utilisateur ou votre mot de passe est incorrect';
-$MESSAGE['LOGIN_BOTH_BLANK'] = 'Merci de saisir vos identifiants de connexion';
+$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Merci de saisir votre mot de passe';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Votre mot de passe est trop long';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Votre mot de passe est trop court';
-$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Merci de saisir votre nom d&apos;utilisateur';
-$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Votre nom d&apos;utilisateur est trop long';
-$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Votre nom d&apos;utilisateur est trop court';
+$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Please enter a loginname';
+$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Supplied loginname to long';
+$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Supplied loginname to short';
 $MESSAGE['MEDIA_BLANK_EXTENSION'] = 'Vous n&apos;avez pas entr&eacute; d&apos;extension';
 $MESSAGE['MEDIA_BLANK_NAME'] = 'Vous n&apos;avezpas entr&eacute; de nouveau nom';
 $MESSAGE['MEDIA_CANNOT_DELETE_DIR'] = 'Impossible de supprimer le dossier s&eacute;lctionn&eacute;';
@@ -582,7 +581,7 @@ $MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'] = 'Recommand&eacute; uniquement pou
 $MESSAGE['SIGNUP2_ADMIN_INFO'] = '
 Enregistrement d&apos;un nouvel utilisateur.
 
-Identifiant: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Code utilisateur: {LOGIN_ID}
 Adresse email: {LOGIN_EMAIL}
 Adresse IP: {LOGIN_IP}
@@ -598,7 +597,7 @@ Vous avez re&ccedil;u ce message car vous avez utilis&eacute; la fonction \'Retr
 
 Voici vos nouveaux param&egrave;tres de connexion pour \'{LOGIN_WEBSITE_TITLE}\':
 
-Identifiant: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Mot de Passe: {LOGIN_PASSWORD}
 
 Nous vous avons attribu&eacute; le mot de passe ci-dessus.
@@ -618,7 +617,7 @@ Bonjour {LOGIN_DISPLAY_NAME},
 Bienvenue chez \'{LOGIN_WEBSITE_TITLE}\'.
 
 Voici vos param&egrave;tres de connexion pour \'{LOGIN_WEBSITE_TITLE}\':
-Identifiant: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Mot de Passe: {LOGIN_PASSWORD}
 
 Bien cordialement
@@ -642,13 +641,13 @@ $MESSAGE['USERS_CONFIRM_DELETE'] = 'Etes-vous s&ucirc;r de vouloir supprimer cet
 $MESSAGE['USERS_DELETED'] = 'Utilisateur supprim&eacute; avec succ&egrave;s';
 $MESSAGE['USERS_EMAIL_TAKEN'] = 'L&apos;adresse email est d&eacute;ja utilis&eacute;e';
 $MESSAGE['USERS_INVALID_EMAIL'] = 'L&apos;adresse email n&apos;est pas valide';
-$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for username found';
+$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for Loginname found';
 $MESSAGE['USERS_NO_GROUP'] = 'Aucun groupe n&apos;a &eacute;t&eacute; s&eacute;lectionn&eacute;';
 $MESSAGE['USERS_PASSWORD_MISMATCH'] = 'Le mot de passe est introuvable';
 $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Le mot de passe est trop court';
 $MESSAGE['USERS_SAVED'] = 'Utilisateur sauvegard&eacute; avec succ&egrave;s';
-$MESSAGE['USERS_USERNAME_TAKEN'] = 'Le nom d&apos;utilisateur est d&eacute;ja utilis&eacute;';
-$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'Le nom d&apos;utilisateur est trop court';
+$MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
+$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
 
 /* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Acc&egrave;s aux outils d&apos;administration de WebsiteBaker...';

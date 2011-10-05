@@ -351,7 +351,7 @@ $TEXT['UPGRADE'] = 'Aktualisieren';
 $TEXT['UPLOAD_FILES'] = 'Datei(en) &uuml;bertragen';
 $TEXT['URL'] = 'URL';
 $TEXT['USER'] = 'Benutzer';
-$TEXT['USERNAME'] = 'Benutzername';
+$TEXT['USERNAME'] = 'Loginname';
 $TEXT['USERS_ACTIVE'] = 'Benutzer ist aktiv';
 $TEXT['USERS_CAN_SELFDELETE'] = 'Selbstl&ouml;schung m&ouml;glich';
 $TEXT['USERS_CHANGE_SETTINGS'] = 'Benutzer kann eigene Einstellungen &auml;ndern';
@@ -375,7 +375,7 @@ $TEXT['WBMAILER_SMTP_AUTH'] = 'SMTP Authentifikation';
 $TEXT['WBMAILER_SMTP_AUTH_NOTICE'] = 'nur aktivieren, wenn SMTP Authentifikation ben&ouml;tigt wird';
 $TEXT['WBMAILER_SMTP_HOST'] = 'SMTP Host';
 $TEXT['WBMAILER_SMTP_PASSWORD'] = 'SMTP Passwort';
-$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Benutzername';
+$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Loginname';
 $TEXT['WEBSITE'] = 'Webseite';
 $TEXT['WEBSITE_DESCRIPTION'] = 'Webseitenbeschreibung';
 $TEXT['WEBSITE_FOOTER'] = 'Fu&szlig;zeile';
@@ -457,7 +457,7 @@ $MESSAGE['FORGOT_PASS_ALREADY_RESET'] = 'Das Passwort kann nur einmal pro Stunde
 $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] = 'Das Passwort konnte nicht versendet werden, bitte kontaktieren Sie den Systemadministrator';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'Die angegebene E-Mail Adresse wurde nicht in der Datenbank gefunden';
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Bitte geben Sie nachfolgend Ihre E-Mail Adresse an';
-$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Ihr Benutzername und Ihr Passwort wurden an Ihre E-Mail Adresse gesendet';
+$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Ihr Loginname und Ihr Passwort wurden an Ihre E-Mail Adresse gesendet';
 $MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] = 'Kein aktiver Inhalt auf dieser Seite vorhanden';
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Sie sind nicht berechtigt, diese Seite zu sehen';
 $MESSAGE['GENERIC_ALREADY_INSTALLED'] = 'Bereits installiert';
@@ -508,14 +508,13 @@ $MESSAGE['GROUPS_GROUP_NAME_BLANK'] = 'Der Gruppenname wurde nicht angegeben';
 $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Der Gruppenname existiert bereits';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Keine Gruppen gefunden';
 $MESSAGE['GROUPS_SAVED'] = 'Die Gruppe wurde erfolgreich gespeichert';
-$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Der Benutzername oder das Passwort ist nicht korrekt';
-$MESSAGE['LOGIN_BOTH_BLANK'] = 'Bitte geben Sie unten Ihren Benutzernamen und Passwort ein';
+$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Der Loginname oder das Passwort ist nicht korrekt';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Bitte geben Sie Ihr Passwort ein';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Das angegebene Passwort ist zu lang';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Das angegebene Passwort ist zu kurz';
-$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Bitte geben Sie Ihren Benutzernamen ein';
-$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Der angegebene Benutzername ist zu lang';
-$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Der angegebene Benutzername ist zu kurz';
+$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Bitte geben Sie Ihren Loginnamen ein';
+$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Der angegebene Loginname ist zu lang';
+$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Der angegebene Loginname ist zu kurz';
 $MESSAGE['MEDIA_BLANK_EXTENSION'] = 'Sie haben keine Dateiendung angegeben';
 $MESSAGE['MEDIA_BLANK_NAME'] = 'Sie haben keinen neuen Namen angegeben';
 $MESSAGE['MEDIA_CANNOT_DELETE_DIR'] = 'Das ausgew&auml;hlte Verzeichnis konnte nicht gel&ouml;scht werden';
@@ -583,7 +582,7 @@ $MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'] = 'Bitte beachten Sie: Dies wird nu
 $MESSAGE['SIGNUP2_ADMIN_INFO'] = '
 Es wurde ein neuer User regisriert.
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 UserId: {LOGIN_ID}
 E-Mail: {LOGIN_EMAIL}
 IP-Adresse: {LOGIN_IP}
@@ -599,7 +598,7 @@ Sie erhalten diese E-Mail, weil sie ein neues Passwort angefordert haben.
 
 Ihre neuen Logindaten f&uuml;r {LOGIN_WEBSITE_TITLE} lauten:
 
-Benutzername: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Passwort: {LOGIN_PASSWORD}
 
 Das bisherige Passwort wurde durch das neue Passwort oben ersetzt.
@@ -616,7 +615,7 @@ Hallo {LOGIN_DISPLAY_NAME},
 Herzlich willkommen bei \'{LOGIN_WEBSITE_TITLE}\'
 
 Ihre Logindaten f&uuml;r \'{LOGIN_WEBSITE_TITLE}\' lauten:
-Benutzername: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Passwort: {LOGIN_PASSWORD}
 
 Vielen Dank f&uuml;r Ihre Registrierung
@@ -639,13 +638,13 @@ $MESSAGE['USERS_CONFIRM_DELETE'] = 'Sind Sie sicher, dass Sie den ausgew&auml;hl
 $MESSAGE['USERS_DELETED'] = 'Der Benutzer wurde erfolgreich gel&ouml;scht';
 $MESSAGE['USERS_EMAIL_TAKEN'] = 'Die angegebene E-Mail Adresse wird bereits verwendet';
 $MESSAGE['USERS_INVALID_EMAIL'] = 'Die angegebene E-Mail Adresse ist ung&uuml;ltig';
-$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Es wurden ung&uuml;ltige Zeichen f&uuml;r den Benutzernamen verwendet';
+$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Es wurden ung&uuml;ltige Zeichen f&uuml;r den Loginnamen verwendet';
 $MESSAGE['USERS_NO_GROUP'] = 'Es wurde keine Gruppe ausgew&auml;hlt';
 $MESSAGE['USERS_PASSWORD_MISMATCH'] = 'Das angegebene Passwort ist ung&uuml;ltig';
 $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Das eingegebene Passwort war zu kurz';
 $MESSAGE['USERS_SAVED'] = 'Der Benutzer wurde erfolgreich gespeichert';
-$MESSAGE['USERS_USERNAME_TAKEN'] = 'Der angegebene Benutzername wird bereits verwendet';
-$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'Der eingegebene Benutzername war zu kurz';
+$MESSAGE['USERS_USERNAME_TAKEN'] = 'Der angegebene Loginname wird bereits verwendet';
+$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'Der eingegebene Loginname war zu kurz';
 
 /* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Zugriff auf die WebsiteBaker Verwaltungsprogramme...';

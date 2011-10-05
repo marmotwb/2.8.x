@@ -350,7 +350,7 @@ $TEXT['UPGRADE'] = 'Upgrade';
 $TEXT['UPLOAD_FILES'] = 'Nasnimi fajlove)';
 $TEXT['URL'] = 'URL';
 $TEXT['USER'] = 'Korisnik';
-$TEXT['USERNAME'] = 'Korisni&egrave;ko ime';
+$TEXT['USERNAME'] = 'Loginname';
 $TEXT['USERS_ACTIVE'] = 'User is set active';
 $TEXT['USERS_CAN_SELFDELETE'] = 'User can delete himself';
 $TEXT['USERS_CHANGE_SETTINGS'] = 'User can change his own settings';
@@ -374,7 +374,7 @@ $TEXT['WBMAILER_SMTP_AUTH'] = 'SMTP Authentification';
 $TEXT['WBMAILER_SMTP_AUTH_NOTICE'] = 'only activate if your SMTP host requires authentification';
 $TEXT['WBMAILER_SMTP_HOST'] = 'SMTP Host';
 $TEXT['WBMAILER_SMTP_PASSWORD'] = 'SMTP Password';
-$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Username';
+$TEXT['WBMAILER_SMTP_USERNAME'] = 'SMTP Loginname';
 $TEXT['WEBSITE'] = 'Web stranica';
 $TEXT['WEBSITE_DESCRIPTION'] = 'Opis web stranice';
 $TEXT['WEBSITE_FOOTER'] = 'Podno&#382;je web stranice';
@@ -456,7 +456,7 @@ $MESSAGE['FORGOT_PASS_ALREADY_RESET'] = 'Na&#382;alost lozinka ne mo&#382;e biti
 $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'] = 'Ne mo&#382;emo vam emailom poslati lozinku, molimo kontakirajte sistemskog administratora';
 $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'] = 'Email adresu koju ste unjeli nemamo upisanu u bazi';
 $MESSAGE['FORGOT_PASS_NO_DATA'] = 'Unesite svoju email adresu ispod';
-$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Va&scaron;e korisni&egrave;ko ime i lozinka poslani su na va&scaron;u email adresu';
+$MESSAGE['FORGOT_PASS_PASSWORD_RESET'] = 'Your loginname and password have been sent to your email address';
 $MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] = 'Sorry, no active content to display';
 $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'] = 'Nemate dopu&scaron;tenje za gledanje ove stranice';
 $MESSAGE['GENERIC_ALREADY_INSTALLED'] = 'Ve&aelig; instalirano';
@@ -507,14 +507,13 @@ $MESSAGE['GROUPS_GROUP_NAME_BLANK'] = 'Ime grupe je prazno';
 $MESSAGE['GROUPS_GROUP_NAME_EXISTS'] = 'Ime grupe ve&aelig; postoji';
 $MESSAGE['GROUPS_NO_GROUPS_FOUND'] = 'Grupa nije na&eth;ena';
 $MESSAGE['GROUPS_SAVED'] = 'Grupa je uspje&scaron;no snimljena';
-$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Krivo korisni&egrave;ko ime ili lozinka';
-$MESSAGE['LOGIN_BOTH_BLANK'] = 'Molimo unesite svoje korisni&egrave;ko ime i lozinku ispod';
+$MESSAGE['LOGIN_AUTHENTICATION_FAILED'] = 'Loginname or password incorrect';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Molimo unesite svoju lozinku';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Lozinka je preduga';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Lozinka je prekratka';
-$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Molimo unesite svoje korisni&egrave;ko ime';
-$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Korisni&egrave;ko ime je predugo';
-$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Korisni&egrave;ko ime je prekratko';
+$MESSAGE['LOGIN_USERNAME_BLANK'] = 'Please enter a loginname';
+$MESSAGE['LOGIN_USERNAME_TOO_LONG'] = 'Supplied loginname to long';
+$MESSAGE['LOGIN_USERNAME_TOO_SHORT'] = 'Supplied loginname to short';
 $MESSAGE['MEDIA_BLANK_EXTENSION'] = 'Niste unjeli ekstenziju file-a';
 $MESSAGE['MEDIA_BLANK_NAME'] = 'Niste unjeli novo ime';
 $MESSAGE['MEDIA_CANNOT_DELETE_DIR'] = 'Ne mo&#382;e obrisati odabrani direktorij';
@@ -582,7 +581,7 @@ $MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'] = 'Obavijest: ovo je preporu&egrave
 $MESSAGE['SIGNUP2_ADMIN_INFO'] = '
 A new user was registered.
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 UserId: {LOGIN_ID}
 E-Mail: {LOGIN_EMAIL}
 IP-Adress: {LOGIN_IP}
@@ -598,7 +597,7 @@ This mail was sent because the \'forgot password\' function has been applied to 
 
 Your new \'{LOGIN_WEBSITE_TITLE}\' login details are:
 
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
 Your password has been reset to the one above.
@@ -618,7 +617,7 @@ Hello {LOGIN_DISPLAY_NAME},
 Welcome to our \'{LOGIN_WEBSITE_TITLE}\'.
 
 Your \'{LOGIN_WEBSITE_TITLE}\' login details are:
-Username: {LOGIN_NAME}
+Loginname: {LOGIN_NAME}
 Password: {LOGIN_PASSWORD}
 
 Regards
@@ -642,13 +641,13 @@ $MESSAGE['USERS_CONFIRM_DELETE'] = 'Jeste li sigurni da &#382;elite obrisati oda
 $MESSAGE['USERS_DELETED'] = 'Korisnik je uspje&scaron;no obrisan';
 $MESSAGE['USERS_EMAIL_TAKEN'] = 'Une&scaron;en email je ve&aelig; u upotrebi';
 $MESSAGE['USERS_INVALID_EMAIL'] = 'Une&scaron;ena email adresa je nepotpuna';
-$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for username found';
+$MESSAGE['USERS_NAME_INVALID_CHARS'] = 'Invalid chars for Loginname found';
 $MESSAGE['USERS_NO_GROUP'] = 'Niti jedna grupa nije odabrana';
 $MESSAGE['USERS_PASSWORD_MISMATCH'] = 'Une&scaron;ena lozinka ne odgovara';
 $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Predlo&#382;ena lozinka je prekratka';
 $MESSAGE['USERS_SAVED'] = 'Korisnik je snimljen uspje&scaron;no';
-$MESSAGE['USERS_USERNAME_TAKEN'] = 'Predlo&#382;eno korisni&egrave;ko ime ve&aelig; je netko odabrao prije vas';
-$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'Predlo&#382;eno korisni&egrave;ko ime je prekratko';
+$MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
+$MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
 
 /* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
