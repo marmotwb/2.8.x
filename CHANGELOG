@@ -12,6 +12,10 @@ Legend:
 
 =============================== FEATURES FREEZE ================================
 ----------------------------------- Fixes 2.8.2 --------------------------------
+24 Okt-2011 Build 1517 Dietmar Woellbrink (Luisehahne)
+# fix SERVER_EMAIL in language files
+# fix encoded text in sections.php
++ add missing image in argos_theme
 05 Okt-2011 Build 1516 Dietmar Woellbrink (Luisehahne)
 + add forgotten language variable
 05 Okt-2011 Build 1515 Dietmar Woellbrink (Luisehahne)

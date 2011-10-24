@@ -492,7 +492,7 @@ switch ($action):
 		// Insert language text and messages
 		$tpl->set_var(array(
 							'TEXT_MANAGE_SECTIONS' => $HEADING['MANAGE_SECTIONS'],
-							'TEXT_ARE_YOU_SURE' => url_encode($TEXT['ARE_YOU_SURE']),
+							'TEXT_ARE_YOU_SURE' => $TEXT['ARE_YOU_SURE'],
 							'TEXT_TYPE' => $TEXT['TYPE'],
 							'TEXT_ADD' => $TEXT['ADD'],
 							'TEXT_SAVE' =>  $TEXT['SAVE'],
