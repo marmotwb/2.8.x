@@ -12,6 +12,8 @@ Legend:
 
 =============================== FEATURES FREEZE ================================
 ----------------------------------- Fixes 2.8.2 --------------------------------
+26 Okt-2011 Build 1518 Dietmar Woellbrink (Luisehahne)
+# see http://www.websitebaker2.org/forum/index.php/topic,22649.msg152666.html#msg152666
 24 Okt-2011 Build 1517 Dietmar Woellbrink (Luisehahne)
 # fix SERVER_EMAIL in language files
 # fix encoded text in sections.php
