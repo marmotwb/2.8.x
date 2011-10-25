@@ -266,17 +266,19 @@ switch ($action):
 					{
 						$edit_page = '';
 					}
+					$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? SEC_ANCHOR : '');
 					$edit_page_0 = '<a id="sid'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$results_array['page_id'];
-					$edit_page_1 = $section['section_id'].'">'.$section['module'].'</a>';
+					$edit_page_1  = ($sec_anchor!='') ? '#'.$sec_anchor.$section['section_id'].'">' : '">';
+					$edit_page_1 .= $section['module'].'</a>';
 					if(SECTION_BLOCKS)
 		            {
 						if($edit_page == '')
 						{
 							if(defined('EDIT_ONE_SECTION') && EDIT_ONE_SECTION)
 							{
-								$edit_page = $edit_page_0.'&amp;wysiwyg='.$edit_page_1;
+								$edit_page = $edit_page_0.'&amp;wysiwyg='.$section['section_id'].$edit_page_1;
 							} else {
-								$edit_page = $edit_page_0.'#wb_'.$edit_page_1;
+								$edit_page = $edit_page_0.$edit_page_1;
 							}
 						}
 						$input_attribute = 'input_normal';
