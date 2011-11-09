@@ -12,6 +12,12 @@ Legend:
 
 =============================== FEATURES FREEZE ================================
 ----------------------------------- Fixes 2.8.2 --------------------------------
+09 Nov-2011 Build 1519 Werner v.d.Decken(DarkViper)
+! /modules/output_filter completely recoded
++ new filter for relative-URL added
++ some small fixes
+! /admin/admintools/tool.php completely recoded
+! /wb/index.php output_filter request changed to adopt new output_filter
 26 Okt-2011 Build 1518 Dietmar Woellbrink (Luisehahne)
 # see http://www.websitebaker2.org/forum/index.php/topic,22649.msg152666.html#msg152666
 24 Okt-2011 Build 1517 Dietmar Woellbrink (Luisehahne)

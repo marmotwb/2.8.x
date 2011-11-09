@@ -4,8 +4,7 @@
  * @category        frontend
  * @package         page
  * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -130,27 +129,26 @@ if( method_exists($wb, 'preprocess') )
    $wb->preprocess($output);
 }
 // Load Droplet engine and process
-if(file_exists(WB_PATH .'/modules/droplets/droplets.php'))
-{
-    include_once(WB_PATH .'/modules/droplets/droplets.php');
-    if(function_exists('evalDroplets'))
-    {
-		$output = evalDroplets($output);
-    }
-}
+	if(file_exists(WB_PATH .'/modules/droplets/droplets.php')) {
+		include_once(WB_PATH .'/modules/droplets/droplets.php');
+		if(function_exists('evalDroplets')) {
+			$output = evalDroplets($output);
+		}
+	}
 // Load backwards compatible frontend filter support and process
-if(file_exists(WB_PATH .'/modules/output_filter/filter-routines.php'))
-{
-    include_once(WB_PATH .'/modules/output_filter/filter-routines.php');
-    if(function_exists('filter_frontend_output'))
-    {
-        $output = filter_frontend_output($output);
-    }
-}
+	if(file_exists(WB_PATH .'/modules/output_filter/filter-routines.php')) {
+		include_once(WB_PATH .'/modules/output_filter/filter-routines.php');
+		if(function_exists('executeFrontendOutputFilter')) {
+			$output = executeFrontendOutputFilter($output);
+		}elseif(function_exists('filter_frontend_output')) {
+			$output = filter_frontend_output($output);
+		}
+
+	}
 // move css definitions into head section
-if(function_exists('moveCssToHead')) {
-	$output = moveCssToHead($output);
-}
+	if(function_exists('moveCssToHead')) {
+		$output = moveCssToHead($output);
+	}
 // now send complete page to the browser
 echo $output;
 // end of wb-script

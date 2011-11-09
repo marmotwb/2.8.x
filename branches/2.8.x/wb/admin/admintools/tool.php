@@ -3,58 +3,50 @@
  *
  * @category        admin
  * @package         admintools
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          WB-Project, Werner v.d. Decken
+ * @copyright       2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
- * @platform        WebsiteBaker 2.8.x
+ * @platform        WebsiteBaker 2.8.2
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
  *
  */
-
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 require_once(WB_PATH.'/framework/functions.php');
 
-if(!isset($_GET['tool'])) {
-	header("Location: index.php");
-	exit(0);
-} else {
-	$array = array();
-	preg_match("/[a-z,_,a-z]+/i",$_GET['tool'],$array);
-	$tool = $array[0];
-}
-
-$ModulesUsingFTAN = '';
-$admin_header =  true;
-if(isset($_POST['save_settings'])) {
-	$ModulesUsingFTAN = WB_PATH.'/modules/'.$tool.'/FTAN_SUPPORTED';
-}
-
-$admin_header = (file_exists($ModulesUsingFTAN) && is_file($ModulesUsingFTAN)) == false;
-$admin = new admin('admintools', 'admintools', $admin_header );
-
-// Check if tool is installed
-$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'module' AND function = 'tool' AND directory = '".preg_replace('/[^a-z0-9_-]/i', "", $tool)."'");
-if($result->numRows() == 0) {
-	header("Location: index.php");
-	exit(0);
-}
-$tools = $result->fetchRow();
-if(!isset($_POST['save_settings'])) {
-
-?>
-<h4>
-	<a href="<?php echo ADMIN_URL; ?>/admintools/index.php"><?php echo $HEADING['ADMINISTRATION_TOOLS']; ?></a>
-	&raquo;
-	<?php echo $tools['name']; ?>
-</h4>
-<?php
-}
-require(WB_PATH.'/modules/'.$tools['directory'].'/tool.php');
-
-$admin->print_footer();
+	$toolDir = (isset($_GET['tool']) && (trim($_GET['tool']) != '') ? trim($_GET['tool']) : '');
+	$doSave = (isset($_POST['save_settings']) || (isset($_POST['action']) && strtolower($_POST['action']) == 'save'));
+// test for valid tool name
+	if(preg_match('/^[a-z][a-z_\-0-9]{2,}$/i', $toolDir)) {
+	// Check if tool is installed
+		$sql = 'SELECT `name` FROM `'.TABLE_PREFIX.'addons` '.
+		       'WHERE `type`=\'module\' AND `function`=\'tool\' '.
+		              'AND `directory`=\''.$toolDir.'\'';
+		if(($toolName = $database->get_one($sql))) {
+		// create admin-object and print header if FTAN is NOT supported AND function 'save' is requested
+			$admin_header = !(is_file(WB_PATH.'/modules/'.$toolDir.'/FTAN_SUPPORTED') && $doSave);
+			$admin = new admin('admintools', 'admintools', $admin_header );
+			if(!$doSave) {
+			// show title if not function 'save' is requested
+				print '<h4><a href="'.ADMIN_URL.'/admintools/index.php" '.
+				      'title="'.$HEADING['ADMINISTRATION_TOOLS'].'">'.
+				      $HEADING['ADMINISTRATION_TOOLS'].'</a>'.
+					  '&raquo'.$toolName.'</h4>'."\n";
+			}
+			// include modules tool.php
+			require(WB_PATH.'/modules/'.$toolDir.'/tool.php');
+			$admin->print_footer();
+		}else {
+		// no installed module found, jump to index.php of admintools
+			header('location: '.ADMIN_URL.'/admintools/index.php');
+			exit(0);
+		}
+	}else {
+	// invalid module name requested, jump to index.php of admintools
+		header('location: '.ADMIN_URL.'/admintools/index.php');
+		exit(0);
+	}
