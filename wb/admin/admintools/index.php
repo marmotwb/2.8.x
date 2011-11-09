@@ -3,9 +3,8 @@
  *
  * @category        admin
  * @package         admintools
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          WB-Project, Werner v.d. Decken
+ * @copyright       2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
