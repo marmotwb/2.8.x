@@ -32,7 +32,7 @@ require_once(WB_PATH.'/include/captcha/captcha.php');
 // obtain the settings of the output filter module
 if(file_exists(WB_PATH.'/modules/output_filter/filter-routines.php')) {
 	include_once(WB_PATH.'/modules/output_filter/filter-routines.php');
-	$filter_settings = get_output_filter_settings();
+	$filter_settings = getOutputFilterSettings();
 } else {
 	// no output filter used, define default settings
 	$filter_settings['email_filter'] = 0;
@@ -231,17 +231,6 @@ if($use_captcha) { ?>
 
 // Print footer
 echo $footer;
-
-/**
-	NOTE: comment out the line ob_end_flush() if you indicate problems (e.g. when using ob_start in the index.php of your template)
-	With ob_end_flush(): output filter will be disabled for this page (and all sections embedded on this page)
-	Without ob_end_flush(): emails are rewritten (e.g. name@domain.com --> name(at)domain(dot)com) if output filter is enabled
-	All replacements made by the Output-Filter module will be reverted before the email is send out
-*/
-if($filter_settings['email_filter'] && !($filter_settings['at_replacement']=='@' && $filter_settings['dot_replacement']=='.')) {
-  /* 	ob_end_flush(); */
-}
-
 // Add form end code
 ?>
 </form>
