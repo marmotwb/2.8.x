@@ -117,7 +117,7 @@ if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 			if(is_readable($script)) {
 				$scriptLink = '<script src="'.$script.'" type="text/javascript"></script>';
 				$regex = '/(.*)(<\s*?\/\s*?head\s*>.*)/isU';
-				$replace = '$1<script src="'.$scriptLink.'" type="text/javascript"></script>$2';
+				$replace = '$1'.$scriptLink.'$2';
 				$content = preg_replace ($regex, $replace, $content);
 				$output_filter_mode |= pow(2, 2); // n | 2^2
 			}

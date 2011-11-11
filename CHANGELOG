@@ -10,6 +10,10 @@ Legend:
 # = Bugfix
 ! = Update/Change
 
+----------------------------------- Fixes 2.8.2 --------------------------------
+12 Nov-2011 Build 1522 Werner v.d.Decken(DarkViper)
+# /modules/output_filter/filter-routines.php little fix to inserting mdcr.js
+# /modules/form/view.php little fix depending from recoded output filter
 =========================== add small Features 2.8.2 ==========================
 09 Nov-2011 Build 1521 Dietmar Woellbrink (Luisehahne)
 ! update jquery to version 1.6.4
