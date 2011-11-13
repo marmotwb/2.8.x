@@ -13,6 +13,8 @@ Legend:
 =========================== add small Features 2.8.2 ==========================
 
 ----------------------------------- Fixes 2.8.2 --------------------------------
+13 Nov-2011 Build 1524 Dietmar Woellbrink (Luisehahne)
+! fix secureform was not updated
 13 Nov-2011 Build 1523 Dietmar Woellbrink (Luisehahne)
 # fix fingerprint in secureform 
 ! update jquery to version 1.7
