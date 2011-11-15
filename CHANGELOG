@@ -13,6 +13,8 @@ Legend:
 =========================== add small Features 2.8.2 ==========================
 
 ----------------------------------- Fixes 2.8.2 --------------------------------
+15 Nov-2011 Build 1525 Dietmar Woellbrink (Luisehahne)
+# fix versions compare upgrade from WB version 2.7
 13 Nov-2011 Build 1524 Dietmar Woellbrink (Luisehahne)
 ! fix secureform was not updated
 13 Nov-2011 Build 1523 Dietmar Woellbrink (Luisehahne)
