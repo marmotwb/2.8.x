@@ -4,7 +4,6 @@
  * @category        backend
  * @package         installation
  * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -50,17 +49,21 @@ $OK            = ' <span class="ok">OK</span> ';
 $FAIL          = ' <span class="error">FAILED</span> ';
 $DEFAULT_THEME = 'wb_theme';
 
-$files2remove = array(
-
-			'[ADMIN]/preferences/details.php',
-			'[ADMIN]/preferences/email.php',
-			'[ADMIN]/preferences/password.php',
+$dir2remove = array(
 /*
 			'[TEMPLATE]/allcss/',
 			'[TEMPLATE]/blank/',
 			'[TEMPLATE]/round/',
 			'[TEMPLATE]/simple/',
 */
+		 );
+
+$files2remove = array(
+
+			'[ADMIN]/preferences/details.php',
+			'[ADMIN]/preferences/email.php',
+			'[ADMIN]/preferences/password.php',
+
 		 );
 
 
@@ -196,8 +199,8 @@ h3 { font-size: 120%; }
 <img src="templates/wb_theme/images/logo.png" alt="WebsiteBaker Project" />
 <h1>WebsiteBaker Upgrade</h1>
 <?php
-	if( version_compare( WB_VERSION, '2.7.0', '<' )) {
-		status_msg('<strong>Warning:</strong><br />It is not possible to upgrade from WebsiteBaker Versions before 2.7.0.<br />For upgrading to version '.VERSION.' you must upgrade first to v.2.7.0 at least!!!', 'warning', 'div');
+	if( version_compare( WB_VERSION, '2.7', '<' )) {
+		status_msg('<strong>Warning:</strong><br />It is not possible to upgrade from WebsiteBaker Versions before 2.7.0.<br />For upgrading to version '.VERSION.' you must upgrade first to v.2.7 at least!!!', 'warning', 'div');
 		echo '<br /><br />';
 		echo "</div>
 		</body>
@@ -391,7 +394,7 @@ foreach($cfg as $key=>$value) {
 echo "<br />Adding field redirect_type to mod_menu_link table<br />";
 db_add_field('redirect_type', 'mod_menu_link', "INT NOT NULL DEFAULT '302' AFTER `target_page_id`");
 
-if (version_compare(WB_VERSION, '2.8.0') < 0)
+if (version_compare(WB_VERSION, '2.8') < 0)
 {
     /**********************************************************
      *  - Update search no results database filed to create
@@ -560,12 +563,14 @@ db_update_key_value('settings', 'wb_version', VERSION);
 	$searches = array(
 		'[ADMIN]',
 		'[MEDIA]',
-		'[PAGES]'
+		'[PAGES]',
+		'[TEMPLATE]'
 	);
 	$replacements = array(
-		substr(ADMIN_PATH, strlen(WB_PATH)),
+		substr(ADMIN_PATH, strlen(WB_PATH)+1),
 		MEDIA_DIRECTORY,
-		PAGES_DIRECTORY
+		PAGES_DIRECTORY,
+		'/templates',
 	);
 
 	$msg = '';
@@ -588,8 +593,49 @@ db_update_key_value('settings', 'wb_version', VERSION);
 			    can not be removed automatically.<br /><br />Please delete them
 				using FTP and restart upgrade-script!<br /><br />'.$msg;
         status_msg($msg, 'error warning', 'div');
-		echo '<br /><br /></div></body></html>';
+		echo '<br /><br /><br /><br /></div></body></html>';
 		exit();
+	}
+/**********************************************************
+ * - check for deprecated / never needed files
+ */
+?>
+<h2>Step 4: Remove deprecated and old Templates</h2>
+<?php
+
+	$searches = array(
+		'[ADMIN]',
+		'[MEDIA]',
+		'[PAGES]',
+		'[TEMPLATE]'
+	);
+	$replacements = array(
+		substr(ADMIN_PATH, strlen(WB_PATH)+1),
+		MEDIA_DIRECTORY,
+		PAGES_DIRECTORY,
+		'/templates',
+	);
+
+	$msg = '';
+	foreach( $dir2remove as $dir )
+	{
+		$dir = str_replace($searches, $replacements, $dir);
+		$dir = WB_PATH.'/'.$dir;
+		if( is_dir( $dir ))
+		{ // try to delete dir
+			if(!rm_full_dir($dir))
+			{ // save in err-list, if failed
+				$msg .= $dir.'<br />';
+			}
+		}
+	}
+	if($msg != '')
+	{
+		$msg = 'Following directories are deprecated, outdated or a security risk and
+			    can not be removed automatically.<br /><br />Please delete them
+				using FTP!<br /><br />'.$msg;
+        status_msg($msg, 'error warning', 'div');
+		echo '<br /><br /><br /><br /></div>';
 	}
 /**********************************************************
  *  - Reload all addons
