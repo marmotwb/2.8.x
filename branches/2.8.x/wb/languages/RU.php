@@ -26,7 +26,7 @@ define('LANGUAGE_LOADED', true);
 
 // Set the language information
 $language_code = 'RU';
-$language_name = '???????';
+$language_name = 'Russian';
 $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Kirill Karakulko (kirill@nadosoft.com)';
