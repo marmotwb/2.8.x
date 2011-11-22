@@ -78,7 +78,7 @@ if (!defined('WB_PATH')) die(header('Location: ../../../index.php'));
 		</tr>
 		<tr>
 			<td width="170">
-				<?php show_menu(); ?>
+<?php show_menu2(SM2_ALLMENU,SM2_ROOT, SM2_ROOT+PAGE_LEVEL_LIMIT, SM2_ALL|SM2_NUMCLASS );	?>
 			</td>
 		</tr>
 		<tr>
@@ -119,11 +119,13 @@ if (!defined('WB_PATH')) die(header('Location: ../../../index.php'));
 		</form>
 		<?php } ?>
 		
-		<?php
-		if(FRONTEND_LOGIN AND !$wb->is_authenticated()) {
-		?>
+<?php
+		if(FRONTEND_LOGIN AND !$wb->is_authenticated() AND VISIBILITY != 'private' ) {
+			$redirect_url = (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : WB_URL );
+			$redirect_url = (isset($thisApp->redirect_url) ? $thisApp->redirect_url : $redirect_url );
+?>
 		<form name="login" action="<?php echo LOGIN_URL; ?>" method="post">
-			
+			<input type="hidden" name="redirect" value="<?php echo $redirect_url;?>" /></p>
 			<table cellpadding="0" cellspacing="0" border="0" width="150" align="center" style="margin-top: 10px;">
 			<tr>
 				<td class="border">

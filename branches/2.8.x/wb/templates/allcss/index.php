@@ -79,19 +79,17 @@ if (!defined('WB_PATH')) die(header('Location: ../../index.php'));
 
 	<!-- main navigation menu -->
 	<div class="menu">
-		<?php show_menu(1, 0, -1, true, 
-			'<li><span [class]>[a][menu_title][/a]</span>', '</li>', 
-			'<ul>', '</ul>', 'class="menu_default"', 'class="menu_current"', 0
-			); 
-		?>
-		
-		<?php
+<?php show_menu2(SM2_ALLMENU, SM2_ROOT, SM2_ROOT+PAGE_LEVEL_LIMIT, SM2_ALL|SM2_NUMCLASS );	?>
+<?php
 		// CODE FOR WEBSITE BAKER FRONTEND LOGIN
-		if (FRONTEND_LOGIN == 'enabled' && VISIBILITY != 'private' 
-			&& $wb->get_session('USER_ID') == '') { ?>
+		if (FRONTEND_LOGIN == 'enabled' && VISIBILITY != 'private' && $wb->get_session('USER_ID') == '') {
+				$redirect_url = (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : WB_URL );
+				$redirect_url = (isset($thisApp->redirect_url) ? $thisApp->redirect_url : $redirect_url );
+?>
 			<!-- login form -->
 			<br />
 			<form name="login" id="login" action="<?php echo LOGIN_URL; ?>" method="post">
+				<input type="hidden" name="redirect" value="<?php echo $redirect_url;?>" /></p>
 				<fieldset>
 					<legend><?php echo $TEXT['LOGIN']; ?></legend>
 					<label for="username" accesskey="1"><?php echo $TEXT['USERNAME']; ?>:</label>

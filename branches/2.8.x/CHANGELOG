@@ -13,7 +13,9 @@ Legend:
 =========================== add small Features 2.8.2 ==========================
 
 ----------------------------------- Fixes 2.8.2 --------------------------------
-20 Nov-2011 Build 1527 Dietmar Woellbrink (Luisehahne)
+23 Nov-2011 Build 1528 Dietmar Woellbrink (Luisehahne)
+! rework login and show_menu in templates allcss and round 
+22 Nov-2011 Build 1527 Dietmar Woellbrink (Luisehahne)
 # fix redirect login
 20 Nov-2011 Build 1526 Dietmar Woellbrink (Luisehahne)
 # typofix in BG and RU
