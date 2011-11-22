@@ -2,7 +2,7 @@
 //:Use: [[LoginBox?redirect=url]]
 //:Absolute or relative url possible
 //:Remember to enable frontend login in your website settings.
- 
+
 	global $wb,$page_id,$TEXT, $MENU, $HEADING;
 
 	$return_value = '<div class="login-box">'."\n";
@@ -69,8 +69,8 @@
 
 // Get redirect
 	$redirect_url = '';
-	$redirect_url = (isset($_SERVER['HTTP_REFERER']) && ($redirect_url=='') ?  '<input type="hidden" name="url" value="'.$_SERVER['HTTP_REFERER'].'" />'."\n"  : $redirect_url );
    	$redirect_url = isset($redirect)&&($redirect!='') ? '<input type="hidden" name="url" value="'.$redirect.'" />'."\n" : $redirect_url;
+	$redirect_url = (isset($_SERVER['HTTP_REFERER']) && ($redirect_url=='') ?  '<input type="hidden" name="url" value="'.$_SERVER['HTTP_REFERER'].'" />'."\n"  : $redirect_url );
 
 	if ( ( FRONTEND_LOGIN == 'enabled') &&
 		    ( VISIBILITY != 'private') &&

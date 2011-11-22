@@ -38,8 +38,8 @@ if(defined('SMART_LOGIN') AND SMART_LOGIN == 'enabled') {
 $page_id = !empty($_SESSION['PAGE_ID']) ? $_SESSION['PAGE_ID'] : 0;
 $_SESSION['PAGE_LINK'] = get_page_link( $page_id );
 if(!file_exists($_SESSION['PAGE_LINK'])) {$_SESSION['PAGE_LINK'] = WB_URL.'/'; }
-$thisApp->redirect_url = $_SESSION['HTTP_REFERER'] = page_link($_SESSION['PAGE_LINK']);
-
+$_SESSION['HTTP_REFERER'] = $_SESSION['PAGE_LINK'];
+$thisApp->redirect_url = (isset($thisApp->redirect_url) ? $thisApp->redirect_url : $_SESSION['PAGE_LINK'])
 ?>
 <div style="margin: 1em auto;">
 	<button type="button" value="cancel" onClick="javascript: window.location = '<?php print $_SESSION['HTTP_REFERER'] ?>';"><?php print $TEXT['CANCEL'] ?></button>
@@ -49,10 +49,10 @@ $thisApp->redirect_url = $_SESSION['HTTP_REFERER'] = page_link($_SESSION['PAGE_L
 <br />
 <br />
 
-<form action="<?php echo WB_URL.'/account/login.php'; ?>" method="post">
-<p style="display:none;"><input type="hidden" name="username_fieldname" value="<?php echo $username_fieldname; ?>" /></p>
-<p style="display:none;"><input type="hidden" name="password_fieldname" value="<?php echo $password_fieldname; ?>" /></p>
-<p style="display:none;"><input type="hidden" name="redirect" value="<?php echo $thisApp->redirect_url;?>" /></p>
+<form class="login-box" action="<?php echo WB_URL.'/account/login.php'; ?>" method="post">
+<input type="hidden" name="username_fieldname" value="<?php echo $username_fieldname; ?>" />
+<input type="hidden" name="password_fieldname" value="<?php echo $password_fieldname; ?>" />
+<input type="hidden" name="redirect" value="<?php echo $thisApp->redirect_url;?>" />
 
 <table cellpadding="5" cellspacing="0" border="0" width="90%">
 <tr>
