@@ -90,7 +90,10 @@ if($results_array['modified_when'] != 0)
 }
 
 // Setup template object, parse vars to it, then parse it
-$template = new Template(THEME_PATH.'/templates');
+$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('pages_settings.htt'));
+// Create new template object
+$template = new Template($ThemePath);
+// $template->debug = true;
 $template->set_file('page', 'pages_settings.htt');
 $template->set_block('page', 'main_block', 'main');
 $template->set_var('FTAN', $admin->getFTAN());

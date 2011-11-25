@@ -30,4 +30,3 @@ $template_description 	= 'Enhanced backend theme for Website Baker 2.8.';
 $TEXT['ADMIN_ONLY'] = 'Seul l&apos;administrateur peut modifier ces r&eacute;glages';
 $TEXT['NO_SHOW_THUMBS'] = 'Cacher les vignettes';
 $TEXT['TEXT_HEADER'] = 'D&eacute;finir la taille des images par dossier</b><br><small><i>(Redimensionnement seulement lors d&apos;un nouvel upload)</i></small>';
-?>

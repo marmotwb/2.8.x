@@ -271,7 +271,7 @@ if (!function_exists('page_content')) {
             // set to new value if page_id changed and not 0
             if(($page_id != 0) && ($_SESSION['PAGE_ID'] <> $page_id))
             {
-            $_SESSION['PAGE_ID'] = $page_id;
+	            $_SESSION['PAGE_ID'] = $page_id;
             }
 		// First get all sections for this page
 			$sql  = 'SELECT `section_id`, `module`, `publ_start`, `publ_end` ';
@@ -480,7 +480,6 @@ function bind_jquery ($file_id='jquery')
 		}
     return $jquery_links;
 }
-
 
 // Function to add optional module Javascript into the <body> section of the frontend
 if(!function_exists('register_frontend_modfiles_body'))

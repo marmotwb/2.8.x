@@ -3,8 +3,7 @@
  *
  * @category        admin
  * @package         login
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
+ * @author          Ryan Djurovich, WebsiteBaker Project
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -112,8 +111,10 @@ if(!isset($message)) {
 	$message_color = 'FF0000';
 }
 	
-// Setup the template
-$template = new Template(THEME_PATH.'/templates');
+// Setup template object, parse vars to it, then parse it
+$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('login_forgot.htt'));
+// Create new template object
+$template = new Template($ThemePath);
 $template->set_file('page', 'login_forgot.htt');
 $template->set_block('page', 'main_block', 'main');
 if(defined('FRONTEND')) {
@@ -159,5 +160,3 @@ $template->set_var('CHARSET', $charset);
 
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
-
-?>

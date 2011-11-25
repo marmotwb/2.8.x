@@ -4,7 +4,6 @@
  * @category        backend
  * @package         modules
  * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2010, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -96,8 +95,11 @@ if(isset($print_info_banner) && $print_info_banner == true) {
 		$modified_ts = 'Unknown';
 	}
 
-	// Include page info script
-	$template = new Template(THEME_PATH.'/templates');
+	// Setup template object, parse vars to it, then parse it
+	$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('pages_modify.htt'));
+	// Create new template object
+	$template = new Template($ThemePath);
+	// $template->debug = true;
 	$template->set_file('page', 'pages_modify.htt');
 	$template->set_block('page', 'main_block', 'main');
 	$template->set_block('main_block', 'section_block', 'section_list');

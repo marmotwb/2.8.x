@@ -3,8 +3,7 @@
  *
  * @category        admin
  * @package         users
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
+ * @author          Ryan Djurovich, WebsiteBaker Project
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -43,8 +42,11 @@ switch ($action):
 			$results = $database->query("SELECT * FROM `".TABLE_PREFIX."users` WHERE `user_id` = '".$user_id."'");
 			$user = $results->fetchRow();
 
-			// Setup template object
-			$template = new Template(THEME_PATH.'/templates');
+			// Setup template object, parse vars to it, then parse it
+			$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('users_form.htt'));
+			// Create new template object
+			$template = new Template($ThemePath);
+			// $template->debug = true;
 			$template->set_file('page', 'users_form.htt');
 			$template->set_block('page', 'main_block', 'main');
 			$template->set_var(	array(

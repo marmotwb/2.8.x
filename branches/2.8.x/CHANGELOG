@@ -11,7 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
-
+25 Nov-2011 Build 1529 Dietmar Woellbrink (Luisehahne)
++ add new backend theme handling (Tks to Stefek)
 ----------------------------------- Fixes 2.8.2 --------------------------------
 23 Nov-2011 Build 1528 Dietmar Woellbrink (Luisehahne)
 ! rework login and show_menu in templates allcss and round 

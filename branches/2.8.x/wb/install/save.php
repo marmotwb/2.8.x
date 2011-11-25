@@ -81,16 +81,7 @@ function set_error($message, $field_name = '') {
 		exit();
 	}
 }
-
-// Dummy class to allow modules' install scripts to call $admin->print_error
-class admin_dummy
-{
-	var $error='';
-	function print_error($message)
-	{
-		$this->error=$message;
-	}
-}
+/* */
 
 // Function to workout what the default permissions are for files created by the webserver
 function default_file_mode($temp_dir) {
@@ -295,19 +286,19 @@ $config_content = "" .
 "\n".
 "define('DB_TYPE', 'mysql');\n".
 "define('DB_HOST', '$database_host');\n".
+"define('DB_NAME', '$database_name');\n".
 "define('DB_USERNAME', '$database_username');\n".
 "define('DB_PASSWORD', '$database_password');\n".
-"define('DB_NAME', '$database_name');\n".
 "define('TABLE_PREFIX', '$table_prefix');\n".
 "\n".
 "define('WB_PATH', dirname(__FILE__));\n".
 "define('WB_URL', '$wb_url');\n".
 "define('ADMIN_PATH', WB_PATH.'/admin');\n".
-"define('ADMIN_URL', '$wb_url/admin');\n".
+"define('ADMIN_URL', WB_URL.'/admin');\n".
 "\n".
 "require_once(WB_PATH.'/framework/initialize.php');\n".
 "\n".
-"?>";
+"";
 
 $config_filename = '../config.php';
 
@@ -329,9 +320,9 @@ if(file_exists($config_filename) AND is_writable($config_filename)) {
 // Define configuration vars
 define('DB_TYPE', 'mysql');
 define('DB_HOST', $database_host);
+define('DB_NAME', $database_name);
 define('DB_USERNAME', $database_username);
 define('DB_PASSWORD', $database_password);
-define('DB_NAME', $database_name);
 define('TABLE_PREFIX', $table_prefix);
 define('WB_PATH', str_replace(array('/install','\install'), '',dirname(__FILE__)));
 define('WB_URL', $wb_url);
@@ -358,11 +349,24 @@ $sSecMod = (defined('SECURE_FORM_MODULE') && SECURE_FORM_MODULE != '') ? '.'.SEC
 $sSecMod = WB_PATH.'/framework/SecureForm'.$sSecMod.'.php';
 require_once($sSecMod);
 
+require_once(WB_PATH.'/framework/class.admin.php');
+
+// Dummy class to allow modules' install scripts to call $admin->print_error
+class admin_dummy extends admin
+{
+	var $error='';
+	function print_error($message)
+	{
+		$this->error=$message;
+	}
+}
+
 // Include WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 
 // Re-connect to the database, this time using in-build database class
 require_once(WB_PATH.'/framework/class.login.php');
+
 $database=new database();
 
 // Check if we should install tables
@@ -419,7 +423,7 @@ if($install_tables == true) {
 	       . ' `modified_when` INT NOT NULL DEFAULT \'0\','
 	       . ' `modified_by` INT NOT NULL  DEFAULT \'0\','
 	       . ' PRIMARY KEY ( `page_id` ) '
-	       . ' )';
+	       . ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($pages);
 	
 	// Sections table
@@ -431,7 +435,7 @@ if($install_tables == true) {
 	       . ' `publ_start` VARCHAR( 255 ) NOT NULL DEFAULT \'0\' ,'
 	       . ' `publ_end` VARCHAR( 255 ) NOT NULL DEFAULT \'0\' ,' 
 	       . ' PRIMARY KEY ( `section_id` ) '
-	       . ' )';
+	       . ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($pages);
 
 	require(ADMIN_PATH.'/interface/version.php');
@@ -441,7 +445,7 @@ if($install_tables == true) {
 		. ' `name` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
 		. ' `value` TEXT NOT NULL ,'
 		. ' PRIMARY KEY ( `setting_id` ) '
-		. ' )';
+		. ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($settings);
 
 	$settings_rows=	"INSERT INTO `".TABLE_PREFIX."settings` "
@@ -453,7 +457,6 @@ if($install_tables == true) {
 	." ('website_header', ''),"
 	." ('website_footer', ''),"
 	." ('wysiwyg_style', 'font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;'),"
-	." ('rename_files_on_upload', 'php,asp,phpx,aspx'),"
 	." ('er_level', ''),"
 	." ('default_language', '$default_language'),"
 	." ('app_name', 'wb_$session_rand'),"
@@ -519,7 +522,7 @@ if($install_tables == true) {
 	       . ' `login_when` INT NOT NULL  DEFAULT \'0\','
 	       . ' `login_ip` VARCHAR( 15 ) NOT NULL DEFAULT \'\' ,'
 	       . ' PRIMARY KEY ( `user_id` ) '
-	       . ' )';
+	       . ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($users);
 	
 	// Groups table
@@ -529,7 +532,7 @@ if($install_tables == true) {
 	        . ' `module_permissions` TEXT NOT NULL ,'
 	        . ' `template_permissions` TEXT NOT NULL ,'
 	        . ' PRIMARY KEY ( `group_id` ) '
-	        . ' )';
+	        . ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($groups);
 	
 	// Search settings table
@@ -538,7 +541,7 @@ if($install_tables == true) {
 	        . ' `value` TEXT NOT NULL ,'
 	        . ' `extra` TEXT NOT NULL ,'
 	        . ' PRIMARY KEY ( `search_id` ) '
-	        . ' )';
+	        . ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($search);
 	
 	// Addons table
@@ -554,7 +557,7 @@ if($install_tables == true) {
 			.'`author` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
 			.'`license` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
 			.' PRIMARY KEY ( `addon_id` ) '
-			.' )';
+			.' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($addons);
 
 	// Insert default data
@@ -654,7 +657,7 @@ if($install_tables == true) {
 
 	// Include the PclZip class file (thanks to
 	require_once(WB_PATH.'/include/pclzip/pclzip.lib.php');
-			
+
 	// Install add-ons
 	if(file_exists(WB_PATH.'/install/modules')) {
 		// Unpack pre-packaged modules
@@ -668,8 +671,9 @@ if($install_tables == true) {
 		// Unpack pre-packaged languages
 		
 	}
-	
-	$admin=new admin_dummy();
+
+	$admin=new admin_dummy('Start','',false,false);
+
 	// Load addons into DB
 	$dirs['modules'] = WB_PATH.'/modules/';
 	$dirs['templates'] = WB_PATH.'/templates/';
@@ -774,26 +778,30 @@ if($install_tables == true) {
 	 	}
 	}
 }
+
+$ThemeUrl = WB_URL.$admin->correct_theme_source('warning.html');
+// Setup template object, parse vars to it, then parse it
+$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('login.htt'));
+
 // Log the user in and go to Website Baker Administration
 $thisApp = new Login(
 		array(
 				"MAX_ATTEMPS" => "50",
-				"WARNING_URL" => ADMIN_URL."/login/warning.html",
+				"WARNING_URL" => $ThemeUrl."/warning.html",
 				"USERNAME_FIELDNAME" => 'admin_username',
 				"PASSWORD_FIELDNAME" => 'admin_password',
 				"REMEMBER_ME_OPTION" => SMART_LOGIN,
 				"MIN_USERNAME_LEN" => "2",
-				"MIN_PASSWORD_LEN" => "2",
+				"MIN_PASSWORD_LEN" => "3",
 				"MAX_USERNAME_LEN" => "30",
 				"MAX_PASSWORD_LEN" => "30",
 				'LOGIN_URL' => ADMIN_URL."/login/index.php",
 				'DEFAULT_URL' => ADMIN_URL."/start/index.php",
-				'TEMPLATE_DIR' => ADMIN_PATH."/login",
-				'TEMPLATE_FILE' => "template.html",
+				'TEMPLATE_DIR' => $ThemePath,
+				'TEMPLATE_FILE' => 'login.htt',
 				'FRONTEND' => false,
 				'FORGOTTEN_DETAILS_APP' => ADMIN_URL."/login/forgot/index.php",
 				'USERS_TABLE' => TABLE_PREFIX."users",
 				'GROUPS_TABLE' => TABLE_PREFIX."groups",
 		)
 );
-?>

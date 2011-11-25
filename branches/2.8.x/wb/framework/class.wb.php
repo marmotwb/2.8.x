@@ -1,10 +1,9 @@
 <?php
 /**
  *
- * @category        frontend
- * @package         framework
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
+ * @category        framework
+ * @package         frontend 
+ * @author          Ryan Djurovich, WebsiteBaker Project
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -337,20 +336,6 @@ class wb extends SecureForm
 		return (($value & $bits2test) == $bits2test);
 	}
 
-/*
-	// Validate supplied email address
-	function validate_email($email) {
-		if(function_exists('idn_to_ascii')){ // use pear if available
-			$email = idn_to_ascii($email);
-		}else {
-			require_once(WB_PATH.'/include/idna_convert/idna_convert.class.php');
-			$IDN = new idna_convert();
-			$email = $IDN->encode($email);
-			unset($IDN);
-		}
-		return !(filter_var($email, FILTER_VALIDATE_EMAIL) == false);
-	}
-*/
 	// Print a success message which then automatically redirects the user to another page
 	function print_success( $message, $redirect = 'index.php' ) {
 	    global $TEXT;
@@ -360,7 +345,9 @@ class wb extends SecureForm
 	    // fetch redirect timer for sucess messages from settings table
 	    $redirect_timer = ((defined( 'REDIRECT_TIMER' )) && (REDIRECT_TIMER <= 10000)) ? REDIRECT_TIMER : 0;
 	    // add template variables
-	    $tpl = new Template( THEME_PATH.'/templates' );
+		// Setup template object, parse vars to it, then parse it
+		$ThemePath = realpath(WB_PATH.$this->correct_theme_source('success.htt'));
+		$tpl = new Template($ThemePath);
 	    $tpl->set_file( 'page', 'success.htt' );
 	    $tpl->set_block( 'page', 'main_block', 'main' );
 	    $tpl->set_block( 'main_block', 'show_redirect_block', 'show_redirect' );
@@ -385,7 +372,9 @@ class wb extends SecureForm
         if(is_array($message)) {
            $message = implode ('<br />',$message);
         }
-		$success_template = new Template(THEME_PATH.'/templates');
+		// Setup template object, parse vars to it, then parse it
+		$ThemePath = realpath(WB_PATH.$this->correct_theme_source('error.htt'));
+		$success_template = new Template($ThemePath);
 		$success_template->set_file('page', 'error.htt');
 		$success_template->set_block('page', 'main_block', 'main');
 		$success_template->set_var('MESSAGE', $message);
@@ -437,6 +426,57 @@ class wb extends SecureForm
 			return false;
 		} else {
 			return true;
+		}
+	}
+
+	/**
+	 * checks if there is an alternative Theme template
+	 *
+	 * @access public
+	 * @param string : set the template.htt
+	 * @return string: the relative theme path
+	 *
+	 */
+	function correct_theme_source($sThemeFile = 'start.htt'){
+		$sThemePath = ADMIN_URL.'/themes/templates';
+		if ( file_exists( THEME_PATH.'/templates/'.$sThemeFile ) ){
+			$sThemePath = THEME_URL.'/templates';
+	}
+		return str_replace(WB_URL,'',$sThemePath);
+	}
+
+	/**
+	 * Check if a foldername doesn't have invalid characters
+	 *
+	 * @param String $str to check
+	 * @return Bool
+	 */
+	function checkFolderName($str){
+		return !( preg_match('#\^|\\\|\/|\.|\?|\*|"|\'|\<|\>|\:|\|#i', $str) ? TRUE : FALSE );
+	}
+
+	/**
+	 * Check the given path to make sure current path is within given basedir
+	 * normally document root
+	 *
+	 * @param String $sCurrentPath
+	 * @param String $sBaseDir
+	 * @return $sCurrentPath or FALSE
+	 */
+	function checkpath($sCurrentPath, $sBaseDir = WB_PATH){
+		// Clean the cuurent path
+        $sCurrentPath = rawurldecode($sCurrentPath);
+        $sCurrentPath = realpath($sCurrentPath);
+        $sBaseDir = realpath($sBaseDir);
+		// $sBaseDir needs to exist in the $sCurrentPath
+		$pos = stripos ($sCurrentPath, $sBaseDir );
+
+		if ( $pos === FALSE ){
+			return false;
+		} elseif( $pos == 0 ) {
+			return $sCurrentPath;
+		} else {
+			return false;
 		}
 	}
 

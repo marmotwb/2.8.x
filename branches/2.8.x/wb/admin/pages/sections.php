@@ -197,8 +197,11 @@ switch ($action):
 		$jscal_use_time = true; // whether to use a clock, too
 		require_once(WB_PATH."/include/jscalendar/wb-setup.php");
 
-		// Setup template object
-		$tpl = new Template(THEME_PATH.'/templates');
+		// Setup template object, parse vars to it, then parse it
+		$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('pages_sections.htt'));
+		// Create new template object
+		$tpl = new Template($ThemePath);
+		// $template->debug = true;
 		$tpl->set_file('page', 'pages_sections.htt');
 		$tpl->set_block('page', 'main_block', 'main');
 		$tpl->set_block('main_block', 'module_block', 'module_list');

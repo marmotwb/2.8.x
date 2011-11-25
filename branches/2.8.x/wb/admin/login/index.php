@@ -3,8 +3,7 @@
  *
  * @category        admin
  * @package         login
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
+ * @author          Ryan Djurovich, WebsiteBaker Project
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -38,9 +37,14 @@ if(defined('SMART_LOGIN') AND SMART_LOGIN == 'enabled') {
 	$password_fieldname = 'password';
 }
 
+$admin = new admin('Start', '', false, false);
+$ThemeUrl = WB_URL.$admin->correct_theme_source('warning.html');
+// Setup template object, parse vars to it, then parse it
+$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('login.htt'));
+
 $thisApp = new Login( array(
 						'MAX_ATTEMPS' => "3",
-						'WARNING_URL' => THEME_URL."/templates/warning.html",
+						'WARNING_URL' => $ThemeUrl.'/warning.html',
 						'USERNAME_FIELDNAME' => $username_fieldname,
 						'PASSWORD_FIELDNAME' => $password_fieldname,
 						'REMEMBER_ME_OPTION' => SMART_LOGIN,
@@ -50,7 +54,7 @@ $thisApp = new Login( array(
 						'MAX_PASSWORD_LEN' => "30",
 						'LOGIN_URL' => ADMIN_URL."/login/index.php",
 						'DEFAULT_URL' => ADMIN_URL."/start/index.php",
-						'TEMPLATE_DIR' => THEME_PATH."/templates",
+						'TEMPLATE_DIR' => $ThemePath,
 						'TEMPLATE_FILE' => "login.htt",
 						'FRONTEND' => false,
 						'FORGOTTEN_DETAILS_APP' => ADMIN_URL."/login/forgot/index.php",

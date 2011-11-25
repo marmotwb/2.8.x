@@ -3,8 +3,7 @@
  *
  * @category        admin
  * @package         start
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
+ * @author          Ryan Djurovich, WebsiteBaker Project
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -52,8 +51,10 @@ if(defined('FINALIZE_SETUP')) {
 	$database->query($sql);
 }
 // ---------------------------------------
-// Setup template object
-$template = new Template(THEME_PATH.'/templates');
+// Setup template object, parse vars to it, then parse it
+$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('start.htt'));
+// Create new template object
+$template = new Template($ThemePath);
 $template->set_file('page', 'start.htt');
 $template->set_block('page', 'main_block', 'main');
 
