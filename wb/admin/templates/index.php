@@ -3,8 +3,7 @@
  *
  * @category        admin
  * @package         templates
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
+ * @author          Ryan Djurovich, WebsiteBaker Project
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -21,8 +20,11 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Addons', 'templates');
 
-// Setup template object
-$template = new Template(THEME_PATH.'/templates');
+// Setup template object, parse vars to it, then parse it
+$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('templates.htt'));
+// Create new template object
+$template = new Template($ThemePath);
+// $template->debug = true;
 $template->set_file('page', 'templates.htt');
 $template->set_block('page', 'main_block', 'main');
 $template->set_var('FTAN', $admin->getFTAN());
@@ -70,8 +72,7 @@ $template->set_var(array(
 		'<a href="' . ADMIN_URL . '/modules/index.php">' . $MENU['MODULES'] . '</a>' : '',
 	'URL_LANGUAGES' => $admin->get_permission('languages') ?
 		'<a href="' . ADMIN_URL . '/languages/index.php">' . $MENU['LANGUAGES'] . '</a>' : '',
-	'URL_ADVANCED' => $admin->get_permission('admintools') ? 
-	'<a href="' . ADMIN_URL . '/modules/index.php?advanced">' . $TEXT['ADVANCED'] . '</a>' : '',
+	'URL_ADVANCED' => '&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;',
 	'TEXT_INSTALL' => $TEXT['INSTALL'],
 	'TEXT_UNINSTALL' => $TEXT['UNINSTALL'],
 	'TEXT_VIEW_DETAILS' => $TEXT['VIEW_DETAILS'],

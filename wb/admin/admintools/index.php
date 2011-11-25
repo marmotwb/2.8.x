@@ -22,8 +22,11 @@ $admin = new admin('admintools', 'admintools');
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 
+// Setup template object, parse vars to it, then parse it
+$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('admintools.htt'));
 // Create new template object
-$template = new Template(THEME_PATH.'/templates');
+$template = new Template($ThemePath);
+// $template->debug = true;
 $template->set_file('page', 'admintools.htt');
 $template->set_block('page', 'main_block', 'main');
 

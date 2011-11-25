@@ -2,8 +2,8 @@
 /**
  * @category        WebsiteBaker
  * @package         WebsiteBaker_core
- * @author          Werner v.d.Decken
- * @copyright       WebsiteBaker.org e.V.
+ * @author          Ryan Djurovich, WebsiteBaker Project, Werner v.d.Decken
+ * @copyright       2009-2011, Website Baker Org. e.V.
  * @link            http://websitebaker2.org
  * @license         http://www.gnu.org/licenses/gpl.html
  * @version         $Id$

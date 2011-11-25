@@ -1,10 +1,9 @@
 <?php
 /**
  *
- * @category        frontend
- * @package         account
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
+ * @category        framewotk
+ * @package         backend admin
+ * @author          Ryan Djurovich, WebsiteBaker Project
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -101,7 +100,9 @@ class admin extends wb {
 		$sql = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` WHERE `name`=\'website_title\'';
 		$get_title = $database->query($sql);
 		$title = $get_title->fetchRow();
-		$header_template = new Template(THEME_PATH.'/templates');
+		// Setup template object, parse vars to it, then parse it
+		$ThemePath = realpath(WB_PATH.$this->correct_theme_source('header.htt'));
+		$header_template = new Template($ThemePath);
 		$header_template->set_file('page', 'header.htt');
 		$header_template->set_block('page', 'header_block', 'header');
 		if(defined('DEFAULT_CHARSET')) {
@@ -192,7 +193,9 @@ class admin extends wb {
 			}
 		}
 
-		$footer_template = new Template(THEME_PATH.'/templates');
+		// Setup template object, parse vars to it, then parse it
+		$ThemePath = realpath(WB_PATH.$this->correct_theme_source('footer.htt'));
+		$footer_template = new Template($ThemePath);
 		$footer_template->set_file('page', 'footer.htt');
 		$footer_template->set_block('page', 'footer_block', 'header');
 		$footer_template->set_var(array(

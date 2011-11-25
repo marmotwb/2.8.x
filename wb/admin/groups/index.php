@@ -3,8 +3,7 @@
  *
  * @category        admin
  * @package         groups
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
+ * @author          Ryan Djurovich, WebsiteBaker Project
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -22,8 +21,11 @@ require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Access', 'groups');
 $ftan = $admin->getFTAN();
 
-// Create new template object for the modify/remove menu
-$template = new Template(THEME_PATH.'/templates');
+// Setup template object, parse vars to it, then parse it
+$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('groups.htt'));
+// Create new template object
+$template = new Template($ThemePath);
+// $template->debug = true;
 $template->set_file('page', 'groups.htt');
 $template->set_block('page', 'main_block', 'main');
 $template->set_block('main_block', 'manage_users_block', 'users');
@@ -93,8 +95,11 @@ if ( $admin->get_permission('users') == true ) $template->parse("users", "manage
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
 
-// Setup template for add group form
-$template = new Template(THEME_PATH.'/templates');
+// Setup template object, parse vars to it, then parse it
+$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('groups_form.htt'));
+// Create new template object
+$template = new Template($ThemePath);
+// $template->debug = true;
 $template->set_file('page', 'groups_form.htt');
 $template->set_block('page', 'main_block', 'main');
 $template->set_var('DISPLAY_EXTRA', 'display:none;');

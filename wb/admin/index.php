@@ -34,5 +34,3 @@ if(!defined('WB_PATH')) {
 } else {
 	header('Location: '.ADMIN_URL.'/start/index.php');
 }
-
-?>

@@ -3,8 +3,7 @@
  *
  * @category        admin
  * @package         users
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
+ * @author          Ryan Djurovich, WebsiteBaker Project
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -24,8 +23,12 @@ $iUserStatus = 1;
 $iUserStatus = ( ( $admin->get_get('status')==1 ) ? 0 : $iUserStatus );
 unset($_GET);
 
-// Create new template object for the modify/remove menu
-$template = new Template(THEME_PATH.'/templates');
+// Setup template object, parse vars to it, then parse it
+$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('users.htt'));
+// Create new template object
+$template = new Template($ThemePath);
+// $template->debug = true;
+
 $template->set_file('page', 'users.htt');
 $template->set_block('page', 'main_block', 'main');
 $template->set_block("main_block", "manage_groups_block", "groups");
@@ -114,8 +117,11 @@ if ( $admin->get_permission('groups') == true ) $template->parse("groups", "mana
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
 
-// Setup template for add user form
-$template = new Template(THEME_PATH.'/templates');
+// Setup template object, parse vars to it, then parse it
+$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('users_form.htt'));
+// Create new template object
+$template = new Template($ThemePath);
+// $template->debug = true;
 $template->set_file('page', 'users_form.htt');
 $template->set_block('page', 'main_block', 'main');
 $template->set_var('DISPLAY_EXTRA', 'display:none;');

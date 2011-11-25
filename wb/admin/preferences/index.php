@@ -3,9 +3,7 @@
  *
  * @category        admin
  * @package         preferences
- * @author          Independend-Software-Team
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
+ * @author          Ryan Djurovich, WebsiteBaker Project
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -26,8 +24,10 @@ function build_page( &$admin, &$database )
 {
 	global $HEADING, $TEXT;
 	include_once(WB_PATH.'/framework/functions-utf8.php');
-// Create new template object, assign template file, start main-block
-	$template = new Template( THEME_PATH.'/templates' );
+	// Setup template object, parse vars to it, then parse it
+	$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('preferences.htt'));
+	// Create new template object
+	$template = new Template($ThemePath);
 	$template->set_file( 'page', 'preferences.htt' );
 	$template->set_block( 'page', 'main_block', 'main' );
 // read user-info from table users and assign it to template

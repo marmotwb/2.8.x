@@ -1,10 +1,9 @@
 <?php
 /**
  *
- * @category        backend
- * @package         login
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
+ * @category        framework
+ * @package         backend login
+ * @author          Ryan Djurovich, WebsiteBaker Project
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -65,7 +64,7 @@ class login extends admin {
 		$this->url = $this->get_post('url');
 		if ($this->redirect_url!='') {
 			$this->url = $this->redirect_url;
-		}		
+		}
 		if(strlen($this->url) < 2) {
 			$this->url = $config_array['DEFAULT_URL'];
 		}
@@ -340,7 +339,10 @@ class login extends admin {
 		// Show the login form
 		if($this->frontend != true) {
 			require_once(WB_PATH.'/include/phplib/template.inc');
-			$template = new Template($this->template_dir);
+			// $template = new Template($this->template_dir);
+			// Setup template object, parse vars to it, then parse it
+			$ThemePath = realpath(WB_PATH.$this->correct_theme_source($this->template_file));
+			$template = new Template($ThemePath);
 			$template->set_file('page', $this->template_file);
 			$template->set_block('page', 'mainBlock', 'main');
 			if($this->remember_me_option != true) {
@@ -381,8 +383,7 @@ class login extends admin {
 			}
 			
 			$template->set_var('CHARSET', $charset);	
-									
-									
+
 			$template->parse('main', 'mainBlock', false);
 			$template->pparse('output', 'page');
 		}

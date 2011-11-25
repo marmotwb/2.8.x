@@ -4,7 +4,6 @@
  * @category        backend
  * @package         install
  * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -36,6 +35,7 @@ function field_error($field_name='') {
 	}
 }
 
+$installFlag = true;
 // Check if the page has been reloaded
 if(!isset($_GET['sessions_checked']) OR $_GET['sessions_checked'] != 'true') {
 	// Set session variable
@@ -47,11 +47,11 @@ if(!isset($_GET['sessions_checked']) OR $_GET['sessions_checked'] != 'true') {
 	// Check if session variable has been saved after reload
 	if(isset($_SESSION['session_support'])) {
 		$session_support = $_SESSION['session_support'];
-	} else {   
+	} else {
+		$installFlag = false;
 		$session_support = '<font class="bad">Disabled</font>';
 	}
 }
-
 // Check if AddDefaultCharset is set
 $e_adc=false;
 $sapi=php_sapi_name();
@@ -67,8 +67,7 @@ if(strpos($sapi, 'apache')!==FALSE || strpos($sapi, 'nsapi')!==FALSE) {
 	}
 }
 
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <title>Website Baker Installation Wizard</title>
@@ -95,14 +94,14 @@ function change_os(type) {
 </head>
 <body>
 
-<table cellpadding="0" cellspacing="0" border="0" width="850" align="center">
+<table cellpadding="0" cellspacing="0" border="0" width="998px" align="center">
 <tr>
 	<td width="60" valign="top">
 		<img src="../templates/wb_theme/images/logo.png" alt="Logo" />
 	</td>
 	<td width="5">&nbsp;</td>
-	<td style="font-size: 20px;">
-		<font style="color: #FFF;">Installation Wizard</font>
+	<td>
+		<h1 style="border:none; margin-top:1em;font-size:150%;">Installation Wizard</h1>
 	</td>
 </tr>
 </table>
@@ -113,7 +112,7 @@ function change_os(type) {
 <input type="hidden" name="password_fieldname" value="admin_password" />
 <input type="hidden" name="remember" id="remember" value="true" />
 
-<table cellpadding="0" cellspacing="0" border="0" width="850" align="center" style="margin-top: 10px;">
+<table cellpadding="0" cellspacing="0" border="0" width="998px" align="center" style="margin-top: 10px;">
 <tr>
 	<td class="content">
 	
@@ -143,6 +142,7 @@ function change_os(type) {
 			   {
 					?><font class="good">Yes</font><?php
 				} else {
+					$installFlag = false;
 					?><font class="bad">No</font><?php
 				}
 				?>
@@ -155,6 +155,7 @@ function change_os(type) {
 				if(ini_get('safe_mode')=='' || strpos(strtolower(ini_get('safe_mode')), 'off')!==FALSE || ini_get('safe_mode')==0) {
 					?><font class="good">Disabled</font><?php
 				} else {
+					$installFlag = false;
 					?><font class="bad">Enabled</font><?php
 				}
 				?>
@@ -165,6 +166,7 @@ function change_os(type) {
 			<td width="60">
 				<?php
 					if($e_adc) {
+						$installFlag = false;
 						?><font class="bad">No</font><?php
 					} else {
 						?><font class="good">Yes</font><?php
@@ -173,7 +175,9 @@ function change_os(type) {
 			</td>
 			<td colspan="4">&nbsp;</td>
 		</tr>
-		<?php if($e_adc) { ?>
+		<?php if($e_adc) {
+			$installFlag = false;
+		?>
 		<tr>
 			<td colspan="6" style="font-size: 10px;" class="bad">Please note: AddDefaultCharset is set to <?php echo $e_adc;?> in apache.conf.<br />If you have to use umlauts (e.g. &auml; &aacute;) please change this to Off. - Or use <?php echo $e_adc;?> inside website baker, too.</td>
 		</tr>
@@ -184,22 +188,47 @@ function change_os(type) {
 			<td colspan="8"><h1>Step 2</h1>Please check the following files/folders are writeable before continuing...</td>
 		</tr>
 		<tr>
-			<td style="color: #666666;"><?php print $wb_root ?>/config.php</td>
-			<td><?php if(is_writable('../config.php')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../config.php')) { echo '<font class="bad">File Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-			<td style="color: #666666;"><?php print $wb_root ?>/pages/</td>
-			<td><?php if(is_writable('../pages/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../pages/')) { echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-			<td style="color: #666666;"><?php print $wb_root ?>/media/</td>
-			<td><?php if(is_writable('../media/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../media/')) { echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-			<td style="color: #666666;"><?php print $wb_root ?>/templates/</td>
-			<td><?php if(is_writable('../templates/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../templates/')) { echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
+<?php
+$config = '<font class="good">Writeable</font>';
+$configFile = '/config.php';
+if(!isset($_SESSION['config_rename'])) {
+	if( ( file_exists($wb_path.$configFile)==false ) && (file_exists($wb_path.'/config.php.new')==true ) ){
+		if( (is_writeable($wb_path.'/config.php.new')==true) && (rename($wb_path.'/config.php.new',$wb_path.'/config.php')) ) {
+			$config = '<font class="good">Writeable</font>';
+			$_SESSION['config_rename'] = true;
+		} else {
+			$installFlag = false;
+			$configFile = '/config.php.new';
+			$config = '<font class="bad">Unwriteable</font>';
+		}
+	} elseif( (file_exists($wb_path.'/config.php.new')==true) && ( file_exists($wb_path.$configFile)==true ) ) {
+		if( (file_exists($wb_path.$configFile)==true) ) {
+			$installFlag = false;
+			$config = '<font class="bad">Already installed?</font>';
+		}
+	} elseif( (is_writeable($wb_path.'/config.php.new')==false) ) {
+			$installFlag = false;
+			$configFile = '/config.php.new';
+			$config = '<font class="bad">Unwriteable</font>';
+	}
+}
+?>
+			<td width="150px" style="color: #666666;"><?php print $wb_root.$configFile ?></td>
+			<td width="150px"><?php echo $config ?></td>
+			<td width="140px" style="color: #666666;"><?php print $wb_root ?>/pages/</td>
+			<td width="120px"><?php if(is_writable('../pages/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../pages/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
+			<td width="140px" style="color: #666666;"><?php print $wb_root ?>/media/</td>
+			<td width="120px"><?php if(is_writable('../media/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../media/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
+			<td width="140px" style="color: #666666;"><?php print $wb_root ?>/templates/</td>
+			<td width="120px"><?php if(is_writable('../templates/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../templates/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
 		</tr>
 		<tr>
 			<td style="color: #666666;"><?php print $wb_root ?>/modules/</td>
-			<td><?php if(is_writable('../modules/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../modules/')) { echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
+			<td><?php if(is_writable('../modules/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../modules/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
 			<td style="color: #666666;"><?php print $wb_root ?>/languages/</td>
-			<td><?php if(is_writable('../languages/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../languages/')) { echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
+			<td><?php if(is_writable('../languages/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../languages/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
 			<td style="color: #666666;"><?php print $wb_root ?>/temp/</td>
-			<td><?php if(is_writable('../temp/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../temp/')) { echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
+			<td><?php if(is_writable('../temp/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../temp/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 		</tr>
@@ -337,18 +366,18 @@ function change_os(type) {
     		<tr>
     			<td style="color: #666666;">Database Name:<br />[a-zA-Z0-9_-]</td>
     			<td>
-    				<input <?php echo field_error('database_name');?> type="text" tabindex="8" name="database_name" style="width: 98%;" value="<?php if(isset($_SESSION['database_name'])) { echo $_SESSION['database_name']; } else { echo 'wb'; } ?>" />
+    				<input <?php echo field_error('database_name');?> type="text" tabindex="8" name="database_name" style="width: 98%;" value="<?php if(isset($_SESSION['database_name'])) { echo $_SESSION['database_name']; } else { echo 'DatabaseName'; } ?>" />
     			</td>
     			<td>&nbsp;</td>
     			<td style="color: #666666;">Password:</td>
     			<td>
-    				<input type="password" tabindex="10" name="database_password" style="width: 98%;"<?php if(isset($_SESSION['database_password'])) { echo ' value = "'.$_SESSION['database_password'].'"'; } ?> />
+    				<input type="password" tabindex="10" name="database_password" style="width: 98%;" value="<?php if(isset($_SESSION['database_password'])) { echo $_SESSION['database_password']; } ?>" />
     			</td>
     		</tr>
 		<tr>
 			<td style="color: #666666;">Table Prefix:<br />[a-zA-Z0-9_]</td>
 			<td>
-				<input <?php echo field_error('table_prefix');?> type="text" tabindex="11" name="table_prefix" style="width: 250px;"<?php if(isset($_SESSION['table_prefix'])) { echo ' value = "'.$_SESSION['table_prefix'].'"'; } ?> />
+				<input <?php echo field_error('table_prefix');?> type="text" tabindex="11" name="table_prefix" style="width: 250px;" value="<?php if(isset($_SESSION['table_prefix'])) { echo $_SESSION['table_prefix']; } else { echo 'wb_'; } ?>" />
 			</td>
 			<td>&nbsp;</td>
 			<td colspan="2">
@@ -364,7 +393,7 @@ function change_os(type) {
 		<tr>
 			<td style="color: #666666;" colspan="1">Website Title:</td>
 			<td colspan="4">
-				<input <?php echo field_error('website_title');?> type="text" tabindex="13" name="website_title" style="width: 99%;" value="<?php if(isset($_SESSION['website_title'])) { echo $_SESSION['website_title']; } ?>" />
+				<input <?php echo field_error('website_title');?> type="text" tabindex="13" name="website_title" style="width: 99%;" value="<?php if(isset($_SESSION['website_title'])) { echo $_SESSION['website_title']; } else { echo 'Enter your website title'; } ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -378,18 +407,18 @@ function change_os(type) {
 			<td>&nbsp;</td>
 			<td style="color: #666666;">Password:</td>
 			<td>
-				<input <?php echo field_error('admin_password');?> type="password" tabindex="16" name="admin_password" style="width: 98%;"<?php if(isset($_SESSION['admin_password'])) { echo ' value = "'.$_SESSION['admin_password'].'"'; } ?> />
+				<input <?php echo field_error('admin_password');?> type="password" tabindex="16" name="admin_password" style="width: 98%;" value="" />
 			</td>
 		</tr>
 		<tr>
 			<td style="color: #666666;">Email:</td>
 			<td>
-				<input <?php echo field_error('admin_email');?> type="text" tabindex="15" name="admin_email" style="width: 98%;"<?php if(isset($_SESSION['admin_email'])) { echo ' value = "'.$_SESSION['admin_email'].'"'; } ?> />
+				<input <?php echo field_error('admin_email');?> type="text" tabindex="15" name="admin_email" style="width: 98%;" value="<?php if(isset($_SESSION['admin_email'])) { echo $_SESSION['admin_email']; } ?>" />
 			</td>
 			<td>&nbsp;</td>
 			<td style="color: #666666;">Re-Password:</td>
 			<td>
-				<input <?php echo field_error('admin_repassword');?> type="password" tabindex="17" name="admin_repassword" style="width: 98%;"<?php if(isset($_SESSION['admin_repassword'])) { echo ' value = "'.$_SESSION['admin_repassword'].'"'; } ?> />
+				<input <?php echo field_error('admin_repassword');?> type="password" tabindex="17" name="admin_repassword" style="width: 98%;" value=""  />
 			</td>
 		</tr>
 		<tr>
@@ -401,7 +430,7 @@ function change_os(type) {
 				<tr valign="top">
 					<td>Please note: &nbsp;</td>
 					<td>
-						Website Baker is released under the 
+						Website Baker is released under the
 						<a href="http://www.gnu.org/licenses/gpl.html" target="_blank" tabindex="19">GNU General Public License</a>
 						<br />
 						By clicking install, you are accepting the license.
@@ -410,7 +439,11 @@ function change_os(type) {
 				</table>
 			</td>
 			<td colspan="1" align="right">
-				<input type="submit" tabindex="20" name="submit" value="Install Website Baker" class="submit" />
+				<?php if($installFlag == true) { ?>
+				<input type="submit" tabindex="20" name="submit" value="Install WebsiteBaker" />
+				<?php } else { ?>
+				<input type="button" tabindex="20" name="submit" value="Check your Settings in Step1 or Step2" class="submit" />
+				<?php } ?>
 			</td>
 		</tr>
 		</table>

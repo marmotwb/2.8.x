@@ -3,8 +3,7 @@
  *
  * @category        admin
  * @package         pages
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
+ * @author          Ryan Djurovich, WebsiteBaker Project
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -352,8 +351,11 @@ if(intval($editable_pages) == 0 ) {
 	</div>
 	<?php
 }
-// Setup template object
-$template = new Template(THEME_PATH.'/templates');
+// Setup template object, parse vars to it, then parse it
+$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('pages.htt'));
+// Create new template object
+$template = new Template($ThemePath);
+// $template->debug = true;
 $template->set_file('page', 'pages.htt');
 $template->set_block('page', 'main_block', 'main');
 // Insert values into the add page form

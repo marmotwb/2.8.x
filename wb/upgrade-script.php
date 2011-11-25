@@ -64,6 +64,64 @@ $files2remove = array(
 			'[ADMIN]/preferences/email.php',
 			'[ADMIN]/preferences/password.php',
 
+			'[TEMPLATE]/argos_theme/templates/access.htt',
+			'[TEMPLATE]/argos_theme/templates/addons.htt',
+			'[TEMPLATE]/argos_theme/templates/admintools.htt',
+			'[TEMPLATE]/argos_theme/templates/error.htt',
+			'[TEMPLATE]/argos_theme/templates/groups.htt',
+			'[TEMPLATE]/argos_theme/templates/groups_form.htt',
+			'[TEMPLATE]/argos_theme/templates/languages.htt',
+			'[TEMPLATE]/argos_theme/templates/languages_details.htt',
+			'[TEMPLATE]/argos_theme/templates/login.htt',
+			'[TEMPLATE]/argos_theme/templates/login_forgot.htt',
+			'[TEMPLATE]/argos_theme/templates/media.htt',
+			'[TEMPLATE]/argos_theme/templates/media_browse.htt',
+			'[TEMPLATE]/argos_theme/templates/media_rename.htt',
+			'[TEMPLATE]/argos_theme/templates/modules.htt',
+			'[TEMPLATE]/argos_theme/templates/modules_details.htt',
+			'[TEMPLATE]/argos_theme/templates/pages.htt',
+			'[TEMPLATE]/argos_theme/templates/pages_modify.htt',
+			'[TEMPLATE]/argos_theme/templates/pages_sections.htt',
+			'[TEMPLATE]/argos_theme/templates/pages_settings.htt',
+			'[TEMPLATE]/argos_theme/templates/preferences.htt',
+			'[TEMPLATE]/argos_theme/templates/setparameter.htt',
+			'[TEMPLATE]/argos_theme/templates/settings.htt',
+			'[TEMPLATE]/argos_theme/templates/start.htt',
+			'[TEMPLATE]/argos_theme/templates/success.htt',
+			'[TEMPLATE]/argos_theme/templates/templates.htt',
+			'[TEMPLATE]/argos_theme/templates/templates_details.htt',
+			'[TEMPLATE]/argos_theme/templates/users.htt',
+			'[TEMPLATE]/argos_theme/templates/users_form.htt',
+
+			'[TEMPLATE]/wb_theme/templates/access.htt',
+			'[TEMPLATE]/wb_theme/templates/addons.htt',
+			'[TEMPLATE]/wb_theme/templates/admintools.htt',
+			'[TEMPLATE]/wb_theme/templates/error.htt',
+			'[TEMPLATE]/wb_theme/templates/groups.htt',
+			'[TEMPLATE]/wb_theme/templates/groups_form.htt',
+			'[TEMPLATE]/wb_theme/templates/languages.htt',
+			'[TEMPLATE]/wb_theme/templates/languages_details.htt',
+			'[TEMPLATE]/wb_theme/templates/login.htt',
+			'[TEMPLATE]/wb_theme/templates/login_forgot.htt',
+			'[TEMPLATE]/wb_theme/templates/media.htt',
+			'[TEMPLATE]/wb_theme/templates/media_browse.htt',
+			'[TEMPLATE]/wb_theme/templates/media_rename.htt',
+			'[TEMPLATE]/wb_theme/templates/modules.htt',
+			'[TEMPLATE]/wb_theme/templates/modules_details.htt',
+			'[TEMPLATE]/wb_theme/templates/pages.htt',
+			'[TEMPLATE]/wb_theme/templates/pages_modify.htt',
+			'[TEMPLATE]/wb_theme/templates/pages_sections.htt',
+			'[TEMPLATE]/wb_theme/templates/pages_settings.htt',
+			'[TEMPLATE]/wb_theme/templates/preferences.htt',
+			'[TEMPLATE]/wb_theme/templates/setparameter.htt',
+			'[TEMPLATE]/wb_theme/templates/settings.htt',
+			'[TEMPLATE]/wb_theme/templates/start.htt',
+			'[TEMPLATE]/wb_theme/templates/success.htt',
+			'[TEMPLATE]/wb_theme/templates/templates.htt',
+			'[TEMPLATE]/wb_theme/templates/templates_details.htt',
+			'[TEMPLATE]/wb_theme/templates/users.htt',
+			'[TEMPLATE]/wb_theme/templates/users_form.htt',
+
 		 );
 
 
@@ -200,7 +258,7 @@ h3 { font-size: 120%; }
 <h1>WebsiteBaker Upgrade</h1>
 <?php
 	if( version_compare( WB_VERSION, '2.7', '<' )) {
-		status_msg('<strong>Warning:</strong><br />It is not possible to upgrade from WebsiteBaker Versions before 2.7.0.<br />For upgrading to version '.VERSION.' you must upgrade first to v.2.7 at least!!!', 'warning', 'div');
+		status_msg('<strong>Warning:</strong><br />It is not possible to upgrade from WebsiteBaker Versions before 2.7.<br />For upgrading to version '.VERSION.' you must upgrade first to v.2.7 at least!!!', 'warning', 'div');
 		echo '<br /><br />';
 		echo "</div>
 		</body>

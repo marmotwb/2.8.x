@@ -57,8 +57,11 @@ $modified_ts = ($results_array['modified_when'] != 0)
         ? $modified_ts = date(TIME_FORMAT.', '.DATE_FORMAT, $results_array['modified_when']+TIMEZONE)
         : 'Unknown';
 // $ftan_module = $GLOBALS['ftan_module'];
-// Include page info script
-$template = new Template(THEME_PATH.'/templates');
+// Setup template object, parse vars to it, then parse it
+$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('pages_modify.htt'));
+// Create new template object
+$template = new Template($ThemePath);
+// $template->debug = true;
 $template->set_file('page', 'pages_modify.htt');
 $template->set_block('page', 'main_block', 'main');
 $template->set_var('FTAN', $admin->getFTAN() );
