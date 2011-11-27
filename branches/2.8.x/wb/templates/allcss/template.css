@@ -130,14 +130,14 @@ form {
 	display: block;
 	padding: 2px;
 }
-.menu_default a:link, .menu_default a:visited, .menu_default a:active {
+.menu-default a:link, .menu-default a:visited, .menu-default a:active {
 	border-bottom: 1px dashed #999;
 }
-.menu_default a:hover {
+.menu-default a:hover {
 	border-bottom: 1px dashed #333;
 }
 
-.menu_current  {
+.menu-current  {
 	border-bottom: 1px dashed #999;
 	font-weight:bold;
 }

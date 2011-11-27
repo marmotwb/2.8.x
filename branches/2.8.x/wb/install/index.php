@@ -21,11 +21,12 @@ if(!defined('SESSION_STARTED')) {
 	session_start();
 	define('SESSION_STARTED', true);
 }
-	$mod_path = dirname(str_replace('\\', '/', __FILE__));
-    $doc_root = rtrim(str_replace('\\', '/',$_SERVER['DOCUMENT_ROOT']),'/');
-	$mod_name = basename($mod_path);
-	$wb_path = dirname(dirname(str_replace('\\', '/', __FILE__)));
-    $wb_root = str_replace($doc_root,'',$wb_path);
+
+$mod_path = dirname(str_replace('\\', '/', __FILE__));
+$doc_root = rtrim(str_replace('\\', '/',$_SERVER['DOCUMENT_ROOT']),'/');
+$mod_name = basename($mod_path);
+$wb_path = dirname(dirname(str_replace('\\', '/', __FILE__)));
+$wb_root = str_replace(realpath($doc_root),'',$wb_path);
 
 // Function to highlight input fields which contain wrong/missing data
 function field_error($field_name='') {
@@ -89,7 +90,6 @@ function change_os(type) {
 		document.getElementById('file_perms_box').style.display = 'none';
 	}
 }
-
 </script>
 </head>
 <body>
@@ -189,29 +189,28 @@ function change_os(type) {
 		</tr>
 		<tr>
 <?php
-$config = '<font class="good">Writeable</font>';
-$configFile = '/config.php';
-if(!isset($_SESSION['config_rename'])) {
-	if( ( file_exists($wb_path.$configFile)==false ) && (file_exists($wb_path.'/config.php.new')==true ) ){
-		if( (is_writeable($wb_path.'/config.php.new')==true) && (rename($wb_path.'/config.php.new',$wb_path.'/config.php')) ) {
-			$config = '<font class="good">Writeable</font>';
-			$_SESSION['config_rename'] = true;
+	$config = '<font class="good">Writeable</font>';
+	$configFile = '/config.php';
+	if(!isset($_SESSION['config_rename']) ) {
+
+		if( (file_exists($wb_path.$configFile)==true)) {
+			if ( filesize($wb_path.$configFile) > 128) {
+				$installFlag = false;
+				$config = '<font class="bad">Not empty!!?</font>';
+			} elseif( is_writeable($wb_path.$configFile)==true ) {
+				$config = '<font class="good">isWriteable</font>';
+				$_SESSION['config_rename'] = true;
+			}
+		} elseif((file_exists($wb_path.'/config.php.new')==true)) {
+			$configFile = '/config.php.new';
+			$installFlag = false;
+			$config = '<font class="bad">Please rename</font>';
 		} else {
-			$installFlag = false;
-			$configFile = '/config.php.new';
-			$config = '<font class="bad">Unwriteable</font>';
+				$installFlag = false;
+				$config = '<font class="bad">Missing!!?</font>';
 		}
-	} elseif( (file_exists($wb_path.'/config.php.new')==true) && ( file_exists($wb_path.$configFile)==true ) ) {
-		if( (file_exists($wb_path.$configFile)==true) ) {
-			$installFlag = false;
-			$config = '<font class="bad">Already installed?</font>';
-		}
-	} elseif( (is_writeable($wb_path.'/config.php.new')==false) ) {
-			$installFlag = false;
-			$configFile = '/config.php.new';
-			$config = '<font class="bad">Unwriteable</font>';
+
 	}
-}
 ?>
 			<td width="150px" style="color: #666666;"><?php print $wb_root.$configFile ?></td>
 			<td width="150px"><?php echo $config ?></td>

@@ -11,6 +11,11 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+27 Nov-2011 Build 1530 Dietmar Woellbrink (Luisehahne)
+! update templates allcss and round (Tks to Rübenwurzel)
++ Add UPGRADE Instructions
+! Update INSTALL Instructions
+! Optimize config.php handling for installation
 25 Nov-2011 Build 1529 Dietmar Woellbrink (Luisehahne)
 + add new backend theme handling (Tks to Stefek)
 ----------------------------------- Fixes 2.8.2 --------------------------------
