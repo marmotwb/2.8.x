@@ -1,15 +1,26 @@
-WebsiteBaker 2.8.2 Installation Instructions
-============================================
+WebsiteBaker 2.8.2 SP2 Installation Instructions
+=================================================
 
-You can find detailed informations in the INSTALL
-file of the needed installer interface.
+Step 1 - Preparing your existing webspace:
+- Login to your webspace account and create a database.
 
-Short Instruction:
+Step 2 - Download WebsiteBaker from http://www.websitebaker2.org/en/download/latest-version.php
+- Download "WebsiteBaker 2.8.2 [R1528] including ServicePack 2"
+- Unzip the package to your lokal machine
+- rename config.php.new to config.php
+- change favicon to your own
+- upload all files to your Webspace.
 
-1.: create empty database and remember access data
-2.: Unzip WB and move it to the Server
-3.: Unzip Fix-Packet and move it to the Server  !!! very important !!!
-4.: chmod directories/files as usual if needed (most with mod-apache running)
-5.: rename config.php.new into config.php (never needed with micro-installer)
-6.: start installation
+Step 3 - Installation:
+- call in your Browser www.yourdomainname.com
+- follow the Installation Instructions
+
+Step 4 - Installation folder:
+- Delete folder install
+
+Step 5 - Upgrade-script:
+- Delete File upgrade-script.php
+
+Have fun with WB 2.8.2 SP2
+
 

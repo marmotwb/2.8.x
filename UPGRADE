@@ -1,0 +1,44 @@
+WebsiteBaker 2.8.2 SP2 UPGRADE Instructions
+=================================================
+
+Upgrade from WB 2.8.0 to WB 2.8.2 SP2
+Upgrade from WB 2.8.1 to WB 2.8.2 SP2
+- need full package "WebsiteBaker 2.8.2 [R1528] including ServicePack 2"
+
+Upgrade from WB 2.8.2 to WB 2.8.2 SP2
+- download "ServicePack 2 for WebsiteBaker 2.8.2 all fixes"
+
+Download WebsiteBaker from http://www.websitebaker2.org/en/download/latest-version.php
+
+Step 1 - Preparing your existing system:
+- Login to your backend and set "Settings" - "Backend-Theme" to "wb_theme" and don't forget to store.
+- Backup your changed Files in modules and templates folder like .css, .js, wb_config.js for the Editor
+
+Step 2 - Download Instructions
+- Download "WebsiteBaker 2.8.2 [R1528] including ServicePack 2"
+- If you already installed WB 2.8.2
+  Download "ServicePack 2 for WebsiteBaker 2.8.2 all fixes"
+
+Step 3 - upgrading
+- Unzip the packages to your lokal machine
+- upload all files to your Webspace.
+- Be shure that existing files are overwritten.
+
+Step 4 - Cleanup Files and Folders on your Webspace:
+- Delete File admin/preferences/details.php
+- Delete File admin/preferences/email.php
+- Delete File admin/preferences/password.php
+- Delete Folder modules/backup
+- Delete Folder modules/droplets/js
+- Delete Folder templates/classic_theme
+
+Step 5 - Upgrade the database:
+- call in your Browser www.yourdomainname. com/upgrade-script.php
+
+Step 6 - Delete the upgrade-script:
+- Delete File upgrade-script.php
+
+Step 7 - Delete the config.php.new:
+- to solve the problem with overwritten config.php by upgrade to 2.8.2  we upload a config.php.new.
+
+Have fun with WB 2.8.2 SP2
