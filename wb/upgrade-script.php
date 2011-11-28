@@ -31,7 +31,7 @@ function status_msg($message, $class='check', $element='span')
 {
 	// returns a status message
 	$msg  = '<'.$element.' class="'.$class.'">';
-	$msg .= '<strong>'.strtoupper(strtok($class, ' ')).'</strong><br />';
+	$msg .= '<strong>'.strtoupper(strtok($class, ' ')).'</strong>';
 	$msg .= $message.'</'.$element.'>';
 	echo $msg;
 }
@@ -48,8 +48,8 @@ $table_list = array (
 $OK            = ' <span class="ok">OK</span> ';
 $FAIL          = ' <span class="error">FAILED</span> ';
 $DEFAULT_THEME = 'wb_theme';
-
-$dir2remove = array(
+$stepID = 1;
+$dirRemove = array(
 /*
 			'[TEMPLATE]/allcss/',
 			'[TEMPLATE]/blank/',
@@ -58,11 +58,15 @@ $dir2remove = array(
 */
 		 );
 
-$files2remove = array(
+$filesRemove['0'] = array(
 
 			'[ADMIN]/preferences/details.php',
 			'[ADMIN]/preferences/email.php',
-			'[ADMIN]/preferences/password.php',
+			'[ADMIN]/preferences/password.php'
+
+		 );
+
+$filesRemove['1'] = array(
 
 			'[TEMPLATE]/argos_theme/templates/access.htt',
 			'[TEMPLATE]/argos_theme/templates/addons.htt',
@@ -123,7 +127,6 @@ $files2remove = array(
 			'[TEMPLATE]/wb_theme/templates/users_form.htt',
 
 		 );
-
 
 // analyze/check database tables
 function mysqlCheckTables( $dbName )
@@ -219,6 +222,16 @@ body {
 
 p { line-height:1.5em; }
 
+form {
+	display: inline-block;
+	line-height: 20px;
+	vertical-align: baseline;
+}
+input[type="submit"].restart {
+	background-color: #FFDBDB;
+	font-weight: bold;
+}
+
 h1,h2,h3,h4,h5,h6 {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	color: #369;
@@ -266,8 +279,19 @@ h3 { font-size: 120%; }
 		";
 		exit();
 	}
+
+$oldVersion  = 'Version '.WB_VERSION;
+$oldVersion .= (defined('WB_SP') ? ' '.WB_SP : '');
+$oldVersion .= (defined('WB_REVISION') ? ' Revision ['.WB_REVISION.'] ' : '') ;
+$newVersion  = 'Version '.VERSION;
+$newVersion .= (defined('SP') ? ' '.SP : '');
+$newVersion .= (defined('REVISION') ? ' Revision ['.REVISION.'] ' : '');
+// set addition settings if not exists, otherwise upgrade will be breaks
+if(!defined('WB_SP')) { define('WB_SP',''); }
+if(!defined('WB_REVISION')) { define('WB_REVISION',''); }
+
 ?>
-<p>This script upgrades an existing WebsiteBaker <strong>Version <?php echo WB_VERSION; ?></strong> installation to the <strong>Version <?php echo VERSION ?></strong>. The upgrade script alters the existing WB database to reflect the changes introduced with WB 2.8.x</p>
+<p>This script upgrades an existing WebsiteBaker <strong> <?php echo $oldVersion; ?></strong> installation to the <strong> <?php echo $newVersion ?> </strong>.<br />The upgrade script alters the existing WB database to reflect the changes introduced with WB 2.8.x</p>
 
 <?php
 /**
@@ -277,7 +301,7 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 <h2>Step 1: Backup your files</h2>
 <p>It is highly recommended to <strong>create a manual backup</strong> of the entire <strong>/pages folder</strong> and the <strong>MySQL database</strong> before proceeding.<br /><strong class="error">Note: </strong>The upgrade script alters some settings of your existing database!!! You need to confirm the disclaimer before proceeding.</p>
 
-<form name="send" action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
+<form name="send" action="<?php echo $_SERVER['SCRIPT_NAME'];?>" method="post">
 <textarea cols="80" rows="5">DISCLAIMER: The WebsiteBaker upgrade script is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. One needs to confirm that a manual backup of the /pages folder (including all files and subfolders contained in it) and backup of the entire WebsiteBaker MySQL database was created before you can proceed.</textarea>
 <br /><br /><input name="backup_confirmed" type="checkbox" value="confirmed" />&nbsp;I confirm that a manual backup of the /pages folder and the MySQL database was created.
 <br /><br /><input name="send" type="submit" value="Start upgrade script" />
@@ -293,7 +317,8 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
     ";
 	exit();
 }
-echo '<h2>Step 2: Updating database entries</h2>';
+
+echo '<h2>Step '.(++$stepID).' : Updating database entries</h2>';
 
 // function to add a var/value-pair into settings-table
 function db_add_key_value($key, $value) {
@@ -342,14 +367,6 @@ function db_add_field($field, $table, $desc) {
  */
 echo "<br />Adding default_theme to settings table<br />";
 db_update_key_value('settings', 'default_theme', $DEFAULT_THEME);
-/*
-$cfg = array(
-	'default_theme' => 'wb_theme'
-);
-foreach($cfg as $key=>$value) {
-	db_add_key_value($key, $value);
-}
-*/
 /**********************************************************
  *  - install droplets
  */
@@ -421,14 +438,21 @@ foreach($cfg as $key=>$value) {
 }
 
 /**********************************************************
+ *  - Adding rename_files_on_upload to settings table
+ */
+echo "<br />Updating rename_files_on_upload to settings table<br />";
+$cfg = array(
+	'rename_files_on_upload' => 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js'
+);
+db_update_key_value('settings', 'rename_files_on_upload', $cfg['rename_files_on_upload']);
+
+/**********************************************************
  *  - Adding mediasettings to settings table
  */
 echo "<br />Adding mediasettings to settings table<br />";
 $cfg = array(
 	'mediasettings' => '',
-	'rename_files_on_upload' => 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js'
 );
-db_update_key_value('settings', 'rename_files_on_upload', $cfg['rename_files_on_upload']);
 
 foreach($cfg as $key=>$value) {
 	db_add_key_value($key, $value);
@@ -604,20 +628,15 @@ if( sizeof( $array ) ){
 			require_once(WB_PATH."/modules/news/upgrade.php");
 		}
 	}
-/**********************************************************
- *  - Set Version to new Version
- */
-echo '<br />Update database version number to '.VERSION.' : ';
-// echo ($database->query("UPDATE `".TABLE_PREFIX."settings` SET `value`='".VERSION."' WHERE `name` = 'wb_version'")) ? " $OK<br />" : " $FAIL<br />";
-db_update_key_value('settings', 'wb_version', VERSION);
 
 /* *****************************************************************************
  * - check for deprecated / never needed files
  */
+if(sizeof($filesRemove)) {
 ?>
-<h2>Step 3: Remove deprecated and old files</h2>
+<h2>Step <?php echo (++$stepID) ?>: Remove deprecated and old files</h2>
 <?php
-
+}
 	$searches = array(
 		'[ADMIN]',
 		'[MEDIA]',
@@ -631,34 +650,45 @@ db_update_key_value('settings', 'wb_version', VERSION);
 		'/templates',
 	);
 
-	$msg = '';
-	foreach( $files2remove as $file )
+	foreach( $filesRemove as $filesId )
 	{
-		$file = str_replace($searches, $replacements, $file);
-		$file = WB_PATH.'/'.$file;
-		if( file_exists( $file ))
-		{ // try to unlink file
-			if(!unlink($file))
-			{ // save in err-list, if failed
-				$msg .= $file.'<br />';
+		$msg = '';
+		foreach( $filesId as $file )
+		{
+			$file = str_replace($searches, $replacements, $file);
+			$file = WB_PATH.'/'.$file;
+			if( file_exists($file) )
+			{ // try to unlink file
+				if(!is_writable( $file ) || !unlink($file))
+				{ // save in err-list, if failed
+					$msg .= $file.'<br />';
+				}
 			}
+		}
+
+		if($msg != '')
+		{
+			$msg = '<br /><br />Following files are deprecated, outdated or a security risk and
+				    can not be removed automatically.<br /><br />Please delete them
+					using FTP and restart upgrade-script!<br /><br />'.$msg.'<br />';
+	        status_msg($msg, 'error warning', 'div');
+			echo '<p style="font-size:120%;"><strong>WARNING: The upgrade script failed ...</strong></p>';
+
+			echo '<form action="'.$_SERVER['SCRIPT_NAME'].'">';
+			echo '&nbsp;<input name="send" type="submit" value="Restart upgrade script" />';
+			echo '</form>';
+			echo '<br /><br /></div></body></html>';
+			exit;
 		}
 	}
 
-	if($msg != '')
-	{
-		$msg = 'Following files are deprecated, outdated or a security risk and
-			    can not be removed automatically.<br /><br />Please delete them
-				using FTP and restart upgrade-script!<br /><br />'.$msg;
-        status_msg($msg, 'error warning', 'div');
-		echo '<br /><br /><br /><br /></div></body></html>';
-		exit();
-	}
+
 /**********************************************************
  * - check for deprecated / never needed files
  */
+if(sizeof($dirRemove)) {
 ?>
-<h2>Step 4: Remove deprecated and old Templates</h2>
+<h2>Step  <?php echo (++$stepID) ?> : Remove deprecated and old folders</h2>
 <?php
 
 	$searches = array(
@@ -675,7 +705,7 @@ db_update_key_value('settings', 'wb_version', VERSION);
 	);
 
 	$msg = '';
-	foreach( $dir2remove as $dir )
+	foreach( $dirRemove as $dir )
 	{
 		$dir = str_replace($searches, $replacements, $dir);
 		$dir = WB_PATH.'/'.$dir;
@@ -689,12 +719,24 @@ db_update_key_value('settings', 'wb_version', VERSION);
 	}
 	if($msg != '')
 	{
-		$msg = 'Following directories are deprecated, outdated or a security risk and
+		$msg = '<br /><br />Following files are deprecated, outdated or a security risk and
 			    can not be removed automatically.<br /><br />Please delete them
-				using FTP!<br /><br />'.$msg;
+				using FTP and restart upgrade-script!<br /><br />'.$msg.'<br />';
         status_msg($msg, 'error warning', 'div');
-		echo '<br /><br /><br /><br /></div>';
+		echo '<p style="font-size:120%;"><strong>WARNING: The upgrade script failed ...</strong></p>';
+
+		echo '<form action="'.$_SERVER['SCRIPT_NAME'].'">';
+		echo '&nbsp;<input name="send" type="submit" value="Restart upgrade script" />';
+		echo '</form>';
+		echo '<br /><br /></div></body></html>';
+		exit;
 	}
+
+}
+
+?>
+<h2>Step <?php echo (++$stepID) ?> : Reload all addons database entry (no upgrade)</h2>
+<?php
 /**********************************************************
  *  - Reload all addons
  */
@@ -748,24 +790,32 @@ echo '<br />Languages reloaded<br />';
 
 if(!defined('DEFAULT_THEME')) { define('DEFAULT_THEME', $DEFAULT_THEME); }
 if(!defined('THEME_PATH')) { define('THEME_PATH', WB_PATH.'/templates/'.DEFAULT_THEME);}
+/**********************************************************
+ *  - Set Version to new Version
+ */
+echo '<br />Update database version number to '.VERSION.' '.SP.' '.' Revision ['.REVISION.'] : ';
+// echo ($database->query("UPDATE `".TABLE_PREFIX."settings` SET `value`='".VERSION."' WHERE `name` = 'wb_version'")) ? " $OK<br />" : " $FAIL<br />";
+db_update_key_value('settings', 'wb_version', VERSION);
+db_update_key_value('settings', 'wb_revision', REVISION);
+db_update_key_value('settings', 'wb_sp', SP);
 
 echo '<p style="font-size:120%;"><strong>Congratulations: The upgrade script is finished ...</strong></p>';
 status_msg('<strong>Warning:</strong><br />Please delete the file <strong>upgrade-script.php</strong> via FTP before proceeding.', 'warning', 'div');
 // show buttons to go to the backend or frontend
 echo '<br />';
+
 if(defined('WB_URL')) {
-	echo '<form action="'.WB_URL.'">';
-	echo '<input type="submit" value="kick me to the Frontend" style="float:left;" />';
+	echo '<form action="'.WB_URL.'/">';
+	echo '&nbsp;<input type="submit" value="kick me to the Frontend" />';
 	echo '</form>';
 }
 if(defined('ADMIN_URL')) {
-	echo '<form action="'.ADMIN_URL.'">';
+	echo '<form action="'.ADMIN_URL.'/">';
 	echo '&nbsp;<input type="submit" value="kick me to the Backend" />';
 	echo '</form>';
 }
-echo '<p>&nbsp;</p>';
 
-?>
+?><br /><br />
 </div>
 </body>
 </html>

@@ -451,6 +451,8 @@ if($install_tables == true) {
 	$settings_rows=	"INSERT INTO `".TABLE_PREFIX."settings` "
 	." (name, value) VALUES "
 	." ('wb_version', '".VERSION."'),"
+	." ('wb_revision', '".REVISION."'),"
+ 	." ('wb_sp', '".SP."'),"
 	." ('website_title', '$website_title'),"
 	." ('website_description', ''),"
 	." ('website_keywords', ''),"

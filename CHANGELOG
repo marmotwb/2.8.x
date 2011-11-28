@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+28 Nov-2011 Build 1532 Dietmar Woellbrink (Luisehahne)
+! small changes in INSTALL and UPGRADE (Tks to unawave2)
+! update upgrade-script showing from Version to Version (Tks to unawave2)
++ add Servicepack version to header.htt
 28 Nov-2011 Build 1531 Dietmar Woellbrink (Luisehahne)
 ! add Instructions for droplets
 27 Nov-2011 Build 1530 Dietmar Woellbrink (Luisehahne)

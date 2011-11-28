@@ -133,6 +133,7 @@ class admin extends wb {
 							'CHARSET' => $charset,
 							'LANGUAGE' => strtolower(LANGUAGE),
 							'VERSION' => VERSION,
+							'SP' => (defined('SP') ? SP : ''),
 							'REVISION' => REVISION,
 							'WB_URL' => WB_URL,
 							'ADMIN_URL' => ADMIN_URL,

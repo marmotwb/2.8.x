@@ -24,7 +24,7 @@ Step 3 - upgrading
 - upload all files to your Webspace.
 - Be shure that existing files are overwritten.
 
-Step 4 - Cleanup Files and Folders on your Webspace:
+Step 4 - Cleanup Files and Folders (if exist) on your Webspace:
 - Delete File admin/preferences/details.php
 - Delete File admin/preferences/email.php
 - Delete File admin/preferences/password.php
