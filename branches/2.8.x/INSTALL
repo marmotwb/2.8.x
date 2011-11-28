@@ -21,6 +21,11 @@ Step 4 - Installation folder:
 Step 5 - Upgrade-script:
 - Delete File upgrade-script.php
 
+Step 6 Fill in Admintool Droplets
+- After login to the backend, go to Menu Add-ons advanced
+- in Execute module files manually File: "upgrade.php" or File: "install.php"
+- select droplets and click Execute
+
 Have fun with WB 2.8.2 SP2
 
 

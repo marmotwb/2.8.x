@@ -41,4 +41,11 @@ Step 6 - Delete the upgrade-script:
 Step 7 - Delete the config.php.new:
 - to solve the problem with overwritten config.php by upgrade to 2.8.2  we upload a config.php.new.
 
+Step 8 Upgrade Admintool Droplets
+- do a backup from your droplets
+- unzip your backup local and upload your own droplets to /modules/droplets/example
+- go to Menu Add-ons advanced
+- in Execute module files manually File: File: "install.php"
+- select droplets and click Execute
+
 Have fun with WB 2.8.2 SP2
