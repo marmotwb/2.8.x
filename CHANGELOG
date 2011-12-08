@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+08 Dez-2011 Build 1534 Werner v.d.Decken(DarkViper)
+# /output_filter/filter-routines.php rel-URL Filter fixed for mailto-links
 08 Dez-2011 Build 1533 Dietmar Woellbrink (Luisehahne)
 + new backend theme handling (Tks to Stefek)
 # some fixes in install
