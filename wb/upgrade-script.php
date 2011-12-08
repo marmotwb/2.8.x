@@ -373,7 +373,7 @@ db_update_key_value('settings', 'default_theme', $DEFAULT_THEME);
     $drops = (!in_array ( "mod_droplets", $all_tables)) ? "<br />Install droplets<br />" : "<br />Upgrade droplets<br />";
     echo $drops;
 
-     $file_name = (!in_array ( "mod_droplets", $all_tables)) ? "install.php" : "upgrade.php";
+     $file_name = (!in_array ( "mod_droplets", $all_tables) ? "install.php" : "upgrade.php");
      require_once (WB_PATH."/modules/droplets/".$file_name);
 
 // check again all tables, to get a new array
@@ -641,13 +641,17 @@ if(sizeof($filesRemove)) {
 		'[ADMIN]',
 		'[MEDIA]',
 		'[PAGES]',
+		'[FRAMEWORK]',
+		'[MODULES]',
 		'[TEMPLATE]'
 	);
 	$replacements = array(
 		substr(ADMIN_PATH, strlen(WB_PATH)+1),
 		MEDIA_DIRECTORY,
 		PAGES_DIRECTORY,
-		'/templates',
+		'/framework',
+		'/modules',
+		'/templates'
 	);
 
 	foreach( $filesRemove as $filesId )
@@ -780,7 +784,6 @@ if( ($handle = opendir(WB_PATH.'/languages/')) ) {
 	closedir($handle);
 }
 echo '<br />Languages reloaded<br />';
-
 
 /**********************************************************
  *  - End of upgrade script

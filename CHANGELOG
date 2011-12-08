@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+08 Dez-2011 Build 1533 Dietmar Woellbrink (Luisehahne)
++ new backend theme handling (Tks to Stefek)
+# some fixes in install
 28 Nov-2011 Build 1532 Dietmar Woellbrink (Luisehahne)
 ! small changes in INSTALL and UPGRADE (Tks to unawave2)
 ! update upgrade-script showing from Version to Version (Tks to unawave2)

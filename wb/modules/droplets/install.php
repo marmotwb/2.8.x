@@ -76,7 +76,7 @@ foreach ($names as $dropfile) {
 		$droplet = implode ( "\n", $cArray );
 		$name = substr($dropfile,0,-4);
 		$modified_when = time();
-		$modified_by = method_exists($admin, 'get_user_id') ? $admin->get_user_id() : 1;
+		$modified_by = (method_exists($admin, 'get_user_id') ? $admin->get_user_id() : 1);
 		$sql  = 'INSERT INTO `'.TABLE_PREFIX.'mod_droplets` SET ';
 		$sql .= '`name` = \''.$name.'\', ';
 		$sql .= '`code` = \''.$droplet.'\', ';
@@ -88,7 +88,7 @@ foreach ($names as $dropfile) {
 		$database->query($sql);
 		
 		// do not output anything if this script is called during fresh installation
-		if (method_exists($admin, 'get_user_id')) echo "Droplet import: $name<br/>";
+		// if (method_exists($admin, 'get_user_id')) echo "Droplet import: $name<br/>";
 	}
 }
 

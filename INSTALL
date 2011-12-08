@@ -7,6 +7,8 @@ Step 1 - Preparing your existing webspace:
 Step 2 - Download WebsiteBaker from http://www.websitebaker2.org/en/download/latest-version.php
 - Download "WebsiteBaker 2.8.2 [R1528] including ServicePack 2"
 - Unzip the package to your lokal machine
+- Download "Hotfix 2011/11/29"
+- Unzip the package to your lokal machine and overwrite "WebsiteBaker 2.8.2 [R1528] including ServicePack 2"
 - rename config.php.new to config.php
 - change favicon to your own
 - upload all files to your Webspace.
@@ -21,8 +23,9 @@ Step 4 - Installation folder:
 Step 5 - Upgrade-script:
 - Delete File upgrade-script.php
 
-Step 6 Fill in Admintool Droplets
-- After login to the backend, go to Menu Add-ons advanced
+Step 6 Fill in Admintool Droplets if empty after install
+- After login to the backend, check droplet by menu admin-tools
+- if droplet is empty go to Menu Add-ons advanced
 - in Execute module files manually File: "upgrade.php" or File: "install.php"
 - select droplets and click Execute
 
