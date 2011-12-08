@@ -87,7 +87,7 @@ if (!function_exists('registerEditArea')) {
 				min_width:			$min_width,
 				min_height:		    $min_height,
 				allow_resize: 		'$allow_resize',
-				allow_toggle: 		$allow_toggle,
+				allow_toggle: 		'$allow_toggle',
 				toolbar: 			'$toolbar',
 				language:			'$language'
 			});

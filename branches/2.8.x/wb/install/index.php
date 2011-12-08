@@ -23,9 +23,9 @@ if(!defined('SESSION_STARTED')) {
 }
 
 $mod_path = dirname(str_replace('\\', '/', __FILE__));
-$doc_root = rtrim(str_replace('\\', '/',$_SERVER['DOCUMENT_ROOT']),'/');
+$doc_root = rtrim(realpath($_SERVER['DOCUMENT_ROOT']),'/');
 $mod_name = basename($mod_path);
-$wb_path = dirname(dirname(str_replace('\\', '/', __FILE__)));
+$wb_path = dirname(dirname(realpath( __FILE__)));
 $wb_root = str_replace(realpath($doc_root),'',$wb_path);
 
 // Function to highlight input fields which contain wrong/missing data
@@ -198,7 +198,7 @@ function change_os(type) {
 				$installFlag = false;
 				$config = '<font class="bad">Not empty!!?</font>';
 			} elseif( is_writeable($wb_path.$configFile)==true ) {
-				$config = '<font class="good">isWriteable</font>';
+				$config = '<font class="good">Writeable</font>';
 				$_SESSION['config_rename'] = true;
 			}
 		} elseif((file_exists($wb_path.'/config.php.new')==true)) {
