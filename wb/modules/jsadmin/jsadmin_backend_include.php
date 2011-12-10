@@ -4,7 +4,6 @@
  * @category        modules
  * @package         JsAdmin
  * @author          WebsiteBaker Project, modified by Swen Uth for Website Baker 2.7
- * @copyright       (C) 2006, Stepan Riha
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -117,6 +116,3 @@ print '<pre><strong>function '.__FUNCTION__.'();</strong> line: '.__LINE__.' -> 
 print_r( $page_type.'/'.$buttonCell ); print '</pre>'; // die();
 */
 }
-
-
-?>

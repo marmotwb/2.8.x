@@ -3,9 +3,7 @@
  *
  * @category        modules
  * @package         jsadmin
- * @author          Independend-Software-Team
  * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link            http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -18,9 +16,9 @@
  */
 
 $module_directory = 'jsadmin';
-$module_name = 'Javascript Admin';
+$module_name = 'Javascript Admin 1.4.0';
 $module_function = 'tool';
-$module_version = '1.3.0';
+$module_version = '1.4.0';
 $module_platform = '2.7 | 2.8.x';
 $module_author = 'Stepan Riha, Swen Uth';
 $module_license	= 'BSD License';
