@@ -3,9 +3,7 @@
  *
  * @category        modules
  * @package         captcha_control
- * @author          Independend-Software-Team
  * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link            http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -17,8 +15,14 @@
  *
  */
 
-// Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+// prevent this file from being accessed directly
+/* -------------------------------------------------------- */
+if(defined('WB_PATH') == false)
+{
+	// Stop this file being access directly
+		die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+}
+/* -------------------------------------------------------- */
 
 // check if module language file exists for the language set by the user (e.g. DE, EN)
 if(!file_exists(WB_PATH .'/modules/captcha_control/languages/'.LANGUAGE .'.php')) {

@@ -1,40 +1,33 @@
 <?php
+/**
+ *
+ * @category        modules
+ * @package         captcha_control
+ * @author          WebsiteBaker Project
+ * @copyright       2009-2011, Website Baker Org. e.V.
+ * @link            http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 5.2.2 and higher
+ * @version         $Id$
+ * @filesource      $HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
- -----------------------------------------------------------------------------------------
-  This is a control-tool for captcha and ASP
- -----------------------------------------------------------------------------------------
-V1.0 - inital version
-
-*/
-
+// prevent this file from being accessed directly
+/* -------------------------------------------------------- */
+if(defined('WB_PATH') == false)
+{
+	// Stop this file being access directly
+		die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+}
+/* -------------------------------------------------------- */
 $module_directory 	= 'captcha_control';
-$module_name 			= 'Captcha and Advanced-Spam-Protection (ASP) Control';
-$module_function 		= 'tool';
-$module_version 		= '1.1';
-$module_platform 		= '2.7 | 2.8.x';
-$module_author 		= 'Thomas Hornik (thorn)';
-$module_license 		= 'GNU General Public License';
-$module_description 	= 'Admin-Tool to control CAPTCHA and ASP';
-
-?>
+$module_name        = 'Captcha and Advanced-Spam-Protection (ASP) Control';
+$module_function    = 'tool';
+$module_version     = '1.2.0';
+$module_platform    = '2.7 | 2.8.x';
+$module_author      = 'Thomas Hornik (thorn)';
+$module_license     = 'GNU General Public License';
+$module_description = 'Admin-Tool to control CAPTCHA and ASP';
