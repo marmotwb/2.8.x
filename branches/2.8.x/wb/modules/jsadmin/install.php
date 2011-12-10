@@ -4,8 +4,7 @@
  * @category        modules
  * @package         JsAdmin
  * @author          WebsiteBaker Project, modified by Swen Uth for Website Baker 2.7
- * @copyright       (C) 2006, Stepan Riha
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       (C) 2006, Stepan Riha, 2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -17,25 +16,42 @@
 */
 
 // prevent this file from being accessed directly
-if(!defined('WB_PATH')) { exit('Cannot access this file directly'); }
+/* -------------------------------------------------------- */
+if(defined('WB_PATH') == false)
+{
+	// Stop this file being access directly
+	die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+}
+/* -------------------------------------------------------- */
 
 // add new rows to table "settings"
 
+$msg = array ();
 $table = TABLE_PREFIX ."mod_jsadmin";
+$jsadminDefault = array (
+	array ( 'id' => '1','name' => 'mod_jsadmin_persist_order','value' => '1' ),
+	array ( 'id' => '2','name' => 'mod_jsadmin_ajax_order_pages','value' => '1' ),
+	array ( 'id' => '3','name' => 'mod_jsadmin_ajax_order_sections','value' => '1' ),
+);
+
 $database->query("DROP TABLE IF EXISTS `$table`");
+$sql = 'CREATE TABLE IF NOT EXISTS `'.TABLE_PREFIX.'mod_jsadmin` ('
+	. ' `id` INT(11) NOT NULL DEFAULT \'0\','
+	. ' `name` VARCHAR(255) NOT NULL DEFAULT \'0\','
+	. ' `value` INT(11) NOT NULL DEFAULT \'0\','
+	. ' PRIMARY KEY ( `id` )'
+	. ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 
-$database->query("
-	CREATE TABLE `$table` (
-    `id` INT(11) NOT NULL DEFAULT '0',
-		`name` VARCHAR(255) NOT NULL DEFAULT '0',
-		`value` INT(11) NOT NULL DEFAULT '0',
-   	PRIMARY KEY (`id`)
-	)
-");
+if($database->query($sql) ) {
 
-global $database;
-$database->query("INSERT INTO ".$table." (id,name,value) VALUES ('1','mod_jsadmin_persist_order','1')");
-$database->query("INSERT INTO ".$table." (id,name,value) VALUES ('2','mod_jsadmin_ajax_order_pages','1')");
-$database->query("INSERT INTO ".$table." (id,name,value) VALUES ('3','mod_jsadmin_ajax_order_sections','1')");
+	for($x=0;$x<sizeof($jsadminDefault); $x++) {
+		$sql  = 'INSERT INTO '.$table.' SET ';
+		$sql .= '`id`=\''.$jsadminDefault[$x]['id'].'\', ';
+		$sql .= '`name`=\''.$jsadminDefault[$x]['name'].'\', ';
+		$sql .= '`value`=\''.$jsadminDefault[$x]['value'].'\' ';
+		if(!$database->query($sql) ) { $msg[] = $database->get_error();}
+	}
+} else {
+	$msg[] = $database->get_error();
+}
 
-?>

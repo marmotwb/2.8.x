@@ -4,7 +4,6 @@
  * @category        modules
  * @package         JsAdmin
  * @author          WebsiteBaker Project, modified by Swen Uth for Website Baker 2.7
- * @copyright       (C) 2006, Stepan Riha
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -16,8 +15,14 @@
  *
 */
 
-// Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+// prevent this file from being accessed directly
+/* -------------------------------------------------------- */
+if(defined('WB_PATH') == false)
+{
+	// Stop this file being access directly
+	die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+}
+/* -------------------------------------------------------- */
 
 function get_setting($name, $default = '') {
 	global $database;
@@ -50,5 +55,3 @@ $js_yui_scripts[] = $YUI_PATH.'/event/event'.$js_yui_min.'.js';
 $js_yui_scripts[] = $YUI_PATH.'/dom/dom'.$js_yui_min.'.js';
 $js_yui_scripts[] = $YUI_PATH.'/connection/connection'.$js_yui_min.'.js';
 $js_yui_scripts[] = $YUI_PATH.'/dragdrop/dragdrop'.$js_yui_min.'.js';
-
-?>
