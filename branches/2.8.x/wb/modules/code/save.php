@@ -4,7 +4,6 @@
  * @category        modules
  * @package         code
  * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -31,10 +30,9 @@ if (!$admin->checkFTAN())
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 }
 $admin->print_header();
-
 // Update the mod_wysiwygs table with the contents
 if(isset($_POST['content'])) {
-	$tags = array('<?php', '?>' , '<?');
+	$tags = array('<?php', '?>' , '<?', '<?=');
 	$content = $admin->add_slashes(str_replace($tags, '', $_POST['content']));
 	$query = "UPDATE ".TABLE_PREFIX."mod_code SET content = '$content' WHERE section_id = '$section_id'";
 	$database->query($query);	
@@ -49,5 +47,3 @@ if($database->is_error()) {
 
 // Print admin footer
 $admin->print_footer();
-
-?>

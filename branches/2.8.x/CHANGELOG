@@ -11,6 +11,11 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+10 Dez-2011 Build 1535 Dietmar Woellbrink (Luisehahne)
+! changes in code modul
++ add function getTableEngine to class.database 
++ add Quickskin to include folder
++ add reworkes Droplet SectionPicker to load modules frontend.css
 08 Dez-2011 Build 1534 Werner v.d.Decken(DarkViper)
 # /output_filter/filter-routines.php rel-URL Filter fixed for mailto-links
 08 Dez-2011 Build 1533 Dietmar Woellbrink (Luisehahne)
