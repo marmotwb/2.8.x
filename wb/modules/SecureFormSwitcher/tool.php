@@ -3,8 +3,7 @@
  *
  * @category        modules
  * @package         SecureFormSwitcher
- * @author          WebsiteBaker Project
- * @copyright       (C) 2011, D Woellbrink
+ * @author          WebsiteBaker Project, D Woellbrink
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html

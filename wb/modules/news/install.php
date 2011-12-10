@@ -4,7 +4,6 @@
  * @category        modules
  * @package         news
  * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -39,7 +38,7 @@ if(defined('WB_URL'))
 					 . '`posted_when` INT NOT NULL DEFAULT \'0\','
 					 . '`posted_by` INT NOT NULL DEFAULT \'0\','
 					 . 'PRIMARY KEY (post_id)'
-					 . ' )';
+					 . ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($mod_news);
 	
 	// $database->query("DROP TABLE IF EXISTS `".TABLE_PREFIX."mod_news_groups`");
@@ -51,7 +50,7 @@ if(defined('WB_URL'))
 					 . '`position` INT NOT NULL DEFAULT \'0\','
 					 . '`title` VARCHAR(255) NOT NULL DEFAULT \'\','
 					 . 'PRIMARY KEY (group_id)'
-                . ' )';
+                . ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($mod_news);
 	
 	// $database->query("DROP TABLE IF EXISTS `".TABLE_PREFIX."mod_news_comments`");
@@ -65,7 +64,7 @@ if(defined('WB_URL'))
 					 . '`commented_when` INT NOT NULL DEFAULT \'0\','
 					 . '`commented_by` INT NOT NULL DEFAULT \'0\','
 					 . 'PRIMARY KEY (comment_id)'
-                . ' )';
+                . ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 
 	$database->query($mod_news);
 	
@@ -87,7 +86,7 @@ if(defined('WB_URL'))
 					 . '`resize` INT NOT NULL DEFAULT \'0\','
 					 . ' `use_captcha` INT NOT NULL DEFAULT \'0\','
 					 . 'PRIMARY KEY (section_id)'
-                . ' )';
+                . ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 
 	$database->query($mod_news);
 		

@@ -14,12 +14,27 @@
  * @lastmodified    $Date$
  *
  */
+// Must include code to stop this file being access directly
 /* -------------------------------------------------------- */
-// Must include code to stop this file being accessed directly
-require_once( dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
-if(!defined('WB_PATH')) { throw new IllegalFileException(); }
+if(defined('WB_PATH') == false)
+{
+	// Stop this file being access directly
+		die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+}
 /* -------------------------------------------------------- */
-global $i;
+
+$msg = '';
+$sTable = TABLE_PREFIX.'mod_output_filter';
+if(($sOldType = $database->getTableEngine($sTable))) {
+	if(('myisam' != strtolower($sOldType))) {
+		if(!$database->query('ALTER TABLE `'.$sTable.'` Engine = \'MyISAM\' ')) {
+			$msg = $database->get_error();
+		}
+	}
+} else {
+	$msg = $database->get_error();
+}
+// ------------------------------------global $i;
 $table_name = TABLE_PREFIX .'mod_output_filter';
 $field_name = 'sys_rel';
 $i = (!isset($i) ? 1 : $i);

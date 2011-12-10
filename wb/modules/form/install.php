@@ -4,7 +4,6 @@
  * @category        modules
  * @package         form
  * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -34,7 +33,7 @@ if(defined('WB_URL'))
 		. ' `value` TEXT NOT NULL ,'
 		. ' `extra` TEXT NOT NULL ,'
 		. ' PRIMARY KEY ( `field_id` ) '
-		. ' )';
+		. ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($mod_form);
 
 	$mod_form = 'CREATE TABLE IF NOT EXISTS `'.TABLE_PREFIX.'mod_form_settings` ('
@@ -57,7 +56,7 @@ if(defined('WB_URL'))
 		. ' `max_submissions` INT NOT NULL DEFAULT \'0\' ,'
 		. ' `use_captcha` INT NOT NULL DEFAULT \'0\' ,'
 		. ' PRIMARY KEY ( `section_id` ) '
-		. ' )';
+		. ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($mod_form);
 	
 	$mod_form = 'CREATE TABLE IF NOT EXISTS `'.TABLE_PREFIX.'mod_form_submissions` ( `submission_id` INT NOT NULL AUTO_INCREMENT,'
@@ -67,7 +66,7 @@ if(defined('WB_URL'))
 		. ' `submitted_by` INT NOT NULL DEFAULT \'0\','
 		. ' `body` TEXT NOT NULL,'
 		. ' PRIMARY KEY ( `submission_id` ) '
-		. ' )';
+		. ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($mod_form);
 		
     $mod_search = "SELECT * FROM ".TABLE_PREFIX."search  WHERE value = 'form'";
@@ -103,5 +102,3 @@ if(defined('WB_URL'))
 
     }
 }
-
-?>

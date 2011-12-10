@@ -4,7 +4,6 @@
  * @category        WebsiteBaker
  * @package         modules
  * @subpackage      news
- * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -17,14 +16,19 @@
  */
 
 // Must include code to stop this file being access directly
-if(!defined('WB_URL')) { throw new Exception('illegal file access!! ['.$_SERVER['PHP_SELF'].']'); }
+/* -------------------------------------------------------- */
+if(defined('WB_PATH') == false)
+{
+	// Stop this file being access directly
+		die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+}
 
 /* **** START UPGRADE ******************************************************* */
 if(!function_exists('mod_news_Upgrade'))
 {
 	function mod_news_Upgrade()
 	{
-		global $database, $admin, $MESSAGE;
+		global $database, $msg, $admin, $MESSAGE;
 		$callingScript = $_SERVER["SCRIPT_NAME"];
 		$tmp = 'upgrade-script.php';
 		$globalStarted = substr_compare($callingScript, $tmp,(0-strlen($tmp)),strlen($tmp)) === 0;
@@ -37,9 +41,9 @@ if(!function_exists('mod_news_Upgrade'))
 				make_dir(WB_PATH.PAGES_DIRECTORY.'/posts/');
 			}else {
 				if(!$globalStarted){
-					$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
+					$msg[] = ($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
 				}else {
-					echo $MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE'].'<br />';
+					$msg[] = $MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE'].'<br />';
 					return;
 				}
 			}
@@ -104,7 +108,7 @@ if(!function_exists('mod_news_Upgrade'))
 		}
 		unset($oDir);
 		if($globalStarted && $count > 0) {
-			echo 'save date of creation from '.$count.' old accessfiles and delete these files.<br />';
+			$msg[] = 'save date of creation from '.$count.' old accessfiles and delete these files.<br />';
 		}
 // ************************************************
 	// Check the validity of 'create-file-timestamp' and balance against 'posted-timestamp'
@@ -151,19 +155,33 @@ if(!function_exists('mod_news_Upgrade'))
 					change_mode($file);
 				}else {
 					if($globalStarted){
-						echo $MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE'].'<br />';
+						$msg[] = $MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE'].'<br />';
 						return;
 					}else {
-						$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
+						$msg[] = ($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
 					}
 				}
 				$count++;
 			}
 		}
-		if($globalStarted) { echo 'created '.$count.' new accessfiles.'; }
-		if(!$globalStarted) { $admin->print_footer(); }
+		if($globalStarted) { $msg[] = 'created '.$count.' new accessfiles.'; }
+		// if(!$globalStarted) { $admin->print_footer(); }
 	}
 }
 
+$msg = array();
+$aTable = array('mod_news_posts','mod_news_groups','mod_news_comments','mod_news_settings');
+for($x=0; $x<sizeof($aTable);$x++) {
+	if(($sOldType = $database->getTableEngine(TABLE_PREFIX.$aTable[$x]))) {
+		if(('myisam' != strtolower($sOldType))) {
+			if(!$database->query('ALTER TABLE `'.TABLE_PREFIX.$aTable[$x].'` Engine = \'MyISAM\' ')) {
+				$msg[] = $database->get_error();
+			}
+		}
+	} else {
+		$msg[] = $database->get_error();
+	}
+}
+// ------------------------------------
 	mod_news_Upgrade();
 /* **** END UPGRADE ********************************************************* */
