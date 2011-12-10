@@ -12,6 +12,9 @@ Legend:
 
 =========================== add small Features 2.8.2 ==========================
 10 Dez-2011 Build 1535 Dietmar Woellbrink (Luisehahne)
++ add upgrade.php to captcha_control and small changes
++ add FolderProtectFile to quickskin
+10 Dez-2011 Build 1535 Dietmar Woellbrink (Luisehahne)
 ! changes in code modul
 + add function getTableEngine to class.database 
 + add Quickskin to include folder
