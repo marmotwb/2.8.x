@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+10 Dez-2011 Build 1539 Dietmar Woellbrink (Luisehahne)
+! update phpmailer to version 5.1
 10 Dez-2011 Build 1538 Dietmar Woellbrink (Luisehahne)
 ! add table db engine in module install scripts
 ! some small updates in modules
