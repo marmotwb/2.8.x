@@ -23,13 +23,13 @@ if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 $table = TABLE_PREFIX .'mod_output_filter';
 $database->query("DROP TABLE IF EXISTS `$table`");
 
-$database->query("CREATE TABLE `$table` (
+$database->query("CREATE TABLE IF NOT EXISTS `$table` (
 	`sys_rel` INT NOT NULL DEFAULT '0',
 	`email_filter` VARCHAR(1) NOT NULL DEFAULT '0',
 	`mailto_filter` VARCHAR(1) NOT NULL DEFAULT '0',
 	`at_replacement` VARCHAR(255) NOT NULL DEFAULT '(at)',
 	`dot_replacement` VARCHAR(255) NOT NULL DEFAULT '(dot)'
-	)"
+	) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci"
 );
 
 // add default values to the module table

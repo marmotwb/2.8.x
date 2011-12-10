@@ -4,7 +4,6 @@
  * @category        module
  * @package         Form
  * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -16,13 +15,20 @@
  * @description     
  */
 
+// Must include code to stop this file being access directly
+/* -------------------------------------------------------- */
+if(defined('WB_PATH') == false)
+{
+	// Stop this file being access directly
+		die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+}
+/* -------------------------------------------------------- */
 $module_directory = 'form';
 $module_name = 'Form';
 $module_function = 'page';
-$module_version = '2.8.1';
+$module_version = '2.8.3';
 $module_platform = '2.8.x';
 $module_author = 'Ryan Djurovich & Rudolph Lartey - additions John Maats - PCWacht';
 $module_license = 'GNU General Public License';
 $module_description = 'This module allows you to create customised online forms, such as a feedback form. '.
 'Thank-you to Rudolph Lartey who help enhance this module, providing code for extra field types, etc.';
-

@@ -9,11 +9,12 @@
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
- * @version         $Id$
+ * @version      	$Id$
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
  *
  */
+// Must include code to stop this file being access directly
 /* -------------------------------------------------------- */
 if(defined('WB_PATH') == false)
 {
@@ -22,11 +23,15 @@ if(defined('WB_PATH') == false)
 }
 /* -------------------------------------------------------- */
 
-$module_directory = 'wysiwyg';
-$module_name = 'WYSIWYG 2.8.3';
-$module_function = 'page';
-$module_version = '2.8.3';
-$module_platform = '2.8.2';
-$module_author = 'Ryan Djurovich';
-$module_license = 'GNU General Public License';
-$module_description = 'This module allows you to edit the contents of a page using a graphical editor';
+$msg = '';
+$sTable = TABLE_PREFIX.'mod_wysiwyg';
+if(($sOldType = $database->getTableEngine($sTable))) {
+	if(('myisam' != strtolower($sOldType))) {
+		if(!$database->query('ALTER TABLE `'.$sTable.'` Engine = \'MyISAM\' ')) {
+			$msg = $database->get_error();
+		}
+	}
+} else {
+	$msg = $database->get_error();
+}
+// ------------------------------------

@@ -4,7 +4,6 @@
  * @category        modules
  * @package         wrapper
  * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -17,7 +16,13 @@
  */
 
 // Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+/* -------------------------------------------------------- */
+if(defined('WB_PATH') == false)
+{
+	// Stop this file being access directly
+		die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+}
+/* -------------------------------------------------------- */
 
 // Setup template object
 $template = new Template(WB_PATH.'/modules/wrapper');
@@ -49,5 +54,3 @@ $template->set_var(array(
 // Parse template object
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
-
-?>

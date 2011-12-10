@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+10 Dez-2011 Build 1538 Dietmar Woellbrink (Luisehahne)
+! add table db engine in module install scripts
+! some small updates in modules
 10 Dez-2011 Build 1537 Dietmar Woellbrink (Luisehahne)
 ! continue updating headerinfos, adding upgrade scripts to module
 10 Dez-2011 Build 1536 Dietmar Woellbrink (Luisehahne)
