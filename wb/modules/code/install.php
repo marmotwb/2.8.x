@@ -4,7 +4,6 @@
  * @category        modules
  * @package         code
  * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -16,17 +15,25 @@
  *
  */
 
+/* -------------------------------------------------------- */
+if(defined('WB_PATH') == false)
+{
+	// Stop this file being access directly
+		die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+}
+/* -------------------------------------------------------- */
+
 if(defined('WB_URL'))
 {
-	
+
 	// Create table
-	//$database->query("DROP TABLE IF EXISTS `".TABLE_PREFIX."mod_code`");
+	$database->query("DROP TABLE IF EXISTS `".TABLE_PREFIX."mod_code`");
 	$mod_code = 'CREATE TABLE IF NOT EXISTS `'.TABLE_PREFIX.'mod_code` ('
 		. ' `section_id` INT NOT NULL DEFAULT \'0\','
 		. ' `page_id` INT NOT NULL DEFAULT \'0\','
 		. ' `content` TEXT NOT NULL,'
 		. ' PRIMARY KEY ( `section_id` )'
-		. ' )';
+		. ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($mod_code);
 
     $mod_search = "SELECT * FROM ".TABLE_PREFIX."search  WHERE value = 'code'";
@@ -59,5 +66,3 @@ if(defined('WB_URL'))
 
     }
 }
-
-?>

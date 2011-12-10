@@ -283,6 +283,26 @@ class database {
 		return $retval;
 	}
 
+	/**
+	* retuns the type of the engine used for requested table
+	* @param string $table name of the table, including prefix
+	* @return boolean/string false on error, or name of the engine (myIsam/InnoDb)
+	*/
+	public function getTableEngine($table)
+	{
+		$retVal = false;
+		$mysqlVersion = mysql_get_server_info($this->db_handle);
+		$engineValue = (version_compare($mysqlVersion, '5.0') < 0) ? 'Type' : 'Engine';
+		$sql = "SHOW TABLE STATUS FROM " . DB_NAME . " LIKE '" . $table . "'";
+		if(($result = $this->query($sql))) {
+			if(($row = $result->fetchRow(MYSQL_ASSOC))) {
+				$retVal = $row[$engineValue];
+			}
+		}
+		return $retVal;
+	}
+
+
 } /// end of class database
 
 class mysql {
@@ -358,4 +378,3 @@ class mysql {
 		}
 		return $retval;
 	}
-?>
