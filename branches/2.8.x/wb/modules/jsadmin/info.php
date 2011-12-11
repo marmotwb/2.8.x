@@ -16,7 +16,7 @@
  */
 
 $module_directory = 'jsadmin';
-$module_name = 'Javascript Admin 1.4.0';
+$module_name = 'Javascript Admin';
 $module_function = 'tool';
 $module_version = '1.4.0';
 $module_platform = '2.7 | 2.8.x';

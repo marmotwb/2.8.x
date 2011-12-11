@@ -301,7 +301,6 @@ $config_content = "" .
 "";
 
 $config_filename = '../config.php';
-
 // Check if the file exists and is writable first.
 if(file_exists($config_filename) AND is_writable($config_filename)) {
 	if(!$handle = fopen($config_filename, 'w')) {
@@ -680,6 +679,7 @@ if($install_tables == true) {
 	$dirs['modules'] = WB_PATH.'/modules/';
 	$dirs['templates'] = WB_PATH.'/templates/';
 	$dirs['languages'] = WB_PATH.'/languages/';
+
 	foreach($dirs AS $type => $dir) {
 		if($handle = opendir($dir)) {
 			while(false !== ($file = readdir($handle))) {

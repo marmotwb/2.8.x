@@ -25,7 +25,7 @@ if(defined('WB_PATH') == false)
 /* -------------------------------------------------------- */
 
 $module_directory	= 'code';
-$module_name		= 'Code 2.8.3';
+$module_name		= 'Code';
 $module_function	= 'page';
 $module_version		= '2.8.3';
 $module_platform	= '2.7 | 2.8.x';

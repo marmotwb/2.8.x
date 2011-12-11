@@ -190,26 +190,44 @@ function change_os(type) {
 		<tr>
 <?php
 	$config = '<font class="good">Writeable</font>';
+	$config_content = "<?php\n";
 	$configFile = '/config.php';
-	if(!isset($_SESSION['config_rename']) ) {
+	if(!isset($_SESSION['config_rename']) )
+	{
 
-		if( (file_exists($wb_path.$configFile)==true)) {
-			if ( filesize($wb_path.$configFile) > 128) {
+		if( (file_exists($wb_path.$configFile)==true))
+		{
+
+			if ( filesize($wb_path.$configFile) > 128)
+			{
 				$installFlag = false;
 				$config = '<font class="bad">Not empty!!?</font>';
-			} elseif( is_writeable($wb_path.$configFile)==true ) {
-				$config = '<font class="good">Writeable</font>';
-				$_SESSION['config_rename'] = true;
-			}
-		} elseif((file_exists($wb_path.'/config.php.new')==true)) {
+			} elseif(!$handle = fopen($wb_path.$configFile, 'w') )
+			{
+				$installFlag = false;
+                $config = '<font class="bad">Not Writeable</font>';
+			} else {
+				if (fwrite($handle, $config_content) === FALSE) {
+					$installFlag = false;
+	                $config = '<font class="bad">Not Writeable</font>';
+				} else {
+					$config = '<font class="good">Writeable</font>';
+					$_SESSION['config_rename'] = true;
+				}
+				// Close file
+				fclose($handle);
+				}
+
+		} elseif((file_exists($wb_path.'/config.php.new')==true))
+		{
 			$configFile = '/config.php.new';
 			$installFlag = false;
 			$config = '<font class="bad">Please rename</font>';
-		} else {
-				$installFlag = false;
-				$config = '<font class="bad">Missing!!?</font>';
+		} else
+		{
+			$installFlag = false;
+			$config = '<font class="bad">Missing!!?</font>';
 		}
-
 	}
 ?>
 			<td width="150px" style="color: #666666;"><?php print $wb_root.$configFile ?></td>
