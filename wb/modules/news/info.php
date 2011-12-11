@@ -24,7 +24,7 @@ if(defined('WB_PATH') == false)
 }
 /* -------------------------------------------------------- */
 $module_directory   = 'news';
-$module_name        = 'News 3.5.6';
+$module_name        = 'News';
 $module_function    = 'page';
 $module_version     = '3.5.6';
 $module_platform    = '2.8.2';

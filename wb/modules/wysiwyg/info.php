@@ -23,7 +23,7 @@ if(defined('WB_PATH') == false)
 /* -------------------------------------------------------- */
 
 $module_directory = 'wysiwyg';
-$module_name = 'WYSIWYG 2.8.3';
+$module_name = 'WYSIWYG';
 $module_function = 'page';
 $module_version = '2.8.3';
 $module_platform = '2.8.2';

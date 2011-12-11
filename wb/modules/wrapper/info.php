@@ -24,7 +24,7 @@ if(defined('WB_PATH') == false)
 /* -------------------------------------------------------- */
 
 $module_directory = 'wrapper';
-$module_name = 'Wrapper 2.8.3';
+$module_name = 'Wrapper';
 $module_function = 'page';
 $module_version = '2.8.3';
 $module_platform = '2.7 | 2.8.x';

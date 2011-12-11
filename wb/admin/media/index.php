@@ -113,7 +113,7 @@ $template->set_var(array(
 // Parse template object
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
-
+/*
 $endtime=explode(" ", microtime());
 $endtime=$endtime[0]+$endtime[1];
 $debugVMsg = '';
@@ -124,8 +124,6 @@ if($admin->ami_group_member('1') ) {
 	// $debugVMsg = print_message($debugVMsg,'#','debug',-1,false);
 	print $debugVMsg.'<br />';
  }
-
+*/
 // Print admin
 $admin->print_footer();
-
-?>
