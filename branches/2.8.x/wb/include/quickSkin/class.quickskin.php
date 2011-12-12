@@ -161,7 +161,10 @@ class QuickSkin {
    */
   function __construct( $template_filename = '' ) {
     global $_CONFIG;
-
+	// make extension directory setting
+	if (!empty($_CONFIG['extensions_dir'])) {
+      $this->extensions_dir  =  $_CONFIG['extensions_dir'];
+    }  
     if (!empty($_CONFIG['quickskin_compiled'])) {
       $this->temp_dir  =  $_CONFIG['quickskin_compiled'];
     }
@@ -704,10 +707,11 @@ class QuickSkinParser {
     /* END, ELSE Blocks */
     $page  =  preg_replace("/<!-- ENDIF.+?-->/", "<?php\n}\n?>", $this->template);
     $page  =  preg_replace("/<!-- END[ a-zA-Z0-9_.]* -->/",  "<?php\n}\n\$_obj=\$_stack[--\$_stack_cnt];}\n?>", $page);
+    $page  =  preg_replace("/<!-- ENDLOOP[ a-zA-Z0-9_.]* -->/",  "<?php\n}\n\$_obj=\$_stack[--\$_stack_cnt];}\n?>", $page);
     $page  =  str_replace("<!-- ELSE -->", "<?php\n} else {\n?>", $page);
 
     /* 'BEGIN - END' Blocks */
-    if (preg_match_all('/<!-- BEGIN ([a-zA-Z0-9_.]+) -->/', $page, $var)) {
+    if (preg_match_all('/<!-- LOOP ([a-zA-Z0-9_.]+) -->/', $page, $var)) {
       foreach ($var[1] as $tag) {
         list($parent, $block)  =  $this->var_name($tag);
         $code  =  "<?php\n"
@@ -722,7 +726,7 @@ class QuickSkinParser {
               . "\$$block"."['ROWBIT']=\$rowcounter%2;\n"
               . "\$rowcounter++;"
               . "\$_obj=&\$$block;\n?>";
-        $page  =  str_replace("<!-- BEGIN $tag -->",  $code,  $page);
+        $page  =  str_replace("<!-- LOOP $tag -->",  $code,  $page);
       }
     }
 
@@ -968,11 +972,11 @@ class QuickSkinParser {
 
   }
 
-  function worx_tpl_swap($tpldata, $data, $supp_templates) { /* do the substitution of the sub templates here */
+  function worx_tpl_swap($tpldata, $data, $supp_templates) { // do the substitution of the sub templates here 
 
-    /* do the substitution of the directory names here */
-
-    /* do image link substitution */
+	// do the substitution of the directory names here
+	/*
+    // do image link substitution 
     if ( $data['tpl_img'] != '' && $data['url_img'] != '' ) {
       $tpldata = str_replace($data['tpl_img'],$data['url_img'],$tpldata);
       unset($data['tpl_img']);
@@ -981,7 +985,7 @@ class QuickSkinParser {
       $tpldata = str_replace('tplimgs/',_URL_USRIMG,$tpldata);
     }
 
-    /* do javascript link substitution */
+    // do javascript link substitution
     if ( $data['tpl_js'] != '' && $data['url_js'] != '' ) {
       $tpldata = str_replace($data['tpl_js'],$data['url_js'],$tpldata);
       unset($data['img_tpl']);
@@ -990,7 +994,7 @@ class QuickSkinParser {
       $tpldata = str_replace('tpljs/',_URL_USRJS,$tpldata);
     }
 
-    /* do css link substitution */
+    // do css link substitution
     if ( $data['tpl_css'] != '' && $data['url_css'] != '' ) {
       $tpldata = str_replace($data['tpl_css'],$data['url_css'],$tpldata);
       unset($data['tpl_css']);
@@ -998,9 +1002,9 @@ class QuickSkinParser {
     } elseif (defined(_URL_USRCSS)) {
       $tpldata = str_replace('url_css/',_URL_USRCSS,$tpldata);
     }
-
+	*/
     return $tpldata;
-
+	
   }
 
 }
