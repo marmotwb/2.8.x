@@ -143,5 +143,3 @@ foreach ($post_check as $key) {
 $admin->print_header();
 $admin->print_success(implode($msg, '<br />'), $js_back);
 $admin->print_footer();
-
-?>

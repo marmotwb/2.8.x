@@ -194,30 +194,38 @@ function change_os(type) {
 	$configFile = '/config.php';
 	if(!isset($_SESSION['config_rename']) )
 	{
-
+// cnfig.php or config.php.new
 		if( (file_exists($wb_path.$configFile)==true))
 		{
-
-			if ( filesize($wb_path.$configFile) > 128)
+// next operation only if file is writeable
+			if(is_writeable($wb_path.$configFile))
 			{
-				$installFlag = false;
-				$config = '<font class="bad">Not empty!!?</font>';
-			} elseif(!$handle = fopen($wb_path.$configFile, 'w') )
-			{
-				$installFlag = false;
-                $config = '<font class="bad">Not Writeable</font>';
-			} else {
-				if (fwrite($handle, $config_content) === FALSE) {
+// already installed? it's not empty
+				if ( filesize($wb_path.$configFile) > 128)
+				{
+					$installFlag = false;
+					$config = '<font class="bad">Not empty!!?</font>';
+// try to open and to write
+				} elseif( !$handle = fopen($wb_path.$configFile, 'w') )
+				{
 					$installFlag = false;
 	                $config = '<font class="bad">Not Writeable</font>';
 				} else {
-					$config = '<font class="good">Writeable</font>';
-					$_SESSION['config_rename'] = true;
-				}
-				// Close file
-				fclose($handle);
-				}
-
+					if (fwrite($handle, $config_content) === FALSE) {
+						$installFlag = false;
+		                $config = '<font class="bad">Not Writeable</font>';
+					} else {
+						$config = '<font class="good">Writeable</font>';
+						$_SESSION['config_rename'] = true;
+					}
+					// Close file
+					fclose($handle);
+					}
+			} else {
+				$installFlag = false;
+                $config = '<font class="bad">Not Writeable</font>';
+			}
+// it's config.php.new
 		} elseif((file_exists($wb_path.'/config.php.new')==true))
 		{
 			$configFile = '/config.php.new';
