@@ -52,5 +52,5 @@ if(!defined('WB_URL')) {
 
 // check if defined to avoid errors during installation (redirect to admin panel fails if PHP error/warnings are enabled)
 if(!defined('VERSION')) define('VERSION', '2.8.2');
-if(!defined('REVISION')) define('REVISION', '1542');
+if(!defined('REVISION')) define('REVISION', '1543');
 if(!defined('SP')) define('SP', 'SP2');

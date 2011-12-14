@@ -25,6 +25,7 @@ if(!defined('WB_PATH')) {
 }
 /* -------------------------------------------------------- */
 
+$msg = array();
 // Load Language file
 if(LANGUAGE_LOADED) {
 	if(!file_exists(WB_PATH.'/modules/droplets/languages/'.LANGUAGE.'.php')) {
@@ -50,17 +51,21 @@ $admin_user = ( ($admin->get_home_folder() == '') && ($admin->ami_group_member('
 $admintool_url = ADMIN_URL .'/admintools/index.php';
 
 //removes empty entries from the table so they will not be displayed
-$sql = 'DELETE FROM '.TABLE_PREFIX.'mod_droplets ';
+$sql = 'DELETE FROM `'.TABLE_PREFIX.'mod_droplets` ';
 $sql .= 'WHERE name = \'\' ';
-$database->query($sql);
-
-?>
-
-<br />
+if( !$database->query($sql) ) {
+	$msg[] = $database->get_error();
+}
+// if import failed after installation, should be only 1 time
+$sql = 'SELECT COUNT(`id`) FROM `'.TABLE_PREFIX.'mod_droplets` ';
+if( !$database->get_one($sql) ) {
+	include('install.php');
+}
+?><br />
 <table summary="" cellpadding="0" cellspacing="0" border="0" width="100%">
 <tr>
 	<td valign="bottom" width="50%">
-		<button class="add" type="button" name="add_droplet" onclick="javascript: window.location = '<?php echo WB_URL; ?>/modules/droplets/add_droplet.php';"><?php echo $TEXT['ADD'].' '.$DR_TEXT['DROPLETS']; ?></button>	
+		<button class="add" type="button" name="add_droplet" onclick="javascript: window.location = '<?php echo WB_URL; ?>/modules/droplets/add_droplet.php';"><?php echo $TEXT['ADD'].' '.$DR_TEXT['DROPLETS']; ?></button>
 	</td>
 	<!-- commentet out the droplets logo for a more similar backend design with other admin tools
 	<td align="center"><img src="<?php /*echo WB_URL;*/ ?>/modules/droplets/img/droplets_logo.png" border="1" alt=""/></td>

@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+14 Dez-2011 Build 1543 Dietmar Woellbrink (Luisehahne)
+# fix droplet sectionPicker
+# fix install config.php not writeable 
+# check table droplet if empty import examples
 12 Dez-2011 Build 1542 Dietmar Woellbrink (Luisehahne)
 # fix wrong background url in "Website Under Construction"
 12 Dez-2011 Build 1541 Dietmar Woellbrink (Luisehahne)
