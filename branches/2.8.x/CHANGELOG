@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+15 Dez-2011 Build 1544 Dietmar Woellbrink (Luisehahne)
+# fix droplet import after new wb installtion
 14 Dez-2011 Build 1543 Dietmar Woellbrink (Luisehahne)
 # fix droplet sectionPicker
 # fix install config.php not writeable 

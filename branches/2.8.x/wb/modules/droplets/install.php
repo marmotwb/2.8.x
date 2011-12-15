@@ -83,7 +83,7 @@ if(!defined('WB_PATH')) {
 			$droplet = implode ( "\n", $cArray );
 			$name = substr($dropfile,0,-4);
 			$modified_when = time();
-			$modified_by = (method_exists($admin, 'get_user_id') ? $admin->get_user_id() : 1);
+			$modified_by = (method_exists($admin, 'get_user_id') && ($admin->get_user_id()!=null) ? $admin->get_user_id() : 1);
 			$sql  = 'INSERT INTO `'.TABLE_PREFIX.'mod_droplets` SET ';
 			$sql .= '`name` = \''.$name.'\', ';
 			$sql .= '`code` = \''.$droplet.'\', ';
