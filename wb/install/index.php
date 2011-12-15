@@ -138,7 +138,7 @@ function change_os(type) {
 			<td width="160" style="color: #666666;">PHP Version > 5.2.1</td>
 			<td width="60">
 				<?php
-			   if (version_compare(PHP_VERSION, '5.2.1', '>='))
+			   if (version_compare(PHP_VERSION, '5.2.1', '>'))
 			   {
 					?><font class="good">Yes</font><?php
 				} else {
