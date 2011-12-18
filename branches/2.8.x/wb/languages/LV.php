@@ -540,7 +540,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' datne veiksmigi aug&scaron;upieladeta';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Nav iespejams ieklaut ../ mapes merki (target)';
 $MESSAGE['MEDIA_UPLOADED'] = ' datnes tika veiksmigi aug&scaron;upieladetas';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Atvaino, &scaron;i forma ir tikusi aizpildita parak daudz rei&#382;u &scaron;is stundas laika. Ludzu pamegini velreiz pec stundas.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Ievaditais parbaudes numurs ir nepareizs. Ja radu&scaron;as problemas ar parbaudes koda nolasi&scaron;anu, suti zinu uz: '.SERVER_EMAIL;
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Ievaditais parbaudes numurs ir nepareizs. Ja radu&scaron;as problemas ar parbaudes koda nolasi&scaron;anu, suti zinu uz: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Ievadi detalas sekojo&scaron;ajos laukos';
 $MESSAGE['PAGES_ADDED'] = 'Lapa veiksmigi pievienota';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Lapas virsraksts pievienots veiksmigi';

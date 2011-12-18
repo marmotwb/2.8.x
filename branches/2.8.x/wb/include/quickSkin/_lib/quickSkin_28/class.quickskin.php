@@ -164,7 +164,7 @@ class QuickSkin {
 	// make extension directory setting
 	if (!empty($_CONFIG['extensions_dir'])) {
       $this->extensions_dir  =  $_CONFIG['extensions_dir'];
-    }  
+    }
     if (!empty($_CONFIG['quickskin_compiled'])) {
       $this->temp_dir  =  $_CONFIG['quickskin_compiled'];
     }
@@ -691,7 +691,7 @@ class QuickSkinParser {
     $header = '';
 
     /* Code to allow subtemplates */
-    if(eregi("<!-- INCLUDE", $this->template)) {
+    if(preg_match("/<!-- INCLUDE/is", $this->template)) {
       while ($this->count_subtemplates() > 0) {
         preg_match_all('/<!-- INCLUDE ([a-zA-Z0-9\-_.]+) -->/', $this->template, $tvar);
         foreach($tvar[1] as $subfile) {
@@ -872,6 +872,11 @@ class QuickSkinParser {
       $page  =  "<?php\n$header\n?>$page";
     }
 
+	/* use_common_placeholders */
+	if(function_exists('use_common_placeholders')){
+		$page = use_common_placeholders($page);
+	}
+	
     /* do substitutions on included supplementary templates */
     $page = $this->worx_tpl_swap($page, $data, $supp_templates);
 
@@ -975,7 +980,7 @@ class QuickSkinParser {
   function worx_tpl_swap($tpldata, $data, $supp_templates) { // do the substitution of the sub templates here 
 
 	// do the substitution of the directory names here
-	/*
+	/*/
     // do image link substitution 
     if ( $data['tpl_img'] != '' && $data['url_img'] != '' ) {
       $tpldata = str_replace($data['tpl_img'],$data['url_img'],$tpldata);
@@ -984,7 +989,6 @@ class QuickSkinParser {
     } elseif (defined(_URL_USRIMG)) {
       $tpldata = str_replace('tplimgs/',_URL_USRIMG,$tpldata);
     }
-
     // do javascript link substitution
     if ( $data['tpl_js'] != '' && $data['url_js'] != '' ) {
       $tpldata = str_replace($data['tpl_js'],$data['url_js'],$tpldata);
@@ -993,7 +997,6 @@ class QuickSkinParser {
     } elseif (defined(_URL_USRJS)) {
       $tpldata = str_replace('tpljs/',_URL_USRJS,$tpldata);
     }
-
     // do css link substitution
     if ( $data['tpl_css'] != '' && $data['url_css'] != '' ) {
       $tpldata = str_replace($data['tpl_css'],$data['url_css'],$tpldata);
@@ -1002,7 +1005,7 @@ class QuickSkinParser {
     } elseif (defined(_URL_USRCSS)) {
       $tpldata = str_replace('url_css/',_URL_USRCSS,$tpldata);
     }
-	*/
+	/*/
     return $tpldata;
 	
   }

@@ -540,7 +540,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' file je uspje&scaron;no nasnimljen';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Ne mo&#382;e ../ u cilj direktorija';
 $MESSAGE['MEDIA_UPLOADED'] = ' fileovi su supje&scaron;no nasnimljeni';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Ova forma je pregledavana previ&scaron;e puta u jednom satu. Molimo poku&scaron;ajte slijede&aelig;i sat.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Broj provjere (poznat kao Captcha) neto&egrave;no je une&scaron;en. Ako imate problema s &egrave;itanjem Captcha, molimo po&scaron;aljite email: '.SERVER_EMAIL;
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Broj provjere (poznat kao Captcha) neto&egrave;no je une&scaron;en. Ako imate problema s &egrave;itanjem Captcha, molimo po&scaron;aljite email: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Morate unjeti detaljen podatke u nadoilaze&aelig;a polja';
 $MESSAGE['PAGES_ADDED'] = 'Stranica je uspje&scaron;no dodana';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Zaglavlje stranice uspje&scaron;no je dodano';

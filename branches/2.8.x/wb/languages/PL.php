@@ -540,7 +540,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' plik zostal pomyslnie zaladowany';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Folder docelowy nie moze zawierac ../';
 $MESSAGE['MEDIA_UPLOADED'] = ' pliki zostaly pomyslnie zaladowane';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Niestety, ten formularz zostal wyslany zbyt wiele razy w ciagu tej godziny. Prosimy spróbowac ponownie za godzine.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Wprowadzony numer weryfikacyjny (tzw. Captcha) jest nieprawidlowy. Jesli masz problemy z odczytaniem Captcha, napisz do: '.SERVER_EMAIL;
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Wprowadzony numer weryfikacyjny (tzw. Captcha) jest nieprawidlowy. Jesli masz problemy z odczytaniem Captcha, napisz do: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Nalezy wprowadzic szczególy dla nastepujacych pól';
 $MESSAGE['PAGES_ADDED'] = 'Strona zostala dodana';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Naglówek strony zostal dodany';

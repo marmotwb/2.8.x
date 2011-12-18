@@ -401,7 +401,7 @@
 	<td class="setting_value" id="file_mode" align="left">
 		<table summary="" cellpadding="2" cellspacing="0" border="0" width="90%" style="border-right: 1px solid #ddd;" id="{ADVANCED_FILE_PERMS_ID}2">
 		<tr>
-			<td colspan="3" style="text-align: center; font-weight: bold;">{TEXT_FILES}:</td>
+			<td colspan="3" style="text-align: center; font-weight: bold;">{TEXT_FILES}: {STRING_FILE_MODE}</td>
 		</tr>
 		<tr>
 			<td>{TEXT_USER}:</td>
@@ -445,7 +445,7 @@
 	<td class="setting_value" id="dir_mode" style="text-align: right;">
 		<table summary="" cellpadding="2" cellspacing="0" border="0" width="90%" id="{ADVANCED_FILE_PERMS_ID}3">
 		<tr>
-			<td colspan="3" style="text-align: center; font-weight: bold;">{TEXT_DIRECTORIES}:</td>
+			<td colspan="3" style="text-align: center; font-weight: bold;">{TEXT_DIRECTORIES}: {STRING_DIR_MODE}</td>
 		</tr>
 		<tr>
 			<td>{TEXT_USER}:</td>

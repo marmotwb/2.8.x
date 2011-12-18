@@ -540,7 +540,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' tiedosto ladattu';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Merkki&auml; ../ ei voi k&auml;ytt&auml;&auml; ';
 $MESSAGE['MEDIA_UPLOADED'] = ' tiedostot ladattu';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Rajoitus voimassa, yrit&auml; tunnin kuluttua uudelleen';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email: '.SERVER_EMAIL;
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'T&auml;yt&auml; kent&auml;t';
 $MESSAGE['PAGES_ADDED'] = 'Sivu lis&auml;tty';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Otsikko lis&auml;tty';

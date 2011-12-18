@@ -58,7 +58,7 @@ select option.disabled { color :#aaaaaa; }
 .modify_link { padding :4px 0 0 7px; }
 .settings_table td { vertical-align :top; text-align :left; padding :5px; }
 .setting_name { width :10%; min-width :180px; }
-.setting_value { width :90%; }
+.setting_value { width :50%; }
 .setting_value input, .setting_value select, .setting_value textarea { width :100%; }
 .setting_value textarea { height :50px; }
 #admintools ul { padding :0; margin :0; }

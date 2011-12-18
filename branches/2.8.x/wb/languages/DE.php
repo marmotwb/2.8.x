@@ -541,7 +541,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = 'Datei wurde erfolgreich &uuml;bertragen';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Der Name des Zielverzeichnisses darf nicht ../ enthalten';
 $MESSAGE['MEDIA_UPLOADED'] = 'Dateien wurden erfolgreich &uuml;bertragen';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Dieses Formular wurde zu oft aufgerufen. Bitte versuchen Sie es in einer Stunde noch einmal.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Die eingegebene Pr&uuml;fziffer stimmt nicht &uuml;berein. Wenn Sie Probleme mit dem Lesen der Pr&uuml;fziffer haben, bitte schreiben Sie eine E-Mail an uns: '.SERVER_EMAIL;
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Die eingegebene Pr&uuml;fziffer stimmt nicht &uuml;berein. Wenn Sie Probleme mit dem Lesen der Pr&uuml;fziffer haben, bitte schreiben Sie eine E-Mail an uns: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Bitte folgende Angaben erg&auml;nzen';
 $MESSAGE['PAGES_ADDED'] = 'Die Seite wurde erfolgreich hinzugef&uuml;gt';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Seitenkopf erfolgreich hinzugef&uuml;gt';

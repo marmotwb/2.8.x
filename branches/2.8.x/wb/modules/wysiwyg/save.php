@@ -44,11 +44,12 @@ if(isset($_POST['content'.$section_id])) {
 	$database->query($query);	
 }
 
+$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
 if(defined('EDIT_ONE_SECTION') and EDIT_ONE_SECTION)
 {
     $edit_page = ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'&wysiwyg='.$section_id;
 } else {
-    $edit_page = ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'#wb'.$section_id;
+    $edit_page = ADMIN_URL.'/pages/modify.php?page_id='.$page_id.$sec_anchor;
 }
 
 // Check if there is a database error, otherwise say successful
