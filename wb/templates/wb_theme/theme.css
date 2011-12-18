@@ -46,7 +46,7 @@ img.page_list_rights { border :none; margin-right :5px; float :left; margin-top 
 .sections_header { width :100%; margin-bottom :10px; border :none; background-color :#f0f0f0; height :50px; }
 .sections_header td { padding :5px; }
 .setting_name { width :20%; }
-.setting_value { width :90%; }
+.setting_value { width :30%; }
 .setting_value textarea { height :50px; }
 .title { width :90%; padding :3px 5px 0px 0px; color :#003366; font-weight :bold; font-size :14px; text-align :left; height :16px; }
 .tool_table ul { margin :0; padding :0; margin-left :20px; margin-bottom :2px; }

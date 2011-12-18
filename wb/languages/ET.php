@@ -540,7 +540,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' fail edukalt &uuml;les laetud';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Cannot have ../ in the folder target';
 $MESSAGE['MEDIA_UPLOADED'] = ' failid edukalt &uuml;les laetud';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Vabandame, see vorm on juba liiga palju kordi selle tunni jooksul saadetud. Palun proovi j&auml;rgmine tund uuesti.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email: '.SERVER_EMAIL;
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Sa pead detailid sisestama j&auml;rgnevatesse lahtritesse';
 $MESSAGE['PAGES_ADDED'] = 'Lehek&uuml;lg edukalt lisatud';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Lehek&uuml;lje p&auml;is edukalt lisatud';

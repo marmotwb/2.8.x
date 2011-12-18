@@ -11,7 +11,13 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
-15 Dez-2011 Build 1544 Dietmar Woellbrink (Luisehahne)
+18 Dez-2011 Build 1546 Dietmar Woellbrink (Luisehahne)
+! recoded /account/forgot_form.php
+! update quickSkin 
+! update languages files 
++ add /temp/quickSkin/ folder
+! begin fixing sec_anchor in urls
+15 Dez-2011 Build 1545 Dietmar Woellbrink (Luisehahne)
 ! update admin/pages/modify.php now you can send page_id with GET and POST
 15 Dez-2011 Build 1544 Dietmar Woellbrink (Luisehahne)
 # fix droplet import after new wb installtion
