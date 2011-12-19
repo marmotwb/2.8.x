@@ -305,6 +305,9 @@ class database {
 
 } /// end of class database
 
+define('MYSQL_SEEK_FIRST', 0);
+define('MYSQL_SEEK_LAST', -1);
+
 class mysql {
 
 	// Run a query
@@ -322,6 +325,18 @@ class mysql {
 	// Fetch row  $typ = MYSQL_ASSOC, MYSQL_NUM, MYSQL_BOTH
 	function fetchRow($typ = MYSQL_BOTH) {
 		return mysql_fetch_array($this->result, $typ);
+	}
+
+	function rewind()
+	{
+		return $this->seekRow();
+	}
+
+	function seekRow( $position = MYSQL_SEEK_FIRST )
+	{
+		$pmax = $this->numRows() - 1;
+		$p = (($position < 0 || $position > $pmax) ? $pmax : $position);
+		return mysql_data_seek($this->result, $p);
 	}
 
 	// Get error
