@@ -11,7 +11,9 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
-18 Dez-2011 Build 1546 Dietmar Woellbrink (Luisehahne)
+19 Dez-2011 Build 1548 Dietmar Woellbrink (Luisehahne)
+- remove quickSkin /temp/folder/ for a later solution
+18 Dez-2011 Build 1547 Dietmar Woellbrink (Luisehahne)
 + forgot a file in quickSkin Folder
 18 Dez-2011 Build 1546 Dietmar Woellbrink (Luisehahne)
 ! recoded /account/forgot_form.php
