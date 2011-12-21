@@ -1,6 +1,6 @@
 //:Load the view.php from any other section-module
 //:Use [[SectionPicker?sid=123]]
-global $database, $wb, $TEXT, $DGTEXT, $output;
+global $database, $wb, $TEXT, $DGTEXT;
 $content = '';
 if( intval($sid)>0 ) {
 	$sql  = 'SELECT `page_id`, `section_id`, `module` FROM `'.TABLE_PREFIX.'sections` ';
@@ -14,7 +14,7 @@ if( intval($sid)>0 ) {
 		$_sFrontendCss = '/modules/'.$module.'/frontend.css';
 		if(is_readable(WB_PATH.$_sFrontendCss)) {
 			$_sSearch = preg_quote(WB_URL.'/modules/'.$module.'/frontend.css', '/');
-			if(preg_match('/<link[^>]*?href\s*=\s*\"'.$_sSearch.'\".*?\/>/si', $output)) {
+			if(preg_match('/<link[^>]*?href\s*=\s*\"'.$_sSearch.'\".*?\/>/si', $wb_page_data)) {
 				$_sFrontendCss = '';
 			}else {
 				$_sFrontendCss = '<link href="'.WB_URL.$_sFrontendCss.'" rel="stylesheet" type="text/css" media="screen" />';
