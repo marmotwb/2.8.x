@@ -680,16 +680,18 @@ function createFolderProtectFile($sAbsDir='',$make_dir=true)
 		$filename = $sAbsDir.'/index.php';
 
 		// write content into file
-		if(is_writable($filename)) {
-		    if(file_put_contents($filename, $content)) {
-				print 'create => '.str_replace( $wb_path,'',$filename).'<br />';
-		        change_mode($filename, 'file');
-		    }
-		}
-	} else {
-			$retVal[] = $MESSAGE['GENERIC_BAD_PERMISSIONS'];
-	}
-	return $retVal;
+		  if(is_writable($filename) || !file_exists($filename)) {
+		      if(file_put_contents($filename, $content)) {
+		//    print 'create => '.str_replace( $wb_path,'',$filename).'<br />';
+		          change_mode($filename, 'file');
+		      }else {
+		    $retVal[] = $MESSAGE['GENERIC_BAD_PERMISSIONS'].' :: '.$filename;
+		   }
+		  }
+		 } else {
+		   $retVal[] = $MESSAGE['GENERIC_BAD_PERMISSIONS'];
+		 }
+		 return $retVal;
 }
 
 function rebuildFolderProtectFile($dir='')

@@ -45,10 +45,34 @@ $temp_dir = WB_PATH.'/temp/';
 $temp_file = $temp_dir . $_FILES['userfile']['name'];
 $temp_unzip = WB_PATH.'/temp/unzip/';
 
-// Try to upload the file to the temp dir
-if(!move_uploaded_file($_FILES['userfile']['tmp_name'], $temp_file))
-{
-	$admin->print_error($MESSAGE['GENERIC']['CANNOT_UPLOAD']);
+if(!$_FILES['userfile']['error']) {
+	// Try to upload the file to the temp dir
+	if(!move_uploaded_file($_FILES['userfile']['tmp_name'], $temp_file))
+	{
+		$admin->print_error($MESSAGE['GENERIC_BAD_PERMISSIONS']);
+	}
+} else {
+// index for language files
+	$key = 'UNKNOW_UPLOAD_ERROR';
+    switch ($error_code) {
+        case UPLOAD_ERR_INI_SIZE:
+            $key = 'UPLOAD_ERR_INI_SIZE';
+        case UPLOAD_ERR_FORM_SIZE:
+            $key = 'UPLOAD_ERR_FORM_SIZE';
+        case UPLOAD_ERR_PARTIAL:
+            $key = 'UPLOAD_ERR_PARTIAL';
+        case UPLOAD_ERR_NO_FILE:
+            $key = 'UPLOAD_ERR_NO_FILE';
+        case UPLOAD_ERR_NO_TMP_DIR:
+            $key = 'UPLOAD_ERR_NO_TMP_DIR';
+        case UPLOAD_ERR_CANT_WRITE:
+            $key = 'UPLOAD_ERR_CANT_WRITE';
+        case UPLOAD_ERR_EXTENSION:
+            $key = 'UPLOAD_ERR_EXTENSION';
+        default:
+            $key = 'UNKNOW_UPLOAD_ERROR';
+    }
+	$admin->print_error($MESSAGE[$key].'<br />'.$MESSAGE['GENERIC_CANNOT_UPLOAD']);
 }
 
 // Include the PclZip class file (thanks to 
@@ -65,7 +89,7 @@ $list = $archive->extract(PCLZIP_OPT_PATH, $temp_unzip);
 // Check if uploaded file is a valid Add-On zip file
 if (!($list && file_exists($temp_unzip . 'index.php')))
 {
-  $admin->print_error($MESSAGE['GENERIC']['INVALID_ADDON_FILE']);
+  $admin->print_error($MESSAGE['GENERIC_INVALID_ADDON_FILE']);
 }
 
 // Include the modules info file

@@ -635,6 +635,15 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'ADVARSEL! Installationsbiblioteket (mapp
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Velkommen til administration af din WebsiteBaker';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'OBS: For at &aelig;ndre skabelonen skal du g&aring; til punktet indstillinger';
+$MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
+$MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
+$MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
+$MESSAGE['UPLOAD_ERR_FORM_SIZE'] = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+$MESSAGE['UPLOAD_ERR_INI_SIZE'] = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+$MESSAGE['UPLOAD_ERR_NO_FILE'] = 'No file was uploaded';
+$MESSAGE['UPLOAD_ERR_NO_TMP_DIR'] = 'Missing a temporary folder';
+$MESSAGE['UPLOAD_ERR_OK'] = 'File were successful uploaded';
+$MESSAGE['UPLOAD_ERR_PARTIAL'] = 'The uploaded file was only partially uploaded';
 $MESSAGE['USERS_ADDED'] = 'Brugeren er oprettet';
 $MESSAGE['USERS_CANT_SELFDELETE'] = 'Funktionen udf&oslash;res ikke - du kan ikke slette dig selv';
 $MESSAGE['USERS_CHANGING_PASSWORD'] = 'OBS! Du skal kun indtaste v&aelig;rdier i felterne ovenfor, s&aring;fremt du &oslash;nsker at &aelig;ndre denne brugers adgangskode';
@@ -670,4 +679,3 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
-

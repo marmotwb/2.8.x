@@ -634,6 +634,15 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Uwaga: katalog instalacyjny wciaz istnie
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Witamy w panelu administracyjnym WebsiteBakera';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Uwaga: aby zmienic szablon, nalezy przejsc do sekcji Ustawienia';
+$MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
+$MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
+$MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
+$MESSAGE['UPLOAD_ERR_FORM_SIZE'] = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+$MESSAGE['UPLOAD_ERR_INI_SIZE'] = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+$MESSAGE['UPLOAD_ERR_NO_FILE'] = 'No file was uploaded';
+$MESSAGE['UPLOAD_ERR_NO_TMP_DIR'] = 'Missing a temporary folder';
+$MESSAGE['UPLOAD_ERR_OK'] = 'File were successful uploaded';
+$MESSAGE['UPLOAD_ERR_PARTIAL'] = 'The uploaded file was only partially uploaded';
 $MESSAGE['USERS_ADDED'] = 'Uzytkownik zostal dodany';
 $MESSAGE['USERS_CANT_SELFDELETE'] = 'Zadanie odrzucone, Nie mozesz usunac sam siebie!';
 $MESSAGE['USERS_CHANGING_PASSWORD'] = 'Uwaga: Powyzsze pola nalezy wypelnic tylko, jesli chce sie zmienic haslo tego uzytkownika';
@@ -669,4 +678,3 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
-

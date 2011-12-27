@@ -635,6 +635,15 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = '&#1042;&#1085;&#1080;&#1084;&#1072;&#108
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = '&#1044;&#1086;&#1073;&#1088;&#1086; &#1087;&#1086;&#1078;&#1072;&#1083;&#1086;&#1074;&#1072;&#1090;&#1100; &#1074; &#1052;&#1077;&#1085;&#1102; &#1040;&#1076;&#1084;&#1080;&#1085;&#1080;&#1089;&#1090;&#1088;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103; &#1057;&#1072;&#1081;&#1090;&#1072;';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = '&#1042;&#1085;&#1080;&#1084;&#1072;&#1085;&#1080;&#1077;! &#1063;&#1090;&#1086;&#1073;&#1099; &#1095;&#1090;&#1086;&#1073;&#1099; &#1089;&#1084;&#1077;&#1085;&#1080;&#1090;&#1100; &#1096;&#1072;&#1073;&#1083;&#1086;&#1085; &#1087;&#1077;&#1088;&#1077;&#1081;&#1076;&#1080;&#1090;&#1077; &#1074; &#1088;&#1072;&#1079;&#1076;&#1077;&#1083; "&#1059;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1080;"';
+$MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
+$MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
+$MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
+$MESSAGE['UPLOAD_ERR_FORM_SIZE'] = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+$MESSAGE['UPLOAD_ERR_INI_SIZE'] = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+$MESSAGE['UPLOAD_ERR_NO_FILE'] = 'No file was uploaded';
+$MESSAGE['UPLOAD_ERR_NO_TMP_DIR'] = 'Missing a temporary folder';
+$MESSAGE['UPLOAD_ERR_OK'] = 'File were successful uploaded';
+$MESSAGE['UPLOAD_ERR_PARTIAL'] = 'The uploaded file was only partially uploaded';
 $MESSAGE['USERS_ADDED'] = '&#1055;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1100; &#1076;&#1086;&#1073;&#1072;&#1074;&#1083;&#1077;&#1085; &#1091;&#1089;&#1087;&#1077;&#1096;&#1085;&#1086;';
 $MESSAGE['USERS_CANT_SELFDELETE'] = 'Function rejected, You can not delete yourself!';
 $MESSAGE['USERS_CHANGING_PASSWORD'] = '&#1048;&#1084;&#1077;&#1081;&#1090;&#1077; &#1074;&#1074;&#1080;&#1076;&#1091;, &#1095;&#1090;&#1086; &#1074;&#1072;&#1084; &#1089;&#1083;&#1077;&#1076;&#1091;&#1077;&#1090; &#1074;&#1074;&#1077;&#1089;&#1090;&#1080; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1103; &#1090;&#1086;&#1083;&#1100;&#1082;&#1086; &#1074; &#1074;&#1077;&#1088;&#1093;&#1085;&#1080;&#1093; &#1087;&#1086;&#1083;&#1103;&#1093; &#1077;&#1089;&#1083;&#1080; &#1074;&#1099; &#1093;&#1086;&#1090;&#1080;&#1090;&#1077; &#1080;&#1079;&#1084;&#1077;&#1085;&#1080;&#1090;&#1100; &#1087;&#1072;&#1088;&#1086;&#1083;&#1100;';
@@ -670,4 +679,3 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
-

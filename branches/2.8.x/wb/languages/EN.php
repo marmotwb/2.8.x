@@ -540,7 +540,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' file was successfully uploaded';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Cannot have ../ in the folder target';
 $MESSAGE['MEDIA_UPLOADED'] = ' files were successfully uploaded';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Sorry, this form has been submitted too many times so far this hour. Please retry in the next hour.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email: <a href="mailto:'.'.SERVER_EMAIL.'.'">'.'.SERVER_EMAIL.'.'</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'You must enter details for the following fields';
 $MESSAGE['PAGES_ADDED'] = 'Page added successfully';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Page heading added successfully';
@@ -635,6 +635,17 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Warning, Installation Directory Still Ex
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Welcome to WebsiteBaker Administration';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Please note: to change the template you must go to the Settings section';
+
+$MESSAGE['UPLOAD_ERR_OK'] = 'File were successful uploaded';
+$MESSAGE['UPLOAD_ERR_INI_SIZE'] = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+$MESSAGE['UPLOAD_ERR_FORM_SIZE'] = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+$MESSAGE['UPLOAD_ERR_PARTIAL'] = 'The uploaded file was only partially uploaded';
+$MESSAGE['UPLOAD_ERR_NO_FILE'] = 'No file was uploaded';
+$MESSAGE['UPLOAD_ERR_NO_TMP_DIR'] = 'Missing a temporary folder';
+$MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
+$MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
+$MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
+
 $MESSAGE['USERS_ADDED'] = 'User added successfully';
 $MESSAGE['USERS_CANT_SELFDELETE'] = 'Function rejected, You can not delete yourself!';
 $MESSAGE['USERS_CHANGING_PASSWORD'] = 'Please note: You should only enter values in the above fields if you wish to change this users password';

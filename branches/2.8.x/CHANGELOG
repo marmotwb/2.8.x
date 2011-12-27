@@ -11,6 +11,11 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+27 Dez-2011 Build 1551 Dietmar Woellbrink (Luisehahne)
++ add languages vars in languages files
++ add upload error mesages moduleinstall
++ add index.php if not exists in function createFolderProtectFile
+! corrected changed coding between login_form and forgot_form
 21 Dez-2011 Build 1550 Dietmar Woellbrink (Luisehahne)
 ! update php mailer to version 5.2
 19 Dez-2011 Build 1549 Dietmar Woellbrink (Luisehahne)

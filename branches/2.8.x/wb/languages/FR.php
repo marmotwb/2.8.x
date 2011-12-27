@@ -635,6 +635,15 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Attention : le r&eacute;pertoire d&apos;
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Bienvenue dans la zone d&apos;administration';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Pour modifier le th&egrave;me du site, vous devez vous rendre dans la rubrique R&eacute;glages';
+$MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
+$MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
+$MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
+$MESSAGE['UPLOAD_ERR_FORM_SIZE'] = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+$MESSAGE['UPLOAD_ERR_INI_SIZE'] = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+$MESSAGE['UPLOAD_ERR_NO_FILE'] = 'No file was uploaded';
+$MESSAGE['UPLOAD_ERR_NO_TMP_DIR'] = 'Missing a temporary folder';
+$MESSAGE['UPLOAD_ERR_OK'] = 'File were successful uploaded';
+$MESSAGE['UPLOAD_ERR_PARTIAL'] = 'The uploaded file was only partially uploaded';
 $MESSAGE['USERS_ADDED'] = 'Utilisateur ajout&eacute; avec succ&egrave;s';
 $MESSAGE['USERS_CANT_SELFDELETE'] = 'Action refus&eacute;e, Vous ne pouvez pas vous supprimer vous-m&ecirc;me!';
 $MESSAGE['USERS_CHANGING_PASSWORD'] = 'Vous ne devez modifier les valeurs ci-dessus uniquement lors d&apos;une modification de mot de passe';
@@ -670,4 +679,3 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
-
