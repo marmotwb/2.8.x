@@ -635,6 +635,15 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Aviso, O diret&oacute;rio "INSTALL" aind
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Bem-Vindo &agrave; Administra&ccdil;&atilde;o do WebsiteBaker';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Aten&ccdil;&atilde;o: para alterar o tema (template) voc&ecirc; precisa ir at&eacute; a sess&atilde;o Configura&ccdil;&otilde;es';
+$MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
+$MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
+$MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
+$MESSAGE['UPLOAD_ERR_FORM_SIZE'] = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+$MESSAGE['UPLOAD_ERR_INI_SIZE'] = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+$MESSAGE['UPLOAD_ERR_NO_FILE'] = 'No file was uploaded';
+$MESSAGE['UPLOAD_ERR_NO_TMP_DIR'] = 'Missing a temporary folder';
+$MESSAGE['UPLOAD_ERR_OK'] = 'File were successful uploaded';
+$MESSAGE['UPLOAD_ERR_PARTIAL'] = 'The uploaded file was only partially uploaded';
 $MESSAGE['USERS_ADDED'] = 'Usu&aacute;rio adicionado com sucesso';
 $MESSAGE['USERS_CANT_SELFDELETE'] = 'Function rejected, You can not delete yourself!';
 $MESSAGE['USERS_CHANGING_PASSWORD'] = 'Aten&ccdil;&atilde;o: Voc&ecirc; deve preencher os campos abaixo se deseja alterar a senha';
@@ -670,4 +679,3 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
-

@@ -635,6 +635,15 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = '&#1042;&#1085;&#1080;&#1084;&#1072;&#108
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = '&#1044;&#1086;&#1073;&#1088;&#1077; &#1076;&#1086;&#1096;&#1083;&#1080; &#1074; &#1040;&#1084;&#1080;&#1085;&#1080;&#1089;&#1090;&#1088;&#1072;&#1090;&#1080;&#1074;&#1085;&#1072;&#1090;&#1072; &#1089;&#1090;&#1088;&#1072;&#1085;&#1080;&#1094;&#1072; &#1085;&#1072; WebsiteBaker';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = '&#1042;&#1085;&#1080;&#1084;&#1072;&#1085;&#1080;&#1077;: &#1079;&#1072; &#1076;&#1072; &#1089;&#1084;&#1077;&#1085;&#1080;&#1090;&#1077; &#1096;&#1072;&#1073;&#1083;&#1086;&#1085;&#1072; &#1086;&#1090;&#1080;&#1076;&#1077;&#1090;&#1077; &#1074; &#1085;&#1072;&#1089;&#1090;&#1088;&#1086;&#1081;&#1082;&#1080;';
+$MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
+$MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
+$MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
+$MESSAGE['UPLOAD_ERR_FORM_SIZE'] = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+$MESSAGE['UPLOAD_ERR_INI_SIZE'] = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+$MESSAGE['UPLOAD_ERR_NO_FILE'] = 'No file was uploaded';
+$MESSAGE['UPLOAD_ERR_NO_TMP_DIR'] = 'Missing a temporary folder';
+$MESSAGE['UPLOAD_ERR_OK'] = 'File were successful uploaded';
+$MESSAGE['UPLOAD_ERR_PARTIAL'] = 'The uploaded file was only partially uploaded';
 $MESSAGE['USERS_ADDED'] = '&#1055;&#1086;&#1090;&#1088;&#1077;&#1073;&#1080;&#1090;&#1077;&#1083;&#1103; &#1077; &#1076;&#1086;&#1073;&#1072;&#1074;&#1077;&#1085; &#1091;&#1089;&#1087;&#1077;&#1096;&#1085;&#1086;';
 $MESSAGE['USERS_CANT_SELFDELETE'] = 'Function rejected, You can not delete yourself!';
 $MESSAGE['USERS_CHANGING_PASSWORD'] = '&#1042;&#1085;&#1080;&#1084;&#1072;&#1085;&#1080;&#1077;: &#1042;&#1098;&#1074;&#1077;&#1076;&#1077;&#1090;&#1077; &#1076;&#1072;&#1085;&#1085;&#1080; &#1074; &#1087;&#1086;&#1083;&#1077;&#1090;&#1072;&#1090;&#1072; &#1072;&#1082;&#1086; &#1080;&#1089;&#1082;&#1072;&#1090;&#1077; &#1076;&#1072; &#1089;&#1084;&#1077;&#1085;&#1080;&#1090;&#1077; &#1087;&#1072;&#1088;&#1086;&#1083;&#1080;&#1090;&#1077; &#1085;&#1072; &#1090;&#1077;&#1079;&#1080; &#1087;&#1086;&#1090;&#1088;&#1077;&#1073;&#1080;&#1090;&#1077;&#1083;&#1080;';
@@ -670,4 +679,3 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
-
