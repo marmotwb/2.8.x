@@ -34,13 +34,13 @@ if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 		$output_filter_mode |= ($filter_settings['mailto_filter'] * pow(2, 1)); // n | 2^1
 		define('OUTPUT_FILTER_AT_REPLACEMENT', $filter_settings['at_replacement']);
 		define('OUTPUT_FILTER_DOT_REPLACEMENT', $filter_settings['dot_replacement']);
-/* ### filter type: full qualified URLs ##################################### */
-        if($filter_settings['sys_rel'] == 1){
-			$content = _doFilterRelUrl($content);
-		}
 /* ### filter type: protect email addresses ################################# */
 		if( ($output_filter_mode & pow(2, 0)) || ($output_filter_mode & pow(2, 1)) ) {
 			$content = _doFilterEmail($content, $output_filter_mode);
+		}
+/* ### filter type: full qualified URLs ##################################### */
+        if($filter_settings['sys_rel'] == 1){
+			$content = _doFilterRelUrl($content);
 		}
 /* ### end of filters ####################################################### */
 		return $content;
@@ -113,9 +113,9 @@ if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 			$output_filter_mode |= pow(2, 2); // n | 2^2
 		}else {
 		// try to insert js-decrypt into <head> if available
-			$script = str_replace('\\', '/', dirname(__FILE__)).'/js/mdcr.js';
-			if(is_readable($script)) {
-				$scriptLink = '<script src="'.$script.'" type="text/javascript"></script>';
+			$script = str_replace('\\', '/',str_replace(WB_PATH,'', dirname(__FILE__)).'/js/mdcr.js');
+			if(is_readable(WB_PATH.$script)) {
+				$scriptLink = '<script src="'.WB_URL.$script.'" type="text/javascript"></script>';
 				$regex = '/(.*)(<\s*?\/\s*?head\s*>.*)/isU';
 				$replace = '$1'.$scriptLink.'$2';
 				$content = preg_replace ($regex, $replace, $content);
