@@ -21,28 +21,33 @@ require('../../config.php');
 // Include WB admin wrapper script
 require(WB_PATH.'/modules/admin.php');
 /* */
+
 // Get id
-$submission_id = $admin->checkIDKEY('submission_id', false, 'GET');
+$submission_id = intval($admin->checkIDKEY('submission_id', false, 'GET'));
 if (!$submission_id) {
  $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 }
 
 // Get submission details
-$query_content = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_form_submissions WHERE submission_id = '$submission_id'");
-$submission = $query_content->fetchRow();
-
-// Get the user details of whoever did this submission
-$query_user = "SELECT username,display_name FROM ".TABLE_PREFIX."users WHERE user_id = '".$submission['submitted_by']."'";
-$get_user = $database->query($query_user);
-if($get_user->numRows() != 0) {
-	$user = $get_user->fetchRow();
-} else {
-	$user['display_name'] = 'Unknown';
-	$user['username'] = 'unknown';
+$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'mod_form_submissions` ';
+$sql .= 'WHERE submission_id = '.$submission_id.' ';
+if($query_content = $database->query($sql)) {
+	$submission = $query_content->fetchRow(MYSQL_ASSOC);
 }
-
+// Get the user details of whoever did this submission
+$sql  = 'SELECT `username`,`display_name` FROM `'.TABLE_PREFIX.'users` ';
+$sql .= 'WHERE `user_id` = '.$submission['submitted_by'];
+if($get_user = $database->query($sql)) {
+	if($get_user->numRows() != 0) {
+		$user = $get_user->fetchRow(MYSQL_ASSOC);
+	} else {
+		$user['display_name'] = 'Unknown';
+		$user['username'] = 'unknown';
+	}
+}
+$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
 ?>
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<table class="frm-submission" summary="" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td><?php echo $TEXT['SUBMISSION_ID']; ?>:</td>
 	<td><?php echo $submission['submission_id']; ?></td>
@@ -50,7 +55,7 @@ if($get_user->numRows() != 0) {
 <tr>
 	<td><?php echo $TEXT['SUBMITTED']; ?>:</td>
 	<td><?php echo gmdate(TIME_FORMAT.', '.DATE_FORMAT, $submission['submitted_when']+TIMEZONE); ?></td>
-</td>
+</tr>
 <tr>
 	<td><?php echo $TEXT['USER']; ?>:</td>
 	<td><?php echo $user['display_name'].' ('.$user['username'].')'; ?></td>
@@ -69,11 +74,9 @@ if($get_user->numRows() != 0) {
 
 <br />
 
-<input type="button" value="<?php echo $TEXT['CLOSE']; ?>" onclick="javascript: window.location = '<?php echo ADMIN_URL; ?>/pages/modify.php?page_id=<?php echo $page_id; ?>';" style="width: 150px; margin-top: 5px;" />
+<input type="button" value="<?php echo $TEXT['CLOSE']; ?>" onclick="javascript: window.location = '<?php echo ADMIN_URL; ?>/pages/modify.php?page_id=<?php echo $page_id.$sec_anchor; ?>';" style="width: 150px; margin-top: 5px;" />
 <input type="button" value="<?php echo $TEXT['DELETE']; ?>" onclick="javascript: confirm_link('<?php echo $TEXT['ARE_YOU_SURE']; ?>', '<?php echo WB_URL; ?>/modules/form/delete_submission.php?page_id=<?php echo $page_id; ?>&section_id=<?php echo $section_id; ?>&submission_id=<?php echo $admin->getIDKEY($submission_id); ?>');" style="width: 150px; margin-top: 5px;" />
 <?php
 
 // Print admin footer
 $admin->print_footer();
-
-?>

@@ -27,6 +27,14 @@
 $module_description = 'Dette modul giver mulighed for at lave tilpassede online formularer, f.eks. en kontaktformular. Tak til  Rudolph Lartey som har hjulpet med at forbedre dette modul ved at lave kode for ekstra felttyper osv.';
 
 //Variables for the  backend
-$MOD_FORM['SETTINGS'] = 'Formularindstillinger';
+$MOD_FORM['SETTINGS'] = 'Form Settings';
+$MOD_FORM['CONFIRM'] = 'Confirmation';
+$MOD_FORM['SUBMIT_FORM'] = 'Submit';
+$MOD_FORM['EMAIL_SUBJECT'] = 'Delivering a message from '.WEBSITE_TITLE;
+$MOD_FORM['SUCCESS_EMAIL_TEXT'] = 'Thank you for sending your message from '.WEBSITE_TITLE;
+$MOD_FORM['SUCCESS_EMAIL_SUBJECT'] = 'You have submitted a message to '.WEBSITE_TITLE;
 
-?>
+$MOD_TEXT['FROM'] = 'Sender';
+$MOD_TEXT['TO'] = 'Recipient';
+
+

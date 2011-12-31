@@ -30,9 +30,21 @@ require(WB_PATH.'/modules/admin.php');
 $lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
 require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
 
-// Get header and footer
-$query_content = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_form_settings WHERE section_id = '$section_id'");
-$setting = $query_content->fetchRow();
+$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
+
+// Get Settings from DB
+$sql  = 'SELECT * FROM '.TABLE_PREFIX.'mod_form_settings ';
+$sql .= 'WHERE `section_id` = '.(int)$section_id.'';
+if($query_content = $database->query($sql)) {
+	$setting = $query_content->fetchRow(MYSQL_ASSOC);
+	$setting['email_to'] = ($setting['email_to'] != '' ? $setting['email_to'] : SERVER_EMAIL);
+	$setting['email_subject'] = ($setting['email_subject']  != '') ? $setting['email_subject'] : $MOD_FORM['EMAIL_SUBJECT'];
+	$setting['success_email_subject'] = ($setting['success_email_subject']  != '') ? $setting['success_email_subject'] : $MOD_FORM['SUCCESS_EMAIL_SUBJECT'];
+	$setting['success_email_from'] = ($setting['success_email_from'] != '' ? $setting['success_email_from'] : SERVER_EMAIL);
+	$setting['success_email_fromname'] = ($setting['success_email_fromname'] != '' ? $setting['success_email_fromname'] : WBMAILER_DEFAULT_SENDERNAME);
+	$setting['success_email_subject'] = ($setting['success_email_subject']  != '') ? $setting['success_email_subject'] : $MOD_FORM['SUCCESS_EMAIL_SUBJECT'];
+
+}
 
 // Set raw html <'s and >'s to be replace by friendly html code
 $raw = array('<', '>');
@@ -62,12 +74,12 @@ if(function_exists('edit_module_css')) {
 <input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
 <?php echo $admin->getFTAN(); ?>
 
-<table class="row_a" cellpadding="2" cellspacing="0" border="0" width="100%">
+<table summary="" class="row_a" cellpadding="2" cellspacing="0" border="0" width="100%">
 	<tr>
 		<td colspan="2"><strong><?php echo $HEADING['GENERAL_SETTINGS']; ?></strong></td>
 	</tr>
 	<tr>
-		<td class="setting_name"><?php echo $TEXT['CAPTCHA_VERIFICATION']; ?>:</td>
+		<td class="frm-setting_name"><?php echo $TEXT['CAPTCHA_VERIFICATION']; ?>:</td>
 		<td>
 			<input type="radio" name="use_captcha" id="use_captcha_true" value="1"<?php if($setting['use_captcha'] == true) { echo ' checked="checked"'; } ?> />
 			<label for="use_captcha_true"><?php echo $TEXT['ENABLED']; ?></label>
@@ -76,62 +88,69 @@ if(function_exists('edit_module_css')) {
 		</td>
 	</tr>
 	<tr>
-		<td class="setting_name"><?php echo $TEXT['MAX_SUBMISSIONS_PER_HOUR']; ?>:</td>
-		<td class="setting_value">
+		<td class="frm-setting_name"><?php echo $TEXT['MAX_SUBMISSIONS_PER_HOUR']; ?>:</td>
+		<td class="frm-setting_value">
 			<input type="text" name="max_submissions" style="width: 30px;" maxlength="255" value="<?php echo str_replace($raw, $friendly, ($setting['max_submissions'])); ?>" />
 		</td>
 	</tr>
 	<tr>
-		<td class="setting_name"><?php echo $TEXT['SUBMISSIONS_STORED_IN_DATABASE']; ?>:</td>
-		<td class="setting_value">
+		<td class="frm-setting_name"><?php echo $TEXT['SUBMISSIONS_STORED_IN_DATABASE']; ?>:</td>
+		<td class="frm-setting_value">
 			<input type="text" name="stored_submissions" style="width: 30px;" maxlength="255" value="<?php echo str_replace($raw, $friendly, ($setting['stored_submissions'])); ?>" />
 		</td>
 	</tr>
 	<tr>
-		<td class="setting_name"><?php echo $TEXT['HEADER']; ?>:</td>
-		<td class="setting_value">
+		<td class="frm-setting_name"><?php echo $TEXT['HEADER']; ?>:</td>
+		<td class="frm-setting_value">
 			<textarea name="header" cols="80" rows="6" style="width: 98%; height: 80px;"><?php echo ($setting['header']); ?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td class="setting_name"><?php echo $TEXT['FIELD'].' '.$TEXT['LOOP']; ?>:</td>
-		<td class="setting_value">
+		<td class="frm-setting_name"><?php echo $TEXT['FIELD'].' '.$TEXT['LOOP']; ?>:</td>
+		<td class="frm-setting_value">
 			<textarea name="field_loop" cols="80" rows="6" style="width: 98%; height: 80px;"><?php echo ($setting['field_loop']); ?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td class="setting_name"><?php echo $TEXT['FOOTER']; ?>:</td>
-		<td class="setting_value">
+		<td class="frm-setting_name"><?php echo $TEXT['FOOTER']; ?>:</td>
+		<td class="frm-setting_value">
 			<textarea name="footer" cols="80" rows="6" style="width: 98%; height: 80px;"><?php echo str_replace($raw, $friendly, ($setting['footer'])); ?></textarea>
 		</td>
 	</tr>
 </table>	
-
-<table class="row_a" cellpadding="2" cellspacing="0" border="0" width="100%" style="margin-top: 3px;">
+<!-- E-Mail Optionen -->
+<table summary="<?php echo $TEXT['EMAIL'].' '.$TEXT['SETTINGS']; ?>" class="row_a" cellpadding="2" cellspacing="0" border="0" width="100%" style="margin-top: 3px;">
 	<tr>
 		<td colspan="2"><strong><?php echo $TEXT['EMAIL'].' '.$TEXT['SETTINGS']; ?></strong></td>
 	</tr>
 	<tr>
-		<td class="setting_name"><?php echo $TEXT['EMAIL'].' '.$TEXT['TO']; ?>:</td>
-		<td class="setting_value">
+		<td class="frm-setting_name"><?php echo $TEXT['EMAIL'].' '.$MOD_TEXT['TO']; ?>:</td>
+		<td class="frm-setting_value">
 			<input type="text" name="email_to" style="width: 98%;" maxlength="255" value="<?php echo str_replace($raw, $friendly, ($setting['email_to'])); ?>" />
 		</td>
 	</tr>
 	<tr>
-		<td class="setting_name"><?php echo $TEXT['EMAIL'].' '.$TEXT['FROM']; ?>:</td>
-		<td class="setting_value">
+		<td class="frm-setting_name"><?php echo $TEXT['EMAIL'].' '.$MOD_TEXT['FROM']; ?>:</td>
+		<td class="frm-setting_value">
 			<select name="email_from_field" style="width: 98%;">
 			<option value="" onclick="javascript: document.getElementById('email_from').style.display = 'block';"><?php echo $TEXT['CUSTOM']; ?>:</option>
 			<?php
+			$selected = false;
 			$email_from_value = str_replace($raw, $friendly, ($setting['email_from']));
-			$query_email_fields = $database->query("SELECT field_id,title FROM ".TABLE_PREFIX."mod_form_fields WHERE section_id = '$section_id' AND ( type = 'textfield' OR  type = 'email' ) ORDER BY position ASC");
-			if($query_email_fields->numRows() > 0) {
-				while($field = $query_email_fields->fetchRow()) {
-					?>
-					<option value="field<?php echo $field['field_id']; ?>"<?php if($email_from_value == 'field'.$field['field_id']) { echo ' selected'; $selected = true; } ?> onclick="javascript: document.getElementById('email_from').style.display = 'none';">
-						<?php echo $TEXT['FIELD'].': '.$field['title']; ?>
-					</option>
-					<?php
+			// $query_email_fields = $database->query("SELECT field_id,title FROM ".TABLE_PREFIX."mod_form_fields WHERE section_id = '$section_id' AND ( type = 'textfield' OR  type = 'email' ) ORDER BY position ASC");
+			$sql  = 'SELECT `field_id`, `title` FROM `'.TABLE_PREFIX.'mod_form_fields` ';
+			$sql .= 'WHERE `section_id` = '.(int)$section_id.' ';
+			$sql .= '  AND ( `type` = \'textfield\' OR  `type` = \'email\' )';
+			$sql .= 'ORDER BY `position` ASC ';
+			if($query_email_fields = $database->query($sql)) {
+				if($query_email_fields->numRows() > 0) {
+					while($field = $query_email_fields->fetchRow(MYSQL_ASSOC)) {
+						?>
+						<option value="field<?php echo $field['field_id']; ?>"<?php if($email_from_value == 'field'.$field['field_id']) { echo ' selected'; $selected = true; } ?> onclick="javascript: document.getElementById('email_from').style.display = 'none';">
+							<?php echo $TEXT['FIELD'].': '.$field['title']; ?>
+						</option>
+						<?php
+					}
 				}
 			}
 			?>
@@ -140,38 +159,63 @@ if(function_exists('edit_module_css')) {
 		</td>
 	</tr>
 	<tr>
-		<td class="setting_name"><?php echo $TEXT['EMAIL'].' '.$TEXT['NAME']; ?>:</td>
-		<td class="setting_value">
-			<input type="text" name="email_fromname" style="width: 98%;" maxlength="255" value="<?php echo str_replace($raw, $friendly, ($setting['email_fromname'])); ?>" />
+		<td class="frm-setting_name"><?php echo $TEXT['DISPLAY_NAME']; ?>:</td>
+		<td class="frm-setting_value">
+			<select name="email_fromname_field" style="width: 98%;">
+			<option value="" onclick="javascript: document.getElementById('email_fromname').style.display = 'block';" ><?php echo $TEXT['CUSTOM']; ?>:</option>
+<?php
+			$selected = false;
+			$email_fromname_value = str_replace($raw, $friendly, ($setting['email_fromname']));
+			if($query_email_fields->rewind()) {
+				if($query_email_fields->numRows() > 0) {
+						//!-- LOOP email_from_name -->
+					while($fieldFrom = $query_email_fields->fetchRow(MYSQL_ASSOC)) {
+?>
+						<option value="field<?php echo $fieldFrom['field_id']; ?>"<?php if($email_fromname_value == 'field'.$fieldFrom['field_id']) { echo ' selected'; $selected = true; } ?>  onclick="javascript: document.getElementById('email_fromname').style.display = 'none';">
+							<?php echo $TEXT['FIELD'].': '.$fieldFrom['title']; ?>
+						</option>
+<?php
+					}
+						//!-- ENDLOOP  -->
+				}
+			}
+?>
+			</select>
+			<input type="text" name="email_fromname" id="email_fromname" style="width: 98%; display: <?php if(isset($selected) AND $selected == true) { echo 'none'; } else { echo 'block'; } ?>;" maxlength="255" value="<?php if(substr($email_fromname_value, 0, 5) != 'field') { echo $email_fromname_value; } ?>" />
 		</td>
 	</tr>
 	<tr>
-		<td class="setting_name"><?php echo $TEXT['EMAIL'].' '.$TEXT['SUBJECT']; ?>:</td>
-		<td class="setting_value">
+		<td class="frm-setting_name"><?php echo $TEXT['EMAIL'].' '.$TEXT['SUBJECT']; ?>:</td>
+		<td class="frm-setting_value">
 			<input type="text" name="email_subject" style="width: 98%;" maxlength="255" value="<?php echo str_replace($raw, $friendly, ($setting['email_subject'])); ?>" />
 		</td>
 	</tr>
 </table>	
-
-<table class="row_a" cellpadding="2" cellspacing="0" border="0" width="100%" style="margin-top: 3px;">
+<!-- Erfolgreich Optionen -->
+<table summary="<?php echo $TEXT['SUCCESS'].' '.$TEXT['SETTINGS']; ?>" class="row_a" cellpadding="2" cellspacing="0" border="0" width="100%" style="margin-top: 3px;">
 	<tr>
 		<td colspan="2"><strong><?php echo $TEXT['SUCCESS'].' '.$TEXT['SETTINGS']; ?></strong></td>
 	</tr>
 	<tr>
-		<td class="setting_name"><?php echo $TEXT['EMAIL'].' '.$TEXT['TO']; ?>:</td>
-		<td class="setting_value">
+		<td class="frm-setting_name"><?php echo $TEXT['EMAIL'].' '.$MOD_TEXT['TO']; ?>:</td>
+		<td class="frm-setting_value">
 			<select name="success_email_to" style="width: 98%;">
 			<option value="" onclick="javascript: document.getElementById('success_email_to').style.display = 'block';"><?php echo $TEXT['NONE']; ?></option>
 			<?php
 			$success_email_to = str_replace($raw, $friendly, ($setting['success_email_to']));
-			$query_email_fields = $database->query("SELECT field_id,title FROM ".TABLE_PREFIX."mod_form_fields WHERE section_id = '$section_id' AND ( type = 'textfield' OR  type = 'email' ) ORDER BY position ASC");
-			if($query_email_fields->numRows() > 0) {
-				while($field = $query_email_fields->fetchRow()) {
-					?>
-					<option value="field<?php echo $field['field_id']; ?>"<?php if($success_email_to == 'field'.$field['field_id']) { echo ' selected'; $selected = true; } ?> onclick="javascript: document.getElementById('email_from').style.display = 'none';">
-						<?php echo $TEXT['FIELD'].': '.$field['title']; ?>
-					</option>
-					<?php
+			$sql  = 'SELECT `field_id`, `title` FROM `'.TABLE_PREFIX.'mod_form_fields` ';
+			$sql .= 'WHERE `section_id` = '.(int)$section_id.' ';
+			$sql .= '  AND ( `type` = \'textfield\' OR  `type` = \'email\' )';
+			$sql .= 'ORDER BY `position` ASC ';
+			if($query_email_fields = $database->query($sql)) {
+				if($query_email_fields->numRows() > 0) {
+					while($field = $query_email_fields->fetchRow(MYSQL_ASSOC)) {
+						?>
+						<option value="field<?php echo $field['field_id']; ?>"<?php if($success_email_to == 'field'.$field['field_id']) { echo ' selected'; $selected = true; } ?> onclick="javascript: document.getElementById('email_from').style.display = 'none';">
+							<?php echo $TEXT['FIELD'].': '.$field['title']; ?>
+						</option>
+						<?php
+					}
 				}
 			}
 			?>
@@ -179,38 +223,39 @@ if(function_exists('edit_module_css')) {
 		</td>
 	</tr>
 	<tr>
-		<td class="setting_name"><?php echo $TEXT['EMAIL'].' '.$TEXT['FROM']; ?>:</td>
-		<td class="setting_value">
+		<td class="frm-setting_name"><?php echo $TEXT['EMAIL'].' '.$MOD_TEXT['FROM']; ?>:</td>
+		<td class="frm-setting_value">
 			<input type="text" name="success_email_from" style="width: 98%;" maxlength="255" value="<?php echo str_replace($raw, $friendly, ($setting['success_email_from'])); ?>" />
 		</td>
 	</tr>
 	<tr>
-		<td class="setting_name"><?php echo $TEXT['EMAIL'].' '.$TEXT['NAME']; ?>:</td>
-		<td class="setting_value">
+		<td class="frm-setting_name"><?php echo $TEXT['DISPLAY_NAME']; ?>:</td>
+		<td class="frm-setting_value">
+			<?php $setting['success_email_fromname'] = ($setting['success_email_fromname'] != '' ? $setting['success_email_fromname'] : WBMAILER_DEFAULT_SENDERNAME); ?>
 			<input type="text" name="success_email_fromname" style="width: 98%;" maxlength="255" value="<?php echo str_replace($raw, $friendly, ($setting['success_email_fromname'])); ?>" />
 		</td>
 	</tr>
 	<tr>
-		<td class="setting_name"><?php echo $TEXT['EMAIL'].' '.$TEXT['SUBJECT']; ?>:</td>
-		<td class="setting_value">
+		<td class="frm-setting_name"><?php echo $TEXT['EMAIL'].' '.$TEXT['SUBJECT']; ?>:</td>
+		<td class="frm-setting_value">
 			<input type="text" name="success_email_subject" style="width: 98%;" maxlength="255" value="<?php echo str_replace($raw, $friendly, ($setting['success_email_subject'])); ?>" />
 		</td>
 	</tr>
 	<tr>
-		<td class="setting_name"><?php echo $TEXT['EMAIL'].' '.$TEXT['TEXT']; ?>:</td>
-		<td class="setting_value">
+		<td class="frm-setting_name"><?php echo $TEXT['EMAIL'].' '.$TEXT['TEXT']; ?>:</td>
+		<td class="frm-setting_value">
 			<textarea name="success_email_text" cols="80" rows="1" style="width: 98%; height: 80px;"><?php echo str_replace($raw, $friendly, ($setting['success_email_text'])); ?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td class="newsection"><?php echo $TEXT['SUCCESS'].' '.$TEXT['PAGE']; ?>:</td>
-		<td class="newsection">
+		<td class="frm-newsection"><?php echo $TEXT['SUCCESS'].' '.$TEXT['PAGE']; ?>:</td>
+		<td class="frm-newsection">
 			<select name="success_page">
 			<option value="none"><?php echo $TEXT['NONE']; ?></option>
 			<?php 
 			// Get exisiting pages and show the pagenames
 			$query = $database->query("SELECT * FROM ".TABLE_PREFIX."pages WHERE visibility <> 'deleted'");
-			while($mail_page = $query->fetchRow()) {
+			while($mail_page = $query->fetchRow(MYSQL_ASSOC)) {
 				if(!$admin->page_is_visible($mail_page))
 					continue;
 				$mail_pagename = $mail_page['menu_title'];		
@@ -218,7 +263,7 @@ if(function_exists('edit_module_css')) {
 			  //	echo $success_page.':'.$setting['success_page'].':'; not vailde
 				if($setting['success_page'] == $success_page) {
 					$selected = ' selected="selected"';
-				} else { 
+				} else {
 					$selected = '';
 				}
 				echo '<option value="'.$success_page.'"'.$selected.'>'.$mail_pagename.'</option>';
@@ -229,13 +274,13 @@ if(function_exists('edit_module_css')) {
 	</tr>
 </table>
 
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%">
 	<tr>
 		<td align="left">
 			<input name="save" type="submit" value="<?php echo $TEXT['SAVE']; ?>" style="width: 100px; margin-top: 5px;">
 		</td>
 		<td align="right">
-			<input type="button" value="<?php echo $TEXT['CANCEL']; ?>" onclick="javascript: window.location = '<?php echo ADMIN_URL; ?>/pages/modify.php?page_id=<?php echo $page_id; ?>';" style="width: 100px; margin-top: 5px;" />
+			<input type="button" value="<?php echo $TEXT['CANCEL']; ?>" onclick="javascript: window.location = '<?php echo ADMIN_URL; ?>/pages/modify.php?page_id=<?php echo $page_id.$sec_anchor; ?>';" style="width: 100px; margin-top: 5px;" />
 		</td>
 	</tr>
 </table>

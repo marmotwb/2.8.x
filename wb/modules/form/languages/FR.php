@@ -30,6 +30,12 @@
 $module_description = 'This module allows you to create customised online forms, such as a feedback form. Thank-you to Rudolph Lartey who help enhance this module, providing code for extra field types, etc.';
 
 //Variables for the  backend
-$MOD_FORM['SETTINGS'] = 'Configurations du formulaire';
+$MOD_FORM['SETTINGS'] = 'Form Settings';
+$MOD_FORM['CONFIRM'] = 'Confirmation';
+$MOD_FORM['SUBMIT_FORM'] = 'Submit';
+$MOD_FORM['EMAIL_SUBJECT'] = 'Delivering a message from '.WEBSITE_TITLE;
+$MOD_FORM['SUCCESS_EMAIL_TEXT'] = 'Thank you for sending your message from '.WEBSITE_TITLE;
+$MOD_FORM['SUCCESS_EMAIL_SUBJECT'] = 'You have submitted a message to '.WEBSITE_TITLE;
 
-?>
+$MOD_TEXT['FROM'] = 'Sender';
+$MOD_TEXT['TO'] = 'Recipient';

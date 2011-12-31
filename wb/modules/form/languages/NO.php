@@ -27,6 +27,12 @@
 $module_description = 'Med denne modulen kan du lage d&iacute;ne egne spesialtilpassede elektroniske skjemaer, som for eksempe et tilbakemeldings skjema. En stor takk til Rudolph Lartey for hjelpen med &aring; videreutvikkle denne modulen, og for bidrag med koding av ekstra felt typer , osv.';
   
 //Variables for the  backend
-$MOD_FORM['SETTINGS'] = 'Skjema Innstillinger';
-  
-?>
+$MOD_FORM['SETTINGS'] = 'Form Settings';
+$MOD_FORM['CONFIRM'] = 'Confirmation';
+$MOD_FORM['SUBMIT_FORM'] = 'Submit';
+$MOD_FORM['EMAIL_SUBJECT'] = 'Delivering a message from '.WEBSITE_TITLE;
+$MOD_FORM['SUCCESS_EMAIL_TEXT'] = 'Thank you for sending your message from '.WEBSITE_TITLE;
+$MOD_FORM['SUCCESS_EMAIL_SUBJECT'] = 'You have submitted a message to '.WEBSITE_TITLE;
+
+$MOD_TEXT['FROM'] = 'Sender';
+$MOD_TEXT['TO'] = 'Recipient';
