@@ -35,7 +35,7 @@ require_once(WB_PATH.'/framework/functions.php');
 				print '<h4><a href="'.ADMIN_URL.'/admintools/index.php" '.
 				      'title="'.$HEADING['ADMINISTRATION_TOOLS'].'">'.
 				      $HEADING['ADMINISTRATION_TOOLS'].'</a>'.
-					  '&raquo'.$toolName.'</h4>'."\n";
+					  '&nbsp;&raquo;&nbsp;'.$toolName.'</h4>'."\n";
 			}
 			// include modules tool.php
 			require(WB_PATH.'/modules/'.$toolDir.'/tool.php');
