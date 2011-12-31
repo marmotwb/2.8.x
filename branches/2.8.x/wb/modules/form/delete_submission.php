@@ -22,7 +22,7 @@ $update_when_modified = true; // Tells script to update when this page was last 
 require(WB_PATH.'/modules/admin.php');
 
 // Get id
-$submission_id = $admin->checkIDKEY('submission_id', false, 'GET');
+$submission_id = intval($admin->checkIDKEY('submission_id', false, 'GET'));
 if (!$submission_id) {
  $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 }

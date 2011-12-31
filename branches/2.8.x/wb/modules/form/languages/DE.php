@@ -28,5 +28,15 @@ $module_description = 'Mit diesem Modul k&ouml;nnen sie ein beliebiges Formular 
 
 //Variablen fuer backend Texte
 $MOD_FORM['SETTINGS'] = 'Formular Einstellungen';
-
-?>
+$MOD_FORM['CONFIRM'] = 'Bestätigung';
+$MOD_FORM['SUBMIT_FORM'] = 'Absenden';
+$MOD_FORM['EMAIL_SUBJECT'] = 'Erhalten einer Nachricht von '.WEBSITE_TITLE;
+$MOD_FORM['SUCCESS_EMAIL_TEXT'] = 'E-Mail wurde erfolgreich &uuml;ber '.WEBSITE_TITLE.' gesendet!';
+$MOD_FORM['SUCCESS_EMAIL_SUBJECT'] = 'Sie haben ein Forumlar an '.WEBSITE_TITLE.' gesendet';
+/*
+$MOD_FORM['EMAIL_SUBJECT'] = 'Delivering a message from '.WEBSITE_TITLE;
+$MOD_FORM['SUCCESS_EMAIL_TEXT'] = 'Thank you for sending your message from '.WEBSITE_TITLE;
+$MOD_FORM['SUCCESS_EMAIL_SUBJECT'] = 'You have submitted a message';
+*/
+$MOD_TEXT['FROM'] = 'Absender';
+$MOD_TEXT['TO'] = 'Empf&auml;nger';

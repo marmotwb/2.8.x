@@ -24,27 +24,57 @@ if(defined('WB_PATH') == false)
 }
 /* -------------------------------------------------------- */
 
+// load module language file
+$lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
+require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
+
 // Insert an extra rows into the database
-$header = '<table cellpadding=\"2\" cellspacing=\"0\" border=\"0\" width=\"98%\" summary=\"form\">';
-$field_loop = '<tr><td class=\"field_title\">{TITLE}{REQUIRED}:</td><td>{FIELD}</td></tr>';
-$footer = '<tr><td>&nbsp;</td>
-<td>
-<input type=\"submit\" name=\"submit\" value=\"Submit Form\" />
-</td>
-</tr>
-</table>';
+$header = '<table class="frm-field_table" cellpadding=\"2\" cellspacing=\"0\" border=\"0\" summary=\"form\">';
+$field_loop = '<tr>'.PHP_EOL.'<td class=\"frm-field_title\">{TITLE}{REQUIRED}:</td>'.PHP_EOL.'<td>{FIELD}</td>'.PHP_EOL.'</tr>';
+$footer = '<tr>'.PHP_EOL.'<td>&nbsp;</td>'.PHP_EOL.'
+<td>'.PHP_EOL.'
+<input type=\"submit\" name=\"submit\" value=\"{SUBMIT_FORM}\" />'.PHP_EOL.'
+</td>'.PHP_EOL.'
+</tr>'.PHP_EOL.'
+</table>'.PHP_EOL;
 $email_to = $admin->get_email();
 $email_from = '';
 $email_fromname = '';
-$email_subject = 'Results from form on website...';
+$email_subject = $MOD_FORM['EMAIL_SUBJECT'];
 $success_page = 'none';
-$success_email_to = '';
+$success_email_to = SERVER_EMAIL;
 $success_email_from = $admin->get_email();
-$success_email_fromname = '';
-$success_email_text = 'Thank you for submitting your form on '.WEBSITE_TITLE;
+$success_email_fromname = WBMAILER_DEFAULT_SENDERNAME;
+$success_email_text = $MOD_FORM['SUCCESS_EMAIL_TEXT'];
 $success_email_text = addslashes($success_email_text);
-$success_email_subject = 'You have submitted a form';
+$success_email_subject = $MOD_FORM['SUCCESS_EMAIL_SUBJECT'];
 $max_submissions = 50;
 $stored_submissions = 50;
 $use_captcha = true;
-$database->query("INSERT INTO ".TABLE_PREFIX."mod_form_settings (page_id,section_id,header,field_loop,footer,email_to,email_from,email_fromname,email_subject,success_page,success_email_to,success_email_from,success_email_fromname,success_email_text,success_email_subject,max_submissions,stored_submissions,use_captcha) VALUES ('$page_id','$section_id','$header','$field_loop','$footer','$email_to','$email_from','$email_fromname','$email_subject','$success_page','$success_email_to','$success_email_from','$success_email_fromname','$success_email_text','$success_email_subject','$max_submissions','$stored_submissions','$use_captcha')");
+
+// $database->query("INSERT INTO ".TABLE_PREFIX."mod_form_settings (page_id,section_id,header,field_loop,footer,email_to,email_from,email_fromname,email_subject,success_page,success_email_to,success_email_from,success_email_fromname,success_email_text,success_email_subject,max_submissions,stored_submissions,use_captcha) VALUES ('$page_id','$section_id','$header','$field_loop','$footer','$email_to','$email_from','$email_fromname','$email_subject','$success_page','$success_email_to','$success_email_from','$success_email_fromname','$success_email_text','$success_email_subject','$max_submissions','$stored_submissions','$use_captcha')");
+
+// Insert settings
+$sql  = 'INSERT INTO  `'.TABLE_PREFIX.'mod_form_settings` SET ';
+$sql .= '`section_id` = \''.$section_id.'\', ';
+$sql .= '`page_id` = \''.$page_id.'\', ';
+$sql .= '`header` = \''.$header.'\', ';
+$sql .= '`field_loop` = \''.$field_loop.'\', ';
+$sql .= '`footer` = \''.$footer.'\', ';
+$sql .= '`email_to` = \''.$email_to.'\', ';
+$sql .= '`email_from` = \''.$email_from.'\', ';
+$sql .= '`email_fromname` = \''.$email_fromname.'\', ';
+$sql .= '`email_subject` = \''.$email_subject.'\', ';
+$sql .= '`success_page` = \''.$success_page.'\', ';
+$sql .= '`success_email_to` = \''.$success_email_to.'\', ';
+$sql .= '`success_email_from` = \''.$success_email_from.'\', ';
+$sql .= '`success_email_fromname` = \''.$success_email_fromname.'\', ';
+$sql .= '`success_email_text` = \''.$success_email_text.'\', ';
+$sql .= '`success_email_subject` = \''.$success_email_subject.'\', ';
+$sql .= '`max_submissions` = \''.$max_submissions.'\', ';
+$sql .= '`stored_submissions` = \''.$stored_submissions.'\', ';
+$sql .= '`use_captcha` = \''.$use_captcha.'\' ';
+$sql .= '';
+if($database->query($sql)) {
+	// $admin->print_success($TEXT['SUCCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id.$sec_anchor);
+}

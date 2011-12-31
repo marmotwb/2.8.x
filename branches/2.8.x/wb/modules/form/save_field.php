@@ -25,22 +25,23 @@ $update_when_modified = true;
 require(WB_PATH.'/modules/admin.php');
 /* */
 
+$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
+
 // check FTAN
 if (!$admin->checkFTAN())
 {
 	$admin->print_header();
-	$admin->print_error('::'.$MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+	$admin->print_error('::'.$MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id.$sec_anchor);
 }
-// After check print the header
-$admin->print_header();
 
-
-/*  */
 // Get id
 $field_id = intval($admin->checkIDKEY('field_id', false ));
 if (!$field_id) {
- $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'].'::', ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+ $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'].'::', ADMIN_URL.'/pages/modify.php?page_id='.$page_id.$sec_anchor);
 }
+// After check print the header to get a new FTAN
+$admin->print_header();
+
 /*
 // Get id
 if(!isset($_POST['field_id']) OR !is_numeric($_POST['field_id'])) {
@@ -69,7 +70,12 @@ if($admin->get_post('title') == '' OR $admin->get_post('type') == '') {
 $value = '';
 
 // Update row
-$database->query("UPDATE ".TABLE_PREFIX."mod_form_fields SET title = '$title', type = '$type', required = '$required' WHERE field_id = '$field_id'");
+$sql  = 'UPDATE `'.TABLE_PREFIX.'mod_form_fields SET` ';
+$sql .= 'title = \''.$title.'\', ';
+$sql .= 'type = \''.$type.'\', ';
+$sql .= 'required = \''.$required.'\' ';
+$sql .= 'WHERE field_id = '.(int)$field_id.' ';
+if($database->query($sql)) { }
 
 // If field type has multiple options, get all values and implode them
 $list_count = $admin->get_post('list_count');
@@ -93,7 +99,7 @@ if($admin->get_post('type') == 'textfield') {
 	$database->query("UPDATE ".TABLE_PREFIX."mod_form_fields SET value = '$value', extra = '' WHERE field_id = '$field_id'");
 } elseif($admin->get_post('type') == 'heading') {
 	$extra = str_replace(array("[[", "]]"), '', $admin->get_post('template'));
-	if(trim($extra) == '') $extra = '<tr><td class="field_heading" colspan="2">{TITLE}{FIELD}</td></tr>';
+	if(trim($extra) == '') $extra = '<tr><td class="frm-field_heading" colspan="2">{TITLE}{FIELD}</td></tr>';
 	$extra = $admin->add_slashes($extra);
 	$database->query("UPDATE ".TABLE_PREFIX."mod_form_fields SET value = '', extra = '$extra' WHERE field_id = '$field_id'");
 } elseif($admin->get_post('type') == 'select') {

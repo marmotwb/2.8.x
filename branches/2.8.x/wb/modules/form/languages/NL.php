@@ -27,6 +27,12 @@
 $module_description = 'Deze module makt het mogelijk om aangepaste online formulieren te maken zoals een feedback formulier. Met dank aan Rudolph Lartey voor het aanpassen van deze module.';
 
 //Variables for the  backend
-$MOD_FORM['SETTINGS'] = 'Formulier instellingen';
+$MOD_FORM['SETTINGS'] = 'Form Settings';
+$MOD_FORM['CONFIRM'] = 'Confirmation';
+$MOD_FORM['SUBMIT_FORM'] = 'Submit';
+$MOD_FORM['EMAIL_SUBJECT'] = 'Delivering a message from '.WEBSITE_TITLE;
+$MOD_FORM['SUCCESS_EMAIL_TEXT'] = 'Thank you for sending your message from '.WEBSITE_TITLE;
+$MOD_FORM['SUCCESS_EMAIL_SUBJECT'] = 'You have submitted a message to '.WEBSITE_TITLE;
 
-?>
+$MOD_TEXT['FROM'] = 'Sender';
+$MOD_TEXT['TO'] = 'Recipient';

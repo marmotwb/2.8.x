@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+31 Dez-2011 Build 1553 Dietmar Woellbrink (Luisehahne)
+! recoded  formmodul, add dropdown email_fromname_field
 31 Dez-2011 Build 1552 Dietmar Woellbrink (Luisehahne)
 # fix mdcr.js $scriptLink to absolute url
 ! change separator breadcrumb admintools
