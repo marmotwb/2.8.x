@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
  -----------------------------------------------------------------------------------------
-  DEUTSCHE SPRACHDATEI FÜR DAS PREFERENCES MODUL
+  DEUTSCHE SPRACHDATEI FUER DAS PREFERENCES MODUL
  -----------------------------------------------------------------------------------------
 	UPDATE HISTORY:
 	Werner von der Decken; 17.05.2008
@@ -22,7 +22,7 @@
  -----------------------------------------------------------------------------------------
 **/
 
-// Array für alle sprachabhängigen Textausgaben im Front- und Backend
+// Array fuer alle sprachabhaengigen Textausgaben im Front- und Backend
 // Hinweis: Verwende nachfolgende Namenskonvention für die Sprachausgabe des Moduls: $MOD_MODULE_DIRECTORY
 $MOD_PREFERENCE = array(
 	'PLEASE_SELECT' => 'bitte w&auml;hlen',
