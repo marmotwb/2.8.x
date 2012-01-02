@@ -26,15 +26,13 @@
  * GNU General Public License for more details.
 */
 
-body,td,th {
+body {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 12px;
+	text-align: justify;
 	color: #000;
-}
-body {
-   background-color: #F0F0F0;
-   background-image: none;
-   margin: 0;
+	background-color: #FFF;
+	width: 580px;
 }
 a:link, a:visited, a:active {
 	color: #603;
@@ -60,130 +58,4 @@ h1 {
 }
 form {
 	margin: 0;
-}
-.main {
-	width: 750px;
-	margin: auto;
-	padding: 0;
-	background-color: #FFF;
-}
-.banner, .search_box {
-	height: 80px;
-	background-image: url(images/header.jpg);
-	background-repeat: repeat-x;
-	font-size: 20px;
-	font-weight: bold;
-	color: #FFF;
-	text-align: center;
-	padding-top: 20px;
-}
-
-.banner {
-	width: 530px;
-	padding-left: 20px;
-	float: left;
-	text-align: left;
-}
-.search_box {
-	float: right;
-	clear: right;
-	width: 200px;
-}
-.search_string {
-	width: 100px;
-	height: 16px;
-	font-size: 10px;
-	vertical-align: middle;
-}
-.search_submit {
-	width: 50px;
-	height: 22px;
-	font-size: 10px;
-	vertical-align: middle;
-}
-.highlight {
-	background-color: #D0D0D0;
-}
-.banner a {
-	color: #FFF;
-}
-.banner span {
-	color: #D0D0D0;
-}
-
-.menu {
-	float: left;
-	width: 140px;
-	margin: 10px;
-	margin-top: 3px;
-}
-.menu ul, .menu li {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	margin-bottom: 5px;
-}
-.menu ul ul {
-	padding-left: 8px;
-}
-.menu a:link, .menu a:visited, .menu a:active, .menu a:hover {
-	display: block;
-	padding: 2px;
-}
-.menu-default a:link, .menu-default a:visited, .menu-default a:active {
-	border-bottom: 1px dashed #999;
-}
-.menu-default a:hover {
-	border-bottom: 1px dashed #333;
-}
-
-.menu-current  {
-	border-bottom: 1px dashed #999;
-	font-weight:bold;
-}
-
-.menu fieldset {
-	border: 1px solid #D0D0D0;
-	margin-top: 20px;
-	margin-bottom: 5px;
-	text-align: center;
-	padding-bottom: 3px;
-}
-
-.menu legend {
-	color: #603;
-	font-size: 12px;
-	text-transform: uppercase;
-	font-weight: bold;
-	text-align: center;
-}
-
-.menu input {
-	text-transform: uppercase;
-	font-size: 10px;
-	margin: 5px 0px 1px 0px;
-	width: 100px;
-}
-
-.content {
-	margin-left: 150px;
-	padding: 4px 10px 14px 10px;
-	text-align: justify;
-	clear: right;
-}
-.footer {
-	background-color: #FFF;
-	clear: both;
-	height: 20px;
-	background-image: url(images/footer.jpg);
-	background-repeat: repeat-x;
-	font-size: 10px;
-	color: #666;
-	text-align: center;
-	line-height: 18px;
-}
-.powered_by {
-	text-align: center;
-	font-size: 10px;
-	padding-top: 2px;
 }

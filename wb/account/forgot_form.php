@@ -18,8 +18,7 @@
 // Must include code to stop this file being access directly
 if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 // Check if the user has already submitted the form, otherwise show it
-if(isset($_POST['email']) && $_POST['email'] != "" &&
-    preg_match("/([0-9a-zA-Z]+[-._+&])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}/i", $_POST['email']))
+if(isset($_POST['email']) && $_POST['email'] != "" )
 {
 	$email = strip_tags($_POST['email']);
 // Check if the email exists in the database
@@ -29,8 +28,6 @@ if(isset($_POST['email']) && $_POST['email'] != "" &&
 	if(($results = $database->query($sql)))
 	{
 		if(($results_array = $results->fetchRow()))
-	if($results->numRows() > 0) {
-	
 		{ // Get the id, username, email, and last_reset from the above db query
 		// Check if the password has been reset in the last 2 hours
 			if( (time() - (int)$results_array['last_reset']) < (2 * 3600) ) {
