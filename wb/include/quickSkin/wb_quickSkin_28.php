@@ -34,7 +34,7 @@ if(!is_dir($_CONFIG['quickskin_cache'])) {
 $_CONFIG['cache_lifetime'] = 600;
 
 // EXTENTSIONS DIR
-$_CONFIG['extensions_dir'] = str_replace('\\','/', dirname(__FILE__).'/_lib/qx/'); 
+$_CONFIG['extensions_dir'] = str_replace('\\','/', dirname(__FILE__).'/_lib/qx'); 
 
 require_once (WB_PATH.'/include/quickSkin/_lib/quickSkin_28/class.quickskin.php');
 

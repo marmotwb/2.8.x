@@ -11,7 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
-02 Jan-2012 Build 1557 Dietmar Woellbrink (Luisehahne)
+02 Jan-2012 Build 1558 Dietmar Woellbrink (Luisehahne)
+# remove backslash in $_CONFIG['extensions_dir']
 ! update editor.css for allcssand round  (Tks to Ruebenwurzel)
 # bugfix in forgot_form.php
 02 Jan-2012 Build 1556 Dietmar Woellbrink (Luisehahne)
