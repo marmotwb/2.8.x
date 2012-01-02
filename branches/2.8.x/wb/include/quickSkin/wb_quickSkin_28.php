@@ -9,12 +9,30 @@ if(defined('WB_PATH') == false)
 
 // use Debug Mode?
 $debugmode = false; 
-
+if(!isset($module_dir)) {
+		die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Missing variable $module_dir</h2></body></html>');
+}
+$aMsg = array();
+require_once(WB_PATH.'/framework/functions.php');
 // COMPILED TEMPLATES
-$_CONFIG['quickskin_compiled'] = WB_PATH.'/temp/quickSkin/_skins_tmp/';
+$_CONFIG['quickskin_compiled'] = WB_PATH.'/temp/'.$module_dir.'/_skins_tmp/';
+if(!is_dir($_CONFIG['quickskin_compiled'])) {
+	$msg = createFolderProtectFile($_CONFIG['quickskin_compiled']);
+	if(sizeof($msg)) {
+		// $admin->print_error($MESSAGE['GENERIC_BAD_PERMISSIONS'],$module_overview_link );
+		$aMsg[] = $msg;
+	}
+}
 
 // CACHED FILES
-$_CONFIG['quickskin_cache'] = WB_PATH.'/temp/quickSkin/_skins_cache/';
+$_CONFIG['quickskin_cache'] = WB_PATH.'/temp/'.$module_dir.'/_skins_cache/';
+if(!is_dir($_CONFIG['quickskin_cache'])) {
+	$msg = createFolderProtectFile($_CONFIG['quickskin_cache']);
+	if(sizeof($msg)) {
+		//$admin->print_error($MESSAGE['GENERIC_BAD_PERMISSIONS'],$module_overview_link );
+		$aMsg[] = $msg;
+	}
+}
 $_CONFIG['cache_lifetime'] = 600;
 
 // EXTENTSIONS DIR

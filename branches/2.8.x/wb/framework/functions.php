@@ -401,17 +401,14 @@ function media_dirs_rw ( &$wb )
 }
 
 // Function to create directories
-function make_dir($dir_name, $dir_mode = OCTAL_DIR_MODE)
+function make_dir($dir_name, $dir_mode = OCTAL_DIR_MODE $recursive=true)
 {
+	$retVal = false;
 	if(!is_dir($dir_name))
     {
-		$umask = umask(0);
-		mkdir($dir_name, $dir_mode);
-		umask($umask);
-		return true;
-	} else {
-		return false;
+		$retVal = mkdir($dir_name, $dir_mode,$recursive);
 	}
+	return $retVal;
 }
 
 // Function to chmod files and directories
@@ -651,7 +648,7 @@ function createFolderProtectFile($sAbsDir='',$make_dir=true)
 			// $admin->print_error($MESSAGE['MEDIA_DIR_EXISTS']);
 			$retVal[] = basename($sAbsDir).'::'.$MESSAGE['MEDIA_DIR_EXISTS'];
 		}
-		if ( !make_dir($sAbsDir) ) {
+		if (!is_dir($sAbsDir) && !make_dir($sAbsDir) ) {
 			// $admin->print_error($MESSAGE['MEDIA_DIR_NOT_MADE']);
 			$retVal[] = basename($sAbsDir).'::'.$MESSAGE['MEDIA_DIR_NOT_MADE'];
 		} else {
