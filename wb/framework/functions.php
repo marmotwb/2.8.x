@@ -401,7 +401,7 @@ function media_dirs_rw ( &$wb )
 }
 
 // Function to create directories
-function make_dir($dir_name, $dir_mode = OCTAL_DIR_MODE $recursive=true)
+function make_dir($dir_name, $dir_mode = OCTAL_DIR_MODE, $recursive=true)
 {
 	$retVal = false;
 	if(!is_dir($dir_name))
