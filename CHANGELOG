@@ -11,7 +11,10 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
-91 Jan-2012 Build 1554 Dietmar Woellbrink (Luisehahne)
+02 Jan-2012 Build 1555 Dietmar Woellbrink (Luisehahne)
+! wb_quickSkin_28.php create _skin folders with folder protect file 
+! add a 3th parameter to function make_dir to allows the creation of nested directories specified in the pathname. Defaults to TRUE
+01 Jan-2012 Build 1554 Dietmar Woellbrink (Luisehahne)
 # typofixes in DE languages files (Tks to Ruebenwurzel)
 31 Dez-2011 Build 1553 Dietmar Woellbrink (Luisehahne)
 ! recoded  formmodul, add dropdown email_fromname_field
