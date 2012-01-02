@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+02 Jan-2012 Build 1557 Dietmar Woellbrink (Luisehahne)
+! update editor.css for allcssand round  (Tks to Ruebenwurzel)
+# bugfix in forgot_form.php
 02 Jan-2012 Build 1556 Dietmar Woellbrink (Luisehahne)
 # typofix in function make_dir
 02 Jan-2012 Build 1555 Dietmar Woellbrink (Luisehahne)
