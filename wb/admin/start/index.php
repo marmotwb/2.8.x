@@ -19,6 +19,7 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Start','start');
 // ---------------------------------------
+
 if(defined('FINALIZE_SETUP')) {
 	require_once(WB_PATH.'/framework/functions.php');
 	$dirs = array( 'modules'   => WB_PATH.'/modules/',
@@ -48,9 +49,25 @@ if(defined('FINALIZE_SETUP')) {
 		}
 	}
 	$sql = 'DELETE FROM `'.TABLE_PREFIX.'settings` WHERE `name`=\'FINALIZE_SETUP\'';
-	$database->query($sql);
+	if($database->query($sql)) { }
 }
 // ---------------------------------------
+// check if it is neccessary to start the uograde-script
+$sql = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` WHERE `name`=\'wb_revision\'';
+if($wb_revision=$database->get_one($sql)) {
+	if (version_compare($wb_revision, REVISION ) < 0) {
+		if(!headers_sent()) {
+			header('Location: '.WB_URL.'/upgrade-script.php');
+		    exit;
+		} else {
+		    echo "<p style=\"text-align:center;\"> The <strong>upgrade script</strong> could not be start automatically.\n" .
+		         "Please click <a style=\"font-weight:bold;\" " .
+		         "href=\"".WB_URL."/upgrade-script.php\">on this link</a> to start the script!</p>\n";
+		    exit;
+		}
+	}
+}
+
 // Setup template object, parse vars to it, then parse it
 $ThemePath = realpath(WB_PATH.$admin->correct_theme_source('start.htt'));
 // Create new template object
