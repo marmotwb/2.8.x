@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+04 Jan-2012 Build 1559 Dietmar Woellbrink (Luisehahne)
+! change quickSkin to alpha status, ATTANTION rename folder to quickSkin_alpha 
 02 Jan-2012 Build 1558 Dietmar Woellbrink (Luisehahne)
 # remove backslash in $_CONFIG['extensions_dir']
 ! update editor.css for allcssand round  (Tks to Ruebenwurzel)
