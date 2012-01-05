@@ -52,18 +52,22 @@ if(defined('FINALIZE_SETUP')) {
 	if($database->query($sql)) { }
 }
 // ---------------------------------------
+
 // check if it is neccessary to start the uograde-script
-$sql = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` WHERE `name`=\'wb_revision\'';
-if($wb_revision=$database->get_one($sql)) {
-	if (version_compare($wb_revision, REVISION ) < 0) {
-		if(!headers_sent()) {
-			header('Location: '.WB_URL.'/upgrade-script.php');
-		    exit;
-		} else {
-		    echo "<p style=\"text-align:center;\"> The <strong>upgrade script</strong> could not be start automatically.\n" .
-		         "Please click <a style=\"font-weight:bold;\" " .
-		         "href=\"".WB_URL."/upgrade-script.php\">on this link</a> to start the script!</p>\n";
-		    exit;
+if(file_exists(WB_PATH.'/upgrade-script.php')) {
+	// check if it is neccessary to start the uograde-script
+	$sql = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` WHERE `name`=\'wb_revision\'';
+	if($wb_revision=$database->get_one($sql)) {
+		if (version_compare($wb_revision, REVISION ) < 0) {
+			if(!headers_sent()) {
+				header('Location: '.WB_URL.'/upgrade-script.php');
+			    exit;
+			} else {
+			    echo "<p style=\"text-align:center;\"> The <strong>upgrade script</strong> could not be start automatically.\n" .
+			         "Please click <a style=\"font-weight:bold;\" " .
+			         "href=\"".WB_URL."/upgrade-script.php\">on this link</a> to start the script!</p>\n";
+			    exit;
+			}
 		}
 	}
 }
@@ -114,7 +118,7 @@ if($admin->get_permission('admintools') != true)
 }
 
 $msg = (file_exists(WB_PATH.'/install/')) ?  $MESSAGE['START']['INSTALL_DIR_EXISTS'] : '';
-$msg .= (file_exists(WB_PATH.'/upgrade-script.php')) ? '<br />'.$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] : '';
+$msg .= (file_exists(WB_PATH.'/upgrade-script.php') ? '<br />'.$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] : '');
 
 // Check if installation directory still exists
 if(file_exists(WB_PATH.'/install/') || file_exists(WB_PATH.'/upgrade-script.php') ) {
