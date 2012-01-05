@@ -83,18 +83,27 @@ class SecureForm {
 
 	private function _generate_fingerprint()
 	{
+		$usedOctets = ( defined('FINGERPRINT_WITH_IP_OCTETS') ) ? (intval(FINGERPRINT_WITH_IP_OCTETS) % 5) : 2;
 		// server depending values
-		$fingerprint  = ( isset($_SERVER['SERVER_SIGNATURE']) ) ? $_SERVER['SERVER_SIGNATURE'] : '2';
+		$fingerprint  = '';
+		$fingerprint .= ( isset($_SERVER['SERVER_SIGNATURE']) ) ? $_SERVER['SERVER_SIGNATURE'] : '2';
 		$fingerprint .= ( isset($_SERVER['SERVER_SOFTWARE']) ) ? $_SERVER['SERVER_SOFTWARE'] : '3';
 		$fingerprint .= ( isset($_SERVER['SERVER_NAME']) ) ? $_SERVER['SERVER_NAME'] : '5';
-		$fingerprint .= ( isset($_SERVER['SERVER_ADDR']) ) ? $_SERVER['SERVER_ADDR'] : '7';
+		$serverIp = ( isset($_SERVER['SERVER_ADDR']) ) ? $_SERVER['SERVER_ADDR'] : '';
+		if(($serverIp != '') && ($usedOctets > 0)){
+			$ip = explode('.', $serverIp);
+			while(sizeof($ip) > $usedOctets) { array_pop($ip); }
+			$fingerprint .= implode('.', $ip);
+		}else {
+			$fingerprint .= '7';
+		}
 		$fingerprint .= ( isset($_SERVER['SERVER_PORT']) ) ? $_SERVER['SERVER_PORT'] : '11';
 		$fingerprint .= ( isset($_SERVER['SERVER_ADMIN']) ) ? $_SERVER['SERVER_ADMIN'] : '13';
 		$fingerprint .= __FILE__;
 		$fingerprint .= PHP_VERSION;
 		// client depending values
 		$fingerprint .= ( isset($_SERVER['HTTP_USER_AGENT']) ) ? $_SERVER['HTTP_USER_AGENT'] : '19';
-		$usedOctets = ( defined('FINGERPRINT_WITH_IP_OCTETS') ) ? (intval(FINGERPRINT_WITH_IP_OCTETS) % 5) : 2;
+		// $usedOctets = ( defined('FINGERPRINT_WITH_IP_OCTETS') ) ? (intval(FINGERPRINT_WITH_IP_OCTETS) % 5) : 2;
 		$clientIp = ( isset($_SERVER['REMOTE_ADDR'])  ? $_SERVER['REMOTE_ADDR'] : '' );
 		if(($clientIp != '') && ($usedOctets > 0)){
 			$ip = explode('.', $clientIp);

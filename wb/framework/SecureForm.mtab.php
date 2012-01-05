@@ -173,10 +173,19 @@ class SecureForm {
 
 	private function _generate_serverdata(){
 
-	 	$serverdata  = ( isset($_SERVER['SERVER_SIGNATURE']) ) ? $_SERVER['SERVER_SIGNATURE'] : '2';
+		$usedOctets = ( defined('FINGERPRINT_WITH_IP_OCTETS') ) ? (intval(FINGERPRINT_WITH_IP_OCTETS) % 5) : 2;
+		$serverdata  = '';
+	 	$serverdata .= ( isset($_SERVER['SERVER_SIGNATURE']) ) ? $_SERVER['SERVER_SIGNATURE'] : '2';
 		$serverdata .= ( isset($_SERVER['SERVER_SOFTWARE']) ) ? $_SERVER['SERVER_SOFTWARE'] : '3';
 		$serverdata .= ( isset($_SERVER['SERVER_NAME']) ) ? $_SERVER['SERVER_NAME'] : '5';
-		$serverdata .= ( isset($_SERVER['SERVER_ADDR']) ) ? $_SERVER['SERVER_ADDR'] : '7';
+		$serverIp = ( isset($_SERVER['SERVER_ADDR']) ) ? $_SERVER['SERVER_ADDR'] : '';
+		if(($serverIp != '') && ($usedOctets > 0)){
+			$ip = explode('.', $serverIp);
+			while(sizeof($ip) > $usedOctets) { array_pop($ip); }
+			$serverdata .= implode('.', $ip);
+		}else {
+			$serverdata .= '7';
+		}
 		$serverdata .= ( isset($_SERVER['SERVER_PORT']) ) ? $_SERVER['SERVER_PORT'] : '11';
 		$serverdata .= ( isset($_SERVER['SERVER_ADMIN']) ) ? $_SERVER['SERVER_ADMIN'] : '13';
 		$serverdata .= PHP_VERSION;

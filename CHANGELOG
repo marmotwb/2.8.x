@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+05 Jan-2012 Build 1561 Dietmar Woellbrink (Luisehahne)
+# secureForm Fix for hosting with load balancing
 04 Jan-2012 Build 1560 Dietmar Woellbrink (Luisehahne)
 ! upgrade script start automatically after uploading a new version and login to the backend
 04 Jan-2012 Build 1559 Dietmar Woellbrink (Luisehahne)
