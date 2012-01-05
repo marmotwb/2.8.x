@@ -52,9 +52,9 @@ if(defined('FINALIZE_SETUP')) {
 	if($database->query($sql)) { }
 }
 // ---------------------------------------
-
+$msg = '';
 // check if it is neccessary to start the uograde-script
-if(file_exists(WB_PATH.'/upgrade-script.php')) {
+if(($admin->get_user_id()==1) && file_exists(WB_PATH.'/upgrade-script.php')) {
 	// check if it is neccessary to start the uograde-script
 	$sql = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` WHERE `name`=\'wb_revision\'';
 	if($wb_revision=$database->get_one($sql)) {
@@ -68,6 +68,8 @@ if(file_exists(WB_PATH.'/upgrade-script.php')) {
 			         "href=\"".WB_URL."/upgrade-script.php\">on this link</a> to start the script!</p>\n";
 			    exit;
 			}
+		} else {
+			$msg .= (file_exists(WB_PATH.'/upgrade-script.php') ? '<br />'.$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] : '');
 		}
 	}
 }
@@ -117,8 +119,7 @@ if($admin->get_permission('admintools') != true)
 	$template->set_var('DISPLAY_ADMINTOOLS', 'display:none;');
 }
 
-$msg = (file_exists(WB_PATH.'/install/')) ?  $MESSAGE['START']['INSTALL_DIR_EXISTS'] : '';
-$msg .= (file_exists(WB_PATH.'/upgrade-script.php') ? '<br />'.$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] : '');
+$msg .= (file_exists(WB_PATH.'/install/')) ?  $MESSAGE['START']['INSTALL_DIR_EXISTS'] : '';
 
 // Check if installation directory still exists
 if(file_exists(WB_PATH.'/install/') || file_exists(WB_PATH.'/upgrade-script.php') ) {
