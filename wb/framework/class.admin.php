@@ -135,6 +135,7 @@ class admin extends wb {
 							'VERSION' => VERSION,
 							'SP' => (defined('SP') ? SP : ''),
 							'REVISION' => REVISION,
+							'SERVER_ADDR' => ((int)$this->get_user_id()==1 ? $_SERVER['SERVER_ADDR'] : ''),
 							'WB_URL' => WB_URL,
 							'ADMIN_URL' => ADMIN_URL,
 							'THEME_URL' => THEME_URL,
