@@ -52,7 +52,7 @@ if(defined('FINALIZE_SETUP')) {
 	if($database->query($sql)) { }
 }
 // ---------------------------------------
-$msg = '';
+$msg = '<br />';
 // check if it is neccessary to start the uograde-script
 if(($admin->get_user_id()==1) && file_exists(WB_PATH.'/upgrade-script.php')) {
 	// check if it is neccessary to start the uograde-script
@@ -69,7 +69,7 @@ if(($admin->get_user_id()==1) && file_exists(WB_PATH.'/upgrade-script.php')) {
 			    exit;
 			}
 		} else {
-			$msg .= (file_exists(WB_PATH.'/upgrade-script.php') ? '<br />'.$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'].'<br />' : '');
+			$msg .= (file_exists(WB_PATH.'/upgrade-script.php') ? ''.$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'].'<br />' : '');
 		}
 	}
 }

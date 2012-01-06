@@ -161,25 +161,35 @@ function change_os(type) {
 				?>
 			</td>
 		</tr>
-		<tr>
-			<td width="160" style="color: #666666;">AddDefaultCharset unset</td>
+	<tr>
+		<td width="160" style="color: #666666;">Server DefaultCharset</td>
 			<td width="60">
 				<?php
-					if($e_adc) {
-						$installFlag = false;
-						?><font class="bad">No</font><?php
+					$chrval = (($e_adc != '') && (strtolower($e_adc) != 'utf-8') ? true : false);
+					if($chrval == false) {
+						?><font class="good">
+						<?php echo (($e_adc=='') ? 'OK' : $e_adc) ?>
+						</font>
+						<?php
 					} else {
-						?><font class="good">Yes</font><?php
+						?><font class="bad"><?php echo $e_adc ?></font><?php
 					}
+
 				?>
 			</td>
 			<td colspan="4">&nbsp;</td>
 		</tr>
-		<?php if($e_adc) {
-			$installFlag = false;
+		<?php if($chrval == true) {
 		?>
 		<tr>
-			<td colspan="6" style="font-size: 10px;" class="bad">Please note: AddDefaultCharset is set to <?php echo $e_adc;?> in apache.conf.<br />If you have to use umlauts (e.g. &auml; &aacute;) please change this to Off. - Or use <?php echo $e_adc;?> inside website baker, too.</td>
+			<td colspan="6" style="font-size: 10px;" class="bad">
+<p class="warning">
+<b>Please note:</b> Yor webserver is configured to deliver <b><?php echo $e_adc;?></b> charset only.<br />
+To display national special characters (e.g.: &auml; &aacute;) in clear manner, switch off this preset please(or let it do by your hosting provider).<br />
+In any case you can choose <b><?php echo $e_adc;?></b> in the settings of WebsiteBaker.<br />
+But this solution does not guarranty a correct displaying of the content from all modules!
+</p>
+</td>
 		</tr>
 		<?php } ?>
 		</table>

@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+06 Jan-2012 Build 1565 Dietmar Woellbrink (Luisehahne)
+! fixed:: detection of serverdefined charsets more different
 06 Jan-2012 Build 1564 Dietmar Woellbrink (Luisehahne)
 # entities fixes in FI and TR languages files (Tks to Ruebenwurzel)
 06 Jan-2012 Build 1563 Dietmar Woellbrink (Luisehahne)
