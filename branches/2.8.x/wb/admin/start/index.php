@@ -69,7 +69,7 @@ if(($admin->get_user_id()==1) && file_exists(WB_PATH.'/upgrade-script.php')) {
 			    exit;
 			}
 		} else {
-			$msg .= (file_exists(WB_PATH.'/upgrade-script.php') ? '<br />'.$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] : '');
+			$msg .= (file_exists(WB_PATH.'/upgrade-script.php') ? '<br />'.$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'].'<br />' : '');
 		}
 	}
 }

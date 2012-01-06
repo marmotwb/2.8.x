@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+06 Jan-2012 Build 1563 Dietmar Woellbrink (Luisehahne)
+! add linebreak in backend message for 'delete install folder...' 
 05 Jan-2012 Build 1562 Dietmar Woellbrink (Luisehahne)
 ! only superadmin can start the upgrade-script from backend
 05 Jan-2012 Build 1561 Dietmar Woellbrink (Luisehahne)
