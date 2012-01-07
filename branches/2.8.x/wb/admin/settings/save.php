@@ -4,8 +4,7 @@
  * @category        admin
  * @package         settings
  * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -172,6 +171,10 @@ while($setting = $res_settings->fetchRow())
 		break;
 		case 'pages_directory':
 			break;
+		case 'wbmailer_smtp_auth':
+			$value = isset($_POST[$setting_name]) ? $_POST[$setting_name] : '' ;
+ 			$passed = true;
+			break;
 		default :
 		    $passed = in_array($setting_name, $allow_empty_values);
 			break;
@@ -238,5 +241,3 @@ if($database->is_error()) {
 	$admin->print_success($MESSAGE['SETTINGS']['SAVED'], $js_back );
 }
 $admin->print_footer();
-
-?>
