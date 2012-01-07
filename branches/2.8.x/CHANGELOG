@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+07 Jan-2012 Build 1566 Dietmar Woellbrink (Luisehahne)
+# fix class.login, when name and pass are both empty no longer call increase_attemps
+! some redirect updates in frontend account files
 06 Jan-2012 Build 1565 Dietmar Woellbrink (Luisehahne)
 ! fixed:: detection of serverdefined charsets more different
 06 Jan-2012 Build 1564 Dietmar Woellbrink (Luisehahne)

@@ -29,8 +29,6 @@ if(!FRONTEND_LOGIN) {
 	}
 }
 
-require_once(WB_PATH.'/framework/class.frontend.php');
-$wb_inst = new wb();
 $page_id = !empty($_SESSION['PAGE_ID']) ? $_SESSION['PAGE_ID'] : 0;
 
 // Required page details

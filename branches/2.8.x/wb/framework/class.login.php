@@ -93,7 +93,7 @@ class login extends admin {
 			}
 		} elseif($this->username == '' AND $this->password == '') {
 			$this->message = $MESSAGE['LOGIN']['BOTH_BLANK'];
-			$this->increase_attemps();
+			$this->display_login();
 		} elseif($this->username == '') {
 			$this->message = $MESSAGE['LOGIN']['USERNAME_BLANK'];
 			$this->increase_attemps();
