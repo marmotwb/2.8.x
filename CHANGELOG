@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+07 Jan-2012 Build 1567 Dietmar Woellbrink (Luisehahne)
+# fix wbmailer_smtp_auth, could not be disabled after enabled 
 07 Jan-2012 Build 1566 Dietmar Woellbrink (Luisehahne)
 # fix class.login, when name and pass are both empty no longer call increase_attemps
 ! some redirect updates in frontend account files
