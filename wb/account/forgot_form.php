@@ -93,9 +93,10 @@ if(isset($message) && $message != '') {
 	$message_color = '000000';
 }
 
-$_SESSION['PAGE_LINK'] = get_page_link( $_SESSION['PAGE_ID'] );
-$_SESSION['HTTP_REFERER'] = page_link($_SESSION['PAGE_LINK']);
-	
+$page_id = (!empty($_SESSION['PAGE_ID']) ? $_SESSION['PAGE_ID'] : 0);
+$_SESSION['PAGE_LINK'] = get_page_link( $page_id );
+$_SESSION['HTTP_REFERER'] = (($_SESSION['PAGE_LINK']!='') ? page_link($_SESSION['PAGE_LINK']) : WB_URL);
+
 ?>
 <div style="margin: 1em auto;">
 	<button type="button" value="cancel" onClick="javascript: window.location = '<?php print $_SESSION['HTTP_REFERER'] ?>';"><?php print $TEXT['CANCEL'] ?></button>
