@@ -499,7 +499,7 @@ if($install_tables == true) {
 	." ('wbmailer_smtp_auth', ''),"
 	." ('wbmailer_smtp_username', ''),"
 	." ('wbmailer_smtp_password', ''),"
-	." ('fingerprint_with_ip_octets', '3'),"
+	." ('fingerprint_with_ip_octets', '2'),"
 	." ('secure_form_module', ''),"
 	." ('mediasettings', '')";
 	$database->query($settings_rows);

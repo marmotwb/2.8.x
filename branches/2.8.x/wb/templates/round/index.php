@@ -78,7 +78,7 @@ if (!defined('WB_PATH')) die(header('Location: ../../../index.php'));
 		</tr>
 		<tr>
 			<td width="170">
-				<?php show_menu2(0,SM2_ROOT,SM2_ROOT,SM2_TRIM,'<li><span class="menu-default">[ac][menu_title]</a></span>','</li>','<ul>','</ul>');?>
+				<?php show_menu2(0,SM2_ROOT,SM2_CURR+1,SM2_TRIM,'<li><span class="menu-default">[ac][menu_title]</a></span>','</li>','<ul>','</ul>');?>
 			</td>
 		</tr>
 		<tr>

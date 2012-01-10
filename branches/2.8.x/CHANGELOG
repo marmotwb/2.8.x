@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+10 Jan-2012 Build 1568 Dietmar Woellbrink (Luisehahne)
+! fix show_menu2 2th parameter for template round and allcss (Tks to Ruebenwurzel)
+! set fingerprint_with_ip_octets default to 2 in a new installation
 07 Jan-2012 Build 1567 Dietmar Woellbrink (Luisehahne)
 # fix wbmailer_smtp_auth, could not be disabled after enabled 
 07 Jan-2012 Build 1566 Dietmar Woellbrink (Luisehahne)
