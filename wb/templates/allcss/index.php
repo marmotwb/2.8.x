@@ -80,7 +80,7 @@ if (!defined('WB_PATH')) die(header('Location: ../../index.php'));
 	<!-- main navigation menu -->
 	<div class="menu">
 		<?php
-		show_menu2(0,SM2_ROOT,SM2_ROOT,SM2_TRIM,'<li><span class="menu-default">[ac][menu_title]</a></span>','</li>','<ul>','</ul>');
+		show_menu2(0,SM2_ROOT,SM2_CURR+1,SM2_TRIM,'<li><span class="menu-default">[ac][menu_title]</a></span>','</li>','<ul>','</ul>');
 		// CODE FOR WEBSITE BAKER FRONTEND LOGIN
 		if (FRONTEND_LOGIN == 'enabled' && VISIBILITY != 'private' && $wb->get_session('USER_ID') == '') {
 			$redirect_url = (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : WB_URL );
