@@ -3,10 +3,8 @@
  *
  * @category        admin
  * @package         preferences
- * @author          Independend-Software-Team
  * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -28,7 +26,7 @@ function save_preferences( &$admin, &$database)
 {
 	global $MESSAGE;
 	$err_msg = array();
-	$min_pass_length = 6;
+	$iMinPassLength = 6;
 // first check form-tan
 	if(!$admin->checkFTAN()){ $err_msg[] = $MESSAGE['GENERIC_SECURITY_ACCESS']; }
 // Get entered values and validate all
@@ -38,7 +36,7 @@ function save_preferences( &$admin, &$database)
 	// check that display_name is unique in whoole system (prevents from User-faking)
 	$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` ';
 	$sql .= 'WHERE `user_id` <> '.(int)$admin->get_user_id().' AND `display_name` LIKE "'.$display_name.'"';
-	if( $database->get_one($sql) > 0 ){ $err_msg[] = $MESSAGE['USERS']['USERNAME_TAKEN']; }
+	if( $database->get_one($sql) > 0 ){ $err_msg[] = $MESSAGE['USERS_USERNAME_TAKEN']; }
 // language must be 2 upercase letters only
 	$language         = strtoupper($admin->get_post('language'));
 	$language         = (preg_match('/^[A-Z]{2}$/', $language) ? $language : DEFAULT_LANGUAGE);
@@ -67,82 +65,67 @@ function save_preferences( &$admin, &$database)
 	if( !$admin->validate_email($email) )
 	{
 		$email = '';
-		$err_msg[] = $MESSAGE['USERS']['INVALID_EMAIL'];
+		$err_msg[] = $MESSAGE['USERS_INVALID_EMAIL'];
 	}else {
 		if($email != '') {
 		// check that email is unique in whoole system
 			$email = $admin->add_slashes($email);
 			$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` ';
 			$sql .= 'WHERE `user_id` <> '.(int)$admin->get_user_id().' AND `email` LIKE "'.$email.'"';
-			if( $database->get_one($sql) > 0 ){ $err_msg[] = $MESSAGE['USERS']['EMAIL_TAKEN']; }
+			if( $database->get_one($sql) > 0 ){ $err_msg[] = $MESSAGE['USERS_EMAIL_TAKEN']; }
 		}
 	}
 // receive password vars and calculate needed action
-	$current_password = $admin->get_post('current_password');
-	$current_password = ($current_password == null ? '' : $current_password);
-	$new_password_1   = $admin->get_post('new_password_1');
-	$new_password_1   = (($new_password_1 == null || $new_password_1 == '') ? '' : $new_password_1);
-	$new_password_2   = $admin->get_post('new_password_2');
-	$new_password_2   = (($new_password_2 == null || $new_password_2 == '') ? '' : $new_password_2);
-	if($current_password == '')
-	{
-		$err_msg[] = $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'];
+	$sCurrentPassword = $admin->get_post('current_password');
+	$sCurrentPassword = (is_null($sCurrentPassword) ? '' : $sCurrentPassword);
+	$sNewPassword = $admin->get_post('new_password_1');
+	$sNewPassword = (is_null($sNewPassword) ? '' : $sNewPassword);
+	$sNewPasswordRetyped = $admin->get_post('new_password_2');
+	$sNewPasswordRetyped= (is_null($sNewPasswordRetyped) ? '' : $sNewPasswordRetyped);
+// Check existing password
+	$sql  = 'SELECT `password` ';
+	$sql .= 'FROM `'.TABLE_PREFIX.'users` ';
+	$sql .= 'WHERE `user_id` = '.$admin->get_user_id();
+	if (md5($sCurrentPassword) != $database->get_one($sql)) {
+// access denied
+		$err_msg[] = $MESSAGE['PREFERENCES_CURRENT_PASSWORD_INCORRECT'];
 	}else {
-	// if new_password is empty, still let current one
-		if( $new_password_1 == '' )
-		{
-			$new_password_1 = $current_password;
-			$new_password_2 = $current_password;
-		}
-
-	// is password lenght matching min_pass_lenght ?
-		if( $new_password_1 != $current_password )
-		{
-			if( strlen($new_password_1) < $min_pass_length )
-			{
-				$err_msg[] = $MESSAGE['USERS']['PASSWORD_TOO_SHORT'];
-			}
-			$pattern = '/[^'.$admin->password_chars.']/';
-			if( preg_match($pattern, $new_password_1) )
-			{
-				$err_msg[] = $MESSAGE['PREFERENCES']['INVALID_CHARS'];
-			}
-		}
-	// is password lenght matching min_pass_lenght ?
-		if( $new_password_1 != $current_password && strlen($new_password_1) < $min_pass_length )
-		{
-			$err_msg[] = $MESSAGE['USERS']['PASSWORD_TOO_SHORT'];
-		}
-	// password_1 matching password_2 ?
-		if( $new_password_1 != $new_password_2 )
-		{
-			$err_msg[] = $MESSAGE['USERS']['PASSWORD_MISMATCH'];
-		}
-	}
-	$current_password = md5($current_password);
-	$new_password_1   = md5($new_password_1);
-	$new_password_2   = md5($new_password_2);
-// if no validation errors, try to update the database, otherwise return errormessages
-	if(sizeof($err_msg) == 0)
-	{
-		$sql  = 'UPDATE `'.TABLE_PREFIX.'users` ';
-		$sql .= 'SET `display_name` = "'.$display_name.'", ';
-		$sql .=     '`password` = "'.$new_password_1.'", ';
-		if($email != '') {
-			$sql .=     '`email` = "'.$email.'", ';
-		}
-		$sql .=     '`language` = "'.$language.'", ';
-		$sql .=     '`timezone` = "'.$timezone.'", ';
-		$sql .=     '`date_format` = "'.$date_format.'", ';
-		$sql .=     '`time_format` = "'.$time_format.'" ';
-		$sql .= 'WHERE `user_id` = '.(int)$admin->get_user_id().' AND `password` = "'.$current_password.'"';
-		if( $database->query($sql) )
-		{
-			$sql_info = mysql_info($database->db_handle);
-			if(preg_match('/matched: *([1-9][0-9]*)/i', $sql_info) != 1)
-			{  // if the user_id and password dosn't match
-				$err_msg[] = $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'];
+// validate new password
+		$sPwHashNew = false;
+		if($sNewPassword != '') {
+			if(strlen($sNewPassword) < $iMinPassLength) {
+				$err_msg[] = $MESSAGE['USERS_PASSWORD_TOO_SHORT'];
 			}else {
+				if($sNewPassword != $sNewPasswordRetyped) {
+					$err_msg[] = $MESSAGE['USERS_PASSWORD_MISMATCH'];
+				}else {
+					$pattern = '/[^'.$admin->password_chars.']/';
+					if (preg_match($pattern, $sNewPassword)) {
+						$err_msg[] = $MESSAGE['PREFERENCES_INVALID_CHARS'];
+					}else {
+						$sPwHashNew = md5($sNewPassword);
+					}
+				}
+			}
+		}
+// if no validation errors, try to update the database, otherwise return errormessages
+		if(sizeof($err_msg) == 0)
+		{
+			$sql  = 'UPDATE `'.TABLE_PREFIX.'users` ';
+			$sql .= 'SET `display_name`=\''.$display_name.'\', ';
+			if($sPwHashNew) {
+				$sql .=     '`password`=\''.$sPwHashNew.'\', ';
+			}
+			if($email != '') {
+				$sql .=     '`email`=\''.$email.'\', ';
+			}
+			$sql .=     '`language`=\''.$language.'\', ';
+			$sql .=     '`timezone`=\''.$timezone.'\', ';
+			$sql .=     '`date_format`=\''.$date_format.'\', ';
+			$sql .=     '`time_format`=\''.$time_format.'\' ';
+			$sql .= 'WHERE `user_id`='.(int)$admin->get_user_id();
+			if( $database->query($sql) )
+			{
 				// update successfull, takeover values into the session
 				$_SESSION['DISPLAY_NAME'] = $display_name;
 				$_SESSION['LANGUAGE'] = $language;
@@ -164,9 +147,9 @@ function save_preferences( &$admin, &$database)
 					$_SESSION['USE_DEFAULT_TIME_FORMAT'] = true;
 					if(isset($_SESSION['TIME_FORMAT'])) { unset($_SESSION['TIME_FORMAT']); }
 				}
+			}else {
+				$err_msg[] = 'invalid database UPDATE call in '.__FILE__.'::'.__FUNCTION__.'before line '.__LINE__;
 			}
-		}else {
-			$err_msg[] = 'invalid database UPDATE call in '.__FILE__.'::'.__FUNCTION__.'before line '.__LINE__;
 		}
 	}
 	return ( (sizeof($err_msg) > 0) ? implode('<br />', $err_msg) : '' );
@@ -176,7 +159,7 @@ if( $retval == '')
 {
 	// print the header
 	$admin->print_header();
-	$admin->print_success($MESSAGE['PREFERENCES']['DETAILS_SAVED']);
+	$admin->print_success($MESSAGE['PREFERENCES_DETAILS_SAVED']);
 	$admin->print_footer();
 }else {
 	// print the header
