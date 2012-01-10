@@ -9,11 +9,14 @@ if(defined('WB_PATH') == false)
 
 // use Debug Mode?
 $debugmode = false;
+// make directory changes more flexible
+$module_name = 'quickSkin';
+$module_directory = basename(dirname(__FILE__));
 
 $aMsg = array();
 require_once(WB_PATH.'/framework/functions.php');
 // COMPILED TEMPLATES
-$_CONFIG['quickskin_compiled'] = WB_PATH.'/temp/quickSkin/_skins_tmp/';
+$_CONFIG['quickskin_compiled'] = WB_PATH.'/temp/'.$module_name.'/_skins_tmp/';
 if(!is_dir($_CONFIG['quickskin_compiled'])) {
 	$msg = createFolderProtectFile($_CONFIG['quickskin_compiled']);
 	if(sizeof($msg)) {
@@ -23,7 +26,7 @@ if(!is_dir($_CONFIG['quickskin_compiled'])) {
 }
 
 // CACHED FILES
-$_CONFIG['quickskin_cache'] = WB_PATH.'/temp/quickSkin/_skins_cache/';
+$_CONFIG['quickskin_cache'] = WB_PATH.'/temp/'.$module_name.'/_skins_cache/';
 if(!is_dir($_CONFIG['quickskin_cache'])) {
 	$msg = createFolderProtectFile($_CONFIG['quickskin_cache']);
 	if(sizeof($msg)) {
@@ -36,7 +39,7 @@ $_CONFIG['cache_lifetime'] = 600;
 // EXTENTSIONS DIR
 $_CONFIG['extensions_dir'] = str_replace('\\','/', dirname(__FILE__).'/_lib/qx'); 
 
-require_once (WB_PATH.'/include/quickSkin_alpha/_lib/quickSkin_28/class.quickskin.php');
+require_once (WB_PATH.'/include/'.$module_directory.'/_lib/quickSkin_28/class.quickskin.php');
 
 
 /**

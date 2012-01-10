@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+10 Jan-2012 Build 1570 Dietmar Woellbrink (Luisehahne)
+!  added $module_directory to make quickskin directory changes dynamically
 10 Jan-2012 Build 1569 Werner v.d.Decken(DarkViper)
 # possible errors on 'save password' fixed. Minimum length of password set to 6 chars
 10 Jan-2012 Build 1568 Dietmar Woellbrink (Luisehahne)
