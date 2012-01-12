@@ -32,11 +32,9 @@ $_SESSION['PAGE_PERMISSIONS'] = null;
 $_SESSION['SYSTEM_PERMISSIONS'] = null;
 $_SESSION = array();
 
-session_start();
 session_unset();
 unset($_COOKIE[session_name()]);
 session_destroy();
-$_SESSION = array();
 
 if(INTRO_PAGE) {
 	header('Location: '.WB_URL.PAGES_DIRECTORY.'/index.php');
