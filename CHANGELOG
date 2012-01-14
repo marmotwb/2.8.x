@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+14 Jan-2012 Build 1572 Dietmar Woellbrink (Luisehahne)
+! security fix, force SMTP Authentifikation
+! server and email settings only for superadmin
 12 Jan-2012 Build 1571 Dietmar Woellbrink (Luisehahne)
 # remove session_start() in /account/logout.php
 10 Jan-2012 Build 1570 Dietmar Woellbrink (Luisehahne)

@@ -407,17 +407,34 @@ if($is_advanced)
 	}
 
 	// Work-out which wbmailer routine should be checked
+	$template->set_var(array(
+				'TEXT_WBMAILER_DEFAULT_SETTINGS_NOTICE' => $TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'],
+				'TEXT_WBMAILER_DEFAULT_SENDER_MAIL' => $TEXT['WBMAILER_DEFAULT_SENDER_MAIL'],
+				'TEXT_WBMAILER_DEFAULT_SENDER_NAME' => $TEXT['WBMAILER_DEFAULT_SENDER_NAME'],
+				'TEXT_WBMAILER_NOTICE' => $TEXT['WBMAILER_NOTICE'],
+				'TEXT_WBMAILER_FUNCTION' => $TEXT['WBMAILER_FUNCTION'],
+				'TEXT_WBMAILER_SMTP_HOST' => $TEXT['WBMAILER_SMTP_HOST'],
+				'TEXT_WBMAILER_PHP' => $TEXT['WBMAILER_PHP'],
+				'TEXT_WBMAILER_SMTP' => $TEXT['WBMAILER_SMTP'],
+				'TEXT_WBMAILER_SMTP_AUTH' => $TEXT['WBMAILER_SMTP_AUTH'],
+				'TEXT_WBMAILER_SMTP_AUTH_NOTICE' => $TEXT['REQUIRED'].' '.$TEXT['WBMAILER_SMTP_AUTH'],
+				'TEXT_WBMAILER_SMTP_USERNAME' => $TEXT['WBMAILER_SMTP_USERNAME'],
+				'TEXT_WBMAILER_SMTP_PASSWORD' => $TEXT['WBMAILER_SMTP_PASSWORD'],
+				'SMTP_AUTH_SELECTED' => ' checked="checked"'
+				));
 	if(WBMAILER_ROUTINE == 'phpmail')
 	{
 		$template->set_var('PHPMAIL_SELECTED', ' checked="checked"');
 		$template->set_var('SMTP_VISIBILITY', ' style="display: none;"');
-		$template->set_var('SMTP_VISIBILITY_AUTH', ' style="display: none;"');
+		$template->set_var('SMTP_VISIBILITY_AUTH', '');
+		// $template->set_var('SMTP_AUTH_SELECTED', '');
 	} elseif(WBMAILER_ROUTINE == 'smtp')
 	{
 		$template->set_var('SMTPMAIL_SELECTED', ' checked="checked"');
 		$template->set_var('SMTP_VISIBILITY', '');
+		$template->set_var('SMTP_VISIBILITY_AUTH', '');
 	}
-
+/* deprecated
 	// Work-out if SMTP authentification should be checked
 	if(WBMAILER_SMTP_AUTH)
 	{
@@ -432,7 +449,7 @@ if($is_advanced)
 	} else {
 		$template->set_var('SMTP_VISIBILITY_AUTH', ' style="display: none;"');
 	}
-
+*/
 	// Work-out if intro feature is enabled
 	if(INTRO_PAGE)
 	{
@@ -598,116 +615,104 @@ if($is_advanced)
 
 	// Insert language headings
 	$template->set_var(array(
-								'HEADING_GENERAL_SETTINGS' => $HEADING['GENERAL_SETTINGS'],
-								'HEADING_DEFAULT_SETTINGS' => $HEADING['DEFAULT_SETTINGS'],
-								'HEADING_SEARCH_SETTINGS' => $HEADING['SEARCH_SETTINGS'],
-								'HEADING_SERVER_SETTINGS' => $HEADING['SERVER_SETTINGS'],
-								'HEADING_WBMAILER_SETTINGS' => $HEADING['WBMAILER_SETTINGS'],
-								'HEADING_ADMINISTRATION_TOOLS' => $HEADING['ADMINISTRATION_TOOLS']
-								)
-						);
+					'HEADING_GENERAL_SETTINGS' => $HEADING['GENERAL_SETTINGS'],
+					'HEADING_DEFAULT_SETTINGS' => $HEADING['DEFAULT_SETTINGS'],
+					'HEADING_SEARCH_SETTINGS' => $HEADING['SEARCH_SETTINGS'],
+					'HEADING_SERVER_SETTINGS' => $HEADING['SERVER_SETTINGS'],
+					'HEADING_WBMAILER_SETTINGS' => $HEADING['WBMAILER_SETTINGS'],
+					'HEADING_ADMINISTRATION_TOOLS' => $HEADING['ADMINISTRATION_TOOLS']
+					)
+			);
 	// Insert language text and messages
 	$template->set_var(array(
-								'TEXT_WEBSITE_TITLE' => $TEXT['WEBSITE_TITLE'],
-								'TEXT_WEBSITE_DESCRIPTION' => $TEXT['WEBSITE_DESCRIPTION'],
-								'TEXT_WEBSITE_KEYWORDS' => $TEXT['WEBSITE_KEYWORDS'],
-								'TEXT_WEBSITE_HEADER' => $TEXT['WEBSITE_HEADER'],
-								'TEXT_WEBSITE_FOOTER' => $TEXT['WEBSITE_FOOTER'],
-								'TEXT_HEADER' => $TEXT['HEADER'],
-								'TEXT_FOOTER' => $TEXT['FOOTER'],
-								'TEXT_VISIBILITY' => $TEXT['VISIBILITY'],
-								'TEXT_RESULTS_HEADER' => $TEXT['RESULTS_HEADER'],
-								'TEXT_RESULTS_LOOP' => $TEXT['RESULTS_LOOP'],
-								'TEXT_RESULTS_FOOTER' => $TEXT['RESULTS_FOOTER'],
-								'TEXT_NO_RESULTS' => $TEXT['NO_RESULTS'],
-								'TEXT_TEXT' => $TEXT['TEXT'],
-								'TEXT_DEFAULT' => $TEXT['DEFAULT'],
-								'TEXT_LANGUAGE' => $TEXT['LANGUAGE'],
-								'TEXT_TIMEZONE' => $TEXT['TIMEZONE'],
-								'TEXT_CHARSET' => $TEXT['CHARSET'],
-								'TEXT_DATE_FORMAT' => $TEXT['DATE_FORMAT'],
-								'TEXT_TIME_FORMAT' => $TEXT['TIME_FORMAT'],
-								'TEXT_TEMPLATE' => $TEXT['TEMPLATE'],
-								'TEXT_THEME' => $TEXT['THEME'],
-								'TEXT_WYSIWYG_EDITOR' => $TEXT['WYSIWYG_EDITOR'],
-								'TEXT_PAGE_LEVEL_LIMIT' => $TEXT['PAGE_LEVEL_LIMIT'],
-								'TEXT_INTRO_PAGE' => $TEXT['INTRO_PAGE'],
-								'TEXT_FRONTEND' => $TEXT['FRONTEND'],
-								'TEXT_LOGIN' => $TEXT['LOGIN'],
-								'TEXT_REDIRECT_AFTER' => $TEXT['REDIRECT_AFTER'],
-								'TEXT_SIGNUP' => $TEXT['SIGNUP'],
-								'TEXT_PHP_ERROR_LEVEL' => $TEXT['PHP_ERROR_LEVEL'],
-								'TEXT_PAGES_DIRECTORY' => $TEXT['PAGES_DIRECTORY'],
-								'TEXT_MEDIA_DIRECTORY' => $TEXT['MEDIA_DIRECTORY'],
-								'TEXT_PAGE_EXTENSION' => $TEXT['PAGE_EXTENSION'],
-								'TEXT_PAGE_SPACER' => $TEXT['PAGE_SPACER'],
-								'TEXT_RENAME_FILES_ON_UPLOAD' => $TEXT['RENAME_FILES_ON_UPLOAD'],
-								'TEXT_APP_NAME' => $TEXT['APP_NAME'],
-								'TEXT_SESSION_IDENTIFIER' => $TEXT['SESSION_IDENTIFIER'],
-								'TEXT_SEC_ANCHOR' => $TEXT['SEC_ANCHOR'],
-								'TEXT_SERVER_OPERATING_SYSTEM' => $TEXT['SERVER_OPERATING_SYSTEM'],
-								'TEXT_LINUX_UNIX_BASED' => $TEXT['LINUX_UNIX_BASED'],
-								'TEXT_WINDOWS' => $TEXT['WINDOWS'],
-								'TEXT_ADMIN' => $TEXT['ADMIN'],
-								'TEXT_TYPE' => $TEXT['TYPE'],
-								'TEXT_DATABASE' => $TEXT['DATABASE'],
-								'TEXT_HOST' => $TEXT['HOST'],
-								'TEXT_USERNAME' => $TEXT['USERNAME'],
-								'TEXT_PASSWORD' => $TEXT['PASSWORD'],
-								'TEXT_NAME' => $TEXT['NAME'],
-								'TEXT_TABLE_PREFIX' => $TEXT['TABLE_PREFIX'],
-								'TEXT_SAVE' => $TEXT['SAVE'],
-								'TEXT_RESET' => $TEXT['RESET'],
-								'TEXT_CHANGES' => $TEXT['CHANGES'],
-								'TEXT_ENABLED' => $TEXT['ENABLED'],
-								'TEXT_DISABLED' => $TEXT['DISABLED'],
-								'TEXT_MANAGE_SECTIONS' => $HEADING['MANAGE_SECTIONS'],
-								'TEXT_MANAGE' => $TEXT['MANAGE'],
-								'TEXT_SEARCH' => $TEXT['SEARCH'],
-								'TEXT_PUBLIC' => $TEXT['PUBLIC'],
-								'TEXT_PRIVATE' => $TEXT['PRIVATE'],
-								'TEXT_REGISTERED' => $TEXT['REGISTERED'],
-								'TEXT_NONE' => $TEXT['NONE'],
-								'TEXT_FILES' => strtoupper(substr($TEXT['FILES'], 0, 1)).substr($TEXT['FILES'], 1),
-								'TEXT_DIRECTORIES' => $TEXT['DIRECTORIES'],
-								'TEXT_FILESYSTEM_PERMISSIONS' => $TEXT['FILESYSTEM_PERMISSIONS'],
-								'TEXT_USER' => $TEXT['USER'],
-								'TEXT_GROUP' => $TEXT['GROUP'],
-								'TEXT_OTHERS' => $TEXT['OTHERS'],
-								'TEXT_READ' => $TEXT['READ'],
-								'TEXT_WRITE' => $TEXT['WRITE'],
-								'TEXT_EXECUTE' => $TEXT['EXECUTE'],
-								'TEXT_WARN_PAGE_LEAVE' => '',
-								'TEXT_SMART_LOGIN' => $TEXT['SMART_LOGIN'],
-								'TEXT_MULTIPLE_MENUS' => $TEXT['MULTIPLE_MENUS'],
-								'TEXT_HOMEPAGE_REDIRECTION' => $TEXT['HOMEPAGE_REDIRECTION'],
-								'TEXT_SECTION_BLOCKS' => $TEXT['SECTION_BLOCKS'],
-								'TEXT_PLEASE_SELECT' => $TEXT['PLEASE_SELECT'],
-								'TEXT_PAGE_TRASH' => $TEXT['PAGE_TRASH'],
-								'TEXT_PAGE_LANGUAGES' => $TEXT['PAGE_LANGUAGES'],
-								'TEXT_INLINE' => $TEXT['INLINE'],
-								'TEXT_SEPARATE' => $TEXT['SEPARATE'],
-								'TEXT_HOME_FOLDERS' => $TEXT['HOME_FOLDERS'],
-								'TEXT_WYSIWYG_STYLE' => $TEXT['WYSIWYG_STYLE'],
-								'TEXT_WORLD_WRITEABLE_FILE_PERMISSIONS' => $TEXT['WORLD_WRITEABLE_FILE_PERMISSIONS'],
-								'TEXT_WBMAILER_DEFAULT_SETTINGS_NOTICE' => $TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'],
-								'TEXT_WBMAILER_DEFAULT_SENDER_MAIL' => $TEXT['WBMAILER_DEFAULT_SENDER_MAIL'],
-								'TEXT_WBMAILER_DEFAULT_SENDER_NAME' => $TEXT['WBMAILER_DEFAULT_SENDER_NAME'],
-								'TEXT_WBMAILER_NOTICE' => $TEXT['WBMAILER_NOTICE'],
-								'TEXT_WBMAILER_FUNCTION' => $TEXT['WBMAILER_FUNCTION'],
-								'TEXT_WBMAILER_SMTP_HOST' => $TEXT['WBMAILER_SMTP_HOST'],
-								'TEXT_WBMAILER_PHP' => $TEXT['WBMAILER_PHP'],
-								'TEXT_WBMAILER_SMTP' => $TEXT['WBMAILER_SMTP'],
-								'TEXT_WBMAILER_SMTP_AUTH' => $TEXT['WBMAILER_SMTP_AUTH'],
-								'TEXT_WBMAILER_SMTP_AUTH_NOTICE' => $TEXT['WBMAILER_SMTP_AUTH_NOTICE'],
-								'TEXT_WBMAILER_SMTP_USERNAME' => $TEXT['WBMAILER_SMTP_USERNAME'],
-								'TEXT_WBMAILER_SMTP_PASSWORD' => $TEXT['WBMAILER_SMTP_PASSWORD'],
-								'MODE_SWITCH_WARNING' => $MESSAGE['SETTINGS']['MODE_SWITCH_WARNING'],
-								'WORLD_WRITEABLE_WARNING' => $MESSAGE['SETTINGS']['WORLD_WRITEABLE_WARNING'],
-								'TEXT_MODULE_ORDER' => $TEXT['MODULE_ORDER'],
-								'TEXT_MAX_EXCERPT' => $TEXT['MAX_EXCERPT'],
-								'TEXT_TIME_LIMIT' => $TEXT['TIME_LIMIT']
-								));
+					'TEXT_WEBSITE_TITLE' => $TEXT['WEBSITE_TITLE'],
+					'TEXT_WEBSITE_DESCRIPTION' => $TEXT['WEBSITE_DESCRIPTION'],
+					'TEXT_WEBSITE_KEYWORDS' => $TEXT['WEBSITE_KEYWORDS'],
+					'TEXT_WEBSITE_HEADER' => $TEXT['WEBSITE_HEADER'],
+					'TEXT_WEBSITE_FOOTER' => $TEXT['WEBSITE_FOOTER'],
+					'TEXT_HEADER' => $TEXT['HEADER'],
+					'TEXT_FOOTER' => $TEXT['FOOTER'],
+					'TEXT_VISIBILITY' => $TEXT['VISIBILITY'],
+					'TEXT_RESULTS_HEADER' => $TEXT['RESULTS_HEADER'],
+					'TEXT_RESULTS_LOOP' => $TEXT['RESULTS_LOOP'],
+					'TEXT_RESULTS_FOOTER' => $TEXT['RESULTS_FOOTER'],
+					'TEXT_NO_RESULTS' => $TEXT['NO_RESULTS'],
+					'TEXT_TEXT' => $TEXT['TEXT'],
+					'TEXT_DEFAULT' => $TEXT['DEFAULT'],
+					'TEXT_LANGUAGE' => $TEXT['LANGUAGE'],
+					'TEXT_TIMEZONE' => $TEXT['TIMEZONE'],
+					'TEXT_CHARSET' => $TEXT['CHARSET'],
+					'TEXT_DATE_FORMAT' => $TEXT['DATE_FORMAT'],
+					'TEXT_TIME_FORMAT' => $TEXT['TIME_FORMAT'],
+					'TEXT_TEMPLATE' => $TEXT['TEMPLATE'],
+					'TEXT_THEME' => $TEXT['THEME'],
+					'TEXT_WYSIWYG_EDITOR' => $TEXT['WYSIWYG_EDITOR'],
+					'TEXT_PAGE_LEVEL_LIMIT' => $TEXT['PAGE_LEVEL_LIMIT'],
+					'TEXT_INTRO_PAGE' => $TEXT['INTRO_PAGE'],
+					'TEXT_FRONTEND' => $TEXT['FRONTEND'],
+					'TEXT_LOGIN' => $TEXT['LOGIN'],
+					'TEXT_REDIRECT_AFTER' => $TEXT['REDIRECT_AFTER'],
+					'TEXT_SIGNUP' => $TEXT['SIGNUP'],
+					'TEXT_PHP_ERROR_LEVEL' => $TEXT['PHP_ERROR_LEVEL'],
+					'TEXT_PAGES_DIRECTORY' => $TEXT['PAGES_DIRECTORY'],
+					'TEXT_MEDIA_DIRECTORY' => $TEXT['MEDIA_DIRECTORY'],
+					'TEXT_PAGE_EXTENSION' => $TEXT['PAGE_EXTENSION'],
+					'TEXT_PAGE_SPACER' => $TEXT['PAGE_SPACER'],
+					'TEXT_RENAME_FILES_ON_UPLOAD' => $TEXT['RENAME_FILES_ON_UPLOAD'],
+					'TEXT_APP_NAME' => $TEXT['APP_NAME'],
+					'TEXT_SESSION_IDENTIFIER' => $TEXT['SESSION_IDENTIFIER'],
+					'TEXT_SEC_ANCHOR' => $TEXT['SEC_ANCHOR'],
+					'TEXT_SERVER_OPERATING_SYSTEM' => $TEXT['SERVER_OPERATING_SYSTEM'],
+					'TEXT_LINUX_UNIX_BASED' => $TEXT['LINUX_UNIX_BASED'],
+					'TEXT_WINDOWS' => $TEXT['WINDOWS'],
+					'TEXT_ADMIN' => $TEXT['ADMIN'],
+					'TEXT_TYPE' => $TEXT['TYPE'],
+					'TEXT_DATABASE' => $TEXT['DATABASE'],
+					'TEXT_HOST' => $TEXT['HOST'],
+					'TEXT_USERNAME' => $TEXT['USERNAME'],
+					'TEXT_PASSWORD' => $TEXT['PASSWORD'],
+					'TEXT_NAME' => $TEXT['NAME'],
+					'TEXT_TABLE_PREFIX' => $TEXT['TABLE_PREFIX'],
+					'TEXT_SAVE' => $TEXT['SAVE'],
+					'TEXT_RESET' => $TEXT['RESET'],
+					'TEXT_CHANGES' => $TEXT['CHANGES'],
+					'TEXT_ENABLED' => $TEXT['ENABLED'],
+					'TEXT_DISABLED' => $TEXT['DISABLED'],
+					'TEXT_MANAGE_SECTIONS' => $HEADING['MANAGE_SECTIONS'],
+					'TEXT_MANAGE' => $TEXT['MANAGE'],
+					'TEXT_SEARCH' => $TEXT['SEARCH'],
+					'TEXT_PUBLIC' => $TEXT['PUBLIC'],
+					'TEXT_PRIVATE' => $TEXT['PRIVATE'],
+					'TEXT_REGISTERED' => $TEXT['REGISTERED'],
+					'TEXT_NONE' => $TEXT['NONE'],
+					'TEXT_FILES' => strtoupper(substr($TEXT['FILES'], 0, 1)).substr($TEXT['FILES'], 1),
+					'TEXT_DIRECTORIES' => $TEXT['DIRECTORIES'],
+					'TEXT_FILESYSTEM_PERMISSIONS' => $TEXT['FILESYSTEM_PERMISSIONS'],
+					'TEXT_USER' => $TEXT['USER'],
+					'TEXT_GROUP' => $TEXT['GROUP'],
+					'TEXT_OTHERS' => $TEXT['OTHERS'],
+					'TEXT_READ' => $TEXT['READ'],
+					'TEXT_WRITE' => $TEXT['WRITE'],
+					'TEXT_EXECUTE' => $TEXT['EXECUTE'],
+					'TEXT_WARN_PAGE_LEAVE' => '',
+					'TEXT_SMART_LOGIN' => $TEXT['SMART_LOGIN'],
+					'TEXT_MULTIPLE_MENUS' => $TEXT['MULTIPLE_MENUS'],
+					'TEXT_HOMEPAGE_REDIRECTION' => $TEXT['HOMEPAGE_REDIRECTION'],
+					'TEXT_SECTION_BLOCKS' => $TEXT['SECTION_BLOCKS'],
+					'TEXT_PLEASE_SELECT' => $TEXT['PLEASE_SELECT'],
+					'TEXT_PAGE_TRASH' => $TEXT['PAGE_TRASH'],
+					'TEXT_PAGE_LANGUAGES' => $TEXT['PAGE_LANGUAGES'],
+					'TEXT_INLINE' => $TEXT['INLINE'],
+					'TEXT_SEPARATE' => $TEXT['SEPARATE'],
+					'TEXT_HOME_FOLDERS' => $TEXT['HOME_FOLDERS'],
+					'TEXT_WYSIWYG_STYLE' => $TEXT['WYSIWYG_STYLE'],
+					'TEXT_WORLD_WRITEABLE_FILE_PERMISSIONS' => $TEXT['WORLD_WRITEABLE_FILE_PERMISSIONS'],
+					'MODE_SWITCH_WARNING' => $MESSAGE['SETTINGS']['MODE_SWITCH_WARNING'],
+					'WORLD_WRITEABLE_WARNING' => $MESSAGE['SETTINGS']['WORLD_WRITEABLE_WARNING'],
+					'TEXT_MODULE_ORDER' => $TEXT['MODULE_ORDER'],
+					'TEXT_MAX_EXCERPT' => $TEXT['MAX_EXCERPT'],
+					'TEXT_TIME_LIMIT' => $TEXT['TIME_LIMIT']
+					));
 
 if($is_advanced)
 {
@@ -717,7 +722,6 @@ if($is_advanced)
 	$template->parse('show_checkbox_3',       'show_checkbox_3_block', true);
 	$template->parse('show_php_error_level',  'show_php_error_level_block', true);
 	$template->parse('show_charset',          'show_charset_block', true);
-	$template->parse('show_access',           'show_access_block', true);
 	$template->parse('show_wysiwyg',          'show_wysiwyg_block', true);
 	$template->parse('show_search',           'show_search_block', false);
 	$template->parse('show_redirect_timer',   'show_redirect_timer_block', true);
@@ -728,10 +732,15 @@ if($is_advanced)
 	$template->set_block('show_checkbox_3', '');
 	$template->set_block('show_php_error_level', '');
 	$template->set_block('show_charset', '');
-	$template->set_block('show_access', '');
 	$template->set_block('show_wysiwyg', '');
 	$template->set_block('show_search', '');
 	$template->set_block('show_redirect_timer', '');
+}
+if($is_advanced && $admin->get_user_id()=='1')
+{
+	$template->parse('show_access', 'show_access_block', true);
+}else {
+	$template->set_block('show_access', '');
 }
 
 // Parse template objects output
@@ -739,5 +748,3 @@ $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
 
 $admin->print_footer();
-
-?>

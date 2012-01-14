@@ -51,9 +51,21 @@ if(isset($_POST['server_email']))
     $pattern = '/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,6}))$/';
     if(false == preg_match($pattern, $_POST['server_email']))
     {
-		$admin->print_error($MESSAGE['USERS']['INVALID_EMAIL'].
+		$admin->print_error($MESSAGE['USERS_INVALID_EMAIL'].
 			'<br /><strong>Email: '.htmlentities($_POST['server_email']).'</strong>', $js_back);
 	}
+}
+
+if(isset($_POST['wbmailer_routine']) && ($_POST['wbmailer_routine']=='smtp')) {
+
+	$checkSmtpHost = (isset($_POST['wbmailer_smtp_host']) && ($_POST['wbmailer_smtp_host']=='') ? false : true);
+	$checkSmtpUser = (isset($_POST['wbmailer_smtp_username']) && ($_POST['wbmailer_smtp_username']=='') ? false : true);
+	$checkSmtpPassword = (isset($_POST['wbmailer_smtp_password']) && ($_POST['wbmailer_smtp_password']=='') ? false : true);
+	if(!$checkSmtpHost || !$checkSmtpUser || !$checkSmtpPassword) {
+		$admin->print_error($TEXT['REQUIRED'].' '.$TEXT['WBMAILER_SMTP_AUTH'].
+			'<br /><strong>'.$MESSAGE['GENERIC_FILL_IN_ALL'].'</strong>', $js_back);
+	}
+
 }
 
 // Work-out file mode
@@ -138,8 +150,6 @@ if($advanced == '')
 $allow_tags_in_fields = array('website_header', 'website_footer');
 $allow_empty_values = array('website_header','website_footer','sec_anchor','pages_directory','page_spacer');
 $disallow_in_fields = array('pages_directory', 'media_directory','wb_version');
-// Create new database object
-/*$database = new database(); */
 
 // Query current settings in the db, then loop through them and update the db with the new value
 $settings = array();
@@ -148,57 +158,59 @@ $old_settings = array();
 $sql = 'SELECT `name`, `value` FROM `'.TABLE_PREFIX.'settings`';
 $sql .= 'ORDER BY `name`';
 
-$res_settings = $database->query($sql);
-$passed = false;
-while($setting = $res_settings->fetchRow())
-{
-	$old_settings[$setting['name']] = $setting['value'];
-	$setting_name = $setting['name'];
-	$value = $admin->get_post($setting_name);
-	$value = isset($_POST[$setting_name]) ? $value : $old_settings[$setting_name] ;
-	switch ($setting_name) {
-		case 'default_timezone':
-			$value=$value*60*60;
-			$passed = true;
+if($res_settings = $database->query($sql)) {
+	$passed = false;
+	while($setting = $res_settings->fetchRow())
+	{
+		$old_settings[$setting['name']] = $setting['value'];
+		$setting_name = $setting['name'];
+		$value = $admin->get_post($setting_name);
+		$value = isset($_POST[$setting_name]) ? $value : $old_settings[$setting_name] ;
+		switch ($setting_name) {
+			case 'default_timezone':
+				$value=$value*60*60;
+				$passed = true;
+				break;
+			case 'string_dir_mode':
+				$value=$dir_mode;
+				$passed = true;
+				break;
+			case 'string_file_mode':
+				$value=$file_mode;
+	 			$passed = true;
 			break;
-		case 'string_dir_mode':
-			$value=$dir_mode;
-			$passed = true;
-			break;
-		case 'string_file_mode':
-			$value=$file_mode;
- 			$passed = true;
-		break;
-		case 'pages_directory':
-			break;
-		case 'wbmailer_smtp_auth':
-			$value = isset($_POST[$setting_name]) ? $_POST[$setting_name] : '' ;
- 			$passed = true;
-			break;
-		default :
-		    $passed = in_array($setting_name, $allow_empty_values);
-			break;
-	}
-    if (!in_array($setting_name, $allow_tags_in_fields))
-    {
-        $value = strip_tags($value);
-    }
+			case 'pages_directory':
+				break;
+			case 'wbmailer_smtp_auth':
+				// $value = isset($_POST[$setting_name]) ? $_POST[$setting_name] : '' ;
+				$value = true ;
+	 			$passed = true;
+				break;
+			default :
+			    $passed = in_array($setting_name, $allow_empty_values);
+				break;
+		}
 
+	    if (!in_array($setting_name, $allow_tags_in_fields))
+	    {
+	        $value = strip_tags($value);
+	    }
 
-    if ( !in_array($value, $disallow_in_fields) && (isset($_POST[$setting_name]) || $passed == true) )
-    {
-        $value = trim($admin->add_slashes($value));
-        $sql = 'UPDATE `'.TABLE_PREFIX.'settings` ';
-        $sql .= 'SET `value` = \''.$value.'\' ';
-        $sql .= 'WHERE `name` <> \'wb_version\' ';
-        $sql .= 'AND `name` = \''.$setting_name.'\' ';
+	    if ( !in_array($value, $disallow_in_fields) && (isset($_POST[$setting_name]) || $passed == true) )
+	    {
+	        $value = trim($admin->add_slashes($value));
+	        $sql = 'UPDATE `'.TABLE_PREFIX.'settings` ';
+	        $sql .= 'SET `value` = \''.$value.'\' ';
+	        $sql .= 'WHERE `name` != \'wb_version\' ';
+	        $sql .= 'AND `name` = \''.$setting_name.'\' ';
 
-        if (!$database->query($sql))
-        {
-			if($database->is_error()) {
-				$admin->print_error($database->get_error, $js_back );
-			}
-        }
+	        if (!$database->query($sql))
+	        {
+				if($database->is_error()) {
+					$admin->print_error($database->get_error, $js_back );
+				}
+	        }
+		}
 	}
 }
 
