@@ -2,6 +2,8 @@
 
 <form name="settings" action="save.php" method="post">
 <input type="hidden" name="advanced" value="{ADVANCED}" />
+<input type="hidden" name="wbmailer_smtp_auth" id="wbmailer_smtp_auth" value="true"  />
+
 {FTAN}
 
 <table summary="" cellpadding="3" cellspacing="0" border="0" align="center" width="100%" class="settings_table">
@@ -38,6 +40,7 @@
 		<textarea name="website_footer" cols="50" rows="3">{WEBSITE_FOOTER}</textarea>
 	</td>
 </tr>
+<!-- BEGIN show_page_level_limit_block -->
 <tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_PAGE_LEVEL_LIMIT}:</td>
 	<td class="setting_value" colspan="2">
@@ -48,19 +51,21 @@
 		</select>
 	</td>
 </tr>
+<!-- END show_page_level_limit_block -->
 <tr>
 	<td class="setting_name">{TEXT_PAGE_TRASH}:</td>
 	<td class="setting_value" colspan="2">
+		<input type="radio" name="page_trash" id="page_trash_inline" style="width: 14px; height: 14px;" value="inline"{PAGE_TRASH_INLINE} />
+		<label for="page_trash_inline">{TEXT_ENABLED}</label>
 		<input type="radio" name="page_trash" id="page_trash_disabled" style="width: 14px; height: 14px;" value="disabled"{PAGE_TRASH_DISABLED} />
 		<label for="page_trash_disabled">{TEXT_DISABLED}</label>
-		<input type="radio" name="page_trash" id="page_trash_inline" style="width: 14px; height: 14px;" value="inline"{PAGE_TRASH_INLINE} />
-		<label for="page_trash_inline">{TEXT_INLINE}</label>
 		<div style="margin: 0; padding: 0;{DISPLAY_PAGE_TRASH_SEPARATE}">
 			<input type="radio" name="page_trash" id="page_trash_separate" style="width: 14px; height: 14px;" value="separate"{PAGE_TRASH_SEPARATE} />
 			<label for="page_trash_separate">{TEXT_SEPARATE}</label>
 		</div>
 	</td>
 </tr>
+<!-- BEGIN show_checkbox_1_block -->
 <tr{DISPLAY_ADVANCED}>
         <td class="setting_name">{TEXT_PAGE_LANGUAGES}:</td>
         <td class="setting_value" colspan="2">
@@ -79,6 +84,7 @@
 		<label for="multiple_menus_false">{TEXT_DISABLED}</label>
 	</td>
 </tr>
+<!-- END show_checkbox_1_block -->
 <tr>
 	<td class="setting_name">{TEXT_HOME_FOLDERS}:</td>
 	<td class="setting_value" colspan="2">
@@ -88,6 +94,7 @@
 		<label for="home_folders_false">{TEXT_DISABLED}</label>
 	</td>
 </tr>
+<!-- BEGIN show_checkbox_2_block -->
 <tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_MANAGE_SECTIONS}:</td>
 	<td class="setting_value" colspan="2">
@@ -106,6 +113,7 @@
 		<label for="section_blocks_false">{TEXT_DISABLED}</label>
 	</td>
 </tr>
+<!-- END show_checkbox_2_block -->
 <tr>
 	<td class="setting_name">{TEXT_INTRO_PAGE}:</td>
 	<td class="setting_value" colspan="2">
@@ -115,6 +123,7 @@
 		<label for="intro_page_false">{TEXT_DISABLED}</label>
 	</td>
 </tr>
+<!-- BEGIN show_checkbox_3_block -->
 <tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_HOMEPAGE_REDIRECTION}:</td>
 	<td class="setting_value" colspan="2">
@@ -133,6 +142,7 @@
 		<label for="smart_login_false">{TEXT_DISABLED}</label>
 	</td>
 </tr>
+<!-- END show_checkbox_3_block -->
 <tr>
 	<td class="setting_name">{TEXT_LOGIN}:</td>
 	<td class="setting_value" colspan="2">
@@ -142,6 +152,7 @@
 		<label for="frontend_login_false">{TEXT_DISABLED}</label>
 	</td>
 </tr>
+<!-- BEGIN show_redirect_timer_block -->
 <tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_REDIRECT_AFTER}:</td>
 	<td class="setting_value" colspan="2">
@@ -149,6 +160,7 @@
 		<label>&nbsp;&nbsp;( <strong>-1</strong> = {TEXT_DISABLED}, <strong>0 -10000</strong> )</label><br />
 	</td>
 </tr>
+<!-- END show_redirect_timer_block -->
 <tr>
 	<td class="setting_name">{TEXT_SIGNUP}:</td>
 	<td class="setting_value" colspan="2">
@@ -160,6 +172,7 @@
 		</select>
 	</td>
 </tr>
+<!-- BEGIN show_php_error_level_block -->
 <tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_PHP_ERROR_LEVEL}:</td>
 	<td class="setting_value" colspan="2">
@@ -171,6 +184,8 @@
 		</select>
 	</td>
 </tr>
+<!-- END show_php_error_level_block -->
+<!-- BEGIN show_wysiwyg_block -->
 <tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_WYSIWYG_STYLE}:</td>
 	<td class="setting_value" colspan="2"><input type="text" name="wysiwyg_style" value="{WYSIWYG_STYLE}" /></td>
@@ -185,6 +200,7 @@
 		</select>
 	</td>
 </tr>
+<!-- END show_wysiwyg_block -->
 <tr>
 	<td class="setting_name">&nbsp;</td>
 	<td class="setting_value_permissions">
@@ -208,6 +224,7 @@
 		</select>
 	</td>
 </tr>
+<!-- BEGIN show_charset_block -->
 <tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_CHARSET}:</td>
 	<td class="setting_value" colspan="2">
@@ -219,6 +236,7 @@
 		</select>
 	</td>
 </tr>
+<!-- END show_charset_block -->
 <tr>
 	<td class="setting_name">{TEXT_TIMEZONE}:</td>
 	<td class="setting_value" colspan="2">
@@ -306,6 +324,7 @@
 		</select>
 	</td>
 </tr>
+<!-- BEGIN show_search_block -->
 <tr{DISPLAY_ADVANCED}>
 	<td class="setting_name">{TEXT_HEADER}:</td>
 	<td class="setting_value" colspan="2">
@@ -360,6 +379,8 @@
 		<input type="text" name="search_time_limit" value="{SEARCH_TIME_LIMIT}" />
 	</td>
 </tr>
+<!-- END show_search_block -->
+<!-- BEGIN show_access_block -->
 <tr>
 	<td class="setting_name">&nbsp;</td>
 	<td class="setting_value_permissions">
@@ -395,7 +416,6 @@
 		<div id="{BASIC_FILE_PERMS_ID}3" style="margin: 0; padding: 0;"></div>
 	</td>
 </tr>
-
 <tr{DISPLAY_ADVANCED}>
 	<td class="setting_name"><div id="{ADVANCED_FILE_PERMS_ID}1" style="margin: 0; padding: 0;">{TEXT_FILESYSTEM_PERMISSIONS}:</div></td>
 	<td class="setting_value_permissions" id="file_mode">
@@ -547,21 +567,24 @@
 	<td class="setting_name">{TEXT_WBMAILER_SMTP_HOST}:</td>
 	<td class="setting_value" colspan="2"><input type="text" style="width: 250px" name="wbmailer_smtp_host" value="{WBMAILER_SMTP_HOST}" /></td>
 </tr>
+<!--  -->
 <tr id="row_wbmailer_smtp_auth_mode"{SMTP_VISIBILITY}>
 	<td class="setting_name">{TEXT_WBMAILER_SMTP_AUTH}:</td>
 	<td class="setting_value" colspan="2">
-		<input type="checkbox" name="wbmailer_smtp_auth" id="wbmailer_smtp_auth" onclick="javascript: toggle_wbmailer_auth();" style="width: 14px; height: 14px;" value="true"{SMTP_AUTH_SELECTED} />
+		<input type="checkbox" name="wbmailer_smtp_auth" id="wbmailer_smtp_auth" onclick="javascript: toggle_wbmailer_auth();" style="width: 14px; height: 14px;" value="true" disabled="disabled" {SMTP_AUTH_SELECTED} />
 		<label for="wbmailer_smtp_auth" onclick="javascript: toggle_wbmailer_auth(this.value);">({TEXT_WBMAILER_SMTP_AUTH_NOTICE})</label>
 	</td>
 </tr>
-<tr id="row_wbmailer_smtp_username"{SMTP_VISIBILITY_AUTH}>
+
+<tr id="row_wbmailer_smtp_username"{SMTP_VISIBILITY}>
 	<td class="setting_name">{TEXT_WBMAILER_SMTP_USERNAME}:</td>
 	<td class="setting_value" colspan="2"><input type="text" style="width: 250px" name="wbmailer_smtp_username" value="{WBMAILER_SMTP_USERNAME}" /></td>
 </tr>
-<tr id="row_wbmailer_smtp_password"{SMTP_VISIBILITY_AUTH}>
+<tr id="row_wbmailer_smtp_password"{SMTP_VISIBILITY}>
 	<td class="setting_name">{TEXT_WBMAILER_SMTP_PASSWORD}:</td>
 	<td class="setting_value" colspan="2"><input type="password" style="width: 250px" name="wbmailer_smtp_password" value="{WBMAILER_SMTP_PASSWORD}" /></td>
 </tr>
+<!-- END show_access_block -->
 <tr>
 	<td class="setting_name">&nbsp;</td>
 	<td class="setting_value_permissions">
