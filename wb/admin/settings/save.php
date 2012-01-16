@@ -81,70 +81,75 @@ if($advanced == '')
 		$dir_mode = STRING_DIR_MODE;
 	}
 } else {
-	// Work-out the octal value for file mode
-	$u = 0;
-	if(isset($_POST['file_u_r']) && $_POST['file_u_r'] == 'true') {
-		$u = $u+4;
+	$file_mode = STRING_FILE_MODE;
+	$dir_mode = STRING_DIR_MODE;
+	if($admin->get_user_id()=='1')
+	{
+		// Work-out the octal value for file mode
+		$u = 0;
+		if(isset($_POST['file_u_r']) && $_POST['file_u_r'] == 'true') {
+			$u = $u+4;
+		}
+		if(isset($_POST['file_u_w']) && $_POST['file_u_w'] == 'true') {
+			$u = $u+2;
+		}
+		if(isset($_POST['file_u_e']) && $_POST['file_u_e'] == 'true') {
+			$u = $u+1;
+		}
+		$g = 0;
+		if(isset($_POST['file_g_r']) && $_POST['file_g_r'] == 'true') {
+			$g = $g+4;
+		}
+		if(isset($_POST['file_g_w']) && $_POST['file_g_w'] == 'true') {
+			$g = $g+2;
+		}
+		if(isset($_POST['file_g_e']) && $_POST['file_g_e'] == 'true') {
+			$g = $g+1;
+		}
+		$o = 0;
+		if(isset($_POST['file_o_r']) && $_POST['file_o_r'] == 'true') {
+			$o = $o+4;
+		}
+		if(isset($_POST['file_o_w']) && $_POST['file_o_w'] == 'true') {
+			$o = $o+2;
+		}
+		if(isset($_POST['file_o_e']) && $_POST['file_o_e'] == 'true') {
+			$o = $o+1;
+		}
+		$file_mode = "0".$u.$g.$o;
+		// Work-out the octal value for dir mode
+		$u = 0;
+		if(isset($_POST['dir_u_r']) && $_POST['dir_u_r'] == 'true') {
+			$u = $u+4;
+		}
+		if(isset($_POST['dir_u_w']) && $_POST['dir_u_w'] == 'true') {
+			$u = $u+2;
+		}
+		if(isset($_POST['dir_u_e']) && $_POST['dir_u_e'] == 'true') {
+			$u = $u+1;
+		}
+		$g = 0;
+		if(isset($_POST['dir_g_r']) && $_POST['dir_g_r'] == 'true') {
+			$g = $g+4;
+		}
+		if(isset($_POST['dir_g_w']) && $_POST['dir_g_w'] == 'true') {
+			$g = $g+2;
+		}
+		if(isset($_POST['dir_g_e']) && $_POST['dir_g_e'] == 'true') {
+			$g = $g+1;
+		}
+		$o = 0;
+		if(isset($_POST['dir_o_r']) && $_POST['dir_o_r'] == 'true') {
+			$o = $o+4;
+		}
+		if(isset($_POST['dir_o_w']) && $_POST['dir_o_w'] == 'true') {
+			$o = $o+2;
+		}
+		if(isset($_POST['dir_o_e']) && $_POST['dir_o_e'] == 'true') {
+			$o = $o+1;
+		}
+		$dir_mode = "0".$u.$g.$o;
 	}
-	if(isset($_POST['file_u_w']) && $_POST['file_u_w'] == 'true') {
-		$u = $u+2;
-	}
-	if(isset($_POST['file_u_e']) && $_POST['file_u_e'] == 'true') {
-		$u = $u+1;
-	}
-	$g = 0;
-	if(isset($_POST['file_g_r']) && $_POST['file_g_r'] == 'true') {
-		$g = $g+4;
-	}
-	if(isset($_POST['file_g_w']) && $_POST['file_g_w'] == 'true') {
-		$g = $g+2;
-	}
-	if(isset($_POST['file_g_e']) && $_POST['file_g_e'] == 'true') {
-		$g = $g+1;
-	}
-	$o = 0;
-	if(isset($_POST['file_o_r']) && $_POST['file_o_r'] == 'true') {
-		$o = $o+4;
-	}
-	if(isset($_POST['file_o_w']) && $_POST['file_o_w'] == 'true') {
-		$o = $o+2;
-	}
-	if(isset($_POST['file_o_e']) && $_POST['file_o_e'] == 'true') {
-		$o = $o+1;
-	}
-	$file_mode = "0".$u.$g.$o;
-	// Work-out the octal value for dir mode
-	$u = 0;
-	if(isset($_POST['dir_u_r']) && $_POST['dir_u_r'] == 'true') {
-		$u = $u+4;
-	}
-	if(isset($_POST['dir_u_w']) && $_POST['dir_u_w'] == 'true') {
-		$u = $u+2;
-	}
-	if(isset($_POST['dir_u_e']) && $_POST['dir_u_e'] == 'true') {
-		$u = $u+1;
-	}
-	$g = 0;
-	if(isset($_POST['dir_g_r']) && $_POST['dir_g_r'] == 'true') {
-		$g = $g+4;
-	}
-	if(isset($_POST['dir_g_w']) && $_POST['dir_g_w'] == 'true') {
-		$g = $g+2;
-	}
-	if(isset($_POST['dir_g_e']) && $_POST['dir_g_e'] == 'true') {
-		$g = $g+1;
-	}
-	$o = 0;
-	if(isset($_POST['dir_o_r']) && $_POST['dir_o_r'] == 'true') {
-		$o = $o+4;
-	}
-	if(isset($_POST['dir_o_w']) && $_POST['dir_o_w'] == 'true') {
-		$o = $o+2;
-	}
-	if(isset($_POST['dir_o_e']) && $_POST['dir_o_e'] == 'true') {
-		$o = $o+1;
-	}
-	$dir_mode = "0".$u.$g.$o;
 }
 
 $allow_tags_in_fields = array('website_header', 'website_footer');

@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+16 Jan-2012 Build 1577 Dietmar Woellbrink (Luisehahne)
+# fixed save dirmode and filmode to 0 if not superadmin
 16 Jan-2012 Build 1576 Werner v.d.Decken(DarkViper)
 # wysiwyg module changed to domain independend image links
 16 Jan-2012 Build 1575 Dietmar Woellbrink (Luisehahne)
