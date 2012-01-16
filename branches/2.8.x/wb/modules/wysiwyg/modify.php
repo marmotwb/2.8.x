@@ -4,7 +4,7 @@
  * @category        modules
  * @package         wysiwyg
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -16,19 +16,21 @@
  */
 
 /* -------------------------------------------------------- */
-if(defined('WB_PATH') == false)
-{
-	// Stop this file being access directly
-		die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+// Must include code to stop this file being accessed directly
+if(!defined('WB_PATH')) {
+	require_once(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
 
+$MEDIA_URL = WB_URL.MEDIA_DIRECTORY;
 // Get page content
-$query = "SELECT content FROM ".TABLE_PREFIX."mod_wysiwyg WHERE section_id = '$section_id'";
-$get_content = $database->query($query);
-$content = $get_content->fetchRow();
-$content = (htmlspecialchars($content['content']));
-
+$query = 'SELECT `content` FROM `'.TABLE_PREFIX.'mod_wysiwyg` WHERE `section_id`='.(int)$section_id;
+if ( ($content = $database->get_one($sql)) ) {
+	$content = htmlspecialchars(str_replace('{SYSVAR:MEDIA_REL}',$MEDIA_URL, $content));
+}else {
+	$content = '';
+}
 if(!isset($wysiwyg_editor_loaded)) {
 	$wysiwyg_editor_loaded=true;
 
@@ -37,12 +39,13 @@ if(!isset($wysiwyg_editor_loaded)) {
 			echo '<textarea name="'.$name.'" id="'.$id.'" style="width: '.$width.'; height: '.$height.';">'.$content.'</textarea>';
 		}
 	} else {
-		$id_list=array();
-		$query_wysiwyg = $database->query("SELECT section_id FROM ".TABLE_PREFIX."sections WHERE page_id = '$page_id' AND module = 'wysiwyg'");
-		if($query_wysiwyg->numRows() > 0) {
+		$id_list = array();
+		$sql  = 'SELECT `section_id` FROM `'.TABLE_PREFIX.'sections` ';
+		$sql .= 'WHERE `page_id`='.(int)$page_id.' AND `module`=\'wysiwyg\'';
+		if (($query_wysiwyg = $database->query($sql))) {
 			while($wysiwyg_section = $query_wysiwyg->fetchRow()) {
 				$entry='content'.$wysiwyg_section['section_id'];
-				array_push($id_list,$entry);
+				$id_list[] = $entry;
 			}
 			require(WB_PATH.'/modules/'.WYSIWYG_EDITOR.'/include.php');
 		}
@@ -50,28 +53,22 @@ if(!isset($wysiwyg_editor_loaded)) {
 }
 
 ?>
-
 <form name="wysiwyg<?php echo $section_id; ?>" action="<?php echo WB_URL; ?>/modules/wysiwyg/save.php" method="post">
-
-<input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
-<input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
-
+	<input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
+	<input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
 <?php
 echo $admin->getFTAN()."\n"; 
 show_wysiwyg_editor('content'.$section_id,'content'.$section_id,$content,'100%','350');
 ?>
-
-<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" style="padding-bottom: 10px;">
-<tr>
-	<td align="left">
-		<input type="submit" value="<?php echo $TEXT['SAVE']; ?>" style="width: 100px; margin-top: 5px;" />
-	</td>
-	<td align="right">
-		<input type="button" value="<?php echo $TEXT['CANCEL']; ?>" onclick="javascript: window.location = 'index.php';" style="width: 100px; margin-top: 5px;" />
-	</td>
-</tr>
-</table>
-
+	<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" style="padding-bottom: 10px;">
+		<tr>
+			<td align="left">
+				<input type="submit" value="<?php echo $TEXT['SAVE']; ?>" style="width: 100px; margin-top: 5px;" />
+			</td>
+			<td align="right">
+				<input type="button" value="<?php echo $TEXT['CANCEL']; ?>" onclick="javascript: window.location = 'index.php';" style="width: 100px; margin-top: 5px;" />
+			</td>
+		</tr>
+	</table>
 </form>
-
 <br />

@@ -4,7 +4,7 @@
  * @category        backend
  * @package         wysiwyg
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -35,9 +35,13 @@ $admin->print_header();
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 
+$MEDIA_URL = WB_URL.MEDIA_DIRECTORY;
 // Update the mod_wysiwygs table with the contents
 if(isset($_POST['content'.$section_id])) {
-	$content = $admin->add_slashes($_POST['content'.$section_id]);
+    $content = $_POST['content'.$section_id];
+    $searchfor = '#(<.*= *\")('.quotemeta($MEDIA_URL).')(.*\".*>)#iU';
+    $content = preg_replace($searchfor, '$1{SYSVAR:MEDIA_REL}$3', $content);
+    $content = $admin->add_slashes($content);
 	// searching in $text will be much easier this way
 	$text = umlauts_to_entities(strip_tags($content), strtoupper(DEFAULT_CHARSET), 0);
 	$query = "UPDATE ".TABLE_PREFIX."mod_wysiwyg SET content = '$content', text = '$text' WHERE section_id = '$section_id'";

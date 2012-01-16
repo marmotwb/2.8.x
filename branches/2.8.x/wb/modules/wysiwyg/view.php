@@ -4,7 +4,7 @@
  * @category        modules
  * @package         wysiwyg
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -14,17 +14,18 @@
  * @lastmodified    $Date$
  *
  */
-// Must include code to stop this file being access directly
 /* -------------------------------------------------------- */
-if(defined('WB_PATH') == false)
-{
-	// Stop this file being access directly
-		die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+// Must include code to stop this file being accessed directly
+if(!defined('WB_PATH')) {
+	require_once(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
+$MEDIA_URL = WB_URL.MEDIA_DIRECTORY;
 // Get content
-$get_content = $database->query("SELECT content FROM ".TABLE_PREFIX."mod_wysiwyg WHERE section_id = '$section_id'");
-$fetch_content = $get_content->fetchRow();
-$content = ($fetch_content['content']);
-
+$content = '';
+$sql = 'SELECT `content` FROM `'.TABLE_PREFIX.'mod_wysiwyg` WHERE `section_id`='.(int)$section_id;
+if( ($content = $database->get_one($sql)) ) {
+	$content = str_replace('{SYSVAR:MEDIA_REL}',$MEDIA_REL, $content );
+}
 echo $content;
