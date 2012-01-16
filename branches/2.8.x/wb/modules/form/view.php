@@ -287,11 +287,13 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 
 				// $email_to = $fetch_settings['email_to'];
 				$email_to = (($fetch_settings['email_to'] != '') ? $fetch_settings['email_to'] : emailAdmin());
-				$email_from = $fetch_settings['email_from'];
+				$email_from = $admin->add_slashes(SERVER_EMAIL);
+/*
 				if(substr($email_from, 0, 5) == 'field') {
 					// Set the email from field to what the user entered in the specified field
 					$email_from = htmlspecialchars($wb->add_slashes($_POST[$email_from]));
 				}
+*/
 				$email_fromname = $fetch_settings['email_fromname'];
 				if(substr($email_fromname, 0, 5) == 'field') {
 					// Set the email_fromname to field to what the user entered in the specified field
@@ -304,7 +306,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 					// Set the success_email to field to what the user entered in the specified field
 					$success_email_to = htmlspecialchars($wb->add_slashes($_POST[$success_email_to]));
 				}
-				$success_email_from = $fetch_settings['success_email_from'];
+				$success_email_from = $admin->add_slashes(SERVER_EMAIL);
 				$success_email_fromname = $fetch_settings['success_email_fromname'];
 				$success_email_text = htmlspecialchars($wb->add_slashes($fetch_settings['success_email_text']));
 				$success_email_text = (($success_email_text != '') ? $success_email_text : $MOD_FORM['SUCCESS_EMAIL_TEXT']);
@@ -442,7 +444,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 						$success_email_text = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "", $success_email_text );
 						if($success_email_to != '') {
 							if($success_email_from != '') {
-								if($wb->mail($success_email_from,$success_email_to,$success_email_subject,($success_email_text).$MOD_FORM['SUCCESS_EMAIL_TEXT_GENERATED'],$success_email_fromname)) {
+								if($wb->mail(SERVER_EMAIL,$success_email_to,$success_email_subject,($success_email_text).$MOD_FORM['SUCCESS_EMAIL_TEXT_GENERATED'],$success_email_fromname)) {
 									$success = true;
 								}
 							} else {
