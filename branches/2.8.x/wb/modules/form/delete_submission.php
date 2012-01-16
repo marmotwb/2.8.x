@@ -24,11 +24,13 @@ require(WB_PATH.'/modules/admin.php');
 // Get id
 $submission_id = intval($admin->checkIDKEY('submission_id', false, 'GET'));
 if (!$submission_id) {
- $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+	$admin->clearIDKEY();
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 }
 
 // Delete row
 $database->query("DELETE FROM ".TABLE_PREFIX."mod_form_submissions WHERE submission_id = '$submission_id'");
+	$admin->clearIDKEY();
 
 // Check if there is a db error, otherwise say successful
 if($database->is_error()) {

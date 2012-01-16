@@ -24,7 +24,7 @@ $update_when_modified = false;
 require(WB_PATH.'/modules/admin.php');
 
 // include core functions of WB 2.7 to edit the optional module CSS files (frontend.css, backend.css)
-@include_once(WB_PATH .'/framework/module.functions.php');
+include_once(WB_PATH .'/framework/module.functions.php');
 
 // load module language file
 $lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
@@ -32,18 +32,30 @@ require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $
 
 $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
 
+if (!function_exists('emailAdmin')) {
+	function emailAdmin() {
+		global $database,$admin;
+        $retval = $admin->get_email();
+        if($admin->get_user_id()!='1') {
+			$sql  = 'SELECT `email` FROM `'.TABLE_PREFIX.'users` ';
+			$sql .= 'WHERE `user_id`=\'1\' ';
+	        $retval = $database->get_one($sql);
+        }
+		return $retval;
+	}
+}
+
 // Get Settings from DB
 $sql  = 'SELECT * FROM '.TABLE_PREFIX.'mod_form_settings ';
 $sql .= 'WHERE `section_id` = '.(int)$section_id.'';
 if($query_content = $database->query($sql)) {
 	$setting = $query_content->fetchRow(MYSQL_ASSOC);
-	$setting['email_to'] = ($setting['email_to'] != '' ? $setting['email_to'] : SERVER_EMAIL);
-	$setting['email_subject'] = ($setting['email_subject']  != '') ? $setting['email_subject'] : $MOD_FORM['EMAIL_SUBJECT'];
-	$setting['success_email_subject'] = ($setting['success_email_subject']  != '') ? $setting['success_email_subject'] : $MOD_FORM['SUCCESS_EMAIL_SUBJECT'];
+	$setting['email_to'] = ($setting['email_to'] != '' ? $setting['email_to'] : emailAdmin());
+	$setting['email_subject'] = ($setting['email_subject']  != '') ? $setting['email_subject'] : '';
+	$setting['success_email_subject'] = ($setting['success_email_subject']  != '') ? $setting['success_email_subject'] : '';
 	$setting['success_email_from'] = ($setting['success_email_from'] != '' ? $setting['success_email_from'] : SERVER_EMAIL);
 	$setting['success_email_fromname'] = ($setting['success_email_fromname'] != '' ? $setting['success_email_fromname'] : WBMAILER_DEFAULT_SENDERNAME);
-	$setting['success_email_subject'] = ($setting['success_email_subject']  != '') ? $setting['success_email_subject'] : $MOD_FORM['SUCCESS_EMAIL_SUBJECT'];
-
+	$setting['success_email_subject'] = ($setting['success_email_subject']  != '') ? $setting['success_email_subject'] : '';
 }
 
 // Set raw html <'s and >'s to be replace by friendly html code
@@ -124,13 +136,13 @@ if(function_exists('edit_module_css')) {
 		<td colspan="2"><strong><?php echo $TEXT['EMAIL'].' '.$TEXT['SETTINGS']; ?></strong></td>
 	</tr>
 	<tr>
-		<td class="frm-setting_name"><?php echo $TEXT['EMAIL'].' '.$MOD_TEXT['TO']; ?>:</td>
+		<td class="frm-setting_name"><?php echo $TEXT['EMAIL'].' '.$MOD_FORM['TO']; ?>:</td>
 		<td class="frm-setting_value">
 			<input type="text" name="email_to" style="width: 98%;" maxlength="255" value="<?php echo str_replace($raw, $friendly, ($setting['email_to'])); ?>" />
 		</td>
 	</tr>
 	<tr>
-		<td class="frm-setting_name"><?php echo $TEXT['EMAIL'].' '.$MOD_TEXT['FROM']; ?>:</td>
+		<td class="frm-setting_name"><?php echo $TEXT['EMAIL'].' '.$MOD_FORM['FROM']; ?>:</td>
 		<td class="frm-setting_value">
 			<select name="email_from_field" style="width: 98%;">
 			<option value="" onclick="javascript: document.getElementById('email_from').style.display = 'block';"><?php echo $TEXT['CUSTOM']; ?>:</option>
@@ -190,14 +202,18 @@ if(function_exists('edit_module_css')) {
 			<input type="text" name="email_subject" style="width: 98%;" maxlength="255" value="<?php echo str_replace($raw, $friendly, ($setting['email_subject'])); ?>" />
 		</td>
 	</tr>
-</table>	
+	<tr><td>&nbsp;</td></tr>
+</table>
 <!-- Erfolgreich Optionen -->
-<table summary="<?php echo $TEXT['SUCCESS'].' '.$TEXT['SETTINGS']; ?>" class="row_a" cellpadding="2" cellspacing="0" border="0" width="100%" style="margin-top: 3px;">
+<table summary="<?php echo $TEXT['EMAIL'].' '.$MOD_FORM['CONFIRM']; ?>" class="row_a" cellpadding="2" cellspacing="0" border="0" width="100%" style="margin-top: 3px;">
+	<thead>
 	<tr>
-		<td colspan="2"><strong><?php echo $TEXT['SUCCESS'].' '.$TEXT['SETTINGS']; ?></strong></td>
+		<th colspan="2"><strong><?php echo $TEXT['EMAIL'].' '.$MOD_FORM['CONFIRM']; ?></strong></th>
 	</tr>
+	</thead>
+	<tbody>
 	<tr>
-		<td class="frm-setting_name"><?php echo $TEXT['EMAIL'].' '.$MOD_TEXT['TO']; ?>:</td>
+		<td class="frm-setting_name"><?php echo $TEXT['EMAIL'].' '.$MOD_FORM['TO']; ?>:</td>
 		<td class="frm-setting_value">
 			<select name="success_email_to" style="width: 98%;">
 			<option value="" onclick="javascript: document.getElementById('success_email_to').style.display = 'block';"><?php echo $TEXT['NONE']; ?></option>
@@ -223,7 +239,7 @@ if(function_exists('edit_module_css')) {
 		</td>
 	</tr>
 	<tr>
-		<td class="frm-setting_name"><?php echo $TEXT['EMAIL'].' '.$MOD_TEXT['FROM']; ?>:</td>
+		<td class="frm-setting_name"><?php echo $TEXT['EMAIL'].' '.$MOD_FORM['FROM']; ?>:</td>
 		<td class="frm-setting_value">
 			<input type="text" name="success_email_from" style="width: 98%;" maxlength="255" value="<?php echo str_replace($raw, $friendly, ($setting['success_email_from'])); ?>" />
 		</td>
@@ -272,6 +288,7 @@ if(function_exists('edit_module_css')) {
 			</select>
 		</td>
 	</tr>
+	</tbody>
 </table>
 
 <table summary="" cellpadding="0" cellspacing="0" border="0" width="100%">
