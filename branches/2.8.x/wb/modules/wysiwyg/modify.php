@@ -23,11 +23,11 @@ if(!defined('WB_PATH')) {
 }
 /* -------------------------------------------------------- */
 
-$MEDIA_URL = WB_URL.MEDIA_DIRECTORY;
+$MEDIA_REL = WB_URL.MEDIA_DIRECTORY;
 // Get page content
-$query = 'SELECT `content` FROM `'.TABLE_PREFIX.'mod_wysiwyg` WHERE `section_id`='.(int)$section_id;
+$sql = 'SELECT `content` FROM `'.TABLE_PREFIX.'mod_wysiwyg` WHERE `section_id`='.(int)$section_id;
 if ( ($content = $database->get_one($sql)) ) {
-	$content = htmlspecialchars(str_replace('{SYSVAR:MEDIA_REL}',$MEDIA_URL, $content));
+	$content = htmlspecialchars(str_replace('{SYSVAR:MEDIA_REL}',$MEDIA_REL, $content));
 }else {
 	$content = '';
 }

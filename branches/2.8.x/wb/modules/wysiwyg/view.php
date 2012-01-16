@@ -21,7 +21,7 @@ if(!defined('WB_PATH')) {
 	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
-$MEDIA_URL = WB_URL.MEDIA_DIRECTORY;
+$MEDIA_REL = WB_URL.MEDIA_DIRECTORY;
 // Get content
 $content = '';
 $sql = 'SELECT `content` FROM `'.TABLE_PREFIX.'mod_wysiwyg` WHERE `section_id`='.(int)$section_id;
