@@ -4,7 +4,7 @@
  * @category        modules
  * @package         wysiwyg
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -14,12 +14,11 @@
  * @lastmodified    $Date$
  *
  */
-// Must include code to stop this file being access directly
 /* -------------------------------------------------------- */
-if(defined('WB_PATH') == false)
-{
-	// Stop this file being access directly
-		die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+// Must include code to stop this file being accessed directly
+if(!defined('WB_PATH')) {
+	require_once(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
 
@@ -32,6 +31,14 @@ if(($sOldType = $database->getTableEngine($sTable))) {
 		}
 	}
 } else {
-	$msg = $database->get_error();
+	$msg .= $database->get_error().'<br />';
 }
+// change internal absolute links into relative links
+$sTable = TABLE_PREFIX.'mod_wysiwyg';
+$sql  = 'UPDATE `'.$sTable.'` ';
+$sql .= 'SET `content` = REPLACE(`content`, \'"'.WB_URL.MEDIA_DIRECTORY.'\', \'"{SYSVAR:MEDIA_REL}\')';
+if (!$database->query($sql)) {
+	$msg .= $database->get_error().'<br />';
+}
+
 // ------------------------------------
