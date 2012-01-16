@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+16 Jan-2012 Build 1574 Dietmar Woellbrink (Luisehahne)
++ add instruction README.de.txt in form module
+! update jquery to jQuery 1.7.1 and jQuery UI 1.8.17
 16 Jan-2012 Build 1573 Dietmar Woellbrink (Luisehahne)
 + add automatically generated e-mail language form variable
 ! send confirmation mail with details to superadmin from SERVER_EMAIL
