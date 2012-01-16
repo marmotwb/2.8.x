@@ -57,14 +57,15 @@ $field_loop = $admin->add_slashes($_POST['field_loop']);
 $footer = $admin->add_slashes($_POST['footer']);
 $email_to = $admin->add_slashes($_POST['email_to']);
 $email_to = ($email_to != '' ? $email_to : emailAdmin());
+$email_from = $admin->add_slashes(SERVER_EMAIL);
 $use_captcha = $admin->add_slashes($_POST['use_captcha']);
-
+/*
 if( isset($_POST['email_from_field']) && ($_POST['email_from_field'] != '')) {
 	$email_from = $admin->add_slashes($_POST['email_from_field']);
 } else {
 	$email_from = $admin->add_slashes($_POST['email_from']);
 }
-
+*/
 if( isset($_POST['email_fromname_field']) && ($_POST['email_fromname_field'] != '')) {
 	$email_fromname = $admin->add_slashes($_POST['email_fromname_field']);
 } else {
@@ -75,7 +76,7 @@ $email_subject = $admin->add_slashes($_POST['email_subject']);
 $email_subject = (($email_subject  != '') ? $email_subject : '');
 $success_page = $admin->add_slashes($_POST['success_page']);
 $success_email_to = $admin->add_slashes($_POST['success_email_to']);
-$success_email_from = $admin->add_slashes($_POST['success_email_from']);
+$success_email_from = $admin->add_slashes(SERVER_EMAIL);
 $success_email_fromname = $admin->add_slashes($_POST['success_email_fromname']);
 $success_email_fromname = ($success_email_fromname != '' ? $success_email_fromname : WBMAILER_DEFAULT_SENDERNAME);
 $success_email_text = $admin->add_slashes($_POST['success_email_text']);
