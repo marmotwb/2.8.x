@@ -327,7 +327,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 				// Check for a mismatch get email user_id
 				if(!isset($_POST['captcha']) OR !isset($_SESSION['captcha']) OR $_POST['captcha'] != $_SESSION['captcha']) {
 					$replace = array('webmaster_email' => emailAdmin() );
-					$captcha_error = replace_vars($MOD_FORM['INCORRECT_CAPTCHA'], array('webmaster_email'=>emailAdmin()));
+					$captcha_error = replace_vars($MOD_FORM['INCORRECT_CAPTCHA'], $replace);
 				}
 			} else {
 				$replace = array('webmaster_email'=>emailAdmin() );
