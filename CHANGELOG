@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+16 Jan-2012 Build 1573 Dietmar Woellbrink (Luisehahne)
++ add automatically generated e-mail language form variable
+! send confirmation mail with details to superadmin from SERVER_EMAIL
+! send confirmation mail without details to sender from SERVER_EMAIL
 14 Jan-2012 Build 1572 Dietmar Woellbrink (Luisehahne)
 ! security fix, force SMTP Authentifikation
 ! server and email settings only for superadmin

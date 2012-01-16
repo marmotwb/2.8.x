@@ -37,17 +37,17 @@ $footer = '<tr>'.PHP_EOL.'<td>&nbsp;</td>'.PHP_EOL.'
 </td>'.PHP_EOL.'
 </tr>'.PHP_EOL.'
 </table>'.PHP_EOL;
-$email_to = $admin->get_email();
+$email_to = '';
 $email_from = '';
 $email_fromname = '';
-$email_subject = $MOD_FORM['EMAIL_SUBJECT'];
+$email_subject = '';
 $success_page = 'none';
-$success_email_to = SERVER_EMAIL;
-$success_email_from = $admin->get_email();
-$success_email_fromname = WBMAILER_DEFAULT_SENDERNAME;
-$success_email_text = $MOD_FORM['SUCCESS_EMAIL_TEXT'];
-$success_email_text = addslashes($success_email_text);
-$success_email_subject = $MOD_FORM['SUCCESS_EMAIL_SUBJECT'];
+$success_email_to = '';
+$success_email_from = '';
+$success_email_fromname = '';
+$success_email_text = '';
+// $success_email_text = addslashes($success_email_text);
+$success_email_subject = '';
 $max_submissions = 50;
 $stored_submissions = 50;
 $use_captcha = true;

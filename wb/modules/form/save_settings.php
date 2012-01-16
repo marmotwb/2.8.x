@@ -32,6 +32,19 @@ $admin->print_header();
 
 $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
 
+if (!function_exists('emailAdmin')) {
+	function emailAdmin() {
+		global $database,$admin;
+        $retval = $admin->get_email();
+        if($admin->get_user_id()!='1') {
+			$sql  = 'SELECT `email` FROM `'.TABLE_PREFIX.'users` ';
+			$sql .= 'WHERE `user_id`=\'1\' ';
+	        $retval = $database->get_one($sql);
+        }
+		return $retval;
+	}
+}
+
 // load module language file
 $lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
 require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
@@ -43,7 +56,7 @@ $header = $admin->add_slashes($_POST['header']);
 $field_loop = $admin->add_slashes($_POST['field_loop']);
 $footer = $admin->add_slashes($_POST['footer']);
 $email_to = $admin->add_slashes($_POST['email_to']);
-$email_to = ($email_to != '' ? $email_to : SERVER_EMAIL);
+$email_to = ($email_to != '' ? $email_to : emailAdmin());
 $use_captcha = $admin->add_slashes($_POST['use_captcha']);
 
 if( isset($_POST['email_from_field']) && ($_POST['email_from_field'] != '')) {
@@ -59,16 +72,16 @@ if( isset($_POST['email_fromname_field']) && ($_POST['email_fromname_field'] != 
 }
 
 $email_subject = $admin->add_slashes($_POST['email_subject']);
-$email_subject = ($email_subject  != '') ? $email_subject : $MOD_FORM['EMAIL_SUBJECT'];
+$email_subject = (($email_subject  != '') ? $email_subject : '');
 $success_page = $admin->add_slashes($_POST['success_page']);
 $success_email_to = $admin->add_slashes($_POST['success_email_to']);
 $success_email_from = $admin->add_slashes($_POST['success_email_from']);
 $success_email_fromname = $admin->add_slashes($_POST['success_email_fromname']);
 $success_email_fromname = ($success_email_fromname != '' ? $success_email_fromname : WBMAILER_DEFAULT_SENDERNAME);
 $success_email_text = $admin->add_slashes($_POST['success_email_text']);
-$success_email_text = (($success_email_text != '') ? $success_email_text : $MOD_FORM['SUCCESS_EMAIL_TEXT']);
+$success_email_text = (($success_email_text != '') ? $success_email_text : '');
 $success_email_subject = $admin->add_slashes($_POST['success_email_subject']);
-$success_email_subject = ($success_email_subject  != '') ? $success_email_subject : $MOD_FORM['SUCCESS_EMAIL_SUBJECT'];
+$success_email_subject = (($success_email_subject  != '') ? $success_email_subject : '');
 
 if(!is_numeric($_POST['max_submissions'])) {
 	$max_submissions = 50;

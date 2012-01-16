@@ -27,6 +27,8 @@ if(defined('WB_PATH') == false)
 // load module language file
 $lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
 require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
+
+include_once(WB_PATH .'/framework/functions.php');
 /*
 function removebreaks($value) {
 	return trim(preg_replace('=((<CR>|<LF>|0x0A/%0A|0x0D/%0D|\\n|\\r)\S).*=i', null, $value));
@@ -35,6 +37,21 @@ function checkbreaks($value) {
 	return $value === removebreaks($value);
 }
 */
+
+if (!function_exists('emailAdmin')) {
+	function emailAdmin() {
+		global $database,$admin;
+        $retval = $admin->get_email();
+        if($admin->get_user_id()!='1') {
+			$sql  = 'SELECT `email` FROM `'.TABLE_PREFIX.'users` ';
+			$sql .= 'WHERE `user_id`=\'1\' ';
+	        $retval = $database->get_one($sql);
+
+        }
+		return $retval;
+	}
+}
+
 // Function for generating an optionsfor a select field
 if (!function_exists('make_option')) {
 	function make_option(&$n, $k, $values) {
@@ -268,7 +285,8 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 			if($query_settings->numRows() > 0) {
 				$fetch_settings = $query_settings->fetchRow(MYSQL_ASSOC);
 
-				$email_to = $fetch_settings['email_to'];
+				// $email_to = $fetch_settings['email_to'];
+				$email_to = (($fetch_settings['email_to'] != '') ? $fetch_settings['email_to'] : emailAdmin());
 				$email_from = $fetch_settings['email_from'];
 				if(substr($email_from, 0, 5) == 'field') {
 					// Set the email from field to what the user entered in the specified field
@@ -279,9 +297,9 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 					// Set the email_fromname to field to what the user entered in the specified field
 					$email_fromname = htmlspecialchars($wb->add_slashes($_POST[$email_fromname]));
 				}
-				$email_subject = $fetch_settings['email_subject'];
+				$email_subject = (($fetch_settings['email_subject'] != '') ? $fetch_settings['email_subject'] : $MOD_FORM['EMAIL_SUBJECT']);
 				$success_page = $fetch_settings['success_page'];
-				$success_email_to = $fetch_settings['success_email_to'];
+				$success_email_to = (($fetch_settings['success_email_to'] != '') ? $fetch_settings['success_email_to'] : '');
 				if(substr($success_email_to, 0, 5) == 'field') {
 					// Set the success_email to field to what the user entered in the specified field
 					$success_email_to = htmlspecialchars($wb->add_slashes($_POST[$success_email_to]));
@@ -290,7 +308,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 				$success_email_fromname = $fetch_settings['success_email_fromname'];
 				$success_email_text = htmlspecialchars($wb->add_slashes($fetch_settings['success_email_text']));
 				$success_email_text = (($success_email_text != '') ? $success_email_text : $MOD_FORM['SUCCESS_EMAIL_TEXT']);
-				$success_email_subject = $fetch_settings['success_email_subject'];
+				$success_email_subject = (($fetch_settings['success_email_subject'] != '') ? $fetch_settings['success_email_subject'] : $MOD_FORM['SUCCESS_EMAIL_SUBJECT']);
 				$max_submissions = $fetch_settings['max_submissions'];
 				$stored_submissions = $fetch_settings['stored_submissions'];
 				$use_captcha = $fetch_settings['use_captcha'];
@@ -306,12 +324,14 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 		// Captcha
 		if($use_captcha) {
 			if(isset($_POST['captcha']) AND $_POST['captcha'] != ''){
-				// Check for a mismatch
+				// Check for a mismatch get email user_id
 				if(!isset($_POST['captcha']) OR !isset($_SESSION['captcha']) OR $_POST['captcha'] != $_SESSION['captcha']) {
-					$captcha_error = $MESSAGE['MOD_FORM']['INCORRECT_CAPTCHA'];
+					$replace = array('webmaster_email' => emailAdmin() );
+					$captcha_error = replace_vars($MOD_FORM['INCORRECT_CAPTCHA'], array('webmaster_email'=>emailAdmin()));
 				}
 			} else {
-				$captcha_error = $MESSAGE['MOD_FORM']['INCORRECT_CAPTCHA'];
+				$replace = array('webmaster_email'=>emailAdmin() );
+				$captcha_error = replace_vars($MOD_FORM['INCORRECT_CAPTCHA'],$replace );
 			}
 		}
 		if(isset($_SESSION['captcha'])) { unset($_SESSION['captcha']); }
@@ -334,7 +354,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 								$_SESSION['field'.$field['field_id']] = str_replace(array("[[", "]]"), array("&#91;&#91;", "&#93;&#93;"), htmlspecialchars($_POST['field'.$field['field_id']]));
 							}
 							if($field['type'] == 'email' AND $admin->validate_email($_POST['field'.$field['field_id']]) == false) {
-								$email_error = $MESSAGE['USERS']['INVALID_EMAIL'];
+								$email_error = $MESSAGE['USERS_INVALID_EMAIL'];
 							}
 							if($field['type'] == 'heading') {
 								$email_body .= $_POST['field'.$field['field_id']]."\n\n";
@@ -401,12 +421,13 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 					} else {
 						// Adding the IP to the body and try to send the email
 						// $email_body .= "\n\nIP: ".$_SERVER['REMOTE_ADDR'];
+
 						$recipient = preg_replace( "/[^a-z0-9 !?:;,.\/_\-=+@#$&\*\(\)]/im", "", $email_fromname );
 						$email_fromname = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "", $recipient );
 						$email_body = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "", $email_body );
 						if($email_to != '') {
 							if($email_from != '') {
-								if($wb->mail($email_from,$email_to,$email_subject,$email_body,$email_fromname)) {
+								if($wb->mail(SERVER_EMAIL,$email_to,$email_subject,$email_body,$email_fromname)) {
 									$success = true;
 								}
 							} else {
@@ -421,11 +442,11 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 						$success_email_text = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "", $success_email_text );
 						if($success_email_to != '') {
 							if($success_email_from != '') {
-								if($wb->mail($success_email_from,$success_email_to,$success_email_subject,$success_email_text,$success_email_fromname)) {
+								if($wb->mail($success_email_from,$success_email_to,$success_email_subject,($success_email_text).$MOD_FORM['SUCCESS_EMAIL_TEXT_GENERATED'],$success_email_fromname)) {
 									$success = true;
 								}
 							} else {
-								if($wb->mail('',$success_email_to,$success_email_subject,$success_email_text,$success_email_fromname)) {
+								if($wb->mail('',$success_email_to,$success_email_subject,($success_email_text).$MOD_FORM['SUCCESS_EMAIL_TEXT_GENERATED'],$success_email_fromname)) {
 									$success = true;
 								}
 							}
@@ -478,7 +499,8 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 	// Now check if the email was sent successfully
 	if(isset($success) AND $success == true) {
 	   if ($success_page=='none') {
-			echo str_replace("\n","<br />",$success_email_text);
+			echo str_replace("\n","<br />",($success_email_text));
+				echo '<p>&nbsp;</p>'.PHP_EOL.'<p><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'.PHP_EOL;
   		} else {
 			$query_menu = $database->query("SELECT link,target FROM ".TABLE_PREFIX."pages WHERE `page_id` = '$success_page'");
 			if($query_menu->numRows() > 0) {
