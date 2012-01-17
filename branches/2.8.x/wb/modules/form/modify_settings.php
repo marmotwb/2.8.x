@@ -173,7 +173,7 @@ if(function_exists('edit_module_css')) {
 			$success_email_to = str_replace($raw, $friendly, ($setting['success_email_to']));
 			$sql  = 'SELECT `field_id`, `title` FROM `'.TABLE_PREFIX.'mod_form_fields` ';
 			$sql .= 'WHERE `section_id` = '.(int)$section_id.' ';
-			$sql .= '  AND ( `type` = \'email\' AND required = \'1\' )';
+			$sql .= '  AND  `type` = \'email\' ';
 			$sql .= 'ORDER BY `position` ASC ';
 			if($query_email_fields = $database->query($sql)) {
 				if($query_email_fields->numRows() > 0) {

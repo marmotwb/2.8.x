@@ -12,7 +12,7 @@ E-Mail Betreff:   Benutzerdefiniert oder wenn leer dann senden mit $MOD_FORM['EM
 
 E-Mail Bestätigung in Formular Einstellungen
 --------------------------------------------
-E-Mail Empfänger: wenn Auswahl "keine"" dann keine Bestätigungs E-Mail an Sender
+E-Mail Empfänger: Auswahlliste, wenn Auswahl "keine"" dann keine Bestätigungs E-Mail an Sender
 Angezeigter Name: Benutzerdefiniert oder WBMAILER_DEFAULT_SENDERNAME (Eintrag unter Optionen Maileinstellungen)
 E-Mail Betreff:   Benutzerdefiniert oder wenn leer dann senden mit $MOD_FORM['SUCCESS_EMAIL_SUBJECT']
 E-Mail Text:      Benutzerdefiniert oder wenn leer dann senden mit $MOD_FORM['SUCCESS_EMAIL_TEXT'].$MOD_FORM['SUCCESS_EMAIL_TEXT_GENERATED']
