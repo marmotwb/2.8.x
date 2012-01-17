@@ -21,11 +21,11 @@ if(!defined('WB_PATH')) {
 	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
-$MEDIA_REL = WB_URL.MEDIA_DIRECTORY;
-// Get content
+$sMediaUrl = WB_URL.MEDIA_DIRECTORY;
+// Get content 
 $content = '';
 $sql = 'SELECT `content` FROM `'.TABLE_PREFIX.'mod_wysiwyg` WHERE `section_id`='.(int)$section_id;
 if( ($content = $database->get_one($sql)) ) {
-	$content = str_replace('{SYSVAR:MEDIA_REL}',$MEDIA_REL, $content );
+	$content = str_replace('{SYSVAR:MEDIA_REL}', $sMediaUrl, $content );
 }
 echo $content;
