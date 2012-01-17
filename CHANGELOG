@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+17 Jan-2012 Build 1580 Dietmar Woellbrink (Luisehahne)
+! dropdown list to choose recipient for email confirmation
 16 Jan-2012 Build 1579 Dietmar Woellbrink (Luisehahne)
 - remove unneeded input fields in form settings
 16 Jan-2012 Build 1578 Dietmar Woellbrink (Luisehahne)
