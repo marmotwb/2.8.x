@@ -9,10 +9,11 @@
 */
 input.mod_form_edit_css { color :#000000; background-color :#f0f0f0; border :1px solid #808080; padding :2px; margin :0; margin-left :625px; margin-top :-20px; margin-bottom :5px; width :110px; }
 
-
+/*
   table#frm-ScrollTable { text-align :left; font-size :12px; border :1px ridge #dadada; font-family :verdana; background :transparent; color :#0066ff; }
   table#frm-ScrollTable thead  { cursor :pointer; }
   table#frm-ScrollTable thead tr,
   table#frm-ScrollTable tfoot tr { background :transparent; }
   table#frm-ScrollTable tbody tr {  }
   td, th { border :0px ridge #dadada; }
+*/

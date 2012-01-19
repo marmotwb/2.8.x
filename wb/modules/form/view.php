@@ -469,7 +469,10 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 						$sql .= 'submitted_by=\''.$submitted_by.'\', ';
 						$sql .= 'body=\''.$email_body.'\' ';
 						if($database->query($sql)) {
-/*
+
+						if(!$database->is_error()) {
+							$success = true;
+						}
 						// Make sure submissions table isn't too full
 						$query_submissions = $database->query("SELECT submission_id FROM ".TABLE_PREFIX."mod_form_submissions ORDER BY submitted_when");
 						$num_submissions = $query_submissions->numRows();
@@ -483,10 +486,6 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 									$num_to_remove = $num_to_remove-1;
 								}
 							}
-						}
-*/
-						if(!$database->is_error()) {
-							$success = true;
 						}
 					}  // numRows
 	 			}
