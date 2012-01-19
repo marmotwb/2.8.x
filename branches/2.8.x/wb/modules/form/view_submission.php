@@ -54,7 +54,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 </tr>
 <tr>
 	<td><?php echo $TEXT['SUBMITTED']; ?>:</td>
-	<td><?php echo gmdate(TIME_FORMAT.', '.DATE_FORMAT, $submission['submitted_when']+TIMEZONE); ?></td>
+	<td><?php echo gmdate(DATE_FORMAT .', '.TIME_FORMAT, $submission['submitted_when']+TIMEZONE); ?></td>
 </tr>
 <tr>
 	<td><?php echo $TEXT['USER']; ?>:</td>
