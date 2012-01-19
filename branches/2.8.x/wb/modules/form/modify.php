@@ -29,6 +29,10 @@ if(function_exists('ini_set')) {
 	ini_set('arg_separator.output', '&amp;');
 }
 
+// load module language file
+$lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
+require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
+
 include_once(WB_PATH.'/framework/functions.php');
 
 $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
@@ -43,7 +47,7 @@ if( !$database->query($sql) ) {
 }
 
 ?>
-<table summary="" cellpadding="0" cellspacing="0" border="0" width="916">
+<table summary="" width="100%" cellpadding="0" cellspacing="0" border="0" width="916">
 <tr>
 	<td align="left" width="33%">
 		<input type="button" value="<?php echo $TEXT['ADD'].' '.$TEXT['FIELD']; ?>" onclick="javascript: window.location = '<?php echo WB_URL; ?>/modules/form/add_field.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>';" style="width: 100%;" />
@@ -68,7 +72,7 @@ if($query_fields = $database->query($sql)) {
 		$num_fields = $query_fields->numRows();
 		$row = 'a';
 		?>
-		<table summary="" cellpadding="2" cellspacing="0" border="0">
+		<table summary="" width="100%" cellpadding="2" cellspacing="0" border="0">
 		<thead>
 			<tr style="background-color: #dddddd; font-weight: bold;">
 				<th width="20" style="padding-left: 5px;">&nbsp;</th>
@@ -194,7 +198,7 @@ $sql  = 'SELECT * FROM `'.TABLE_PREFIX.'mod_form_submissions`  ';
 $sql .= 'WHERE `section_id` = '.(int)$section_id.' ';
 $sql .= 'ORDER BY `submitted_when` ASC ';
 */
-$sql  = 'SELECT s.*, u.`display_name` ';
+$sql  = 'SELECT s.*, u.`display_name`, u.`email` ';
 $sql .=            'FROM `'.TABLE_PREFIX.'mod_form_submissions` s ';
 $sql .= 'LEFT OUTER JOIN `'.TABLE_PREFIX.'users` u ';
 $sql .= 'ON u.`user_id` = s.`submitted_by` ';
@@ -204,14 +208,14 @@ $sql .= 'ORDER BY s.`submitted_when` ASC ';
 if($query_submissions = $database->query($sql)) {
 ?>
 <!-- submissions -->
-		<table summary="" cellpadding="2" cellspacing="0" border="0" class="" id="frm-ScrollTable" >
+		<table summary="" width="100%" cellpadding="2" cellspacing="0" border="0" class="" id="frm-ScrollTable" >
 		<thead>
 		<tr style="background-color: #dddddd; font-weight: bold;">
 			<th width="23" style="text-align: center;">&nbsp;</th>
 			<th width="33" style="text-align: right;"> ID </th>
 			<th width="250" style="padding-left: 10px;"><?php echo $TEXT['SUBMITTED'] ?></th>
 			<th width="240" style="padding-left: 10px;"><?php echo $TEXT['USER']; ?></th>
-			<th width="250">&nbsp;</th>
+			<th width="250"><?php echo $TEXT['EMAIL'].' '.$MOD_FORM['FROM'] ?></th>
 			<th width="20">&nbsp;</th>
 			<th width="20">&nbsp;</th>
 			<th width="20">&nbsp;</th>
@@ -224,7 +228,11 @@ if($query_submissions = $database->query($sql)) {
 		// List submissions
 		$row = 'a';
 		while($submission = $query_submissions->fetchRow(MYSQL_ASSOC)) {
-        $submission['display_name'] = (($submission['display_name']!=null) ? $submission['display_name'] : $TEXT['UNKNOWN']);
+	        $submission['display_name'] = (($submission['display_name']!=null) ? $submission['display_name'] : '');
+			$sBody = $submission['body'];
+			$regex = "/[a-z0-9\-_]?[a-z0-9.\-_]+[a-z0-9\-_]?@[a-z0-9.-]+\.[a-z]{2,}/iU";
+			preg_match ($regex, $sBody, $output);
+			$submission['email'] = $output['0'];
 ?>
 			<tr class="row_<?php echo $row; ?>">
 				<td width="20" style="padding-left: 5px;text-align: center;">
@@ -235,7 +243,7 @@ if($query_submissions = $database->query($sql)) {
 				<td width="30" style="padding-right: 5px;text-align: right;"><?php echo $submission['submission_id']; ?></td>
 				<td width="250" style="padding-left: 10px;"><?php echo gmdate(DATE_FORMAT.', '.TIME_FORMAT, $submission['submitted_when']+TIMEZONE ); ?></td>
 				<td width="250" style="padding-left: 10px;"><?php echo $submission['display_name']; ?></td>
-				<td width="240">&nbsp;</td>
+				<td width="240"><?php echo $submission['email']; ?></td>
 				<td width="20" style="text-align: center;">&nbsp;</td>
 				<td width="20">&nbsp;</td>
 				<td width="20" style="text-align: center;">
@@ -269,7 +277,7 @@ if($query_submissions = $database->query($sql)) {
 			<th width="33" style="text-align: right;"> ID </th>
 			<th width="250" style="padding-left: 10px;"><?php echo $TEXT['SUBMITTED'] ?></th>
 			<th width="250" style="padding-left: 10px;"><?php echo $TEXT['USER']; ?></th>
-			<th width="250">&nbsp;</th>
+			<th width="250"><?php echo $TEXT['EMAIL'].' '.$MOD_FORM['FROM'] ?></th>
 			<th width="20">&nbsp;</th>
 			<th width="20">&nbsp;</th>
 			<th width="20">&nbsp;</th>
@@ -282,7 +290,3 @@ if($query_submissions = $database->query($sql)) {
 	echo $database->get_error().'<br />';
 	echo $sql;
 }
-?>
-<script type="text/javascript">
-var t = new ScrollableTable(document.getElementById('frm-ScrollTable'), 30, 916);
-</script>
