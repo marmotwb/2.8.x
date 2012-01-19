@@ -11,9 +11,12 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
-19 Jan-2012 Build 1583 Dietmar Woellbrink (Luisehahne)
+19 Jan-2012 Build 1585 Dietmar Woellbrink (Luisehahne)
+# fixed double table width in modify.php form module ((Tks to Ruebenwurzel)
+19 Jan-2012 Build 1584 Dietmar Woellbrink (Luisehahne)
 ! form module, shows email-adress from body tag
 - remove scrollable table in overview form module 
+19 Jan-2012 Build 1583 Dietmar Woellbrink (Luisehahne)
 ! forgot upload save.php in wysiwyg module
 19 Jan-2012 Build 1582 Dietmar Woellbrink (Luisehahne)
 # wysiwyg module, fix issues with magic_quote_gpc if on
