@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+19 Jan-2012 Build 1582 Dietmar Woellbrink (Luisehahne)
+# wysiwyg module, fix issues with magic_quote_gpc if on
+# form module, fix regex for radio and checkbox (Tks to Ruud)
+! form module, make show submission table scrollable
 17 Jan-2012 Build 1581 Werner v.d.Decken(DarkViper)
 # wysiwyg module some little typo fixes a.s.o.
 17 Jan-2012 Build 1580 Dietmar Woellbrink (Luisehahne)

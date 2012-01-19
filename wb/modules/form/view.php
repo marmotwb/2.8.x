@@ -75,7 +75,7 @@ if (!function_exists('make_checkbox')) {
 		$field_id = $params[0][0];
 		$seperator = $params[0][1];
 
-		$label_id = 'wb_'.preg_replace('/[^a-z0-1]/i', '_', $key).$field_id;
+		$label_id = 'wb_'.preg_replace('/[^a-z0-9]/i', '_', $key).$field_id;
 		if(in_array($key, $params[1])) {
 			$key = '<input class="frm-field_checkbox" type="checkbox" id="'.$label_id.'" name="field'.$field_id.'['.$idx.']" value="'.$key.'" />'.'<label for="'.$label_id.'" class="frm-checkbox_label">'.$key.'</lable>'.$seperator.PHP_EOL;
 		} else {
@@ -89,7 +89,7 @@ if (!function_exists('make_radio')) {
 		$field_id = $params[0];
 		$group = $params[1];
 		$seperator = $params[2];
-		$label_id = 'wb_'.preg_replace('/[^a-z0-1]/i', '_', $n).$field_id;
+		$label_id = 'wb_'.preg_replace('/[^a-z0-9]/i', '_', $n).$field_id;
 		if($n == $params[3]) {
 			$n = '<input class="frm-field_checkbox" type="radio" id="'.$label_id.'" name="field'.$field_id.'" value="'.$n.'" checked="checked" />'.'<label for="'.$label_id.'" class="frm-checkbox_label">'.$n.'</label>'.$seperator.PHP_EOL;
 		} else {

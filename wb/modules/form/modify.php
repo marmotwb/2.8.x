@@ -28,6 +28,7 @@ if(defined('WB_PATH') == false)
 if(function_exists('ini_set')) {
 	ini_set('arg_separator.output', '&amp;');
 }
+
 include_once(WB_PATH.'/framework/functions.php');
 
 $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
@@ -42,7 +43,7 @@ if( !$database->query($sql) ) {
 }
 
 ?>
-<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%">
+<table summary="" cellpadding="0" cellspacing="0" border="0" width="916">
 <tr>
 	<td align="left" width="33%">
 		<input type="button" value="<?php echo $TEXT['ADD'].' '.$TEXT['FIELD']; ?>" onclick="javascript: window.location = '<?php echo WB_URL; ?>/modules/form/add_field.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>';" style="width: 100%;" />
@@ -67,24 +68,27 @@ if($query_fields = $database->query($sql)) {
 		$num_fields = $query_fields->numRows();
 		$row = 'a';
 		?>
-		<table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
+		<table summary="" cellpadding="2" cellspacing="0" border="0">
+		<thead>
 			<tr style="background-color: #dddddd; font-weight: bold;">
-				<td width="20" style="padding-left: 5px;">&nbsp;</td>
-				<td width="30" style="text-align: right;">ID</td>
-				<td width="400"><?php print $TEXT['FIELD']; ?></td>
-				<td width="175"><?php print $TEXT['TYPE']; ?></td>
-				<td width="100"><?php print $TEXT['REQUIRED']; ?></td>
-				<td width="175">
+				<th width="20" style="padding-left: 5px;">&nbsp;</th>
+				<th width="30" style="text-align: right;">ID</th>
+				<th width="400"><?php print $TEXT['FIELD']; ?></th>
+				<th width="175"><?php print $TEXT['TYPE']; ?></th>
+				<th width="100"><?php print $TEXT['REQUIRED']; ?></th>
+				<th width="175">
 				<?php
 					echo $TEXT['MULTISELECT'];
 				?>
-				</td>
-				<td width="175" colspan="3">
+				</th>
+				<th width="175" colspan="3">
 				<?php
 					echo $TEXT['ACTIONS'];
 				?>
-				</td>
+				</th>
 			</tr>
+		</thead>
+		<tbody>
 		<?php
 		while($field = $query_fields->fetchRow(MYSQL_ASSOC)) {
 			?>
@@ -123,7 +127,7 @@ if($query_fields = $database->query($sql)) {
 					}
 					?>
 				</td>
-				<td>
+				<td style="text-align: center;">
 				<?php
 				if ($field['type'] != 'group_begin') {
 					if($field['required'] == 1) { echo $TEXT['YES']; } else { echo $TEXT['NO']; }
@@ -138,30 +142,30 @@ if($query_fields = $database->query($sql)) {
 				}
 				?>
 				</td>
-				<td width="20">
+				<td width="20" style="text-align: center;">
 				<?php if($field['position'] != 1) { ?>
 					<a href="<?php echo WB_URL; ?>/modules/form/move_up.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>&amp;field_id=<?php echo $admin->getIDKEY($field['field_id']); ?>" title="<?php echo $TEXT['MOVE_UP']; ?>">
 						<img src="<?php echo THEME_URL; ?>/images/up_16.png" border="0" alt="^" />
 					</a>
 				<?php } ?>
 				</td>
-				<td width="20">
+				<td width="20" style="text-align: center;">
 				<?php if($field['position'] != $num_fields) { ?>
 					<a href="<?php echo WB_URL; ?>/modules/form/move_down.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>&amp;field_id=<?php echo $admin->getIDKEY($field['field_id']); ?>" title="<?php echo $TEXT['MOVE_DOWN']; ?>">
 						<img src="<?php echo THEME_URL; ?>/images/down_16.png" border="0" alt="v" />
 					</a>
 				<?php } ?>
 				</td>
-				<td width="20">
+				<td width="20" style="text-align: center;">
 <?php
 				$url = (WB_URL.'/modules/form/delete_field.php?page_id='.$page_id.'&amp;section_id='.$section_id.'&amp;field_id='.$admin->getIDKEY($field['field_id']))
- ?>
+?>
 					<a href="javascript: confirm_link('<?php echo url_encode($TEXT['ARE_YOU_SURE']); ?>', '<?php echo $url; ?>');" title="<?php echo $TEXT['DELETE']; ?>">
 						<img src="<?php echo THEME_URL; ?>/images/delete_16.png" border="0" alt="X" />
 					</a>
 				</td>
 			</tr>
-			<?php
+<?php
 			// Alternate row color
 			if($row == 'a') {
 				$row = 'b';
@@ -169,7 +173,8 @@ if($query_fields = $database->query($sql)) {
 				$row = 'a';
 			}
 		}
-		?>
+?>
+		</tbody>
 		</table>
 		<?php
 	} else {
@@ -183,38 +188,67 @@ if($query_fields = $database->query($sql)) {
 <h2><?php echo $TEXT['SUBMISSIONS']; ?></h2>
 
 <?php
-
 // Query submissions table
-$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'mod_form_submissions` ';
+/*
+$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'mod_form_submissions`  ';
 $sql .= 'WHERE `section_id` = '.(int)$section_id.' ';
 $sql .= 'ORDER BY `submitted_when` ASC ';
+*/
+$sql  = 'SELECT s.*, u.`display_name` ';
+$sql .=            'FROM `'.TABLE_PREFIX.'mod_form_submissions` s ';
+$sql .= 'LEFT OUTER JOIN `'.TABLE_PREFIX.'users` u ';
+$sql .= 'ON u.`user_id` = s.`submitted_by` ';
+$sql .= 'WHERE s.`section_id` = '.(int)$section_id.' ';
+$sql .= 'ORDER BY s.`submitted_when` ASC ';
+
 if($query_submissions = $database->query($sql)) {
+?>
+<!-- submissions -->
+		<table summary="" cellpadding="2" cellspacing="0" border="0" class="" id="frm-ScrollTable" >
+		<thead>
+		<tr style="background-color: #dddddd; font-weight: bold;">
+			<th width="23" style="text-align: center;">&nbsp;</th>
+			<th width="33" style="text-align: right;"> ID </th>
+			<th width="250" style="padding-left: 10px;"><?php echo $TEXT['SUBMITTED'] ?></th>
+			<th width="240" style="padding-left: 10px;"><?php echo $TEXT['USER']; ?></th>
+			<th width="250">&nbsp;</th>
+			<th width="20">&nbsp;</th>
+			<th width="20">&nbsp;</th>
+			<th width="20">&nbsp;</th>
+			<th width="20">&nbsp;</th>
+		</tr>
+		</thead>
+		<tbody>
+<?php
 	if($query_submissions->numRows() > 0) {
-		?>
-		<table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
-		<?php
 		// List submissions
 		$row = 'a';
 		while($submission = $query_submissions->fetchRow(MYSQL_ASSOC)) {
-			?>
+        $submission['display_name'] = (($submission['display_name']!=null) ? $submission['display_name'] : $TEXT['UNKNOWN']);
+?>
 			<tr class="row_<?php echo $row; ?>">
-				<td width="20" style="padding-left: 5px;">
+				<td width="20" style="padding-left: 5px;text-align: center;">
 					<a href="<?php echo WB_URL; ?>/modules/form/view_submission.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>&amp;submission_id=<?php echo $admin->getIDKEY($submission['submission_id']); ?>" title="<?php echo $TEXT['OPEN']; ?>">
 						<img src="<?php echo THEME_URL; ?>/images/folder_16.png" alt="<?php echo $TEXT['OPEN']; ?>" border="0" />
 					</a>
 				</td>
-				<td width="237"><?php echo $TEXT['SUBMISSION_ID'].': '.$submission['submission_id']; ?></td>
-				<td><?php echo $TEXT['SUBMITTED'].': '.gmdate(TIME_FORMAT.', '.DATE_FORMAT, $submission['submitted_when']+TIMEZONE); ?></td>
-				<td width="20">
+				<td width="30" style="padding-right: 5px;text-align: right;"><?php echo $submission['submission_id']; ?></td>
+				<td width="250" style="padding-left: 10px;"><?php echo gmdate(DATE_FORMAT.', '.TIME_FORMAT, $submission['submitted_when']+TIMEZONE ); ?></td>
+				<td width="250" style="padding-left: 10px;"><?php echo $submission['display_name']; ?></td>
+				<td width="240">&nbsp;</td>
+				<td width="20" style="text-align: center;">&nbsp;</td>
+				<td width="20">&nbsp;</td>
+				<td width="20" style="text-align: center;">
 <?php
 				$url = (WB_URL.'/modules/form/delete_submission.php?page_id='.$page_id.'&amp;section_id='.$section_id.'&amp;submission_id='.$admin->getIDKEY($submission['submission_id']))
- ?>
+?>
 					<a href="javascript: confirm_link('<?php echo url_encode($TEXT['ARE_YOU_SURE']); ?>', '<?php echo $url; ?>');" title="<?php echo $TEXT['DELETE']; ?>">
 						<img src="<?php echo THEME_URL; ?>/images/delete_16.png" border="0" alt="X" />
 					</a>
 				</td>
+				<td width="20">&nbsp;</td>
 			</tr>
-			<?php
+<?php
 			// Alternate row color
 			if($row == 'a') {
 				$row = 'b';
@@ -222,10 +256,33 @@ if($query_submissions = $database->query($sql)) {
 				$row = 'a';
 			}
 		}
-		?>
-		</table>
-		<?php
 	} else {
-		echo $TEXT['NONE_FOUND'];
+?>
+<tr><td><?php echo $TEXT['NONE_FOUND'] ?></td></tr>
+<?php
 	}
+?>
+		</tbody>
+		<tfoot>
+		<tr style="background-color: #dddddd; font-weight: bold;">
+			<th width="23" style="text-align: center;">&nbsp;</th>
+			<th width="33" style="text-align: right;"> ID </th>
+			<th width="250" style="padding-left: 10px;"><?php echo $TEXT['SUBMITTED'] ?></th>
+			<th width="250" style="padding-left: 10px;"><?php echo $TEXT['USER']; ?></th>
+			<th width="250">&nbsp;</th>
+			<th width="20">&nbsp;</th>
+			<th width="20">&nbsp;</th>
+			<th width="20">&nbsp;</th>
+			<th width="20">&nbsp;</th>
+		</tr>
+		</tfoot>
+		</table>
+<?php
+} else {
+	echo $database->get_error().'<br />';
+	echo $sql;
 }
+?>
+<script type="text/javascript">
+var t = new ScrollableTable(document.getElementById('frm-ScrollTable'), 30, 916);
+</script>
