@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+19 Jan-2012 Build 1583 Dietmar Woellbrink (Luisehahne)
+! forgot upload save.php in wysiwyg module
 19 Jan-2012 Build 1582 Dietmar Woellbrink (Luisehahne)
 # wysiwyg module, fix issues with magic_quote_gpc if on
 # form module, fix regex for radio and checkbox (Tks to Ruud)
