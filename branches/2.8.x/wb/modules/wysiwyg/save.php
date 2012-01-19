@@ -38,6 +38,12 @@ $sMediaUrl = WB_URL.MEDIA_DIRECTORY;
 // Update the mod_wysiwygs table with the contents
 if(isset($_POST['content'.$section_id])) {
     $content = $_POST['content'.$section_id];
+	if(version_compare(PHP_VERSION, '5.3.0', '<'))
+	{
+		if(get_magic_quotes_gpc()) {
+			$content = $admin->strip_slashes($_POST['content'.$section_id]);
+		}
+	}
 	$searchfor = '@(<[^>]*=\s*")('.preg_quote($sMediaUrl).')([^">]*".*>)@siU';
     $content = preg_replace($searchfor, '$1{SYSVAR:MEDIA_REL}$3', $content);
 	// searching in $text will be much easier this way
