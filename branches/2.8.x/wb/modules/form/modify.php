@@ -47,12 +47,12 @@ if( !$database->query($sql) ) {
 }
 
 ?>
-<table summary="" width="100%" cellpadding="0" cellspacing="0" border="0" width="916">
+<table summary="" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td align="left" width="33%">
+	<td align="left" width="50%">
 		<input type="button" value="<?php echo $TEXT['ADD'].' '.$TEXT['FIELD']; ?>" onclick="javascript: window.location = '<?php echo WB_URL; ?>/modules/form/add_field.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>';" style="width: 100%;" />
 	</td>
-	<td align="right" width="33%">
+	<td align="right" width="50%">
 		<input type="button" value="<?php echo $TEXT['SETTINGS']; ?>" onclick="javascript: window.location = '<?php echo WB_URL; ?>/modules/form/modify_settings.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>';" style="width: 100%;" />
 	</td>
 </tr>
