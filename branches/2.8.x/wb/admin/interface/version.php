@@ -32,7 +32,6 @@
  * @category     	admin
  * @package      	interface
  * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
  * @copyright       2009-2011, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -52,5 +51,5 @@ if(!defined('WB_URL')) {
 
 // check if defined to avoid errors during installation (redirect to admin panel fails if PHP error/warnings are enabled)
 if(!defined('VERSION')) define('VERSION', '2.8.2');
-if(!defined('REVISION')) define('REVISION', '1587');
+if(!defined('REVISION')) define('REVISION', '1588');
 if(!defined('SP')) define('SP', 'SP2');

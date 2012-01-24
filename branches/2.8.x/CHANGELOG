@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+25 Jan-2012 Build 1588 Werner v.d.Decken(DarkViper)
+# all module depending code removed, some little fixes, better integration for module-upgrade
 25 Jan-2012 Build 1587 Werner v.d.Decken(DarkViper)
 + module news: added sql-dump to create database tables
 # module news: some little fixes in install/upgrade

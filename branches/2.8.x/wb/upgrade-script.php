@@ -476,167 +476,37 @@ foreach($cfg as $key=>$value) {
 echo "<br />Adding field redirect_type to mod_menu_link table<br />";
 db_add_field('redirect_type', 'mod_menu_link', "INT NOT NULL DEFAULT '302' AFTER `target_page_id`");
 
-if (version_compare(WB_VERSION, '2.8') < 0)
+/**********************************************************
+ *  - Update search no results database filed to create
+ *  valid XHTML if search is empty
+ */
+if (version_compare(WB_VERSION, '2.8', '<'))
 {
-    /**********************************************************
-     *  - Update search no results database filed to create
-     *  valid XHTML if search is empty
-     */
     echo "<br />Updating database field `no_results` of search table: ";
     $search_no_results = addslashes('<tr><td><p>[TEXT_NO_RESULTS]</p></td></tr>');
-    $sql = "UPDATE `" . TABLE_PREFIX . "search` SET `value` = '$search_no_results' WHERE `name`= 'no_results'";
-    $database->query($sql);
-    echo ($database->query($sql)) ? " $OK<br />" : " $FAIL<br />";
-    /**********************************************************
-     *  - Update settings of News Modul
-     */
-
-    // These are the default setting
-    $header = '<table cellpadding=\"0\" cellspacing=\"0\" class=\"loop-header\">'."\n";
-    $post_loop = '<tr class=\"post_top\">
-<td class=\"post_title\"><a href=\"[LINK]\">[TITLE]</a></td>
-<td class=\"post_date\">[PUBLISHED_TIME], [PUBLISHED_DATE]</td>
-</tr>
-<tr>
-<td class=\"post_short\" colspan=\"2\">
-[SHORT]
-<span style=\"visibility:[SHOW_READ_MORE];\"><a href=\"[LINK]\">[TEXT_READ_MORE]</a></span>
-</td>
-</tr>';
-    $footer = '</table>
-<table cellpadding="0" cellspacing="0" class="page-header" style="display: [DISPLAY_PREVIOUS_NEXT_LINKS]">
-<tr>
-<td class="page-left">[PREVIOUS_PAGE_LINK]</td>
-<td class="page-center">[OF]</td>
-<td class="page-right">[NEXT_PAGE_LINK]</td>
-</tr>
-</table>';
-    $post_header = addslashes('<table cellpadding="0" cellspacing="0" class="post-header">
-<tr>
-<td><h1>[TITLE]</h1></td>
-<td rowspan="3" style="display: [DISPLAY_IMAGE]">[GROUP_IMAGE]</td>
-</tr>
-<tr>
-<td class="public-info"><b>[TEXT_POSTED_BY] [DISPLAY_NAME] ([USERNAME]) [TEXT_ON] [PUBLISHED_DATE]</b></td>
-</tr>
-<tr style="display: [DISPLAY_GROUP]">
-<td class="group-page"><a href="[BACK]">[PAGE_TITLE]</a> &gt;&gt; <a href="[BACK]?g=[GROUP_ID]">[GROUP_TITLE]</a></td>
-</tr>
-</table>');
-    $post_footer = '<p>[TEXT_LAST_CHANGED]: [MODI_DATE] [TEXT_AT] [MODI_TIME]</p>
-<a href=\"[BACK]\">[TEXT_BACK]</a>';
-    $comments_header = addslashes('<br /><br />
-<h2>[TEXT_COMMENTS]</h2>
-<table cellpadding="2" cellspacing="0" class="comment-header">');
-    $comments_loop = addslashes('<tr>
-<td class="comment_title">[TITLE]</td>
-<td class="comment_info">[TEXT_BY] [DISPLAY_NAME] [TEXT_ON] [DATE] [TEXT_AT] [TIME]</td>
-</tr>
-<tr>
-<td colspan="2" class="comment_text">[COMMENT]</td>
-</tr>');
-    $comments_footer = '</table>
-<br /><a href=\"[ADD_COMMENT_URL]\">[TEXT_ADD_COMMENT]</a>';
-    $comments_page = '<h1>[TEXT_COMMENT]</h1>
-<h2>[POST_TITLE]</h2>
-<br />';
-
-	if(in_array('mod_news_settings', $all_tables))
-	{
-	   // Insert default settings into database
-	   $query_dates = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_news_settings where section_id != 0 and page_id != 0");
-	   if($query_dates->numRows() > 1)
-	   {
-	        while($result = $query_dates->fetchRow())
-	        {
-
-	        	echo "<br /><u>Add default settings to database for news section_id= ".$result['section_id']."</u><br />";
-	        	$section_id = $result['section_id'];
-
-	        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `header` = '$header' WHERE `section_id` = $section_id")) {
-	        		echo 'Database data header added successfully';
-	        	}
-	        	echo mysql_error().'<br />';
-
-	        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `post_loop` = '$post_loop' WHERE `section_id` = $section_id")) {
-	        		echo 'Database data post_loop added successfully';
-	        	}
-	        	echo mysql_error().'<br />';
-
-	        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `footer` = '$footer' WHERE `section_id` = $section_id")) {
-	        		echo 'Database data footer added successfully';
-	        	}
-	        	echo mysql_error().'<br />';
-
-	        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `post_header` = '$post_header' WHERE `section_id` = $section_id")) {
-	        		echo 'Database data post_header added successfully';
-	        	}
-	        	echo mysql_error().'<br />';
-
-	        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `post_footer` = '$post_footer' WHERE `section_id` = $section_id")) {
-	        		echo 'Database data post_footer added successfully';
-	        	}
-	        	echo mysql_error().'<br />';
-
-	        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_header` = '$comments_header' WHERE `section_id` = $section_id")) {
-	        		echo 'Database data comments_header added successfully';
-	        	}
-	        	echo mysql_error().'<br />';
-
-	        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_loop` = '$comments_loop' WHERE `section_id` = $section_id")) {
-	        		echo 'Database data comments_loop added successfully';
-	        	}
-	        	echo mysql_error().'<br />';
-
-	        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_footer` = '$comments_footer' WHERE `section_id` = $section_id")) {
-	        		echo 'Database data comments_footer added successfully';
-	        	}
-	        	echo mysql_error().'<br />';
-
-	        	if($database->query("UPDATE `".TABLE_PREFIX."mod_news_settings` SET `comments_page` = '$comments_page' WHERE `section_id` = $section_id")) {
-	        		echo 'Database data comments_page added successfully';
-	        	}
-	        	echo mysql_error().'<br />';
-
-	        }
-	     }
-	   }
+    $sql  = 'UPDATE `'.TABLE_PREFIX.'search` ';
+	$sql .= 'SET `value`=\''.$search_no_results.'\' ';
+	$sql .= 'WHERE `name`=\'no_results\'';
+    echo ($database->query($sql)) ? ' $OK<br />' : ' $FAIL<br />';
 }
 /**********************************************************
  * upgrade media folder index protect files
  */
-$dir = (WB_PATH.MEDIA_DIRECTORY);
-echo '<h4>Upgrade '.MEDIA_DIRECTORY.'/ index.php protect files</h4><br />';
-$array = rebuildFolderProtectFile($dir);
-if( sizeof( $array ) ){
-	print '<br /><strong>Upgrade '.sizeof( $array ).' '.MEDIA_DIRECTORY.'/ protect files</strong>'." $OK<br />";
-} else {
-	print '<br /><strong>Upgrade '.MEDIA_DIRECTORY.'/ protect files</strong>'." $FAIL!<br />";
-	print implode ('<br />',$array);
-}
-
-/**********************************************************
- * upgrade news if newer version is available
- */
-	if(file_exists(WB_PATH.'/modules/news/upgrade.php'))
-	{
-		$currNewsVersion = get_modul_version ('news', false);
-		$newNewsVersion =  get_modul_version ('news', true);
-		if((version_compare($currNewsVersion, $newNewsVersion) <= 0)) {
-			echo '<h4>Upgrade existings basically news module</h4><br />';
-			// change old postfiles to new postfiles
-			require_once(WB_PATH."/modules/news/upgrade.php");
-		}
+	$dir = (WB_PATH.MEDIA_DIRECTORY);
+	echo '<h4>Upgrade '.MEDIA_DIRECTORY.'/ index.php protect files</h4><br />';
+	$array = rebuildFolderProtectFile($dir);
+	if( sizeof( $array ) ){
+		print '<br /><strong>Upgrade '.sizeof( $array ).' '.MEDIA_DIRECTORY.'/ protect files</strong>'." $OK<br />";
+	} else {
+		print '<br /><strong>Upgrade '.MEDIA_DIRECTORY.'/ protect files</strong>'." $FAIL!<br />";
+		print implode ('<br />',$array);
 	}
-
 /* *****************************************************************************
  * - check for deprecated / never needed files
  */
-if(sizeof($filesRemove)) {
-?>
-<h2>Step <?php echo (++$stepID) ?>: Remove deprecated and old files</h2>
-<?php
-}
+	if(sizeof($filesRemove)) {
+		echo '<h2>Step '.(++$stepID).': Remove deprecated and old files</h2>';
+	}
 	$searches = array(
 		'[ADMIN]',
 		'[MEDIA]',
@@ -661,10 +531,10 @@ if(sizeof($filesRemove)) {
 		{
 			$file = str_replace($searches, $replacements, $file);
 			$file = WB_PATH.'/'.$file;
-			if( file_exists($file) )
-			{ // try to unlink file
-				if(!is_writable( $file ) || !unlink($file))
-				{ // save in err-list, if failed
+			if( file_exists($file) ) {
+				// try to unlink file
+				if(!is_writable( $file ) || !unlink($file)) {
+					// save in err-list, if failed
 					$msg .= $file.'<br />';
 				}
 			}
@@ -690,100 +560,104 @@ if(sizeof($filesRemove)) {
 /**********************************************************
  * - check for deprecated / never needed files
  */
-if(sizeof($dirRemove)) {
-?>
-<h2>Step  <?php echo (++$stepID) ?> : Remove deprecated and old folders</h2>
-<?php
+	if(sizeof($dirRemove)) {
+		echo '<h2>Step  '.(++$stepID).': Remove deprecated and old folders</h2>';
+		$searches = array(
+			'[ADMIN]',
+			'[MEDIA]',
+			'[PAGES]',
+			'[TEMPLATE]'
+		);
+		$replacements = array(
+			substr(ADMIN_PATH, strlen(WB_PATH)+1),
+			MEDIA_DIRECTORY,
+			PAGES_DIRECTORY,
+			'/templates',
+		);
+		$msg = '';
+		foreach( $dirRemove as $dir ) {
+			$dir = str_replace($searches, $replacements, $dir);
+			$dir = WB_PATH.'/'.$dir;
+			if( is_dir( $dir )) {
+			// try to delete dir
+				if(!rm_full_dir($dir)) {
+				// save in err-list, if failed
+					$msg .= $dir.'<br />';
+				}
+			}
+		}
+		if($msg != '') {
+			$msg = '<br /><br />Following files are deprecated, outdated or a security risk and
+					can not be removed automatically.<br /><br />Please delete them
+					using FTP and restart upgrade-script!<br /><br />'.$msg.'<br />';
+			status_msg($msg, 'error warning', 'div');
+			echo '<p style="font-size:120%;"><strong>WARNING: The upgrade script failed ...</strong></p>';
+			echo '<form action="'.$_SERVER['SCRIPT_NAME'].'">';
+			echo '&nbsp;<input name="send" type="submit" value="Restart upgrade script" />';
+			echo '</form>';
+			echo '<br /><br /></div></body></html>';
+			exit;
+		}
+	}
 
-	$searches = array(
-		'[ADMIN]',
-		'[MEDIA]',
-		'[PAGES]',
-		'[TEMPLATE]'
-	);
-	$replacements = array(
-		substr(ADMIN_PATH, strlen(WB_PATH)+1),
-		MEDIA_DIRECTORY,
-		PAGES_DIRECTORY,
-		'/templates',
-	);
-
-	$msg = '';
-	foreach( $dirRemove as $dir )
-	{
-		$dir = str_replace($searches, $replacements, $dir);
-		$dir = WB_PATH.'/'.$dir;
-		if( is_dir( $dir ))
-		{ // try to delete dir
-			if(!rm_full_dir($dir))
-			{ // save in err-list, if failed
-				$msg .= $dir.'<br />';
+/**********************************************************
+ * upgrade modules if newer version is available
+ */
+	$aModuleList = array('news');
+	foreach($aModuleList as $sModul) {
+		if(file_exists(WB_PATH.'/modules/'.$sModul.'/upgrade.php')) {
+			$currModulVersion = get_modul_version ($sModul, false);
+			$newModulVersion =  get_modul_version ($sModul, true);
+			if((version_compare($currModulVersion, $newModulVersion) <= 0)) {
+				echo '<h2>Step '.(++$stepID).' : Upgrade module \''.$sModul.'\' to version '.$newModulVersion.'</h2>';
+				require_once(WB_PATH.'/modules/'.$sModul.'/upgrade.php');
 			}
 		}
 	}
-	if($msg != '')
-	{
-		$msg = '<br /><br />Following files are deprecated, outdated or a security risk and
-			    can not be removed automatically.<br /><br />Please delete them
-				using FTP and restart upgrade-script!<br /><br />'.$msg.'<br />';
-        status_msg($msg, 'error warning', 'div');
-		echo '<p style="font-size:120%;"><strong>WARNING: The upgrade script failed ...</strong></p>';
-
-		echo '<form action="'.$_SERVER['SCRIPT_NAME'].'">';
-		echo '&nbsp;<input name="send" type="submit" value="Restart upgrade script" />';
-		echo '</form>';
-		echo '<br /><br /></div></body></html>';
-		exit;
-	}
-
-}
-
-?>
-<h2>Step <?php echo (++$stepID) ?> : Reload all addons database entry (no upgrade)</h2>
-<?php
 /**********************************************************
  *  - Reload all addons
  */
 
-////delete modules
-//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'module'");
-// Load all modules
-if( ($handle = opendir(WB_PATH.'/modules/')) ) {
-	while(false !== ($file = readdir($handle))) {
-		if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'admin.php' AND $file != 'index.php') {
-			load_module(WB_PATH.'/modules/'.$file );
-		   // 	upgrade_module($file, true);
+	echo '<h2>Step '.(++$stepID).' : Reload all addons database entry (no upgrade)</h2>';
+	////delete modules
+	//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'module'");
+	// Load all modules
+	if( ($handle = opendir(WB_PATH.'/modules/')) ) {
+		while(false !== ($file = readdir($handle))) {
+			if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'admin.php' AND $file != 'index.php') {
+				load_module(WB_PATH.'/modules/'.$file );
+			   // 	upgrade_module($file, true);
+			}
 		}
+		closedir($handle);
 	}
-	closedir($handle);
-}
-echo '<br />Modules reloaded<br />';
+	echo '<br />Modules reloaded<br />';
 
-////delete templates
-//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'template'");
-// Load all templates
-if( ($handle = opendir(WB_PATH.'/templates/')) ) {
-	while(false !== ($file = readdir($handle))) {
-		if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'index.php') {
-			load_template(WB_PATH.'/templates/'.$file);
+	////delete templates
+	//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'template'");
+	// Load all templates
+	if( ($handle = opendir(WB_PATH.'/templates/')) ) {
+		while(false !== ($file = readdir($handle))) {
+			if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'index.php') {
+				load_template(WB_PATH.'/templates/'.$file);
+			}
 		}
+		closedir($handle);
 	}
-	closedir($handle);
-}
-echo '<br />Templates reloaded<br />';
+	echo '<br />Templates reloaded<br />';
 
-////delete languages
-//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'language'");
-// Load all languages
-if( ($handle = opendir(WB_PATH.'/languages/')) ) {
-	while(false !== ($file = readdir($handle))) {
-		if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'index.php') {
-			load_language(WB_PATH.'/languages/'.$file);
+	////delete languages
+	//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'language'");
+	// Load all languages
+	if( ($handle = opendir(WB_PATH.'/languages/')) ) {
+		while(false !== ($file = readdir($handle))) {
+			if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'index.php') {
+				load_language(WB_PATH.'/languages/'.$file);
+			}
 		}
+		closedir($handle);
 	}
-	closedir($handle);
-}
-echo '<br />Languages reloaded<br />';
+	echo '<br />Languages reloaded<br />';
 
 /**********************************************************
  *  - End of upgrade script
@@ -791,34 +665,31 @@ echo '<br />Languages reloaded<br />';
 
 // require(WB_PATH.'/framework/initialize.php');
 
-if(!defined('DEFAULT_THEME')) { define('DEFAULT_THEME', $DEFAULT_THEME); }
-if(!defined('THEME_PATH')) { define('THEME_PATH', WB_PATH.'/templates/'.DEFAULT_THEME);}
+	if(!defined('DEFAULT_THEME')) { define('DEFAULT_THEME', $DEFAULT_THEME); }
+	if(!defined('THEME_PATH')) { define('THEME_PATH', WB_PATH.'/templates/'.DEFAULT_THEME);}
 /**********************************************************
  *  - Set Version to new Version
  */
-echo '<br />Update database version number to '.VERSION.' '.SP.' '.' Revision ['.REVISION.'] : ';
-// echo ($database->query("UPDATE `".TABLE_PREFIX."settings` SET `value`='".VERSION."' WHERE `name` = 'wb_version'")) ? " $OK<br />" : " $FAIL<br />";
-db_update_key_value('settings', 'wb_version', VERSION);
-db_update_key_value('settings', 'wb_revision', REVISION);
-db_update_key_value('settings', 'wb_sp', SP);
+	echo '<br />Update database version number to '.VERSION.' '.SP.' '.' Revision ['.REVISION.'] : ';
+	// echo ($database->query("UPDATE `".TABLE_PREFIX."settings` SET `value`='".VERSION."' WHERE `name` = 'wb_version'")) ? " $OK<br />" : " $FAIL<br />";
+	db_update_key_value('settings', 'wb_version', VERSION);
+	db_update_key_value('settings', 'wb_revision', REVISION);
+	db_update_key_value('settings', 'wb_sp', SP);
 
-echo '<p style="font-size:120%;"><strong>Congratulations: The upgrade script is finished ...</strong></p>';
-status_msg('<strong>Warning:</strong><br />Please delete the file <strong>upgrade-script.php</strong> via FTP before proceeding.', 'warning', 'div');
-// show buttons to go to the backend or frontend
-echo '<br />';
+	echo '<p style="font-size:120%;"><strong>Congratulations: The upgrade script is finished ...</strong></p>';
+	status_msg('<strong>Warning:</strong><br />Please delete the file <strong>upgrade-script.php</strong> via FTP before proceeding.', 'warning', 'div');
+	// show buttons to go to the backend or frontend
+	echo '<br />';
 
-if(defined('WB_URL')) {
-	echo '<form action="'.WB_URL.'/">';
-	echo '&nbsp;<input type="submit" value="kick me to the Frontend" />';
-	echo '</form>';
-}
-if(defined('ADMIN_URL')) {
-	echo '<form action="'.ADMIN_URL.'/">';
-	echo '&nbsp;<input type="submit" value="kick me to the Backend" />';
-	echo '</form>';
-}
+	if(defined('WB_URL')) {
+		echo '<form action="'.WB_URL.'/">';
+		echo '&nbsp;<input type="submit" value="kick me to the Frontend" />';
+		echo '</form>';
+	}
+	if(defined('ADMIN_URL')) {
+		echo '<form action="'.ADMIN_URL.'/">';
+		echo '&nbsp;<input type="submit" value="kick me to the Backend" />';
+		echo '</form>';
+	}
 
-?><br /><br />
-</div>
-</body>
-</html>
+	echo '<br /><br /></div></body></html>';
