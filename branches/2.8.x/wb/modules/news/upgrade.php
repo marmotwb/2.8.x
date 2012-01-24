@@ -15,14 +15,11 @@
  *
  */
 
-// Must include code to stop this file being access directly
 /* -------------------------------------------------------- */
-if(defined('WB_PATH') == false)
-{
-	// Stop this file being access directly
-		die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
-}
-
+// Must include code to stop this file being accessed directly
+require_once( dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
+if(!defined('WB_PATH')) { throw new IllegalFileException(); }
+/* -------------------------------------------------------- */
 /* **** START UPGRADE ******************************************************* */
 if(!function_exists('mod_news_Upgrade'))
 {
@@ -124,7 +121,6 @@ if(!function_exists('mod_news_Upgrade'))
 
 	// rebuild all access-files
 		$count = 0;
-		// $backSteps = preg_replace('/^'.preg_quote(WB_PATH).'/', '', $sPostsPath);
 		$backSteps = preg_replace('@^'.preg_quote(WB_PATH).'@', '', $sPostsPath);
 		$backSteps = str_repeat( '../', substr_count($backSteps, '/'));
 		$sql  = 'SELECT `page_id`,`post_id`,`section_id`,`link` ';
@@ -146,8 +142,6 @@ if(!function_exists('mod_news_Upgrade'))
 					"\t".'$section_id = '.$recPost['section_id'].';'."\n".
 					"\t".'$post_id    = '.$recPost['post_id'].';'."\n".
 					"\t".'$post_section = '.$recPost['section_id'].';'."\n".
-//					"\t".'define(\'POST_SECTION\', '.$recPost['section_id'].');'."\n".
-//					"\t".'define(\'POST_ID\',      '.$recPost['post_id'].');'."\n".
 					"\t".'require(\''.$backSteps.'index.php\');'."\n".
 					'// *************************************************'."\n";
 				if( file_put_contents($file, $content) !== false ) {
@@ -165,23 +159,22 @@ if(!function_exists('mod_news_Upgrade'))
 			}
 		}
 		if($globalStarted) { $msg[] = 'created '.$count.' new accessfiles.'; }
-		// if(!$globalStarted) { $admin->print_footer(); }
 	}
 }
 
-$msg = array();
-$aTable = array('mod_news_posts','mod_news_groups','mod_news_comments','mod_news_settings');
-for($x=0; $x<sizeof($aTable);$x++) {
-	if(($sOldType = $database->getTableEngine(TABLE_PREFIX.$aTable[$x]))) {
-		if(('myisam' != strtolower($sOldType))) {
-			if(!$database->query('ALTER TABLE `'.TABLE_PREFIX.$aTable[$x].'` Engine = \'MyISAM\' ')) {
-				$msg[] = $database->get_error();
+	$msg = array();
+	$aTable = array('mod_news_posts','mod_news_groups','mod_news_comments','mod_news_settings');
+	for($x=0; $x<sizeof($aTable);$x++) {
+		if(($sOldType = $database->getTableEngine(TABLE_PREFIX.$aTable[$x]))) {
+			if(('myisam' != strtolower($sOldType))) {
+				if(!$database->query('ALTER TABLE `'.TABLE_PREFIX.$aTable[$x].'` Engine = \'MyISAM\' ')) {
+					$msg[] = $database->get_error();
+				}
 			}
+		} else {
+			$msg[] = $database->get_error();
 		}
-	} else {
-		$msg[] = $database->get_error();
 	}
-}
 // ------------------------------------
 	mod_news_Upgrade();
 /* **** END UPGRADE ********************************************************* */
