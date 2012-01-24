@@ -282,12 +282,53 @@ class database {
 		}
 		return $retval;
 	}
+/**
+ * Import a standard *.sql dump file
+ * @param string $sSqlDump link to the sql-dumpfile
+ * @param string $sTablePrefix
+ * @param string $sTblEngine
+ * @param string $sTblCollation
+ * @param bool $bPreserve set to true will ignore all DROP TABLE statements
+ * @return boolean true if import successful
+ */
+	public function SqlImport($sSqlDump,
+	                          $sTablePrefix = '',
+	                          $sTblEngine = 'ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci',
+	                          $sTblCollation = ' collate utf8_unicode_ci',
+	                          $bPreserve = true)
+	{
+		$retval = true;
+		$this->error = '';
+		$aSearch  = array('{TABLE_PREFIX}','{TABLE_ENGINE}', '{TABLE_COLLATION}');
+		$aReplace = array($sTablePrefix, $sTblEngine, $sTblCollation);
+		$sql = '';
+		$aSql = file($sSqlDump);
+		while ( sizeof($aSql) > 0 ) {
+			$sSqlLine = trim(array_shift($aSql));
+			if (preg_match('/^[-\/].+/', $sSqlLine)) {
+				$sql = $sql.' '.$sql_line;
+				if ((substr($sql,-1,1) == ';')) {
+					$sql = trim(str_replace( $aSearch, $aReplace, $sql));
+					if (!($bPreserve && preg_match('/^\s*DROP TABLE IF EXISTS/siU', $sql))) {
+						if(!mysql_query($sql, $this->db_handle)) {
+							$retval = false;
+							$this->error = mysql_error($this->db_handle);
+							unset($aSql);
+							break;
+						}
+					}
+					$sql = '';
+				}
+			}
+		}
+		return $retval;
+	}
 
-	/**
-	* retuns the type of the engine used for requested table
-	* @param string $table name of the table, including prefix
-	* @return boolean/string false on error, or name of the engine (myIsam/InnoDb)
-	*/
+/**
+ * retuns the type of the engine used for requested table
+ * @param string $table name of the table, including prefix
+ * @return boolean/string false on error, or name of the engine (myIsam/InnoDb)
+ */
 	public function getTableEngine($table)
 	{
 		$retVal = false;

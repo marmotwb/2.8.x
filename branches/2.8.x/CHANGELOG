@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+24 Jan-2012 Build 1586 Werner v.d.Decken(DarkViper)
++ added new method SqlImport() to class database
 19 Jan-2012 Build 1585 Dietmar Woellbrink (Luisehahne)
 # fixed double table width in modify.php form module ((Tks to Ruebenwurzel)
 19 Jan-2012 Build 1584 Dietmar Woellbrink (Luisehahne)
