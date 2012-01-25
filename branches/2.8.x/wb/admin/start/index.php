@@ -58,20 +58,19 @@ if(($admin->get_user_id()==1) && file_exists(WB_PATH.'/upgrade-script.php')) {
 	// check if it is neccessary to start the uograde-script
 	$sql = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` WHERE `name`=\'wb_revision\'';
 	if($wb_revision=$database->get_one($sql)) {
-		if (version_compare($wb_revision, REVISION ) < 0) {
-			if(!headers_sent()) {
-				header('Location: '.WB_URL.'/upgrade-script.php');
-			    exit;
-			} else {
-			    echo "<p style=\"text-align:center;\"> The <strong>upgrade script</strong> could not be start automatically.\n" .
-			         "Please click <a style=\"font-weight:bold;\" " .
-			         "href=\"".WB_URL."/upgrade-script.php\">on this link</a> to start the script!</p>\n";
-			    exit;
-			}
+	}
+	if (version_compare($wb_revision, REVISION ) < 0) {
+		if(!headers_sent()) {
+			header('Location: '.WB_URL.'/upgrade-script.php');
+		    exit;
 		} else {
-			$msg .= (file_exists(WB_PATH.'/upgrade-script.php') ? ''.$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'].'<br />' : '');
+		    echo "<p style=\"text-align:center;\"> The <strong>upgrade script</strong> could not be start automatically.\n" .
+		         "Please click <a style=\"font-weight:bold;\" " .
+		         "href=\"".WB_URL."/upgrade-script.php\">on this link</a> to start the script!</p>\n";
+		    exit;
 		}
 	}
+	$msg .= ''.$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'].'<br />';
 }
 
 // Setup template object, parse vars to it, then parse it
