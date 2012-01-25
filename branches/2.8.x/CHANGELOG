@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+25 Jan-2012 Build 1590 Werner v.d.Decken(DarkViper)
+! mod form: added request var to submit a request identifier.
+! argument ?fri=12345 on GET-view will submit 'FormRequestId: 12345' by email
 25 Jan-2012 Build 1589 Dietmar Woellbrink (Luisehahne)
 # fixed starting upgrade-script if missing revision in settings
 25 Jan-2012 Build 1588 Werner v.d.Decken(DarkViper)

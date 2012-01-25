@@ -154,6 +154,12 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 ?>
 			<form <?php echo ( ( (strlen($form_name) > 0) AND (false == $use_xhtml_strict) ) ? "name=\"".$form_name."\"" : ""); ?> action="<?php echo htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'';?>" method="post">
 				<input type="hidden" name="submission_id" value="<?php echo $_SESSION['form_submission_id']; ?>" />
+				<?php
+				$iFormRequestId = isset($_GET['fri']) ? intval($_GET['fri']) : 0;
+				if($iFormRequestId) {
+					echo '<input type="hidden" name="fri" value="'.$iFormRequestId.'" />'."\n";
+				}
+				?>
 				<?php // echo $admin->getFTAN(); ?>
 				<?php
 				if(ENABLED_ASP) { // first add some honeypot-fields
@@ -423,7 +429,10 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 					} else {
 						// Adding the IP to the body and try to send the email
 						// $email_body .= "\n\nIP: ".$_SERVER['REMOTE_ADDR'];
-
+						$iFormRequestId = isset($_POST[fri]) ? intval($_POST['fri']) : 0;
+						if($iFormRequestId) {
+							$email_body .= "\n\nFormRequestID: ".$iFormRequestId;
+						}
 						$recipient = preg_replace( "/[^a-z0-9 !?:;,.\/_\-=+@#$&\*\(\)]/im", "", $email_fromname );
 						$email_fromname = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "", $recipient );
 						$email_body = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "", $email_body );
