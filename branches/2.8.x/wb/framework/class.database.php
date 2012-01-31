@@ -286,16 +286,16 @@ class database {
  * Import a standard *.sql dump file
  * @param string $sSqlDump link to the sql-dumpfile
  * @param string $sTablePrefix
+ * @param bool $bPreserve set to true will ignore all DROP TABLE statements
  * @param string $sTblEngine
  * @param string $sTblCollation
- * @param bool $bPreserve set to true will ignore all DROP TABLE statements
  * @return boolean true if import successful
  */
 	public function SqlImport($sSqlDump,
 	                          $sTablePrefix = '',
+	                          $bPreserve = true,
 	                          $sTblEngine = 'ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci',
-	                          $sTblCollation = ' collate utf8_unicode_ci',
-	                          $bPreserve = true)
+	                          $sTblCollation = ' collate utf8_unicode_ci')
 	{
 		$retval = true;
 		$this->error = '';
@@ -305,7 +305,7 @@ class database {
 		$aSql = file($sSqlDump);
 		while ( sizeof($aSql) > 0 ) {
 			$sSqlLine = trim(array_shift($aSql));
-			if (preg_match('/^[-\/].+/', $sSqlLine)) {
+			if (!preg_match('/^[-\/]+.*/', $sSqlLine)) {
 				$sql = $sql.' '.$sql_line;
 				if ((substr($sql,-1,1) == ';')) {
 					$sql = trim(str_replace( $aSearch, $aReplace, $sql));
