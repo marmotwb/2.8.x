@@ -306,7 +306,7 @@ class database {
 		while ( sizeof($aSql) > 0 ) {
 			$sSqlLine = trim(array_shift($aSql));
 			if (!preg_match('/^[-\/]+.*/', $sSqlLine)) {
-				$sql = $sql.' '.$sql_line;
+				$sql = $sql.' '.$sSqlLine;
 				if ((substr($sql,-1,1) == ';')) {
 					$sql = trim(str_replace( $aSearch, $aReplace, $sql));
 					if (!($bPreserve && preg_match('/^\s*DROP TABLE IF EXISTS/siU', $sql))) {
