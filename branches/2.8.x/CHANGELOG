@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+31 Jan-2012 Build 1592 Werner v.d.Decken(DarkViper)
+# little Typo-fix in database::SqlImport(). (grummel)
 31 Jan-2012 Build 1591 Werner v.d.Decken(DarkViper)
 # little Regex-fix in database::SqlImport().
 25 Jan-2012 Build 1590 Werner v.d.Decken(DarkViper)
