@@ -78,6 +78,8 @@ if(!function_exists('mod_news_Upgrade'))
 			$sql .= 'SET `created_by`=`posted_by`, `created_when`=`posted_when`';
 			$database->query($sql);
 		}
+
+	$array = rebuildFolderProtectFile($sPostsPath);
 	// now iterate through all existing accessfiles,
 	// write its creation date into database
 		$oDir = new DirectoryIterator($sPostsPath);
