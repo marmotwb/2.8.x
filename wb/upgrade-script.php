@@ -501,6 +501,18 @@ if (version_compare(WB_VERSION, '2.8', '<'))
 		print '<br /><strong>Upgrade '.MEDIA_DIRECTORY.'/ protect files</strong>'." $FAIL!<br />";
 		print implode ('<br />',$array);
 	}
+/**********************************************************
+ * upgrade posts folder index protect files
+ */
+	$sPostsPath = WB_PATH.PAGES_DIRECTORY.'/posts';
+	echo '<h4>Upgrade /posts/ index.php protect files</h4><br />';
+	$array = rebuildFolderProtectFile($sPostsPath);
+	if( sizeof( $array ) ){
+		print '<br /><strong>Upgrade '.sizeof( $array ).' /posts/ protect files</strong>'." $OK<br />";
+	} else {
+		print '<br /><strong>Upgrade /posts/ protect files</strong>'." $FAIL!<br />";
+		print implode ('<br />',$array);
+	}
 /* *****************************************************************************
  * - check for deprecated / never needed files
  */
