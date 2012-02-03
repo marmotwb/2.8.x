@@ -34,7 +34,7 @@ $MOD_FORM['SUBMIT_FORM'] = 'Submit';
 $MOD_FORM['EMAIL_SUBJECT'] = 'Delivering a message from '.WEBSITE_TITLE;
 $MOD_FORM['SUCCESS_EMAIL_SUBJECT'] = 'You have submitted a message to '.WEBSITE_TITLE;
 
-$MOD_FORM['SUCCESS_EMAIL_TEXT'] = 'Thank you for sending your message from '.WEBSITE_TITLE;
+$MOD_FORM['SUCCESS_EMAIL_TEXT'] = 'Thank you for sending your message to '.WEBSITE_TITLE;
 $MOD_FORM['SUCCESS_EMAIL_TEXT_GENERATED'] = PHP_EOL.PHP_EOL.PHP_EOL
 .'****************************************************************************'.PHP_EOL
 .'This is an automatically generated e-mail. The sender\'s address of this e-mail'.PHP_EOL

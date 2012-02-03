@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+04 Feb-2012 Build 1595 Dietmar Woellbrink (Luisehahne)
+# fix form language vars for better understanding (Tks to Maverik)
+! change request if HTTP_REFERER is not empty in logout.php 
 03 Feb-2012 Build 1594 Dietmar Woellbrink (Luisehahne)
 # fixed use of undefined constant fri in /form/view.php
 01 Feb-2012 Build 1593 Dietmar Woellbrink (Luisehahne)
