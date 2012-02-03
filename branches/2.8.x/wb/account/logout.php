@@ -22,7 +22,7 @@ if(isset($_COOKIE['REMEMBER_KEY'])) {
 	setcookie('REMEMBER_KEY', '', time()-3600, '/');
 }
 
-$redirect = (isset($_SERVER['HTTP_REFERER'])) ?  $_SERVER['HTTP_REFERER'] : WB_URL.'/index.php';
+$redirect = ((isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) ?  $_SERVER['HTTP_REFERER'] : WB_URL.'/index.php');
 
 $_SESSION['USER_ID'] = null;
 $_SESSION['GROUP_ID'] = null;
