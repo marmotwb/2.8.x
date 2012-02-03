@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+03 Feb-2012 Build 1594 Dietmar Woellbrink (Luisehahne)
+# fixed use of undefined constant fri in /form/view.php
 01 Feb-2012 Build 1593 Dietmar Woellbrink (Luisehahne)
 # rebuild protectfile in pages/posts
 31 Jan-2012 Build 1592 Werner v.d.Decken(DarkViper)

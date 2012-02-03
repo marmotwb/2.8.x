@@ -429,7 +429,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 					} else {
 						// Adding the IP to the body and try to send the email
 						// $email_body .= "\n\nIP: ".$_SERVER['REMOTE_ADDR'];
-						$iFormRequestId = isset($_POST[fri]) ? intval($_POST['fri']) : 0;
+						$iFormRequestId = isset($_POST['fri']) ? intval($_POST['fri']) : 0;
 						if($iFormRequestId) {
 							$email_body .= "\n\nFormRequestID: ".$iFormRequestId;
 						}
