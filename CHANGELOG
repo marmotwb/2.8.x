@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+04 Feb-2012 Build 1596 Dietmar Woellbrink (Luisehahne)
+# highly critical security-fix
+# announced on http://www.darksecurity.de/advisories/2012/SSCHADV2012-003.txt
 04 Feb-2012 Build 1595 Dietmar Woellbrink (Luisehahne)
 # fix form language vars for better understanding (Tks to Maverik)
 ! change request if HTTP_REFERER is not empty in logout.php 

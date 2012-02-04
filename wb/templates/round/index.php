@@ -121,7 +121,7 @@ if (!defined('WB_PATH')) die(header('Location: ../../../index.php'));
 		
 <?php
 		if(FRONTEND_LOGIN AND !$wb->is_authenticated() AND VISIBILITY != 'private' ) {
-			$redirect_url = (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : WB_URL );
+			$redirect_url = ((isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != '') ? $_SERVER['HTTP_REFERER'] : WB_URL );
 			$redirect_url = (isset($thisApp->redirect_url) ? $thisApp->redirect_url : $redirect_url );
 ?>
 		<form name="login" action="<?php echo LOGIN_URL; ?>" method="post">
