@@ -24,7 +24,23 @@ if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 //set_include_path(get_include_path() . PATH_SEPARATOR . WB_PATH);
 
 if (file_exists(WB_PATH.'/framework/class.database.php')) {
-
+	$sTmpReferer = '';
+	if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != '') {
+	        $tmp0 = parse_url($_SERVER['HTTP_REFERER']);
+	        if ($tmp0 !== false) {
+	                $tmp0['host'] = isset($tmp0['host']) ? $tmp0['host'] : '';
+	                $tmp0['path'] = isset($tmp0['path']) ? $tmp0['path'] : '';
+	                $tmp1 = parse_url(WB_URL);
+	                if ($tmp1 !== false) {
+	                        $tmp1['host'] = isset($tmp1['host']) ? $tmp1['host'] : '';
+	                        $tmp1['path'] = isset($tmp1['path']) ? $tmp1['path'] : '';
+	                        if (strpos($tmp0['host'].'/'.$tmp0['path'], $tmp1['host'].'/'.$tmp1['path'])) {
+	                                $sTmpReferer = WB_URL.$tmp['path'].$tmp[fragment];
+	                        }
+	                }
+	        }
+	}
+	$_SERVER['HTTP_REFERER'] = $sTmpReferer;
 	date_default_timezone_set('UTC');
 	require_once(WB_PATH.'/framework/class.database.php');
 
