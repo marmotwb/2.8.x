@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+05 Feb-2012 Build 1597 Dietmar Woellbrink (Luisehahne)
+# fixed issues with get_magic_quotes_gpc and FCKeditor
 04 Feb-2012 Build 1596 Dietmar Woellbrink (Luisehahne)
 # highly critical security-fix
 # announced on http://www.darksecurity.de/advisories/2012/SSCHADV2012-003.txt
