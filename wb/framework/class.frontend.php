@@ -186,6 +186,8 @@ class frontend extends wb {
 			$this->page_keywords=$this->page['keywords'];
 			// Page link
 			$this->link=$this->page_link($this->page['link']);
+			$_SESSION['PAGE_ID'] = $this->page_id;
+			$_SESSION['HTTP_REFERER'] = $this->link;
 
 		// End code to set details as either variables of constants
 		}

@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+06 Feb-2012 Build 1598 Dietmar Woellbrink (Luisehahne)
+# fixed undefined fragment index in initialize.php 
+! add $_SESSION['HTTP_REFERER'] storing active pagelink if page_id != 0
 05 Feb-2012 Build 1597 Dietmar Woellbrink (Luisehahne)
 # fixed issues with get_magic_quotes_gpc and FCKeditor
 04 Feb-2012 Build 1596 Dietmar Woellbrink (Luisehahne)
