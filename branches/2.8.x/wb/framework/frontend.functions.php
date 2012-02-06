@@ -266,6 +266,7 @@ if (!function_exists('page_content')) {
 		if(!defined('PAGE_CONTENT') OR $block!=1)
         {
 			$page_id = intval($wb->page_id);
+/* move to class.frontend
             // set session variable to save page_id only if PAGE_CONTENT is empty
             $_SESSION['PAGE_ID'] = !isset($_SESSION['PAGE_ID']) ? $page_id : $_SESSION['PAGE_ID'];
             // set to new value if page_id changed and not 0
@@ -273,6 +274,7 @@ if (!function_exists('page_content')) {
             {
 	            $_SESSION['PAGE_ID'] = $page_id;
             }
+*/
 		// First get all sections for this page
 			$sql  = 'SELECT `section_id`, `module`, `publ_start`, `publ_end` ';
 			$sql .= 'FROM `'.TABLE_PREFIX.'sections` ';
