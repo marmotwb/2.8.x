@@ -55,11 +55,11 @@ if (!defined('WB_PATH')) die(header('Location: ../../../index.php'));
 
 <body>
 
-<table cellpadding="0" cellspacing="0" border="0" align="center" class="main" width="750">
+<table summary="" cellpadding="0" cellspacing="0" border="0" align="center" class="main" width="750">
 <tr>
 	<td colspan="2" class="header" height="80">
 		<a href="<?php echo WB_URL; ?>">
-			<img src="<?php echo TEMPLATE_DIR; ?>/images/banner.jpg" border="0" width="750" height="80" alt="<?php 
+			<img src="<?php echo TEMPLATE_DIR; ?>/images/banner.jpg" border="0" width="750" height="80" alt="<?php
 			page_title('', '[WEBSITE_TITLE]'); ?>" />
 		</a>
 	</td>
@@ -70,7 +70,7 @@ if (!defined('WB_PATH')) die(header('Location: ../../../index.php'));
 	if(SHOW_MENU) {
 	?>	
 	<td style="padding: 10px; background-color: #FFF;" valign="top">
-		<table cellpadding="0" cellspacing="0" border="0" width="150" align="center" class="menu">
+		<table summary="" cellpadding="0" cellspacing="0" border="0" width="150" align="center" class="menu">
 		<tr>
 			<td class="border">
 				<img src="<?php echo TEMPLATE_DIR; ?>/images/menu_top.gif" border="0" alt="" />
@@ -94,7 +94,7 @@ if (!defined('WB_PATH')) die(header('Location: ../../../index.php'));
 		<form name="search" action="<?php echo WB_URL; ?>/search/index.php" method="get">
 			<input type="hidden" name="referrer" value="<?php
 				echo defined('REFERRER_ID') ? REFERRER_ID : PAGE_ID; ?>" />
-			<table cellpadding="0" cellspacing="0" border="0" width="150" align="center" style="margin-top: 10px;">
+			<table summary="" cellpadding="0" cellspacing="0" border="0" width="150" align="center" style="margin-top: 10px;">
 				<tr>
 					<td class="border">
 						<img src="<?php echo TEMPLATE_DIR; ?>/images/menu_top.gif" border="0" alt="" />
@@ -121,12 +121,12 @@ if (!defined('WB_PATH')) die(header('Location: ../../../index.php'));
 		
 <?php
 		if(FRONTEND_LOGIN AND !$wb->is_authenticated() AND VISIBILITY != 'private' ) {
-			$redirect_url = ((isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != '') ? $_SERVER['HTTP_REFERER'] : WB_URL );
+			$redirect_url = ((isset($_SESSION['HTTP_REFERER']) && $_SESSION['HTTP_REFERER'] != '') ? $_SESSION['HTTP_REFERER'] : WB_URL );
 			$redirect_url = (isset($thisApp->redirect_url) ? $thisApp->redirect_url : $redirect_url );
 ?>
 		<form name="login" action="<?php echo LOGIN_URL; ?>" method="post">
 			<input type="hidden" name="redirect" value="<?php echo $redirect_url;?>" /></p>
-			<table cellpadding="0" cellspacing="0" border="0" width="150" align="center" style="margin-top: 10px;">
+			<table summary="" cellpadding="0" cellspacing="0" border="0" width="150" align="center" style="margin-top: 10px;">
 			<tr>
 				<td class="border">
 					<img src="<?php echo TEMPLATE_DIR; ?>/images/menu_top.gif" border="0" alt="" />
@@ -184,7 +184,7 @@ if (!defined('WB_PATH')) die(header('Location: ../../../index.php'));
 		?>
 		<form name="logout" action="<?php echo LOGOUT_URL; ?>" method="post">
 			
-			<table cellpadding="0" cellspacing="0" border="0" width="150" align="center" style="margin-top: 10px;">
+			<table summary="" cellpadding="0" cellspacing="0" border="0" width="150" align="center" style="margin-top: 10px;">
 			<tr>
 				<td class="border">
 					<img src="<?php echo TEMPLATE_DIR; ?>/images/menu_top.gif" border="0" alt="" />

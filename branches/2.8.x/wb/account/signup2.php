@@ -22,10 +22,6 @@ if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 // require_once(WB_PATH.'/framework/class.wb.php');
 $wb = new wb('Start', 'start', false, false);
 
-$page_id = (!empty($_SESSION['PAGE_ID']) ? $_SESSION['PAGE_ID'] : 0);
-$_SESSION['PAGE_LINK'] = get_page_link( $page_id );
-$_SESSION['HTTP_REFERER'] = (($_SESSION['PAGE_LINK']!='') ? page_link($_SESSION['PAGE_LINK']) : WB_URL);
-
 // Get details entered
 $groups_id = FRONTEND_SIGNUP;
 $active = 1;
@@ -123,7 +119,7 @@ if($database->is_error()) {
 	$mail_message = str_replace($search, $replace, $MESSAGE['SIGNUP2']['BODY_LOGIN_INFO']);
 
 	// Try sending the email
-	if($wb->mail(SERVER_EMAIL,$mail_to,$mail_subject,$mail_message)) { 
+	if($wb->mail(SERVER_EMAIL,$mail_to,$mail_subject,$mail_message)) {
 		$display_form = false;
 		$wb->print_success($MESSAGE['FORGOT_PASS']['PASSWORD_RESET'], WB_URL.'/account/login.php' );
 	} else {

@@ -68,16 +68,15 @@
 	}
 
 // Get redirect
-	$redirect_url = '';
-   	$redirect_url = isset($redirect)&&($redirect!='') ? '<input type="hidden" name="url" value="'.$redirect.'" />'."\n" : $redirect_url;
-	$redirect_url = (isset($_SERVER['HTTP_REFERER']) && ($redirect_url=='') ?  '<input type="hidden" name="url" value="'.$_SERVER['HTTP_REFERER'].'" />'."\n"  : $redirect_url );
+	$redirect_url = ((isset($_SESSION['HTTP_REFERER']) && $_SESSION['HTTP_REFERER'] != '') ? $_SESSION['HTTP_REFERER'] : WB_URL );
+   	$redirect_url = (isset($redirect) && ($redirect!='') ? $redirect : $redirect_url);
 
 	if ( ( FRONTEND_LOGIN == 'enabled') &&
 		    ( VISIBILITY != 'private') &&
 		        ( $wb->get_session('USER_ID') == '')  )
 	{
 		$return_value .= '<form action="'.LOGIN_URL.'" method="post">'."\n";
-		$return_value .= $redirect_url."\n";
+		$return_value .= '<input type="hidden" name="url" value="'.$redirect_url.'" />'."\n";
     	$return_value .= '<fieldset>'."\n";
 		$return_value .= '<h1>'.$TEXT['LOGIN'].'</h1>'."\n";
 		$return_value .= '<label for="username">'.$TEXT['USERNAME'].':</label>'."\n";
