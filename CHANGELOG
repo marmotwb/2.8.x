@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+06 Feb-2012 Build 1599 Dietmar Woellbrink (Luisehahne)
+! update all used files with redirect_url to $_SESSION['HTTP_REFERER']
 06 Feb-2012 Build 1598 Dietmar Woellbrink (Luisehahne)
 # fixed undefined fragment index in initialize.php 
 ! add $_SESSION['HTTP_REFERER'] storing active pagelink if page_id != 0

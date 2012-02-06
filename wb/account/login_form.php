@@ -35,11 +35,7 @@ if(defined('SMART_LOGIN') AND SMART_LOGIN == 'enabled') {
 	}
 }
 
-$page_id = !empty($_SESSION['PAGE_ID']) ? $_SESSION['PAGE_ID'] : 0;
-$_SESSION['PAGE_LINK'] = get_page_link( $page_id );
-if(!file_exists($_SESSION['PAGE_LINK'])) {$_SESSION['PAGE_LINK'] = WB_URL.'/'; }
-$_SESSION['HTTP_REFERER'] = $_SESSION['PAGE_LINK'];
-$thisApp->redirect_url = (isset($thisApp->redirect_url) ? $thisApp->redirect_url : $_SESSION['PAGE_LINK'])
+$thisApp->redirect_url = (isset($thisApp->redirect_url) && ($thisApp->redirect_url!='')  ? $thisApp->redirect_url : $_SESSION['HTTP_REFERER'] );
 ?>
 <div style="margin: 1em auto;">
 	<button type="button" value="cancel" onClick="javascript: window.location = '<?php print $_SESSION['HTTP_REFERER'] ?>';"><?php print $TEXT['CANCEL'] ?></button>

@@ -25,9 +25,6 @@ if(defined('WB_PATH') == false) {	exit("Cannot access this file directly"); }
 		exit(0);
 	}
 
-$_SESSION['PAGE_LINK'] = get_page_link( $_SESSION['PAGE_ID'] );
-$_SESSION['HTTP_REFERER'] = page_link($_SESSION['PAGE_LINK']);
-
 // load module default language file (EN)
 	require_once(WB_PATH .'/account/languages/EN.php');
 // check for user defined language file, load it and override EN-Settings with

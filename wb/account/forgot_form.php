@@ -18,9 +18,16 @@
 // Must include code to stop this file being access directly
 if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 // Check if the user has already submitted the form, otherwise show it
+$message = $MESSAGE['FORGOT_PASS_NO_DATA'];
+$errMsg ='';
 if(isset($_POST['email']) && $_POST['email'] != "" )
 {
 	$email = strip_tags($_POST['email']);
+	if($admin->validate_email($email) == false)
+    {
+		$errMsg = $MESSAGE['USERS_INVALID_EMAIL'];
+		$email = '';
+	} else {
 // Check if the email exists in the database
 	$sql  = 'SELECT `user_id`,`username`,`display_name`,`email`,`last_reset`,`password` '.
 	        'FROM `'.TABLE_PREFIX.'users` '.
@@ -32,7 +39,7 @@ if(isset($_POST['email']) && $_POST['email'] != "" )
 		// Check if the password has been reset in the last 2 hours
 			if( (time() - (int)$results_array['last_reset']) < (2 * 3600) ) {
 			// Tell the user that their password cannot be reset more than once per hour
-				$message = $MESSAGE['FORGOT_PASS']['ALREADY_RESET'];
+				$errMsg = $MESSAGE['FORGOT_PASS_ALREADY_RESET'];
 			} else {
 				require_once(WB_PATH.'/framework/PasswordHash.php');
 				$pwh = new PasswordHash(0, true);
@@ -61,10 +68,10 @@ if(isset($_POST['email']) && $_POST['email'] != "" )
 						       'SET `password`=\''.$old_pass.'\' '.
 						       'WHERE `user_id`='.(int)$results_array['user_id'];
 						$database->query($sql);
-						$message = $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'];
+						$errMsg = $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'];
 					}
 				}else { // Error updating database
-					$message = $MESSAGE['RECORD_MODIFIED_FAILED'];
+					$errMsg = $MESSAGE['RECORD_MODIFIED_FAILED'];
 					if(DEBUG) {
 						$message .= '<br />'.$database->get_error();
 						$message .= '<br />'.$sql;
@@ -72,31 +79,27 @@ if(isset($_POST['email']) && $_POST['email'] != "" )
 				}
 			}
 		}else { // no record found - Email doesn't exist, so tell the user
-			$message = $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'];
+			$errMsg = $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'];
 		}
 	} else { // Query failed
-		$message = 'SystemError:: Database query failed!';
+		$errMsg = 'SystemError:: Database query failed!';
 		if(DEBUG) {
-			$message .= '<br />'.$database->get_error();
-			$message .= '<br />'.$sql;
+			$errMsg .= '<br />'.$database->get_error();
+			$errMsg .= '<br />'.$sql;
 		}
+	}
 	}
 } else {
 	$email = '';
 }
 
-if(isset($message) && $message != '') {
-	$message = $MESSAGE['FORGOT_PASS']['NO_DATA'];
-	$message_color = 'FF0000';
-} else {
-	$message = $MESSAGE['FORGOT_PASS_NO_DATA'];
+if( ($errMsg=='') && ($message != '')) {
+	// $message = $MESSAGE['FORGOT_PASS_NO_DATA'];
 	$message_color = '000000';
+} else {
+	$message = $errMsg;
+	$message_color = 'ff0000';
 }
-
-$page_id = (!empty($_SESSION['PAGE_ID']) ? $_SESSION['PAGE_ID'] : 0);
-$_SESSION['PAGE_LINK'] = get_page_link( $page_id );
-$_SESSION['HTTP_REFERER'] = (($_SESSION['PAGE_LINK']!='') ? page_link($_SESSION['PAGE_LINK']) : WB_URL);
-
 ?>
 <div style="margin: 1em auto;">
 	<button type="button" value="cancel" onClick="javascript: window.location = '<?php print $_SESSION['HTTP_REFERER'] ?>';"><?php print $TEXT['CANCEL'] ?></button>
@@ -107,7 +110,7 @@ $_SESSION['HTTP_REFERER'] = (($_SESSION['PAGE_LINK']!='') ? page_link($_SESSION[
 		<table cellpadding="5" cellspacing="0" border="0" align="center" width="500">
 		<tr>
 			<td height="40" align="center" style="color: #<?php echo $message_color; ?>;" colspan="2">
-			<?php echo $message; ?>
+			<strong><?php echo $message; ?></strong>
 			</td>
 		</tr>
 <?php if(!isset($display_form) OR $display_form != false) { ?>

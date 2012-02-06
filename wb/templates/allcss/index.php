@@ -83,8 +83,8 @@ if (!defined('WB_PATH')) die(header('Location: ../../index.php'));
 		show_menu2(0,SM2_ROOT,SM2_CURR+1,SM2_TRIM,'<li><span class="menu-default">[ac][menu_title]</a></span>','</li>','<ul>','</ul>');
 		// CODE FOR WEBSITE BAKER FRONTEND LOGIN
 		if (FRONTEND_LOGIN == 'enabled' && VISIBILITY != 'private' && $wb->get_session('USER_ID') == '') {
-			$redirect_url = ((isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != '') ? $_SERVER['HTTP_REFERER'] : WB_URL );
-			$redirect_url = (isset($thisApp->redirect_url) ? $thisApp->redirect_url : $redirect_url );?>
+			$redirect_url = ((isset($_SESSION['HTTP_REFERER']) && $_SESSION['HTTP_REFERER'] != '') ? $_SESSION['HTTP_REFERER'] : WB_URL );
+			$redirect_url = (isset($thisApp->redirect_url) ? $thisApp->redirect_url : $redirect_url );
 			<!-- login form -->
 			<br />
 			<form name="login" id="login" action="<?php echo LOGIN_URL; ?>" method="post">
