@@ -162,8 +162,13 @@ if (isset($_POST['unzip']) && isset($filename1) && file_exists($filename1) ) {
 		}
 	}
 	if (isset($_POST['delzip'])) { unlink($filename1); }
+	$dir = dirname($filename1);
+    if(file_exists($dir)) {
+		$array = createFolderProtectFile($dir);
+    }
 }
 unset($list);
+
 if($sum_files == 1) {
 	$admin->print_success($sum_files.' '.$MESSAGE['MEDIA']['SINGLE_UPLOADED'] );
 } elseif($sum_files > 1) {

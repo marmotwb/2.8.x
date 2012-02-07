@@ -107,9 +107,9 @@ if( ($errMsg=='') && ($message != '')) {
 <h1 style="text-align: center;"><?php echo $MENU['FORGOT']; ?></h1>
 <form name="forgot_pass" action="<?php echo WB_URL.'/account/forgot.php'; ?>" method="post">
 	<input type="hidden" name="url" value="{URL}" />
-		<table cellpadding="5" cellspacing="0" border="0" align="center" width="500">
+		<table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="500">
 		<tr>
-			<td height="40" align="center" style="color: #<?php echo $message_color; ?>;" colspan="2">
+			<td height="40" align="center" style="color: #<?php echo $message_color; ?>;" colspan="3">
 			<strong><?php echo $message; ?></strong>
 			</td>
 		</tr>

@@ -38,9 +38,11 @@ function rm_full_dir($directory, $empty = false) {
 	if(substr($directory,-1) == "/") {
         $directory = substr($directory,0,-1);
     }
-    // If suplied dirname is a file then unlink it
+   // If suplied dirname is a file then unlink it
     if (is_file( $directory )) {
-        return unlink($directory);
+	  $retval = unlink($directory);
+	  clearstatcache();
+      return $retval;
     }
     if(!file_exists($directory) || !is_dir($directory)) {
         return false;
@@ -57,6 +59,7 @@ function rm_full_dir($directory, $empty = false) {
                     rm_full_dir($path);
                 } else {
                     unlink($path);
+					clearstatcache();
                 }
             }
         }
