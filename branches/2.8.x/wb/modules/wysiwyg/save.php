@@ -40,14 +40,12 @@ if(isset($_POST['content'.$section_id])) {
     $content = $_POST['content'.$section_id];
 	if(version_compare(PHP_VERSION, '5.3.0', '<'))
 	{
-		if(get_magic_quotes_gpc()) {
-			$content = $admin->strip_slashes($_POST['content'.$section_id]);
-		}
+		$content = $admin->strip_slashes($_POST['content'.$section_id]);
 	}
 	$searchfor = '@(<[^>]*=\s*")('.preg_quote($sMediaUrl).')([^">]*".*>)@siU';
     $content = preg_replace($searchfor, '$1{SYSVAR:MEDIA_REL}$3', $content);
 	// searching in $text will be much easier this way
-    $content = addslashes($content);
+    $content = mysql_real_escape_string ($content);
 	$text = umlauts_to_entities($content, strtoupper(DEFAULT_CHARSET), 0);
 	$sql  = 'UPDATE `'.TABLE_PREFIX.'mod_wysiwyg` ';
 	$sql .= 'SET `content`=\''.$content.'\', `text`=\''.$text.'\' ';
