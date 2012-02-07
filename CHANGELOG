@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+07 Feb-2012 Build 1600 Dietmar Woellbrink (Luisehahne)
+# more fixed issues with get_magic_quotes_gpc and FCKeditor
+! remove create and upload in FCKeditor Filemanager
 06 Feb-2012 Build 1599 Dietmar Woellbrink (Luisehahne)
 ! update all used files with redirect_url to $_SESSION['HTTP_REFERER']
 06 Feb-2012 Build 1598 Dietmar Woellbrink (Luisehahne)
