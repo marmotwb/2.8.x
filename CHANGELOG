@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+08 Feb-2012 Build 1604 Dietmar Woellbrink (Luisehahne)
+# fixed parse error in login.php
 08 Feb-2012 Build 1603 Dietmar Woellbrink (Luisehahne)
 ! fix local module reload and module manuell install
 ! forgot to upload login.php

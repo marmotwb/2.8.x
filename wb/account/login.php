@@ -57,8 +57,8 @@ $redirect  = strip_tags(isset(${$requestMethod}['redirect']) ? ${$requestMethod}
 $redirect = ((isset($_SESSION['HTTP_REFERER']) && ($redirect='')) ?  $_SESSION['HTTP_REFERER'] : $redirect);
 // $_SESSION['HTTP_REFERER'] = str_replace(WB_URL,'',$redirect);
 
-// $loginUrl  = WB_URL.'/account/login.php';
-$loginUrl .= (($redirect!='') ? '?redirect=' .$_SESSION['HTTP_REFERER'] : '');
+$loginUrl  = WB_URL.'/account/login.php';
+$loginUrl .= (($redirect!='') ? '?redirect=' .$_SESSION['HTTP_REFERER'] : $loginUrl);
 
 $ThemeUrl  = WB_URL.$wb->correct_theme_source('warning.html');
 // Setup template object, parse vars to it, then parse it
