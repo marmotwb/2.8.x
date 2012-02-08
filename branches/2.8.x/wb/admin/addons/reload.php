@@ -40,6 +40,7 @@ if ($admin->get_permission('admintools') == false) die(header('Location: ../../i
 // check if the referer URL if available
 $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] :
 	(isset($HTTP_SERVER_VARS['HTTP_REFERER']) ? $HTTP_SERVER_VARS['HTTP_REFERER'] : '');
+$referer = '';
 // if referer is set, check if script was invoked from "admin/modules/index.php"
 $required_url = ADMIN_URL . '/addons/index.php';
 if ($referer != '' && (!(strpos($referer, $required_url) !== false || strpos($referer, $required_url) !== false)))
