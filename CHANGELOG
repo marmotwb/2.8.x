@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+08 Feb-2012 Build 1602 Dietmar Woellbrink (Luisehahne)
+! a quick simple stylesheet fix in wb_theme, 
 07 Feb-2012 Build 1601 Dietmar Woellbrink (Luisehahne)
 ! little designfix in forgot_form.php
 ! fix media if uploading zip files with folder, than create FolderProtectFiles
