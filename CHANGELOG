@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 
 =========================== add small Features 2.8.2 ==========================
+08 Feb-2012 Build 1606 Dietmar Woellbrink (Luisehahne)
+# some little changes and fixes in template allcss and round
++ add // register_frontend_modfiles('jquery'); to activate comment out
+! Set version to 2.71
 08 Feb-2012 Build 1605 Dietmar Woellbrink (Luisehahne)
 ! login.php fallback to revision 1602
 08 Feb-2012 Build 1604 Dietmar Woellbrink (Luisehahne)

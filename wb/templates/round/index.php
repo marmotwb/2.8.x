@@ -40,17 +40,18 @@ if (!defined('WB_PATH')) die(header('Location: ../../../index.php'));
 	echo defined('DEFAULT_CHARSET') ? DEFAULT_CHARSET : 'utf-8'; ?>" />
 	<meta name="description" content="<?php page_description(); ?>" />
 	<meta name="keywords" content="<?php page_keywords(); ?>" />
-	<?php 
+	<link rel="stylesheet" type="text/css" href="<?php
+		echo TEMPLATE_DIR; ?>/template.css" media="screen,projection" />
+	<link rel="stylesheet" type="text/css" href="<?php
+		echo TEMPLATE_DIR; ?>/print.css" media="print" />
+	<title><?php page_title('', '[WEBSITE_TITLE]'); ?></title>
+	<?php
 	// automatically include optional WB module files (frontend.css, frontend.js)
 	if (function_exists('register_frontend_modfiles')) {
 		register_frontend_modfiles('css');
+		// register_frontend_modfiles('jquery');
 		register_frontend_modfiles('js');
 	} ?>
-	<link rel="stylesheet" type="text/css" href="<?php 
-		echo TEMPLATE_DIR; ?>/template.css" media="screen,projection" />
-	<link rel="stylesheet" type="text/css" href="<?php 
-		echo TEMPLATE_DIR; ?>/print.css" media="print" />
-	<title><?php page_title('', '[WEBSITE_TITLE]'); ?></title>
 </head>
 
 <body>
@@ -125,7 +126,7 @@ if (!defined('WB_PATH')) die(header('Location: ../../../index.php'));
 			$redirect_url = (isset($thisApp->redirect_url) ? $thisApp->redirect_url : $redirect_url );
 ?>
 		<form name="login" action="<?php echo LOGIN_URL; ?>" method="post">
-			<input type="hidden" name="redirect" value="<?php echo $redirect_url;?>" /></p>
+			<input type="hidden" name="redirect" value="<?php echo $redirect_url;?>" />
 			<table summary="" cellpadding="0" cellspacing="0" border="0" width="150" align="center" style="margin-top: 10px;">
 			<tr>
 				<td class="border">

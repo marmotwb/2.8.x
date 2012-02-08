@@ -30,7 +30,7 @@
 $template_directory				= 'round';
 $template_name						= 'Round';
 $template_function			= 'template';
-$template_version					= '2.70';
+$template_version					= '2.71';
 $template_platform				= '2.7';
 $template_author					= 'Ryan Djurovich, C. Sommer';
 $template_license					= '<a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>';

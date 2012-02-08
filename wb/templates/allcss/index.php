@@ -40,17 +40,18 @@ if (!defined('WB_PATH')) die(header('Location: ../../index.php'));
 	echo defined('DEFAULT_CHARSET') ? DEFAULT_CHARSET : 'utf-8'; ?>" />
 	<meta name="description" content="<?php page_description(); ?>" />
 	<meta name="keywords" content="<?php page_keywords(); ?>" />
-	<?php 
+	<link rel="stylesheet" type="text/css" href="<?php
+	echo TEMPLATE_DIR; ?>/template.css" media="screen,projection" />
+	<link rel="stylesheet" type="text/css" href="<?php
+	echo TEMPLATE_DIR; ?>/print.css" media="print" />
+	<title><?php page_title('', '[WEBSITE_TITLE]'); ?></title>
+	<?php
 	// automatically include optional WB module files (frontend.css, frontend.js)
 	if (function_exists('register_frontend_modfiles')) {
 		register_frontend_modfiles('css');
+		// register_frontend_modfiles('jquery');
 		register_frontend_modfiles('js');
 	} ?>
-	<link rel="stylesheet" type="text/css" href="<?php 
-	echo TEMPLATE_DIR; ?>/template.css" media="screen,projection" />
-	<link rel="stylesheet" type="text/css" href="<?php 
-	echo TEMPLATE_DIR; ?>/print.css" media="print" />
-	<title><?php page_title('', '[WEBSITE_TITLE]'); ?></title>
 </head>
 
 <body>
@@ -85,10 +86,11 @@ if (!defined('WB_PATH')) die(header('Location: ../../index.php'));
 		if (FRONTEND_LOGIN == 'enabled' && VISIBILITY != 'private' && $wb->get_session('USER_ID') == '') {
 			$redirect_url = ((isset($_SESSION['HTTP_REFERER']) && $_SESSION['HTTP_REFERER'] != '') ? $_SESSION['HTTP_REFERER'] : WB_URL );
 			$redirect_url = (isset($thisApp->redirect_url) ? $thisApp->redirect_url : $redirect_url );
+		?>
 			<!-- login form -->
 			<br />
 			<form name="login" id="login" action="<?php echo LOGIN_URL; ?>" method="post">
-				<input type="hidden" name="redirect" value="<?php echo $redirect_url;?>" /></p>
+				<input type="hidden" name="redirect" value="<?php echo $redirect_url;?>" />
 				<fieldset>
 					<legend><?php echo $TEXT['LOGIN']; ?></legend>
 					<label for="username" accesskey="1"><?php echo $TEXT['USERNAME']; ?>:</label>
