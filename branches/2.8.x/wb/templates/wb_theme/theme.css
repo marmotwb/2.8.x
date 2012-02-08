@@ -23,9 +23,10 @@ iframe { border :1px solid #35373a; }
 div.box { width :100%; margin :-10px 0 0 0; font-size :small; text-align :right; }
 .header { width :900px; margin :0 auto; }
 .container { width :85%; margin :0 auto; background :url(images/bgtitle.png) #ffffff; background-repeat :repeat-x; }
-.content { padding :1.6em; margin :0 auto; min-height :300px; vertical-align :top; }
+.content { padding :1.6em; margin :0 auto; min-height :300px; vertical-align :top; width :900px; }
 #content_container { text-align :center; width :900px; clear :both; margin :0 auto; }
-#admintools li { display :inline; float :left; list-style-type :none; margin :0 10px 0 0; width :48%; }
+#admintools ul { padding :0; margin :0 auto; width :100%; }
+#admintools li { list-style-type :none; display :inline; float :left; width :47%; margin :0 10px 0 0; }
 .description { padding :4px 4px 0 4px; text-align :left; vertical-align :top; }
 .graphic { border :4px solid #fdfdfd; height :50px; padding-left :3px; width :50px; }
 .graphic img { background-color :#ffffff; border :1px solid #d0d0d0; padding :4px; vertical-align :middle; }
@@ -49,7 +50,14 @@ img.page_list_rights { border :none; margin-right :5px; float :left; margin-top 
 .setting_value { width :80%; }
 .setting_value_permissions { width :50%; min-width :400px; }
 .setting_value textarea { height :50px; }
-.title { width :90%; padding :3px 5px 0px 0px; color :#003366; font-weight :bold; font-size :14px; text-align :left; height :16px; }
+.title {
+   text-align :left;
+   padding :4px 5px 0px 3px;
+   font-weight :bold;
+   font-size :14px;
+   margin-bottom :5px;
+}
+span.title { display :block; }
 .tool_table ul { margin :0; padding :0; margin-left :20px; margin-bottom :2px; }
 .tool_table li { padding :1px; list-style-type :disc; }
 /* CSS STYLES FOR THE PAGES SECTION */
