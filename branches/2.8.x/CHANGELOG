@@ -13,7 +13,9 @@ Legend:
 
 
 ----------------------------------- 2.8.3 --------------------------------
-209 Feb-2012 Build 1608 Dietmar Woellbrink (Luisehahne)
+09 Feb-2012 Build 1609 Dietmar Woellbrink (Luisehahne)
+! change Website Baker to WebsiteBaker in installer
+09 Feb-2012 Build 1608 Dietmar Woellbrink (Luisehahne)
 ! A small optical correction of the installer.
 09 Feb-2012 Build 1607 Dietmar Woellbrink (Luisehahne)
 # typofix in /modules/form/view.php (Tks to jacobi22)
