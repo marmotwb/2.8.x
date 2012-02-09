@@ -202,7 +202,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 				}
 				if($field['type'] == 'textfield') {
 					$vars[] = '{FIELD}';
-					$max_lenght_para = (intval($field['extra']) ? ' maxlenght="'.intval($field['extra']).'"' : '');
+					$max_lenght_para = (intval($field['extra']) ? ' maxlength="'.intval($field['extra']).'"' : '');
 					$values[] = '<input type="text" name="field'.$field_id.'" id="field'.$field_id.'"'.$max_lenght_para.' value="'.(isset($_SESSION['field'.$field_id])?$_SESSION['field'.$field_id]:$value).'" class="frm-textfield" />'.PHP_EOL;
 				} elseif($field['type'] == 'textarea') {
 					$vars[] = '{FIELD}';
@@ -235,7 +235,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 					$values[] = implode($options);
 				} elseif($field['type'] == 'email') {
 					$vars[] = '{FIELD}';
-					$max_lenght_para = (intval($field['extra']) ? ' maxlenght="'.intval($field['extra']).'"' : '');
+					$max_lenght_para = (intval($field['extra']) ? ' maxlength="'.intval($field['extra']).'"' : '');
 					$values[] = '<input type="text" name="field'.$field_id.'" id="field'.$field_id.'" value="'.(isset($_SESSION['field'.$field_id])?$_SESSION['field'.$field_id]:'').'"'.$max_lenght_para.' class="frm-email" />'.PHP_EOL;
 				}
 				if(isset($_SESSION['field'.$field_id])) unset($_SESSION['field'.$field_id]);
