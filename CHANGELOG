@@ -9,8 +9,12 @@ Legend:
 - = Removed
 # = Bugfix
 ! = Update/Change
+===============================================================================
 
-=========================== add small Features 2.8.2 ==========================
+
+----------------------------------- 2.8.3 --------------------------------
+209 Feb-2012 Build 1608 Dietmar Woellbrink (Luisehahne)
+! A small optical correction of the installer.
 09 Feb-2012 Build 1607 Dietmar Woellbrink (Luisehahne)
 # typofix in /modules/form/view.php (Tks to jacobi22)
 08 Feb-2012 Build 1606 Dietmar Woellbrink (Luisehahne)
