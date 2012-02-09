@@ -4,7 +4,7 @@
  * @category        backend
  * @package         install
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -71,7 +71,7 @@ if(strpos($sapi, 'apache')!==FALSE || strpos($sapi, 'nsapi')!==FALSE) {
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>Website Baker Installation Wizard</title>
+<title>WebsiteBaker Installation Wizard</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <link href="stylesheet.css" rel="stylesheet" type="text/css" />
 <script language="javascript" type="text/javascript">
@@ -112,7 +112,7 @@ function change_os(type) {
 <input type="hidden" name="remember" id="remember" value="true" />
 
 		<div style="padding: 5px; text-align: center; font-weight: bold;">
-			Welcome to the Website Baker Installation Wizard.
+			Welcome to the WebsiteBaker Installation Wizard.
 		</div>
 		<?php
 		if(isset($_SESSION['message']) AND $_SESSION['message'] != '') {
@@ -473,7 +473,7 @@ But this solution does not guarranty a correct displaying of the content from al
 				<tr valign="top">
 					<td>
 						<p class="warning">
-						Website Baker is released under the
+						WebsiteBaker is released under the
 						<a href="http://www.gnu.org/licenses/gpl.html" target="_blank" tabindex="19">GNU General Public License</a>
 						<br />
 						By clicking install, you are accepting the license.
@@ -497,7 +497,7 @@ But this solution does not guarranty a correct displaying of the content from al
 
 	<div style="padding: 10px 0px 10px 0px; text-align:center;">
 		<!-- Please note: the below reference to the GNU GPL should not be removed, as it provides a link for users to read about warranty, etc. -->
-		<a href="http://www.websitebaker.org/" style="color: #000000;" target="_blank">Website Baker</a>
+		<a href="http://www.websitebaker2.org/" style="color: #000000;" target="_blank">WebsiteBaker</a>
 		is	released under the
 		<a href="http://www.gnu.org/licenses/gpl.html" style="color: #000000;" target="_blank">GNU General Public License</a>
 		<!-- Please note: the above reference to the GNU GPL should not be removed, as it provides a link for users to read about warranty, etc. -->
