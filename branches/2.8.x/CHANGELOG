@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+16 Feb-2012 Build 1613 Werner v.d.Decken(DarkViper)
+# little fixes in classs database and add new readonly property DbName
 11 Feb-2012 Build 1612 Werner v.d.Decken(DarkViper)
 ! Number of version and revision updated in branch.
 11 Feb-2012 Build 1611 Werner v.d.Decken(DarkViper)
