@@ -36,7 +36,7 @@ define('DATABASE_CLASS_LOADED', true);
 class database {
 
 	private $db_handle  = null; // readonly from outside
-
+	private $db_name    = '';
 	private $connected  = false;
 
 	private $error      = '';
@@ -65,6 +65,7 @@ class database {
 				$this->connected = false;
 				$this->error = mysql_error();
 			} else {
+				$this->db_name = DB_NAME;
 				$this->connected = true;
 			}
 		}
@@ -127,17 +128,28 @@ class database {
 		return $this->error;
 	}
 
-/*
- * default Getter
+/**
+ * default Getter for some properties
+ * @param string $sPropertyName
+ * @return mixed NULL on error or missing property
  */
-	public function __get($var_name)
+	public function __get($sPropertyName)
 	{
-		if($var_name == 'db_handle')
-		{
-			return $this->db_handle;
-		}
-		return null;
-	}
+		switch ($sPropertyName):
+			case 'db_handle':
+			case 'DbHandle':
+				$retval = $this->db_handle;
+				break;
+			case 'db_name':
+			case 'DbName':
+				$retval = $this->db_name;
+				break;
+			default:
+				$retval = null;
+				break;
+		endswitch;
+		return $retval;
+	} // __get()
 
 /*
  * @param string $table_name: full name of the table (incl. TABLE_PREFIX)
@@ -334,7 +346,7 @@ class database {
 		$retVal = false;
 		$mysqlVersion = mysql_get_server_info($this->db_handle);
 		$engineValue = (version_compare($mysqlVersion, '5.0') < 0) ? 'Type' : 'Engine';
-		$sql = "SHOW TABLE STATUS FROM " . DB_NAME . " LIKE '" . $table . "'";
+		$sql = "SHOW TABLE STATUS FROM " . $this->db_name . " LIKE '" . $table . "'";
 		if(($result = $this->query($sql))) {
 			if(($row = $result->fetchRow(MYSQL_ASSOC))) {
 				$retVal = $row[$engineValue];
