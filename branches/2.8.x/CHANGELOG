@@ -11,6 +11,11 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+18 Feb-2012 Build 1615 Dietmar Woellbrink (Luisehahne)
++ Validationfix, add qx_rawlang.php in quickSkin_alpha to solve
+  <a> escaping malformed URI reference messages in javascript
+! fixed magic_quotes_gpc=on, magic_quotes going to be removed in PHP6.
+  and some hoster do not set it to off  
 18 Feb-2012 Build 1614 Dietmar Woellbrink (Luisehahne)
 # fixed tabindex in installer (Tks to Easyuser)
 # fixed installer call in /admin/index.php

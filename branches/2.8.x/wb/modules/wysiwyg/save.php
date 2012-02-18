@@ -38,7 +38,7 @@ $sMediaUrl = WB_URL.MEDIA_DIRECTORY;
 // Update the mod_wysiwygs table with the contents
 if(isset($_POST['content'.$section_id])) {
     $content = $_POST['content'.$section_id];
-	if(version_compare(PHP_VERSION, '5.3.0', '<'))
+	if(ini_get('magic_quotes_gpc')==true)
 	{
 		$content = $admin->strip_slashes($_POST['content'.$section_id]);
 	}
