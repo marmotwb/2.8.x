@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+18 Feb-2012 Build 1614 Dietmar Woellbrink (Luisehahne)
+# fixed tabindex in installer (Tks to Easyuser)
+# fixed installer call in /admin/index.php
 16 Feb-2012 Build 1613 Werner v.d.Decken(DarkViper)
 # little fixes in classs database and add new readonly property DbName
 11 Feb-2012 Build 1612 Werner v.d.Decken(DarkViper)
