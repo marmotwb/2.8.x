@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+18 Feb-2012 Build 1616 Dietmar Woellbrink (Luisehahne)
+! update INSTALL and UPGRADE instruction to 2.8.3 (Tks to Ruebenwurzel)
 18 Feb-2012 Build 1615 Dietmar Woellbrink (Luisehahne)
 + Validationfix, add qx_rawlang.php in quickSkin_alpha to solve
   <a> escaping malformed URI reference messages in javascript
