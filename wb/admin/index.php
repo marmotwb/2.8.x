@@ -24,7 +24,7 @@
 */
 
 // Include config file
-if(!defined('WB_URL')) {
+if(!defined('WB_URL') && file_exists(realpath('../config.php'))) {
 	require('../config.php');
 }
 

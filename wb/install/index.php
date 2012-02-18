@@ -5,7 +5,7 @@
  * @package         install
  * @author          WebsiteBaker Project
  * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @link			http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
@@ -400,19 +400,19 @@ But this solution does not guarranty a correct displaying of the content from al
 		<tr>
 			<td class="name">Table Prefix&nbsp;([a-zA-Z0-9_])</td>
 			<td class="value">
-				<input <?php echo field_error('table_prefix')?> type="text" tabindex="11" name="table_prefix" value="<?php if(isset($_SESSION['table_prefix'])) { echo $_SESSION['table_prefix']; } else { echo 'wb_'; } ?>" />
+				<input <?php echo field_error('table_prefix')?> type="text" tabindex="9" name="table_prefix" value="<?php if(isset($_SESSION['table_prefix'])) { echo $_SESSION['table_prefix']; } else { echo 'wb_'; } ?>" />
 			</td>
 		</tr>
 		<tr>
     			<td class="name">Username:</td>
     			<td class="value">
-    				<input <?php echo field_error('database_username');?> type="text" tabindex="9" name="database_username" value="<?php if(isset($_SESSION['database_username'])) { echo $_SESSION['database_username']; } else { echo 'root'; } ?>" />
+    				<input <?php echo field_error('database_username');?> type="text" tabindex="10" name="database_username" value="<?php if(isset($_SESSION['database_username'])) { echo $_SESSION['database_username']; } else { echo 'root'; } ?>" />
     			</td>
 		</tr>
 		<tr>
     			<td class="name">Password:</td>
     			<td class="value">
-    				<input type="password" tabindex="10" name="database_password" value="<?php if(isset($_SESSION['database_password'])) { echo $_SESSION['database_password']; } ?>" />
+    				<input type="password" tabindex="11" name="database_password" value="<?php if(isset($_SESSION['database_password'])) { echo $_SESSION['database_password']; } ?>" />
     			</td>
 		</tr>
 		<tr>
@@ -497,7 +497,7 @@ But this solution does not guarranty a correct displaying of the content from al
 
 	<div style="padding: 10px 0px 10px 0px; text-align:center;">
 		<!-- Please note: the below reference to the GNU GPL should not be removed, as it provides a link for users to read about warranty, etc. -->
-		<a href="http://www.websitebaker2.org/" style="color: #000000;" target="_blank">WebsiteBaker</a>
+		<a href="http://www.websitebaker.org/" style="color: #000000;" target="_blank">WebsiteBaker</a>
 		is	released under the
 		<a href="http://www.gnu.org/licenses/gpl.html" style="color: #000000;" target="_blank">GNU General Public License</a>
 		<!-- Please note: the above reference to the GNU GPL should not be removed, as it provides a link for users to read about warranty, etc. -->
