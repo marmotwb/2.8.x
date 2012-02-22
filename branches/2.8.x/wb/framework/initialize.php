@@ -21,27 +21,39 @@
 require_once(dirname(__FILE__).'/globalExceptionHandler.php');
 if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 /* -------------------------------------------------------- */
-//set_include_path(get_include_path() . PATH_SEPARATOR . WB_PATH);
+/**
+ * sanitize $_SERVER['HTTP_REFERER']
+ * @param string $sWbUrl qualified startup URL of current application
+ */
+	function SanitizeHttpReferer($sWbUrl = WB_URL) {
+		$sTmpReferer = '';
+		if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != '') {
+			$aRefUrl = parse_url($_SERVER['HTTP_REFERER']);
+			if ($aRefUrl !== false) {
+				$aRefUrl['host'] = isset($aRefUrl['host']) ? $aRefUrl['host'] : '';
+				$aRefUrl['path'] = isset($aRefUrl['path']) ? $aRefUrl['path'] : '';
+				$aRefUrl['fragment'] = isset($aRefUrl['fragment']) ? '#'.$aRefUrl['fragment'] : '';
+				$aWbUrl = parse_url(WB_URL);
+				if ($aWbUrl !== false) {
+					$aWbUrl['host'] = isset($aWbUrl['host']) ? $aWbUrl['host'] : '';
+					$aWbUrl['path'] = isset($aWbUrl['path']) ? $aWbUrl['path'] : '';
+					if (strpos($aRefUrl['host'].$aRefUrl['path'],
+							   $aWbUrl['host'].$aWbUrl['path']) !== false) {
+						$aRefUrl['path'] = preg_replace('#^'.$aWbUrl['path'].'#i', '', $aRefUrl['path']);
+						$sTmpReferer = WB_URL.$aRefUrl['path'].$aRefUrl['fragment'];
+					}
+					unset($aWbUrl);
+				}
+				unset($aRefUrl);
+			}
+		}
+		$_SERVER['HTTP_REFERER'] = $sTmpReferer;
+	}
+
 
 if (file_exists(WB_PATH.'/framework/class.database.php')) {
-	$sTmpReferer = '';
-	if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != '') {
-	        $tmp0 = parse_url($_SERVER['HTTP_REFERER']);
-       if ($tmp0 !== false) {
-                $tmp0['host'] = isset($tmp0['host']) ? $tmp0['host'] : '';
-                $tmp0['path'] = isset($tmp0['path']) ? $tmp0['path'] : '';
-                $tmp0['fragment'] = isset($tmp0['fragment']) ? '#'.$tmp0['fragment'] : '';
-                $tmp1 = parse_url(WB_URL);
-                if ($tmp1 !== false) {
-                        $tmp1['host'] = isset($tmp1['host']) ? $tmp1['host'] : '';
-                        $tmp1['path'] = isset($tmp1['path']) ? $tmp1['path'] : '';
-                        if (strpos($tmp0['host'].$tmp0['path'], $tmp1['host'].$tmp1['path']) !== false) {
-                                $sTmpReferer = WB_URL.$tmp0['path'].$tmp0['fragment'];
-                        }
-                }
-        }
-	}
-	$_SERVER['HTTP_REFERER'] = $sTmpReferer;
+	// sanitize $_SERVER['HTTP_REFERER']
+	SanitizeHttpReferer(WB_URL);
 	date_default_timezone_set('UTC');
 	require_once(WB_PATH.'/framework/class.database.php');
 
