@@ -1,4 +1,4 @@
-﻿/*
+/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2010 Frederico Caldeira Knabben
  *
@@ -526,7 +526,7 @@ DlgAboutBrowserInfoTab	: "Browser Info",
 DlgAboutLicenseTab	: "License",
 DlgAboutVersion		: "version",
 DlgAboutInfo		: "For further information go to",
-DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.6",
+DlgAboutModule		: "Developed for WebsiteBaker<br />modul version ",
 
 // Div Dialog
 DlgDivGeneralTab	: "General",

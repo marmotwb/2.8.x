@@ -1,4 +1,4 @@
-ï»¿/*
+/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2010 Frederico Caldeira Knabben
  *
@@ -34,7 +34,7 @@ Save				: "Opslaan",
 NewPage				: "Nieuwe pagina",
 Preview				: "Voorbeeld",
 Cut					: "Knippen",
-Copy				: "KopiÃ«ren",
+Copy				: "Kopiëren",
 Paste				: "Plakken",
 PasteText			: "Plakken als platte tekst",
 PasteWord			: "Plakken als Word-gegevens",
@@ -156,7 +156,7 @@ PasteWordConfirm	: "De tekst die u plakte lijkt gekopieerd te zijn vanuit Word. 
 NotCompatiblePaste	: "Deze opdracht is beschikbaar voor Internet Explorer versie 5.5 of hoger. Wilt u plakken zonder op te schonen?",
 UnknownToolbarItem	: "Onbekend item op menubalk \"%1\"",
 UnknownCommand		: "Onbekende opdrachtnaam: \"%1\"",
-NotImplemented		: "Opdracht niet geÃ¯mplementeerd.",
+NotImplemented		: "Opdracht niet geïmplementeerd.",
 UnknownToolbarSet	: "Menubalk \"%1\" bestaat niet.",
 NoActiveX			: "De beveilingsinstellingen van uw browser zouden sommige functies van de editor kunnen beperken. De optie \"Activeer ActiveX-elementen en plug-ins\" dient ingeschakeld te worden. Het kan zijn dat er nu functies ontbreken of niet werken.",
 BrowseServerBlocked : "De bestandsbrowser kon niet geopend worden. Zorg ervoor dat pop-up-blokkeerders uit staan.",
@@ -364,7 +364,7 @@ DlgReplaceWordChk		: "Hele woord moet voorkomen",
 
 // Paste Operations / Dialog
 PasteErrorCut	: "De beveiligingsinstelling van de browser verhinderen het automatisch knippen. Gebruik de sneltoets Ctrl+X van het toetsenbord.",
-PasteErrorCopy	: "De beveiligingsinstelling van de browser verhinderen het automatisch kopiÃ«ren. Gebruik de sneltoets Ctrl+C van het toetsenbord.",
+PasteErrorCopy	: "De beveiligingsinstelling van de browser verhinderen het automatisch kopiëren. Gebruik de sneltoets Ctrl+C van het toetsenbord.",
 
 PasteAsText		: "Plakken als platte tekst",
 PasteFromWord	: "Plakken als Word-gegevens",
@@ -398,10 +398,10 @@ DlgSpellNoSuggestions	: "-Geen suggesties-",
 DlgSpellProgress		: "Bezig met spellingscontrole...",
 DlgSpellNoMispell		: "Klaar met spellingscontrole: geen fouten gevonden",
 DlgSpellNoChanges		: "Klaar met spellingscontrole: geen woorden aangepast",
-DlgSpellOneChange		: "Klaar met spellingscontrole: Ã©Ã©n woord aangepast",
+DlgSpellOneChange		: "Klaar met spellingscontrole: één woord aangepast",
 DlgSpellManyChanges		: "Klaar met spellingscontrole: %1 woorden aangepast",
 
-IeSpellDownload			: "De spellingscontrole niet geÃ¯nstalleerd. Wilt u deze nu downloaden?",
+IeSpellDownload			: "De spellingscontrole niet geïnstalleerd. Wilt u deze nu downloaden?",
 
 // Button Dialog
 DlgButtonText		: "Tekst (waarde)",
@@ -526,7 +526,7 @@ DlgAboutBrowserInfoTab	: "Browserinformatie",
 DlgAboutLicenseTab	: "Licentie",
 DlgAboutVersion		: "Versie",
 DlgAboutInfo		: "Voor meer informatie ga naar ",
-DlgAboutModule		: "Developed for Website Baker<br />modul version 2.9.6",
+DlgAboutModule		: "Developed for WebsiteBaker<br />modul version ",
 
 // Div Dialog
 DlgDivGeneralTab	: "Algemeen",
