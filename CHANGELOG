@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+29 Feb-2012 Build 1623 Dietmar Woellbrink (Luisehahne)
+# fixed FCKeditor to work in IE7/8, IE9 not tested
+! redesign filemanager FCKeditor
+! set Moduleversion to 2.9.7.1
 25 Feb-2012 Build 1622 Werner v.d.Decken(DarkViper)
 # typofix in Droplet [ShowRandomWysiwyg]
 24 Feb-2012 Build 1621 Werner v.d.Decken(DarkViper)

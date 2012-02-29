@@ -28,6 +28,7 @@ var FCKLang		= oEditor.FCKLang ;
 var FCKConfig	= oEditor.FCKConfig ;
 var FCKDebug	= oEditor.FCKDebug ;
 var FCKTools	= oEditor.FCKTools ;
+var FCKRegexLib	= oEditor.FCKRegexLib ;
 
 var bImageButton = ( document.location.search.length > 0 && document.location.search.substr(1) == 'ImageButton' ) ;
 
@@ -310,8 +311,13 @@ function Ok()
 			}
 		}
 
+		// Target
+		if( GetE('cmbLnkTarget').value != 'popup' )
+			SetAttribute( oLink, 'target', GetE('cmbLnkTarget').value ) ;
+		else
+			SetAttribute( oLink, 'target', null ) ;
+
 		SetAttribute( oLink, '_fcksavedurl', sLnkUrl ) ;
-		SetAttribute( oLink, 'target', GetE('cmbLnkTarget').value ) ;
 		// Advances Attributes
 		SetAttribute( oLink, 'title'	, GetE('txtLnkTitle').value ) ;
 		SetAttribute( oLink, 'rel'		, GetE('cmbLnkContentRel').value ) ;
@@ -319,14 +325,17 @@ function Ok()
 		SetAttribute( oLink, 'charset'	, GetE('txtLnkCharSet').value ) ;
 /*
 		alert( FCKLang.DlgImgAlertUrl ) ;
-		SetAttribute( oLink, 'name'		, GetE('txtLnktName').value ) ;
+		SetAttribute( oLink, 'name'		, GetE('txtLnkName').value ) ;
+		SetAttribute( oLink, 'target', GetE('cmbLnkTarget').value ) ;
 */
 		if ( oEditor.FCKBrowserInfo.IsIE )
 		{
 			var sClass = GetE('txtLnkClasses').value ;
 			// If it's also an anchor add an internal class
-			if ( GetE('txtLnkName').value.length != 0 )
+
+			if ( GetE('cmbLnkTarget').value.length != 0 )
 				sClass += ' FCK__AnchorC' ;
+
 			SetAttribute( oLink, 'className', sClass ) ;
 			oLink.style.cssText = GetE('txtLnkStyle').value ;
 		}
@@ -337,6 +346,9 @@ function Ok()
 		}
 
 	}
+
+	// Select the (first) link.
+	// oEditor.FCKSelection.SelectNode( aLinks[0] );
 
 	return true ;
 }
