@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+01 Mar-2012 Build 1628 Dietmar Woellbrink (Luisehahne)
+! forgot changelog and version in Revision 1627
+01 Mar-2012 Build 1627 Dietmar Woellbrink (Luisehahne)
+# Fixed FCKeditor to work with IE9 (Tks to marmot for the source)
 29 Feb-2012 Build 1626 Werner v.d.Decken(DarkViper)
 ! started rebuild and reorganize the OutputFilter-System
 29 Feb-2012 Build 1625 Dietmar Woellbrink (Luisehahne)
