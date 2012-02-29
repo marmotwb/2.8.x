@@ -95,9 +95,8 @@ if(!isset($rename_file)) {
 }
 
 // Setup template object, parse vars to it, then parse it
-$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('media_rename.htt'));
 // Create new template object
-$template = new Template($ThemePath);
+$template = new Template(dirname($admin->correct_theme_source('media_rename.htt')));
 $template->set_file('page', 'media_rename.htt');
 $template->set_block('page', 'main_block', 'main');
 //echo WB_PATH.'/media/'.$directory.'/'.$rename_file;

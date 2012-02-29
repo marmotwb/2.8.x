@@ -82,9 +82,8 @@ function fsize($size) {
 }
 
 // Setup template object, parse vars to it, then parse it
-$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('media_browse.htt'));
 // Create new template object
-$template = new Template($ThemePath);
+$template = new Template(dirname($admin->correct_theme_source('media_browse.htt')));
 $template->set_file('page', 'media_browse.htt');
 $template->set_block('page', 'main_block', 'main');
 

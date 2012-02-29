@@ -46,9 +46,8 @@ switch ($action):
 			$results = $database->query("SELECT * FROM ".TABLE_PREFIX."groups WHERE group_id = '".$group_id."'");
 			$group = $results->fetchRow();
 			// Setup template object, parse vars to it, then parse it
-			$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('groups_form.htt'));
 			// Create new template object
-			$template = new Template($ThemePath);
+			$template = new Template(dirname($admin->correct_theme_source('groups_form.htt')));
 			// $template->debug = true;
 			$template->set_file('page', 'groups_form.htt');
 			$template->set_block('page', 'main_block', 'main');

@@ -128,6 +128,7 @@ if( method_exists($wb, 'preprocess') )
 {
    $wb->preprocess($output);
 }
+
 // Load Droplet engine and process
 	if(file_exists(WB_PATH .'/modules/droplets/droplets.php')) {
 		include_once(WB_PATH .'/modules/droplets/droplets.php');
@@ -135,6 +136,7 @@ if( method_exists($wb, 'preprocess') )
 			$output = evalDroplets($output);
 		}
 	}
+
 // Load backwards compatible frontend filter support and process
 	if(file_exists(WB_PATH .'/modules/output_filter/filter-routines.php')) {
 		include_once(WB_PATH .'/modules/output_filter/filter-routines.php');
@@ -145,6 +147,7 @@ if( method_exists($wb, 'preprocess') )
 		}
 
 	}
+
 // move css definitions into head section
 	if(function_exists('moveCssToHead')) {
 		$output = moveCssToHead($output);

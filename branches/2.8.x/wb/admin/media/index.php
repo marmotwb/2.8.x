@@ -25,9 +25,8 @@ $starttime = $starttime[0]+$starttime[1];
 include ('parameters.php');
 
 // Setup template object, parse vars to it, then parse it
-$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('media.htt'));
 // Create new template object
-$template = new Template($ThemePath);
+$template = new Template(dirname($admin->correct_theme_source('media.htt')));
 $template->set_file('page', 'media.htt');
 $template->set_block('page', 'main_block', 'main');
 

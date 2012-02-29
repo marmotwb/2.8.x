@@ -22,9 +22,8 @@ $admin = new admin('Access', 'groups');
 $ftan = $admin->getFTAN();
 
 // Setup template object, parse vars to it, then parse it
-$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('groups.htt'));
 // Create new template object
-$template = new Template($ThemePath);
+$template = new Template(dirname($admin->correct_theme_source('groups.htt')));
 // $template->debug = true;
 $template->set_file('page', 'groups.htt');
 $template->set_block('page', 'main_block', 'main');
@@ -96,9 +95,8 @@ $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
 
 // Setup template object, parse vars to it, then parse it
-$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('groups_form.htt'));
 // Create new template object
-$template = new Template($ThemePath);
+$template = new Template(dirname($admin->correct_theme_source('groups_form.htt')));
 // $template->debug = true;
 $template->set_file('page', 'groups_form.htt');
 $template->set_block('page', 'main_block', 'main');

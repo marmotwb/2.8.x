@@ -198,9 +198,8 @@ switch ($action):
 		require_once(WB_PATH."/include/jscalendar/wb-setup.php");
 
 		// Setup template object, parse vars to it, then parse it
-		$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('pages_sections.htt'));
 		// Create new template object
-		$tpl = new Template($ThemePath);
+		$tpl = new Template(dirname($admin->correct_theme_source('pages_sections.htt')));
 		// $template->debug = true;
 		$tpl->set_file('page', 'pages_sections.htt');
 		$tpl->set_block('page', 'main_block', 'main');

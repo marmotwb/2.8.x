@@ -38,13 +38,14 @@ if(defined('SMART_LOGIN') AND SMART_LOGIN == 'enabled') {
 }
 
 $admin = new admin('Start', '', false, false);
-$ThemeUrl = WB_URL.$admin->correct_theme_source('warning.html');
+
+$WarnUrl = str_replace(WB_PATH,WB_URL,$admin->correct_theme_source('warning.html'));
 // Setup template object, parse vars to it, then parse it
-$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('login.htt'));
+$ThemePath = dirname($admin->correct_theme_source('login.htt'));
 
 $thisApp = new Login( array(
 						'MAX_ATTEMPS' => "3",
-						'WARNING_URL' => $ThemeUrl.'/warning.html',
+						'WARNING_URL' => $WarnUrl,
 						'USERNAME_FIELDNAME' => $username_fieldname,
 						'PASSWORD_FIELDNAME' => $password_fieldname,
 						'REMEMBER_ME_OPTION' => SMART_LOGIN,
