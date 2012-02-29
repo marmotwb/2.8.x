@@ -75,9 +75,8 @@ if ($_SESSION['GROUP_ID'] != 1 && $pathsettings['global']['admin_only']) {
 $caller = "setparameter";
 
 // Setup template object, parse vars to it, then parse it
-$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('setparameter.htt'));
 // Create new template object
-$template = new Template($ThemePath);
+$template = new Template(dirname($admin->correct_theme_source('setparameter.htt')));
 $template->set_file('page', 'setparameter.htt');
 $template->set_block('page', 'main_block', 'main');
 if ($_SESSION['GROUP_ID'] != 1) {

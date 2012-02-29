@@ -50,9 +50,8 @@ if(!file_exists(WB_PATH.'/languages/'.$code.'.php')) {
 }
 
 // Setup template object, parse vars to it, then parse it
-$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('languages_details.htt'));
 // Create new template object
-$template = new Template($ThemePath);
+$template = new Template(dirname($admin->correct_theme_source('languages_details.htt')));
 // $template->debug = true;
 $template->set_file('page', 'languages_details.htt');
 $template->set_block('page', 'main_block', 'main');

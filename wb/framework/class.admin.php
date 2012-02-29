@@ -101,8 +101,7 @@ class admin extends wb {
 		$get_title = $database->query($sql);
 		$title = $get_title->fetchRow();
 		// Setup template object, parse vars to it, then parse it
-		$ThemePath = realpath(WB_PATH.$this->correct_theme_source('header.htt'));
-		$header_template = new Template($ThemePath);
+		$header_template = new Template(dirname($this->correct_theme_source('header.htt')));
 		$header_template->set_file('page', 'header.htt');
 		$header_template->set_block('page', 'header_block', 'header');
 		if(defined('DEFAULT_CHARSET')) {
@@ -196,8 +195,7 @@ class admin extends wb {
 		}
 
 		// Setup template object, parse vars to it, then parse it
-		$ThemePath = realpath(WB_PATH.$this->correct_theme_source('footer.htt'));
-		$footer_template = new Template($ThemePath);
+		$footer_template = new Template(dirname($this->correct_theme_source('footer.htt')));
 		$footer_template->set_file('page', 'footer.htt');
 		$footer_template->set_block('page', 'footer_block', 'header');
 		$footer_template->set_var(array(

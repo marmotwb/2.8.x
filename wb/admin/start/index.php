@@ -74,9 +74,8 @@ if(($admin->get_user_id()==1) && file_exists(WB_PATH.'/upgrade-script.php')) {
 }
 
 // Setup template object, parse vars to it, then parse it
-$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('start.htt'));
 // Create new template object
-$template = new Template($ThemePath);
+$template = new Template(dirname($admin->correct_theme_source('start.htt')));
 $template->set_file('page', 'start.htt');
 $template->set_block('page', 'main_block', 'main');
 

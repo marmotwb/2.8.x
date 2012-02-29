@@ -346,8 +346,7 @@ class wb extends SecureForm
 	    $redirect_timer = ((defined( 'REDIRECT_TIMER' )) && (REDIRECT_TIMER <= 10000)) ? REDIRECT_TIMER : 0;
 	    // add template variables
 		// Setup template object, parse vars to it, then parse it
-		$ThemePath = realpath(WB_PATH.$this->correct_theme_source('success.htt'));
-		$tpl = new Template($ThemePath);
+		$tpl = new Template(dirname($this->correct_theme_source('success.htt')));
 	    $tpl->set_file( 'page', 'success.htt' );
 	    $tpl->set_block( 'page', 'main_block', 'main' );
 	    $tpl->set_block( 'main_block', 'show_redirect_block', 'show_redirect' );
@@ -373,8 +372,7 @@ class wb extends SecureForm
            $message = implode ('<br />',$message);
         }
 		// Setup template object, parse vars to it, then parse it
-		$ThemePath = realpath(WB_PATH.$this->correct_theme_source('error.htt'));
-		$success_template = new Template($ThemePath);
+		$success_template = new Template(dirname($this->correct_theme_source('error.htt')));
 		$success_template->set_file('page', 'error.htt');
 		$success_template->set_block('page', 'main_block', 'main');
 		$success_template->set_var('MESSAGE', $message);
@@ -429,21 +427,26 @@ class wb extends SecureForm
 		}
 	}
 
-	/**
-	 * checks if there is an alternative Theme template
-	 *
-	 * @access public
-	 * @param string : set the template.htt
-	 * @return string: the relative theme path
-	 *
-	 */
-	function correct_theme_source($sThemeFile = 'start.htt'){
-		$sThemePath = ADMIN_URL.'/themes/templates';
-		if ( file_exists( THEME_PATH.'/templates/'.$sThemeFile ) ){
-			$sThemePath = THEME_URL.'/templates';
-	}
-		return str_replace(WB_URL,'',$sThemePath);
-	}
+	 /**
+	  * checks if there is an alternative Theme template
+	  *
+	  * @param string $sThemeFile set the template.htt
+	  * @return string the relative theme path
+	  *
+	  */
+        function correct_theme_source($sThemeFile = 'start.htt') {
+		$sRetval = $sThemeFile;
+		if (file_exists(THEME_PATH.'/templates/'.$sThemeFile )) {
+			$sRetval = THEME_PATH.'/templates/'.$sThemeFile;
+		} else {
+			if (file_exists(ADMIN_PATH.'/themes/templates/'.$sThemeFile ) ) {
+			$sRetval = ADMIN_PATH.'/themes/templates/'.$sThemeFile;
+			} else {
+				throw new InvalidArgumentException('missing template file '.$sThemeFile);
+			}
+		}
+		return $sRetval;
+        }
 
 	/**
 	 * Check if a foldername doesn't have invalid characters

@@ -341,8 +341,7 @@ class login extends admin {
 			require_once(WB_PATH.'/include/phplib/template.inc');
 			// $template = new Template($this->template_dir);
 			// Setup template object, parse vars to it, then parse it
-			$ThemePath = realpath(WB_PATH.$this->correct_theme_source($this->template_file));
-			$template = new Template($ThemePath);
+			$template = new Template(dirname($this->correct_theme_source($this->template_file)));
 			$template->set_file('page', $this->template_file);
 			$template->set_block('page', 'mainBlock', 'main');
 			if($this->remember_me_option != true) {

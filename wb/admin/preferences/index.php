@@ -25,9 +25,9 @@ function build_page( &$admin, &$database )
 	global $HEADING, $TEXT;
 	include_once(WB_PATH.'/framework/functions-utf8.php');
 	// Setup template object, parse vars to it, then parse it
-	$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('preferences.htt'));
+	// Setup template object, parse vars to it, then parse it
 	// Create new template object
-	$template = new Template($ThemePath);
+	$template = new Template(dirname($admin->correct_theme_source('preferences.htt')));
 	$template->set_file( 'page', 'preferences.htt' );
 	$template->set_block( 'page', 'main_block', 'main' );
 // read user-info from table users and assign it to template

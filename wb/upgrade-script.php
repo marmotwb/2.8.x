@@ -76,8 +76,10 @@ $filesRemove['1'] = array(
 			'[TEMPLATE]/argos_theme/templates/groups_form.htt',
 			'[TEMPLATE]/argos_theme/templates/languages.htt',
 			'[TEMPLATE]/argos_theme/templates/languages_details.htt',
+/*
 			'[TEMPLATE]/argos_theme/templates/login.htt',
 			'[TEMPLATE]/argos_theme/templates/login_forgot.htt',
+*/
 			'[TEMPLATE]/argos_theme/templates/media.htt',
 			'[TEMPLATE]/argos_theme/templates/media_browse.htt',
 			'[TEMPLATE]/argos_theme/templates/media_rename.htt',
@@ -97,6 +99,7 @@ $filesRemove['1'] = array(
 			'[TEMPLATE]/argos_theme/templates/users.htt',
 			'[TEMPLATE]/argos_theme/templates/users_form.htt',
 
+/*
 			'[TEMPLATE]/wb_theme/templates/access.htt',
 			'[TEMPLATE]/wb_theme/templates/addons.htt',
 			'[TEMPLATE]/wb_theme/templates/admintools.htt',
@@ -105,8 +108,10 @@ $filesRemove['1'] = array(
 			'[TEMPLATE]/wb_theme/templates/groups_form.htt',
 			'[TEMPLATE]/wb_theme/templates/languages.htt',
 			'[TEMPLATE]/wb_theme/templates/languages_details.htt',
+
 			'[TEMPLATE]/wb_theme/templates/login.htt',
 			'[TEMPLATE]/wb_theme/templates/login_forgot.htt',
+
 			'[TEMPLATE]/wb_theme/templates/media.htt',
 			'[TEMPLATE]/wb_theme/templates/media_browse.htt',
 			'[TEMPLATE]/wb_theme/templates/media_rename.htt',
@@ -125,7 +130,7 @@ $filesRemove['1'] = array(
 			'[TEMPLATE]/wb_theme/templates/templates_details.htt',
 			'[TEMPLATE]/wb_theme/templates/users.htt',
 			'[TEMPLATE]/wb_theme/templates/users_form.htt',
-
+*/
 		 );
 
 // analyze/check database tables

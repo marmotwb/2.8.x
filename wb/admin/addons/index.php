@@ -20,9 +20,8 @@ require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Addons', 'addons');
 
 // Setup template object, parse vars to it, then parse it
-$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('addons.htt'));
 // Create new template object
-$template = new Template($ThemePath);
+$template = new Template(dirname($admin->correct_theme_source('addons.htt')));
 $template->set_file('page', 'addons.htt');
 $template->set_block('page', 'main_block', 'main');
 

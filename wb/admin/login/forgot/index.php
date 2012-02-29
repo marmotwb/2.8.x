@@ -112,9 +112,8 @@ if(!isset($message)) {
 }
 	
 // Setup template object, parse vars to it, then parse it
-$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('login_forgot.htt'));
 // Create new template object
-$template = new Template($ThemePath);
+$template = new Template(dirname($admin->correct_theme_source('login_forgot.htt')));
 $template->set_file('page', 'login_forgot.htt');
 $template->set_block('page', 'main_block', 'main');
 if(defined('FRONTEND')) {
