@@ -122,35 +122,12 @@ ob_start();
 require(WB_PATH.'/templates/'.TEMPLATE.'/index.php');
 $output = ob_get_contents();
 if(ob_get_length() > 0) { ob_end_clean(); }
-
-// wb->preprocess() -- replace all [wblink123] with real, internal links
-if( method_exists($wb, 'preprocess') )
-{
-   $wb->preprocess($output);
-}
-
-// Load Droplet engine and process
-	if(file_exists(WB_PATH .'/modules/droplets/droplets.php')) {
-		include_once(WB_PATH .'/modules/droplets/droplets.php');
-		if(function_exists('evalDroplets')) {
-			$output = evalDroplets($output);
-		}
-	}
-
-// Load backwards compatible frontend filter support and process
-	if(file_exists(WB_PATH .'/modules/output_filter/filter-routines.php')) {
-		include_once(WB_PATH .'/modules/output_filter/filter-routines.php');
+// execute frontend output filters
+	if(file_exists(WB_PATH .'/modules/output_filter/index.php')) {
+		include_once(WB_PATH .'/modules/output_filter/index.php');
 		if(function_exists('executeFrontendOutputFilter')) {
 			$output = executeFrontendOutputFilter($output);
-		}elseif(function_exists('filter_frontend_output')) {
-			$output = filter_frontend_output($output);
 		}
-
-	}
-
-// move css definitions into head section
-	if(function_exists('moveCssToHead')) {
-		$output = moveCssToHead($output);
 	}
 // now send complete page to the browser
 echo $output;
