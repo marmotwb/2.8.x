@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+29 Feb-2012 Build 1626 Werner v.d.Decken(DarkViper)
+! started rebuild and reorganize the OutputFilter-System
 29 Feb-2012 Build 1625 Dietmar Woellbrink (Luisehahne)
 ! update correct_theme_source and fixed the call in all files
 29 Feb-2012 Build 1624 Dietmar Woellbrink (Luisehahne)
