@@ -232,7 +232,8 @@ if($query_submissions = $database->query($sql)) {
 			$sBody = $submission['body'];
 			$regex = "/[a-z0-9\-_]?[a-z0-9.\-_]+[a-z0-9\-_]?@[a-z0-9.-]+\.[a-z]{2,}/iU";
 			preg_match ($regex, $sBody, $output);
-			$submission['email'] = $output['0'];
+// workout if output is empty
+			$submission['email'] = (isset($output['0']) ? $output['0'] : '');
 ?>
 			<tr class="row_<?php echo $row; ?>">
 				<td width="20" style="padding-left: 5px;text-align: center;">
@@ -266,7 +267,7 @@ if($query_submissions = $database->query($sql)) {
 		}
 	} else {
 ?>
-<tr><td><?php echo $TEXT['NONE_FOUND'] ?></td></tr>
+<tr><td colspan="8"><?php echo $TEXT['NONE_FOUND'] ?></td></tr>
 <?php
 	}
 ?>
