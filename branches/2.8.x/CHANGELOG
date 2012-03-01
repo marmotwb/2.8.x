@@ -1,4 +1,4 @@
-Change Log
+﻿Change Log
 ===============================================================================
 Please note: This change log may not be accurate
 
@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+01 Mar-2012 Build 1628 Dietmar Woellbrink (Luisehahne)
+# fixed wrong file format, fckeditor and outputfilter
 01 Mar-2012 Build 1628 Dietmar Woellbrink (Luisehahne)
 ! forgot changelog and version in Revision 1627
 01 Mar-2012 Build 1627 Dietmar Woellbrink (Luisehahne)
