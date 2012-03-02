@@ -17,8 +17,14 @@
 		<img src="{THEME_URL}/images/logo.png" alt="Logo" />
 	</td>
 	<td width="5">&nbsp;</td>
-	<td style="font-size: 20px; ">
-		<font style="color: #FFFFFF;">{SECTION_LOGIN}</font>
+	<td>&nbsp;</td>
+</tr>
+<tr>
+	<td colspan="3">&nbsp;</td>
+</tr>
+<tr>
+	<td colspan="3" style="font-size: 20px; text-align: center; ">
+		<span style="color: #003366;">{SECTION_LOGIN}</span>
 	</td>
 </tr>
 </table>
@@ -26,7 +32,6 @@
 <table summary="" cellpadding="0" cellspacing="0" border="0" width="770" align="center" style="margin-top: 30px;" class="container">
 <tr>
 	<td class="content">
-	
 	<form name="login" action="{ACTION_URL}" method="post">
 	<input type="hidden" name="url" value="{URL}" />
 	<input type="hidden" name="username_fieldname" value="{USERNAME_FIELDNAME}" />
