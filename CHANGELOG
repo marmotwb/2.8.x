@@ -11,9 +11,11 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-01 Mar-2012 Build 1628 Dietmar Woellbrink (Luisehahne)
+02 Mar-2012 Build 1631 Dietmar Woellbrink (Luisehahne)
+! FCKeditor Fallback not working with IE9
+01 Mar-2012 Build 1630 Dietmar Woellbrink (Luisehahne)
 # fixed fckeditorcode_ie.js in IE9 ( not the end of fixing )
-01 Mar-2012 Build 1628 Dietmar Woellbrink (Luisehahne)
+01 Mar-2012 Build 1629 Dietmar Woellbrink (Luisehahne)
 # fixed wrong file format, fckeditor and outputfilter
 01 Mar-2012 Build 1628 Dietmar Woellbrink (Luisehahne)
 ! forgot changelog and version in Revision 1627
