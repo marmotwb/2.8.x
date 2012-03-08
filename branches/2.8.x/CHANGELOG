@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+29 Feb-2012 Build 1633 Werner v.d.Decken(DarkViper)
+# fixed class::methode print_error(...) overwrite in /install/save.php
 02 Mar-2012 Build 1632 Dietmar Woellbrink (Luisehahne)
 ! small design update for wb theme, login und login_forgot
 02 Mar-2012 Build 1631 Dietmar Woellbrink (Luisehahne)
