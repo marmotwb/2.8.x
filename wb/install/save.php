@@ -354,7 +354,7 @@ require_once(WB_PATH.'/framework/class.admin.php');
 class admin_dummy extends admin
 {
 	var $error='';
-	function print_error($message)
+	function print_error($message, $link = 'index.php', $auto_footer = true)
 	{
 		$this->error=$message;
 	}
