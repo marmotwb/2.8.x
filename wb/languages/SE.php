@@ -31,8 +31,6 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Markus Eriksson, Peppe Bergqvist';
 $language_license = 'GNU General Public License';
-
-/* MENU */
 $MENU['ACCESS'] = 'R&auml;ttigheter';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Till&auml;gg';
@@ -54,8 +52,6 @@ $MENU['START'] = 'Hem';
 $MENU['TEMPLATES'] = 'Mallar';
 $MENU['USERS'] = 'Anv&auml;ndare';
 $MENU['VIEW'] = 'Visa sida';
-
-/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Kontoregistrering';
 $TEXT['ACTIONS'] = '&Aring;tg&auml;rder';
 $TEXT['ACTIVE'] = 'Aktiv';
@@ -390,8 +386,6 @@ $TEXT['WRITE'] = 'Skriv';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG redigerare';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG stil';
 $TEXT['YES'] = 'Ja';
-
-/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On requirements not met';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = 'Skapa ny grupp';
@@ -437,8 +431,6 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Avinstallera mall';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Ladda Upp fil(er)';
 $HEADING['WBMAILER_SETTINGS'] = 'Mailer Settings';
-
-/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -540,7 +532,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' filen laddades upp';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Kan inte ha ../ i mappens m&aring;l';
 $MESSAGE['MEDIA_UPLOADED'] = ' filerna laddades upp';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Tyv&auml;rr, detta formul&auml;r har skickats f&ouml;r m&aring;nga g&aring;nger inom denna timme. F&ouml;rs&ouml;k igen om ett tag.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Verifieringsnumret (ocks&aring; k&auml;nt som Captcha) som du angav &auml;r felaktigt. Om du har problem med att l&auml;sa ut Captcha, v&auml;nligen s&auml;nd email till: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Verifieringsnumret (ocks&aring; k&auml;nt som Captcha) som du angav &auml;r felaktigt. Om du har problem med att l&auml;sa ut Captcha, v&auml;nligen s&auml;nd email till: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Du m&aring;ste fylla i f&ouml;ljande f&auml;lt';
 $MESSAGE['PAGES_ADDED'] = 'Sidan lades till';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Sidans huvud lades till';
@@ -635,6 +627,11 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'VARNING, installationsmappen finns fortf
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'V&auml;lkommen till administrationen av WebsiteBaker';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Observera: f&ouml;r att &auml;ndra Mall, m&aring;ste du g&aring; till Sektionen Inst&auml;llningar';
+$MESSAGE['THEME_ALREADY_EXISTS'] = 'This new theme descriptor already exists.';
+$MESSAGE['THEME_COPY_CURRENT'] = 'Copy the current active theme and save it with a new name.';
+$MESSAGE['THEME_DESTINATION_READONLY'] = 'No rights to create new theme directory!';
+$MESSAGE['THEME_IMPORT_HTT'] = 'Import additional templates into the current active theme.<br />Use these templates to overwrite the corresponding default template.';
+$MESSAGE['THEME_INVALID_SOURCE_DESTINATION'] = 'Invalid descriptor for the new theme given!';
 $MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
 $MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
 $MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
@@ -658,8 +655,6 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'L&ouml;senordet &auml;r for kort';
 $MESSAGE['USERS_SAVED'] = 'Anv&auml;ndaren sparades';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
-
-/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 $OVERVIEW['GROUPS'] = 'Behandla anv&auml;ndargrupper och deras system&aring;tkomst...';
 $OVERVIEW['HELP'] = 'Hitta svar p&aring; dina fr&aring;gor (p&aring; engelska)...';
@@ -679,3 +674,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

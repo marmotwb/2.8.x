@@ -31,8 +31,6 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Michal Kurtulik - YONIX.SK';
 $language_license = 'GNU General Public License';
-
-/* MENU */
 $MENU['ACCESS'] = 'Pr&iacute;stup';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Roz&#353;&iacute;renie';
@@ -54,8 +52,6 @@ $MENU['START'] = '&Uacute;vod';
 $MENU['TEMPLATES'] = '&#352;ablony';
 $MENU['USERS'] = 'U&#382;&iacute;vatelia';
 $MENU['VIEW'] = 'Zobrazi&#357;';
-
-/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Registr&aacute;cia &uacute;&#269;tu';
 $TEXT['ACTIONS'] = 'Akcia';
 $TEXT['ACTIVE'] = 'Akt&iacute;vny';
@@ -390,8 +386,6 @@ $TEXT['WRITE'] = 'Z&aacute;pis';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG editor';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG styl';
 $TEXT['YES'] = 'Ano';
-
-/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Nie s&uacute; splnen&eacute; po&#382;iadavky pre roz&#353;&iacute;renie';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = 'Prida&#357; skupinu';
@@ -437,8 +431,6 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Odi&#353;talovat &#353;ablonu';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Nahra&#357; s&uacute;bor(y)';
 $HEADING['WBMAILER_SETTINGS'] = 'Nastavenia E-Mailu';
-
-/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -540,7 +532,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' s&uacute;bor bol &uacute;spe&#353;ne nahra
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Nejde pou&#382;i&#357; ../ v cielovom adres&aacute;ry';
 $MESSAGE['MEDIA_UPLOADED'] = ' s&uacute;bory boly &uacute;spe&#353;ne nahr&aacute;n&eacute;';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Ospravedl&#328;ujeme sa, ale tento formul&aacute;r dosiahol limitu povolen&yacute;ch odeslan&iacute; pre t&uacute;to hodinu. Pros&iacute;m sk&uacute;ste to znovu v dal&#353;iej hodine..';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Kontroln&yacute; k&oacute;d (zn&aacute;m&yacute; ako Captcha) nezodpoved&aacute;. Pokia&#318; m&aacute;te probl&eacute;my s pre&#269;&iacute;tan&iacute;m tohoto k&oacute;du, kontaktujte <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Kontroln&yacute; k&oacute;d (zn&aacute;m&yacute; ako Captcha) nezodpoved&aacute;. Pokia&#318; m&aacute;te probl&eacute;my s pre&#269;&iacute;tan&iacute;m tohoto k&oacute;du, kontaktujte <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Mus&iacute;te vyplni&#357; n&aacute;sleduj&uacute;ce pole';
 $MESSAGE['PAGES_ADDED'] = 'Str&aacute;nka bola &uacute;spe&#353;ne pridan&aacute;';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Z&aacute;hlavie str&aacute;nky bolo &uacute;spe&#353;ne pridan&eacute;';
@@ -635,6 +627,11 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Pozor, st&aacute;le existuje in&#353;tal
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Vitajte v administrat&iacute;vnej &#269;asti';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Pozn.: zmena &#353;ablony sa prov&aacute;dza v sekcii Nastavenia';
+$MESSAGE['THEME_ALREADY_EXISTS'] = 'This new theme descriptor already exists.';
+$MESSAGE['THEME_COPY_CURRENT'] = 'Copy the current active theme and save it with a new name.';
+$MESSAGE['THEME_DESTINATION_READONLY'] = 'No rights to create new theme directory!';
+$MESSAGE['THEME_IMPORT_HTT'] = 'Import additional templates into the current active theme.<br />Use these templates to overwrite the corresponding default template.';
+$MESSAGE['THEME_INVALID_SOURCE_DESTINATION'] = 'Invalid descriptor for the new theme given!';
 $MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
 $MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
 $MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
@@ -658,8 +655,6 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Zadan&eacute; heslo je pr&iacute;li&#353
 $MESSAGE['USERS_SAVED'] = 'U&#382;&iacute;vate&#318; bol &uacute;spe&#353;ne ulo&#382;en&yacute;';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
-
-/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Administra&#269;n&eacute; n&aacute;stroje...';
 $OVERVIEW['GROUPS'] = 'Spravova&#357; skupiny u&#382;ivatelov a ich opr&aacute;vnen&iacute;...';
 $OVERVIEW['HELP'] = 'M&aacute;te ot&aacute;zku? H&#318;adajte odpove&#271;...';
@@ -679,3 +674,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

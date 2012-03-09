@@ -31,8 +31,6 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Carles Escrig (simkin)';
 $language_license = 'GNU General Public License';
-
-/* MENU */
 $MENU['ACCESS'] = 'Acc&eacute;s';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Afegits';
@@ -54,8 +52,6 @@ $MENU['START'] = 'Inici';
 $MENU['TEMPLATES'] = 'Plantilles';
 $MENU['USERS'] = 'Usuaris';
 $MENU['VIEW'] = 'Veure';
-
-/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Registre de Compte';
 $TEXT['ACTIONS'] = 'Accions';
 $TEXT['ACTIVE'] = 'Actiu';
@@ -390,8 +386,6 @@ $TEXT['WRITE'] = 'Escriptura';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG Editor';
 $TEXT['WYSIWYG_STYLE'] = 'Estil WYSIWYG';
 $TEXT['YES'] = 'S&iacute;';
-
-/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On requirements not met';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = 'Afegeix Grup';
@@ -437,8 +431,6 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Desinstal&middot;la Plantilla';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Penja Fitxer(s)';
 $HEADING['WBMAILER_SETTINGS'] = 'Mailer Settings';
-
-/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -540,7 +532,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' fitxer s\'ha penjat amb &egrave;xit';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'No es pot tenir ../ a la carpeta de dest&iacute;';
 $MESSAGE['MEDIA_UPLOADED'] = ' fitxers han estat penjats amb &egrave;xit';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Ho sentim, aquest formulari ha estat enviat massa vegades durant l\'&uacute;ltima hora. Per favor torneu-ho a intentar d\'ac&iacute; una hora.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Heu d\'introduir les dades per als seg&uuml;ents camps';
 $MESSAGE['PAGES_ADDED'] = 'P&agrave;gina afegida amb &egrave;xit';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Cap&ccedil;alera de p&agrave;gina afegida amb &egrave;xit';
@@ -635,6 +627,11 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Atenci&oacute;, el Directori d\'Instal&m
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Benvingut/da al Panell de Control de WebsiteBaker';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Av&iacute;s: per a canviar la plantilla heu d\'anar a la secci&oacute; Par&agrave;metres';
+$MESSAGE['THEME_ALREADY_EXISTS'] = 'This new theme descriptor already exists.';
+$MESSAGE['THEME_COPY_CURRENT'] = 'Copy the current active theme and save it with a new name.';
+$MESSAGE['THEME_DESTINATION_READONLY'] = 'No rights to create new theme directory!';
+$MESSAGE['THEME_IMPORT_HTT'] = 'Import additional templates into the current active theme.<br />Use these templates to overwrite the corresponding default template.';
+$MESSAGE['THEME_INVALID_SOURCE_DESTINATION'] = 'Invalid descriptor for the new theme given!';
 $MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
 $MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
 $MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
@@ -658,8 +655,6 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'La contrasenya introdu&iuml;da &eacute;s
 $MESSAGE['USERS_SAVED'] = 'Usuari desat amb &egrave;xit';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
-
-/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 $OVERVIEW['GROUPS'] = 'Administreu els grups d\'usuaris i els seus permisos de sistema...';
 $OVERVIEW['HELP'] = 'Teniu una pregunta? Trobeu la vostra resposta...';
@@ -679,3 +674,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

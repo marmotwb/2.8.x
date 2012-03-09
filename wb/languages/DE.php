@@ -32,8 +32,6 @@ $language_version = '3.0';
 $language_platform = '2.9';
 $language_author = 'Stefan Braunewell, Matthias Gallas';
 $language_license = 'GNU General Public License';
-
-/* MENU */
 $MENU['ACCESS'] = 'Benutzerverwaltung';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Erweiterungen';
@@ -55,8 +53,6 @@ $MENU['START'] = 'Start';
 $MENU['TEMPLATES'] = 'Designvorlagen';
 $MENU['USERS'] = 'Benutzer';
 $MENU['VIEW'] = 'Ansicht';
-
-/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Registrierung';
 $TEXT['ACTIONS'] = 'Aktionen';
 $TEXT['ACTIVE'] = 'Aktiv';
@@ -391,8 +387,6 @@ $TEXT['WRITE'] = 'Schreiben';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG Editor';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG Stil';
 $TEXT['YES'] = 'Ja';
-
-/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On Voraussetzungen nicht erf&uuml;llt';
 $HEADING['ADD_CHILD_PAGE'] = 'Unterseite hinzuf&uuml;gen';
 $HEADING['ADD_GROUP'] = 'Gruppe hinzuf&uuml;gen';
@@ -438,8 +432,6 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Designvorlage deinstallieren';
 $HEADING['UPGRADE_LANGUAGE'] = 'Sprache registrieren/aktualisieren (Upgrade)';
 $HEADING['UPLOAD_FILES'] = 'Datei(en) &uuml;bertragen';
 $HEADING['WBMAILER_SETTINGS'] = 'Maileinstellungen';
-
-/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Fehler beim Abgleich der Addon Informationen.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Sprachen erfolgreich geladen';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ACHTUNG!</strong> &Uuml;berspielen Sie Sprachdateien aus Sicherheitsgr&uuml;nden nur &uuml;ber FTP in den Ordner /languages/ und benutzen die Upgrade Funktion zum Registrieren oder Aktualisieren.';
@@ -541,7 +533,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = 'Datei wurde erfolgreich &uuml;bertragen';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Der Name des Zielverzeichnisses darf nicht ../ enthalten';
 $MESSAGE['MEDIA_UPLOADED'] = 'Dateien wurden erfolgreich &uuml;bertragen';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Dieses Formular wurde zu oft aufgerufen. Bitte versuchen Sie es in einer Stunde noch einmal.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Die eingegebene Pr&uuml;fziffer stimmt nicht &uuml;berein. Wenn Sie Probleme mit dem Lesen der Pr&uuml;fziffer haben, bitte schreiben Sie eine E-Mail an uns: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Die eingegebene Pr&uuml;fziffer stimmt nicht &uuml;berein. Wenn Sie Probleme mit dem Lesen der Pr&uuml;fziffer haben, bitte schreiben Sie eine E-Mail an uns: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Bitte folgende Angaben erg&auml;nzen';
 $MESSAGE['PAGES_ADDED'] = 'Die Seite wurde erfolgreich hinzugef&uuml;gt';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Seitenkopf erfolgreich hinzugef&uuml;gt';
@@ -632,6 +624,11 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Das Installations-Verzeichnis "/install"
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Bitte die Datei "upgrade-script.php" vom Webserver l&ouml;schen.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Willkommen in der WebsiteBaker Verwaltung';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Bitte beachten Sie: Um eine andere Designvorlage auszuw&auml;hlen, benutzen Sie den Bereich "Optionen"';
+$MESSAGE['THEME_ALREADY_EXISTS'] = 'Neuer Theme-Name existiert bereits.';
+$MESSAGE['THEME_COPY_CURRENT'] = 'Das aktuell aktive Backend-Theme kopieren und unter einem neuem Namen abspeichern.';
+$MESSAGE['THEME_DESTINATION_READONLY'] = 'Ungen&uuml;gende Rechte um das Zielverzeichnis zu erstellen!';
+$MESSAGE['THEME_IMPORT_HTT'] = 'Zus&auml;tzliche Templatefile(s) in das aktuelle Theme importieren.<br />Mit diesen Templates k&ouml;nnen die Default-Templates &uuml;berschrieben werden.';
+$MESSAGE['THEME_INVALID_SOURCE_DESTINATION'] = 'Ung&uuml;ltigen Theme-Name angegeben!';
 $MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unbekannter Upload Fehler';
 $MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Konnte Datei nicht schreiben. Fehlende Schreibrechte.';
 $MESSAGE['UPLOAD_ERR_EXTENSION'] = 'Erweiterungsfehler';
@@ -655,8 +652,6 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Das eingegebene Passwort war zu kurz';
 $MESSAGE['USERS_SAVED'] = 'Der Benutzer wurde erfolgreich gespeichert';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'Der angegebene Loginname wird bereits verwendet';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'Der eingegebene Loginname war zu kurz';
-
-/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Zugriff auf die WebsiteBaker Verwaltungsprogramme...';
 $OVERVIEW['GROUPS'] = 'Verwaltung von Gruppen und Ihrer Zugangsberechtigungen...';
 $OVERVIEW['HELP'] = 'Noch Fragen? Hier finden Sie Antworten';

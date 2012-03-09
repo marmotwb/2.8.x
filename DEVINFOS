@@ -1,0 +1,17 @@
+﻿WebsiteBaker 2.8.3 Developing Instructions/Informations
+=======================================================
+$Id:  $
+
+
+
+09 Mar-2012 Build 1634 change in language files
+-----------------------------------------------
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] the const SERVER_EMAIL to a var {SERVER_EMAIL}
+If you use it you have to replace as follows
+[code]
+$search = array('{SERVER_EMAIL}');
+$replace = array( SERVER_EMAIL);
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = str_replace($search,$replace,$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA']);
+[/code]
+
+

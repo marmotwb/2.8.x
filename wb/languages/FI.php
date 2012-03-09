@@ -31,8 +31,6 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Jontse';
 $language_license = 'GNU General Public License';
-
-/* MENU */
 $MENU['ACCESS'] = 'K&auml;ytt&auml;j&auml;t';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Lis&auml;osat';
@@ -54,8 +52,6 @@ $MENU['START'] = 'Alku';
 $MENU['TEMPLATES'] = 'Sivupohjat';
 $MENU['USERS'] = 'K&auml;ytt&auml;j&auml;t';
 $MENU['VIEW'] = 'Katsele';
-
-/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Kirjaunut';
 $TEXT['ACTIONS'] = 'Tila';
 $TEXT['ACTIVE'] = 'K&auml;yt&ouml;ss&auml;';
@@ -390,8 +386,6 @@ $TEXT['WRITE'] = 'Kirjoita';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG muokkain';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG tyyli';
 $TEXT['YES'] = 'Kyll&auml;';
-
-/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On requirements not met';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = 'Lis&auml;&auml; ryhm&auml;';
@@ -437,8 +431,6 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Poista sivupohja';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Lataa palvelimelle';
 $HEADING['WBMAILER_SETTINGS'] = 'Mailer Settings';
-
-/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -540,7 +532,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' tiedosto ladattu';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Merkki&auml; ../ ei voi k&auml;ytt&auml;&auml; ';
 $MESSAGE['MEDIA_UPLOADED'] = ' tiedostot ladattu';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Rajoitus voimassa, yrit&auml; tunnin kuluttua uudelleen';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'T&auml;yt&auml; kent&auml;t';
 $MESSAGE['PAGES_ADDED'] = 'Sivu lis&auml;tty';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Otsikko lis&auml;tty';
@@ -635,6 +627,11 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Poista asennuskansio!';
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Tervetuloa sivuston hallintaan';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Sivupohjan voi vaihtaa asetukset-kohdasta';
+$MESSAGE['THEME_ALREADY_EXISTS'] = 'This new theme descriptor already exists.';
+$MESSAGE['THEME_COPY_CURRENT'] = 'Copy the current active theme and save it with a new name.';
+$MESSAGE['THEME_DESTINATION_READONLY'] = 'No rights to create new theme directory!';
+$MESSAGE['THEME_IMPORT_HTT'] = 'Import additional templates into the current active theme.<br />Use these templates to overwrite the corresponding default template.';
+$MESSAGE['THEME_INVALID_SOURCE_DESTINATION'] = 'Invalid descriptor for the new theme given!';
 $MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
 $MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
 $MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
@@ -658,8 +655,6 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Salasana liian lyhyt';
 $MESSAGE['USERS_SAVED'] = 'Talletettu';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
-
-/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 $OVERVIEW['GROUPS'] = 'k&auml;ytt&auml;j&auml;ryhm&auml;t...';
 $OVERVIEW['HELP'] = 'Kysymykset, vastaukset...';
@@ -679,3 +674,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

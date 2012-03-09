@@ -540,7 +540,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' file was successfully uploaded';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Cannot have ../ in the folder target';
 $MESSAGE['MEDIA_UPLOADED'] = ' files were successfully uploaded';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Sorry, this form has been submitted too many times so far this hour. Please retry in the next hour.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'You must enter details for the following fields';
 $MESSAGE['PAGES_ADDED'] = 'Page added successfully';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Page heading added successfully';
@@ -675,6 +675,20 @@ $OVERVIEW['START'] = 'Administration overview';
 $OVERVIEW['TEMPLATES'] = 'Change the look and feel of your website with templates...';
 $OVERVIEW['USERS'] = 'Manage users who can log-in to WebsiteBaker...';
 $OVERVIEW['VIEW'] = 'Quickly view and browse your website in a new window...';
+
+$TXT['THEME_COPY_CURRENT']  = 'Copy backend theme.';
+$TXT['THEME_NEW_NAME']      = 'Name of the new Theme';
+$TXT['THEME_CURRENT']       = 'current active theme';
+$TXT['THEME_START_COPY']    = 'copy';
+$TXT['THEME_IMPORT_HTT']    = 'Import additional templates';
+$TXT['THEME_SELECT_HTT']    = 'select templates';
+$TXT['THEME_NOMORE_HTT']    = 'no more available';
+$TXT['THEME_START_IMPORT']  = 'import';
+$MESSAGE['THEME_COPY_CURRENT']               = 'Copy the current active theme and save it with a new name.';
+$MESSAGE['THEME_ALREADY_EXISTS']             = 'This new theme descriptor already exists.';
+$MESSAGE['THEME_INVALID_SOURCE_DESTINATION'] = 'Invalid descriptor for the new theme given!';
+$MESSAGE['THEME_DESTINATION_READONLY']       = 'No rights to create new theme directory!';
+$MESSAGE['THEME_IMPORT_HTT']                 = 'Import additional templates into the current active theme.<br />Use these templates to overwrite the corresponding default template.';
 
 /* include old languages format */
 if(file_exists(WB_PATH.'/languages/old.format.inc.php'))

@@ -31,8 +31,6 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Allan Christensen';
 $language_license = 'GNU General Public License';
-
-/* MENU */
 $MENU['ACCESS'] = 'Adgang';
 $MENU['ADDON'] = 'Tilf&oslash;jelse';
 $MENU['ADDONS'] = 'Tilf&oslash;jelser';
@@ -54,8 +52,6 @@ $MENU['START'] = 'Hjem';
 $MENU['TEMPLATES'] = 'Skabeloner';
 $MENU['USERS'] = 'Brugere';
 $MENU['VIEW'] = 'Vis';
-
-/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Kontoregistrering';
 $TEXT['ACTIONS'] = 'Handlinger';
 $TEXT['ACTIVE'] = 'Aktiv';
@@ -390,8 +386,6 @@ $TEXT['WRITE'] = 'Skriv';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG-editor';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG-stil';
 $TEXT['YES'] = 'Ja';
-
-/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On krav er ikke opfyldt';
 $HEADING['ADD_CHILD_PAGE'] = 'Tilf&oslash;j underside';
 $HEADING['ADD_GROUP'] = 'Tilf&oslash;j gruppe';
@@ -437,8 +431,6 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Afinstall&eacute;r skabelon';
 $HEADING['UPGRADE_LANGUAGE'] = 'Sprogopgradering';
 $HEADING['UPLOAD_FILES'] = 'Overf&oslash;r fil(er)';
 $HEADING['WBMAILER_SETTINGS'] = 'E-mail-indstillinger';
-
-/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Fejl under opdatering af tilf&oslash;jelse.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Sprog indl&aelig;st';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>PAS P&aring;!</strong> Af sikkerhedsgrunde b&oslash;r sprogfiler kun indl&aelig;ses i folderen /languages/ med FTP, og opgraderingsfunktionen b&oslash;r bruges til registrering/opdatering.';
@@ -540,7 +532,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = 'fil blev overf&oslash;rt';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Kan ikke have ../ i placeringen af biblioteket (mappen)';
 $MESSAGE['MEDIA_UPLOADED'] = 'filer blev overf&oslash;rt';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Beklager! Denne formular er blevet afsendt for mange gange indenfor den sidste time, og du vil derfor blive afvist - Pr&oslash;v igen om en times tid!';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Verifikationstallene (ogs&aring; kendt som Captcha) som du tastede er ikke korrekte. Hvis du har problemer med at l&aelig;se Captha tallene, s&aring; kontakt venligst sidens Administrator p&aring; denne mailadresse: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Verifikationstallene (ogs&aring; kendt som Captcha) som du tastede er ikke korrekte. Hvis du har problemer med at l&aelig;se Captha tallene, s&aring; kontakt venligst sidens Administrator p&aring; denne mailadresse: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Du skal udfylde f&oslash;lgende felter:';
 $MESSAGE['PAGES_ADDED'] = 'Siden er tilf&oslash;jet';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Overskrift til side tilf&oslash;jet';
@@ -635,6 +627,11 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'ADVARSEL! Installationsbiblioteket (mapp
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Velkommen til administration af din WebsiteBaker';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'OBS: For at &aelig;ndre skabelonen skal du g&aring; til punktet indstillinger';
+$MESSAGE['THEME_ALREADY_EXISTS'] = 'This new theme descriptor already exists.';
+$MESSAGE['THEME_COPY_CURRENT'] = 'Copy the current active theme and save it with a new name.';
+$MESSAGE['THEME_DESTINATION_READONLY'] = 'No rights to create new theme directory!';
+$MESSAGE['THEME_IMPORT_HTT'] = 'Import additional templates into the current active theme.<br />Use these templates to overwrite the corresponding default template.';
+$MESSAGE['THEME_INVALID_SOURCE_DESTINATION'] = 'Invalid descriptor for the new theme given!';
 $MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
 $MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
 $MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
@@ -658,8 +655,6 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Den angivne adgangskode er for kort';
 $MESSAGE['USERS_SAVED'] = 'Brugeren er gemt';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
-
-/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'WebsiteBaker administrationsv&aelig;rkt&oslash;jer...';
 $OVERVIEW['GROUPS'] = 'Administr&eacute;r brugergrupper og deres systemrettigheder...';
 $OVERVIEW['HELP'] = 'Sp&oslash;rgsm&aring;l? Find dine svar her...';
@@ -679,3 +674,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

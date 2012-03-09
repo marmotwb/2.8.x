@@ -31,8 +31,6 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Bramus, CodeALot, Luckyluke, Argos';
 $language_license = 'GNU General Public License';
-
-/* MENU */
 $MENU['ACCESS'] = 'Toegang';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Extra&rsquo;s';
@@ -54,8 +52,6 @@ $MENU['START'] = 'Naar het hoofdmenu';
 $MENU['TEMPLATES'] = 'Templates';
 $MENU['USERS'] = 'Gebruikers';
 $MENU['VIEW'] = 'Website';
-
-/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Aanmelden als gebruiker';
 $TEXT['ACTIONS'] = 'Acties';
 $TEXT['ACTIVE'] = 'Actief';
@@ -390,8 +386,6 @@ $TEXT['WRITE'] = 'Schrijf';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG-editor';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG-stijl';
 $TEXT['YES'] = 'Ja';
-
-/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Module voldoet niet aan de eisen';
 $HEADING['ADD_CHILD_PAGE'] = 'Toevoegen subpagina';
 $HEADING['ADD_GROUP'] = 'Toevoegen groep';
@@ -437,8 +431,6 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Verwijderen template';
 $HEADING['UPGRADE_LANGUAGE'] = 'Upgraden/inschakelen taalbestand';
 $HEADING['UPLOAD_FILES'] = 'Uploaden bestanden';
 $HEADING['WBMAILER_SETTINGS'] = 'Mailer-instellingen';
-
-/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Fout tijdens het updaten van de add-onbestanden.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Taalbestanden succesvol herladen';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTIE!</strong> Om veiligheidsredenen dient u de taalbestanden in de folder /languages/ via FTP te uploaden en vervolgens de Upgrade-functie te gebruiken om ze aan het systeem toe te voegen.';
@@ -540,7 +532,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' geupload';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Gebruik van ../ in de map is niet toegestaan';
 $MESSAGE['MEDIA_UPLOADED'] = ' geupload';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Dit formulier is te vaak verstuurd binnen dit uur. Probeert u het over een uur nog eens.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Het verificatienummer (ook wel Captcha genoemd) dat u hebt ingevoerd is incorrect. Als u de Captcha niet goed kunt lezen, stuur dan een e-mail naar: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Het verificatienummer (ook wel Captcha genoemd) dat u hebt ingevoerd is incorrect. Als u de Captcha niet goed kunt lezen, stuur dan een e-mail naar: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'De volgende velden zijn verplicht';
 $MESSAGE['PAGES_ADDED'] = 'Pagina toegevoegd';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Paginatitel opgeslagen';
@@ -633,6 +625,11 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Waarschuwing, de installatiemap bestaat 
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Welkom bij het websitebeheer';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Attentie: om de template aan te passen moet u naar de instellingensectie';
+$MESSAGE['THEME_ALREADY_EXISTS'] = 'This new theme descriptor already exists.';
+$MESSAGE['THEME_COPY_CURRENT'] = 'Copy the current active theme and save it with a new name.';
+$MESSAGE['THEME_DESTINATION_READONLY'] = 'No rights to create new theme directory!';
+$MESSAGE['THEME_IMPORT_HTT'] = 'Import additional templates into the current active theme.<br />Use these templates to overwrite the corresponding default template.';
+$MESSAGE['THEME_INVALID_SOURCE_DESTINATION'] = 'Invalid descriptor for the new theme given!';
 $MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
 $MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
 $MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
@@ -656,8 +653,6 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Het ingevoerde wachtwoord is te kort';
 $MESSAGE['USERS_SAVED'] = 'Gebruiker opgeslagen';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
-
-/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Diverse extra beheerinstellingen.';
 $OVERVIEW['GROUPS'] = 'Beheren van de gebruikersgroepen en hun rechten.';
 $OVERVIEW['HELP'] = 'Uitgebreide hulp voor het gebruik van dit systeem.';
@@ -677,3 +672,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+
