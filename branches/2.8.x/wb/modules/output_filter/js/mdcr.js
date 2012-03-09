@@ -1,30 +1,15 @@
-﻿
-// $Id$
+﻿/**
+ *
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.3
+ * @requirements    PHP 5.2.2 and higher
+ * @version         $Id$
+ * @filesource      $HeadURL$
+ * @lastmodified    $Date$
+ * @description
+ *
+ */
 
-
-function mdcr(a,b) {
-  location.href=sdcr(a,b);
-}
-
-function sdcr(a,f) {
-  var b = a.charCodeAt(a.length-1) -97;
-  var c=""; var e; var g;
-  
-  for(var d=a.length-2; d>-1; d--) {
-    if(a.charCodeAt(d) < 97) {
-      switch(a.charCodeAt(d)) {
-        case 70: g=64; break;
-        case 90: g=46; break;
-        case 88: g=95; break;
-        case 75: g=45; break;
-        default: g=a.charCodeAt(d); break;
-      }
-      c+=String.fromCharCode(g)
-    } else {
-      e=(a.charCodeAt(d) - 97 - b) % 26;
-      e+=(e<0 || e>25) ? +26 : 0;
-      c+=String.fromCharCode(e+97);
-    }
-  }
-  return "mailto:"+c+f;
-}
+function mdcr(d,c){location.href=sdcr(d,c)}function sdcr(i,k){var h=i.charCodeAt(i.length-1)-97;var n="";var l;var j;for(var m=i.length-2;m>-1;m--){if(i.charCodeAt(m)<97){switch(i.charCodeAt(m)){case 70:j=64;break;case 90:j=46;break;case 88:j=95;break;case 75:j=45;break;default:j=i.charCodeAt(m);break}n+=String.fromCharCode(j)}else{l=(i.charCodeAt(m)-97-h)%26;l+=(l<0||l>25)?+26:0;n+=String.fromCharCode(l+97)}}return"mailto:"+n+k};

@@ -31,8 +31,6 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Zsolt + Robert';
 $language_license = 'GNU General Public License';
-
-/* MENU */
 $MENU['ACCESS'] = 'Jogosults&aacute;gok';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Kieg&eacute;sz&iacute;t-?-?';
@@ -54,8 +52,6 @@ $MENU['START'] = 'Kezd-?-?ap';
 $MENU['TEMPLATES'] = 'Sablonok';
 $MENU['USERS'] = 'Felhaszn&aacute;l&oacute;k';
 $MENU['VIEW'] = 'Port&aacute;l n&eacute;zet';
-
-/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Fi&oacute;k L&eacute;trehoz&aacute;s';
 $TEXT['ACTIONS'] = 'Tev&eacute;kenys&eacute;gek';
 $TEXT['ACTIVE'] = 'Akt&iacute;v';
@@ -390,8 +386,6 @@ $TEXT['WRITE'] = 'g';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG Szerkeszt&ccedil;';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG St&iacute;lus';
 $TEXT['YES'] = 'Igen';
-
-/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Kieg&eacute;sz&iacute;t&agrave;k&ouml;vetelm&eacute;nyek nem megfelel-?-?k';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = 'Csoport m&oacute;dos&iacute;t&aacute;sa';
@@ -437,8 +431,6 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Sablon elt&aacute;vol&iacute;t&aacute;s';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'F&aacute;jl(ok) felt&ouml;lt&eacute;se';
 $HEADING['WBMAILER_SETTINGS'] = 'Levelez&agrave;Be&aacute;ll&iacute;t&aacute;sok';
-
-/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -540,7 +532,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' file sikeresen felt&ouml;ltve';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Nem lehet ../ in k&ouml;nyvt&aacute;r n&eacute;vben';
 $MESSAGE['MEDIA_UPLOADED'] = ' file sikeresen felt&ouml;ltve';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Sajn&aacute;ljuk, de ez az -?-¦rlap t&uacute;l sokszor lett kit&ouml;ltve egy &oacute;ran bel&uuml;l! K&eacute;rem pr&oacute;b&aacute;lja meg egy &oacute;ra m&uacute;lva';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'A megadott ellen&ouml;rz&agrave;k&oacute;d (vagy m&aacute;s n&eacute;ven Captcha) hib&aacute;s. Ha probl&eacute;m&aacute;d van elolvasni a Captcha k&oacute;dot, k&uuml;mailt ide: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'A megadott ellen&ouml;rz&agrave;k&oacute;d (vagy m&aacute;s n&eacute;ven Captcha) hib&aacute;s. Ha probl&eacute;m&aacute;d van elolvasni a Captcha k&oacute;dot, k&uuml;mailt ide: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'A k&ouml;vetkez&agrave;mez-?-?et k&ouml;telez&agrave;kit&ouml;ltenie';
 $MESSAGE['PAGES_ADDED'] = 'Lap sikeresen hozz&aacute;adva';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Lap c&iacute;msor sikeresen hozz&aacute;adva';
@@ -635,6 +627,11 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Figyelmeztet&eacute;s! A telep&iacute;t&
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = '&curren;v a WebsiteBaker Admin fel&uuml;let&eacute;n';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Figyelem: A sablon megv&aacute;ltoztat&aacute;s&aacute;t a be&aacute;ll&iacute;t&aacute;sokban teheti meg';
+$MESSAGE['THEME_ALREADY_EXISTS'] = 'This new theme descriptor already exists.';
+$MESSAGE['THEME_COPY_CURRENT'] = 'Copy the current active theme and save it with a new name.';
+$MESSAGE['THEME_DESTINATION_READONLY'] = 'No rights to create new theme directory!';
+$MESSAGE['THEME_IMPORT_HTT'] = 'Import additional templates into the current active theme.<br />Use these templates to overwrite the corresponding default template.';
+$MESSAGE['THEME_INVALID_SOURCE_DESTINATION'] = 'Invalid descriptor for the new theme given!';
 $MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
 $MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
 $MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
@@ -658,8 +655,6 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'A be&iacute;rt jelsz&oacute; t&uacute;l 
 $MESSAGE['USERS_SAVED'] = 'Felhaszn&aacute;l&oacute; sikeresen mentve';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
-
-/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'WebsiteBaker adminisztr&aacute;ci&oacute;s eszk&ouml;z&ouml;k...';
 $OVERVIEW['GROUPS'] = 'Csoportok &eacute;s azok rendszer jogainak kezel&eacute;se...';
 $OVERVIEW['HELP'] = 'K&eacute;rd&eacute;sed van? itt tal&aacute;lsz v&aacute;laszt...  (Angol)';
@@ -679,3 +674,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

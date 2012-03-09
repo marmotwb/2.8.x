@@ -31,8 +31,6 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Atakan KO&Ccedil;';
 $language_license = 'GNU General Public License';
-
-/* MENU */
 $MENU['ACCESS'] = 'Giri&thorn;';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Eklentiler';
@@ -54,8 +52,6 @@ $MENU['START'] = 'Ba&thorn;lat';
 $MENU['TEMPLATES'] = 'Kal&yacute;plar';
 $MENU['USERS'] = 'Kullan&yacute;c&yacute;lar';
 $MENU['VIEW'] = 'G&ouml;r&uuml;nt&uuml;le';
-
-/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Kull&yacute;c&yacute; Kay&yacute;t Ol';
 $TEXT['ACTIONS'] = 'Hareketler';
 $TEXT['ACTIVE'] = 'Aktif';
@@ -390,8 +386,6 @@ $TEXT['WRITE'] = 'Yaz';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG Editor';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG Style';
 $TEXT['YES'] = 'Evet';
-
-/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On requirements not met';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = 'Grup Ekle';
@@ -437,8 +431,6 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Kal&yacute;p Kald&yacute;r';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Dosya Y&uuml;kle';
 $HEADING['WBMAILER_SETTINGS'] = 'Mailer Settings';
-
-/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -540,7 +532,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' Dosya ba&thorn;ar&yacute;l&yacute; bir &th
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Cannot have ../ in the folder target';
 $MESSAGE['MEDIA_UPLOADED'] = ' Dosyalar ba&thorn;ar&yacute;l&yacute; bir &thorn;ekilde y&uuml;klendi';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Sorry, this form has been submitted too many times so far this hour. Please retry in the next hour.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'You must enter details for the following fields';
 $MESSAGE['PAGES_ADDED'] = 'Sayfa, ba&thorn;ar&yacute;l&yacute; bir &thorn;ekilde ekledi';
 $MESSAGE['PAGES_ADDED_HEADING'] = '&Uuml;st sayfa, ba&thorn;ar&yacute;l&yacute; bir &thorn;ekilde ekledi';
@@ -635,6 +627,11 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Uyar&yacute;! Y&uuml;kleme dizini halen 
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Ho&thorn;geldiniz WebsiteBaker Y&ouml;netimine';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Please note: to change the template you must go to the Settings section';
+$MESSAGE['THEME_ALREADY_EXISTS'] = 'This new theme descriptor already exists.';
+$MESSAGE['THEME_COPY_CURRENT'] = 'Copy the current active theme and save it with a new name.';
+$MESSAGE['THEME_DESTINATION_READONLY'] = 'No rights to create new theme directory!';
+$MESSAGE['THEME_IMPORT_HTT'] = 'Import additional templates into the current active theme.<br />Use these templates to overwrite the corresponding default template.';
+$MESSAGE['THEME_INVALID_SOURCE_DESTINATION'] = 'Invalid descriptor for the new theme given!';
 $MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
 $MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
 $MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
@@ -658,8 +655,6 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Girdi&eth;iniz &thorn;ifre k&yacute;sa';
 $MESSAGE['USERS_SAVED'] = 'Kullan&yacute;c&yacute;, ba&thorn;ar&yacute;l&yacute; bir &thorn;ekilde kay&yacute;t edildi';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
-
-/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 $OVERVIEW['GROUPS'] = 'Kullan&yacute;c&yacute; Gruplar&yacute;n&yacute;n &Yacute;zinlerini D&uuml;zenleme...';
 $OVERVIEW['HELP'] = 'Sorular&yacute;n&yacute;z? Cevaplar&yacute;...';
@@ -679,3 +674,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

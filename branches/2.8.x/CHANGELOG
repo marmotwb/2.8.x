@@ -11,7 +11,11 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-29 Feb-2012 Build 1633 Werner v.d.Decken(DarkViper)
+09 Mar-2012 Build 1634 Dietmar Woellbrink (Luisehahne)
+! update language files and rework some core files (read DEVINFOS)
+! compress mdcr.js
++ add DEVINFOS Instructions/Informations for modulecoder
+08 Mar-2012 Build 1633 Werner v.d.Decken(DarkViper)
 # fixed class::methode print_error(...) overwrite in /install/save.php
 02 Mar-2012 Build 1632 Dietmar Woellbrink (Luisehahne)
 ! small design update for wb theme, login und login_forgot

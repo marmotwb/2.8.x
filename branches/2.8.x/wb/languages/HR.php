@@ -31,8 +31,6 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Vedran Presecki';
 $language_license = 'GNU General Public License';
-
-/* MENU */
 $MENU['ACCESS'] = 'Pristup';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Dodaci';
@@ -54,8 +52,6 @@ $MENU['START'] = 'Start';
 $MENU['TEMPLATES'] = 'Predlo&scaron;ci';
 $MENU['USERS'] = 'Korisnici';
 $MENU['VIEW'] = 'Pogled';
-
-/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Logiranje na Account';
 $TEXT['ACTIONS'] = 'Akcije';
 $TEXT['ACTIVE'] = 'Aktivan';
@@ -390,8 +386,6 @@ $TEXT['WRITE'] = 'Pi&scaron;i';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG Editor';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG Style';
 $TEXT['YES'] = 'Da';
-
-/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On requirements not met';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = 'Dodaj grupu';
@@ -437,8 +431,6 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Deinstaliraj predlo&#382;ak';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Nasnimi fileove';
 $HEADING['WBMAILER_SETTINGS'] = 'Mailer Settings';
-
-/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -540,7 +532,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' file je uspje&scaron;no nasnimljen';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Ne mo&#382;e ../ u cilj direktorija';
 $MESSAGE['MEDIA_UPLOADED'] = ' fileovi su supje&scaron;no nasnimljeni';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Ova forma je pregledavana previ&scaron;e puta u jednom satu. Molimo poku&scaron;ajte slijede&aelig;i sat.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Broj provjere (poznat kao Captcha) neto&egrave;no je une&scaron;en. Ako imate problema s &egrave;itanjem Captcha, molimo po&scaron;aljite email: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Broj provjere (poznat kao Captcha) neto&egrave;no je une&scaron;en. Ako imate problema s &egrave;itanjem Captcha, molimo po&scaron;aljite email: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Morate unjeti detaljen podatke u nadoilaze&aelig;a polja';
 $MESSAGE['PAGES_ADDED'] = 'Stranica je uspje&scaron;no dodana';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Zaglavlje stranice uspje&scaron;no je dodano';
@@ -635,6 +627,11 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Upozorenje, instalacijski direktoriji ni
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Dobro do&scaron;li u WebsiteBaker administraciju';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Obavijest: Za promjenu predlo&scaron;ka idite na dio s Postavkama';
+$MESSAGE['THEME_ALREADY_EXISTS'] = 'This new theme descriptor already exists.';
+$MESSAGE['THEME_COPY_CURRENT'] = 'Copy the current active theme and save it with a new name.';
+$MESSAGE['THEME_DESTINATION_READONLY'] = 'No rights to create new theme directory!';
+$MESSAGE['THEME_IMPORT_HTT'] = 'Import additional templates into the current active theme.<br />Use these templates to overwrite the corresponding default template.';
+$MESSAGE['THEME_INVALID_SOURCE_DESTINATION'] = 'Invalid descriptor for the new theme given!';
 $MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
 $MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
 $MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
@@ -658,8 +655,6 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Predlo&#382;ena lozinka je prekratka';
 $MESSAGE['USERS_SAVED'] = 'Korisnik je snimljen uspje&scaron;no';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
-
-/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 $OVERVIEW['GROUPS'] = 'Upravljajte grupama korisnika i njihovim sistemskim dopu&scaron;tenjima.';
 $OVERVIEW['HELP'] = 'Imate pitanje? Prona&eth;ite odgovor...';
@@ -679,3 +674,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

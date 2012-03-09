@@ -31,8 +31,6 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Daniel Neto';
 $language_license = 'GNU General Public License';
-
-/* MENU */
 $MENU['ACCESS'] = 'Acessos';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Add-ons';
@@ -54,8 +52,6 @@ $MENU['START'] = 'In&iacute;cio';
 $MENU['TEMPLATES'] = 'Temas (Templates)';
 $MENU['USERS'] = 'Usu&aacute;rios';
 $MENU['VIEW'] = 'Visualizar';
-
-/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Assinatura de Conta';
 $TEXT['ACTIONS'] = 'A&ccdil;&otilde;es';
 $TEXT['ACTIVE'] = 'Ativo';
@@ -390,8 +386,6 @@ $TEXT['WRITE'] = 'Escrever';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG Editor';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG Style';
 $TEXT['YES'] = 'Sim';
-
-/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On requirements not met';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = 'Adicionar Grupo';
@@ -437,8 +431,6 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Desinstalar Tema (Template)';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Enviar Arquivo(s)';
 $HEADING['WBMAILER_SETTINGS'] = 'Mailer Settings';
-
-/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -540,7 +532,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' arquivo enviado com sucesso';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'N&atilde;o pode possuir ../ na pasta alvo';
 $MESSAGE['MEDIA_UPLOADED'] = ' arquivos enviados com sucesso';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Desculpe, este formul&aacute;rio foi submetido v&aacute;rias vezes nessa hora. Favor tentar novamente dentro de uma hora.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'O N&uacute;mero de Verifica&ccdil;&atilde;o (conhecido como Captcha) que voc&ecirc; entrou, &eacute; inv&aacute;lido. Se estiver tendo problemas usando o Captcha, envie uma mensagem para: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'O N&uacute;mero de Verifica&ccdil;&atilde;o (conhecido como Captcha) que voc&ecirc; entrou, &eacute; inv&aacute;lido. Se estiver tendo problemas usando o Captcha, envie uma mensagem para: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Voc&ecirc; precisa preencher os seguintes campos';
 $MESSAGE['PAGES_ADDED'] = 'P&aacute;gina adicionada com sucesso';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Cabe&ccdil;alho da P&aacute;gina adicionado com sucesso.';
@@ -635,6 +627,11 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Aviso, O diret&oacute;rio "INSTALL" aind
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Bem-Vindo &agrave; Administra&ccdil;&atilde;o do WebsiteBaker';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Aten&ccdil;&atilde;o: para alterar o tema (template) voc&ecirc; precisa ir at&eacute; a sess&atilde;o Configura&ccdil;&otilde;es';
+$MESSAGE['THEME_ALREADY_EXISTS'] = 'This new theme descriptor already exists.';
+$MESSAGE['THEME_COPY_CURRENT'] = 'Copy the current active theme and save it with a new name.';
+$MESSAGE['THEME_DESTINATION_READONLY'] = 'No rights to create new theme directory!';
+$MESSAGE['THEME_IMPORT_HTT'] = 'Import additional templates into the current active theme.<br />Use these templates to overwrite the corresponding default template.';
+$MESSAGE['THEME_INVALID_SOURCE_DESTINATION'] = 'Invalid descriptor for the new theme given!';
 $MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
 $MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
 $MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
@@ -658,8 +655,6 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'A senha fornecida &eacute; curta demais'
 $MESSAGE['USERS_SAVED'] = 'Usu&aacute;rio armazenado com sucesso';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
-
-/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 $OVERVIEW['GROUPS'] = 'Gerencie os grupos de usu&aacute;rios e suas permiss&otilde;es de sistema...';
 $OVERVIEW['HELP'] = 'D&uacute;vidas? Encontre respostas...';
@@ -679,3 +674,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

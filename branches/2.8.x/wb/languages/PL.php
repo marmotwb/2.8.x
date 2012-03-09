@@ -31,8 +31,6 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Marek Stepien;';
 $language_license = 'GNU General Public License';
-
-/* MENU */
 $MENU['ACCESS'] = 'Dostep';
 $MENU['ADDON'] = 'Dodatek';
 $MENU['ADDONS'] = 'Dodatki';
@@ -54,8 +52,6 @@ $MENU['START'] = 'Poczatek';
 $MENU['TEMPLATES'] = 'Szablony';
 $MENU['USERS'] = 'Uzytkownicy';
 $MENU['VIEW'] = 'Podglad';
-
-/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Nowe konto';
 $TEXT['ACTIONS'] = 'Czynnosci';
 $TEXT['ACTIVE'] = 'Aktywne';
@@ -390,8 +386,6 @@ $TEXT['WRITE'] = 'Zapisz';
 $TEXT['WYSIWYG_EDITOR'] = 'Edytor WYSIWYG';
 $TEXT['WYSIWYG_STYLE'] = 'Styl WYSIWYG';
 $TEXT['YES'] = 'Tak';
-
-/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Wymagania dodatku nie zostaly spelnione';
 $HEADING['ADD_CHILD_PAGE'] = 'Dodaj strone dziecko"';
 $HEADING['ADD_GROUP'] = 'Dodaj grupe';
@@ -437,8 +431,6 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Odinstaluj szablon';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Zaladuj plik(i)';
 $HEADING['WBMAILER_SETTINGS'] = 'Ustawienia rozsylania maili';
-
-/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Blad podczas aktualizacji dodatku.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Pomyslnie zainstalowano ponownie pliki jezykowe';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>UWAGA!</strong> Ze wzgledów bezpieczenstwa przeslanie plików jezykowych do folderu /languages/ powinno odbyc sie tylko przez FTP.';
@@ -540,7 +532,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' plik zostal pomyslnie zaladowany';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Folder docelowy nie moze zawierac ../';
 $MESSAGE['MEDIA_UPLOADED'] = ' pliki zostaly pomyslnie zaladowane';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Niestety, ten formularz zostal wyslany zbyt wiele razy w ciagu tej godziny. Prosimy spróbowac ponownie za godzine.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Wprowadzony numer weryfikacyjny (tzw. Captcha) jest nieprawidlowy. Jesli masz problemy z odczytaniem Captcha, napisz do: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Wprowadzony numer weryfikacyjny (tzw. Captcha) jest nieprawidlowy. Jesli masz problemy z odczytaniem Captcha, napisz do: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Nalezy wprowadzic szczególy dla nastepujacych pól';
 $MESSAGE['PAGES_ADDED'] = 'Strona zostala dodana';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Naglówek strony zostal dodany';
@@ -634,6 +626,11 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Uwaga: katalog instalacyjny wciaz istnie
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Witamy w panelu administracyjnym WebsiteBakera';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Uwaga: aby zmienic szablon, nalezy przejsc do sekcji Ustawienia';
+$MESSAGE['THEME_ALREADY_EXISTS'] = 'This new theme descriptor already exists.';
+$MESSAGE['THEME_COPY_CURRENT'] = 'Copy the current active theme and save it with a new name.';
+$MESSAGE['THEME_DESTINATION_READONLY'] = 'No rights to create new theme directory!';
+$MESSAGE['THEME_IMPORT_HTT'] = 'Import additional templates into the current active theme.<br />Use these templates to overwrite the corresponding default template.';
+$MESSAGE['THEME_INVALID_SOURCE_DESTINATION'] = 'Invalid descriptor for the new theme given!';
 $MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
 $MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
 $MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
@@ -657,8 +654,6 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Wprowadzone haslo bylo za krótkie';
 $MESSAGE['USERS_SAVED'] = 'Uzytkownik zostal zapisany';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
-
-/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Narzedzia administracji WebsiteBakera...';
 $OVERVIEW['GROUPS'] = 'Zarzadzaj grupami uzytkowników i ich uprawnieniami systemowymi...';
 $OVERVIEW['HELP'] = 'Masz pytania? Znajdz odpowiedzi...';
@@ -678,3 +673,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

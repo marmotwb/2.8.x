@@ -31,8 +31,6 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Marin Susac';
 $language_license = 'GNU General Public License';
-
-/* MENU */
 $MENU['ACCESS'] = 'Acc&egrave;s';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Extensions';
@@ -54,8 +52,6 @@ $MENU['START'] = 'Accueil';
 $MENU['TEMPLATES'] = 'Th&egrave;mes';
 $MENU['USERS'] = 'Utilisateurs';
 $MENU['VIEW'] = 'Voir le site';
-
-/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Cr&eacute;er un compte';
 $TEXT['ACTIONS'] = 'Actions';
 $TEXT['ACTIVE'] = 'Actif';
@@ -390,8 +386,6 @@ $TEXT['WRITE'] = 'Ecrire';
 $TEXT['WYSIWYG_EDITOR'] = 'Editeur WYSIWYG';
 $TEXT['WYSIWYG_STYLE'] = 'Style WYSIWYG';
 $TEXT['YES'] = 'Oui';
-
-/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Les param&egrave;tres requis de l&apos;extension ne sont pas v&eacute;rifi&eacute;s';
 $HEADING['ADD_CHILD_PAGE'] = 'Ajouter une sous-page';
 $HEADING['ADD_GROUP'] = 'Ajouter un groupe';
@@ -437,8 +431,6 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'D&eacute;sinstaller un th&egrave;me';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Uploader des fichiers';
 $HEADING['WBMAILER_SETTINGS'] = 'R&eacute;glages de l&apos;envoi de mail';
-
-/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -540,7 +532,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = 'Le fichier a &eacute;t&eacute; upload&eacut
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Impossible d&apos;avoir ../ dans le nom du dossier cible';
 $MESSAGE['MEDIA_UPLOADED'] = 'Les fichiers ont &eacute;t&eacute; upload&eacute;s avec succ&egrave;s';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'D&eacute;sol&eacute; mais ce formulaire est utilis&eacute; trop fr&eacute;quemment en ce moment. Afin de nous aider &agrave; lutter contre le spam, merci de r&eacute;essayer plus tard';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Le num&eacute;ro de v&eacute;rification (Captcha) que vous avez entr&eacute; est incorrect. Si vous rencontrez des probl&egrave;mes quant &agrave; la lecture de ce num&eacute;ro, merci d&apos;envoyer un email &agrave; : <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Le num&eacute;ro de v&eacute;rification (Captcha) que vous avez entr&eacute; est incorrect. Si vous rencontrez des probl&egrave;mes quant &agrave; la lecture de ce num&eacute;ro, merci d&apos;envoyer un email &agrave; : <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Vous devez renseigner les champs suivants';
 $MESSAGE['PAGES_ADDED'] = 'Page ajout&eacute;e avec succ&egrave;s';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'L&apos;ent&ecirc;te de la page a &eacute;t&eacute; ajout&eacute; avec succ&egrave;s';
@@ -635,6 +627,11 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Attention : le r&eacute;pertoire d&apos;
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Bienvenue dans la zone d&apos;administration';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Pour modifier le th&egrave;me du site, vous devez vous rendre dans la rubrique R&eacute;glages';
+$MESSAGE['THEME_ALREADY_EXISTS'] = 'This new theme descriptor already exists.';
+$MESSAGE['THEME_COPY_CURRENT'] = 'Copy the current active theme and save it with a new name.';
+$MESSAGE['THEME_DESTINATION_READONLY'] = 'No rights to create new theme directory!';
+$MESSAGE['THEME_IMPORT_HTT'] = 'Import additional templates into the current active theme.<br />Use these templates to overwrite the corresponding default template.';
+$MESSAGE['THEME_INVALID_SOURCE_DESTINATION'] = 'Invalid descriptor for the new theme given!';
 $MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
 $MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
 $MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
@@ -658,8 +655,6 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Le mot de passe est trop court';
 $MESSAGE['USERS_SAVED'] = 'Utilisateur sauvegard&eacute; avec succ&egrave;s';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
-
-/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Acc&egrave;s aux outils d&apos;administration de WebsiteBaker...';
 $OVERVIEW['GROUPS'] = 'Gestions des groupes d&apos;utilisateurs et des permissions';
 $OVERVIEW['HELP'] = 'Aide et FAQ sur l&apos;utilisation du site';
@@ -679,3 +674,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

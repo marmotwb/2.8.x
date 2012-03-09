@@ -31,8 +31,6 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Samuel Mateo, Jr. | samuelmateo.com';
 $language_license = 'GNU General Public License';
-
-/* MENU */
 $MENU['ACCESS'] = 'Acceso';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Add-ons';
@@ -54,8 +52,6 @@ $MENU['START'] = 'Inicio';
 $MENU['TEMPLATES'] = 'Plantillas';
 $MENU['USERS'] = 'Usuarios';
 $MENU['VIEW'] = 'Vista Preliminar';
-
-/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Abrir Cuenta';
 $TEXT['ACTIONS'] = 'Acciones';
 $TEXT['ACTIVE'] = 'Activo';
@@ -390,8 +386,6 @@ $TEXT['WRITE'] = 'Escritura';
 $TEXT['WYSIWYG_EDITOR'] = 'Editor WYSIWYG';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG';
 $TEXT['YES'] = 'Si';
-
-/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On requirements not met';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = 'Agregar Grupo';
@@ -437,8 +431,6 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Desinstalar Plantilla';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Subir Archivo(s)';
 $HEADING['WBMAILER_SETTINGS'] = 'Mailer Settings';
-
-/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -540,7 +532,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' archivo recibido correctamente';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'No puede tener ../ en el nombre de carpeta';
 $MESSAGE['MEDIA_UPLOADED'] = ' archivos recibidos correctamente';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Disculpe este formulario ha sido enviado demasiadas veces seguidas. Vuelva a intentarlo en una hora.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'El n&uacute;mero de verificaci&oacute;n que ha introducido es incorrecto. Si est&aacute;s teniendo problemas ley&eacute;ndolo, por favor, env&iacute;e un e-mail a: <a href="mailto:'.SERVER_EMAIL.'">'.SERVER_EMAIL.'</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'El n&uacute;mero de verificaci&oacute;n que ha introducido es incorrecto. Si est&aacute;s teniendo problemas ley&eacute;ndolo, por favor, env&iacute;e un e-mail a: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Debe completar los siguiente campos';
 $MESSAGE['PAGES_ADDED'] = 'P&aacute;gina agregada';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Encabezado de P&aacute;gina agregado';
@@ -635,6 +627,11 @@ $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'El directorio de instalaci&oacute;n toda
 $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'] = 'Please delete the file "upgrade-script.php" from your webspace.';
 $MESSAGE['START_WELCOME_MESSAGE'] = 'Bienvenido a la consola de Administraci&oacute;n';
 $MESSAGE['TEMPLATES_CHANGE_TEMPLATE_NOTICE'] = 'Atenci&oacute;n: para cambiar la plantilla ir a la secci&oacute;n de Configuraci&oacute;n';
+$MESSAGE['THEME_ALREADY_EXISTS'] = 'This new theme descriptor already exists.';
+$MESSAGE['THEME_COPY_CURRENT'] = 'Copy the current active theme and save it with a new name.';
+$MESSAGE['THEME_DESTINATION_READONLY'] = 'No rights to create new theme directory!';
+$MESSAGE['THEME_IMPORT_HTT'] = 'Import additional templates into the current active theme.<br />Use these templates to overwrite the corresponding default template.';
+$MESSAGE['THEME_INVALID_SOURCE_DESTINATION'] = 'Invalid descriptor for the new theme given!';
 $MESSAGE['UNKNOW_UPLOAD_ERROR'] = 'Unknown upload error';
 $MESSAGE['UPLOAD_ERR_CANT_WRITE'] = 'Failed to write file to disk';
 $MESSAGE['UPLOAD_ERR_EXTENSION'] = 'File upload stopped by extension';
@@ -658,8 +655,6 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Contrase&ntilde;a muy corta';
 $MESSAGE['USERS_SAVED'] = 'Usuario guardado';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
-
-/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 $OVERVIEW['GROUPS'] = 'Administrar groups de usuarios y sus permisos...';
 $OVERVIEW['HELP'] = 'Respuestas a tus preguntas...';
@@ -679,3 +674,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

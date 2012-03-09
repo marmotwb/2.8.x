@@ -40,31 +40,33 @@ if (!$wb->checkFTAN())
 */
 // Check values
 if($groups_id == "") {
-	$wb->print_error($MESSAGE['USERS']['NO_GROUP'], $js_back, false);
+	$wb->print_error($MESSAGE['USERS_NO_GROUP'], $js_back, false);
 }
-if(!preg_match('/^[a-z]{1}[a-z0-9_-]{2,}$/i', $username)) {
+if(!preg_match('/^[a-z]{1}[a-z0-9._-]{2,}$/i', $username)) {
 	$wb->print_error( $MESSAGE['USERS_NAME_INVALID_CHARS'].' / '.
 	                  $MESSAGE['USERS_USERNAME_TOO_SHORT'], $js_back);
 }
 if($email != "") {
 	if($wb->validate_email($email) == false) {
-		$wb->print_error($MESSAGE['USERS']['INVALID_EMAIL'], $js_back, false);
+		$wb->print_error($MESSAGE['USERS_INVALID_EMAIL'], $js_back, false);
 	}
 } else {
-	$wb->print_error($MESSAGE['SIGNUP']['NO_EMAIL'], $js_back, false);
+	$wb->print_error($MESSAGE['SIGNUP_NO_EMAIL'], $js_back, false);
 }
 
 $email = $wb->add_slashes($email);
-
+$search = array('{SERVER_EMAIL}');
+$replace = array( SERVER_EMAIL);
 // Captcha
 if(ENABLED_CAPTCHA) {
+	$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = str_replace($search,$replace,$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA']);
 	if(isset($_POST['captcha']) AND $_POST['captcha'] != ''){
 		// Check for a mismatch
 		if(!isset($_POST['captcha']) OR !isset($_SESSION['captcha']) OR $_POST['captcha'] != $_SESSION['captcha']) {
-			$wb->print_error($MESSAGE['MOD_FORM']['INCORRECT_CAPTCHA'], $js_back, false);
+			$wb->print_error($MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'], $js_back, false);
 		}
 	} else {
-		$wb->print_error($MESSAGE['MOD_FORM']['INCORRECT_CAPTCHA'], $js_back, false);
+		$wb->print_error($MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'], $js_back, false);
 	}
 }
 if(isset($_SESSION['captcha'])) { unset($_SESSION['captcha']); }
@@ -85,16 +87,16 @@ $md5_password = md5($new_pass);
 // Check if username already exists
 $results = $database->query("SELECT user_id FROM ".TABLE_PREFIX."users WHERE username = '$username'");
 if($results->numRows() > 0) {
-	$wb->print_error($MESSAGE['USERS']['USERNAME_TAKEN'], $js_back, false);
+	$wb->print_error($MESSAGE['USERS_USERNAME_TAKEN'], $js_back, false);
 }
 
 // Check if the email already exists
 $results = $database->query("SELECT user_id FROM ".TABLE_PREFIX."users WHERE email = '".$wb->add_slashes($email)."'");
 if($results->numRows() > 0) {
-	if(isset($MESSAGE['USERS']['EMAIL_TAKEN'])) {
-		$wb->print_error($MESSAGE['USERS']['EMAIL_TAKEN'], $js_back, false);
+	if(isset($MESSAGE['USERS_EMAIL_TAKEN'])) {
+		$wb->print_error($MESSAGE['USERS_EMAIL_TAKEN'], $js_back, false);
 	} else {
-		$wb->print_error($MESSAGE['USERS']['INVALID_EMAIL'], $js_back, false);
+		$wb->print_error($MESSAGE['USERS_INVALID_EMAIL'], $js_back, false);
 	}
 }
 
@@ -116,15 +118,15 @@ if($database->is_error()) {
 	// Replace placeholders from language variable with values
 	$search = array('{LOGIN_DISPLAY_NAME}', '{LOGIN_WEBSITE_TITLE}', '{LOGIN_NAME}', '{LOGIN_PASSWORD}');
 	$replace = array($display_name, WEBSITE_TITLE, $username, $new_pass); 
-	$mail_message = str_replace($search, $replace, $MESSAGE['SIGNUP2']['BODY_LOGIN_INFO']);
+	$mail_message = str_replace($search, $replace, $MESSAGE['SIGNUP2_BODY_LOGIN_INFO']);
 
 	// Try sending the email
 	if($wb->mail(SERVER_EMAIL,$mail_to,$mail_subject,$mail_message)) {
 		$display_form = false;
-		$wb->print_success($MESSAGE['FORGOT_PASS']['PASSWORD_RESET'], WB_URL.'/account/login.php' );
+		$wb->print_success($MESSAGE['FORGOT_PASS_PASSWORD_RESET'], WB_URL.'/account/login.php' );
 	} else {
 		$database->query("DELETE FROM ".TABLE_PREFIX."users WHERE username = '$username'");
-		$wb->print_error($MESSAGE['FORGOT_PASS']['CANNOT_EMAIL'], $js_back, false);
+		$wb->print_error($MESSAGE['FORGOT_PASS_CANNOT_EMAIL'], $js_back, false);
 	}
 }
 
