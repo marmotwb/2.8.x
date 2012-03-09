@@ -326,6 +326,14 @@ $TEXT['TEXT'] = '&#1058;&#1077;&#1082;&#1089;&#1090;';
 $TEXT['TEXTAREA'] = '&#1058;&#1077;&#1082;&#1089;&#1090;&#1086;&#1074;&#1086; &#1087;&#1088;&#1086;&#1089;&#1090;&#1088;&#1072;&#1085;&#1089;&#1090;&#1074;&#1086;';
 $TEXT['TEXTFIELD'] = '&#1058;&#1077;&#1082;&#1089;&#1090;&#1086;&#1074;&#1086; &#1087;&#1086;&#1083;&#1077;';
 $TEXT['THEME'] = 'Backend-Theme';
+$TEXT['THEME_COPY_CURRENT'] = 'Copy backend theme.';
+$TEXT['THEME_CURRENT'] = 'current active theme';
+$TEXT['THEME_IMPORT_HTT'] = 'Import additional templates';
+$TEXT['THEME_NEW_NAME'] = 'Name of the new Theme';
+$TEXT['THEME_NOMORE_HTT'] = 'no more available';
+$TEXT['THEME_SELECT_HTT'] = 'select templates';
+$TEXT['THEME_START_COPY'] = 'copy';
+$TEXT['THEME_START_IMPORT'] = 'import';
 $TEXT['TIME'] = '&#1063;&#1072;&#1089;';
 $TEXT['TIMEZONE'] = '&#1042;&#1088;&#1077;&#1084;&#1077;&#1074;&#1072; &#1079;&#1086;&#1085;&#1072;';
 $TEXT['TIME_FORMAT'] = '&#1060;&#1086;&#1088;&#1084;&#1072;&#1090; &#1074;&#1088;&#1077;&#1084;&#1077;';
@@ -674,4 +682,3 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
-

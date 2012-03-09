@@ -326,6 +326,14 @@ $TEXT['TEXT'] = 'Text';
 $TEXT['TEXTAREA'] = 'Vstupn&iacute; pole';
 $TEXT['TEXTFIELD'] = 'Vstupn&iacute; &#345;&aacute;dek';
 $TEXT['THEME'] = 'Backend-Theme';
+$TEXT['THEME_COPY_CURRENT'] = 'Copy backend theme.';
+$TEXT['THEME_CURRENT'] = 'current active theme';
+$TEXT['THEME_IMPORT_HTT'] = 'Import additional templates';
+$TEXT['THEME_NEW_NAME'] = 'Name of the new Theme';
+$TEXT['THEME_NOMORE_HTT'] = 'no more available';
+$TEXT['THEME_SELECT_HTT'] = 'select templates';
+$TEXT['THEME_START_COPY'] = 'copy';
+$TEXT['THEME_START_IMPORT'] = 'import';
 $TEXT['TIME'] = '&#268;as';
 $TEXT['TIMEZONE'] = '&#268;asov&eacute; p&aacute;smo';
 $TEXT['TIME_FORMAT'] = 'Form&aacute;t &#269;asu';
@@ -674,4 +682,3 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
-
