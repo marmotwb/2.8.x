@@ -327,6 +327,14 @@ $TEXT['TEXT'] = 'Text';
 $TEXT['TEXTAREA'] = 'Langtext';
 $TEXT['TEXTFIELD'] = 'Kurztext';
 $TEXT['THEME'] = 'Backend-Theme';
+$TEXT['THEME_COPY_CURRENT'] = 'Backend-Theme kopieren.';
+$TEXT['THEME_CURRENT'] = 'aktuelles Theme';
+$TEXT['THEME_IMPORT_HTT'] = 'Templatefiles importieren';
+$TEXT['THEME_NEW_NAME'] = 'Name des neuen Themes';
+$TEXT['THEME_NOMORE_HTT'] = 'keine weiteren vorhanden';
+$TEXT['THEME_SELECT_HTT'] = 'Templatefiles ausw&auml;hlen';
+$TEXT['THEME_START_COPY'] = 'kopieren';
+$TEXT['THEME_START_IMPORT'] = 'importieren';
 $TEXT['TIME'] = 'Zeit';
 $TEXT['TIMEZONE'] = 'Zeitzone';
 $TEXT['TIME_FORMAT'] = 'Zeitformat';
@@ -671,4 +679,3 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
-
