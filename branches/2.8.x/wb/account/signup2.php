@@ -42,7 +42,7 @@ if (!$wb->checkFTAN())
 if($groups_id == "") {
 	$wb->print_error($MESSAGE['USERS_NO_GROUP'], $js_back, false);
 }
-if(!preg_match('/^[a-z]{1}[a-z0-9._-]{2,}$/i', $username)) {
+if(!preg_match('/^[a-z]{1}[a-z0-9_-]{2,}$/i', $username)) {
 	$wb->print_error( $MESSAGE['USERS_NAME_INVALID_CHARS'].' / '.
 	                  $MESSAGE['USERS_USERNAME_TOO_SHORT'], $js_back);
 }
@@ -113,7 +113,7 @@ if($database->is_error()) {
 } else {
 	// Setup email to send
 	$mail_to = $email;
-	$mail_subject = $MESSAGE['SIGNUP2']['SUBJECT_LOGIN_INFO'];
+	$mail_subject = $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'];
 
 	// Replace placeholders from language variable with values
 	$search = array('{LOGIN_DISPLAY_NAME}', '{LOGIN_WEBSITE_TITLE}', '{LOGIN_NAME}', '{LOGIN_PASSWORD}');
