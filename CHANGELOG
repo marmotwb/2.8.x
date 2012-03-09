@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+
+09 Mar-2012 Build 1635 Dietmar Woellbrink (Luisehahne)
+! fallback signuo2.php revision 1633
 09 Mar-2012 Build 1634 Dietmar Woellbrink (Luisehahne)
 ! update language files and rework some core files (read DEVINFOS)
 ! compress mdcr.js
