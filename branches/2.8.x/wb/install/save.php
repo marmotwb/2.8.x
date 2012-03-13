@@ -291,14 +291,10 @@ $config_content = "" .
 "define('DB_PASSWORD', '$database_password');\n".
 "define('TABLE_PREFIX', '$table_prefix');\n".
 "\n".
-"define('WB_PATH', dirname(__FILE__));\n".
 "define('WB_URL', '$wb_url');\n".
-"define('ADMIN_PATH', WB_PATH.'/admin');\n".
-"define('ADMIN_URL', WB_URL.'/admin');\n".
 "\n".
-"require_once(WB_PATH.'/framework/initialize.php');\n".
-"\n".
-"";
+"require_once(dirname(__FILE__).'/framework/initialize.php');\n".
+"\n";
 
 $config_filename = '../config.php';
 // Check if the file exists and is writable first.

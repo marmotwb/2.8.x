@@ -12,6 +12,8 @@ Legend:
 ===============================================================================
 
 
+13 Mar-2012 Build 1637 Werner v.d.Decken(DarkViper)
+! made handling of config.php a little bit more easy
 09 Mar-2012 Build 1636 Dietmar Woellbrink (Luisehahne)
 + add missing language variables for the theme handling
 09 Mar-2012 Build 1635 Dietmar Woellbrink (Luisehahne)
