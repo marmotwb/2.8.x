@@ -292,6 +292,7 @@ $config_content = "" .
 "define('TABLE_PREFIX', '$table_prefix');\n".
 "\n".
 "define('WB_URL', '$wb_url');\n".
+"define('ADMIN_DIRECTORY', 'admin'); // no leading/trailing slash or backslash!! A simple directory only!!\n".
 "\n".
 "require_once(dirname(__FILE__).'/framework/initialize.php');\n".
 "\n";

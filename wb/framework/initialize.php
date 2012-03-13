@@ -50,9 +50,14 @@ if(!defined('WB_URL')) { throw new IllegalFileException(); }
 		$_SERVER['HTTP_REFERER'] = $sTmpReferer;
 	}
 
-if( !defined('ADMIN_URL')) { define('ADMIN_URL', WB_URL.'/admin'); }
+if( !defined('ADMIN_DIRECTORY')) { define('ADMIN_DIRECTORY', 'admin'); }
+if(!preg_match('/xx[a-z0-9_][a-z0-9_\-\.]+/i', 'xx'.ADMIN_DIRECTORY)) {
+	throw new RuntimeException('Invalid admin-directory: ' . ADMIN_DIRECTORY);
+}
+
+if( !defined('ADMIN_URL')) { define('ADMIN_URL', WB_URL.'/'.ADMIN_DIRECTORY); }
 if( !defined('WB_PATH')) { define('WB_PATH', dirname(dirname(__FILE__))); }
-if( !defined('ADMIN_PATH')) { define('ADMIN_PATH', WB_PATH.'/admin'); }
+if( !defined('ADMIN_PATH')) { define('ADMIN_PATH', WB_PATH.'/'.ADMIN_DIRECTORY); }
 
 if (file_exists(WB_PATH.'/framework/class.database.php')) {
 	// sanitize $_SERVER['HTTP_REFERER']

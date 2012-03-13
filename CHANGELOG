@@ -12,6 +12,8 @@ Legend:
 ===============================================================================
 
 
+14 Mar-2012 Build 1638 Werner v.d.Decken(DarkViper)
++ config.php added define to set admin-directory
 13 Mar-2012 Build 1637 Werner v.d.Decken(DarkViper)
 ! made handling of config.php a little bit more easy
 09 Mar-2012 Build 1636 Dietmar Woellbrink (Luisehahne)
