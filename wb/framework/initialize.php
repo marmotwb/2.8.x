@@ -19,7 +19,7 @@
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
 require_once(dirname(__FILE__).'/globalExceptionHandler.php');
-if(!defined('WB_PATH')) { throw new IllegalFileException(); }
+if(!defined('WB_URL')) { throw new IllegalFileException(); }
 /* -------------------------------------------------------- */
 /**
  * sanitize $_SERVER['HTTP_REFERER']
@@ -50,6 +50,9 @@ if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 		$_SERVER['HTTP_REFERER'] = $sTmpReferer;
 	}
 
+if( !defined('ADMIN_URL')) { define('ADMIN_URL', WB_URL.'/admin'); }
+if( !defined('WB_PATH')) { define('WB_PATH', dirname(dirname(__FILE__))); }
+if( !defined('ADMIN_PATH')) { define('ADMIN_PATH', WB_PATH.'/admin'); }
 
 if (file_exists(WB_PATH.'/framework/class.database.php')) {
 	// sanitize $_SERVER['HTTP_REFERER']
