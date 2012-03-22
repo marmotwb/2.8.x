@@ -30,11 +30,12 @@ $template->set_var('FTAN', $admin->getFTAN());
 
 // Insert values into template list
 $template->set_block('main_block', 'template_list_block', 'template_list');
-$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'template' order by name");
-if($result->numRows() > 0) {
-	while($addon = $result->fetchRow()) {
+$sql = 'SELECT `directory`, `name`, `function` FROM `'.TABLE_PREFIX.'addons` '
+     . 'WHERE `type`=\'template\' ORDER BY `name`';
+if(($result = $database->query($sql))) {
+	while($addon = $result->fetchRow(MYSQL_ASSOC)) {
 		$template->set_var('VALUE', $addon['directory']);
-		$template->set_var('NAME', $addon['name']);
+		$template->set_var('NAME', (($addon['function'] == 'theme' ? '[Theme] ' : '').$addon['name']));
 		$template->parse('template_list', 'template_list_block', true);
 	}
 }

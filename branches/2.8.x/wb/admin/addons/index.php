@@ -46,14 +46,14 @@ $template->set_block('main_block', "reload_block", "reload");
  *	Obsolete as we are using blocks ... see "parsing the blocks" section
  */
 $display_none = "style=\"display: none;\"";
-if($admin->get_permission('modules') != true) 	$template->set_var('DISPLAY_MODULES', $display_none);	
-if($admin->get_permission('templates') != true)	$template->set_var('DISPLAY_TEMPLATES', $display_none);
-if($admin->get_permission('languages') != true)	$template->set_var('DISPLAY_LANGUAGES', $display_none);
-if($admin->get_permission('admintools') != true)	$template->set_var('DISPLAY_ADVANCED', $display_none);
+if($admin->get_permission('modules') != true) {	$template->set_var('DISPLAY_MODULES', $display_none); }
+if($admin->get_permission('templates') != true) { $template->set_var('DISPLAY_TEMPLATES', $display_none); }
+if($admin->get_permission('languages') != true) { $template->set_var('DISPLAY_LANGUAGES', $display_none); }
+if($admin->get_permission('admintools') != true) { $template->set_var('DISPLAY_ADVANCED', $display_none); }
 
-if(!isset($_GET['advanced']) || $admin->get_permission('admintools') != true)
+if(!isset($_GET['advanced']) || $admin->get_permission('admintools') != true) {
 	$template->set_var('DISPLAY_RELOAD', $display_none);
-
+}
 /**
  *	Insert section names and descriptions
  */
@@ -80,10 +80,50 @@ $template->set_var(array(
 /**
  *	Parsing the blocks ...
  */
-if ( $admin->get_permission('modules') == true) $template->parse('main_block', "modules_block", true);
-if ( $admin->get_permission('templates') == true) $template->parse('main_block', "templates_block", true);
-if ( $admin->get_permission('languages') == true) $template->parse('main_block', "languages_block", true);
-if ( isset($_GET['advanced']) AND $admin->get_permission('admintools') == true) $template->parse('main_block', "reload_block", true);
+if ( $admin->get_permission('modules') == true) { $template->parse('main_block', "modules_block", true); }
+if ( $admin->get_permission('templates') == true) { $template->parse('main_block', "templates_block", true); }
+if ( $admin->get_permission('languages') == true) { $template->parse('main_block', "languages_block", true); }
+// start advanced block
+if ( isset($_GET['advanced']) AND $admin->get_permission('admintools') == true) {
+	$template->set_var(array(
+		'TXT_THEME_COPY_CURRENT'  => $TEXT['THEME_COPY_CURRENT'],
+		'TXT_THEME_NEW_NAME'      => $TEXT['THEME_NEW_NAME'],
+		'TXT_THEME_CURRENT'       => $TEXT['THEME_CURRENT'],
+		'TXT_THEME_START_COPY'    => $TEXT['THEME_START_COPY'],
+		'TXT_THEME_IMPORT_HTT'    => $TEXT['THEME_IMPORT_HTT'],
+		'TXT_THEME_SELECT_HTT'    => $TEXT['THEME_SELECT_HTT'],
+		'TXT_THEME_NOMORE_HTT'    => $TEXT['THEME_NOMORE_HTT'],
+		'TXT_THEME_START_IMPORT'  => $TEXT['THEME_START_IMPORT'],
+		'MESSAGE_THEME_COPY_CURRENT'               => $MESSAGE['THEME_COPY_CURRENT'],
+		'MESSAGE_THEME_ALREADY_EXISTS'             => $MESSAGE['THEME_ALREADY_EXISTS'],
+		'MESSAGE_THEME_INVALID_SOURCE_DESTINATION' => $MESSAGE['THEME_INVALID_SOURCE_DESTINATION'],
+		'MESSAGE_THEME_DESTINATION_READONLY'       => $MESSAGE['THEME_DESTINATION_READONLY'],
+		'MESSAGE_THEME_IMPORT_HTT'                 => $MESSAGE['THEME_IMPORT_HTT'],
+		)
+	);
+// start copy current theme
+	$sql = 'SELECT `name` FROM `'.TABLE_PREFIX.'addons` '
+		 . 'WHERE `directory`=\''.DEFAULT_THEME.'\' AND `function`=\'theme\'';
+	$tmp = $database->get_one($sql);
+	$template->set_var('THEME_DEFAULT_NAME', $tmp);
+// end copy current theme
+// start template import
+	include(dirname(__FILE__).'/CopyThemeHtt.php');
+	$aTplList = CopyThemeHtt::getDivList(ADMIN_PATH.'/themes/templates',
+	                                     THEME_PATH.'/templates', 'htt');
+	$sOptionList = '';
+	if(sizeof($aTplList)) {
+		foreach($aTplList as $key=>$val) {
+			$sOptionList .= '<option value="'.$val.'">'.$key.'</option>'."\n";
+		}
+	}else {
+		$sOptionList = '<option value="none">'.$TEXT['THEME_NOMORE_HTT'].'</option>'."\n";
+	}
+	$template->set_var('THEME_TEMPLATE_LIST', $sOptionList);
+// end template import
+	$template->parse('main_block', "reload_block", true);
+}
+// end advanced block
 
 /**
  *	Parse template object
@@ -95,5 +135,3 @@ $template->pparse('output', 'page');
  *	Print admin footer
  */
 $admin->print_footer();
-
-?>

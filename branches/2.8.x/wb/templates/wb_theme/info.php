@@ -35,3 +35,4 @@ $template_license_terms		= '-';
 $template_description		= 'Default backend theme for Website Baker 2.8.';
 
 ?>
+

@@ -11,7 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-
+22 Mar-2012 Build 1643 Werner v.d.Decken(DarkViper)
++ added backend functions to copy themes and import htt-template files
+  according to the the new theme fallback functionality
 22 Mar-2012 Build 1642 Dietmar Woellbrink (Luisehahne)
 ! update header info.php wb_themes
 22 Mar-2012 Build 1641 Dietmar Woellbrink (Luisehahne)
