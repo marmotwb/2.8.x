@@ -56,6 +56,7 @@ $dirRemove = array(
 			'[TEMPLATE]/round/',
 			'[TEMPLATE]/simple/',
 */
+			'[ADMIN]/themes/',
 		 );
 
 $filesRemove['0'] = array(
@@ -99,7 +100,6 @@ $filesRemove['1'] = array(
 			'[TEMPLATE]/argos_theme/templates/users.htt',
 			'[TEMPLATE]/argos_theme/templates/users_form.htt',
 
-/*
 			'[TEMPLATE]/wb_theme/templates/access.htt',
 			'[TEMPLATE]/wb_theme/templates/addons.htt',
 			'[TEMPLATE]/wb_theme/templates/admintools.htt',
@@ -109,8 +109,10 @@ $filesRemove['1'] = array(
 			'[TEMPLATE]/wb_theme/templates/languages.htt',
 			'[TEMPLATE]/wb_theme/templates/languages_details.htt',
 
+/*
 			'[TEMPLATE]/wb_theme/templates/login.htt',
 			'[TEMPLATE]/wb_theme/templates/login_forgot.htt',
+*/
 
 			'[TEMPLATE]/wb_theme/templates/media.htt',
 			'[TEMPLATE]/wb_theme/templates/media_browse.htt',
@@ -130,7 +132,6 @@ $filesRemove['1'] = array(
 			'[TEMPLATE]/wb_theme/templates/templates_details.htt',
 			'[TEMPLATE]/wb_theme/templates/users.htt',
 			'[TEMPLATE]/wb_theme/templates/users_form.htt',
-*/
 		 );
 
 // analyze/check database tables
@@ -597,14 +598,14 @@ if (version_compare(WB_VERSION, '2.8', '<'))
 			$dir = WB_PATH.'/'.$dir;
 			if( is_dir( $dir )) {
 			// try to delete dir
-				if(!rm_full_dir($dir)) {
+				if(!is_writable( $dir ) || !rm_full_dir($dir)) {
 				// save in err-list, if failed
-					$msg .= $dir.'<br />';
+					$msg .= str_replace(WB_PATH,'',$dir).'<br />';
 				}
 			}
 		}
 		if($msg != '') {
-			$msg = '<br /><br />Following files are deprecated, outdated or a security risk and
+			$msg = '<br /><br />Following directories are deprecated, outdated or a security risk and
 					can not be removed automatically.<br /><br />Please delete them
 					using FTP and restart upgrade-script!<br /><br />'.$msg.'<br />';
 			status_msg($msg, 'error warning', 'div');

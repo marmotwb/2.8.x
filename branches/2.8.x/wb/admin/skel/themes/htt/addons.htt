@@ -34,25 +34,48 @@
 			</table>
 			<!-- END languages_block -->
 			<!-- BEGIN reload_block -->
-			<table summary="" cellpadding="0" cellspacing="0" border="0" class="section" {DISPLAY_RELOAD} >
-				<tr>
-					<td class="graphic" align="center" valign="middle" rowspan="2"><img src="{THEME_URL}/icons/admintools.png" alt="{TXT_ADMIN_SETTINGS}" /> </td>
-					<td class="description" valign="top"><span class="title">{TXT_ADMIN_SETTINGS}</span>
-						<form action="{RELOAD_URL}" method="post">
-						{FTAN}
+			<form name="frmReloads" action="{RELOAD_URL}" method="post">
+				{FTAN}
+				<table summary="" cellpadding="0" cellspacing="0" border="0" class="section" {DISPLAY_RELOAD} >
+					<tr>
+						<td class="graphic" align="center" valign="top" rowspan="3"><img src="{THEME_URL}/icons/admintools.png" alt="{TXT_ADMIN_SETTINGS}" /> </td>
+						<td class="description" valign="top"><span class="title">{TXT_ADMIN_SETTINGS}</span>
 							{MESSAGE_RELOAD_ADDONS}
 							<br style="margin-bottom: 0.5em" />
-							<input {DISPLAY_MODULES} type="checkbox" name="reload_modules" id="reload_modules" value="true" />
+							<input {DISPLAY_MODULES} type="checkbox" id="reload_modules" name="reload[]" value="modules" />
 							<label {DISPLAY_MODULES} for="reload_modules">{MODULES}</label>
-							<input {DISPLAY_TEMPLATES} type="checkbox" name="reload_templates" id="reload_templates" value="true" />
+							<input {DISPLAY_TEMPLATES} type="checkbox" id="reload_templates" name="reload[]" value="templates" />
 							<label {DISPLAY_TEMPLATES} for="reload_templates">{TEMPLATES}</label>
-							<input {DISPLAY_LANGUAGES} type="checkbox" name="reload_languages" id="reload_languages" value="true" />
+							<input {DISPLAY_LANGUAGES} type="checkbox" id="reload_languages" name="reload[]" value="languages" />
 							<label {DISPLAY_LANGUAGES} for="reload_languages">{LANGUAGES}</label>
-							<input type="submit" name="submit" value="{TEXT_RELOAD}" />
-						</form>
-					</td>
-				</tr>
-			</table>
+							<input type="submit" name="cmdReload" value="{TEXT_RELOAD}" />
+						</td>
+					</tr>
+					<tr>
+						<td class="description" valign="top"><span class="title">{TXT_THEME_COPY_CURRENT}</span>
+							{TXT_THEME_CURRENT}: {CURRENT_THEME}<br />
+							{MESSAGE_THEME_COPY_CURRENT}
+							<br style="margin-bottom: 0.5em" />
+							<input type="text" id="theme_newname" name="ThNewTheme" value="{THEME_DEFAULT_NAME}" />
+							<label for="theme_newname">{TXT_THEME_NEW_NAME}</label>
+							<input type="submit" name="cmdCopyTheme" value="{TXT_THEME_START_COPY}" />
+						</td>
+					</tr>
+					<tr>
+						<td class="description" valign="top"><span class="title">{TXT_THEME_IMPORT_HTT}</span>
+							{TXT_THEME_CURRENT}: {CURRENT_THEME}<br />
+							{MESSAGE_THEME_IMPORT_HTT}
+							<br style="margin-bottom: 0.5em" />
+							<label for="theme_template">{TXT_THEME_SELECT_HTT}</label><br />
+							<select id="theme_template" name="ThTemplate[]" size="10" multiple="multiple" style="min-width: 300px;" >
+								{THEME_TEMPLATE_LIST}
+							</select>
+							<input type="submit" name="cmdCopyTemplate" value="{TXT_THEME_START_IMPORT}" /><br />
+							<br style="margin-bottom: 0.5em" />
+						</td>
+					</tr>
+				</table>
+			</form>
 			<!-- END reload_block -->
 		</td>
 	</tr>
