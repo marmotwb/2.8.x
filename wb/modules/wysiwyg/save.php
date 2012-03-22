@@ -33,7 +33,7 @@ $admin->print_header();
 
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
-
+$aErrors = array();
 $sMediaUrl = WB_URL.MEDIA_DIRECTORY;
 // Update the mod_wysiwygs table with the contents
 if(isset($_POST['content'.$section_id])) {
@@ -50,7 +50,11 @@ if(isset($_POST['content'.$section_id])) {
 	$sql  = 'UPDATE `'.TABLE_PREFIX.'mod_wysiwyg` ';
 	$sql .= 'SET `content`=\''.$content.'\', `text`=\''.$text.'\' ';
 	$sql .= 'WHERE `section_id`='.(int)$section_id;
-	$database->query($sql);
+	if(!$database->query($sql)){
+		$aErrors[] = $MESSAGE['GENERIC_NOT_UPGRADED'].((defined('DEBUG') && DEBUG) ? '<br />'.$database->get_error() : '');
+	}
+} else {
+	$aErrors[] = $MESSAGE['GENERIC_NOT_UPGRADED'].((defined('DEBUG') && DEBUG) ? '<br />'.$MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] : '');
 }
 
 $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
@@ -61,10 +65,10 @@ if(defined('EDIT_ONE_SECTION') and EDIT_ONE_SECTION){
 }
 
 // Check if there is a database error, otherwise say successful
-if($database->is_error()) {
-	$admin->print_error($database->get_error(), $js_back);
+if(sizeof($aErrors) ) {
+	$admin->print_error( implode('<br />',$aErrors), $edit_page);
 } else {
-	$admin->print_success($MESSAGE['PAGES_SAVED'], $edit_page );
+	$admin->print_success($MESSAGE['GENERIC_UPGRADED'], $edit_page );
 }
 
 // Print admin footer

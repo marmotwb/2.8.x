@@ -31,24 +31,17 @@ if ( ($content = $database->get_one($sql)) ) {
 }else {
 	$content = '';
 }
-if(!isset($wysiwyg_editor_loaded)) {
-	$wysiwyg_editor_loaded=true;
 
-	if (!defined('WYSIWYG_EDITOR') OR WYSIWYG_EDITOR=="none" OR !file_exists(WB_PATH.'/modules/'.WYSIWYG_EDITOR.'/include.php')) {
-		function show_wysiwyg_editor($name,$id,$content,$width,$height) {
+if(!function_exists('show_wysiwyg_editor'))
+{
+	if (!defined('WYSIWYG_EDITOR') OR WYSIWYG_EDITOR=="none" OR !file_exists(WB_PATH.'/modules/'.WYSIWYG_EDITOR.'/include.php'))
+	{
+		function show_wysiwyg_editor($name,$id,$content,$width,$height)
+		{
 			echo '<textarea name="'.$name.'" id="'.$id.'" style="width: '.$width.'; height: '.$height.';">'.$content.'</textarea>';
 		}
 	} else {
-		$id_list = array();
-		$sql  = 'SELECT `section_id` FROM `'.TABLE_PREFIX.'sections` ';
-		$sql .= 'WHERE `page_id`='.(int)$page_id.' AND `module`=\'wysiwyg\'';
-		if (($query_wysiwyg = $database->query($sql))) {
-			while($wysiwyg_section = $query_wysiwyg->fetchRow()) {
-				$entry='content'.$wysiwyg_section['section_id'];
-				$id_list[] = $entry;
-			}
-			require(WB_PATH.'/modules/'.WYSIWYG_EDITOR.'/include.php');
-		}
+		require(WB_PATH.'/modules/'.WYSIWYG_EDITOR.'/include.php');
 	}
 }
 
@@ -57,8 +50,8 @@ if(!isset($wysiwyg_editor_loaded)) {
 	<input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
 	<input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
 <?php
-echo $admin->getFTAN()."\n"; 
-show_wysiwyg_editor('content'.$section_id,'content'.$section_id,$content,'100%','350');
+echo $admin->getFTAN()."\n";
+echo show_wysiwyg_editor('content'.$section_id,'content'.$section_id,$content,'100%','350');
 ?>
 	<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" style="padding-bottom: 10px;">
 		<tr>
