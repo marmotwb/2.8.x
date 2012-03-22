@@ -12,6 +12,9 @@ Legend:
 ===============================================================================
 
 
+22 Mar-2012 Build 1641 Dietmar Woellbrink (Luisehahne)
++ move admin/themes/templates/ to admin/skel/themes/htt/
+! and update class.wb.php, upgrade-script.php
 22 Mar-2012 Build 1640 Dietmar Woellbrink (Luisehahne)
 ! optimize modules WYSIWYG for editors
 22 Mar-2012 Build 1639 Dietmar Woellbrink (Luisehahne)
