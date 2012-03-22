@@ -91,6 +91,7 @@ class CopyTheme{
  */
 	private function _SanitizeNewName($sName)
 	{
+		$sName = (trim($sName) == '' ? 'MyNewTheme' : $sName);
 		$sName = mysql_real_escape_string($sName);
 		$iCount = '';
 		do {

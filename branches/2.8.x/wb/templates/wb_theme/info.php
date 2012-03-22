@@ -1,15 +1,15 @@
 <?php
 /**
  *
- * @category        frontend
- * @package         templates
+ * @category        WB
+ * @package         WB_BackendTheme
  * @author          Johannes Tassilo Gruber, WebsiteBaker Project
  * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.3
  * @requirements    PHP 5.2.2 and higher
- * @version         $Id$
+ * @version         $Id: info.php 1643 2012-03-22 15:30:03Z darkviper $
  * @filesource      $HeadURL:  $
  * @lastmodified    $Date:  $
  *
@@ -33,6 +33,4 @@ $template_author			= 'Johannes Tassilo Gruber';
 $template_license			= '<a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>';
 $template_license_terms		= '-';
 $template_description		= 'Default backend theme for Website Baker 2.8.';
-
-?>
 
