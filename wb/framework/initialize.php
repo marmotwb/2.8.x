@@ -50,6 +50,8 @@ if(!defined('WB_URL')) { throw new IllegalFileException(); }
 		$_SERVER['HTTP_REFERER'] = $sTmpReferer;
 	}
 
+$starttime = array_sum(explode(" ",microtime()));
+if(!defined('DEBUG')){ define('DEBUG', false); }// Include config file
 if( !defined('ADMIN_DIRECTORY')) { define('ADMIN_DIRECTORY', 'admin'); }
 if(!preg_match('/xx[a-z0-9_][a-z0-9_\-\.]+/i', 'xx'.ADMIN_DIRECTORY)) {
 	throw new RuntimeException('Invalid admin-directory: ' . ADMIN_DIRECTORY);

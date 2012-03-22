@@ -12,6 +12,9 @@ Legend:
 ===============================================================================
 
 
+22 Mar-2012 Build 1639 Dietmar Woellbrink (Luisehahne)
++ Installer add const DEBUG to config.php
+! move const DEBUG and var $starttime from index.php to initialize.php
 14 Mar-2012 Build 1638 Werner v.d.Decken(DarkViper)
 + config.php added define to set admin-directory
 13 Mar-2012 Build 1637 Werner v.d.Decken(DarkViper)

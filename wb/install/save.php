@@ -284,6 +284,7 @@ if($admin_password != $admin_repassword) {
 $config_content = "" .
 "<?php\n".
 "\n".
+"define('DEBUG', false);\n".
 "define('DB_TYPE', 'mysql');\n".
 "define('DB_HOST', '$database_host');\n".
 "define('DB_NAME', '$database_name');\n".
@@ -314,6 +315,7 @@ if(file_exists($config_filename) AND is_writable($config_filename)) {
 }
 
 // Define configuration vars
+define('DEBUG', false);
 define('DB_TYPE', 'mysql');
 define('DB_HOST', $database_host);
 define('DB_NAME', $database_name);
@@ -477,7 +479,7 @@ if($install_tables == true) {
 	." ('wysiwyg_editor', 'fckeditor'),"
 	." ('manage_sections', 'true'),"
 	." ('section_blocks', 'true'),"
-	." ('smart_login', 'true'),"
+	." ('smart_login', 'false'),"
 	." ('frontend_login', 'false'),"
 	." ('frontend_signup', 'false'),"
 	." ('search', 'public'),"
