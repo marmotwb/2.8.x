@@ -1,30 +1,27 @@
 <?php
 /**
- * $Id$
- * Website Baker theme: wb_theme
- * This theme is the default WB backend Theme
- * Feel free to modify or build up on this template.
  *
- * This file defines the template variables required by Website Baker.
+ * @category        frontend
+ * @package         templates
+ * @author          Johannes Tassilo Gruber, WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.3
+ * @requirements    PHP 5.2.2 and higher
+ * @version         $Id$
+ * @filesource      $HeadURL:  $
+ * @lastmodified    $Date:  $
  *
- * LICENSE: GNU General Public License
- * 
- * @author     Johannes Tassilo Gruber
- * @copyright  GNU General Public License
- * @license    http://www.gnu.org/licenses/gpl.html
- * @version    2.80
- * @platform   Website Baker 2.8
- *
- * Website Baker is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * Website Baker is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
-*/
+ */
+
+/* -------------------------------------------------------- */
+if(defined('WB_PATH') == false)
+{
+	// Stop this file being access directly
+		die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+}
+/* -------------------------------------------------------- */
 
 // OBLIGATORY WEBSITE BAKER VARIABLES
 $template_directory			= 'wb_theme';
