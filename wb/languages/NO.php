@@ -175,6 +175,7 @@ $TEXT['LANGUAGE'] = 'Spr&aring;k';
 $TEXT['LAST_UPDATED_BY'] = 'Sist Endret Av';
 $TEXT['LENGTH'] = 'Lengde';
 $TEXT['LEVEL'] = 'Niv&aring;';
+$TEXT['LICENSE'] = 'License';
 $TEXT['LINK'] = 'Lenke';
 $TEXT['LINUX_UNIX_BASED'] = 'Linux/Unix bassert';
 $TEXT['LIST_OPTIONS'] = 'Vis Valg';

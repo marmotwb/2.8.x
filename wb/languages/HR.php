@@ -175,6 +175,7 @@ $TEXT['LANGUAGE'] = 'Jezik';
 $TEXT['LAST_UPDATED_BY'] = 'Zadnje izmjenjen od';
 $TEXT['LENGTH'] = 'Du&#382;ina';
 $TEXT['LEVEL'] = 'Nivo';
+$TEXT['LICENSE'] = 'License';
 $TEXT['LINK'] = 'Link';
 $TEXT['LINUX_UNIX_BASED'] = 'Linux/Unix baziran';
 $TEXT['LIST_OPTIONS'] = 'Lista opcija';

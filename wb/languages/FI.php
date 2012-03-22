@@ -175,6 +175,7 @@ $TEXT['LANGUAGE'] = 'Kieli';
 $TEXT['LAST_UPDATED_BY'] = 'P&auml;ivitetty';
 $TEXT['LENGTH'] = 'Pituus';
 $TEXT['LEVEL'] = 'Taso';
+$TEXT['LICENSE'] = 'License';
 $TEXT['LINK'] = 'Linkki';
 $TEXT['LINUX_UNIX_BASED'] = 'Linux/Unix';
 $TEXT['LIST_OPTIONS'] = 'Listan tyyppi';

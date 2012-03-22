@@ -175,6 +175,7 @@ $TEXT['LANGUAGE'] = 'Dil';
 $TEXT['LAST_UPDATED_BY'] = 'Son G&uuml;ncelleyen';
 $TEXT['LENGTH'] = 'Uzunluk';
 $TEXT['LEVEL'] = 'Limit';
+$TEXT['LICENSE'] = 'License';
 $TEXT['LINK'] = 'Link';
 $TEXT['LINUX_UNIX_BASED'] = 'Linux/Unix tabanl&yacute;';
 $TEXT['LIST_OPTIONS'] = 'Liste se&ccedil;enekleri';

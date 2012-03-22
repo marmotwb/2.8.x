@@ -175,6 +175,7 @@ $TEXT['LANGUAGE'] = 'Valoda';
 $TEXT['LAST_UPDATED_BY'] = 'Pedejo reizi mainits';
 $TEXT['LENGTH'] = 'Garums';
 $TEXT['LEVEL'] = 'Limenis';
+$TEXT['LICENSE'] = 'License';
 $TEXT['LINK'] = 'Links';
 $TEXT['LINUX_UNIX_BASED'] = 'Linux/Unix';
 $TEXT['LIST_OPTIONS'] = 'Listes opcijas';

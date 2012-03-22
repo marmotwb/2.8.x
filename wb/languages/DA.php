@@ -175,6 +175,7 @@ $TEXT['LANGUAGE'] = 'Sprog';
 $TEXT['LAST_UPDATED_BY'] = 'Sidst opdateret af:';
 $TEXT['LENGTH'] = 'L&aelig;ngde';
 $TEXT['LEVEL'] = 'Niveau';
+$TEXT['LICENSE'] = 'License';
 $TEXT['LINK'] = 'Link';
 $TEXT['LINUX_UNIX_BASED'] = 'Linux/Unix baseret';
 $TEXT['LIST_OPTIONS'] = 'Vis valgmuligheder';
