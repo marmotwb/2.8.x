@@ -175,6 +175,7 @@ $TEXT['LANGUAGE'] = 'Keel';
 $TEXT['LAST_UPDATED_BY'] = 'Viimati Uuendatud';
 $TEXT['LENGTH'] = 'Pikkus';
 $TEXT['LEVEL'] = 'Tase';
+$TEXT['LICENSE'] = 'License';
 $TEXT['LINK'] = 'Link';
 $TEXT['LINUX_UNIX_BASED'] = 'Linux/Unix tuginev';
 $TEXT['LIST_OPTIONS'] = 'Nimekirja Valikud';

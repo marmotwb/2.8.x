@@ -175,6 +175,7 @@ $TEXT['LANGUAGE'] = 'Lenguaje';
 $TEXT['LAST_UPDATED_BY'] = 'Editado por';
 $TEXT['LENGTH'] = 'Largo';
 $TEXT['LEVEL'] = 'Nivel';
+$TEXT['LICENSE'] = 'License';
 $TEXT['LINK'] = 'Enlace';
 $TEXT['LINUX_UNIX_BASED'] = 'basado en Linux/Unix ';
 $TEXT['LIST_OPTIONS'] = 'Opciones de Lista';

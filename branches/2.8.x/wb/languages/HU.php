@@ -175,6 +175,7 @@ $TEXT['LANGUAGE'] = 'Nyelv';
 $TEXT['LAST_UPDATED_BY'] = 'M&oacute;dos&iacute;totta';
 $TEXT['LENGTH'] = 'Hossz';
 $TEXT['LEVEL'] = 'Szint';
+$TEXT['LICENSE'] = 'License';
 $TEXT['LINK'] = 'Hivatkoz&aacute;s';
 $TEXT['LINUX_UNIX_BASED'] = 'Linux/Unix';
 $TEXT['LIST_OPTIONS'] = 'Lista opci&oacute;k';

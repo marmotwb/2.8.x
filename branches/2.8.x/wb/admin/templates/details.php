@@ -100,7 +100,7 @@ $template->set_var(array(
 								'TEXT_DESIGNED_FOR' => $TEXT['DESIGNED_FOR'],
 								'TEXT_DESCRIPTION' => $TEXT['DESCRIPTION'],
 								'TEXT_BACK' => $TEXT['BACK'],
-								'TEXT_LICENSE' => '',
+								'TEXT_LICENSE' => $TEXT['LICENSE'],
 								)
 						);
 $template->set_var('TEXT_FUNCTION', ($row['function'] == 'theme' ? $TEXT['THEME'] : $TEXT['TEMPLATE']));

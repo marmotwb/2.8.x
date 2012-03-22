@@ -175,6 +175,7 @@ $TEXT['LANGUAGE'] = 'Spr&aring;k';
 $TEXT['LAST_UPDATED_BY'] = 'Senast uppdaterad av';
 $TEXT['LENGTH'] = 'L&auml;ngd';
 $TEXT['LEVEL'] = 'Niv&aring;';
+$TEXT['LICENSE'] = 'License';
 $TEXT['LINK'] = 'Link';
 $TEXT['LINUX_UNIX_BASED'] = 'Linux/Unix';
 $TEXT['LIST_OPTIONS'] = 'Visa val';
