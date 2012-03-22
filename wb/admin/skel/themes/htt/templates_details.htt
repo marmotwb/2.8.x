@@ -1,6 +1,6 @@
 <!-- BEGIN main_block -->
 
-<h2>{HEADING_TEMPLATE_DETAILS}</h2>
+<h2>{HEADING_TEMPLATE_DETAILS} ({TEXT_FUNCTION})</h2>
 
 <table summary="" cellpadding="5" cellspacing="0" border="0">
 <tr>
@@ -22,6 +22,10 @@
 <tr>
 	<td valign="top">{TEXT_DESCRIPTION}:</td>
 	<td style="text-align: justify;">{DESCRIPTION}</td>
+</tr>
+<tr>
+	<td>{TEXT_LICENSE}:</td>
+	<td>{LICENSE}</td>
 </tr>
 </table>
 

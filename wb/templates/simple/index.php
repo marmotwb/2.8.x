@@ -1,3 +1,4 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <?php
 /**
  * $Id$
@@ -32,20 +33,17 @@ if (!defined('WB_PATH')) die(header('Location: ../../index.php'));
 
 // TEMPLATE CODE STARTS BELOW
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=<?php 
 	echo defined('DEFAULT_CHARSET') ? DEFAULT_CHARSET : 'utf-8'; ?>" />
 	<meta name="description" content="<?php page_description(); ?>" />
 	<meta name="keywords" content="<?php page_keywords(); ?>" />
-	<?php 
+<?php 
 	// automatically include optional WB module files (frontend.css, frontend.js)
-	if (function_exists('register_frontend_modfiles')) {
-		register_frontend_modfiles('css');
-		register_frontend_modfiles('js');
-	} ?>
+	register_frontend_modfiles('css');
+	register_frontend_modfiles('js');
+?>
 	<link rel="stylesheet" type="text/css" href="<?php 
 		echo TEMPLATE_DIR; ?>/template.css" media="screen,projection" />
 	<link rel="stylesheet" type="text/css" href="<?php 
@@ -102,7 +100,7 @@ if (!defined('WB_PATH')) die(header('Location: ../../index.php'));
 </table>
 <?php 
 // automatically include optional WB module file frontend_body.js)
-if (function_exists('register_frontend_modfiles_body')) { register_frontend_modfiles_body(); } 
+	register_frontend_modfiles_body();
 ?>
 </body>
 </html>

@@ -1,146 +1,143 @@
 <?php
 /**
  *
- * @category        admin
- * @package         addons
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @category        WBCore
+ * @package         WBCore_addons
+ * @author          Werner v.d.Decken
+ * @copyright       Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
- * @platform        WebsiteBaker 2.8.x
- * @requirements    PHP 5.2.2 and higher
- * @version         $Id$
+ * @revision        $Revision$
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
- *
  */
 
 /**
- * check if there is anything to do
+ * loop through all resource directories of one type and reload the resources
+ * @param string $sType type of resource ( module / template / language )
+ * @return bool
  */
-$post_check = array('reload_modules', 'reload_templates', 'reload_languages');
-foreach ($post_check as $index => $key) {
-	if (!isset($_POST[$key])) unset($post_check[$index]);
-}
-if (count($post_check) == 0) die(header('Location: index.php?advanced'));
-
+	function ReloadAddonLoop($sType)
+	{
+		global $database;
+		$database->query('DELETE FROM `'.TABLE_PREFIX.'addons` WHERE `type`=\''.$sType.'\'');
+		try{
+			$oIterator = new DirectoryIterator(WB_PATH.'/'.$sType.'s');
+			$_Function = 'load_'.$sType;
+			foreach ($oIterator as $oFileinfo) {
+				if( ( $oFileinfo->isFile() &&
+					   $sType == 'language' &&
+					   preg_match('/^([A-Z]{2}.php)/', $oFileinfo->getBasename())
+					) ||
+				    ($oFileinfo->isDir() && $sType != 'language')
+				  )
+				{
+					if(substr($oFileinfo->getBasename(), 0,1) != '.') {
+						$_Function($oFileinfo->getPathname());
+					}
+				}
+			}
+		}catch(Exception $e) {
+			return false;
+		}
+		return true;
+	}
 /**
  * check if user has permissions to access this file
  */
-// include WB configuration file and WB admin class
-require_once('../../config.php');
-require_once('../../framework/class.admin.php');
-
+// include all needed core files and check permission
+	require_once('../../config.php');
+	require_once('../../framework/class.admin.php');
+	$aMsg = array();
+	$aErrors = array();
 // check user permissions for admintools (redirect users with wrong permissions)
-$admin = new admin('Admintools', 'admintools', false, false);
-
-if ($admin->get_permission('admintools') == false) die(header('Location: ../../index.php'));
-
-// check if the referer URL if available
-$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] :
-	(isset($HTTP_SERVER_VARS['HTTP_REFERER']) ? $HTTP_SERVER_VARS['HTTP_REFERER'] : '');
-$referer = '';
-// if referer is set, check if script was invoked from "admin/modules/index.php"
-$required_url = ADMIN_URL . '/addons/index.php';
-if ($referer != '' && (!(strpos($referer, $required_url) !== false || strpos($referer, $required_url) !== false)))
-	die(header('Location: ../../index.php'));
-
-// include WB functions file
-require_once(WB_PATH . '/framework/functions.php');
-
-// load WB language file
-require_once(WB_PATH . '/languages/' . LANGUAGE .'.php');
-
-// create Admin object with admin header
-$admin = new admin('Addons', '', false, false);
-$js_back = ADMIN_URL . '/addons/index.php?advanced';
-
-if (!$admin->checkFTAN())
-{
-	$admin->print_header();
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$js_back);
-}
-
-/**
- * Reload all specified Addons
- */
-$msg = array();
-$table = TABLE_PREFIX . 'addons';
-
-foreach ($post_check as $key) {
-	switch ($key) {
-		case 'reload_modules':
-			if ($handle = opendir(WB_PATH . '/modules')) {
-				// delete modules from database
-				$sql = "DELETE FROM `$table` WHERE `type` = 'module'";
-				$database->query($sql);
-
-				// loop over all modules
-				while(false !== ($file = readdir($handle))) {
-					if ($file != '' && substr($file, 0, 1) != '.' && $file != 'admin.php' && $file != 'index.php') {
-						load_module(WB_PATH . '/modules/' . $file);
+	$admin = new admin('Admintools', 'admintools', false, false);
+	if ($admin->get_permission('admintools'))
+	{
+		require_once(WB_PATH . '/framework/functions.php');
+		require_once(WB_PATH . '/languages/' . LANGUAGE .'.php');
+	// recreate Admin object without admin header
+		$admin = new admin('Addons', '', false, false);
+		$js_back = ADMIN_URL . '/addons/index.php?advanced';
+	// check transaction
+		if ($admin->checkFTAN())
+		{
+		// start the selected action
+			if(isset($_POST['cmdCopyTheme']))
+			{
+				$sNewTheme = (isset($_POST['ThNewTheme']) ? $_POST['ThNewTheme'] : '');
+				require(dirname(__FILE__).'/CopyTheme.php');
+				$ct = new CopyTheme();
+				$ct->execute(THEME_PATH, $sNewTheme);
+				if($ct->isError()) {
+					$aErrors[] = $ct->getError();
+				}else {
+					$aMsg[] = $TEXT['THEME_COPY_CURRENT'].' :: '.$MESSAGE['GENERIC_COMPARE'];
+				}
+				unset($ct);
+		// ---------------------------
+			}elseif(isset($_POST['cmdCopyTemplate']))
+			{
+				$aFileList = (isset($_POST['ThTemplate']) ? $_POST['ThTemplate'] : array());
+				require(dirname(__FILE__).'/CopyThemeHtt.php');
+				$x = CopyThemeHtt::doImport($aFileList);
+				if(is_null($x)) {
+					$aMsg[] = $TEXT['THEME_IMPORT_HTT'].' :: '.$MESSAGE['GENERIC_COMPARE'];
+				}else {
+					$aErrors = array_merge($aErrors, $x);
+				}
+		// ---------------------------
+			}elseif(isset($_POST['cmdReload']))
+			{
+				$aReloadType = (isset($_POST['reload']) && is_array($_POST['reload'])) ? $_POST['reload'] : array();
+				foreach($aReloadType as $sType) {
+					switch($sType) {
+						case 'modules':
+						// reload all modules
+							if(ReloadAddonLoop('module')) {
+								$aMsg[] = $MESSAGE['ADDON_MODULES_RELOADED'];
+							}else {
+								$aErrors[] = $MESSAGE['ADDON_ERROR_RELOAD'];
+							}
+							break;
+						case 'templates':
+						// reload all templates
+							if(ReloadAddonLoop('template')) {
+								$aMsg[] = $MESSAGE['ADDON_TEMPLATES_RELOADED'];
+							}else {
+								$aErrors[] = $MESSAGE['ADDON_ERROR_RELOAD'];
+							}
+							break;
+						case 'languages':
+						// reload all languages
+							if(ReloadAddonLoop('language')) {
+								$aMsg[] = $MESSAGE['ADDON_LANGUAGES_RELOADED'];
+							}else {
+								$aErrors[] = $MESSAGE['ADDON_ERROR_RELOAD'];
+							}
+							break;
+						default:
+							$aErrors[] = $MESSAGE['GENERIC_NOT_COMPARE'].' ['.$sType.']';
+							break;
 					}
 				}
-				closedir($handle);
-				// add success message
-				$msg[] = $MESSAGE['ADDON']['MODULES_RELOADED'];
-
-			} else {
-				// provide error message and stop
-				$admin->print_error($MESSAGE['ADDON']['ERROR_RELOAD'], $js_back);
+			}else {
+		// ---------------------------
+				$aErrors[] = $MESSAGE['ADDON_ERROR_RELOAD'];
 			}
-			break;
-			
-		case 'reload_templates':
-			if ($handle = opendir(WB_PATH . '/templates')) {
-				// delete templates from database
-				$sql = "DELETE FROM `$table` WHERE `type` = 'template'";
-				$database->query($sql);
-
-				// loop over all templates
-				while(false !== ($file = readdir($handle))) {
-					if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'index.php') {
-						load_template(WB_PATH . '/templates/' . $file);
-					}
-				}
-				closedir($handle);
-				// add success message
-				$msg[] = $MESSAGE['ADDON']['TEMPLATES_RELOADED'];
-
-			} else {
-				// provide error message and stop
-				$admin->print_header();
-				$admin->print_error($MESSAGE['ADDON']['ERROR_RELOAD'], $js_back);
-			}
-			break;
-
-		case 'reload_languages':
-			if ($handle = opendir(WB_PATH . '/languages/')) {
-				// delete languages from database
-				$sql = "DELETE FROM `$table` WHERE `type` = 'language'";
-				$database->query($sql);
-			
-				// loop over all languages
-				while(false !== ($file = readdir($handle))) {
-					if ($file != '' && substr($file, 0, 1) != '.' && $file != 'index.php') {
-						load_language(WB_PATH . '/languages/' . $file);
-					}
-				}
-				closedir($handle);
-				// add success message
-				$msg[] = $MESSAGE['ADDON']['LANGUAGES_RELOADED'];
-				
-			} else {
-				// provide error message and stop
-				$admin->print_header();
-				$admin->print_error($MESSAGE['ADDON']['ERROR_RELOAD'], $js_back);
-			}
-			break;
+		}else { // invalid FTAN
+			$aErrors[] = $MESSAGE['GENERIC_SECURITY_ACCESS'];
+		}
+	}else { // no permission
+		$aErrors[] = $MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES'];
 	}
-}
-
+	if(sizeof($aErrors) > 0)  {
+// output error message
+		$admin->print_header();
+		$admin->print_error(implode('<br />', $aErrors), $js_back);
+	}else {
 // output success message
-$admin->print_header();
-$admin->print_success(implode($msg, '<br />'), $js_back);
-$admin->print_footer();
+		$admin->print_header();
+		$admin->print_success(implode('<br />', $aMsg), $js_back);
+		$admin->print_footer();
+	}

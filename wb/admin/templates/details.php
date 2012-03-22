@@ -82,7 +82,8 @@ $template->set_var(array(
 								'AUTHOR' => $row['author'],
 								'DESCRIPTION' => $row['description'],
 								'VERSION' => $row['version'],
-								'DESIGNED_FOR' => $row['platform']
+								'DESIGNED_FOR' => $row['platform'],
+								'LICENSE' => $row['license'],
 								)
 						);
 
@@ -98,10 +99,11 @@ $template->set_var(array(
 								'TEXT_VERSION' => $TEXT['VERSION'],
 								'TEXT_DESIGNED_FOR' => $TEXT['DESIGNED_FOR'],
 								'TEXT_DESCRIPTION' => $TEXT['DESCRIPTION'],
-								'TEXT_BACK' => $TEXT['BACK']
+								'TEXT_BACK' => $TEXT['BACK'],
+								'TEXT_LICENSE' => '',
 								)
 						);
-
+$template->set_var('TEXT_FUNCTION', ($row['function'] == 'theme' ? $TEXT['THEME'] : $TEXT['TEMPLATE']));
 // Parse template object
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
