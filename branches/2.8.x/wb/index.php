@@ -15,9 +15,6 @@
  *
  */
 
-$starttime = array_sum(explode(" ",microtime()));
-
-define('DEBUG', false);
 // Include config file
 $config_file = dirname(__FILE__).'/config.php';
 if(file_exists($config_file))
