@@ -42,6 +42,11 @@
 			$sResponse  = $_SERVER['SERVER_PROTOCOL'].' 403 Forbidden';
 			header($sResponse);
 			echo $e;
+		}elseif($e instanceof RuntimeException) {
+			$out  ='There was a serious runtime error:'."\n";
+			$out .= $e->getMessage()."\n";
+			$out .= 'in line ('.$e->getLine().') of ('.$file.')'."\n";
+			echo $out;
 		}else {
 		// default exception handling
 			$out  = 'There was an unknown exception:'."\n";

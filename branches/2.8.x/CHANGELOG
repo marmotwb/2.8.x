@@ -11,10 +11,11 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-
-22 Mar-2012 Build 1642 Dietmar Woellbrink (Luisehahne)
+23 Mar-2012 Build 1647 Werner v.d.Decken(DarkViper)
++ add additional exeptionhandling in globalExceptionHandler
+23 Mar-2012 Build 1646 Dietmar Woellbrink (Luisehahne)
 # typofix in templates to include jquery
-22 Mar-2012 Build 1642 Dietmar Woellbrink (Luisehahne)
+22 Mar-2012 Build 1645 Dietmar Woellbrink (Luisehahne)
 + add language variable for template details
 22 Mar-2012 Build 1644 Werner v.d.Decken(DarkViper)
 # prevent from empty theme-name in CopyTheme::_SanitizeNewName()
