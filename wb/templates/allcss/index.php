@@ -47,7 +47,7 @@ if (!defined('WB_PATH')) die(header('Location: ../../index.php'));
 <?php
 	// automatically include optional WB module files (frontend.css, frontend.js)
 	register_frontend_modfiles('css');
-	// register_frontend_modfiles('javascript');
+	// register_frontend_modfiles('jquery');
 	register_frontend_modfiles('js');
 ?>
 </head>
@@ -70,7 +70,7 @@ if (!defined('WB_PATH')) die(header('Location: ../../index.php'));
 				<input type="hidden" name="referrer" value="<?php 
 				echo defined('REFERRER_ID') ? REFERRER_ID : PAGE_ID; ?>" />
 				<input type="text" name="string" class="search_string" />
-				<input type="submit" name="wb_search" id="wb_search" value="<?php 
+				<input type="submit" name="wb_search" id="wb_search" value="<?php
 				echo $TEXT['SEARCH']; ?>" class="search_submit" />
 			</form><?php 
 		} ?>
@@ -140,7 +140,8 @@ if (!defined('WB_PATH')) die(header('Location: ../../index.php'));
 </div>
 <?php 
 // automatically include optional WB module file frontend_body.js)
-	register_frontend_modfiles_body();
+// register_frontend_modfiles_body('jquery');
+register_frontend_modfiles_body('js');
 ?>
 </body>
 </html>
