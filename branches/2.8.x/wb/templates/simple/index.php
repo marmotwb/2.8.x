@@ -100,7 +100,7 @@ if (!defined('WB_PATH')) die(header('Location: ../../index.php'));
 </table>
 <?php 
 // automatically include optional WB module file frontend_body.js)
-	register_frontend_modfiles_body();
+	register_frontend_modfiles_body('js');
 ?>
 </body>
 </html>

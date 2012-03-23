@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+
+22 Mar-2012 Build 1642 Dietmar Woellbrink (Luisehahne)
+# typofix in templates to include jquery
 22 Mar-2012 Build 1642 Dietmar Woellbrink (Luisehahne)
 + add language variable for template details
 22 Mar-2012 Build 1644 Werner v.d.Decken(DarkViper)
