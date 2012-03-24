@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+24 Mar-2012 Build 1649 Dietmar Woellbrink (Luisehahne)
+! rebranding banner.jpg and powered.jpg round template
 24 Mar-2012 Build 1648 Werner v.d.Decken(DarkViper)
 # a litte fix in /admin/addons/index.php.
 + added unregister_Theme to CopyTheme::_doRollback()
