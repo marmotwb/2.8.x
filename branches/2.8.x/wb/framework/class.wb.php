@@ -389,7 +389,7 @@ class wb extends SecureForm
 	}
 
 	// Validate send email
-	function mail($fromaddress, $toaddress, $subject, $message, $fromname='') {
+	function mail($fromaddress, $toaddress, $subject, $message, $fromname='', $replyTo='') {
 /* 
 	INTEGRATED OPEN SOURCE PHPMAILER CLASS FOR SMTP SUPPORT AND MORE
 	SOME SERVICE PROVIDERS DO NOT SUPPORT SENDING MAIL VIA PHP AS IT DOES NOT PROVIDE SMTP AUTHENTICATION
@@ -403,6 +403,7 @@ class wb extends SecureForm
 		$fromaddress = preg_replace('/[\r\n]/', '', $fromaddress);
 		$toaddress = preg_replace('/[\r\n]/', '', $toaddress);
 		$subject = preg_replace('/[\r\n]/', '', $subject);
+		$replyTo = preg_replace('/[\r\n]/', '', $replyTo);
 		// $message_alt = $message;
 		// $message = preg_replace('/[\r\n]/', '<br \>', $message);
 
@@ -412,6 +413,9 @@ class wb extends SecureForm
 		if ($fromaddress!='') {
 			if($fromname!='') $myMail->FromName = $fromname;  // FROM-NAME
 			$myMail->From = $fromaddress;                     // FROM:
+//			$myMail->AddReplyTo($fromaddress);                // REPLY TO:
+		}
+		if($replyTo) {
 			$myMail->AddReplyTo($fromaddress);                // REPLY TO:
 		}
 		// define recepient and information to send out
