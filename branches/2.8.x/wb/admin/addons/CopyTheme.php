@@ -38,6 +38,9 @@ class CopyTheme{
 		$this->_aLang = $GLOBALS['MESSAGE'];
 	// import global Consts
 		$this->_aGlobals['TablePrefix']     = TABLE_PREFIX;
+		$this->_aGlobals['AddonTable']      = 'addons';
+		$this->_aGlobals['SettingsTable']   = 'settings';
+
 		$this->_aGlobals['Debug']           = (defined('DEBUG') && DEBUG === true);
 		$this->_aGlobals['IsLinux']         = ((substr(__FILE__, 0, 1)) == '/');
 		$this->_aGlobals['StringDirMode']   = STRING_DIR_MODE;
@@ -62,7 +65,9 @@ class CopyTheme{
 		if($this->_copyTree()) {
 			if($this->_modifyInfoFile()) {
 				if($this->_registerNewTheme()) {
-					return true;
+					if($this->_activateTheme()) {
+						return true;
+					}
 				}
 			}
 		}
@@ -96,7 +101,8 @@ class CopyTheme{
 		$iCount = '';
 		do {
 			$sSearch = $sName.($iCount ? ' '.$iCount : '');
-			$sql = 'SELECT COUNT(*) FROM `'.$this->_aGlobals['TablePrefix'].'addons` '
+			$sql = 'SELECT COUNT(*) '
+			     . 'FROM `'.$this->_aGlobals['TablePrefix'].$this->_aGlobals['AddonTable'].'` '
 				 . 'WHERE LOWER(`name`)=\''.strtolower($sSearch).'\' AND `function`=\'theme\'';
 			$exists = $this->_oDb->get_one($sql);
 			$iCount = (int)$iCount + 1;
@@ -118,7 +124,8 @@ class CopyTheme{
 		$iCount = '';
 		do {
 			$sSearch = $sName.($iCount ? '_'.$iCount : '');
-			$sql = 'SELECT COUNT(*) FROM `'.$this->_aGlobals['TablePrefix'].'addons` '
+			$sql = 'SELECT COUNT(*) '
+			     . 'FROM `'.$this->_aGlobals['TablePrefix'].$this->_aGlobals['AddonTable'].'` '
 				 . 'WHERE `directory`=\''.$sSearch.'\' AND `function`=\'theme\'';
 			$exists = $this->_oDb->get_one($sql);
 			$iCount = (int)$iCount + 1;
@@ -231,7 +238,7 @@ class CopyTheme{
 		$bRetval = true;
 		$sThemeInfoFile = $this->_sThemesBasePath.'/'.$this->_sNewThemeDir.'/info.php';
 		$aVariables = $this->_getThemeInfo($sThemeInfoFile);
-		$sql = 'INSERT INTO `'.$this->_aGlobals['TablePrefix'].'addons` '
+		$sql = 'INSERT INTO `'.$this->_aGlobals['TablePrefix'].$this->_aGlobals['AddonTable'].'` '
 		     . 'SET `type`=\'template\', '
 		     .     '`function`=\'theme\', '
 		     .     '`directory`=\''.$aVariables['directory'].'\', '
@@ -312,6 +319,25 @@ class CopyTheme{
 		}
 	}
 /**
+ * activates the new theme
+ * @return boolean
+ */
+	private function _activateTheme()
+	{
+		$bRetval = true;
+		if(!db_update_key_value( $this->_aGlobals['SettingsTable'],
+		                         'default_theme',
+		                         $value = $this->_sNewThemeDir))
+		{
+			$sMsg = 'CopyTheme::activateTheme('.$this->_sNewThemeName.') >> '
+			        .$this->_aLang['GENERIC_NOT_UPGRADED'];
+			$sMsg .= (($this->_aGlobals['Debug']) ? '<br />'.$this->_oDb->get_error() : '');
+			$this->_setError($sMsg);
+			$bRetval = false;
+		}
+		return $bRetval;
+	}
+/**
  * on Error undo all already done copy/create actions
  * @param string $dir
  */
@@ -331,6 +357,9 @@ class CopyTheme{
 		unset($path);
 		unset($iterator);
 		if(file_exists($dir)) { rmdir($dir); }
+		$sql = 'DELETE FROM `'.$this->_aGlobals['TablePrefix'].$this->_aGlobals['AddonTable'].'` '
+		     . 'WHERE `directory`=\''.$this->_sNewThemeDir.'\' AND `function`=\'theme\'';
+		$this->_oDb->query($sql);
 	}
 /**
  * add a new error message to the queue

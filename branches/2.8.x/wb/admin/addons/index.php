@@ -106,10 +106,11 @@ if ( isset($_GET['advanced']) AND $admin->get_permission('admintools') == true) 
 		 . 'WHERE `directory`=\''.DEFAULT_THEME.'\' AND `function`=\'theme\'';
 	$tmp = $database->get_one($sql);
 	$template->set_var('THEME_DEFAULT_NAME', $tmp);
+	$template->set_var('THEME_PATH', THEME_PATH);
 // end copy current theme
 // start template import
 	include(dirname(__FILE__).'/CopyThemeHtt.php');
-	$aTplList = CopyThemeHtt::getDivList(ADMIN_PATH.'/themes/templates',
+	$aTplList = CopyThemeHtt::getDivList(ADMIN_PATH.'/skel/themes/htt',
 	                                     THEME_PATH.'/templates', 'htt');
 	$sOptionList = '';
 	if(sizeof($aTplList)) {

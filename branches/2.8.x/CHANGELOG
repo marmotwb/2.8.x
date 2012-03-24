@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+24 Mar-2012 Build 1648 Werner v.d.Decken(DarkViper)
+# a litte fix in /admin/addons/index.php.
++ added unregister_Theme to CopyTheme::_doRollback()
++ added CopyTheme::_activateTheme()
 23 Mar-2012 Build 1647 Werner v.d.Decken(DarkViper)
 + add additional exeptionhandling in globalExceptionHandler
 23 Mar-2012 Build 1646 Dietmar Woellbrink (Luisehahne)

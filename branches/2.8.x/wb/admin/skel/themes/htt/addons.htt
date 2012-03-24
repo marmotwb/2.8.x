@@ -54,6 +54,7 @@
 					<tr>
 						<td class="description" valign="top"><span class="title">{TXT_THEME_COPY_CURRENT}</span>
 							{TXT_THEME_CURRENT}: {CURRENT_THEME}<br />
+							<i>[{THEME_PATH}]</i><br />
 							{MESSAGE_THEME_COPY_CURRENT}
 							<br style="margin-bottom: 0.5em" />
 							<input type="text" id="theme_newname" name="ThNewTheme" value="{THEME_DEFAULT_NAME}" />
