@@ -106,7 +106,9 @@ if ( isset($_GET['advanced']) AND $admin->get_permission('admintools') == true) 
 		 . 'WHERE `directory`=\''.DEFAULT_THEME.'\' AND `function`=\'theme\'';
 	$tmp = $database->get_one($sql);
 	$template->set_var('THEME_DEFAULT_NAME', $tmp);
-	$template->set_var('THEME_PATH', THEME_PATH);
+	$template->set_var('CURRENT_THEME', $tmp);
+	$tmp = str_replace(str_replace('\\', '/', WB_PATH), '', str_replace('\\', '/', THEME_PATH));
+	$template->set_var('THEME_PATH', $tmp);
 // end copy current theme
 // start template import
 	include(dirname(__FILE__).'/CopyThemeHtt.php');

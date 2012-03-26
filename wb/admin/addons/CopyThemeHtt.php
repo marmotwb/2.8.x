@@ -16,9 +16,10 @@ class CopyThemeHtt {
 
 	private static $_sSkelPath  = ''; 
 	private static $_sThemePath = '';
-	private static $_sOs        = '';
+	private static $_IsLinux    = '';
 	private static $_sFileMode  = '';
 	private static $_aLang      = '';
+	private static $_bDebug     = false;
 /**
  * import all needed global constants and variables
  */
@@ -27,8 +28,10 @@ class CopyThemeHtt {
 //		self::$_sSkelPath  = ADMIN_PATH.'/themes/templates/';
 		self::$_sSkelPath  = ADMIN_PATH.'/skel/themes/htt/';
 		self::$_sThemePath = THEME_PATH.'/templates/';
-		self::$_sOs        = OPERATING_SYSTEM;
-		self::$_sFileMode  = STRING_FILE_MODE;
+		self::$_IsLinux    = ((substr(__FILE__, 0, 1)) == '/');
+		self::$_sFileMode  = octdec(STRING_FILE_MODE);
+		self::$_bDebug      = (defined('DEBUG') && DEBUG === true);
+
 		self::$_aLang      = $GLOBALS['MESSAGE'];
 	}
 /**
@@ -59,12 +62,28 @@ class CopyThemeHtt {
 			if(sizeof($aFileList) > 0 ) {
 				foreach($aFileList as $sFile) {
 					$sFile = basename($sFile);
-					if(copy(self::$_sSkelPath.$sFile, self::$_sThemePath.$sFile)) {
-						if(self::$_sOs == 'linux') {
-							chmod(self::$_sThemePath.$sFile, self::$_sFileMode);
+					if(is_writable(self::$_sThemePath) &&
+					   copy(self::$_sSkelPath.$sFile, self::$_sThemePath.$sFile))
+					{
+						if(self::$_IsLinux) {
+							if(!chmod(self::$_sThemePath.$sFile, self::$_sFileMode)) {
+								$msg = self::$_aLang['UPLOAD_ERR_CANT_WRITE'].' ['.$sFile.']';
+								if(self::$_bDebug) {
+									$msg .= __CLASS__.'::'.__METHOD__.'::'
+									     . 'chmod(\'self::'.$_sThemePath.$sFile.'\', '
+									     . decoct(self::$_sFileMode).')';
+								}
+								$aErrors[] = $msg;
+							}
 						}
 					}else {
-						$aErrors[] = self::$_aLang['UPLOAD_ERR_CANT_WRITE'].' ['.$sFile.']';
+						$msg = self::$_aLang['UPLOAD_ERR_CANT_WRITE'].' ['.$sFile.']';
+						if(self::$_bDebug) {
+							$msg .= __CLASS__.'::'.__METHOD__.'::'
+							     . 'copy(\''.self::$_sSkelPath.$sFile.'\', '
+							     . '\''.self::$_sThemePath.$sFile.'\')';
+						}
+						$aErrors[] = $msg;
 					}
 				}
 			}

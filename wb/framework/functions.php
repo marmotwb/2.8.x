@@ -414,28 +414,26 @@ function make_dir($dir_name, $dir_mode = OCTAL_DIR_MODE, $recursive=true)
 	return $retVal;
 }
 
-// Function to chmod files and directories
-function change_mode($name)
+/**
+ * Function to chmod files and/or directories
+ * @param string $sName
+ * @param int rights in dec-value. 0= use wb-defaults
+ * @return bool
+ */
+function change_mode($sName, $iMode = 0)
 {
-	if(OPERATING_SYSTEM != 'windows')
-    {
-		// Only chmod if os is not windows
-		if(is_dir($name)) {
-			$mode = OCTAL_DIR_MODE;
-		}else {
-			$mode = OCTAL_FILE_MODE;
+	$bRetval = true;
+	if((substr(__FILE__, 0, 1)) == '/')
+	{ // Only chmod if os is not windows
+		$bRetval = false;
+		if(!$iMode) {
+			$iMode = (is_file($sName) ? octdec(STRING_FILE_MODE) : octdec(STRING_DIR_MODE));
 		}
-		if(file_exists($name)) {
-			$umask = umask(0);
-			chmod($name, $mode);
-			umask($umask);
-			return true;
-		}else {
-			return false;
+		if(is_writable($sName)) {
+			$bRetval = chmod($sName, $iMode);
 		}
-	}else {
-		return true;
 	}
+	return $bRetval;
 }
 
 // Function to figure out if a parent exists
