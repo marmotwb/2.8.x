@@ -37,14 +37,14 @@ class CopyTheme{
 		$this->_oDb   = $GLOBALS['database'];
 		$this->_aLang = $GLOBALS['MESSAGE'];
 	// import global Consts
-		$this->_aGlobals['TablePrefix']     = TABLE_PREFIX;
-		$this->_aGlobals['AddonTable']      = 'addons';
-		$this->_aGlobals['SettingsTable']   = 'settings';
+		$this->_aGlobals['TablePrefix']   = TABLE_PREFIX;
+		$this->_aGlobals['AddonTable']    = 'addons';
+		$this->_aGlobals['SettingsTable'] = 'settings';
 
-		$this->_aGlobals['Debug']           = (defined('DEBUG') && DEBUG === true);
-		$this->_aGlobals['IsLinux']         = ((substr(__FILE__, 0, 1)) == '/');
-		$this->_aGlobals['StringDirMode']   = STRING_DIR_MODE;
-		$this->_aGlobals['StringFileMode']  = STRING_FILE_MODE;
+		$this->_aGlobals['Debug']          = (defined('DEBUG') && DEBUG === true);
+		$this->_aGlobals['IsLinux']        = ((substr(__FILE__, 0, 1)) == '/');
+		$this->_aGlobals['DirMode']       = octdec(STRING_DIR_MODE);
+		$this->_aGlobals['FileMode']      = octdec(STRING_FILE_MODE);
 	}
 /**
  * start copy current theme into a new theme
@@ -153,8 +153,10 @@ class CopyTheme{
 			}
 			natsort($aFileList);
 		}catch(Exeption $e) {
-			$msg  = 'CopyTheme::_copyTree => '.$this->_aLang['GENERIC_FAILED_COMPARE'];
-			$msg .= '<br />'.$e->getMessage();
+			$msg  = $this->_aLang['GENERIC_FAILED_COMPARE'];
+			if($this->_aGlobals['Debug']) {
+				$msg .= '<br />'.__CLASS__.'::'.__METHOD__. '<br />'.$e->getMessage();
+			}
 			$this->_setError($msg);
 			$bRetval = false;
 		}
@@ -181,17 +183,24 @@ class CopyTheme{
 			$sNewDir = $this->_sThemesBasePath.'/'.$this->_sNewThemeDir.$sDir;
 			if(!file_exists($sNewDir) &&  mkdir($sNewDir, 0777, true)) {
 				if($this->_aGlobals['IsLinux']) {
-					if(!chmod($sNewDir, $this->_aGlobals['StringDirMode'])) {
-						$sMsg = 'CopyTheme::createDirs::chmod('.$sNewDir.') >> '
-								.$this->_aLang['GENERIC_FAILED_COMPARE'];
+					if(!chmod($sNewDir, $this->_aGlobals['DirMode'])) {
+						$sMsg = $this->_aLang['UPLOAD_ERR_CANT_WRITE'].' ['.$sNewDir.']';
+						if($this->_aGlobals['Debug']) {
+							$sMsg .= '<br />'.__CLASS__.'::'.__METHOD__.'::'
+								 . 'chmod(\''.$sNewDir.$_sThemePath.$sFile.'\', '
+								 . decoct($this->_aGlobals['DirMode']).')';
+						}
 						$this->_setError($sMsg);
 						$bRetval = false;
 						break;
 					}
 				}
 			}else {
-				$sMsg = 'CopyTheme::createDirs::mkdir('.$sNewDir.') >> '
-						.$this->_aLang['GENERIC_FAILED_COMPARE'];
+				$sMsg = $this->_aLang['GENERIC_FAILED_COMPARE'].' ['.$sFile.']';
+				if($this->_aGlobals['Debug']) {
+					$sMsg .= '<br />'.__CLASS__.'::'.__METHOD__.'::'
+						 . 'mkdir(\''.$sNewDir.'\', 0777, true)';
+				}
 				$this->_setError($sMsg);
 				$bRetval = false;
 				break;
@@ -211,17 +220,25 @@ class CopyTheme{
 		foreach($aFileList as $sFile) {
 			if(copy($sSourceDir.$sFile, $sDestinationDir.$sFile)) {
 				if($this->_aGlobals['IsLinux']) {
-					if(!chmod($sDestinationDir.$sFile, $this->_aGlobals['StringFileMode'])) {
-						$sMsg = 'CopyTheme::copyFiles::chmod('.$sDestinationDir.$sFile.') >> '
-								.$this->_aLang['GENERIC_FAILED_COMPARE'];
+					if(!chmod($sDestinationDir.$sFile, $this->_aGlobals['FileMode'])) {
+						$sMsg = $this->_aLang['GENERIC_FAILED_COMPARE'].' ['.$sFile.']';
+						if($this->_aGlobals['Debug']) {
+							$sMsg .= '<br />'.__CLASS__.'::'.__METHOD__.'::'
+								  . 'chmod(\''.$sDestinationDir.$sFile.'\', '
+								  .decoct($this->_aGlobals['FileMode']).', true)';
+						}
 						$this->_setError($sMsg);
 						$bRetval = false;
 						break;
 					}
 				}
 			}else {
-				$sMsg = 'CopyTheme::copyFiles::copy('.$sDestinationDir.$sFile.') >> '
-						.$this->_aLang['GENERIC_FAILED_COMPARE'];
+				$sMsg = $this->_aLang['GENERIC_FAILED_COMPARE'].' ['.$sFile.']';
+				if($this->_aGlobals['Debug']) {
+					$sMsg .= '<br />'.__CLASS__.'::'.__METHOD__.'::'
+						  . 'copy(\''.$sSourceDir.$sFile.'\', '
+					      . '\''.$sDestinationDir.$sFile.'\')';
+				}
 				$this->_setError($sMsg);
 				$bRetval = false;
 				break;
@@ -249,9 +266,11 @@ class CopyTheme{
 		     .     '`author`=\''.mysql_real_escape_string($aVariables['author']).'\', '
 		     .     '`license`=\''.mysql_real_escape_string($aVariables['license']).'\'';
 		if(!$this->_oDb->query($sql)) {
-			$sMsg = 'CopyTheme::registerNewTheme('.$this->_sNewThemeName.') >> '
-			        .$this->_aLang['GENERIC_NOT_UPGRADED'];
-			$sMsg .= (($this->_aGlobals['Debug']) ? '<br />'.$this->_oDb->get_error() : '');
+
+			$sMsg = $this->_aLang['GENERIC_NOT_UPGRADED'].' ['.$this->_sNewThemeDir.'/info.php]';
+			if($this->_aGlobals['Debug']) {
+				$sMsg .= '<br />'.__CLASS__.'::'.__METHOD__. '<br />'.$this->_oDb->get_error();
+			}
 			$this->_setError($sMsg);
 			$bRetval = false;
 		}
@@ -270,7 +289,7 @@ class CopyTheme{
 		$aVariables['name']        = $this->_sNewThemeName;
 		$aVariables['version']     = '0.0.1';
 		$aVariables['description'] = '(copy): '.$aVariables['description'];
-		if(file_exists($sThemeInfoFile)) {
+		if(is_writeable($sThemeInfoFile)) {
 			$sInfoContent = file_get_contents($sThemeInfoFile);
 			foreach($aVariables as $key=>$val) {
 				$sSearch  = '/(\$template_'.$key.'\s*=\s*(["\'])).*?(\2)\s*;/s';
@@ -284,8 +303,11 @@ class CopyTheme{
 				return true;
 			}
 		}
-		$this->_setError('CopyTheme::modifyInfoFile('.$this->_sNewThemeDir.'/info.php) >> '
-		               .$this->_aLang['GENERIC_NOT_UPGRADED']);
+		$sMsg = $this->_aLang['GENERIC_NOT_UPGRADED'].' ['.$this->_sNewThemeDir.'/info.php]';
+		if($this->_aGlobals['Debug']) {
+			$sMsg .= '<br />'.__CLASS__.'::'.__METHOD__.'(\''.$sThemeInfoFile.'\')';
+		}
+		$this->_setError($sMsg);
 		return $bRetval;
 	}
 /**
@@ -329,9 +351,10 @@ class CopyTheme{
 		                         'default_theme',
 		                         $value = $this->_sNewThemeDir))
 		{
-			$sMsg = 'CopyTheme::activateTheme('.$this->_sNewThemeName.') >> '
-			        .$this->_aLang['GENERIC_NOT_UPGRADED'];
-			$sMsg .= (($this->_aGlobals['Debug']) ? '<br />'.$this->_oDb->get_error() : '');
+			$sMsg = $this->_aLang['GENERIC_NOT_UPGRADED'];
+			if($this->_aGlobals['Debug']) {
+				$sMsg .= '<br />'.__CLASS__.'::'.__METHOD__. '<br />'.$this->_oDb->get_error();
+			}
 			$this->_setError($sMsg);
 			$bRetval = false;
 		}

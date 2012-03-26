@@ -52,19 +52,19 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="description" valign="top"><span class="title">{TXT_THEME_COPY_CURRENT}</span>
-							{TXT_THEME_CURRENT}: {CURRENT_THEME}<br />
-							<i>[{THEME_PATH}]</i><br />
+						<td class="description" valign="top"><hr /><span class="title">{TXT_THEME_COPY_CURRENT}</span>
+							{TXT_THEME_CURRENT}: <b>{CURRENT_THEME}</b><br />
+							<i>[ {THEME_PATH} ]</i><br /><br />
 							{MESSAGE_THEME_COPY_CURRENT}
 							<br style="margin-bottom: 0.5em" />
+							<label for="theme_newname">{TXT_THEME_NEW_NAME}: </label>
 							<input type="text" id="theme_newname" name="ThNewTheme" value="{THEME_DEFAULT_NAME}" />
-							<label for="theme_newname">{TXT_THEME_NEW_NAME}</label>
 							<input type="submit" name="cmdCopyTheme" value="{TXT_THEME_START_COPY}" />
 						</td>
 					</tr>
 					<tr>
-						<td class="description" valign="top"><span class="title">{TXT_THEME_IMPORT_HTT}</span>
-							{TXT_THEME_CURRENT}: {CURRENT_THEME}<br />
+						<td class="description" valign="top"><hr /><span class="title">{TXT_THEME_IMPORT_HTT}</span>
+							{TXT_THEME_CURRENT}: <b>{CURRENT_THEME}</b><br /><br />
 							{MESSAGE_THEME_IMPORT_HTT}
 							<br style="margin-bottom: 0.5em" />
 							<label for="theme_template">{TXT_THEME_SELECT_HTT}</label><br />
