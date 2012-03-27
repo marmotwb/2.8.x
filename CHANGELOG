@@ -11,9 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+27 Mar-2012 Build 1652 Dietmar Woellbrink (Luisehahne)
+! fixed path to globalExceptionHandler.php in wysiwyg
 26 Mar-2012 Build 1651 Werner v.d.Decken(DarkViper)
 # fixed a little problem with chmod()
-+ add argument 'replyTo' into class.wb::mail()
 24 Mar-2012 Build 1650 Werner v.d.Decken(DarkViper)
 + add argument 'replyTo' into class.wb::mail()
 24 Mar-2012 Build 1649 Dietmar Woellbrink (Luisehahne)
