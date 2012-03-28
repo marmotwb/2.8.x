@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+28 Mar-2012 Build 1653 Werner v.d.Decken(DarkViper)
+# fixed change_mode() against a very old problem with
+invalid calling arguments
 27 Mar-2012 Build 1652 Dietmar Woellbrink (Luisehahne)
 ! fixed path to globalExceptionHandler.php in wysiwyg
 26 Mar-2012 Build 1651 Werner v.d.Decken(DarkViper)

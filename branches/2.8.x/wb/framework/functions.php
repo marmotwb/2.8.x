@@ -416,19 +416,22 @@ function make_dir($dir_name, $dir_mode = OCTAL_DIR_MODE, $recursive=true)
 
 /**
  * Function to chmod files and/or directories
+ * the function also prevents the owner to loose rw-rights
  * @param string $sName
  * @param int rights in dec-value. 0= use wb-defaults
- * @return bool
+ * @return bool 
  */
 function change_mode($sName, $iMode = 0)
 {
 	$bRetval = true;
+	$iMode = intval($iMode) & 0777; // sanitize value
 	if((substr(__FILE__, 0, 1)) == '/')
 	{ // Only chmod if os is not windows
 		$bRetval = false;
 		if(!$iMode) {
 			$iMode = (is_file($sName) ? octdec(STRING_FILE_MODE) : octdec(STRING_DIR_MODE));
 		}
+		$iMode |= 0600; // set o+rw
 		if(is_writable($sName)) {
 			$bRetval = chmod($sName, $iMode);
 		}
