@@ -416,7 +416,7 @@ class wb extends SecureForm
 //			$myMail->AddReplyTo($fromaddress);                // REPLY TO:
 		}
 		if($replyTo) {
-			$myMail->AddReplyTo($fromaddress);                // REPLY TO:
+			$myMail->AddReplyTo($replyTo);                // REPLY TO:
 		}
 		// define recepient and information to send out
 		$myMail->AddAddress($toaddress);                      // TO:

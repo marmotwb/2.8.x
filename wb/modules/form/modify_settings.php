@@ -84,6 +84,7 @@ if(function_exists('edit_module_css')) {
 
 <input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
 <input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
+<input type="hidden" name="success_email_to" value="" />
 <?php echo $admin->getFTAN(); ?>
 
 <table summary="" class="row_a" cellpadding="2" cellspacing="0" border="0" width="100%">
@@ -166,29 +167,7 @@ if(function_exists('edit_module_css')) {
 	<tbody>
 	<tr>
 		<td class="frm-setting_name"><?php echo $TEXT['EMAIL'].' '.$MOD_FORM['TO']; ?>:</td>
-		<td class="frm-setting_value">
-			<select name="success_email_to" style="width: 98%;">
-			<option value="" onclick="javascript: document.getElementById('success_email_to').style.display = 'block';"><?php echo $TEXT['NONE']; ?></option>
-			<?php
-			$success_email_to = str_replace($raw, $friendly, ($setting['success_email_to']));
-			$sql  = 'SELECT `field_id`, `title` FROM `'.TABLE_PREFIX.'mod_form_fields` ';
-			$sql .= 'WHERE `section_id` = '.(int)$section_id.' ';
-			$sql .= '  AND  `type` = \'email\' ';
-			$sql .= 'ORDER BY `position` ASC ';
-			if($query_email_fields = $database->query($sql)) {
-				if($query_email_fields->numRows() > 0) {
-					while($field = $query_email_fields->fetchRow(MYSQL_ASSOC)) {
-						?>
-						<option value="field<?php echo $field['field_id']; ?>"<?php if($success_email_to == 'field'.$field['field_id']) { echo ' selected'; $selected = true; } ?> onclick="javascript: document.getElementById('email_from').style.display = 'none';">
-							<?php echo $TEXT['FIELD'].': '.$field['title']; ?>
-						</option>
-						<?php
-					}
-				}
-			}
-			?>
-			</select>
-		</td>
+		<td class="frm-setting_value"><?php echo  $MOD_FORM['RECIPIENT'] ?>	</td>
 	</tr>
 
 	<tr>
@@ -198,6 +177,7 @@ if(function_exists('edit_module_css')) {
 			<input type="text" name="success_email_fromname" style="width: 98%;" maxlength="255" value="<?php echo str_replace($raw, $friendly, ($setting['success_email_fromname'])); ?>" />
 		</td>
 	</tr>
+
 	<tr>
 		<td class="frm-setting_name"><?php echo $TEXT['EMAIL'].' '.$TEXT['SUBJECT']; ?>:</td>
 		<td class="frm-setting_value">

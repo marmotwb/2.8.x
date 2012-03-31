@@ -16,11 +16,9 @@
  */
 
 // Must include code to stop this file being access directly
-/* -------------------------------------------------------- */
-if(defined('WB_PATH') == false)
-{
-	// Stop this file being access directly
-	die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+if(!defined('WB_URL')) {
+	require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
 
@@ -31,16 +29,16 @@ $module_description = 'Dette modul giver mulighed for at lave tilpassede online 
 $MOD_FORM['SETTINGS'] = 'Form Settings';
 $MOD_FORM['CONFIRM'] = 'Confirmation';
 $MOD_FORM['SUBMIT_FORM'] = 'Submit';
-$MOD_FORM['EMAIL_SUBJECT'] = 'Delivering a message from '.WEBSITE_TITLE;
-$MOD_FORM['SUCCESS_EMAIL_SUBJECT'] = 'You have submitted a message to '.WEBSITE_TITLE;
+$MOD_FORM['EMAIL_SUBJECT'] = 'Delivering a message from {{WEBSITE_TITLE}}';
+$MOD_FORM['SUCCESS_EMAIL_SUBJECT'] = 'You have submitted a message by {{WEBSITE_TITLE}}';
 
-$MOD_FORM['SUCCESS_EMAIL_TEXT'] = 'Thank you for sending your message to '.WEBSITE_TITLE;
-$MOD_FORM['SUCCESS_EMAIL_TEXT_GENERATED'] = PHP_EOL.PHP_EOL.PHP_EOL
-.'****************************************************************************'.PHP_EOL
-.'This is an automatically generated e-mail. The sender\'s address of this e-mail'.PHP_EOL
-.'is furnished only for dispatch, not to receive messages!'.PHP_EOL
-.'If you have received this e-mail by mistake, please contact us and delete this message'.PHP_EOL
-.'****************************************************************************'.PHP_EOL;
+$MOD_FORM['SUCCESS_EMAIL_TEXT'] = 'Thank you for sending your message to {{WEBSITE_TITLE}}';
+$MOD_FORM['SUCCESS_EMAIL_TEXT_GENERATED'] = "\n\n\n"
+."****************************************************************************\n"
+."This is an automatically generated e-mail. The sender\'s address of this e-mail\n"
+."is furnished only for dispatch, not to receive messages!\n"
+."If you have received this e-mail by mistake, please contact us and delete this message\n"
+."****************************************************************************\n";
 
 $MOD_FORM['FROM'] = 'Sender';
 $MOD_FORM['TO'] = 'Recipient';
@@ -48,3 +46,5 @@ $MOD_FORM['TO'] = 'Recipient';
 $MOD_FORM['EXCESS_SUBMISSIONS'] = 'Sorry, this form has been submitted too many times so far this hour. Please retry in the next hour.';
 $MOD_FORM['INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email to the <a href="mailto:{{webmaster_email}}">webmaster</a>';
 $MOD_FORM['REQUIRED_FIELDS'] = 'You must enter details for the following fields';
+$MOD_FORM['RECIPIENT'] = 'Send confirmation mail only to authenticated user! Otherwise confirmation mail will be disabled! ';
+$MOD_FORM['ERROR'] = 'E-Mail could not send!!';

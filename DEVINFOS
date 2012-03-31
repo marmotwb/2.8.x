@@ -1,9 +1,14 @@
 ﻿WebsiteBaker 2.8.3 Developing Instructions/Informations
 =======================================================
 
-$Id: DEVINFOS 1634 2012-03-09 02:20:16Z Luisehahne $
+$Id$
 
 
+01 Apr-2012 Build 1655
+----------------------
+handling replyto in form module
+You can directly answer to the recipient, sending by a authenticated user
+then in from the recipient name is shown
 
 22 Mar-2012 Build 1639
 ----------------------
