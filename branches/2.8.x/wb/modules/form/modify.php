@@ -213,9 +213,9 @@ if($query_submissions = $database->query($sql)) {
 		<tr style="background-color: #dddddd; font-weight: bold;">
 			<th width="23" style="text-align: center;">&nbsp;</th>
 			<th width="33" style="text-align: right;"> ID </th>
-			<th width="250" style="padding-left: 10px;"><?php echo $TEXT['SUBMITTED'] ?></th>
-			<th width="240" style="padding-left: 10px;"><?php echo $TEXT['USER']; ?></th>
-			<th width="250"><?php echo $TEXT['EMAIL'].' '.$MOD_FORM['FROM'] ?></th>
+			<th width="200" style="padding-left: 10px;"><?php echo $TEXT['SUBMITTED'] ?></th>
+			<th width="200" style="padding-left: 10px;"><?php echo $TEXT['USER']; ?></th>
+			<th width="350"><?php echo $TEXT['EMAIL'].' '.$MOD_FORM['FROM'] ?></th>
 			<th width="20">&nbsp;</th>
 			<th width="20">&nbsp;</th>
 			<th width="20">&nbsp;</th>
@@ -242,9 +242,9 @@ if($query_submissions = $database->query($sql)) {
 					</a>
 				</td>
 				<td width="30" style="padding-right: 5px;text-align: right;"><?php echo $submission['submission_id']; ?></td>
-				<td width="250" style="padding-left: 10px;"><?php echo gmdate(DATE_FORMAT.', '.TIME_FORMAT, $submission['submitted_when']+TIMEZONE ); ?></td>
-				<td width="250" style="padding-left: 10px;"><?php echo $submission['display_name']; ?></td>
-				<td width="240"><?php echo $submission['email']; ?></td>
+				<td width="200" style="padding-left: 10px;"><?php echo gmdate(DATE_FORMAT.', '.TIME_FORMAT, $submission['submitted_when']+TIMEZONE ); ?></td>
+				<td width="200" style="padding-left: 10px;"><?php echo $submission['display_name']; ?></td>
+				<td width="350"><?php echo $submission['email']; ?></td>
 				<td width="20" style="text-align: center;">&nbsp;</td>
 				<td width="20">&nbsp;</td>
 				<td width="20" style="text-align: center;">
@@ -276,9 +276,9 @@ if($query_submissions = $database->query($sql)) {
 		<tr style="background-color: #dddddd; font-weight: bold;">
 			<th width="23" style="text-align: center;">&nbsp;</th>
 			<th width="33" style="text-align: right;"> ID </th>
-			<th width="250" style="padding-left: 10px;"><?php echo $TEXT['SUBMITTED'] ?></th>
-			<th width="250" style="padding-left: 10px;"><?php echo $TEXT['USER']; ?></th>
-			<th width="250"><?php echo $TEXT['EMAIL'].' '.$MOD_FORM['FROM'] ?></th>
+			<th width="200" style="padding-left: 10px;"><?php echo $TEXT['SUBMITTED'] ?></th>
+			<th width="200" style="padding-left: 10px;"><?php echo $TEXT['USER']; ?></th>
+			<th width="350"><?php echo $TEXT['EMAIL'].' '.$MOD_FORM['FROM'] ?></th>
 			<th width="20">&nbsp;</th>
 			<th width="20">&nbsp;</th>
 			<th width="20">&nbsp;</th>

@@ -29,6 +29,11 @@ $lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
 require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
 
 include_once(WB_PATH .'/framework/functions.php');
+$aWebsiteTitle = (defined('WEBSITE_TITLE') && WEBSITE_TITLE != '' ? WEBSITE_TITLE : $_SERVER['SERVER_NAME']);
+$replace = array('WEBSITE_TITLE' => $aWebsiteTitle );
+$MOD_FORM['EMAIL_SUBJECT'] = replace_vars($MOD_FORM['EMAIL_SUBJECT'], $replace);
+$MOD_FORM['SUCCESS_EMAIL_TEXT'] = replace_vars($MOD_FORM['SUCCESS_EMAIL_TEXT'], $replace);
+$MOD_FORM['SUCCESS_EMAIL_SUBJECT'] = replace_vars($MOD_FORM['SUCCESS_EMAIL_SUBJECT'], $replace);
 /*
 function removebreaks($value) {
 	return trim(preg_replace('=((<CR>|<LF>|0x0A/%0A|0x0D/%0D|\\n|\\r)\S).*=i', null, $value));
@@ -115,7 +120,8 @@ if (!function_exists("new_submission_id") ) {
 }
 
 // Work-out if the form has been submitted or not
-if($_POST == array()) {
+if($_POST == array())
+{
 	require_once(WB_PATH.'/include/captcha/captcha.php');
 
 	// Set new submission ID in session
@@ -129,8 +135,10 @@ if($_POST == array()) {
 	// Get settings
 	$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'mod_form_settings` ';
 	$sql .= 'WHERE section_id = '.$section_id.' ';
-	if($query_settings = $database->query($sql)) {
-		if($query_settings->numRows() > 0) {
+	if($query_settings = $database->query($sql))
+	{
+		if($query_settings->numRows() > 0)
+		{
 			$fetch_settings = $query_settings->fetchRow(MYSQL_ASSOC);
 			$header = str_replace('{WB_URL}',WB_URL,$fetch_settings['header']);
 			$field_loop = $fetch_settings['field_loop'];
@@ -138,6 +146,7 @@ if($_POST == array()) {
 			$use_captcha = $fetch_settings['use_captcha'];
 			$form_name = 'form';
 			$use_xhtml_strict = false;
+			$page_id = $fetch_settings['page_id'];
 		}
 	}
 
@@ -182,7 +191,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 			<?php }
 
 	// Print header  MYSQL_ASSOC
-   echo $header.PHP_EOL;
+		   echo $header."\n";
 			while($field = $query_fields->fetchRow(MYSQL_ASSOC)) {
 				// Set field values
 				$field_id = $field['field_id'];
@@ -196,7 +205,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 				}
 				$values = array($field_title);
 				if ($field['required'] == 1) {
-					$values[] = '<span class="frm-required">*</span>'.PHP_EOL;
+					$values[] = '<span class="frm-required">*</span>'."\n";
 				} else {
 					$values[] = '';
 				}
@@ -268,6 +277,13 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 	// Check that submission ID matches
 	if(isset($_SESSION['form_submission_id']) AND isset($_POST['submission_id']) AND $_SESSION['form_submission_id'] == $_POST['submission_id']) {
 
+	   $mail_replyto = '';
+	   $mail_replyName = '';
+		if( $wb->is_authenticated() && $wb->get_email() ) {
+		   $mail_replyto = $wb->get_email();
+		   $mail_replyName = htmlspecialchars($wb->add_slashes($wb->get_display_name()));
+		}
+
 		// Set new submission ID in session
 		$_SESSION['form_submission_id'] = new_submission_id();
 
@@ -301,17 +317,24 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 				}
 */
 				$email_fromname = $fetch_settings['email_fromname'];
+// 				$email_fromname = (($mail_replyName='') ? $fetch_settings['email_fromname'] : $mail_replyName);
+ 				$email_fromname = (($mail_replyName='') ? htmlspecialchars($wb->add_slashes($fetch_settings['email_fromname'])) : $mail_replyName);
+
 				if(substr($email_fromname, 0, 5) == 'field') {
 					// Set the email_fromname to field to what the user entered in the specified field
 					$email_fromname = htmlspecialchars($wb->add_slashes($_POST[$email_fromname]));
 				}
+
 				$email_subject = (($fetch_settings['email_subject'] != '') ? $fetch_settings['email_subject'] : $MOD_FORM['EMAIL_SUBJECT']);
 				$success_page = $fetch_settings['success_page'];
+				$success_email_to = $mail_replyto;
+/*
 				$success_email_to = (($fetch_settings['success_email_to'] != '') ? $fetch_settings['success_email_to'] : '');
 				if(substr($success_email_to, 0, 5) == 'field') {
 					// Set the success_email to field to what the user entered in the specified field
 					$success_email_to = htmlspecialchars($wb->add_slashes($_POST[$success_email_to]));
 				}
+*/
 				$success_email_from = $admin->add_slashes(SERVER_EMAIL);
 				$success_email_fromname = $fetch_settings['success_email_fromname'];
 				$success_email_text = htmlspecialchars($wb->add_slashes($fetch_settings['success_email_text']));
@@ -324,8 +347,8 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 				exit($TEXT['UNDER_CONSTRUCTION']);
 			}
 		}
-		$email_body = '';
 
+		$email_body = '';
 		// Create blank "required" array
 		$required = array();
 
@@ -336,10 +359,12 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 				if(!isset($_POST['captcha']) OR !isset($_SESSION['captcha']) OR $_POST['captcha'] != $_SESSION['captcha']) {
 					$replace = array('webmaster_email' => emailAdmin() );
 					$captcha_error = replace_vars($MOD_FORM['INCORRECT_CAPTCHA'], $replace);
+					$required[]= '';
 				}
 			} else {
 				$replace = array('webmaster_email'=>emailAdmin() );
 				$captcha_error = replace_vars($MOD_FORM['INCORRECT_CAPTCHA'],$replace );
+				$required[]= '';
 			}
 		}
 		if(isset($_SESSION['captcha'])) { unset($_SESSION['captcha']); }
@@ -354,15 +379,18 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 				while($field = $query_fields->fetchRow(MYSQL_ASSOC)) {
 					// Add to message body
 					if($field['type'] != '') {
-						if(!empty($_POST['field'.$field['field_id']])) {
+						if(!empty($_POST['field'.$field['field_id']]))
+						{
 							// do not allow droplets in user input!
 							if (is_array($_POST['field'.$field['field_id']])) {
-								$_SESSION['field'.$field['field_id']] = str_replace(array("[[", "]]"), array("&#91;&#91;", "&#93;&#93;"), $_POST['field'.$field['field_id']]);
+								$_SESSION['field'.$field['field_id']] = str_replace(array("[[", "]]"), array("&#91;&#91;", "&#93;&#93;"), $wb->strip_slashes($_POST['field'.$field['field_id']]));
 							} else {
-								$_SESSION['field'.$field['field_id']] = str_replace(array("[[", "]]"), array("&#91;&#91;", "&#93;&#93;"), htmlspecialchars($_POST['field'.$field['field_id']]));
+								$_SESSION['field'.$field['field_id']] = str_replace(array("[[", "]]"), array("&#91;&#91;", "&#93;&#93;"), htmlspecialchars($wb->strip_slashes($_POST['field'.$field['field_id']])));
 							}
+
 							if($field['type'] == 'email' AND $admin->validate_email($_POST['field'.$field['field_id']]) == false) {
 								$email_error = $MESSAGE['USERS_INVALID_EMAIL'];
+								$required[]= '';
 							}
 							if($field['type'] == 'heading') {
 								$email_body .= $_POST['field'.$field['field_id']]."\n\n";
@@ -375,6 +403,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 								}
 								$email_body .= "\n";
 							}
+
 						} elseif($field['required'] == 1) {
 							$required[] = $field['title'];
 						}
@@ -382,6 +411,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 				} //  while
 			}  // numRows
 		} //  query
+
 // Check if the user forgot to enter values into all the required fields
 		if(sizeof($required )) {
 
@@ -390,39 +420,46 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 			} else {
 				echo '<h3>'.$MESSAGE['MOD_FORM_REQUIRED_FIELDS'].'</h3>';
 			}
-			echo '<ul>'.PHP_EOL;
+			echo "<ul>\n";
 			foreach($required AS $field_title) {
-				echo '<li>'.$field_title.PHP_EOL;
+				if($field_title!=''){
+					echo '<li>'.$field_title."</li>\n";
+				}
 			}
+
 			if(isset($email_error)) {
-				echo '<li>'.$email_error.'</li>'.PHP_EOL;
+				echo '<li>'.$email_error."</li>\n";
 			}
+
 			if(isset($captcha_error)) {
-				echo '<li>'.$captcha_error.'</li>'.PHP_EOL;
+				echo '<li>'.$captcha_error."</li>\n";
 			}
 			// Create blank "required" array
 			$required = array();
-			echo '</ul>'.PHP_EOL;
-			echo '<p>&nbsp;</p>'.PHP_EOL.'<p><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'.PHP_EOL;
+			echo "</ul>\n";
+
+			echo '<p>&nbsp;</p>'."\n".'<p><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'."\n";
 		} else {
 			if(isset($email_error)) {
-				echo '<br /><ul>'.PHP_EOL;
-				echo '<li>'.$email_error.'</li>'.PHP_EOL;
-				echo '</ul>'.PHP_EOL;
+				echo '<br /><ul>'."\n";
+				echo '<li>'.$email_error.'</li>'."\n";
+				echo '</ul>'."\n";
 				echo '<a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a>';
 			} elseif(isset($captcha_error)) {
-				echo '<br /><ul>'.PHP_EOL;
-				echo '<li>'.$captcha_error.'</li>'.PHP_EOL;
-				echo '</ul>'.PHP_EOL;
-				echo '<p>&nbsp;</p>'.PHP_EOL.'<p><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'.PHP_EOL;
+				echo '<br /><ul>'."\n";
+				echo '<li>'.$captcha_error.'</li>'."\n";
+				echo '</ul>'."\n";
+				echo '<p>&nbsp;</p>'."\n".'<p><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'."\n";
 			} else {
 				// Check how many times form has been submitted in last hour
 				$last_hour = time()-3600;
 				$sql  = 'SELECT `submission_id` FROM `'.TABLE_PREFIX.'mod_form_submissions` ';
 				$sql .= 'WHERE `submitted_when` >= '.$last_hour.'';
 				$sql .= '';
-				if($query_submissions = $database->query($sql)){
-					if($query_submissions->numRows() > $max_submissions) {
+				if($query_submissions = $database->query($sql))
+				{
+					if($query_submissions->numRows() > $max_submissions)
+					{
 						// Too many submissions so far this hour
 						echo $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'];
 						$success = false;
@@ -436,69 +473,71 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 						$recipient = preg_replace( "/[^a-z0-9 !?:;,.\/_\-=+@#$&\*\(\)]/im", "", $email_fromname );
 						$email_fromname = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "", $recipient );
 						$email_body = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "", $email_body );
+
 						if($email_to != '') {
 							if($email_from != '') {
-								if($wb->mail(SERVER_EMAIL,$email_to,$email_subject,$email_body,$email_fromname)) {
-									$success = true;
-								}
+								$success = $wb->mail(SERVER_EMAIL,$email_to,$email_subject,$email_body,$email_fromname,$mail_replyto);
 							} else {
-								if($wb->mail('',$email_to,$email_subject,$email_body,$email_fromname)) {
-									$success = true;
+								$success = $wb->mail('',$email_to,$email_subject,$email_body,$email_fromname,$mail_replyto);
+							}
+						}
+
+						if($success==true)
+						{
+							$recipient = preg_replace( "/[^a-z0-9 !?:;,.\/_\-=+@#$&\*\(\)]/im", "", $success_email_fromname );
+							$success_email_fromname = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "", $recipient );
+							$success_email_text = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "", $success_email_text );
+							if($success_email_to != '') {
+								if($success_email_from != '') {
+									$success = $wb->mail(SERVER_EMAIL,$success_email_to,$success_email_subject,($success_email_text).$MOD_FORM['SUCCESS_EMAIL_TEXT_GENERATED'],$success_email_fromname,$mail_replyto);
+								} else {
+									$success = $wb->mail('',$success_email_to,$success_email_subject,($success_email_text).$MOD_FORM['SUCCESS_EMAIL_TEXT_GENERATED'],$success_email_fromname,$mail_replyto);
 								}
 							}
 						}
 
-						$recipient = preg_replace( "/[^a-z0-9 !?:;,.\/_\-=+@#$&\*\(\)]/im", "", $success_email_fromname );
-						$success_email_fromname = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "", $recipient );
-						$success_email_text = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "", $success_email_text );
-						if($success_email_to != '') {
-							if($success_email_from != '') {
-								if($wb->mail(SERVER_EMAIL,$success_email_to,$success_email_subject,($success_email_text).$MOD_FORM['SUCCESS_EMAIL_TEXT_GENERATED'],$success_email_fromname)) {
-									$success = true;
-								}
+						if($success==true)
+						{
+							// Write submission to database
+							if(isset($admin) AND $admin->is_authenticated() AND $admin->get_user_id() > 0) {
+								$submitted_by = $admin->get_user_id();
 							} else {
-								if($wb->mail('',$success_email_to,$success_email_subject,($success_email_text).$MOD_FORM['SUCCESS_EMAIL_TEXT_GENERATED'],$success_email_fromname)) {
+								$submitted_by = 0;
+							}
+							$email_body = htmlspecialchars($wb->add_slashes($email_body));
+							$sql  = 'INSERT INTO '.TABLE_PREFIX.'mod_form_submissions ';
+							$sql .= 'SET ';
+							$sql .= 'page_id='.$wb->page_id.',';
+							$sql .= 'section_id='.$section_id.',';
+							$sql .= 'submitted_when='.time().',';
+							$sql .= 'submitted_by=\''.$submitted_by.'\', ';
+							$sql .= 'body=\''.$email_body.'\' ';
+							if($database->query($sql))
+							{
+								if(!$database->is_error()) {
 									$success = true;
 								}
-							}
-						}
-
-						// Write submission to database
-						if(isset($admin) AND $admin->is_authenticated() AND $admin->get_user_id() > 0) {
-							$submitted_by = $admin->get_user_id();
-						} else {
-							$submitted_by = 0;
-						}
-						$email_body = htmlspecialchars($wb->add_slashes($email_body));
-						$sql  = 'INSERT INTO '.TABLE_PREFIX.'mod_form_submissions ';
-						$sql .= 'SET ';
-						$sql .= 'page_id='.$wb->page_id.',';
-						$sql .= 'section_id='.$section_id.',';
-						$sql .= 'submitted_when='.time().',';
-						$sql .= 'submitted_by=\''.$submitted_by.'\', ';
-						$sql .= 'body=\''.$email_body.'\' ';
-						if($database->query($sql)) {
-
-						if(!$database->is_error()) {
-							$success = true;
-						}
-						// Make sure submissions table isn't too full
-						$query_submissions = $database->query("SELECT submission_id FROM ".TABLE_PREFIX."mod_form_submissions ORDER BY submitted_when");
-						$num_submissions = $query_submissions->numRows();
-						if($num_submissions > $stored_submissions) {
-							// Remove excess submission
-							$num_to_remove = $num_submissions-$stored_submissions;
-							while($submission = $query_submissions->fetchRow(MYSQL_ASSOC)) {
-								if($num_to_remove > 0) {
-									$submission_id = $submission['submission_id'];
-									$database->query("DELETE FROM ".TABLE_PREFIX."mod_form_submissions WHERE submission_id = '$submission_id'");
-									$num_to_remove = $num_to_remove-1;
-								}
-							}
-						}
-					}  // numRows
-	 			}
-	 			}
+								// Make sure submissions table isn't too full
+								$query_submissions = $database->query("SELECT submission_id FROM ".TABLE_PREFIX."mod_form_submissions ORDER BY submitted_when");
+								$num_submissions = $query_submissions->numRows();
+								if($num_submissions > $stored_submissions)
+								{
+									// Remove excess submission
+									$num_to_remove = $num_submissions-$stored_submissions;
+									while($submission = $query_submissions->fetchRow(MYSQL_ASSOC))
+									{
+										if($num_to_remove > 0)
+										{
+											$submission_id = $submission['submission_id'];
+											$database->query("DELETE FROM ".TABLE_PREFIX."mod_form_submissions WHERE submission_id = '$submission_id'");
+											$num_to_remove = $num_to_remove-1;
+										}
+									}
+								} // $num_submissions
+							}  // numRows
+						} // $success
+		 			}
+	 			} // end how many times form has been submitted in last hour
 			}
 		}  // email_error
 	} else {
@@ -506,18 +545,21 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 	echo '<p>&nbsp;</p>'.PHP_EOL.'<p><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'.PHP_EOL;
 	}
 
+	$success_page = ( (isset($success_page) ) ? $success_page : $page_id);
+	$sql  = 'SELECT `link` FROM `'.TABLE_PREFIX.'pages` ';
+	$sql .= 'WHERE `page_id` = '.(int)$success_page;
+	$sSuccessLink = WB_URL;  // if failed set default
+	if( ($link = $database->get_one($sql)) ) {
+	   $sSuccessLink = WB_URL.PAGES_DIRECTORY.$link.PAGE_EXTENSION;
+	}
 	// Now check if the email was sent successfully
-	if(isset($success) AND $success == true) {
+	if(isset($success) && $success == true)
+	{
 	   if ($success_page=='none') {
 			echo str_replace("\n","<br />",($success_email_text));
-				echo '<p>&nbsp;</p>'.PHP_EOL.'<p><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'.PHP_EOL;
+			echo '<p>&nbsp;</p>'.PHP_EOL.'<p><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'.PHP_EOL;
   		} else {
-			$query_menu = $database->query("SELECT link,target FROM ".TABLE_PREFIX."pages WHERE `page_id` = '$success_page'");
-			if($query_menu->numRows() > 0) {
-  	        	$fetch_settings = $query_menu->fetchRow(MYSQL_ASSOC);
-			   $link = WB_URL.PAGES_DIRECTORY.$fetch_settings['link'].PAGE_EXTENSION;
-			   echo "<script type='text/javascript'>location.href='".$link."';</script>";
-			}
+			echo "<script type='text/javascript'>location.href='".$sSuccessLink."';</script>";
 		}
 		// clearing session on success
 		$query_fields = $database->query("SELECT field_id FROM ".TABLE_PREFIX."mod_form_fields WHERE section_id = '$section_id'");
@@ -526,8 +568,9 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 			if(isset($_SESSION['field'.$field_id])) unset($_SESSION['field'.$field_id]);
 		}
 	} else {
-		if(isset($success) AND $success == false) {
-			echo $TEXT['ERROR'];
+		if(isset($success) && $success == false) {
+			echo '<br />'.$MOD_FORM['ERROR'];
+			echo '<p>&nbsp;</p>'.PHP_EOL.'<p><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'.PHP_EOL;
 		}
 	}
 

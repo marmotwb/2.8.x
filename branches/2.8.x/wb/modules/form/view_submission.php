@@ -21,7 +21,7 @@ require('../../config.php');
 // Include WB admin wrapper script
 require(WB_PATH.'/modules/admin.php');
 /* */
-
+include_once (WB_PATH.'/framework/functions.php');
 // Get id
 $submission_id = intval($admin->checkIDKEY('submission_id', false, 'GET'));
 if (!$submission_id) {
