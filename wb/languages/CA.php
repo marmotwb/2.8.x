@@ -541,7 +541,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' fitxer s\'ha penjat amb &egrave;xit';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'No es pot tenir ../ a la carpeta de dest&iacute;';
 $MESSAGE['MEDIA_UPLOADED'] = ' fitxers han estat penjats amb &egrave;xit';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Ho sentim, aquest formulari ha estat enviat massa vegades durant l\'&uacute;ltima hora. Per favor torneu-ho a intentar d\'ac&iacute; una hora.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email: <a href="mailto:{{SERVER_EMAIL}}">{{SERVER_EMAIL}}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Heu d\'introduir les dades per als seg&uuml;ents camps';
 $MESSAGE['PAGES_ADDED'] = 'P&agrave;gina afegida amb &egrave;xit';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Cap&ccedil;alera de p&agrave;gina afegida amb &egrave;xit';

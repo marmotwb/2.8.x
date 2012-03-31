@@ -5,14 +5,37 @@ $Id: DEVINFOS 1634 2012-03-09 02:20:16Z Luisehahne $
 
 
 
+22 Mar-2012 Build 1639
+----------------------
+Refer: new structure in config.php set by new installation
+backwards compability is given, so const can be defined in /framework/initialize.php
+add const DEBUG to config.php (default = false)
+add const ADMIN_DIRECTORY to config.php (default = admin)
+[code]
+define('DEBUG', false);
+define('DB_TYPE', 'mysql');
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'xxxxxx');
+define('DB_USERNAME', 'xxxxxx');
+define('DB_PASSWORD', 'xxxxxx');
+define('TABLE_PREFIX', 'wb_');
+
+define('WB_URL', 'http://xxxxxxxx.xx');
+define('ADMIN_DIRECTORY', 'admin'); // no leading/trailing slash or backslash!! A simple directory only!!
+
+require_once(dirname(__FILE__).'/framework/initialize.php');
+[/code]
+
+
 09 Mar-2012 Build 1634
 ----------------------
 If using the $MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] in your module, please add
-following code to your script
+following code to your script, 
+requires: include_once (WB_PATH.'/framework/functions.php');
 [code]
-$search = array('{SERVER_EMAIL}');
-$replace = array( SERVER_EMAIL);
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = str_replace($search,$replace,$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA']);
+$aServerEmail = (defined('SERVER_EMAIL') && SERVER_EMAIL != '' ? SERVER_EMAIL : $_SERVER['SERVER_NAME']);
+$replace = array('SERVER_EMAIL' => $aServerEmail );
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = replace_vars($MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'], $replace);
 [/code]
 
 

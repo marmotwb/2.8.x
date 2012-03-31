@@ -541,7 +541,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' geupload';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Gebruik van ../ in de map is niet toegestaan';
 $MESSAGE['MEDIA_UPLOADED'] = ' geupload';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Dit formulier is te vaak verstuurd binnen dit uur. Probeert u het over een uur nog eens.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Het verificatienummer (ook wel Captcha genoemd) dat u hebt ingevoerd is incorrect. Als u de Captcha niet goed kunt lezen, stuur dan een e-mail naar: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Het verificatienummer (ook wel Captcha genoemd) dat u hebt ingevoerd is incorrect. Als u de Captcha niet goed kunt lezen, stuur dan een e-mail naar: <a href="mailto:{{SERVER_EMAIL}}">{{SERVER_EMAIL}}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'De volgende velden zijn verplicht';
 $MESSAGE['PAGES_ADDED'] = 'Pagina toegevoegd';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Paginatitel opgeslagen';

@@ -188,7 +188,7 @@ But this solution does not guarranty a correct displaying of the content from al
 </table>
 <table summary="" cellpadding="3" cellspacing="0">
 <tr>
-	<td colspan="8" class="step-row"><h1 class="step-row">Step 2</h1>&nbsp;Please check the following files/folders are writeable before continuing...</td>
+	<td colspan="6" class="step-row"><h1 class="step-row">Step 2</h1>&nbsp;Please check the following files/folders are writeable before continuing...</td>
 </tr>
 <?php
 	$config = '<font class="good">Writeable</font>';
@@ -206,7 +206,7 @@ But this solution does not guarranty a correct displaying of the content from al
 				if ( filesize($wb_path.$configFile) > 128)
 				{
 					$installFlag = false;
-					$config = '<font class="bad">Not empty!!?</font>';
+					$config = '<font class="bad">Already installed? Check!</font>';
 // try to open and to write
 				} elseif( !$handle = fopen($wb_path.$configFile, 'w') )
 				{
@@ -241,25 +241,27 @@ But this solution does not guarranty a correct displaying of the content from al
 	}
 ?>
 		<tr>
-			<td style="color: #666666;"><?php print $wb_root.$configFile ?></td>
-			<td colspan="2" ><?php echo $config ?></td>
+			<td colspan="2" style="color: #666666;"><?php print $wb_root.$configFile ?></td>
+			<td><?php echo $config ?></td>
+			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/pages/</td>
+			<td><?php if(is_writable('../pages/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../pages/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
 		</tr>
 		<tr>
-			<td style="color: #666666;"><?php print $wb_root ?>/pages/</td>
-			<td><?php if(is_writable('../pages/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../pages/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-			<td style="color: #666666;"><?php print $wb_root ?>/media/</td>
+			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/media/</td>
 			<td><?php if(is_writable('../media/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../media/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-			<td style="color: #666666;"><?php print $wb_root ?>/templates/</td>
+			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/templates/</td>
 			<td><?php if(is_writable('../templates/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../templates/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
 		</tr>
 		<tr>
-			<td style="color: #666666;"><?php print $wb_root ?>/modules/</td>
+			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/modules/</td>
 			<td><?php if(is_writable('../modules/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../modules/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-			<td style="color: #666666;"><?php print $wb_root ?>/languages/</td>
+			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/languages/</td>
 			<td><?php if(is_writable('../languages/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../languages/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-			<td style="color: #666666;"><?php print $wb_root ?>/temp/</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/temp/</td>
 			<td><?php if(is_writable('../temp/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../temp/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-			<td>&nbsp;</td>
+			<td colspan="2">&nbsp;</td>
 			<td>&nbsp;</td>
 		</tr>
 		</table>

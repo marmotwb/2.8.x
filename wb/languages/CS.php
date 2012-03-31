@@ -541,7 +541,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' soubor byl &uacute;sp&#283;&scaron;n&#283;
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Nelze pou&#382;&iacute;t ../ v c&iacute;lov&eacute;m adres&aacute;&#345;i';
 $MESSAGE['MEDIA_UPLOADED'] = ' soubory byly &uacute;sp&#283;&scaron;n&#283; nahr&aacute;ny';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Omlouv&aacute;me se, ale tento formul&aacute;&#345; dos&aacute;hl limitu povolen&yacute;ch odesl&aacute;n&iacute; pro tuto hodinu. Pros&iacute;m zkuste to znovu v dal&scaron;&iacute; hodin&#283;..';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Kontroln&iacute; k&oacute;d (zn&aacute;m&yacute; jako Captcha) neodpov&iacute;d&aacute;. Pokud m&aacute;te probl&eacute;my s p&#345;e&#269;ten&iacute;m tohoto k&oacute;du, kontaktujte <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Kontroln&iacute; k&oacute;d (zn&aacute;m&yacute; jako Captcha) neodpov&iacute;d&aacute;. Pokud m&aacute;te probl&eacute;my s p&#345;e&#269;ten&iacute;m tohoto k&oacute;du, kontaktujte <a href="mailto:{{SERVER_EMAIL}}">{{SERVER_EMAIL}}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Mus&iacute;te vyplnit n&aacute;sleduj&iacute;c&iacute; pole';
 $MESSAGE['PAGES_ADDED'] = 'Str&aacute;nka byla &uacute;sp&#283;&scaron;n&#283; p&#345;id&aacute;na';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Z&aacute;hlav&iacute; str&aacute;nky bylo &uacute;sp&#283;&scaron;n&#283; p&#345;id&aacute;no';

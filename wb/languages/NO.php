@@ -541,7 +541,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' Lykkes &aring; laste opp filen';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Kan ikke ha ../ i katalog m&aring;let';
 $MESSAGE['MEDIA_UPLOADED'] = ' Lykkes &aring; laste opp filene';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Beklager, dette skjemaet har blitt sendt for mange ganger denne timen. Vennligst pr&oslash;v igjen om en time.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Bekreftelsesnummeret (ogs&aring; kjent som Captcha) som du skrev inn er feil. Hvis du har problemer med &aring; lese Captcha, vennligst kontakt: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Bekreftelsesnummeret (ogs&aring; kjent som Captcha) som du skrev inn er feil. Hvis du har problemer med &aring; lese Captcha, vennligst kontakt: <a href="mailto:{{SERVER_EMAIL}}">{{SERVER_EMAIL}}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Du m&aring; skrive inn detaljer for f&oslash;lgende felt';
 $MESSAGE['PAGES_ADDED'] = 'Lykkes &aring; legge til siden';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Lykkes &aring; legge til side overskrift';

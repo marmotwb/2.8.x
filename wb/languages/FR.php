@@ -541,7 +541,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = 'Le fichier a &eacute;t&eacute; upload&eacut
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Impossible d&apos;avoir ../ dans le nom du dossier cible';
 $MESSAGE['MEDIA_UPLOADED'] = 'Les fichiers ont &eacute;t&eacute; upload&eacute;s avec succ&egrave;s';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'D&eacute;sol&eacute; mais ce formulaire est utilis&eacute; trop fr&eacute;quemment en ce moment. Afin de nous aider &agrave; lutter contre le spam, merci de r&eacute;essayer plus tard';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Le num&eacute;ro de v&eacute;rification (Captcha) que vous avez entr&eacute; est incorrect. Si vous rencontrez des probl&egrave;mes quant &agrave; la lecture de ce num&eacute;ro, merci d&apos;envoyer un email &agrave; : <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Le num&eacute;ro de v&eacute;rification (Captcha) que vous avez entr&eacute; est incorrect. Si vous rencontrez des probl&egrave;mes quant &agrave; la lecture de ce num&eacute;ro, merci d&apos;envoyer un email &agrave; : <a href="mailto:{{SERVER_EMAIL}}">{{SERVER_EMAIL}}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Vous devez renseigner les champs suivants';
 $MESSAGE['PAGES_ADDED'] = 'Page ajout&eacute;e avec succ&egrave;s';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'L&apos;ent&ecirc;te de la page a &eacute;t&eacute; ajout&eacute; avec succ&egrave;s';
