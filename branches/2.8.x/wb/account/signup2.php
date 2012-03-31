@@ -21,7 +21,7 @@ if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
 // require_once(WB_PATH.'/framework/class.wb.php');
 $wb = new wb('Start', 'start', false, false);
-
+include_once (WB_PATH.'/framework/functions.php');
 // Get details entered
 $groups_id = FRONTEND_SIGNUP;
 $active = 1;
@@ -59,7 +59,9 @@ $search = array('{SERVER_EMAIL}');
 $replace = array( SERVER_EMAIL);
 // Captcha
 if(ENABLED_CAPTCHA) {
-	$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = str_replace($search,$replace,$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA']);
+	$aServerEmail = (defined('SERVER_EMAIL') && SERVER_EMAIL != '' ? SERVER_EMAIL : $_SERVER['SERVER_NAME']);
+	$replace = array('SERVER_EMAIL' => $aServerEmail );
+	$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = replace_vars($MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'], $replace);
 	if(isset($_POST['captcha']) AND $_POST['captcha'] != ''){
 		// Check for a mismatch
 		if(!isset($_POST['captcha']) OR !isset($_SESSION['captcha']) OR $_POST['captcha'] != $_SESSION['captcha']) {

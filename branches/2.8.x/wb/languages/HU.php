@@ -541,7 +541,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' file sikeresen felt&ouml;ltve';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Nem lehet ../ in k&ouml;nyvt&aacute;r n&eacute;vben';
 $MESSAGE['MEDIA_UPLOADED'] = ' file sikeresen felt&ouml;ltve';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Sajn&aacute;ljuk, de ez az -?-¦rlap t&uacute;l sokszor lett kit&ouml;ltve egy &oacute;ran bel&uuml;l! K&eacute;rem pr&oacute;b&aacute;lja meg egy &oacute;ra m&uacute;lva';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'A megadott ellen&ouml;rz&agrave;k&oacute;d (vagy m&aacute;s n&eacute;ven Captcha) hib&aacute;s. Ha probl&eacute;m&aacute;d van elolvasni a Captcha k&oacute;dot, k&uuml;mailt ide: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'A megadott ellen&ouml;rz&agrave;k&oacute;d (vagy m&aacute;s n&eacute;ven Captcha) hib&aacute;s. Ha probl&eacute;m&aacute;d van elolvasni a Captcha k&oacute;dot, k&uuml;mailt ide: <a href="mailto:{{SERVER_EMAIL}}">{{SERVER_EMAIL}}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'A k&ouml;vetkez&agrave;mez-?-?et k&ouml;telez&agrave;kit&ouml;ltenie';
 $MESSAGE['PAGES_ADDED'] = 'Lap sikeresen hozz&aacute;adva';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Lap c&iacute;msor sikeresen hozz&aacute;adva';

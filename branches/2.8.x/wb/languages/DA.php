@@ -541,7 +541,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = 'fil blev overf&oslash;rt';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Kan ikke have ../ i placeringen af biblioteket (mappen)';
 $MESSAGE['MEDIA_UPLOADED'] = 'filer blev overf&oslash;rt';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Beklager! Denne formular er blevet afsendt for mange gange indenfor den sidste time, og du vil derfor blive afvist - Pr&oslash;v igen om en times tid!';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Verifikationstallene (ogs&aring; kendt som Captcha) som du tastede er ikke korrekte. Hvis du har problemer med at l&aelig;se Captha tallene, s&aring; kontakt venligst sidens Administrator p&aring; denne mailadresse: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Verifikationstallene (ogs&aring; kendt som Captcha) som du tastede er ikke korrekte. Hvis du har problemer med at l&aelig;se Captha tallene, s&aring; kontakt venligst sidens Administrator p&aring; denne mailadresse: <a href="mailto:{{SERVER_EMAIL}}">{{SERVER_EMAIL}}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Du skal udfylde f&oslash;lgende felter:';
 $MESSAGE['PAGES_ADDED'] = 'Siden er tilf&oslash;jet';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Overskrift til side tilf&oslash;jet';

@@ -541,7 +541,7 @@ $MESSAGE['MEDIA_SINGLE_UPLOADED'] = ' file caricato con successo';
 $MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] = 'Impossibile avere ../ nella cartella di destinazione';
 $MESSAGE['MEDIA_UPLOADED'] = ' file sono stati caricati con successo';
 $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'] = 'Spiacente: hai compilato questa form troppe volte nell\'ultima ora.';
-$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Il numero di controllo (chiama Captcha) che hai inserito non &egrave; valido. Se hai problemi con la lettura del Captcha, invia un email email: <a href="mailto:{SERVER_EMAIL}">{SERVER_EMAIL}</a>';
+$MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'] = 'Il numero di controllo (chiama Captcha) che hai inserito non &egrave; valido. Se hai problemi con la lettura del Captcha, invia un email email: <a href="mailto:{{SERVER_EMAIL}}">{{SERVER_EMAIL}}</a>';
 $MESSAGE['MOD_FORM_REQUIRED_FIELDS'] = 'Devi inserire tutti i dati nei seguenti campi';
 $MESSAGE['PAGES_ADDED'] = 'Pagina aggiunta';
 $MESSAGE['PAGES_ADDED_HEADING'] = 'Pagina intestazione aggiunta';
