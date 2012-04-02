@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+02 Apr-2012 Build 1656 Werner v.d.Decken(DarkViper)
+# fixed filter to serve malformed/nested HTML also.
 01 Apr-2012 Build 1655 Dietmar Woellbrink (Luisehahne)
 + add replyto to form module (see DEVINFOS)
 01 Apr-2012 Build 1654 Dietmar Woellbrink (Luisehahne)
