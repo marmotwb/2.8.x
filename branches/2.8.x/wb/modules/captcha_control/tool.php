@@ -147,7 +147,7 @@ if(isset($_POST['save_settings'])) {
 ?>
 <form name="store_settings" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 	<?php echo $admin->getFTAN(); ?>
-	<table width="98%" cellspacing="0" border="0" cellpadding="5px" class="row_a">
+	<table summary="" width="98%" cellspacing="0" border="0" cellpadding="5" class="row_a">
 	<tr><td colspan="2"><strong><?php echo $MOD_CAPTCHA_CONTROL['CAPTCHA_CONF'];?>:</strong></td></tr>
 	<tr>
 		<td width="30%"><?php echo $MOD_CAPTCHA_CONTROL['CAPTCHA_TYPE'];?>:</td>
@@ -161,7 +161,7 @@ if(isset($_POST['save_settings'])) {
 	</tr>
 	<tr>
 		<td>&nbsp;</td>
-		<td align="left" width="150px">
+		<td align="left" width="150">
             <img alt="captcha_example" id="captcha_example" src="<?php echo WB_URL.'/include/captcha/captchas/'.$captcha_type.'.png'?>" />
         </td>
 	</tr>

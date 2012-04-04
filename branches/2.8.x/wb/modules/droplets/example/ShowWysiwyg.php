@@ -1,5 +1,5 @@
 //:Display one defined WYSIWYG section
-//:Use [[ShowSection?section=10]]
+//:Use [[ShowWysiwyg?section=10]]
 global $database;
 	$content = '';
 	$section = isset($section) ? intval($section) : 0;

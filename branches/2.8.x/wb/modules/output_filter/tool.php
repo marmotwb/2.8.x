@@ -77,33 +77,33 @@ if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 <form name="store_settings" action="<?php echo $_SERVER['REQUEST_URI'];?>" method="post">
 	<?php echo $admin->getFTAN(); ?>
 	<input type="hidden" name="action" value="save" />
-	<table width="98%" cellspacing="0" cellpadding="5px" class="row_a">
+	<table summary="" width="98%" cellspacing="0" cellpadding="5" class="row_a">
 	<tr><td colspan="2"><strong><?php echo $MOD_MAIL_FILTER['BASIC_CONF'];?>:</strong></td></tr>
 	<tr>
 		<td width="35%"><?php echo $MOD_MAIL_FILTER['SYS_REL'];?>:</td>
 		<td>
 			<input type="radio" <?php echo ($data['sys_rel']=='1') ? 'checked="checked"' :'';?>
-				name="sys_rel" value="1"><?php echo $MOD_MAIL_FILTER['ENABLED'];?>
+				name="sys_rel" value="1" /><?php echo $MOD_MAIL_FILTER['ENABLED'];?>
 			<input type="radio" <?php echo (($data['sys_rel'])=='0') ? 'checked="checked"' :'';?>
-				name="sys_rel" value="0"><?php echo $MOD_MAIL_FILTER['DISABLED'];?>
+				name="sys_rel" value="0" /><?php echo $MOD_MAIL_FILTER['DISABLED'];?>
 		</td>
 	</tr>
 	<tr>
 		<td width="35%"><?php echo $MOD_MAIL_FILTER['EMAIL_FILTER'];?>:</td>
 		<td>
 			<input type="radio" <?php echo ($data['email_filter']=='1') ?'checked="checked"' :'';?>
-				name="email_filter" value="1"><?php echo $MOD_MAIL_FILTER['ENABLED'];?>
+				name="email_filter" value="1" /><?php echo $MOD_MAIL_FILTER['ENABLED'];?>
 			<input type="radio" <?php echo (($data['email_filter'])=='0') ?'checked="checked"' :'';?>
-				name="email_filter" value="0"><?php echo $MOD_MAIL_FILTER['DISABLED'];?>
+				name="email_filter" value="0" /><?php echo $MOD_MAIL_FILTER['DISABLED'];?>
 		</td>
 	</tr>
 	<tr>
 		<td><?php echo $MOD_MAIL_FILTER['MAILTO_FILTER'];?>:</td>
 		<td>
 			<input type="radio" <?php echo ($data['mailto_filter']=='1') ?'checked="checked"' :'';?>
-				name="mailto_filter" value="1"><?php echo $MOD_MAIL_FILTER['ENABLED'];?>
+				name="mailto_filter" value="1" /><?php echo $MOD_MAIL_FILTER['ENABLED'];?>
 			<input type="radio" <?php echo (($data['mailto_filter'])=='0') ?'checked="checked"' :'';?>
-				name="mailto_filter" value="0"><?php echo $MOD_MAIL_FILTER['DISABLED'];?>
+				name="mailto_filter" value="0" /><?php echo $MOD_MAIL_FILTER['DISABLED'];?>
 		</td>
 	</tr>
 	<tr><td colspan="2"><br /><strong><?php echo $MOD_MAIL_FILTER['REPLACEMENT_CONF'];?>:</strong></td></tr>

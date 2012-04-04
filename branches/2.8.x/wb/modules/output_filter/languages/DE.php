@@ -21,7 +21,7 @@ $module_description 					= 'Dieses Modul erlaubt die Filterung von Inhalten vor 
 
 // Ueberschriften und Textausgaben
 $MOD_MAIL_FILTER['HEADING']				= 'Optionen: Ausgabe Filterung';
-$MOD_MAIL_FILTER['HOWTO']				= '&Uuml;ber nachfolgende Optionen kann die Ausgabefilterung konfiguriert werden.<p style="line-height:1.5em;"><strong>Tipp: </strong>Mailto Links k&ouml;nnen mit einer Javascript Routine verschl&uuml;sselt werden. Um diese Option zu aktivieren muss der PHP Befehl <code style="background:#FFA;color:#900;">&lt;?php register_frontend_modfiles(\'js\');?&gt;</code> im &lt;head&gt; Bereich der index.php Ihres Templates eingebunden werden. Ohne diese &Auml;nderungen wird nur das @ Zeichen im mailto: Teil ersetzt.</p>';
+$MOD_MAIL_FILTER['HOWTO']				= '&Uuml;ber nachfolgende Optionen kann die Ausgabefilterung konfiguriert werden.<p style="line-height:1.5em;"><strong>Tipp: </strong>Mailto Links k&ouml;nnen mit einer Javascript Routine verschl&uuml;sselt werden. Um diese Option zu aktivieren muss der PHP Befehl <code style="background:#FFA;color:#900;">&lt;?php register_frontend_modfiles(\'js\');?&gt;</code> im &lt;head&gt; Bereich der index.php Ihres Templates eingebunden werden. Ohne diese &Auml;nderungen wird nur das @ Zeichen im mailto: Teil ersetzt.';
 $MOD_MAIL_FILTER['WARNING']				= '';
 
 // Text von Form Elementen

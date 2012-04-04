@@ -2,7 +2,7 @@
 
 <form name="settings" action="save.php" method="post">
 <input type="hidden" name="advanced" value="{ADVANCED}" />
-<input type="hidden" name="wbmailer_smtp_auth" id="wbmailer_smtp_auth" value="true"  />
+<input type="hidden" name="wbmailer_smtp_auth" value="true"  />
 
 {FTAN}
 
