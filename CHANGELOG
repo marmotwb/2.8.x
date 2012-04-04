@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+04 Apr-2012 Build 1657 Dietmar Woellbrink (Luisehahne)
+! some validation fixes in backend
 02 Apr-2012 Build 1656 Werner v.d.Decken(DarkViper)
 # fixed filter to serve malformed/nested HTML also.
 01 Apr-2012 Build 1655 Dietmar Woellbrink (Luisehahne)

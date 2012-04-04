@@ -85,7 +85,7 @@ function toggle_radio(radio_on, radio_off) {
 	<td>
 		<input type="submit" name="submit" value="{SUBMIT_TITLE}" />
 		<input type="reset" name="reset" value="{TEXT_RESET}" />
-		<input type="button" style="width: 100px; margin-top: 5px;" onclick="javascript: window.location = 'index.php';" value="{TEXT_CANCEL}">
+		<input type="button" style="width: 100px; margin-top: 5px;" onclick="javascript: window.location = 'index.php';" value="{TEXT_CANCEL}" />
 	</td>
 </tr>
 </table>

@@ -98,9 +98,10 @@ if(isset($_POST['save_settings']))  {
   else
   {
   ?>
-   <form id="jsadmin_form" name="store_settings" style="margin-top: 1em; display: true;" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+<div  id="jsadmin_form"></div>
+   <form name="store_settings" style="margin-top: 1em; display: true;" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 	<?php echo $admin->getFTAN(); ?>
-   <table cellpadding="4" cellspacing="0" border="0">
+   <table summary="" cellpadding="4" cellspacing="0" border="0">
    <tr>
 	     <td colspan="2"><?php echo $MOD_JSADMIN['TXT_HEADING_B']; ?>:</td>
    </tr>
