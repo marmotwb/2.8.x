@@ -91,7 +91,7 @@ $query_droplets = $database->query($sql);
 $num_droplets = $query_droplets->numRows();
 if($num_droplets > 0) {
 	?>
-	<table summary="" class="row_a" border="0" cellspacing="0" cellpadding="3" width="100%">
+	<table summary="" class="row_0" border="0" cellspacing="0" cellpadding="3" width="100%">
 	<thead>
 		<tr>
 			<td width="3%"></td>
@@ -102,7 +102,7 @@ if($num_droplets > 0) {
 		</tr>
 	</thead>
 	<?php
-	$row = 'a';
+	$row = 0;
 	while($droplet = $query_droplets->fetchRow()) {
 		$get_modified_user = $database->query("SELECT display_name,username, user_id FROM ".TABLE_PREFIX."users WHERE user_id = '".$droplet['modified_by']."' LIMIT 1");
 		if($get_modified_user->numRows() > 0) {
@@ -150,12 +150,8 @@ if($num_droplets > 0) {
 			</td>
 		</tr>
 		<?php
-		// Alternate row color
-		if($row == 'a') {
-			$row = 'b';
-		} else {
-			$row = 'a';
-		}
+		// Alternate row color (toggle between 0 and 1)
+		$row = ++$row & 1;
 	}
 	?>
 	</table>
