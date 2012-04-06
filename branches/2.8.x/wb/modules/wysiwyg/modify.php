@@ -32,16 +32,19 @@ if ( ($content = $database->get_one($sql)) ) {
 	$content = '';
 }
 
-if(!function_exists('show_wysiwyg_editor'))
-{
-	if (!defined('WYSIWYG_EDITOR') OR WYSIWYG_EDITOR=="none" OR !file_exists(WB_PATH.'/modules/'.WYSIWYG_EDITOR.'/include.php'))
+if(!isset($wysiwyg_editor_loaded)) {
+    $wysiwyg_editor_loaded=true;
+	if(!function_exists('show_wysiwyg_editor'))
 	{
-		function show_wysiwyg_editor($name,$id,$content,$width,$height)
+		if (!defined('WYSIWYG_EDITOR') OR WYSIWYG_EDITOR=="none" OR !file_exists(WB_PATH.'/modules/'.WYSIWYG_EDITOR.'/include.php'))
 		{
-			echo '<textarea name="'.$name.'" id="'.$id.'" style="width: '.$width.'; height: '.$height.';">'.$content.'</textarea>';
+			function show_wysiwyg_editor($name,$id,$content,$width,$height)
+			{
+				echo '<textarea name="'.$name.'" id="'.$id.'" style="width: '.$width.'; height: '.$height.';">'.$content.'</textarea>';
+			}
+		} else {
+			require(WB_PATH.'/modules/'.WYSIWYG_EDITOR.'/include.php');
 		}
-	} else {
-		require(WB_PATH.'/modules/'.WYSIWYG_EDITOR.'/include.php');
 	}
 }
 

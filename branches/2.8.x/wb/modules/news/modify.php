@@ -172,6 +172,9 @@ if($query_groups->numRows() > 0) {
 					<img src="<?php echo THEME_URL; ?>/images/modify_16.png" border="0" alt="Modify - " />
 				</a>
 			</td>		
+			<td width="50" style="text-align: right;">
+				<?php echo $group['group_id'] ?>
+			</td>
 			<td>
 				<a href="<?php echo WB_URL; ?>/modules/news/modify_group.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>&amp;group_id=<?php echo $gid; ?>">
 					<?php echo $group['title']; ?>

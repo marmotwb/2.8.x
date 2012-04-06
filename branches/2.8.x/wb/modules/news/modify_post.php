@@ -35,13 +35,16 @@ if (!$post_id) {
 $query_content = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_news_posts WHERE post_id = '$post_id'");
 $fetch_content = $query_content->fetchRow();
 
-if (!defined('WYSIWYG_EDITOR') OR WYSIWYG_EDITOR=="none" OR !file_exists(WB_PATH.'/modules/'.WYSIWYG_EDITOR.'/include.php')) {
-	function show_wysiwyg_editor($name,$id,$content,$width,$height) {
-		echo '<textarea name="'.$name.'" id="'.$id.'" rows="10" cols="1" style="width: '.$width.'; height: '.$height.';">'.$content.'</textarea>';
+if(!isset($wysiwyg_editor_loaded)) {
+    $wysiwyg_editor_loaded=true;
+	if (!defined('WYSIWYG_EDITOR') OR WYSIWYG_EDITOR=="none" OR !file_exists(WB_PATH.'/modules/'.WYSIWYG_EDITOR.'/include.php')) {
+		function show_wysiwyg_editor($name,$id,$content,$width,$height) {
+			echo '<textarea name="'.$name.'" id="'.$id.'" rows="10" cols="1" style="width: '.$width.'; height: '.$height.';">'.$content.'</textarea>';
+		}
+	} else {
+		$id_list=array("short","long");
+		require(WB_PATH.'/modules/'.WYSIWYG_EDITOR.'/include.php');
 	}
-} else {
-	$id_list=array("short","long");
-	require(WB_PATH.'/modules/'.WYSIWYG_EDITOR.'/include.php');
 }
 
 // include jscalendar-setup
