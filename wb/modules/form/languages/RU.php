@@ -46,5 +46,5 @@ $MOD_FORM['TO'] = 'Recipient';
 $MOD_FORM['EXCESS_SUBMISSIONS'] = 'Sorry, this form has been submitted too many times so far this hour. Please retry in the next hour.';
 $MOD_FORM['INCORRECT_CAPTCHA'] = 'The verification number (also known as Captcha) that you entered is incorrect. If you are having problems reading the Captcha, please email to the <a href="mailto:{{webmaster_email}}">webmaster</a>';
 $MOD_FORM['REQUIRED_FIELDS'] = 'You must enter details for the following fields';
-$MOD_FORM['RECIPIENT'] = 'Send confirmation mail only to authenticated user! Otherwise confirmation mail will be disabled! ';
+$MOD_FORM['RECIPIENT'] = 'E-mail confirmation occurs only to valid e-mail address of the user announced in each case! Dispatch to unchecked addresses is not possible!';
 $MOD_FORM['ERROR'] = 'E-Mail could not send!!';
