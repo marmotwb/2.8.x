@@ -74,6 +74,7 @@ if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 ?>
 <h2><?php echo $MOD_MAIL_FILTER['HEADING']; ?></h2>
 <p><?php echo $MOD_MAIL_FILTER['HOWTO']; ?></p>
+<p><?php echo $MOD_MAIL_FILTER['HOWTOTIP']; ?></p>
 <form name="store_settings" action="<?php echo $_SERVER['REQUEST_URI'];?>" method="post">
 	<?php echo $admin->getFTAN(); ?>
 	<input type="hidden" name="action" value="save" />
