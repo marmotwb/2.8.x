@@ -224,6 +224,7 @@ $TEXT['NOT_FOUND'] = 'Non trouv&eacute;';
 $TEXT['NOT_INSTALLED'] = 'non install&eacute;';
 $TEXT['NO_IMAGE_SELECTED'] = 'no image selected';
 $TEXT['NO_RESULTS'] = 'Aucun r&eacute;sultat';
+$TEXT['NO_SELECTION'] = 'no selection';
 $TEXT['OF'] = 'De';
 $TEXT['ON'] = 'Sur';
 $TEXT['OPEN'] = 'Ouvert';

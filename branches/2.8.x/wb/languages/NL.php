@@ -224,6 +224,7 @@ $TEXT['NOT_FOUND'] = 'Niet gevonden';
 $TEXT['NOT_INSTALLED'] = 'niet ge&iuml;nstalleerd';
 $TEXT['NO_IMAGE_SELECTED'] = 'geen afbeelding geselecteerd';
 $TEXT['NO_RESULTS'] = 'Geen resultaten';
+$TEXT['NO_SELECTION'] = 'no selection';
 $TEXT['OF'] = 'van de';
 $TEXT['ON'] = 'Op';
 $TEXT['OPEN'] = 'Openen';

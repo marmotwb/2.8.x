@@ -33,6 +33,6 @@ $MOD_MAIL_FILTER['MAILTO_FILTER']    = 'Filtere E-Mail Adressen in mailto Links'
 $MOD_MAIL_FILTER['ENABLED']          = 'Aktiviert';
 $MOD_MAIL_FILTER['DISABLED']         = 'Ausgeschaltet';
 
-$MOD_MAIL_FILTER['REPLACEMENT_CONF'] = 'Email Ersetzungen';
+$MOD_MAIL_FILTER['REPLACEMENT_CONF'] = 'E-Mail Ersetzungen';
 $MOD_MAIL_FILTER['AT_REPLACEMENT']   = 'Ersetze "@" durch';
 $MOD_MAIL_FILTER['DOT_REPLACEMENT']  = 'Ersetze "." durch';

@@ -17,7 +17,7 @@
  */
 
 // Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { exit("Du kan ikke få direkte adgang til denne fil"); }
+if(defined('WB_PATH') == false) { exit("Du kan ikke fÃ¥ direkte adgang til denne fil"); }
 
 // Define that this file is loaded
 if(!defined('LANGUAGE_LOADED')) {
@@ -224,6 +224,7 @@ $TEXT['NOT_FOUND'] = 'Ikke fundet';
 $TEXT['NOT_INSTALLED'] = 'ikke installeret';
 $TEXT['NO_IMAGE_SELECTED'] = 'intet billede valgt';
 $TEXT['NO_RESULTS'] = 'Intet fundet';
+$TEXT['NO_SELECTION'] = 'no selection';
 $TEXT['OF'] = 'af';
 $TEXT['ON'] = 'D.';
 $TEXT['OPEN'] = '&Aring;ben';

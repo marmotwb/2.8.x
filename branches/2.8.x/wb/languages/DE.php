@@ -225,6 +225,7 @@ $TEXT['NOT_FOUND'] = 'Nicht gefunden';
 $TEXT['NOT_INSTALLED'] = 'nicht installiert';
 $TEXT['NO_IMAGE_SELECTED'] = 'Kein Bild ausgew&auml;hlt';
 $TEXT['NO_RESULTS'] = 'Keine Ergebnisse';
+$TEXT['NO_SELECTION'] = 'keine Auswahl';
 $TEXT['OF'] = 'von';
 $TEXT['ON'] = 'Am';
 $TEXT['OPEN'] = '&Ouml;ffnen';

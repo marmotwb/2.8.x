@@ -224,6 +224,7 @@ $TEXT['NOT_FOUND'] = 'Nen&aacute;jdene';
 $TEXT['NOT_INSTALLED'] = 'Nenain&#353;talovan&eacute;';
 $TEXT['NO_IMAGE_SELECTED'] = 'no image selected';
 $TEXT['NO_RESULTS'] = '&#381;iadny v&yacute;sledok';
+$TEXT['NO_SELECTION'] = 'no selection';
 $TEXT['OF'] = 'Z';
 $TEXT['ON'] = 'Na';
 $TEXT['OPEN'] = 'Otvori&#357;';
