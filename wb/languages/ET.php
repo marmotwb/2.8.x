@@ -224,6 +224,7 @@ $TEXT['NOT_FOUND'] = 'Ei Leitud';
 $TEXT['NOT_INSTALLED'] = 'not installed';
 $TEXT['NO_IMAGE_SELECTED'] = 'no image selected';
 $TEXT['NO_RESULTS'] = 'Tulemusi Ei Ole';
+$TEXT['NO_SELECTION'] = 'no selection';
 $TEXT['OF'] = 'Of';
 $TEXT['ON'] = 'Edasi';
 $TEXT['OPEN'] = 'Open';

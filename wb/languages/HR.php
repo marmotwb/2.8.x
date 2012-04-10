@@ -224,6 +224,7 @@ $TEXT['NOT_FOUND'] = 'Neprona&eth;eno';
 $TEXT['NOT_INSTALLED'] = 'not installed';
 $TEXT['NO_IMAGE_SELECTED'] = 'no image selected';
 $TEXT['NO_RESULTS'] = 'Nema rezultata';
+$TEXT['NO_SELECTION'] = 'no selection';
 $TEXT['OF'] = 'Of';
 $TEXT['ON'] = 'On';
 $TEXT['OPEN'] = 'Open';

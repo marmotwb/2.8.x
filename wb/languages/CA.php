@@ -224,6 +224,7 @@ $TEXT['NOT_FOUND'] = 'No Trobat';
 $TEXT['NOT_INSTALLED'] = 'not installed';
 $TEXT['NO_IMAGE_SELECTED'] = 'no image selected';
 $TEXT['NO_RESULTS'] = 'Cap Resultat';
+$TEXT['NO_SELECTION'] = 'no selection';
 $TEXT['OF'] = 'De';
 $TEXT['ON'] = 'A';
 $TEXT['OPEN'] = 'Open';

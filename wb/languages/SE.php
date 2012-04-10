@@ -224,6 +224,7 @@ $TEXT['NOT_FOUND'] = 'Hittades inte';
 $TEXT['NOT_INSTALLED'] = 'not installed';
 $TEXT['NO_IMAGE_SELECTED'] = 'no image selected';
 $TEXT['NO_RESULTS'] = 'Inget resultat';
+$TEXT['NO_SELECTION'] = 'no selection';
 $TEXT['OF'] = 'Av';
 $TEXT['ON'] = 'Den';
 $TEXT['OPEN'] = 'Open';

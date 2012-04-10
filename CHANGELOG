@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+11 Apr-2012 Build 1661 Dietmar Woellbrink (Luisehahne)
++ add new language vars
 06 Apr-2012 Build 1660 Dietmar Woellbrink (Luisehahne)
 ! add group_id to news group overview
 # fixed Fatal error: Cannot redeclare show_wysiwyg_editor()
