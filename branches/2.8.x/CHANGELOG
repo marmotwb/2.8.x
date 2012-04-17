@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+17 Apr-2012 Build 1665 Werner v.d.Decken(DarkViper)
+! update page_settings - CSS for wb_theme and argos_theme (for Rev.1664)
 17 Apr-2012 Build 1664 Werner v.d.Decken(DarkViper)
 + added additional rights for AdminUsers/ViewerUsers in /pages/page_settings
 ! /pages/settings2.php renamed into /pages/settings_save.php
