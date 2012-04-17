@@ -17,7 +17,7 @@
  */
 
 // Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { exit("Du kan ikke fÃ¥ direkte adgang til denne fil"); }
+if(defined('WB_PATH') == false) { exit("Du kan ikke fÃÂ¥ direkte adgang til denne fil"); }
 
 // Define that this file is loaded
 if(!defined('LANGUAGE_LOADED')) {
@@ -117,6 +117,7 @@ $TEXT['DELETE_DATE'] = 'Slet dato';
 $TEXT['DELETE_ZIP'] = 'Slet zip-arkiv efter udpakning';
 $TEXT['DESCRIPTION'] = 'Beskrivelse';
 $TEXT['DESIGNED_FOR'] = 'Designet til';
+$TEXT['DEV_INFOS'] = 'Developer Informations';
 $TEXT['DIRECTORIES'] = 'Biblioteker (mapper)';
 $TEXT['DIRECTORY_MODE'] = 'Bibliotekstilstand';
 $TEXT['DISABLED'] = 'Deaktiveret';
@@ -208,6 +209,7 @@ $TEXT['MODULE_PERMISSIONS'] = 'Modulrettigheder';
 $TEXT['MORE'] = 'Mere';
 $TEXT['MOVE_DOWN'] = 'Flyt ned';
 $TEXT['MOVE_UP'] = 'Flyt op';
+$TEXT['MULTILINGUAL'] = 'MULTILINGUAL';
 $TEXT['MULTIPLE_MENUS'] = 'Flere menuer';
 $TEXT['MULTISELECT'] = 'Multi-valg';
 $TEXT['NAME'] = 'Navn';
