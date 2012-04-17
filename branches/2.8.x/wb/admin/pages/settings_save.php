@@ -25,12 +25,16 @@ require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_settings',false);
 
 // Get page id
-if(!isset($_POST['page_id']) || !is_numeric($_POST['page_id']))
+if(!isset($_POST['page_id']) || preg_match('/[^0-9a-f]/i',$_POST['page_id']))
 {
 	header("Location: index.php");
 	exit(0);
 } else {
-	$page_id = (int)$_POST['page_id'];
+//	$page_id = $admin->checkIDKEY('page_id');
+//	$page_id = (int)$_POST['page_id'];
+	if((!($page_id = $admin->checkIDKEY('page_id')))) {
+		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/index.php');
+	}
 }
 
 /*
@@ -65,13 +69,15 @@ if (!in_array($visibility, array('public', 'private', 'registered', 'hidden', 'n
 $template = preg_replace('/[^a-z0-9_-]/i', "", $admin->get_post('template')); // fix secunia 2010-93-3
 $template = (($template == DEFAULT_TEMPLATE ) ? '' : $template);
 $target = preg_replace("/\W/", "", $admin->get_post('target'));
-$admin_groups = $admin->get_post_escaped('admin_groups');
-$viewing_groups = $admin->get_post_escaped('viewing_groups');
+$aAdminGroups   = (isset($_POST['admin_groups']) ? $_POST['admin_groups'] : array(1));
+$aAdminUsers    = (isset($_POST['admin_users']) ? $_POST['admin_users'] : array());
+$aViewingGroups = (isset($_POST['viewing_groups']) ? $_POST['viewing_groups'] : array(1));
+$aViewingUsers  = (isset($_POST['viewing_users']) ? $_POST['viewing_users'] : array());
 $searching = intval($admin->get_post('searching'));
 $language = strtoupper($admin->get_post('language'));
 $language = (preg_match('/^[A-Z]{2}$/', $language) ? $language : DEFAULT_LANGUAGE);
 $menu = intval($admin->get_post('menu')); // fix secunia 2010-91-3
-
+$page_code = (isset($_POST['page_code']) ? intval($_POST['page_code']) : 0);
 // Validate data
 if($page_title == '' || substr($page_title,0,1)=='.')
 {
@@ -83,8 +89,6 @@ if($menu_title == '' || substr($menu_title,0,1)=='.')
 }
 
 // Get existing perms
-// $database = new database();
-
 $sql = 'SELECT `parent`,`link`,`position`,`admin_groups`,`admin_users` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id`='.$page_id;
 $results = $database->query($sql);
 
@@ -92,37 +96,31 @@ $results_array = $results->fetchRow();
 $old_parent = $results_array['parent'];
 $old_link = $results_array['link'];
 $old_position = $results_array['position'];
-$old_admin_groups = explode(',', str_replace('_', '', $results_array['admin_groups']));
-$old_admin_users = explode(',', str_replace('_', '', $results_array['admin_users']));
 
-// Work-out if we should check for existing page_code
-$field_set = $database->field_exists(TABLE_PREFIX.'pages', 'page_code');
-
-$in_old_group = FALSE;
-foreach($admin->get_groups_id() as $cur_gid)
-{
-    if (in_array($cur_gid, $old_admin_groups))
-    {
-	$in_old_group = TRUE;
-    }
-}
-if((!$in_old_group) && !is_numeric(array_search($admin->get_user_id(), $old_admin_users)))
+if(!$admin->ami_group_member($results_array['admin_groups']) &&
+   !$admin->is_group_match($admin->get_user_id(), $results_array['admin_users']))
 {
 	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
 }
 
 // Setup admin groups
-$admin_groups[] = 1;
-//if(!in_array(1, $admin->get_groups_id())) {
-//	$admin_groups[] = implode(",",$admin->get_groups_id());
-//}
-$admin_groups = preg_replace("/[^\d,]/", "", implode(',', $admin_groups));
-// Setup viewing groups
-$viewing_groups[] = 1;
-//if(!in_array(1, $admin->get_groups_id())) {
-//	$viewing_groups[] = implode(",",$admin->get_groups_id());
-//}
-$viewing_groups = preg_replace("/[^\d,]/", "", implode(',', $viewing_groups));
+$aAdminGroups = (is_array($aAdminGroups) ? $aAdminGroups : array(1));
+array_unshift($aAdminGroups, 1);
+$sAdminGroups = implode(',', array_unique($aAdminGroups, SORT_REGULAR));
+$sAdminGroups = (preg_match('/^,|[^0-9,]|,,|,$/', $sAdminGroups) ? '1' : $sAdminGroups);
+
+$aAdminUsers = (is_array($aAdminUsers) ? $aAdminUsers : array());
+$sAdminUsers = implode(',', array_diff($aAdminUsers, array(0)));
+$sAdminUsers = (preg_match('/^,|[^0-9,]|,,|,$/', $sAdminUsers) ? array() : $sAdminUsers);
+
+$aViewingGroups = (is_array($aViewingGroups) ? $aViewingGroups : array(1));
+array_unshift($aViewingGroups, 1);
+$sViewingGroups = implode(',', array_unique($aViewingGroups, SORT_REGULAR));
+$sViewingGroups = (preg_match('/^,|[^0-9,]|,,|,$/', $sViewingGroups) ? '1' : $sViewingGroups);
+
+$aViewingUsers = (is_array($aViewingUsers) ? $aViewingUsers : array());
+$sViewingUsers = implode(',', array_diff($aViewingUsers, array(0)));
+$sViewingUsers = (preg_match('/^,|[^0-9,]|,,|,$/', $sViewingUsers) ? array() : $sViewingUsers);
 
 // If needed, get new order
 if($parent != $old_parent)
@@ -195,32 +193,31 @@ $database->query($sql);
 $page_trail = get_page_trail($page_id);
 
 // Update page settings in the pages table
-$sql  = 'UPDATE `'.TABLE_PREFIX.'pages` SET ';
-$sql .= '`parent` = '.$parent.', ';
-$sql .= '`page_title` = "'.$page_title.'", ';
-$sql .= '`menu_title` = "'.$menu_title.'", ';
-$sql .= '`menu` = '.$menu.', ';
-$sql .= '`level` = '.$level.', ';
-$sql .= '`page_trail` = "'.$page_trail.'", ';
-$sql .= '`root_parent` = '.$root_parent.', ';
-$sql .= '`link` = "'.$link.'", ';
-$sql .= '`template` = "'.$template.'", ';
-$sql .= '`target` = "'.$target.'", ';
-$sql .= '`description` = "'.$description.'", ';
-$sql .= '`keywords` = "'.$keywords.'", ';
-$sql .= '`position` = '.$position.', ';
-$sql .= '`visibility` = "'.$visibility.'", ';
-$sql .= '`searching` = '.$searching.', ';
-$sql .= '`language` = "'.$language.'", ';
-$sql .= '`admin_groups` = "'.$admin_groups.'", ';
-$sql .= '`viewing_groups` = "'.$viewing_groups.'"';
-$sql .= (defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set && (file_exists(WB_PATH.'/modules/mod_multilingual/update_keys.php')) ? ', `page_code` = '.(int)$page_code.' ' : ' ';
-$sql .= 'WHERE `page_id` = '.$page_id;
-$database->query($sql);
-
-$target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
-if($database->is_error())
-{
+$sql = 'UPDATE `'.TABLE_PREFIX.'pages` '
+     . 'SET `parent`='.$parent.', '
+     .     '`page_title`=\''.$page_title.'\', '
+     .     '`menu_title`=\''.$menu_title.'\', '
+     .     '`menu`='.$menu.', '
+     .     '`level`='.$level.', '
+     .     '`page_trail`=\''.$page_trail.'\', '
+     .     '`root_parent`='.$root_parent.', '
+     .     '`link`=\''.$link.'\', '
+     .     '`template`=\''.$template.'\', '
+     .     '`target`=\''.$target.'\', '
+     .     '`description`=\''.$description.'\', '
+     .     '`keywords`=\''.$keywords.'\', '
+     .     '`position`='.$position.', '
+     .     '`visibility`=\''.$visibility.'\', '
+     .     '`searching`='.$searching.', '
+     .     '`language`=\''.$language.'\', '
+     .     '`admin_groups`=\''.$sAdminGroups.'\', '
+     .     '`admin_users`=\''.$sAdminUsers.'\', '
+     .     '`viewing_groups`=\''.$sViewingGroups.'\', '
+     .     '`viewing_users`=\''.$sViewingUsers.'\', '
+     .     '`page_code`='.$page_code.' '
+     . 'WHERE `page_id`='.$page_id;
+if(!$database->query($sql)) {
+	$target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
 	$admin->print_error($database->get_error(), $target_url );
 }
 // Clean old order if needed
