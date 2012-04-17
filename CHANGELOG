@@ -11,6 +11,12 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+
+17 Apr-2012 Build 1666 Dietmar Woellbrink (Luisehahne)
+! update of installer and upgradescript for Revision 1664/1665
++ add fields page_icon, menu_icon_0, menu_icon_1 to pages
++ add settings values dev_infos and page_icon_dir
+! update languages files 
 17 Apr-2012 Build 1665 Werner v.d.Decken(DarkViper)
 ! update page_settings - CSS for wb_theme and argos_theme (for Rev.1664)
 17 Apr-2012 Build 1664 Werner v.d.Decken(DarkViper)

@@ -404,7 +404,10 @@ if($install_tables == true) {
 	       . ' `link` TEXT NOT NULL,'
 	       . ' `target` VARCHAR( 7 ) NOT NULL DEFAULT \'\' ,'
 	       . ' `page_title` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
+		   . ' `page_icon` TEXT NOT NULL DEFAULT \'/templates/*/title_images\' ,'
 	       . ' `menu_title` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
+		   . ' `menu_icon_0` TEXT NOT NULL DEFAULT \'\' ,'
+		   . ' `menu_icon_1` TEXT NOT NULL DEFAULT \'\' ,'
 	       . ' `description` TEXT NOT NULL ,'
 	       . ' `keywords` TEXT NOT NULL ,'
 	       . ' `page_trail` TEXT NOT NULL  ,'
@@ -414,9 +417,9 @@ if($install_tables == true) {
 	       . ' `menu` INT NOT NULL DEFAULT \'0\','
 	       . ' `language` VARCHAR( 5 ) NOT NULL DEFAULT \'\' ,'
 	       . ' `searching` INT NOT NULL DEFAULT \'0\','
-	       . ' `admin_groups` TEXT NOT NULL ,'
+	       . ' `admin_groups` TEXT NOT NULL DEFAULT \'1\' ,'
 	       . ' `admin_users` TEXT NOT NULL ,'
-	       . ' `viewing_groups` TEXT NOT NULL ,'
+	       . ' `viewing_groups` TEXT NOT NULL DEFAULT \'1\' ,'
 	       . ' `viewing_users` TEXT NOT NULL ,'
 	       . ' `modified_when` INT NOT NULL DEFAULT \'0\','
 	       . ' `modified_by` INT NOT NULL  DEFAULT \'0\','
@@ -485,7 +488,9 @@ if($install_tables == true) {
 	." ('search', 'public'),"
 	." ('page_extension', '.php'),"
 	." ('page_spacer', '-'),"
+	." ('dev_infos', 'true'),"
 	." ('pages_directory', '/pages'),"
+	." ('page_icon_dir', '/templates/*/title_images'),"
 	." ('rename_files_on_upload', 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx'),"
 	." ('media_directory', '/media'),"
 	." ('operating_system', '$operating_system'),"

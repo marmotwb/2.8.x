@@ -686,6 +686,9 @@ $TEXT['THEME_IMPORT_HTT']    = 'Import additional templates';
 $TEXT['THEME_SELECT_HTT']    = 'select templates';
 $TEXT['THEME_NOMORE_HTT']    = 'no more available';
 $TEXT['THEME_START_IMPORT']  = 'import';
+
+$TEXT['MULTILINGUAL'] = 'MULTILINGUAL';
+$TEXT['DEV_INFOS'] = 'Developer Informations';
 $MESSAGE['THEME_COPY_CURRENT']               = 'Copy the current active theme and save it with a new name.';
 $MESSAGE['THEME_ALREADY_EXISTS']             = 'This new theme descriptor already exists.';
 $MESSAGE['THEME_INVALID_SOURCE_DESTINATION'] = 'Invalid descriptor for the new theme given!';

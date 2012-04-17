@@ -63,7 +63,8 @@ $filesRemove['0'] = array(
 
 			'[ADMIN]/preferences/details.php',
 			'[ADMIN]/preferences/email.php',
-			'[ADMIN]/preferences/password.php'
+			'[ADMIN]/preferences/password.php',
+			'[ADMIN]/pages/settings2.php'
 
 		 );
 
@@ -475,12 +476,50 @@ $cfg = array(
 foreach($cfg as $key=>$value) {
 	db_add_key_value($key, $value);
 }
+/**********************************************************
+ *  - Adding page_icon_dir to settings table
+ */
+echo "<br />Adding page_icon_dir to settings table<br />";
+$cfg = array(
+	'page_icon_dir' => '/templates/*/title_images',
+);
+foreach($cfg as $key=>$value) {
+	db_add_key_value($key, $value);
+}
+/**********************************************************
+ *  - Adding dev_infos to settings table
+ */
+echo "<br />Adding dev_infos to settings table<br />";
+$cfg = array(
+	'dev_infos' => 'true',
+);
+foreach($cfg as $key=>$value) {
+	db_add_key_value($key, $value);
+}
 
 /**********************************************************
  *  - Add field "redirect_type" to table "mod_menu_link"
  */
 echo "<br />Adding field redirect_type to mod_menu_link table<br />";
 db_add_field('redirect_type', 'mod_menu_link', "INT NOT NULL DEFAULT '302' AFTER `target_page_id`");
+
+/**********************************************************
+ *  - Add field "page_icon" to table "pages"
+ */
+echo "<br />Adding field page_icon to pagestable<br />";
+db_add_field('page_icon', 'pages', "TEXT NOT NULL DEFAULT '' AFTER `page_title`");
+
+/**********************************************************
+ *  - Add field "menu_icon_0" to table "pages"
+ */
+echo "<br />Adding field menu_icon_0 to pages table<br />";
+db_add_field('menu_icon_0', 'pages', "TEXT NOT NULL DEFAULT '' AFTER `menu_title`");
+
+/**********************************************************
+ *  - Add field "menu_icon_1" to table "mod_menu_link"
+ */
+echo "<br />Adding field menu_icon_1 to pages table<br />";
+db_add_field('menu_icon_1', 'pages', "TEXT NOT NULL DEFAULT '' AFTER `menu_icon_0`");
 
 /**********************************************************
  *  - Update search no results database filed to create
