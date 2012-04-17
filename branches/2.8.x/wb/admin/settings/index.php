@@ -397,6 +397,14 @@ if($is_advanced)
 		$template->set_var('WINDOWS_SELECTED', ' checked="checked"');
 	}
 
+	// Work-out if developer infos feature is enabled
+	if(defined('DEV_INFOS') && DEV_INFOS == true)
+	{
+		$template->set_var('DEV_INFOS_ENABLED', ' checked="checked"');
+	} else {
+		$template->set_var('DEV_INFOS_DISABLED', ' checked="checked"');
+	}
+
 	// Work-out if manage sections feature is enabled
 	if(MANAGE_SECTIONS)
 	{
@@ -581,6 +589,7 @@ if($is_advanced)
 
 	$template->set_var(array(
 						'PAGES_DIRECTORY' => PAGES_DIRECTORY,
+						'PAGE_ICON_DIR'   => PAGE_ICON_DIR,
 						'MEDIA_DIRECTORY' => MEDIA_DIRECTORY,
 						'PAGE_EXTENSION' => PAGE_EXTENSION,
 						'PAGE_SPACER' => PAGE_SPACER,
@@ -653,7 +662,10 @@ if($is_advanced)
 					'TEXT_REDIRECT_AFTER' => $TEXT['REDIRECT_AFTER'],
 					'TEXT_SIGNUP' => $TEXT['SIGNUP'],
 					'TEXT_PHP_ERROR_LEVEL' => $TEXT['PHP_ERROR_LEVEL'],
+					'TEXT_MULTILINGUAL' => $TEXT['MULTILINGUAL'],
+					'TEXT_DEV_INFOS' => $TEXT['DEV_INFOS'],
 					'TEXT_PAGES_DIRECTORY' => $TEXT['PAGES_DIRECTORY'],
+					'TEXT_PAGE_ICON_DIR' => $TEXT['PAGE_ICON_DIR'],
 					'TEXT_MEDIA_DIRECTORY' => $TEXT['MEDIA_DIRECTORY'],
 					'TEXT_PAGE_EXTENSION' => $TEXT['PAGE_EXTENSION'],
 					'TEXT_PAGE_SPACER' => $TEXT['PAGE_SPACER'],

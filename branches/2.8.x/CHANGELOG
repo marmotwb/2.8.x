@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+17 Apr-2012 Build 1668 Dietmar Woellbrink (Luisehahne)
+! settigs.php add fields dev_infos and page_icon_dir
++ add developer info to footer
+! update class.admin.php, footer.htt
 17 Apr-2012 Build 1667 Dietmar Woellbrink (Luisehahne)
 + add folder /templates/round/title_images to work with page_icon
 17 Apr-2012 Build 1666 Dietmar Woellbrink (Luisehahne)
