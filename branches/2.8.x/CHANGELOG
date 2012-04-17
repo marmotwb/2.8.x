@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+17 Apr-2012 Build 1669 Dietmar Woellbrink (Luisehahne)
+# little fixes in /admin/addons/reload.php
 17 Apr-2012 Build 1668 Dietmar Woellbrink (Luisehahne)
 ! settigs.php add fields dev_infos and page_icon_dir
 + add developer info to footer
