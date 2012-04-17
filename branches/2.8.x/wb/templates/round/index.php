@@ -68,7 +68,7 @@ if (!defined('WB_PATH')) die(header('Location: ../../../index.php'));
 	// navigation menu
 	if(SHOW_MENU) {
 	?>	
-	<td style="padding: 10px; background-color: #FFF;" valign="top">
+	<td class="left-col" style="padding: 10px; background-color: #FFF;" valign="top">
 		<table summary="" cellpadding="0" cellspacing="0" border="0" width="150" align="center" class="menu">
 		<tr>
 			<td class="border">

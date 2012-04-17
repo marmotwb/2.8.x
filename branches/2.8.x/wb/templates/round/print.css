@@ -42,7 +42,7 @@ a:hover {
 	color: #369;
 	text-decoration: none;
 }
-.header, .menu, .search, .powered_by, .footer {
+.header, .left-col, .menu, .search, .powered_by, .footer {
 	display: none;
 }
 .content {
