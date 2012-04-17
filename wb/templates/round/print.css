@@ -35,11 +35,11 @@ body {
 	margin: 0px;
 }
 a:link, a:visited, a:active {
-	color: #036;
+	color: #000;
 	text-decoration: none;
 }
 a:hover {
-	color: #369;
+	color: #000;
 	text-decoration: none;
 }
 .header, .left-col, .menu, .search, .powered_by, .footer {
