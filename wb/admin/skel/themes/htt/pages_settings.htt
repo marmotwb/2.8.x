@@ -1,7 +1,6 @@
 <!-- BEGIN main_block -->
-
 <script src="{ADMIN_URL}/pages/page_settings.js" type="text/javascript"></script>
-
+<link href="http://istmzw01.isteam.loc/WB28x-Branch/wb/templates/wb_theme/theme.css" rel="stylesheet" type="text/css" />
 <table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="100%" style="margin-bottom:10px;">
   <tr style="background:#f0f0f0;">
 	<td valign="middle" align="left"><h2>{HEADING_MODIFY_PAGE_SETTINGS}</h2></td>
@@ -10,169 +9,159 @@
 		{TEXT_CURRENT_PAGE}:
 		<b>{PAGE_TITLE}</b>
 		-
-		<a href="{ADMIN_URL}/pages/modify.php?page_id={PAGE_IDKEY}">{TEXT_MODIFY_PAGE}</a>
-		<font style="{DISPLAY_MANAGE_SECTIONS}">-</font>
-		<a href="{ADMIN_URL}/pages/sections.php?page_id={PAGE_IDKEY}" style="{DISPLAY_MANAGE_SECTIONS}">{TEXT_MANAGE_SECTIONS}</a>
+		<a href="{ADMIN_URL}/pages/modify.php?page_id={PAGE_ID}">{TEXT_MODIFY_PAGE}</a>
+		<span style="{DISPLAY_MANAGE_SECTIONS}">
+		- <a href="{ADMIN_URL}/pages/sections.php?page_id={PAGE_ID}">{TEXT_MANAGE_SECTIONS}</a>
+		</span>
 		<br />
-		<font style="color:#999;" class="{DISPLAY_MODIFIED}">
+		<span style="color:#999;" class="{DISPLAY_MODIFIED}">
 			{LAST_MODIFIED} {MODIFIED_BY} ({MODIFIED_BY_USERNAME}), {MODIFIED_WHEN}
-		</font>
+		</span>
 	</td>
   </tr>
 </table>
 
-<form name="settings" action="settings2.php" method="post">
-{FTAN}
-<input type="hidden" name="page_id" value="{PAGE_ID}" />
-<table summary="" cellpadding="2" cellspacing="0" border="0" width="100%" align="center">
-<tr>
-	<td width="100" height="20">{TEXT_PAGE_TITLE}:</td>
-	<td width="240" height="20">
-		<input type="text" name="page_title" value="{PAGE_TITLE}" style="width: 232px;" />
-	</td>
-	<td rowspan="10" valign="top" style="padding-left: 20px; padding-top: 8px;">
-		{TEXT_ADMINISTRATORS}:
-		<ul style="list-style-type: none; margin: 0; padding: 0;">
-			<!-- BEGIN group_list_block -->
-			<li>
-			<input type="checkbox" name="admin_groups[]" id="admin_group_{ID}" value="{ID}"{CHECKED}{DISABLED} />
-			<label for="admin_group_{TOGGLE}">{NAME}</label>
-			</li>
-			<!-- END group_list_block -->
-		</ul>
-	</td>
-	<td rowspan="10" valign="top" style="padding:8px 0 0 20px;">
-		<div id="allowed_viewers" style="{DISPLAY_VIEWERS}">
-			{TEXT_ALLOWED_VIEWERS}:
-			<ul style="list-style-type:none;margin:0;padding:0;">
-				<!-- BEGIN group_list_block2 -->
-				<li>
-				<input type="checkbox" name="viewing_groups[]" id="viewing_group_{ID}" value="{ID}"{CHECKED}{DISABLED} />
-				<label for="viewing_group_{TOGGLE}">{NAME}</label>
-				</li>
-				<!-- END group_list_block2 -->
-			</ul>
+<form name="settings" action="settings_save.php" method="post">
+	{FTAN}
+	<input type="hidden" name="page_id" value="{PAGE_IDKEY}" />
+	<div class="page-settings">
+		<div class="page-settings-leftcol"> <!-- left column -->
+			<div>
+				<label for="">{TEXT_PAGE_TITLE}:</label><input
+					type="text" name="page_title" value="{PAGE_TITLE}" />
+			</div>
+			<div>
+				<label for="">{TEXT_MENU_TITLE}:</label><input
+					type="text" name="menu_title" value="{MENU_TITLE}" />
+			</div>
+			<div>
+				<label for="">{TEXT_PARENT}:</label><select name="parent">
+				<!-- BEGIN parent_page_list_block -->
+					<option value="{ID}"{SELECTED} style="background: {FLAG_ROOT_ICON} no-repeat center left; padding-left: 20px;">{TITLE}</option>
+				<!-- END parent_page_list_block -->
+				</select>
+			</div>
+			<div>
+				<label for="">{TEXT_VISIBILITY}:</label><select
+					name="visibility" onchange="javascript: toggle_viewers();">
+					<option value="public"{PUBLIC_SELECTED}>{TEXT_PUBLIC}</option>
+					<option value="private"{PRIVATE_SELECTED}>{TEXT_PRIVATE}</option>
+					<option value="registered"{REGISTERED_SELECTED}>{TEXT_REGISTERED}</option>
+					<option value="hidden"{HIDDEN_SELECTED}>{TEXT_HIDDEN}</option>
+					<option value="none"{NO_VIS_SELECTED}>{TEXT_NONE}</option>
+				</select>
+			</div>
+			<div>
+				<label for="">{TEXT_DESCRIPTION}:</label><textarea
+					name="description" rows="14" cols="1">{DESCRIPTION}</textarea>
+			</div>
+			<div>
+				<label for="">{TEXT_KEYWORDS}:</label><textarea
+					name="keywords" rows="14" cols="1">{KEYWORDS}</textarea>
+			</div>
+			<div>
+				<label for="">{TEXT_TARGET}:</label><select
+					name="target" ><!--  value="{TARGET}" -->
+					<option value="_blank"{BLANK_SELECTED}>{TEXT_NEW_WINDOW}</option>
+					<option value="_self"{SELF_SELECTED}>{TEXT_SAME_WINDOW}</option>
+					<option value="_top"{TOP_SELECTED}>{TEXT_TOP_FRAME}</option>
+				</select>
+			</div>
+			<div>
+				<label for="">{TEXT_TEMPLATE}:</label><select
+					name="template">
+					<option value="">{TEXT_SYSTEM_DEFAULT}</option>
+					<option value="">----------------------</option>
+				<!-- BEGIN template_list_block -->
+					<option value="{VALUE}"{SELECTED}>{NAME}</option>
+				<!-- END template_list_block -->
+				</select>
+			</div>
+		<!-- BEGIN show_menu_list_block -->
+			<div>
+				<label for="">{TEXT_MENU}:</label><select
+					name="menu">
+				<!-- BEGIN menu_list_block -->
+					<option value="{VALUE}"{SELECTED}>{NAME}</option>
+				<!-- END menu_list_block -->
+				</select>
+			</div>
+		<!-- END show_menu_list_block -->
+			<div>
+				<label for="">{TEXT_LANGUAGE}:</label><select
+					name="language">
+				<!-- BEGIN language_list_block -->
+					<option value="{VALUE}"{SELECTED} style="background: {FLAG_LANG_ICONS} no-repeat center left; padding-left: 20px;">{NAME}</option>
+				<!-- END language_list_block -->
+				</select>
+			</div>
+		<!-- BEGIN show_page_code_block -->
+			<div>
+				<label for="">{TEXT_PAGE_CODE}:</label><select
+					name="page_code" class="value_page_code">
+				<!-- BEGIN page_code_list_block -->
+						<option value="{VALUE}"{SELECTED} style="background: {FLAG_CODE_ICON} no-repeat center left; padding-left: 20px;">&nbsp;{PAGE_VALUE}</option>
+				<!-- END page_code_list_block -->
+				</select>
+			</div>
+		<!-- END show_page_code_block -->
+			<div>
+				<label for="">{TEXT_SEARCHING}:</label><select
+					name="searching">
+					<option value="1"{SEARCHING_SELECTED_ON}>{TEXT_ENABLED}</option>
+					<option value="0"{SEARCHING_SELECTED_OFF}>{TEXT_DISABLED}</option>
+				</select>
+			</div>
 		</div>
-	</td>
-</tr>
-<tr>
-	<td width="100" height="20">{TEXT_MENU_TITLE}:</td>
-	<td width="240" height="20">
-		<input type="text" name="menu_title" value="{MENU_TITLE}" style="width: 232px;" />
-	</td>
-</tr>
-<tr>
-	<td width="100">{TEXT_PARENT}:</td>
-	<td width="240">
-		<select name="parent" style="width: 240px;" onchange="return disabled_hack_for_ie(this);">
-			<!-- BEGIN page_list_block2 -->
-			<option value="{ID}"{SELECTED} style="background: {FLAG_ROOT_ICON} no-repeat center left; padding-left: 20px;">{TITLE}</option>
-			<!-- END page_list_block2 -->
-		</select>
-	</td>
-</tr>
-<tr>
-	<td width="100">{TEXT_VISIBILITY}:</td>
-	<td width="240">
-		<select name="visibility" onchange="javascript: toggle_viewers();" style="width: 240px;">
-			<option value="public"{PUBLIC_SELECTED}>{TEXT_PUBLIC}</option>
-			<option value="private"{PRIVATE_SELECTED}>{TEXT_PRIVATE}</option>
-			<option value="registered"{REGISTERED_SELECTED}>{TEXT_REGISTERED}</option>
-			<option value="hidden"{HIDDEN_SELECTED}>{TEXT_HIDDEN}</option>
-			<option value="none"{NO_VIS_SELECTED}>{TEXT_NONE}</option>
-		</select>
-	</td>
-</tr>
-<tr>
-	<td width="100" valign="top">{TEXT_DESCRIPTION}:</td>
-	<td>
-		<textarea name="description" rows="10" cols="1" style="width:236px;height:50px;">{DESCRIPTION}</textarea>
-	</td>
-</tr>
-<tr>
-	<td width="100" valign="top">{TEXT_KEYWORDS}:</td>
-	<td>
-		<textarea name="keywords" rows="10" cols="1" style="width:236px;height:50px;">{KEYWORDS}</textarea>
-	</td>
-</tr>
-<tr>
-	<td>
-		{TEXT_TARGET}:
-	</td>
-	<td>
-		<select name="target" style="width: 240px;" ><!--  value="{TARGET}" -->
-			<option value="_blank"{BLANK_SELECTED}>{TEXT_NEW_WINDOW}</option>
-			<option value="_self"{SELF_SELECTED}>{TEXT_SAME_WINDOW}</option>
-			<option value="_top"{TOP_SELECTED}>{TEXT_TOP_FRAME}</option>
-		</select>
-	</td>
-</tr>
-<tr>
-	<td width="100">{TEXT_TEMPLATE}:</td>
-	<td width="240">
-		<select name="template" style="width: 240px;">
-			<option value="">{TEXT_SYSTEM_DEFAULT}</option>
-			<option value="">----------------------</option>
-			<!-- BEGIN template_list_block -->
-			<option value="{VALUE}"{SELECTED}>{NAME}</option>
-			<!-- END template_list_block -->
-		</select>
-	</td>
-</tr>
-<tr style="{DISPLAY_MENU_LIST}">
-	<td width="100">{TEXT_MENU}:</td>
-	<td width="240">
-		<select name="menu" style="width: 240px;">
-			<!-- BEGIN menu_list_block -->
-			<option value="{VALUE}"{SELECTED}>{NAME}</option>
-			<!-- END menu_list_block -->
-		</select>
-	</td>
-</tr>
-<tr style="{DISPLAY_LANGUAGE_LIST}">
-	<td width="100">{TEXT_LANGUAGE}:</td>
-	<td width="240">
-		<select name="language" style="width: 240px;">
-			<!-- BEGIN language_list_block -->
-			<option value="{VALUE}"{SELECTED} style="background: {FLAG_LANG_ICONS} no-repeat center left; padding-left: 20px;">{NAME}</option>
-			<!-- END language_list_block -->
-		</select>
-	</td>
-</tr>
-<!-- insert page_code 20090904-->
-<tr{DISPLAY_CODE_PAGE_LIST}>
-	<td width="100">{TEXT_PAGE_CODE}:</td>
-	<td class="list_page_code">
-		<select name="page_code" class="value_page_code">
-			<!-- BEGIN page_code_list_block -->
-			<option value="{VALUE}"{SELECTED} style="background: {FLAG_CODE_ICON} no-repeat center left; padding-left: 20px;">&nbsp;{PAGE_VALUE}</option>
-			<!-- END page_code_list_block -->
-		</select>
-	</td>
-</tr>
-<!-- page code -->
-<tr>
-	<td width="100">{TEXT_SEARCHING}:</td>
-	<td width="240">
-		<select name="searching" style="width: 240px;">
-			<option value="1">{TEXT_ENABLED}</option>
-			<option value="0"{SEARCHING_DISABLED}>{TEXT_DISABLED}</option>
-		</select>
-	</td>
-</tr>
-<tr>
-	<td width="100">&nbsp;</td>
-	<td colspan="4">
-		<input type="submit" name="submit" value="{TEXT_SAVE} {SECTION_SETTINGS}" style="width: 117px;" />
-		<input type="reset" name="reset" value="{TEXT_RESET}" style="width: 117px;" />
-	</td>
-</tr>
-<tr>
-	<td>&nbsp;</td>
-	<td>&nbsp;</td>
-</tr>
-</table>
+		<div class="page-settings-centercol"> <!-- center column -->
+			{TEXT_ADMINISTRATORS}<hr />
+			{TEXT_GROUP}<br />
+<!-- *** List of groups which can administrate this page *** -->
+			<ul style="list-style-type: none; margin: 0; padding: 0;">
+			<!-- BEGIN admin_group_list_block -->
+				<li>
+					<input type="checkbox" name="admin_groups[]" id="admin_group_{ID}" value="{ID}"{CHECKED}{DISABLED} />
+					<label for="admin_group_{ID}">{NAME}</label>
+				</li>
+			<!-- END admin_group_list_block -->
+			</ul>
+			<hr />
+			{TEXT_USER}<br />
+<!-- *** List of users which can administrate this page *** -->
+			<select name="admin_users[]" multiple="multiple" size="{USER_LIST_SIZE}">
+				<option value="0">--- {TEXT_NO_SELECTION} ---</option>
+			<!-- BEGIN admin_user_list_block -->
+				<option value="{ID}"{SELECTED}>{NAME}</option>
+			<!-- END admin_user_list_block -->
+			</select>
+		</div>
 
+		<div id="allowed_viewers" class="page-settings-rightcol" style="{DISPLAY_VIEWERS}"> <!-- right column -->
+			{TEXT_ALLOWED_VIEWERS}<hr />
+			{TEXT_GROUP}<br />
+<!-- *** List of groups which can see this page *** -->
+			<ul style="list-style-type:none;margin:0;padding:0;">
+			<!-- BEGIN viewer_group_list_block -->
+				<li>
+					<input type="checkbox" name="viewing_groups[]" id="viewing_group_{ID}" value="{ID}"{CHECKED}{DISABLED} />
+					<label for="viewing_group_{ID}">{NAME}</label>
+				</li>
+			<!-- END viewer_group_list_block -->
+			</ul>
+			<hr />
+			{TEXT_USER}<br />
+<!-- *** List of users which can see this page *** -->
+			<select name="viewing_users[]" multiple="multiple" size="{USER_LIST_SIZE}">
+				<option value="0">--- {TEXT_NO_SELECTION} ---</option>
+			<!-- BEGIN viewer_user_list_block -->
+				<option value="{ID}"{SELECTED}>{NAME}</option>
+			<!-- END viewer_user_list_block -->
+			</select>
+		</div>
+		<div style="clear:both; padding-top: 1em;">
+			<input type="submit" name="submit" value="{TEXT_SAVE}" style="width: 117px;" />
+			<input type="reset" name="reset" value="{TEXT_RESET}" style="width: 117px;" />
+		</div>
+	</div>
 </form>
-
 <!-- END main_block -->
