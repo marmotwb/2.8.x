@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+17 Apr-2012 Build 1662 Werner v.d.Decken(DarkViper)
++ added new getter 'getQueryCount' in class database
 11 Apr-2012 Build 1661 Dietmar Woellbrink (Luisehahne)
 + add new language vars
 06 Apr-2012 Build 1660 Dietmar Woellbrink (Luisehahne)

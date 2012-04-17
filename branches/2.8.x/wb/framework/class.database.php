@@ -42,6 +42,7 @@ class database {
 	private $error      = '';
 	private $error_type = '';
 	private $message    = array();
+	private $iQueryCount= 0;
 
 
 	// Set DB_URL
@@ -84,6 +85,7 @@ class database {
 	
 	// Run a query
 	function query($statement) {
+		$this->iQueryCount++;
 		$mysql = new mysql();
 		$mysql->query($statement);
 		$this->set_error($mysql->error());
@@ -97,6 +99,7 @@ class database {
 	// Gets the first column of the first row
 	function get_one( $statement )
 	{
+		$this->iQueryCount++;
 		$fetch_row = mysql_fetch_array(mysql_query($statement) );
 		$result = $fetch_row[0];
 		$this->set_error(mysql_error());
@@ -138,11 +141,16 @@ class database {
 		switch ($sPropertyName):
 			case 'db_handle':
 			case 'DbHandle':
+			case 'getDbHandle':
 				$retval = $this->db_handle;
 				break;
 			case 'db_name':
 			case 'DbName':
+			case 'getDbName':
 				$retval = $this->db_name;
+				break;
+			case 'getQueryCount':
+				$retval = $this->iQueryCount;
 				break;
 			default:
 				$retval = null;
