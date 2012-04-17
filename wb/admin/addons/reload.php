@@ -20,8 +20,11 @@
 	function ReloadAddonLoop($sType)
 	{
 		global $database;
-		$database->query('DELETE FROM `'.TABLE_PREFIX.'addons` WHERE `type`=\''.$sType.'\'');
+		$sql = 'DELETE FROM `'.TABLE_PREFIX.'addons` WHERE `type`=\''.$sType.'\'';
 		try{
+			if(!$database->query($sql)) {
+				throw new Exception('database error');
+			}
 			$oIterator = new DirectoryIterator(WB_PATH.'/'.$sType.'s');
 			$_Function = 'load_'.$sType;
 			foreach ($oIterator as $oFileinfo) {
@@ -91,27 +94,14 @@
 			{
 				$aReloadType = (isset($_POST['reload']) && is_array($_POST['reload'])) ? $_POST['reload'] : array();
 				foreach($aReloadType as $sType) {
+					$sType = rtrim($sType, 's');
 					switch($sType) {
-						case 'modules':
-						// reload all modules
-							if(ReloadAddonLoop('module')) {
-								$aMsg[] = $MESSAGE['ADDON_MODULES_RELOADED'];
-							}else {
-								$aErrors[] = $MESSAGE['ADDON_ERROR_RELOAD'];
-							}
-							break;
-						case 'templates':
-						// reload all templates
-							if(ReloadAddonLoop('template')) {
-								$aMsg[] = $MESSAGE['ADDON_TEMPLATES_RELOADED'];
-							}else {
-								$aErrors[] = $MESSAGE['ADDON_ERROR_RELOAD'];
-							}
-							break;
-						case 'languages':
-						// reload all languages
-							if(ReloadAddonLoop('language')) {
-								$aMsg[] = $MESSAGE['ADDON_LANGUAGES_RELOADED'];
+						case 'module':
+						case 'template':
+						case 'language':
+						// reload all addons from given type
+							if(ReloadAddonLoop($sType)) {
+								$aMsg[] = $MESSAGE['ADDON_'.strtoupper($sType).'S_RELOADED'];
 							}else {
 								$aErrors[] = $MESSAGE['ADDON_ERROR_RELOAD'];
 							}
