@@ -2,6 +2,7 @@
 html{ font-family :Verdana, "Trebuchet MS", Arial, Helvetica, sans-serif; font-size :100.1%; font-weight :normal; color :#404040; overflow :-moz-scrollbars-vertical; }
 body{ margin :0 auto; padding :0px; background :#a8bccb; text-align :left; font-size :0.8em; }
 body { background-color :#a8bccb; background-repeat :repeat-x; }
+table {border-collapse: separate;}
 td,th,input,textarea { color :#000000; font-size :1.0em; font-family :Verdana, Arial, Helvetica, sans-serif; }
 textarea { font-size :1em; }
 img { border :0px; }
@@ -157,3 +158,19 @@ div.content_box form { width :98%; }
 .error-box p { font-size :120%; }
 select > option.user-inactive { color :#990000; }
 button.status { cursor :pointer; border-radius :5px; -khtml-border-radius :5px; -webkit-border-radius :5px; -moz-border-radius :5px; }
+
+/* depending styles for /admin/pages_settings */
+div.page-settings { font-size: 0.9em; }
+	div.page-settings label { display: inline-block; }
+	div.page-settings input,
+	div.page-settings textarea,
+	div.page-settings select { width: 210px; }
+	div.page-settings textarea { height: 5em; }
+	div.page-settings [type=checkbox] { width: 2.5em; }
+div.page-settings-leftcol { float: left; padding: 0.4em 1em; }
+	div.page-settings-leftcol div { padding: 2px 0 3px 0; vertical-align: top; }
+	div.page-settings-leftcol label { width: 170px; vertical-align: top; }
+div.page-settings-centercol { float: left; padding: 0.4em 1em;
+	border-left: groove 2px #a8bccb; border-bottom: groove 2px #a8bccb; }
+div.page-settings-rightcol { float: left; padding: 0.4em 1em;
+	border-left: groove 2px #a8bccb; border-bottom: groove 2px #a8bccb; }

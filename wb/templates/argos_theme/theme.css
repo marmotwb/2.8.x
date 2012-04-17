@@ -157,3 +157,19 @@ div#username { height :17px; width :118%; text-align :left; font-weight :bold; m
 .error-box p { font-size :120%; }
 select > option.user-inactive { color :#990000; }
 button.status { cursor :pointer; border-radius :5px; -khtml-border-radius :5px; -webkit-border-radius :5px; -moz-border-radius :5px; }
+
+/* depending styles for /admin/pages_settings */
+div.page-settings { font-size: 0.9em; }
+	div.page-settings label { display: inline-block; }
+	div.page-settings input,
+	div.page-settings textarea,
+	div.page-settings select { width: 210px; }
+	div.page-settings textarea { height: 5em; }
+	div.page-settings [type=checkbox] { width: 2.5em; }
+div.page-settings-leftcol { float: left; padding: 0.4em 1em; }
+	div.page-settings-leftcol div { padding: 2px 0 3px 0; vertical-align: top; }
+	div.page-settings-leftcol label { width: 170px; vertical-align: top; }
+div.page-settings-centercol { float: left; padding: 0.4em 1em;
+	border-left: groove 2px #a8bccb; border-bottom: groove 2px #a8bccb; }
+div.page-settings-rightcol { float: left; padding: 0.4em 1em;
+	border-left: groove 2px #a8bccb; border-bottom: groove 2px #a8bccb; }
