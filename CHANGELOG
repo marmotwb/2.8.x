@@ -11,7 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-17 Apr-2012 Build 1669 Dietmar Woellbrink (Luisehahne)
+17 Apr-2012 Build 1670 Werner v.d.Decken(DarkViper)
++ added new global exceptionhandler (class AppException)
+17 Apr-2012 Build 1669 Werner v.d.Decken(DarkViper)
 # little fixes in /admin/addons/reload.php
 17 Apr-2012 Build 1668 Dietmar Woellbrink (Luisehahne)
 ! settigs.php add fields dev_infos and page_icon_dir
