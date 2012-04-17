@@ -187,6 +187,7 @@ class admin extends wb {
 	
 	// Print the admin footer
 		function print_footer($activateJsAdmin = false) {
+		global $database;
 		// include the required file for Javascript admin
 		if($activateJsAdmin != false) {
 			if(file_exists(WB_PATH.'/modules/jsadmin/jsadmin_backend_include.php')){
@@ -204,6 +205,49 @@ class admin extends wb {
 						'ADMIN_URL' => ADMIN_URL,
 						'THEME_URL' => THEME_URL,
 			 ) );
+
+		$footer_template->set_block('footer_block', 'show_debug_block', 'show_debug');
+
+		$bDebug = (defined('DEBUG') ? true : false);
+		$bDevInfo = (defined('DEV_INFOS') && (DEV_INFOS == true) && (1 == $this->get_user_id()) ? true : false);
+//         if( $debug && (1 == $this->get_user_id()))
+        if( $bDevInfo )
+		{
+			$footer_template->set_var('MEMORY', number_format(memory_get_peak_usage(), 0, ',', '.').'&nbsp;Byte' );
+			$footer_template->set_var('QUERIES', $database->getQueryCount );
+			// $footer_template->set_var('QUERIES', 'disabled' );
+	        $included_files =  get_included_files();
+			$footer_template->set_var('INCLUDES', sizeof($included_files) );
+
+			$sum_filesize = 0;
+			$footer_template->set_block('show_debug_block', 'show_block_list', 'show_list');
+			$footer_template->set_block('show_block_list', 'include_block_list', 'include_list');
+			// $debug = true;
+			foreach($included_files as $filename)
+			{
+				if($bDebug)
+				{
+					$footer_template->set_var('INCLUDES_ARRAY', str_replace(WB_PATH, '',$filename) );
+					$footer_template->set_var('FILESIZE', number_format(filesize($filename), 0, ',', '.').'&nbsp;Byte');
+					$footer_template->parse('include_list', 'include_block_list', true);
+				}
+				$sum_filesize += filesize($filename);
+			}
+			$footer_template->parse('show_list', 'show_block_list', true);
+
+			if($bDebug)
+			{
+				$footer_template->parse('include_list', '');
+				$footer_template->parse('show_list', '');
+			}
+
+			$footer_template->set_var('FILESIZE', ini_get('memory_limit'));
+			$footer_template->set_var('TXT_SUM_FILESIZE', 'Summary size of included files:&nbsp;');
+			$footer_template->set_var('SUM_FILESIZE', number_format($sum_filesize, 0, ',', '.').'&nbsp;Byte');
+			$footer_template->parse('show_debug', 'show_debug_block', true);
+        } else {
+			$footer_template->parse('show_debug', '');
+        }
 		$footer_template->parse('header', 'footer_block', false);
 		$footer_template->pparse('output', 'page');
 	}

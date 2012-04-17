@@ -14,7 +14,23 @@
     </td>
   </tr>
 </table>
+<!-- BEGIN show_debug_block -->
+<div style="position: relative; width:998px;margin:15px auto;" class="shadow">
+	<div style="padding:10px;left:0; margin-bottom:25px; z-index:10; background-color:#dddddd;color:#dd0000;">
+		Memory Limit: {FILESIZE}&nbsp;|&nbsp;
+		Used Memory: {MEMORY}&nbsp;|&nbsp;
+		<span class="">SQL-Queries executed: {QUERIES}&nbsp;|&nbsp;</span>
+		Included&nbsp;{INCLUDES}&nbsp;files &nbsp;|&nbsp;{TXT_SUM_FILESIZE}{SUM_FILESIZE}
+	<!-- BEGIN show_block_list -->
+		<ul style="margin-left: 27px; margin-top: 0;">
+		<!-- BEGIN include_block_list -->
+			<li style="color: #336699; list-style:decimal-leading-zero;">{INCLUDES_ARRAY} ({FILESIZE})</li>
+		<!-- END include_block_list -->
+		</ul>
+	<!-- END show_block_list -->
+	</div>
 </div>
+<!-- END show_debug_block -->
 {BACKEND_BODY_MODULE_JS}
 </body>
 </html>
