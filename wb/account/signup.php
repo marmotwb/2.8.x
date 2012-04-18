@@ -17,6 +17,7 @@
  */
 
 require_once('../config.php');
+ini_set('display_errors','0');
 
 if(!( intval(FRONTEND_SIGNUP) && (  0 == (isset($_SESSION['USER_ID']) ? intval($_SESSION['USER_ID']) : 0) )))
 {
@@ -48,6 +49,7 @@ if(!file_exists(WB_PATH.'/languages/'.DEFAULT_LANGUAGE.'.php')) {
 }
 
 $page_id = (isset($_SESSION['PAGE_ID']) && ($_SESSION['PAGE_ID']!='') ? $_SESSION['PAGE_ID'] : 0);
+$_SESSION['display_form'] = true;
 
 // Required page details
 // $page_id = 0;
@@ -62,13 +64,15 @@ define('MENU_TITLE', $TEXT['SIGNUP']);
 define('MODULE', '');
 define('VISIBILITY', 'public');
 
+define('PAGE_CONTENT', WB_PATH.'/account/signup_form.php');
+/*
 // Set the page content include file
 if(isset($_POST['username'])) {
 	define('PAGE_CONTENT', WB_PATH.'/account/signup2.php');
 } else {
 	define('PAGE_CONTENT', WB_PATH.'/account/signup_form.php');
 }
-
+*/
 // Set auto authentication to false
 $auto_auth = false;
 

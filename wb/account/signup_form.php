@@ -19,10 +19,17 @@
 // Must include code to stop this file being access directly
 if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
-require_once(WB_PATH.'/include/captcha/captcha.php');
+// load module language file
+$lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
+require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
 
-?>
-<div style="margin: 1em auto;">
+require_once(WB_PATH.'/include/captcha/captcha.php');
+$wb = new wb('Start', 'start', false, false);
+
+include_once (WB_PATH.'/framework/functions.php');
+require(WB_PATH.'/account/save_signup.php');
+if($_SESSION['display_form']){
+?><div style="margin: 1em auto;">
 	<button type="button" value="cancel" onClick="javascript: window.location = '<?php print $_SESSION['HTTP_REFERER'] ?>';"><?php print $TEXT['CANCEL'] ?></button>
 </div>
 <h1>&nbsp;<?php echo $TEXT['SIGNUP']; ?></h1>
@@ -31,8 +38,9 @@ require_once(WB_PATH.'/include/captcha/captcha.php');
 	<?php echo $admin->getFTAN(); ?>
 	<?php if(ENABLED_ASP) { // add some honeypot-fields
 	?>
-    <div style="display:none;">
 	<input type="hidden" name="submitted_when" value="<?php $t=time(); echo $t; $_SESSION['submitted_when']=$t; ?>" />
+	<input type="hidden" name="action" value="send" />
+    <div style="display:none;">
 	<p class="nixhier">
 	email-address:
 	<label for="email-address">Leave this field email-address blank:</label>
@@ -51,19 +59,19 @@ require_once(WB_PATH.'/include/captcha/captcha.php');
 <tr>
 	<td width="180"><?php echo $TEXT['USERNAME']; ?>:</td>
 	<td class="value_input">
-		<input type="text" name="username" maxlength="30" style="width:300px;"/>
+		<input type="text" name="username" value="<?php print $_SESSION['username'] ?>" maxlength="30" style="width:300px;"/>
 	</td>
 </tr>
 <tr>
 	<td><?php echo $TEXT['DISPLAY_NAME']; ?> (<?php echo $TEXT['FULL_NAME']; ?>):</td>
 	<td class="value_input">
-		<input type="text" name="display_name" maxlength="255" style="width:300px;" />
+		<input type="text" name="display_name" value="<?php print $_SESSION['DISPLAY_NAME'] ?>" maxlength="255" style="width:300px;" />
 	</td>
 </tr>
 <tr>
 	<td><?php echo $TEXT['EMAIL']; ?>:</td>
 	<td class="value_input">
-		<input type="text" name="email" maxlength="255" style="width:300px;"/>
+		<input type="text" name="email" value="<?php print $_SESSION['email'] ?>" maxlength="255" style="width:300px;"/>
 	</td>
 </tr>
 <?php
@@ -89,3 +97,6 @@ if(ENABLED_CAPTCHA) {
 
 <br />
 &nbsp; 
+<?php
+
+}
