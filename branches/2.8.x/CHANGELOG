@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+
+18 Apr-2012 Build 1668 Dietmar Woellbrink (Luisehahne)
+! fixed signup, remove $admin->print_error methods
++ add send registation mail to systemadministartor
 18 Apr-2012 Build 1668 Dietmar Woellbrink (Luisehahne)
 + add languages vars for signup
 18 Apr-2012 Build 1668 Dietmar Woellbrink (Luisehahne)
