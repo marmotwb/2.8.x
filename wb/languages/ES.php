@@ -31,6 +31,8 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Samuel Mateo, Jr. | samuelmateo.com';
 $language_license = 'GNU General Public License';
+
+/* MENU */
 $MENU['ACCESS'] = 'Acceso';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Add-ons';
@@ -52,6 +54,8 @@ $MENU['START'] = 'Inicio';
 $MENU['TEMPLATES'] = 'Plantillas';
 $MENU['USERS'] = 'Usuarios';
 $MENU['VIEW'] = 'Vista Preliminar';
+
+/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Abrir Cuenta';
 $TEXT['ACTIONS'] = 'Acciones';
 $TEXT['ACTIVE'] = 'Activo';
@@ -398,6 +402,8 @@ $TEXT['WRITE'] = 'Escritura';
 $TEXT['WYSIWYG_EDITOR'] = 'Editor WYSIWYG';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG';
 $TEXT['YES'] = 'Si';
+
+/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On requirements not met';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = 'Agregar Grupo';
@@ -443,6 +449,8 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Desinstalar Plantilla';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Subir Archivo(s)';
 $HEADING['WBMAILER_SETTINGS'] = 'Mailer Settings';
+
+/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -632,7 +640,9 @@ if you have received this message by an error, please delete it immediately!
 -------------------------------------
 This message was automatic generated!
 ';
+$MESSAGE['SIGNUP2_NEW_USER'] = 'A new user would be registered';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
+$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Many thanks for your registration';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Debe ingresar una direccion de email';
 $MESSAGE['START_CURRENT_USER'] = 'Est&aacute;s conectado como:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'El directorio de instalaci&oacute;n todav&iacute;a existe. Es buena idea eliminarlo!';
@@ -667,6 +677,8 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Contrase&ntilde;a muy corta';
 $MESSAGE['USERS_SAVED'] = 'Usuario guardado';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
+
+/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 $OVERVIEW['GROUPS'] = 'Administrar groups de usuarios y sus permisos...';
 $OVERVIEW['HELP'] = 'Respuestas a tus preguntas...';
@@ -686,3 +698,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

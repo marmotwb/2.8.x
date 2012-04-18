@@ -31,6 +31,8 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Bramus, CodeALot, Luckyluke, Argos';
 $language_license = 'GNU General Public License';
+
+/* MENU */
 $MENU['ACCESS'] = 'Toegang';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Extra&rsquo;s';
@@ -52,6 +54,8 @@ $MENU['START'] = 'Naar het hoofdmenu';
 $MENU['TEMPLATES'] = 'Templates';
 $MENU['USERS'] = 'Gebruikers';
 $MENU['VIEW'] = 'Website';
+
+/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Aanmelden als gebruiker';
 $TEXT['ACTIONS'] = 'Acties';
 $TEXT['ACTIVE'] = 'Actief';
@@ -398,6 +402,8 @@ $TEXT['WRITE'] = 'Schrijf';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG-editor';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG-stijl';
 $TEXT['YES'] = 'Ja';
+
+/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Module voldoet niet aan de eisen';
 $HEADING['ADD_CHILD_PAGE'] = 'Toevoegen subpagina';
 $HEADING['ADD_GROUP'] = 'Toevoegen groep';
@@ -443,6 +449,8 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Verwijderen template';
 $HEADING['UPGRADE_LANGUAGE'] = 'Upgraden/inschakelen taalbestand';
 $HEADING['UPLOAD_FILES'] = 'Uploaden bestanden';
 $HEADING['WBMAILER_SETTINGS'] = 'Mailer-instellingen';
+
+/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Fout tijdens het updaten van de add-onbestanden.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Taalbestanden succesvol herladen';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTIE!</strong> Om veiligheidsredenen dient u de taalbestanden in de folder /languages/ via FTP te uploaden en vervolgens de Upgrade-functie te gebruiken om ze aan het systeem toe te voegen.';
@@ -630,7 +638,9 @@ Vriendelijke groet
 -------------------------------------
 Dit bericht is automatisch aangemaakt!
 ';
+$MESSAGE['SIGNUP2_NEW_USER'] = 'A new user would be registered';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Uw inloggegevens...';
+$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Many thanks for your registration';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'U moet een e-mailadres invullen';
 $MESSAGE['START_CURRENT_USER'] = 'U bent ingelogd als';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Waarschuwing, de installatiemap bestaat nog steeds. U dient deze te verwijderen om veiligheidsrisico&rsquo;s te vermijden!';
@@ -665,6 +675,8 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Het ingevoerde wachtwoord is te kort';
 $MESSAGE['USERS_SAVED'] = 'Gebruiker opgeslagen';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
+
+/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Diverse extra beheerinstellingen.';
 $OVERVIEW['GROUPS'] = 'Beheren van de gebruikersgroepen en hun rechten.';
 $OVERVIEW['HELP'] = 'Uitgebreide hulp voor het gebruik van dit systeem.';
@@ -684,3 +696,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

@@ -31,6 +31,8 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Hristo Benev(&#1061;&#1088;&#1080;&#1089;&#1090;&#1086; &#1041;&#1077;&#1085;&#1077;&#1074;)';
 $language_license = 'GNU General Public License';
+
+/* MENU */
 $MENU['ACCESS'] = '&#1044;&#1086;&#1089;&#1090;&#1098;&#1087;';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = '&#1044;&#1086;&#1073;&#1072;&#1074;&#1082;&#1080;';
@@ -52,6 +54,8 @@ $MENU['START'] = '&#1053;&#1072;&#1095;&#1072;&#1083;&#1086;';
 $MENU['TEMPLATES'] = '&#1064;&#1072;&#1073;&#1083;&#1086;&#1085;&#1080;';
 $MENU['USERS'] = '&#1055;&#1086;&#1090;&#1088;&#1077;&#1073;&#1080;&#1090;&#1077;&#1083;&#1080;';
 $MENU['VIEW'] = '&#1042;&#1080;&#1078;';
+
+/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = '&#1056;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1103;';
 $TEXT['ACTIONS'] = '&#1044;&#1077;&#1081;&#1089;&#1090;&#1074;&#1080;&#1103;';
 $TEXT['ACTIVE'] = '&#1040;&#1082;&#1090;&#1080;&#1074;&#1080;&#1088;&#1072;&#1085;';
@@ -398,6 +402,8 @@ $TEXT['WRITE'] = '&#1047;&#1072;&#1087;&#1080;&#1089;';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG &#1088;&#1077;&#1076;&#1072;&#1082;&#1090;&#1086;&#1088;';
 $TEXT['WYSIWYG_STYLE'] = '&#1057;&#1090;&#1080;&#1083; WYSIWYG';
 $TEXT['YES'] = '&#1044;&#1072;';
+
+/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On requirements not met';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = 'Add Group';
@@ -443,6 +449,8 @@ $HEADING['UNINSTALL_TEMPLATE'] = '&#1044;&#1077;&#1080;&#1085;&#1089;&#1090;&#10
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = '&#1050;&#1072;&#1095;&#1074;&#1072;&#1085;&#1077; &#1085;&#1072; &#1092;&#1072;&#1081;&#1083;&#1086;&#1074;&#1077;';
 $HEADING['WBMAILER_SETTINGS'] = 'Mailer Settings';
+
+/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -632,7 +640,9 @@ if you have received this message by an error, please delete it immediately!
 -------------------------------------
 This message was automatic generated!
 ';
+$MESSAGE['SIGNUP2_NEW_USER'] = 'A new user would be registered';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
+$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Many thanks for your registration';
 $MESSAGE['SIGNUP_NO_EMAIL'] = '&#1058;&#1088;&#1103;&#1073;&#1074;&#1072; &#1076;&#1072; &#1074;&#1098;&#1074;&#1077;&#1076;&#1077;&#1090;&#1077; e-mail &#1072;&#1076;&#1088;&#1077;&#1089;';
 $MESSAGE['START_CURRENT_USER'] = '&#1042;&#1080;&#1077; &#1074;&#1083;&#1103;&#1079;&#1086;&#1093;&#1090;&#1077; &#1082;&#1072;&#1090;&#1086;:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = '&#1042;&#1085;&#1080;&#1084;&#1072;&#1085;&#1080;&#1077;, &#1048;&#1085;&#1089;&#1090;&#1072;&#1083;&#1072;&#1094;&#1080;&#1086;&#1085;&#1085;&#1072;&#1090;&#1072; &#1076;&#1080;&#1088;&#1077;&#1082;&#1090;&#1086;&#1088;&#1080;&#1103; &#1074;&#1089;&#1077; &#1086;&#1097;&#1077; &#1089;&#1098;&#1097;&#1077;&#1089;&#1090;&#1074;&#1091;&#1074;&#1072;!';
@@ -667,6 +677,8 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = '&#1042;&#1098;&#1074;&#1077;&#1076;&#107
 $MESSAGE['USERS_SAVED'] = '&#1055;&#1086;&#1090;&#1088;&#1077;&#1073;&#1080;&#1090;&#1077;&#1083;&#1103; &#1077; &#1079;&#1072;&#1087;&#1080;&#1089;&#1072;&#1085; &#1091;&#1089;&#1087;&#1077;&#1096;&#1085;&#1086;';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
+
+/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 $OVERVIEW['GROUPS'] = '&#1059;&#1087;&#1088;&#1072;&#1074;&#1083;&#1077;&#1085;&#1080;&#1077; &#1085;&#1072; &#1087;&#1086;&#1090;&#1088;&#1077;&#1073;&#1080;&#1090;&#1077;&#1083;&#1089;&#1082;&#1080;&#1090;&#1077; &#1075;&#1088;&#1091;&#1087;&#1080; &#1080; &#1090;&#1103;&#1093;&#1085;&#1080;&#1090;&#1077; &#1087;&#1088;&#1072;&#1074;&#1072;...';
 $OVERVIEW['HELP'] = '&#1048;&#1084;&#1072;&#1090;&#1077; &#1074;&#1098;&#1087;&#1088;&#1086;&#1089;&#1080;? &#1053;&#1072;&#1084;&#1077;&#1088;&#1077;&#1090;&#1077; &#1086;&#1090;&#1075;&#1086;&#1074;&#1086;&#1088;...';
@@ -686,3 +698,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

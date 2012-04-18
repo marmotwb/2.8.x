@@ -31,6 +31,8 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Daniel Neto';
 $language_license = 'GNU General Public License';
+
+/* MENU */
 $MENU['ACCESS'] = 'Acessos';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Add-ons';
@@ -52,6 +54,8 @@ $MENU['START'] = 'In&iacute;cio';
 $MENU['TEMPLATES'] = 'Temas (Templates)';
 $MENU['USERS'] = 'Usu&aacute;rios';
 $MENU['VIEW'] = 'Visualizar';
+
+/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Assinatura de Conta';
 $TEXT['ACTIONS'] = 'A&ccdil;&otilde;es';
 $TEXT['ACTIVE'] = 'Ativo';
@@ -398,6 +402,8 @@ $TEXT['WRITE'] = 'Escrever';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG Editor';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG Style';
 $TEXT['YES'] = 'Sim';
+
+/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On requirements not met';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = 'Adicionar Grupo';
@@ -443,6 +449,8 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Desinstalar Tema (Template)';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Enviar Arquivo(s)';
 $HEADING['WBMAILER_SETTINGS'] = 'Mailer Settings';
+
+/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -632,7 +640,9 @@ if you have received this message by an error, please delete it immediately!
 -------------------------------------
 This message was automatic generated!
 ';
+$MESSAGE['SIGNUP2_NEW_USER'] = 'A new user would be registered';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
+$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Many thanks for your registration';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Voc&ecirc; precisa informar um endere&ccdil;o de email';
 $MESSAGE['START_CURRENT_USER'] = 'Voc&ecirc; est&aacute; logado como:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Aviso, O diret&oacute;rio "INSTALL" ainda existe!';
@@ -667,6 +677,8 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'A senha fornecida &eacute; curta demais'
 $MESSAGE['USERS_SAVED'] = 'Usu&aacute;rio armazenado com sucesso';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
+
+/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 $OVERVIEW['GROUPS'] = 'Gerencie os grupos de usu&aacute;rios e suas permiss&otilde;es de sistema...';
 $OVERVIEW['HELP'] = 'D&uacute;vidas? Encontre respostas...';
@@ -686,3 +698,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

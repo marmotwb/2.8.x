@@ -31,6 +31,8 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Marin Susac';
 $language_license = 'GNU General Public License';
+
+/* MENU */
 $MENU['ACCESS'] = 'Acc&egrave;s';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Extensions';
@@ -52,6 +54,8 @@ $MENU['START'] = 'Accueil';
 $MENU['TEMPLATES'] = 'Th&egrave;mes';
 $MENU['USERS'] = 'Utilisateurs';
 $MENU['VIEW'] = 'Voir le site';
+
+/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Cr&eacute;er un compte';
 $TEXT['ACTIONS'] = 'Actions';
 $TEXT['ACTIVE'] = 'Actif';
@@ -398,6 +402,8 @@ $TEXT['WRITE'] = 'Ecrire';
 $TEXT['WYSIWYG_EDITOR'] = 'Editeur WYSIWYG';
 $TEXT['WYSIWYG_STYLE'] = 'Style WYSIWYG';
 $TEXT['YES'] = 'Oui';
+
+/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Les param&egrave;tres requis de l&apos;extension ne sont pas v&eacute;rifi&eacute;s';
 $HEADING['ADD_CHILD_PAGE'] = 'Ajouter une sous-page';
 $HEADING['ADD_GROUP'] = 'Ajouter un groupe';
@@ -443,6 +449,8 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'D&eacute;sinstaller un th&egrave;me';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Uploader des fichiers';
 $HEADING['WBMAILER_SETTINGS'] = 'R&eacute;glages de l&apos;envoi de mail';
+
+/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -632,7 +640,9 @@ Si vous pensez avoir re&ccedil;u ce message par erreur, veuillez l&apos;effacer 
 -------------------------------------
 Ce message &agrave; &eacute;t&eacute; g&eacute;n&eacute;r&eacute; automatiquement!
 ';
+$MESSAGE['SIGNUP2_NEW_USER'] = 'A new user would be registered';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Param&egrave;tres de votre connexion ...';
+$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Many thanks for your registration';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'L&apos;adresse email est obligatoire';
 $MESSAGE['START_CURRENT_USER'] = 'Vous &ecirc;tes connect&eacute; en tant que : ';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Attention : le r&eacute;pertoire d&apos;installation existe toujours';
@@ -667,6 +677,8 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Le mot de passe est trop court';
 $MESSAGE['USERS_SAVED'] = 'Utilisateur sauvegard&eacute; avec succ&egrave;s';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
+
+/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Acc&egrave;s aux outils d&apos;administration de WebsiteBaker...';
 $OVERVIEW['GROUPS'] = 'Gestions des groupes d&apos;utilisateurs et des permissions';
 $OVERVIEW['HELP'] = 'Aide et FAQ sur l&apos;utilisation du site';
@@ -686,3 +698,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

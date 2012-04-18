@@ -31,6 +31,8 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Michal Kurtulik - YONIX.SK';
 $language_license = 'GNU General Public License';
+
+/* MENU */
 $MENU['ACCESS'] = 'Pr&iacute;stup';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Roz&#353;&iacute;renie';
@@ -52,6 +54,8 @@ $MENU['START'] = '&Uacute;vod';
 $MENU['TEMPLATES'] = '&#352;ablony';
 $MENU['USERS'] = 'U&#382;&iacute;vatelia';
 $MENU['VIEW'] = 'Zobrazi&#357;';
+
+/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Registr&aacute;cia &uacute;&#269;tu';
 $TEXT['ACTIONS'] = 'Akcia';
 $TEXT['ACTIVE'] = 'Akt&iacute;vny';
@@ -398,6 +402,8 @@ $TEXT['WRITE'] = 'Z&aacute;pis';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG editor';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG styl';
 $TEXT['YES'] = 'Ano';
+
+/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Nie s&uacute; splnen&eacute; po&#382;iadavky pre roz&#353;&iacute;renie';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = 'Prida&#357; skupinu';
@@ -443,6 +449,8 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Odi&#353;talovat &#353;ablonu';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Nahra&#357; s&uacute;bor(y)';
 $HEADING['WBMAILER_SETTINGS'] = 'Nastavenia E-Mailu';
+
+/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -632,7 +640,9 @@ if you have received this message by an error, please delete it immediately!
 -------------------------------------
 This message was automatic generated!
 ';
+$MESSAGE['SIGNUP2_NEW_USER'] = 'A new user would be registered';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Vase prihlasovacie udaje...';
+$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Many thanks for your registration';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Mus&iacute;te zada&#357; e-mailovou adresu';
 $MESSAGE['START_CURRENT_USER'] = 'Ste prihl&aacute;sen&yacute; ako:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Pozor, st&aacute;le existuje in&#353;tala&#269;n&yacute; adres&aacute;r!';
@@ -667,6 +677,8 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Zadan&eacute; heslo je pr&iacute;li&#353
 $MESSAGE['USERS_SAVED'] = 'U&#382;&iacute;vate&#318; bol &uacute;spe&#353;ne ulo&#382;en&yacute;';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
+
+/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Administra&#269;n&eacute; n&aacute;stroje...';
 $OVERVIEW['GROUPS'] = 'Spravova&#357; skupiny u&#382;ivatelov a ich opr&aacute;vnen&iacute;...';
 $OVERVIEW['HELP'] = 'M&aacute;te ot&aacute;zku? H&#318;adajte odpove&#271;...';
@@ -686,3 +698,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

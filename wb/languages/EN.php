@@ -695,6 +695,9 @@ $MESSAGE['THEME_INVALID_SOURCE_DESTINATION'] = 'Invalid descriptor for the new t
 $MESSAGE['THEME_DESTINATION_READONLY']       = 'No rights to create new theme directory!';
 $MESSAGE['THEME_IMPORT_HTT']                 = 'Import additional templates into the current active theme.<br />Use these templates to overwrite the corresponding default template.';
 
+$MESSAGE['SIGNUP2_NEW_USER'] = 'A new user would be registered';
+$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Many thanks for your registration';
+
 /* include old languages format */
 if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {

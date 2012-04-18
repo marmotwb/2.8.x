@@ -31,6 +31,8 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Vedran Presecki';
 $language_license = 'GNU General Public License';
+
+/* MENU */
 $MENU['ACCESS'] = 'Pristup';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Dodaci';
@@ -52,6 +54,8 @@ $MENU['START'] = 'Start';
 $MENU['TEMPLATES'] = 'Predlo&scaron;ci';
 $MENU['USERS'] = 'Korisnici';
 $MENU['VIEW'] = 'Pogled';
+
+/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Logiranje na Account';
 $TEXT['ACTIONS'] = 'Akcije';
 $TEXT['ACTIVE'] = 'Aktivan';
@@ -398,6 +402,8 @@ $TEXT['WRITE'] = 'Pi&scaron;i';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG Editor';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG Style';
 $TEXT['YES'] = 'Da';
+
+/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On requirements not met';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = 'Dodaj grupu';
@@ -443,6 +449,8 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Deinstaliraj predlo&#382;ak';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Nasnimi fileove';
 $HEADING['WBMAILER_SETTINGS'] = 'Mailer Settings';
+
+/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -632,7 +640,9 @@ if you have received this message by an error, please delete it immediately!
 -------------------------------------
 This message was automatic generated!
 ';
+$MESSAGE['SIGNUP2_NEW_USER'] = 'A new user would be registered';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
+$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Many thanks for your registration';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Unesite email adresu';
 $MESSAGE['START_CURRENT_USER'] = 'Trenutno ste logirani kao:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Upozorenje, instalacijski direktoriji nije jo&scaron; obrisan!';
@@ -667,6 +677,8 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Predlo&#382;ena lozinka je prekratka';
 $MESSAGE['USERS_SAVED'] = 'Korisnik je snimljen uspje&scaron;no';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
+
+/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 $OVERVIEW['GROUPS'] = 'Upravljajte grupama korisnika i njihovim sistemskim dopu&scaron;tenjima.';
 $OVERVIEW['HELP'] = 'Imate pitanje? Prona&eth;ite odgovor...';
@@ -686,3 +698,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+
