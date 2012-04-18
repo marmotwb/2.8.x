@@ -31,6 +31,8 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Zsolt + Robert';
 $language_license = 'GNU General Public License';
+
+/* MENU */
 $MENU['ACCESS'] = 'Jogosults&aacute;gok';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Kieg&eacute;sz&iacute;t-?-?';
@@ -52,6 +54,8 @@ $MENU['START'] = 'Kezd-?-?ap';
 $MENU['TEMPLATES'] = 'Sablonok';
 $MENU['USERS'] = 'Felhaszn&aacute;l&oacute;k';
 $MENU['VIEW'] = 'Port&aacute;l n&eacute;zet';
+
+/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Fi&oacute;k L&eacute;trehoz&aacute;s';
 $TEXT['ACTIONS'] = 'Tev&eacute;kenys&eacute;gek';
 $TEXT['ACTIVE'] = 'Akt&iacute;v';
@@ -398,6 +402,8 @@ $TEXT['WRITE'] = 'g';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG Szerkeszt&ccedil;';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG St&iacute;lus';
 $TEXT['YES'] = 'Igen';
+
+/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Kieg&eacute;sz&iacute;t&agrave;k&ouml;vetelm&eacute;nyek nem megfelel-?-?k';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = 'Csoport m&oacute;dos&iacute;t&aacute;sa';
@@ -443,6 +449,8 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Sablon elt&aacute;vol&iacute;t&aacute;s';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'F&aacute;jl(ok) felt&ouml;lt&eacute;se';
 $HEADING['WBMAILER_SETTINGS'] = 'Levelez&agrave;Be&aacute;ll&iacute;t&aacute;sok';
+
+/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -632,7 +640,9 @@ if you have received this message by an error, please delete it immediately!
 -------------------------------------
 This message was automatic generated!
 ';
+$MESSAGE['SIGNUP2_NEW_USER'] = 'A new user would be registered';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Bejelentkez&eacute;si r&eacute;szletek...';
+$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Many thanks for your registration';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'E-mail c&iacute;met meg kell adnia';
 $MESSAGE['START_CURRENT_USER'] = 'Bejelentkezve mint:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Figyelmeztet&eacute;s! A telep&iacute;t&eacute;si k&ouml;nyvt&aacute;r m&eacute;g nem lett t&ouml;r&ouml;lve!';
@@ -667,6 +677,8 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'A be&iacute;rt jelsz&oacute; t&uacute;l 
 $MESSAGE['USERS_SAVED'] = 'Felhaszn&aacute;l&oacute; sikeresen mentve';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
+
+/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'WebsiteBaker adminisztr&aacute;ci&oacute;s eszk&ouml;z&ouml;k...';
 $OVERVIEW['GROUPS'] = 'Csoportok &eacute;s azok rendszer jogainak kezel&eacute;se...';
 $OVERVIEW['HELP'] = 'K&eacute;rd&eacute;sed van? itt tal&aacute;lsz v&aacute;laszt...  (Angol)';
@@ -686,3 +698,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

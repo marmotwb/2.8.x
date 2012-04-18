@@ -31,6 +31,8 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Odd Egil Hansen (oeh)';
 $language_license = 'GNU General Public License';
+
+/* MENU */
 $MENU['ACCESS'] = 'Tilgang';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Tillegg';
@@ -52,6 +54,8 @@ $MENU['START'] = 'Start';
 $MENU['TEMPLATES'] = 'Maler';
 $MENU['USERS'] = 'Brukere';
 $MENU['VIEW'] = 'Forh&aring;ndsvis';
+
+/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Konto Registrering';
 $TEXT['ACTIONS'] = 'Valg';
 $TEXT['ACTIVE'] = 'Aktivt';
@@ -398,6 +402,8 @@ $TEXT['WRITE'] = 'Skriv';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG Editor';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG Stil';
 $TEXT['YES'] = 'Ja';
+
+/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Kravene for installering av denne modulen er ikke oppfylt';
 $HEADING['ADD_CHILD_PAGE'] = 'Legg til ny underside';
 $HEADING['ADD_GROUP'] = 'Legg til Gruppe';
@@ -443,6 +449,8 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Avinstaller Mal';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Last opp fil(er)';
 $HEADING['WBMAILER_SETTINGS'] = 'Innstillinger for e-post senderen';
+
+/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -628,7 +636,9 @@ Hvis du har mottatt denne e-posten ved en feiltakelse, vennligst slett den med e
 -------------------------------------
 Denne meldingen ble automatisk generert!
 ';
+$MESSAGE['SIGNUP2_NEW_USER'] = 'A new user would be registered';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Dine p&aring;-loggings detaljer...';
+$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Many thanks for your registration';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Du m&aring; skrive inn en e-post adresse';
 $MESSAGE['START_CURRENT_USER'] = 'Du er logget inn som:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Advarsel, installasjonskatalogen eksisterer forsatt!';
@@ -663,6 +673,8 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Angitt passord for kort';
 $MESSAGE['USERS_SAVED'] = 'Lykkes &aring; lagre bruker';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
+
+/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'G&aring; inn p&aring; WebsiteBaker sine administrasjonsverkt&oslash;y...';
 $OVERVIEW['GROUPS'] = 'Administrer grupper og deres system adgang...';
 $OVERVIEW['HELP'] = 'Har du et sp&oslash;rsm&aring;l? Finn svaret...';
@@ -682,3 +694,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

@@ -32,6 +32,8 @@ $language_version = '3.0';
 $language_platform = '2.9';
 $language_author = 'Stefan Braunewell, Matthias Gallas';
 $language_license = 'GNU General Public License';
+
+/* MENU */
 $MENU['ACCESS'] = 'Benutzerverwaltung';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Erweiterungen';
@@ -53,6 +55,8 @@ $MENU['START'] = 'Start';
 $MENU['TEMPLATES'] = 'Designvorlagen';
 $MENU['USERS'] = 'Benutzer';
 $MENU['VIEW'] = 'Ansicht';
+
+/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Registrierung';
 $TEXT['ACTIONS'] = 'Aktionen';
 $TEXT['ACTIVE'] = 'Aktiv';
@@ -399,6 +403,8 @@ $TEXT['WRITE'] = 'Schreiben';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG Editor';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG Stil';
 $TEXT['YES'] = 'Ja';
+
+/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On Voraussetzungen nicht erf&uuml;llt';
 $HEADING['ADD_CHILD_PAGE'] = 'Unterseite hinzuf&uuml;gen';
 $HEADING['ADD_GROUP'] = 'Gruppe hinzuf&uuml;gen';
@@ -444,6 +450,8 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Designvorlage deinstallieren';
 $HEADING['UPGRADE_LANGUAGE'] = 'Sprache registrieren/aktualisieren (Upgrade)';
 $HEADING['UPLOAD_FILES'] = 'Datei(en) &uuml;bertragen';
 $HEADING['WBMAILER_SETTINGS'] = 'Maileinstellungen';
+
+/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Fehler beim Abgleich der Addon Informationen.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Sprachen erfolgreich geladen';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ACHTUNG!</strong> &Uuml;berspielen Sie Sprachdateien aus Sicherheitsgr&uuml;nden nur &uuml;ber FTP in den Ordner /languages/ und benutzen die Upgrade Funktion zum Registrieren oder Aktualisieren.';
@@ -629,7 +637,9 @@ Wenn Sie dieses E-Mail versehentlich erhalten haben, l&ouml;schen Sie bitte dies
 ----------------------------------------
 Diese E-Mail wurde automatisch erstellt!
 ';
+$MESSAGE['SIGNUP2_NEW_USER'] = 'Es wurde ein neuer User regisriert';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Deine WB Logindaten ...';
+$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Vielen Dank f&uuml;r Ihre Registrierung';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Bitte geben Sie Ihre E-Mail Adresse an';
 $MESSAGE['START_CURRENT_USER'] = 'Sie sind momentan angemeldet als:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Das Installations-Verzeichnis "/install" existiert noch! Dies stellt ein Sicherheitsrisiko dar. Bitte l&ouml;schen.';
@@ -664,6 +674,8 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Das eingegebene Passwort war zu kurz';
 $MESSAGE['USERS_SAVED'] = 'Der Benutzer wurde erfolgreich gespeichert';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'Der angegebene Loginname wird bereits verwendet';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'Der eingegebene Loginname war zu kurz';
+
+/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Zugriff auf die WebsiteBaker Verwaltungsprogramme...';
 $OVERVIEW['GROUPS'] = 'Verwaltung von Gruppen und Ihrer Zugangsberechtigungen...';
 $OVERVIEW['HELP'] = 'Noch Fragen? Hier finden Sie Antworten';
@@ -683,3 +695,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

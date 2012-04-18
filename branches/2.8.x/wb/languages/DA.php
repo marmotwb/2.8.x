@@ -31,6 +31,8 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Allan Christensen';
 $language_license = 'GNU General Public License';
+
+/* MENU */
 $MENU['ACCESS'] = 'Adgang';
 $MENU['ADDON'] = 'Tilf&oslash;jelse';
 $MENU['ADDONS'] = 'Tilf&oslash;jelser';
@@ -52,6 +54,8 @@ $MENU['START'] = 'Hjem';
 $MENU['TEMPLATES'] = 'Skabeloner';
 $MENU['USERS'] = 'Brugere';
 $MENU['VIEW'] = 'Vis';
+
+/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Kontoregistrering';
 $TEXT['ACTIONS'] = 'Handlinger';
 $TEXT['ACTIVE'] = 'Aktiv';
@@ -398,6 +402,8 @@ $TEXT['WRITE'] = 'Skriv';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG-editor';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG-stil';
 $TEXT['YES'] = 'Ja';
+
+/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On krav er ikke opfyldt';
 $HEADING['ADD_CHILD_PAGE'] = 'Tilf&oslash;j underside';
 $HEADING['ADD_GROUP'] = 'Tilf&oslash;j gruppe';
@@ -443,6 +449,8 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Afinstall&eacute;r skabelon';
 $HEADING['UPGRADE_LANGUAGE'] = 'Sprogopgradering';
 $HEADING['UPLOAD_FILES'] = 'Overf&oslash;r fil(er)';
 $HEADING['WBMAILER_SETTINGS'] = 'E-mail-indstillinger';
+
+/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Fejl under opdatering af tilf&oslash;jelse.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Sprog indl&aelig;st';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>PAS P&aring;!</strong> Af sikkerhedsgrunde b&oslash;r sprogfiler kun indl&aelig;ses i folderen /languages/ med FTP, og opgraderingsfunktionen b&oslash;r bruges til registrering/opdatering.';
@@ -632,7 +640,9 @@ Hvis du har modtaget denne besked ved en fejl, bedes du straks slette den.
 Denne besked er sendt automatisk
 
 ';
+$MESSAGE['SIGNUP2_NEW_USER'] = 'A new user would be registered';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Dine login-oplysninger...';
+$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Many thanks for your registration';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Du skal indtaste en gyldig email-adresse';
 $MESSAGE['START_CURRENT_USER'] = 'Du er lige nu logget ind som:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'ADVARSEL! Installationsbiblioteket (mappen) findes stadig p&aring; serveren. Du b&oslash;r slette den straks af hensyn til sikkerheden!';
@@ -667,6 +677,8 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Den angivne adgangskode er for kort';
 $MESSAGE['USERS_SAVED'] = 'Brugeren er gemt';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
+
+/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'WebsiteBaker administrationsv&aelig;rkt&oslash;jer...';
 $OVERVIEW['GROUPS'] = 'Administr&eacute;r brugergrupper og deres systemrettigheder...';
 $OVERVIEW['HELP'] = 'Sp&oslash;rgsm&aring;l? Find dine svar her...';
@@ -686,3 +698,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

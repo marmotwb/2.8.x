@@ -31,6 +31,8 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Kirill Karakulko (kirill@nadosoft.com)';
 $language_license = 'GNU General Public License';
+
+/* MENU */
 $MENU['ACCESS'] = '&#1044;&#1086;&#1089;&#1090;&#1091;&#1087;';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = '&#1044;&#1086;&#1087;&#1086;&#1083;&#1085;&#1080;&#1090;&#1077;&#1083;&#1100;&#1085;&#1099;&#1077; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1080;';
@@ -52,6 +54,8 @@ $MENU['START'] = '&#1057;&#1090;&#1072;&#1088;&#1090;';
 $MENU['TEMPLATES'] = '&#1064;&#1072;&#1073;&#1083;&#1086;&#1085;&#1099;';
 $MENU['USERS'] = '&#1055;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1080;';
 $MENU['VIEW'] = '&#1055;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088;&#1077;&#1090;&#1100;';
+
+/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Account Sign-Up';
 $TEXT['ACTIONS'] = '&#1044;&#1077;&#1081;&#1089;&#1090;&#1074;&#1080;&#1103;';
 $TEXT['ACTIVE'] = '&#1040;&#1082;&#1090;&#1080;&#1074;&#1085;&#1072;&#1103;';
@@ -398,6 +402,8 @@ $TEXT['WRITE'] = '&#1047;&#1072;&#1087;&#1080;&#1089;&#1100;';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG &#1088;&#1077;&#1076;&#1072;&#1082;&#1090;&#1086;&#1088;';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG &#1089;&#1090;&#1080;&#1083;&#1100;';
 $TEXT['YES'] = '&#1044;&#1072;';
+
+/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On requirements not met';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = '&#1044;&#1086;&#1073;&#1072;&#1074;&#1080;&#1090;&#1100; &#1075;&#1088;&#1091;&#1087;&#1087;&#1091;';
@@ -443,6 +449,8 @@ $HEADING['UNINSTALL_TEMPLATE'] = '&#1059;&#1076;&#1072;&#1083;&#1080;&#1090;&#11
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = '&#1047;&#1072;&#1082;&#1072;&#1095;&#1072;&#1090;&#1100; &#1092;&#1072;&#1081;&#1083;(&#1099;)';
 $HEADING['WBMAILER_SETTINGS'] = '&#1053;&#1072;&#1089;&#1090;&#1088;&#1086;&#1081;&#1082;&#1080; &#1087;&#1086;&#1095;&#1090;&#1086;&#1074;&#1086;&#1081; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1099;';
+
+/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -632,7 +640,9 @@ if you have received this message by an error, please delete it immediately!
 -------------------------------------
 This message was automatic generated!
 ';
+$MESSAGE['SIGNUP2_NEW_USER'] = 'A new user would be registered';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
+$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Many thanks for your registration';
 $MESSAGE['SIGNUP_NO_EMAIL'] = '&#1042;&#1099; &#1076;&#1086;&#1083;&#1078;&#1085;&#1099; &#1074;&#1074;&#1077;&#1089;&#1090;&#1080; email &#1072;&#1076;&#1088;&#1077;&#1089;';
 $MESSAGE['START_CURRENT_USER'] = '&#1042;&#1099; &#1074;&#1086;&#1096;&#1083;&#1080; &#1082;&#1072;&#1082;:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = '&#1042;&#1085;&#1080;&#1084;&#1072;&#1085;&#1080;&#1077;, &#1080;&#1085;&#1089;&#1090;&#1072;&#1083;&#1103;&#1094;&#1080;&#1086;&#1085;&#1085;&#1072;&#1103; &#1076;&#1080;&#1088;&#1077;&#1082;&#1090;&#1086;&#1088;&#1080;&#1103; &#1074;&#1089;&#1077; &#1077;&#1097;&#1077; &#1085;&#1077; &#1091;&#1076;&#1072;&#1083;&#1077;&#1085;&#1072;!';
@@ -667,6 +677,8 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = '&#1055;&#1072;&#1088;&#1086;&#1083;&#110
 $MESSAGE['USERS_SAVED'] = '&#1044;&#1072;&#1085;&#1085;&#1099;&#1077; &#1086; &#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1077; &#1089;&#1086;&#1093;&#1088;&#1072;&#1085;&#1077;&#1085;&#1099; &#1091;&#1089;&#1087;&#1077;&#1096;&#1085;&#1086;';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
+
+/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = '&#1044;&#1086;&#1089;&#1090;&#1091;&#1087; &#1082; &#1089;&#1088;&#1077;&#1076;&#1089;&#1090;&#1074;&#1072;&#1084; &#1072;&#1076;&#1084;&#1080;&#1085;&#1080;&#1089;&#1090;&#1088;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103;';
 $OVERVIEW['GROUPS'] = '&#1059;&#1087;&#1088;&#1072;&#1074;&#1083;&#1077;&#1085;&#1080;&#1077; &#1075;&#1088;&#1091;&#1087;&#1087;&#1072;&#1084;&#1080; &#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1077;&#1081; &#1080; &#1087;&#1088;&#1072;&#1074;&#1072; &#1076;&#1086;&#1089;&#1090;&#1091;&#1087;&#1072;';
 $OVERVIEW['HELP'] = '&#1054;&#1090;&#1074;&#1077;&#1090;&#1099; &#1085;&#1072; &#1074;&#1086;&#1087;&#1088;&#1086;&#1089;&#1099;';
@@ -686,3 +698,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

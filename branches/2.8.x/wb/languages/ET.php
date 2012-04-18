@@ -31,6 +31,8 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Heiko H&auml;ng';
 $language_license = 'GNU General Public License';
+
+/* MENU */
 $MENU['ACCESS'] = 'Ligip&auml;&auml;s';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Lisad';
@@ -52,6 +54,8 @@ $MENU['START'] = 'Start';
 $MENU['TEMPLATES'] = 'Kujundused';
 $MENU['USERS'] = 'Kasutajad';
 $MENU['VIEW'] = 'Vaata';
+
+/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Registreerimine';
 $TEXT['ACTIONS'] = 'Actions';
 $TEXT['ACTIVE'] = 'Aktiivne';
@@ -398,6 +402,8 @@ $TEXT['WRITE'] = 'Kirjuta';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG Editor';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG Stiil';
 $TEXT['YES'] = 'Jah';
+
+/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On requirements not met';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = 'Lisa Grupp';
@@ -443,6 +449,8 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Eemalda Kujundus';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Saada Fail(id)';
 $HEADING['WBMAILER_SETTINGS'] = 'Mailer Settings';
+
+/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -632,7 +640,9 @@ if you have received this message by an error, please delete it immediately!
 -------------------------------------
 This message was automatic generated!
 ';
+$MESSAGE['SIGNUP2_NEW_USER'] = 'A new user would be registered';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
+$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Many thanks for your registration';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Sa pead sisestama emaili aadressi';
 $MESSAGE['START_CURRENT_USER'] = 'Sa oled praegu sisse logitud:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Hoiatus, Installatsiooni kataloog eksisteerib!';
@@ -667,6 +677,8 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Sisestatud parool on liiga l&uuml;hike';
 $MESSAGE['USERS_SAVED'] = 'Kasutaja edukalt salvestatud';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
+
+/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 $OVERVIEW['GROUPS'] = 'Halda kasutajate gruppe ja nende &otilde;iguseid...';
 $OVERVIEW['HELP'] = 'On k&uuml;simusi? Leia oma vastus...';
@@ -686,3 +698,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

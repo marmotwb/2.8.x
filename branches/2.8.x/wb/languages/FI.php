@@ -31,6 +31,8 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Jontse';
 $language_license = 'GNU General Public License';
+
+/* MENU */
 $MENU['ACCESS'] = 'K&auml;ytt&auml;j&auml;t';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Lis&auml;osat';
@@ -52,6 +54,8 @@ $MENU['START'] = 'Alku';
 $MENU['TEMPLATES'] = 'Sivupohjat';
 $MENU['USERS'] = 'K&auml;ytt&auml;j&auml;t';
 $MENU['VIEW'] = 'Katsele';
+
+/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Kirjaunut';
 $TEXT['ACTIONS'] = 'Tila';
 $TEXT['ACTIVE'] = 'K&auml;yt&ouml;ss&auml;';
@@ -398,6 +402,8 @@ $TEXT['WRITE'] = 'Kirjoita';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG muokkain';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG tyyli';
 $TEXT['YES'] = 'Kyll&auml;';
+
+/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On requirements not met';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = 'Lis&auml;&auml; ryhm&auml;';
@@ -443,6 +449,8 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Poista sivupohja';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Lataa palvelimelle';
 $HEADING['WBMAILER_SETTINGS'] = 'Mailer Settings';
+
+/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -632,7 +640,9 @@ if you have received this message by an error, please delete it immediately!
 -------------------------------------
 This message was automatic generated!
 ';
+$MESSAGE['SIGNUP2_NEW_USER'] = 'A new user would be registered';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
+$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Many thanks for your registration';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Anna s&auml;hk&ouml;postiosoite';
 $MESSAGE['START_CURRENT_USER'] = 'Olet kirjautunut nimell&auml;:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Poista asennuskansio!';
@@ -667,6 +677,8 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Salasana liian lyhyt';
 $MESSAGE['USERS_SAVED'] = 'Talletettu';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
+
+/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 $OVERVIEW['GROUPS'] = 'k&auml;ytt&auml;j&auml;ryhm&auml;t...';
 $OVERVIEW['HELP'] = 'Kysymykset, vastaukset...';
@@ -686,3 +698,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

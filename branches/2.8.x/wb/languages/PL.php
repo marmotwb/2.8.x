@@ -31,6 +31,8 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'Marek Stepien;';
 $language_license = 'GNU General Public License';
+
+/* MENU */
 $MENU['ACCESS'] = 'Dostep';
 $MENU['ADDON'] = 'Dodatek';
 $MENU['ADDONS'] = 'Dodatki';
@@ -52,6 +54,8 @@ $MENU['START'] = 'Poczatek';
 $MENU['TEMPLATES'] = 'Szablony';
 $MENU['USERS'] = 'Uzytkownicy';
 $MENU['VIEW'] = 'Podglad';
+
+/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Nowe konto';
 $TEXT['ACTIONS'] = 'Czynnosci';
 $TEXT['ACTIVE'] = 'Aktywne';
@@ -398,6 +402,8 @@ $TEXT['WRITE'] = 'Zapisz';
 $TEXT['WYSIWYG_EDITOR'] = 'Edytor WYSIWYG';
 $TEXT['WYSIWYG_STYLE'] = 'Styl WYSIWYG';
 $TEXT['YES'] = 'Tak';
+
+/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Wymagania dodatku nie zostaly spelnione';
 $HEADING['ADD_CHILD_PAGE'] = 'Dodaj strone dziecko"';
 $HEADING['ADD_GROUP'] = 'Dodaj grupe';
@@ -443,6 +449,8 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Odinstaluj szablon';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Zaladuj plik(i)';
 $HEADING['WBMAILER_SETTINGS'] = 'Ustawienia rozsylania maili';
+
+/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Blad podczas aktualizacji dodatku.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Pomyslnie zainstalowano ponownie pliki jezykowe';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>UWAGA!</strong> Ze wzgledÃÂ³w bezpieczenstwa przeslanie plikÃÂ³w jezykowych do folderu /languages/ powinno odbyc sie tylko przez FTP.';
@@ -631,7 +639,9 @@ Jesli otrzymales te wiadomosc przez pomylke, usun ja niezwlocznie!
 -------------------------------------
 Ta wiadomosc zostala wygenerowana automatycznie!
 ';
+$MESSAGE['SIGNUP2_NEW_USER'] = 'A new user would be registered';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Twoje dane logowania...';
+$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Many thanks for your registration';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Nalezy wprowadzic adres e-mail';
 $MESSAGE['START_CURRENT_USER'] = 'Jestes obecnie zalogowany(-a) jako:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Uwaga: katalog instalacyjny wciaz istnieje!';
@@ -666,6 +676,8 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Wprowadzone haslo bylo za krÃÂ³tkie
 $MESSAGE['USERS_SAVED'] = 'Uzytkownik zostal zapisany';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
+
+/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Narzedzia administracji WebsiteBakera...';
 $OVERVIEW['GROUPS'] = 'Zarzadzaj grupami uzytkownikÃÂ³w i ich uprawnieniami systemowymi...';
 $OVERVIEW['HELP'] = 'Masz pytania? Znajdz odpowiedzi...';
@@ -685,3 +697,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+

@@ -31,6 +31,8 @@ $language_version = '2.8';
 $language_platform = '2.8.x';
 $language_author = 'WebStep, s.r.o.';
 $language_license = 'GNU General Public License';
+
+/* MENU */
 $MENU['ACCESS'] = 'P&#345;&iacute;stup';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Roz&scaron;&iacute;&#345;en&iacute;';
@@ -52,6 +54,8 @@ $MENU['START'] = '&Uacute;vod';
 $MENU['TEMPLATES'] = '&Scaron;ablony';
 $MENU['USERS'] = 'U&#382;ivatel&eacute;';
 $MENU['VIEW'] = 'Zobrazit';
+
+/* TEXT */
 $TEXT['ACCOUNT_SIGNUP'] = 'Registrace &uacute;&#269;tu';
 $TEXT['ACTIONS'] = 'Akce';
 $TEXT['ACTIVE'] = 'Aktivn&iacute;';
@@ -398,6 +402,8 @@ $TEXT['WRITE'] = 'Z&aacute;pis';
 $TEXT['WYSIWYG_EDITOR'] = 'WYSIWYG editor';
 $TEXT['WYSIWYG_STYLE'] = 'WYSIWYG styl';
 $TEXT['YES'] = 'Ano';
+
+/* HEADING */
 $HEADING['ADDON_PRECHECK_FAILED'] = 'Add-On requirements not met';
 $HEADING['ADD_CHILD_PAGE'] = 'Add child page';
 $HEADING['ADD_GROUP'] = 'P&#345;idat skupinu';
@@ -443,6 +449,8 @@ $HEADING['UNINSTALL_TEMPLATE'] = 'Odinstalovat &scaron;ablonu';
 $HEADING['UPGRADE_LANGUAGE'] = 'Language register/upgrading';
 $HEADING['UPLOAD_FILES'] = 'Nahr&aacute;t soubor(y)';
 $HEADING['WBMAILER_SETTINGS'] = 'Mailer Settings';
+
+/* MESSAGE */
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Error while updating the Add-On information.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Languages reloaded successfully';
 $MESSAGE['ADDON_MANUAL_FTP_LANGUAGE'] = '<strong>ATTENTION!</strong> For safety reasons uploading languages files in the folder/languages/ only by FTP and use the Upgrade function for registering or updating.';
@@ -632,7 +640,9 @@ if you have received this message by an error, please delete it immediately!
 -------------------------------------
 This message was automatic generated!
 ';
+$MESSAGE['SIGNUP2_NEW_USER'] = 'A new user would be registered';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Your login details...';
+$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Many thanks for your registration';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Mus&iacute;te zadat e-mailovou adresu';
 $MESSAGE['START_CURRENT_USER'] = 'Jste p&#345;ihl&aacute;&scaron;eni jako:';
 $MESSAGE['START_INSTALL_DIR_EXISTS'] = 'Pozor, st&aacute;le existuje instala&#269;n&iacute; adres&aacute;&#345;!';
@@ -667,6 +677,8 @@ $MESSAGE['USERS_PASSWORD_TOO_SHORT'] = 'Zadan&eacute; heslo je p&#345;&iacute;li
 $MESSAGE['USERS_SAVED'] = 'U&#382;ivatel byl &uacute;sp&#283;&scaron;n&#283; ulo&#382;en';
 $MESSAGE['USERS_USERNAME_TAKEN'] = 'The loginname you entered is already taken';
 $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The loginname you entered was too short';
+
+/* OVERVIEW */
 $OVERVIEW['ADMINTOOLS'] = 'Access the WebsiteBaker administration tools...';
 $OVERVIEW['GROUPS'] = 'Spravovat skupiny u&#382;ivatel&#367; a jejich opr&aacute;vn&#283;n&iacute;...';
 $OVERVIEW['HELP'] = 'M&aacute;te ot&aacute;zku? Hledejte odpov&#283;&#271;...';
@@ -686,3 +698,4 @@ if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
 {
 	include(WB_PATH.'/languages/old.format.inc.php');
 }
+
