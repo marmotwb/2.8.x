@@ -19,6 +19,7 @@
 
 require_once(WB_PATH.'/framework/functions.php');
 require_once(WB_PATH.'/framework/class.admin.php');
+require_once(WB_PATH.'/framework/class.database.php');
 $admin = new admin('Addons', 'modules', false, false);
 
 /* display a status message on the screen **************************************
@@ -48,7 +49,7 @@ $table_list = array (
 $OK            = ' <span class="ok">OK</span> ';
 $FAIL          = ' <span class="error">FAILED</span> ';
 $DEFAULT_THEME = 'wb_theme';
-$stepID = 1;
+$stepID = 0;
 $dirRemove = array(
 /*
 			'[TEMPLATE]/allcss/',
@@ -68,7 +69,9 @@ $filesRemove['0'] = array(
 
 		 );
 
-$filesRemove['1'] = array(
+if(version_compare(WB_REVISION, '1671', '<'))
+{
+	$filesRemove['1'] = array(
 
 			'[TEMPLATE]/argos_theme/templates/access.htt',
 			'[TEMPLATE]/argos_theme/templates/addons.htt',
@@ -78,10 +81,10 @@ $filesRemove['1'] = array(
 			'[TEMPLATE]/argos_theme/templates/groups_form.htt',
 			'[TEMPLATE]/argos_theme/templates/languages.htt',
 			'[TEMPLATE]/argos_theme/templates/languages_details.htt',
-/*
+	/*
 			'[TEMPLATE]/argos_theme/templates/login.htt',
 			'[TEMPLATE]/argos_theme/templates/login_forgot.htt',
-*/
+	*/
 			'[TEMPLATE]/argos_theme/templates/media.htt',
 			'[TEMPLATE]/argos_theme/templates/media_browse.htt',
 			'[TEMPLATE]/argos_theme/templates/media_rename.htt',
@@ -110,10 +113,10 @@ $filesRemove['1'] = array(
 			'[TEMPLATE]/wb_theme/templates/languages.htt',
 			'[TEMPLATE]/wb_theme/templates/languages_details.htt',
 
-/*
+	/*
 			'[TEMPLATE]/wb_theme/templates/login.htt',
 			'[TEMPLATE]/wb_theme/templates/login_forgot.htt',
-*/
+	*/
 
 			'[TEMPLATE]/wb_theme/templates/media.htt',
 			'[TEMPLATE]/wb_theme/templates/media_browse.htt',
@@ -134,6 +137,7 @@ $filesRemove['1'] = array(
 			'[TEMPLATE]/wb_theme/templates/users.htt',
 			'[TEMPLATE]/wb_theme/templates/users_form.htt',
 		 );
+}
 
 // analyze/check database tables
 function mysqlCheckTables( $dbName )
@@ -196,8 +200,7 @@ function check_wb_tables()
 // check existing tables
 $all_tables = check_wb_tables();
 
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <title>Upgrade script</title>
@@ -248,7 +251,7 @@ h1,h2,h3,h4,h5,h6 {
 
 h1 { font-size:150%; }
 h2 { font-size: 130%; border-bottom: 1px #CCC solid; }
-h3 { font-size: 120%; }
+h3 { font-size: 110%; font-weight: bold;; }
 
 .ok, .error { font-weight:bold; }
 .ok { color:green; }
@@ -325,63 +328,14 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 	exit();
 }
 
-echo '<h2>Step '.(++$stepID).' : Updating database entries</h2>';
-
-// function to add a var/value-pair into settings-table
-function db_add_key_value($key, $value) {
-	global $database; global $OK; global $FAIL;
-	$table = TABLE_PREFIX.'settings';
-	$query = $database->query("SELECT value FROM $table WHERE name = '$key' LIMIT 1");
-	if($query->numRows() > 0) {
-		echo "$key: already exists. $OK.<br />";
-		return true;
-	} else {
-		$database->query("INSERT INTO $table (name,value) VALUES ('$key', '$value')");
-		echo (mysql_error()?mysql_error().'<br />':'');
-		$query = $database->query("SELECT value FROM $table WHERE name = '$key' LIMIT 1");
-		if($query->numRows() > 0) {
-			echo "$key: $OK.<br />";
-			return true;
-		} else {
-			echo "$key: $FAIL!<br />";
-			return false;
-		}
-	}
-}
-
-// function to add a new field into a table
-function db_add_field($field, $table, $desc) {
-	global $database; global $OK; global $FAIL;
-	$table = TABLE_PREFIX.$table;
-	$query = $database->query("DESCRIBE $table '$field'");
-	if($query->numRows() == 0) { // add field
-		$query = $database->query("ALTER TABLE $table ADD $field $desc");
-		echo (mysql_error()?mysql_error().'<br />':'');
-		$query = $database->query("DESCRIBE $table '$field'");
-		echo (mysql_error()?mysql_error().'<br />':'');
-		if($query->numRows() > 0) {
-			echo "'$field' added. $OK.<br />";
-		} else {
-			echo "adding '$field' $FAIL!<br />";
-		}
-	} else {
-		echo "'$field' already exists. $OK.<br />";
-	}
-}
+echo '<h3>Step '.(++$stepID).': Setting default_theme</h3>';
 
 /**********************************************************
  *  - Adding field default_theme to settings table
  */
-echo "<br />Adding default_theme to settings table<br />";
-db_update_key_value('settings', 'default_theme', $DEFAULT_THEME);
-/**********************************************************
- *  - install droplets
- */
-    $drops = (!in_array ( "mod_droplets", $all_tables)) ? "<br />Install droplets<br />" : "<br />Upgrade droplets<br />";
-    echo $drops;
-
-     $file_name = (!in_array ( "mod_droplets", $all_tables) ? "install.php" : "upgrade.php");
-     require_once (WB_PATH."/modules/droplets/".$file_name);
+echo "<br />Adding default_theme to settings table";
+// db_update_key_value('settings', 'default_theme', $DEFAULT_THEME);
+echo (db_update_key_value( 'settings', 'default_theme', $DEFAULT_THEME ) ? " $OK<br />" : " $FAIL!<br />");
 
 // check again all tables, to get a new array
  if(sizeof($all_tables) < 22) { $all_tables = check_wb_tables(); }
@@ -422,120 +376,214 @@ db_update_key_value('settings', 'default_theme', $DEFAULT_THEME);
         exit();
     }
 
+
+echo '<h3>Step '.(++$stepID).': Updating settings</h3>';
 /**********************************************************
  *  - Adding field sec_anchor to settings table
  */
-echo "<br />Adding sec_anchor to settings table<br />";
+echo "<br />Adding sec_anchor to settings table";
 $cfg = array(
 	'sec_anchor' => 'wb_'
 );
-foreach($cfg as $key=>$value) {
-	db_add_key_value($key, $value);
-}
+
+echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+
 
 /**********************************************************
  *  - Adding redirect timer to settings table
  */
-echo "<br />Adding redirect timer to settings table<br />";
+echo "Adding redirect timer to settings table";
 $cfg = array(
 	'redirect_timer' => '1500'
 );
-foreach($cfg as $key=>$value) {
-	db_add_key_value($key, $value);
-}
+echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
 /**********************************************************
  *  - Adding rename_files_on_upload to settings table
  */
-echo "<br />Updating rename_files_on_upload to settings table<br />";
+echo "Updating rename_files_on_upload to settings table";
 $cfg = array(
 	'rename_files_on_upload' => 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js'
 );
-db_update_key_value('settings', 'rename_files_on_upload', $cfg['rename_files_on_upload']);
+echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
 /**********************************************************
  *  - Adding mediasettings to settings table
  */
-echo "<br />Adding mediasettings to settings table<br />";
+echo "Adding mediasettings to settings table";
 $cfg = array(
 	'mediasettings' => '',
 );
 
-foreach($cfg as $key=>$value) {
-	db_add_key_value($key, $value);
-}
+echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
 /**********************************************************
  *  - Adding fingerprint_with_ip_octets to settings table
  */
-echo "<br />Adding fingerprint_with_ip_octets to settings table<br />";
+echo "Adding fingerprint_with_ip_octets to settings table";
 $cfg = array(
 	'fingerprint_with_ip_octets' => '2',
 	'secure_form_module' => ''
 );
-foreach($cfg as $key=>$value) {
-	db_add_key_value($key, $value);
-}
+
+echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+
 /**********************************************************
  *  - Adding page_icon_dir to settings table
  */
-echo "<br />Adding page_icon_dir to settings table<br />";
+echo "Adding page_icon_dir to settings table";
 $cfg = array(
 	'page_icon_dir' => '/templates/*/title_images',
 );
-foreach($cfg as $key=>$value) {
-	db_add_key_value($key, $value);
-}
+
+echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+
 /**********************************************************
  *  - Adding dev_infos to settings table
  */
-echo "<br />Adding dev_infos to settings table<br />";
+echo "Adding dev_infos to settings table";
 $cfg = array(
 	'dev_infos' => 'true',
 );
-foreach($cfg as $key=>$value) {
-	db_add_key_value($key, $value);
-}
 
-/**********************************************************
+echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+
+if(version_compare(WB_REVISION, '1671', '<'))
+{
+	echo '<h3>Step '.(++$stepID).': Updating core tables</h3>';
+
+	/**********************************************************
+	 *  - Update search no results database filed to create
+	 *  valid XHTML if search is empty
+	 */
+	if (version_compare(WB_VERSION, '2.8', '<'))
+	{
+	    echo "<br />Updating database field `no_results` of search table: ";
+	    $search_no_results = addslashes('<tr><td><p>[TEXT_NO_RESULTS]</p></td></tr>');
+	    $sql  = 'UPDATE `'.TABLE_PREFIX.'search` ';
+		$sql .= 'SET `value`=\''.$search_no_results.'\' ';
+		$sql .= 'WHERE `name`=\'no_results\'';
+	    echo ($database->query($sql)) ? ' $OK<br />' : ' $FAIL<br />';
+	}
+	/**********************************************************
  *  - Add field "redirect_type" to table "mod_menu_link"
  */
-echo "<br />Adding field redirect_type to mod_menu_link table<br />";
-db_add_field('redirect_type', 'mod_menu_link', "INT NOT NULL DEFAULT '302' AFTER `target_page_id`");
+	$table_name = TABLE_PREFIX.'mod_menu_link';
+	$field_name = 'redirect_type';
+	$description = "INT NOT NULL DEFAULT '302' AFTER `target_page_id`";
+	if(!$database->field_exists($table_name,$field_name)) {
+		echo "<br />Adding field redirect_type to mod_menu_link table";
+		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+	} else {
+		echo "<br />Modify field redirect_type to mod_menu_link table";
+		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+	}
 
-/**********************************************************
+	/**********************************************************
+	 *  - Add field "page_trail" to table "pages"
+	 */
+	$table_name = TABLE_PREFIX.'pages';
+	$field_name = 'page_trail';
+	$description = "VARCHAR( 255 ) NOT NULL DEFAULT ''";
+	echo "Modify field page_trail to pages table";
+	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+
+	/**********************************************************
  *  - Add field "page_icon" to table "pages"
  */
-echo "<br />Adding field page_icon to pagestable<br />";
-db_add_field('page_icon', 'pages', "TEXT NOT NULL DEFAULT '' AFTER `page_title`");
+	$table_name = TABLE_PREFIX.'pages';
+	$field_name = 'page_icon';
+	$description = "VARCHAR( 255 ) NOT NULL DEFAULT '' AFTER `page_title`";
+	if(!$database->field_exists($table_name,$field_name)) {
+		echo "Adding field page_icon to pages table";
+		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+	} else {
+		echo "Modify field page_icon to pages table";
+		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+	}
 
-/**********************************************************
+	/**********************************************************
+	 *  - Add field "page_code" to table "pages"
+	 */
+	$table_name = TABLE_PREFIX.'pages';
+	$field_name = 'page_code';
+	$description = "INT NOT NULL DEFAULT '0' AFTER `language`";
+	if(!$database->field_exists($table_name,$field_name)) {
+		echo "Adding field page_code to pages table";
+		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+	} else {
+		echo "Modify field page_code to pages table";
+		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+	}
+
+	/**********************************************************
  *  - Add field "menu_icon_0" to table "pages"
  */
-echo "<br />Adding field menu_icon_0 to pages table<br />";
-db_add_field('menu_icon_0', 'pages', "TEXT NOT NULL DEFAULT '' AFTER `menu_title`");
+	$table_name = TABLE_PREFIX.'pages';
+	$field_name = 'menu_icon_0';
+	$description = "VARCHAR( 255 ) NOT NULL DEFAULT '' AFTER `menu_title`";
+	if(!$database->field_exists($table_name,$field_name)) {
+		echo "Adding field menu_icon_0 to pages table";
+		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+	} else {
+		echo "Modify field menu_icon_0 to pages table";
+		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+	}
 
-/**********************************************************
- *  - Add field "menu_icon_1" to table "mod_menu_link"
+	/**********************************************************
+	 *  - Add field "menu_icon_1" to table "pages"
  */
-echo "<br />Adding field menu_icon_1 to pages table<br />";
-db_add_field('menu_icon_1', 'pages', "TEXT NOT NULL DEFAULT '' AFTER `menu_icon_0`");
+	$table_name = TABLE_PREFIX.'pages';
+	$field_name = 'menu_icon_1';
+	$description = "VARCHAR( 255 ) NOT NULL DEFAULT '' AFTER `menu_icon_0`";
+	if(!$database->field_exists($table_name,$field_name)) {
+		echo "Adding field menu_icon_1 to pages table";
+		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+	} else {
+		echo "Modify field menu_icon_1 to pages table";
+		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+	}
 
-/**********************************************************
- *  - Update search no results database filed to create
- *  valid XHTML if search is empty
+	/**********************************************************
+	 *  - Add field "admin_groups" to table "pages"
  */
-if (version_compare(WB_VERSION, '2.8', '<'))
-{
-    echo "<br />Updating database field `no_results` of search table: ";
-    $search_no_results = addslashes('<tr><td><p>[TEXT_NO_RESULTS]</p></td></tr>');
-    $sql  = 'UPDATE `'.TABLE_PREFIX.'search` ';
-	$sql .= 'SET `value`=\''.$search_no_results.'\' ';
-	$sql .= 'WHERE `name`=\'no_results\'';
-    echo ($database->query($sql)) ? ' $OK<br />' : ' $FAIL<br />';
+	$table_name = TABLE_PREFIX.'pages';
+	$field_name = 'admin_groups';
+	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '1'";
+	echo "Modify field admin_groups to pages table";
+	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+
+	/**********************************************************
+	 *  - Add field "admin_users" to table "pages"
+	 */
+	$table_name = TABLE_PREFIX.'pages';
+	$field_name = 'admin_users';
+	$description = "VARCHAR( 512 ) NOT NULL DEFAULT ''";
+	echo "Modify field admin_users to pages table";
+	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+
+	/**********************************************************
+	 *  - Add field "viewing_groups" to table "pages"
+	 */
+	$table_name = TABLE_PREFIX.'pages';
+	$field_name = 'viewing_groups';
+	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '1'";
+	echo "Modify field viewing_groups to pages table";
+	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+
+	/**********************************************************
+	 *  - Add field "viewing_users" to table "pages"
+	 */
+	$table_name = TABLE_PREFIX.'pages';
+	$field_name = 'viewing_users';
+	$description = "VARCHAR( 512 ) NOT NULL DEFAULT ''";
+	echo "Modify field viewing_users to pages table";
+	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 }
+
 /**********************************************************
  * upgrade media folder index protect files
+ ALTER TABLE `wb_pages` CHANGE `page_icon` `page_icon` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT ''
  */
 	$dir = (WB_PATH.MEDIA_DIRECTORY);
 	echo '<h4>Upgrade '.MEDIA_DIRECTORY.'/ index.php protect files</h4><br />';
@@ -562,7 +610,7 @@ if (version_compare(WB_VERSION, '2.8', '<'))
  * - check for deprecated / never needed files
  */
 	if(sizeof($filesRemove)) {
-		echo '<h2>Step '.(++$stepID).': Remove deprecated and old files</h2>';
+		echo '<h3>Step '.(++$stepID).': Remove deprecated and old files</h3>';
 	}
 	$searches = array(
 		'[ADMIN]',
@@ -618,7 +666,7 @@ if (version_compare(WB_VERSION, '2.8', '<'))
  * - check for deprecated / never needed files
  */
 	if(sizeof($dirRemove)) {
-		echo '<h2>Step  '.(++$stepID).': Remove deprecated and old folders</h2>';
+		echo '<h3>Step  '.(++$stepID).': Remove deprecated and old folders</h3>';
 		$searches = array(
 			'[ADMIN]',
 			'[MEDIA]',
@@ -666,7 +714,7 @@ if (version_compare(WB_VERSION, '2.8', '<'))
 			$currModulVersion = get_modul_version ($sModul, false);
 			$newModulVersion =  get_modul_version ($sModul, true);
 			if((version_compare($currModulVersion, $newModulVersion) <= 0)) {
-				echo '<h2>Step '.(++$stepID).' : Upgrade module \''.$sModul.'\' to version '.$newModulVersion.'</h2>';
+				echo '<h3>Step '.(++$stepID).' : Upgrade module \''.$sModul.'\' to version '.$newModulVersion.'</h3>';
 				require_once(WB_PATH.'/modules/'.$sModul.'/upgrade.php');
 			}
 		}
@@ -675,7 +723,7 @@ if (version_compare(WB_VERSION, '2.8', '<'))
  *  - Reload all addons
  */
 
-	echo '<h2>Step '.(++$stepID).' : Reload all addons database entry (no upgrade)</h2>';
+	echo '<h3>Step '.(++$stepID).' : Reload all addons database entry (no upgrade)</h3>';
 	////delete modules
 	//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'module'");
 	// Load all modules
@@ -717,21 +765,30 @@ if (version_compare(WB_VERSION, '2.8', '<'))
 	echo '<br />Languages reloaded<br />';
 
 /**********************************************************
+ *  - install new droplets
+	$drops = (!in_array ( "mod_droplets", $all_tables)) ? "<br />Install droplets<br />" : "<br />Upgrade droplets<br />";
+	echo $drops;
+	$file_name = (!in_array ( "mod_droplets", $all_tables) ? "install.php" : "upgrade.php");
+	require_once (WB_PATH."/modules/droplets/".$file_name);
+********************************************************** */
+
+/**********************************************************
  *  - End of upgrade script
  */
-
-// require(WB_PATH.'/framework/initialize.php');
-
 	if(!defined('DEFAULT_THEME')) { define('DEFAULT_THEME', $DEFAULT_THEME); }
 	if(!defined('THEME_PATH')) { define('THEME_PATH', WB_PATH.'/templates/'.DEFAULT_THEME);}
 /**********************************************************
  *  - Set Version to new Version
  */
-	echo '<br />Update database version number to '.VERSION.' '.SP.' '.' Revision ['.REVISION.'] : ';
-	// echo ($database->query("UPDATE `".TABLE_PREFIX."settings` SET `value`='".VERSION."' WHERE `name` = 'wb_version'")) ? " $OK<br />" : " $FAIL<br />";
-	db_update_key_value('settings', 'wb_version', VERSION);
-	db_update_key_value('settings', 'wb_revision', REVISION);
-	db_update_key_value('settings', 'wb_sp', SP);
+echo '<br />Update database version number to '.VERSION.' '.SP.' '.' Revision ['.REVISION.'] : ';
+
+$cfg = array(
+	'wb_version' => VERSION,
+	'wb_revision' => REVISION,
+	'wb_sp' => SP
+);
+
+echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
 	echo '<p style="font-size:120%;"><strong>Congratulations: The upgrade script is finished ...</strong></p>';
 	status_msg('<strong>Warning:</strong><br />Please delete the file <strong>upgrade-script.php</strong> via FTP before proceeding.', 'warning', 'div');

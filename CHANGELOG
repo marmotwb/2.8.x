@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+18 Apr-2012 Build 1668 Dietmar Woellbrink (Luisehahne)
+# fixes installer and upgrade-script
 17 Apr-2012 Build 1670 Werner v.d.Decken(DarkViper)
 + added new global exceptionhandler (class AppException)
 17 Apr-2012 Build 1669 Werner v.d.Decken(DarkViper)
