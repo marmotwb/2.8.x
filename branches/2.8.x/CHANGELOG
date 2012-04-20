@@ -12,12 +12,18 @@ Legend:
 ===============================================================================
 
 
-18 Apr-2012 Build 1668 Dietmar Woellbrink (Luisehahne)
+18 Apr-2012 Build 1674 Dietmar Woellbrink (Luisehahne)
+# fixed add-ons upload error (tks to DBS)
++ add tool_icon.png to core module
+! update outpu_filter success an error messages
+! small redesign wb_themes
+# fixed old.format.inc.php fileformat to unix
+18 Apr-2012 Build 1673 Dietmar Woellbrink (Luisehahne)
 ! fixed signup, remove $admin->print_error methods
 + add send registation mail to systemadministartor
-18 Apr-2012 Build 1668 Dietmar Woellbrink (Luisehahne)
+18 Apr-2012 Build 1672 Dietmar Woellbrink (Luisehahne)
 + add languages vars for signup
-18 Apr-2012 Build 1668 Dietmar Woellbrink (Luisehahne)
+18 Apr-2012 Build 1671 Dietmar Woellbrink (Luisehahne)
 # fixes installer and upgrade-script
 17 Apr-2012 Build 1670 Werner v.d.Decken(DarkViper)
 + added new global exceptionhandler (class AppException)
