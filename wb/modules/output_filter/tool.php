@@ -21,16 +21,20 @@ if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 /* -------------------------------------------------------- */
 
 	$modPath = str_replace('\\', '/', dirname(__FILE__)).'/';
-	$msgTxt = '';
+	$msgOk = '';
+	$msgError = '';
 	$msgCls = 'msg-box';
+	$js_back = ADMIN_URL.'/admintools/tool.php?tool=output_filter';
 // include the modules language definitions
 	if(!is_readable($modPath.'languages/'.LANGUAGE .'.php')) {
 		require_once($modPath.'languages/EN.php');
 	} else {
 		require_once($modPath.'languages/'.LANGUAGE .'.php');
 	}
-// check if data was submitted
-	if($doSave) {
+
+	// check if data was submitted
+	if(isset($_POST['save_settings']))
+	{
 	// take over post - arguments
 		$data = array();
 		$data['sys_rel']       = (int)(intval(isset($_POST['sys_rel']) ? $_POST['sys_rel'] : 0) != 0);
@@ -48,36 +52,42 @@ if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 					  '`dot_replacement`=\''.mysql_real_escape_string($data['dot_replacement']).'\'';
 			if($database->query($sql)) {
 			//anything ok
-				$msgTxt = $MESSAGE['RECORD_MODIFIED_SAVED'];
+				$msgOk = $MESSAGE['RECORD_MODIFIED_SAVED'];
 				$msgCls = 'msg-box';
 			}else {
 			// database error
-				$msgTxt = $MESSAGE['RECORD_MODIFIED_FAILED'];
+				$msgError = $MESSAGE['RECORD_MODIFIED_FAILED'];
 				$msgCls = 'error-box';
 			}
-		}else {
+		} else {
 		// FTAN error
-			$msgTxt = $MESSAGE['GENERIC_SECURITY_ACCESS'];
+			$msgError = $MESSAGE['GENERIC_SECURITY_ACCESS'];
 			$msgCls = 'error-box';
 		}
-	}else {
+
+		if(!$admin_header) { $admin->print_header(); }
+
+		if( $msgError != '')
+		{
+			$admin->print_error($msgError, $js_back);
+		}
+		if( $msgOk != '')
+		{
+			$admin->print_success($msgOk, $js_back);
+		}
+
+	}  else {
+}
 	// read settings from the database to show
 		require_once($modPath.'filter-routines.php');
 		$data = getOutputFilterSettings();
-	}
-	// write out header if needed
-	if(!$admin_header) { $admin->print_header(); }
-	if( $msgTxt != '') {
-	// write message box if needed
-		echo '<div class="'.$msgCls.'">'.$msgTxt.'</div>';
-	}
 ?>
 <h2><?php echo $MOD_MAIL_FILTER['HEADING']; ?></h2>
 <p><?php echo $MOD_MAIL_FILTER['HOWTO']; ?></p>
 <p><?php echo $MOD_MAIL_FILTER['HOWTOTIP']; ?></p>
 <form name="store_settings" action="<?php echo $_SERVER['REQUEST_URI'];?>" method="post">
 	<?php echo $admin->getFTAN(); ?>
-	<input type="hidden" name="action" value="save" />
+	<input type="hidden" name="save_settings" value="save" />
 	<table summary="" width="98%" cellspacing="0" cellpadding="5" class="row_a">
 	<tr><td colspan="2"><strong><?php echo $MOD_MAIL_FILTER['BASIC_CONF'];?>:</strong></td></tr>
 	<tr>

@@ -208,7 +208,7 @@ class admin extends wb {
 
 		$footer_template->set_block('footer_block', 'show_debug_block', 'show_debug');
 
-		$bDebug = (defined('DEBUG') ? true : false);
+		$bDebug = (defined('DEBUG') ? DEBUG : false);
 		$bDevInfo = (defined('DEV_INFOS') && (DEV_INFOS == true) && (1 == $this->get_user_id()) ? true : false);
 //         if( $debug && (1 == $this->get_user_id()))
         if( $bDevInfo )
@@ -225,6 +225,7 @@ class admin extends wb {
 			// $debug = true;
 			foreach($included_files as $filename)
 			{
+				if(!is_readable($filename)) { continue; }
 				if($bDebug)
 				{
 					$footer_template->set_var('INCLUDES_ARRAY', str_replace(WB_PATH, '',$filename) );
