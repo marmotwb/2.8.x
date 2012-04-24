@@ -12,6 +12,10 @@ Legend:
 ===============================================================================
 
 
+
+
+24 Apr-2012 Build 1675 Dietmar Woellbrink (Luisehahne)
+# fixed /framework/functions.php missing global $MESSAGE in function rebuildFolderProtectFile
 18 Apr-2012 Build 1674 Dietmar Woellbrink (Luisehahne)
 # fixed add-ons upload error (tks to DBS)
 + add tool_icon.png to core module

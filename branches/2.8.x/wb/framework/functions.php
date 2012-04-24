@@ -697,6 +697,7 @@ function createFolderProtectFile($sAbsDir='',$make_dir=true)
 
 function rebuildFolderProtectFile($dir='')
 {
+	global $MESSAGE;
 	$retVal = array();
 	$dir = rtrim(str_replace('\/\\', '/', $dir), '/');
 	try {
