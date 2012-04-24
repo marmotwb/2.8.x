@@ -12,8 +12,10 @@ Legend:
 ===============================================================================
 
 
-
-
+24 Apr-2012 Build 1676 Dietmar Woellbrink (Luisehahne)
+# fixed backup_droplets working with php as Apache Module (Tks to Ruebenwurzel)
+! update function rm_full_dir in /framework/functions.php
+! To disable Run-time notices and receive warnings
 24 Apr-2012 Build 1675 Dietmar Woellbrink (Luisehahne)
 # fixed /framework/functions.php missing global $MESSAGE in function rebuildFolderProtectFile
 18 Apr-2012 Build 1674 Dietmar Woellbrink (Luisehahne)
@@ -149,7 +151,7 @@ invalid calling arguments
 # Droplet [SectionPiocker] fixed
 + Added new droplets [ShowWysiwyg] and [ShowRandomWysiwyg]
 24 Feb-2012 Build 1620 Dietmar Woellbrink (Luisehahne)
-# fixed FCKeditor lang files to utf-8 (Tks to Ruebenwurzel
+# fixed FCKeditor lang files to utf-8 (Tks to Ruebenwurzel)
 24 Feb-2012 Build 1619 Dietmar Woellbrink (Luisehahne)
 ! forgot info.php
 24 Feb-2012 Build 1618 Dietmar Woellbrink (Luisehahne)

@@ -4,10 +4,18 @@
 $Id$
 
 
+
+
+24 Apr-2012 Build 1676
+----------------------
+If you use function rm_full_dir
+now disable Run-time notices and return boolean: 
+create your own error messages
+
 17 Apr-2012 Build 1665
 ----------------------
 add developer informations in advanced settings 
-info will be shown in footer only for system admins
+info will be shown in footer only for system admin
 
 add page_icon_dir in advanced settings
 default directory /templates/*/title_images
