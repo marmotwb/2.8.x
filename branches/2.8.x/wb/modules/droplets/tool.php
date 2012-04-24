@@ -42,8 +42,9 @@ if(!method_exists($admin, 'register_backend_modfiles') && file_exists(WB_PATH .'
 	echo "\n</style>\n";
 }
 
+$temp_dir = '/temp/droplets/';
 // Get userid for showing admin only droplets or not
-$loggedin_user = ($admin->ami_group_member('1') ? 1 : $admin->user_id());
+$loggedin_user = ($admin->ami_group_member('1') ? 1 : $admin->get_user_id());
 $loggedin_group = $admin->get_groups_id();
 $admin_user = ( ($admin->get_home_folder() == '') && ($admin->ami_group_member('1') ) || ($loggedin_user == '1'));
 
@@ -60,6 +61,10 @@ if( !$database->query($sql) ) {
 $sql = 'SELECT COUNT(`id`) FROM `'.TABLE_PREFIX.'mod_droplets` ';
 if( !$database->get_one($sql) ) {
 	include('install.php');
+}
+// delete backup folder if possible
+if(is_writeable(dirname(WB_PATH.$temp_dir))) {
+ 	rm_full_dir ( WB_PATH.$temp_dir );
 }
 ?><br />
 <table summary="" cellpadding="0" cellspacing="0" border="0" width="100%">

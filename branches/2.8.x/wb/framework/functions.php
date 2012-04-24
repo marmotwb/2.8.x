@@ -30,21 +30,21 @@ define('FUNCTIONS_FILE_LOADED', true);
  * @param string $directory :
  * @param bool $empty : true if you want the folder just emptied, but not deleted
  *                      false, or just simply leave it out, the given directory will be deleted, as well
- * @return boolean: list of ro-dirs
+ * @return boolean: true/false
  * @from http://www.php.net/manual/de/function.rmdir.php#98499
  */
-function rm_full_dir($directory, $empty = false) {
-    
+function rm_full_dir($directory, $empty = false)
+{
 	if(substr($directory,-1) == "/") {
         $directory = substr($directory,0,-1);
     }
    // If suplied dirname is a file then unlink it
-    if (is_file( $directory )) {
+    if (is_file( $directory )&& is_writable( $directory )) {
 	  $retval = unlink($directory);
 	  clearstatcache();
       return $retval;
     }
-    if(!file_exists($directory) || !is_dir($directory)) {
+    if(!is_writable($directory) || !is_dir($directory)) {
         return false;
     } elseif(!is_readable($directory)) {
         return false;
@@ -65,8 +65,10 @@ function rm_full_dir($directory, $empty = false) {
         }
         closedir($directoryHandle);
         if($empty == false) {
-            if(!rmdir($directory)) {
-                return false;
+            if(is_dir($directory) && is_writable(dirname($directory))) {
+                return rmdir($directory);
+            } else {
+				return false;
             }
         }
         return true;
@@ -419,7 +421,7 @@ function make_dir($dir_name, $dir_mode = OCTAL_DIR_MODE, $recursive=true)
  * the function also prevents the owner to loose rw-rights
  * @param string $sName
  * @param int rights in dec-value. 0= use wb-defaults
- * @return bool 
+ * @return bool
  */
 function change_mode($sName, $iMode = 0)
 {
