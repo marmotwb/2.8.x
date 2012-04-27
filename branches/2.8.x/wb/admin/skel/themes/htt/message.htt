@@ -1,0 +1,7 @@
+<!-- BEGIN main_block -->
+<div id="{ID}" class="mbox curved mbox-icon16{BOX_STATUS}" style="background-image: url({THEME_URL}/icons/{STATUS}_16.png)">
+	<div><!-- class="big"> -->
+		{MESSAGE}
+	</div>
+</div>
+<!-- END main_block -->

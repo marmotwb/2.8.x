@@ -160,17 +160,316 @@ select > option.user-inactive { color :#990000; }
 button.status { cursor :pointer; border-radius :5px; -khtml-border-radius :5px; -webkit-border-radius :5px; -moz-border-radius :5px; }
 
 /* depending styles for /admin/pages_settings */
-div.page-settings { font-size: 0.9em; }
-	div.page-settings label { display: inline-block; }
+div.page-settings {
+	font-size: 0.9em;
+	border: none;
+}
+	div.page-settings div.caption {
+		font-size: 1em;
+		font-weight: bold;
+		padding: 3px 0 0px 0;
+		margin: 0; padding: 0; border: none;
+		margin-bottom: 10px;
+		border-bottom: groove 2px #a8bccb;
+	}
+	div.page-settings label {
+		display: inline-block;
+	}
 	div.page-settings input,
 	div.page-settings textarea,
-	div.page-settings select { width: 210px; }
-	div.page-settings textarea { height: 5em; }
-	div.page-settings [type=checkbox] { width: 2.5em; }
-div.page-settings-leftcol { float: left; padding: 0.4em 1em; }
-	div.page-settings-leftcol div { padding: 2px 0 3px 0; vertical-align: top; }
-	div.page-settings-leftcol label { width: 170px; vertical-align: top; }
-div.page-settings-centercol { float: left; padding: 0.4em 1em;
-	border-left: groove 2px #a8bccb; border-bottom: groove 2px #a8bccb; }
-div.page-settings-rightcol { float: left; padding: 0.4em 1em;
-	border-left: groove 2px #a8bccb; border-bottom: groove 2px #a8bccb; }
+	div.page-settings select {
+		width: 210px;
+	}
+	div.page-settings select {
+/*		font-size: 1em; */
+	}
+	div.page-settings textarea {
+		height: 5em;
+	}
+	div.page-settings [type=checkbox] {
+		width: 2.5em;
+	}
+div.page-settings-leftcol {
+	float: left;
+	padding: 10px 10px 10px 10px;
+	border-right: groove 2px #a8bccb;
+}
+	div.page-settings-leftcol div {
+		padding: 2px 0 3px 0;
+		vertical-align: top;
+	}
+	div.page-settings-leftcol label {
+		width: 170px;
+		vertical-align: top;
+	}
+div.page-settings-righttoprow {
+	margin-left:417px;
+	padding: 5px 20px 5px 10px;
+}
+	div.page-settings-righttoprow label {
+		width: 110px;
+		vertical-align: top;
+	}
+div.page-settings-centercol {
+	float: left;
+	padding: 10px 20px 10px 20px;
+	border-right: groove 2px #a8bccb;
+}
+div.page-settings-rightcol {
+	float: left;
+	padding: 10px 20px 10px 10px;
+	border: none;
+}
+/* ************************************************************************** */
+/* DIV-mbox to show selector or simply content only ************************* */
+div.mbox {
+   padding :10px;
+   margin :15px auto;
+   background-color :#fff;
+   color :#330033;
+   font-size :1em;
+   display :block;
+}
+ 	div.mbox div { } /* inner div to expand for additional decorations (see .mbox-icon div) */
+		div.mbox div a { font-size :1em; color: #0052A1; }
+		div.mbox div a:hover { color: #0099FF; }
+		div.mbox div p.title { margin :0; padding :0.08em 0 0.6em 0; font-size: 110%; color: #0052A1; font-weight: bold;}
+		div.mbox div p { margin :0; padding :0 0 0.6em 0;}
+div.mbox:hover {  }
+/* extension for mbox to show additional icons on left side ***************** */
+div.mbox-icon { background-repeat :no-repeat; background-image :url(icons/info_50.png); background-position :15px 50%; padding :15px; min-height: 25px;}
+	div.mbox-icon div { margin-left :70px; border-left : 0px outset; padding-left: 5px;}
+div.mbox-icon16 { background-repeat :no-repeat; background-image :url(icons/info_16.png); background-position :5px 50%; padding :5px; min-height: 10px;}
+	div.mbox-icon16 div { margin-left :30px; border-left : 4px outset; padding-left: 5px;}
+/* coloring of the mbox and other boxes also ******************************** */
+div.box-ok { border-color: green; color: green; }
+div.box-error { border-color: red; color: red; }
+div.box-info { border-color: #bb7a00; color: #003ff2;}
+div.box-warning { border-color: orange; color: orange;}
+/* Border attributes for mbox and other elements also *********************** */
+
+/* label/input attributes for mbox for tableless design *********************** */
+div.mbox label, 
+div.mbox select, 
+div.mbox span, 
+div.mbox textarea, 
+div.mbox input { display :block; float :left; margin-bottom :10px; margin-right :5px; }
+div.mbox label { padding-right :10px; }
+div.mbox label.radio { text-align : left; padding-right :20px; width :100px; }
+div.mbox br { clear : both; }
+/**/
+/* END of mbox - definition ************************************************* */
+/* ************************************************************************** */
+div.content_box form { width : 100%; }
+.content_box {
+   position :relative;
+   margin :0px auto;
+   padding :0;
+}
+   .content_box form{ background :transparent; height :auto; }
+   .content_box li {
+   float :left;
+   margin :auto 0.8em;
+   list-style-type :none;
+   display :block;
+}
+   .content_box ul { padding :0 0 0 15px; margin :0 auto; width :100%; }
+   .content_box h5.title { color :#339bff; font-weight :bold; font-size :1.2em; margin :0 auto; text-align :left; }
+   .content_box h5.title a:link  { color :#0067ca; }
+   .content_box h5.title a:hover  { color : #0099ff; }
+   .content_box h5.noscript { font-size :1.2em; padding :5px 0px 5px 0px; }
+   .content_box div.noscript { height :auto; width :100%; padding :5px; background :none no-repeat left; }
+/*  */
+   button { padding :2px; }
+   button.link { padding :0px; background-color :transparent; display :inline; vertical-align :middle; border :0px none; cursor :pointer; }
+   button span.title { font-size :1.3em; display :inline; font-weight :100; color :#007ac8; letter-spacing :1px; }
+/*  */
+.curved { border : 1px solid #666666; }
+div.col_content { margin-right :0.5em; padding :2px 0 2px 10px; }
+.shadow { box-shadow :3px 3px 10px rgba(0, 0, 0, 0.6); }
+.row_0 { background-color :transparent; }
+.row_1 { background-color : #cccccc; }
+/**/
+h1, h2, h3, h4, h5, h6 { color : #003366; display :block; font-weight :bold; margin :0.5em auto; padding-bottom :5px; }
+h6 { font-size :100%; }
+/**/
+.cleft, div.col_left { float :left; }
+.cright, div.col_right { float :right; }
+.c25, div.col_width25 { width :25%; }
+.c33, div.col_width33 { width :33.333%; }
+.c50, div.col_width50 { width :48%; }
+.c60, div.col_width60 { width :60%; }
+.c75, div.col_width75 { width :75%; }
+.c90, div.col_width90 { width :90%; }
+.c100, div.col_width100 {
+   width :100%;
+   margin : 0 auto;
+}
+.c400, .col_width400 { width :400px; }
+.h30 { height :25px; }
+.h50 { height :49px; }
+.h65 { min-height :70px; overflow :hidden; }
+.h80 { height :80px; }
+.h100 { height :100px; }
+.h120 { height :120px; }
+.h140 { height :140px; }
+.h185 { height :185px; }
+.min_h100 { min-height :100px; }
+.border { border-right :5px solid #cccccc; }
+/**/
+.clear:after { clear :both; content :"."; display :block; font-size :0; height :0; visibility :hidden; }
+.clear { clear :both; display :block; }
+.ie-clearing { display :none; }
+.floatbox { overflow :hidden; }
+.spacer { line-height :1em; margin-right :0.5em; position :relative; }
+table.layout { table-layout :fixed;  }
+/*overwriting above */
+td,th,textarea { color :#000000; font-size :96%; font-family :Verdana, Arial, Helvetica, sans-serif; }
+textarea { font-size :86%; }
+.container, .menu { 
+   min-width :320px;
+ }
+.content {
+  padding: 1em;
+  width: 85%;
+  min-width :320px;
+}
+div.dev-info {
+   background :#DDDDDD;
+   max-width: 85%;
+   min-height :2em;
+   height :auto;
+   white-space :normal;
+   margin : 0 auto 10px;
+   position :relative;
+
+}
+.settings_table, .tool_table {
+   text-align :left;
+   vertical-align :top;
+}
+
+input.save,
+input.reset { 
+width:40%;
+ }
+.msg-box { text-align :left; }
+
+.permission_box { 
+   width :95%;
+   border :2px solid #ddd;
+ }
+.permission_box caption { 
+   text-align : center;
+   line-height : 30px;
+   font-weight :bold;
+ }
+.permission_box th { 
+   text-align :left;
+   background :#d2e8e8;
+ }
+.permission_box th { 
+   text-align :left;
+ }
+.permission_box td label { 
+   text-align :left;
+   vertical-align : text-top;
+   font-size :98%;
+ }
+textarea { font-size :100%; }
+
+.setting_value label { 
+   text-align :left;
+   vertical-align : text-top;
+   font-size :98%;
+ }
+.menu {
+   margin :0;
+   padding :0;
+   padding-top :8px;
+   padding-bottom :10px;
+   padding-left :8px;
+   background : #000000 url(images/menu.png);
+}
+.menu li { padding-right :1px; list-style-type :none; display :inline; }
+.menu a, .menu a:link, .menu a:active, .menu a:visited {
+   border-bottom :0;
+   padding :10px 11px;
+   color :#ffffff;
+}
+
+/* header horizontal navigation */  
+div.menu {
+   background : #486991 url(images/menu.png);
+   hei/ght : 3em;
+   line-height : 3.0em;
+   margin : 2px auto;
+   padding :0;
+   font-size :96%;
+   text-align :left;
+   width :100%;
+}
+   div.menu ul {
+   color :#ffffff;
+   display :block;
+   padding :0;
+   list-style-position :outside;
+}
+	   div.menu * a { color :#ffffff; text-decoration :none; }	
+   div.menu ul li {
+   color :#ffffff;
+   display :inline;
+   padding :10px 0px;
+}
+   div.menu ul li a {
+   color :#ffff33;
+   display :inline;
+   padding :15px 5px;
+   font-weight :normal;
+} 
+   div.menu ul li a.active {
+   color :#ffffff;
+   padding :9px 11px 9px 11px;
+   background : #94dd00 url(images/menuo.png) no-repeat;
+}
+   div.menu ul li:hover,
+   div.menu ul li a:hover {
+   color :#ffffff;
+   background : #486991 url(images/menuo.png) repeat-x;
+} 
+.main { 
+   width :auto;
+   min-/width :320px;
+   max-width :87em;
+   border :0px solid #000000;
+   margin : 0px auto;
+   padding :0px;
+ }
+
+.header { 
+   width :85%;
+ }   
+ .footer { 
+    width :85%;
+   margin : 15px auto;
+  }
+.logo { 
+   width :278px;
+   padding-right :20px;
+ }  
+.version { 
+    margin : 15px auto;
+  float :right;
+ }   
+ .topnav { 
+    margin : 0 auto;
+    text-align :center;
+ }   
+ div.msg-box.center { 
+    margin : 0 auto;
+    text-align :center;
+ }   
+.pages_list table td, table.pages_view td {
+   padding :3px;
+   font-size :150%;
+}

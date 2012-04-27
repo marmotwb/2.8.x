@@ -12,6 +12,9 @@ Legend:
 ===============================================================================
 
 
+24 Apr-2012 Build 1677 Dietmar Woellbrink (Luisehahne)
+! preparing new groups management and page settings
+! upgrade-script insert or update page access files
 24 Apr-2012 Build 1676 Dietmar Woellbrink (Luisehahne)
 # fixed backup_droplets working with php as Apache Module (Tks to Ruebenwurzel)
 ! update function rm_full_dir in /framework/functions.php

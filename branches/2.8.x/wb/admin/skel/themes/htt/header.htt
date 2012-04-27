@@ -10,6 +10,7 @@
 <meta name="author" content="WebsiteBaker Org e.V." />
 <meta http-equiv="Content-Encoding" content="gzip" />
 <meta http-equiv="Accept-Encoding" content="gzip, deflate" />
+<link href="{THEME_URL}/normalize.css" rel="stylesheet" type="text/css" />
 <link href="{THEME_URL}/theme.css" rel="stylesheet" type="text/css" />
 {BACKEND_MODULE_CSS}
 <script type="text/javascript">
@@ -31,13 +32,14 @@ function confirm_link(message, url) {
 </script>
 </head>
 <body>
-<table summary="" class="header">
+<div class="main">
+
+<table summary="" class="header layout">
 <tr>
-	<td>
+	<td class="logo">
 		<a href="{ADMIN_URL}" title="{TITLE_START}"><img src="{THEME_URL}/images/logo.png" border="0" alt="Logo" /></a>
 	</td>
-	<td>&nbsp;</td>
-	<td class="menue">
+	<td class="topnav">
          <a href="{ADMIN_URL}" title="{TITLE_START}"><img src="{THEME_URL}/images/home.png" border="0" alt="{TITLE_START}" /></a>
          &nbsp;&nbsp;<a href="{URL_VIEW}" target="_blank" title="{TITLE_VIEW}"><img src="{THEME_URL}/images/view.png" border="0" alt="{WB_URL}" /></a>
 	&nbsp; <a href="{URL_HELP}" target="_blank" title="{TITLE_HELP}"><img src="{THEME_URL}/images/help.png" border="0" alt="{TITLE_HELP}" /></a>
@@ -53,11 +55,13 @@ function confirm_link(message, url) {
 <table summary="" class="container">
 <tr>
 	<td>
-		<ul class="menu">
+		<div class="menu">
+			<ul>
 			<!-- BEGIN linkBlock -->
 			<li class="{CLASS}"><a href="{LINK}" target="{TARGET}">{TITLE}</a></li>
 			<!-- END linkBlock -->
 		</ul>
+		</div>
 	</td>
 </tr>
 <tr>
