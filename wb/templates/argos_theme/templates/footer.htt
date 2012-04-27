@@ -31,6 +31,7 @@
 	</div>
 </div>
 <!-- END show_debug_block -->
+</div>
 {BACKEND_BODY_MODULE_JS}
 </body>
 </html>

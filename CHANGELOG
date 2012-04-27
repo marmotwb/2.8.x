@@ -12,6 +12,8 @@ Legend:
 ===============================================================================
 
 
+28 Apr-2012 Build 1679 Dietmar Woellbrink (Luisehahne)
++ add tool_icon.png to admintools
 27 Apr-2012 Build 1678 Dietmar Woellbrink (Luisehahne)
 # validation fix in print_footer, class.database
 ! replace settings and default header
