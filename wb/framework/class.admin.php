@@ -90,9 +90,7 @@ class admin extends wb {
 	// Print the admin header
 	function print_header($body_tags = '') {
 		// Get vars from the language file
-		global $MENU;
-		global $MESSAGE;
-		global $TEXT;
+		global $MENU, $MESSAGE, $TEXT;
 		// Connect to database and get website title
 		global $database;
 		// $GLOBALS['FTAN'] = $this->getFTAN();
@@ -101,7 +99,7 @@ class admin extends wb {
 		$get_title = $database->query($sql);
 		$title = $get_title->fetchRow();
 		// Setup template object, parse vars to it, then parse it
-		$header_template = new Template(dirname($this->correct_theme_source('header.htt')));
+		$header_template = new Template(dirname($this->correct_theme_source('header.htt')),'keep');
 		$header_template->set_file('page', 'header.htt');
 		$header_template->set_block('page', 'header_block', 'header');
 		if(defined('DEFAULT_CHARSET')) {
@@ -236,7 +234,7 @@ class admin extends wb {
 			}
 			$footer_template->parse('show_list', 'show_block_list', true);
 
-			if($bDebug)
+			if(!$bDebug)
 			{
 				$footer_template->parse('include_list', '');
 				$footer_template->parse('show_list', '');

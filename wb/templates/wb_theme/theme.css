@@ -14,10 +14,12 @@ h2 { font-family :arial,sans-serif; letter-spacing :-1px; margin :0.5em 0; text-
 h4 { margin :0; border-bottom :1px solid #dddddd; padding-bottom :5px; }
 a h3 { margin :0; font-size :1.1em; padding-bottom :2px; }
 li p { margin :0.5em 0; }
+/**/
 a:link, a:visited, a:active { color :#003366; text-decoration :none; }
 a:hover { color :#336699; text-decoration :none; }
 ul, li { margin :0; padding :0; list-style :none; }
 .current a, .current a:link, .current a:active, .current a:visited { background :url(images/menuo.png) #ffffff; background-repeat :repeat-x; color :#ffffff; }
+
 label { cursor :pointer; }
 input:focus, input:active, select:focus, textarea:focus { background :#f1f8fd; }
 iframe { border :1px solid #35373a; }
@@ -326,7 +328,7 @@ table.layout { table-layout :fixed;  }
 /*overwriting above */
 td,th,textarea { color :#000000; font-size :96%; font-family :Verdana, Arial, Helvetica, sans-serif; }
 textarea { font-size :86%; }
-.container, .menu { 
+.container, .hmenu { 
    min-width :320px;
  }
 .content {
@@ -337,22 +339,31 @@ textarea { font-size :86%; }
 div.dev-info {
    background :#DDDDDD;
    max-width: 85%;
-   min-height :2em;
+   overflow :auto;
    height :auto;
    white-space :normal;
    margin : 0 auto 10px;
    position :relative;
 
 }
+div.dev-info div span {
+   margin-bottom :1px;
+
+}
+
 .settings_table, .tool_table {
    text-align :left;
    vertical-align :top;
+   width :95%;
 }
 
 input.save,
 input.reset { 
-width:40%;
+width: auto;
  }
+.content input {
+  font-size: 100%;
+}
 .msg-box { text-align :left; }
 
 .permission_box { 
@@ -383,59 +394,45 @@ textarea { font-size :100%; }
    vertical-align : text-top;
    font-size :98%;
  }
-.menu {
-   margin :0;
-   padding :0;
-   padding-top :8px;
-   padding-bottom :10px;
-   padding-left :8px;
-   background : #000000 url(images/menu.png);
-}
-.menu li { padding-right :1px; list-style-type :none; display :inline; }
-.menu a, .menu a:link, .menu a:active, .menu a:visited {
-   border-bottom :0;
-   padding :10px 11px;
-   color :#ffffff;
-}
-
 /* header horizontal navigation */  
-div.menu {
+div.hmenu {
    background : #486991 url(images/menu.png);
-   hei/ght : 3em;
-   line-height : 3.0em;
-   margin : 2px auto;
-   padding :0;
+   line-height : 3em;
+   margin : 0px auto;
    font-size :96%;
    text-align :left;
    width :100%;
 }
-   div.menu ul {
+   div.hmenu ul {
    color :#ffffff;
+   margin : 0px auto;
    display :block;
    padding :0;
    list-style-position :outside;
 }
-	   div.menu * a { color :#ffffff; text-decoration :none; }	
-   div.menu ul li {
+	   div.hmenu * a { color :#ffffff; text-decoration :none; }	
+   div.hmenu ul li {
    color :#ffffff;
    display :inline;
    padding :10px 0px;
 }
-   div.menu ul li a {
-   color :#ffff33;
+   div.hmenu ul li a {
+   color :#ffffff;
    display :inline;
-   padding :15px 5px;
+   height :2em;
+   padding :10px 5px;
    font-weight :normal;
+   background :transparent;
 } 
-   div.menu ul li a.active {
+   div.hmenu ul li a.active,
+   div.hmenu ul li a.current {
    color :#ffffff;
-   padding :9px 11px 9px 11px;
-   background : #94dd00 url(images/menuo.png) no-repeat;
+   background : transparent url(images/menuo.png) repeat-x;
 }
-   div.menu ul li:hover,
-   div.menu ul li a:hover {
+   div.hmenu ul li:hover,
+   div.hmenu ul li a:hover {
    color :#ffffff;
-   background : #486991 url(images/menuo.png) repeat-x;
+   background : transparent url(images/menuo.png) repeat-x;
 } 
 .main { 
    width :auto;
@@ -449,18 +446,18 @@ div.menu {
 .header { 
    width :85%;
  }   
- .footer { 
-    width :85%;
-   margin : 15px auto;
-  }
+ .footer {
+   width :85%;
+   margin :15px auto;
+}
 .logo { 
    width :278px;
    padding-right :20px;
  }  
-.version { 
-    margin : 15px auto;
-  float :right;
- }   
+.version {
+   margin :15px auto;
+   float :right;
+}   
  .topnav { 
     margin : 0 auto;
     text-align :center;

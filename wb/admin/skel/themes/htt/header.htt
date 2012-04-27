@@ -55,10 +55,10 @@ function confirm_link(message, url) {
 <table summary="" class="container">
 <tr>
 	<td>
-		<div class="menu">
+		<div class="hmenu">
 			<ul>
 			<!-- BEGIN linkBlock -->
-			<li class="{CLASS}"><a href="{LINK}" target="{TARGET}">{TITLE}</a></li>
+			<li class="{CLASS}"><a class="{CLASS}" href="{LINK}">{TITLE}</a></li>
 			<!-- END linkBlock -->
 		</ul>
 		</div>
