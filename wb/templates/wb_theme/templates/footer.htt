@@ -3,7 +3,7 @@
 </tr>
 </table>
 
-<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" style="padding: 10px 0px 10px 0px;">
+<table class="footer" summary="" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td style="font-size: 12px; text-align:center;">
       <!-- Please note: the below reference to the GNU GPL should not be removed, as it provides a link for users to read about warranty, etc. -->
@@ -14,12 +14,12 @@
 </tr>
 </table>
 <!-- BEGIN show_debug_block -->
-<div style="position: relative; width:998px;margin:15px auto;" class="shadow">
-	<div style="padding:10px;left:0; margin-bottom:25px; z-index:10; background-color:#dddddd;color:#dd0000;">
-		Memory Limit: {FILESIZE}&nbsp;|&nbsp;
-		Used Memory: {MEMORY}&nbsp;|&nbsp;
+<div class="mbox dev-info">
+	<div style="text-align:left; width: auto;">
+		<span class="">Memory Limit: {FILESIZE}&nbsp;|&nbsp;</span>
+		<span class="">Used Memory: {MEMORY}&nbsp;|&nbsp;</span>
 		<span class="">SQL-Queries executed: {QUERIES}&nbsp;|&nbsp;</span>
-		Included&nbsp;{INCLUDES}&nbsp;files &nbsp;|&nbsp;{TXT_SUM_FILESIZE}{SUM_FILESIZE}
+		<span class="">Summary size of {INCLUDES} included files: {SUM_FILESIZE}</span>
 	<!-- BEGIN show_block_list -->
 		<ul style="margin-left: 27px; margin-top: 0;">
 		<!-- BEGIN include_block_list -->
@@ -30,6 +30,7 @@
 	</div>
 </div>
 <!-- END show_debug_block -->
+</div>
 {BACKEND_BODY_MODULE_JS}
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!-- BEGIN main_block -->
-<div class="msg-box rounded">
+<div class="msg-box rounded center">
 	<p>{MESSAGE}</p>
 <!-- BEGIN show_redirect_block -->
  <script type="text/javascript">

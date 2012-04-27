@@ -15,30 +15,26 @@
  *
  */
 
-@require_once('config.php');
+require_once('config.php');
 
 require_once(WB_PATH.'/framework/functions.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 require_once(WB_PATH.'/framework/class.database.php');
 $admin = new admin('Addons', 'modules', false, false);
 
-/* display a status message on the screen **************************************
- * @param string $message: the message to show
- * @param string $class:   kind of message as a css-class
- * @param string $element: witch HTML-tag use to cover the message
- * @return void
- */
-function status_msg($message, $class='check', $element='span')
-{
-	// returns a status message
-	$msg  = '<'.$element.' class="'.$class.'">';
-	$msg .= '<strong>'.strtoupper(strtok($class, ' ')).'</strong>';
-	$msg .= $message.'</'.$element.'>';
-	echo $msg;
-}
+$oldVersion  = 'Version '.WB_VERSION;
+$oldVersion .= (defined('WB_SP') ? ' '.WB_SP : '');
+$oldVersion .= (defined('WB_REVISION') ? ' Revision ['.WB_REVISION.'] ' : '') ;
+$newVersion  = 'Version '.VERSION;
+$newVersion .= (defined('SP') ? ' '.SP : '');
+$newVersion .= (defined('REVISION') ? ' Revision ['.REVISION.'] ' : '');
+
+// set addition settings if not exists, otherwise upgrade will be breaks
+if(!defined('WB_SP')) { define('WB_SP',''); }
+if(!defined('WB_REVISION')) { define('WB_REVISION',''); }
 
 // database tables including in WB package
-$table_list = array (
+$aTable = array (
     'settings','groups','addons','pages','sections','search','users',
     'mod_captcha_control','mod_code','mod_droplets','mod_form_fields',
     'mod_form_settings','mod_form_submissions','mod_jsadmin','mod_menu_link',
@@ -49,6 +45,7 @@ $table_list = array (
 $OK            = ' <span class="ok">OK</span> ';
 $FAIL          = ' <span class="error">FAILED</span> ';
 $DEFAULT_THEME = 'wb_theme';
+
 $stepID = 0;
 $dirRemove = array(
 /*
@@ -139,25 +136,40 @@ if(version_compare(WB_REVISION, '1671', '<'))
 		 );
 }
 
+/* display a status message on the screen **************************************
+ * @param string $message: the message to show
+ * @param string $class:   kind of message as a css-class
+ * @param string $element: witch HTML-tag use to cover the message
+ * @return void
+ */
+function status_msg($message, $class='check', $element='span')
+{
+	// returns a status message
+	$msg  = '<'.$element.' class="'.$class.'">';
+	$msg .= '<strong>'.strtoupper(strtok($class, ' ')).'</strong>';
+	$msg .= $message.'</'.$element.'>';
+	echo $msg;
+}
+
 // analyze/check database tables
 function mysqlCheckTables( $dbName )
 {
-    global $table_list;
+    global $aTable;
     $table_prefix = TABLE_PREFIX;
     $sql = "SHOW TABLES FROM " . $dbName;
     $result = @mysql_query( $sql );
     $data = array();
     $x = 0;
 
-    while( ( $row = @mysql_fetch_array( $result, MYSQL_NUM ) ) == true )
+    while( ( $row = mysql_fetch_array( $result, MYSQL_NUM ) ) == true )
     {
         $tmp = str_replace($table_prefix, '', $row[0]);
 
-        if( stristr( $row[0], $table_prefix )&& in_array($tmp,$table_list) )
+        if( stristr( $row[0], $table_prefix )&& in_array($tmp,$aTable) )
         {
             $sql = "CHECK TABLE " . $dbName . '.' . $row[0];
-            $analyze = @mysql_query( $sql );
-            $rowFetch = @mysql_fetch_array( $analyze, MYSQL_ASSOC );
+            $analyze = mysql_query( $sql );
+            $rowFetch = mysql_fetch_array( $analyze, MYSQL_ASSOC );
             $data[$x]['Op'] = $rowFetch["Op"];
             $data[$x]['Msg_type'] = $rowFetch["Msg_type"];
             $msgColor = '<span class="error">';
@@ -175,7 +187,7 @@ function mysqlCheckTables( $dbName )
 // check existings tables for upgrade or install
 function check_wb_tables()
 {
-    global $database,$table_list;
+    global $database,$aTable;
 
  // if prefix inludes '_' or '%'
  $search_for = addcslashes ( TABLE_PREFIX, '%_' );
@@ -188,7 +200,7 @@ function check_wb_tables()
             while ($data = $get_result->fetchRow())
             {
                 $tmp = str_replace(TABLE_PREFIX, '', $data[0]);
-                if(in_array($tmp,$table_list))
+                if(in_array($tmp,$aTable))
                 {
                     $all_tables[] = $tmp;
                 }
@@ -290,16 +302,6 @@ h3 { font-size: 110%; font-weight: bold;; }
 		exit();
 	}
 
-$oldVersion  = 'Version '.WB_VERSION;
-$oldVersion .= (defined('WB_SP') ? ' '.WB_SP : '');
-$oldVersion .= (defined('WB_REVISION') ? ' Revision ['.WB_REVISION.'] ' : '') ;
-$newVersion  = 'Version '.VERSION;
-$newVersion .= (defined('SP') ? ' '.SP : '');
-$newVersion .= (defined('REVISION') ? ' Revision ['.REVISION.'] ' : '');
-// set addition settings if not exists, otherwise upgrade will be breaks
-if(!defined('WB_SP')) { define('WB_SP',''); }
-if(!defined('WB_REVISION')) { define('WB_REVISION',''); }
-
 ?>
 <p>This script upgrades an existing WebsiteBaker <strong> <?php echo $oldVersion; ?></strong> installation to the <strong> <?php echo $newVersion ?> </strong>.<br />The upgrade script alters the existing WB database to reflect the changes introduced with WB 2.8.x</p>
 
@@ -353,7 +355,7 @@ echo (db_update_key_value( 'settings', 'default_theme', $DEFAULT_THEME ) ? " $OK
     {
         status_msg('<strong>WARNING:</strong><br />can\'t run Upgrade, missing tables', 'warning', 'div');
     	echo '<h4>Missing required tables. You can install them in backend->addons->modules->advanced. Then again run upgrade-script.php</h4>';
-        $result = array_diff ( $table_list, $all_tables );
+        $result = array_diff ( $aTable, $all_tables );
         echo '<h4 class="warning"><br />';
         while ( list ( $key, $val ) = each ( $result ) )
         {
@@ -448,7 +450,7 @@ $cfg = array(
 
 echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-if(version_compare(WB_REVISION, '1671', '<'))
+if(version_compare(WB_REVISION, '1675', '<'))
 {
 	echo '<h3>Step '.(++$stepID).': Updating core tables</h3>';
 
@@ -594,6 +596,39 @@ if(version_compare(WB_REVISION, '1671', '<'))
 		print '<br /><strong>Upgrade '.MEDIA_DIRECTORY.'/ protect files</strong>'." $FAIL!<br />";
 		print implode ('<br />',$array);
 	}
+
+/**********************************************************
+ * upgrade pages folder index access files
+ */
+	echo '<h4>Upgrade /pages/ index.php access files</h4><br />';
+    ///**********************************************************
+    // *  - Reformat/rebuild all existing access files
+    // */
+    $msg[] = "All existing access files anew format";
+    $sql = 'SELECT `page_id`,`link`, `level` FROM `'.TABLE_PREFIX.'pages` ORDER BY `link`';
+    if (($res_pages = $database->query($sql)))
+    {
+        $x = 0;
+        while (($rec_page = $res_pages->fetchRow()))
+        {
+            $filename = WB_PATH.PAGES_DIRECTORY.$rec_page['link'].PAGE_EXTENSION;
+            $msg = create_access_file($filename, $rec_page['page_id'], $rec_page['level']);
+            $x++;
+        }
+        $msg[] = '<strong>Number of the anew formatted access files: '.$x.'</strong><br />';
+    }
+
+	print implode ('<br />',$msg);
+
+/*
+	if( sizeof( $msg ) ){
+
+		print '<br /><strong>Upgrade '.sizeof( $msg ).' /pages/ access files</strong>'." $OK<br />";
+	} else {
+		print '<br /><strong>Upgrade /pages/ access files</strong>'." $FAIL!<br />";
+		print implode ('<br />',$msg);
+	}
+*/
 /**********************************************************
  * upgrade posts folder index protect files
  */
@@ -606,6 +641,7 @@ if(version_compare(WB_REVISION, '1671', '<'))
 		print '<br /><strong>Upgrade /posts/ protect files</strong>'." $FAIL!<br />";
 		print implode ('<br />',$array);
 	}
+
 /* *****************************************************************************
  * - check for deprecated / never needed files
  */
