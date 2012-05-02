@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+03 May-2012 Build 1682 Werner v.d.Decken(DarkViper)
+! some little corrections ModLanguage/Database/initialize.php
 03 May-2012 Build 1681 Werner v.d.Decken(DarkViper)
 ! reorganisation of default theme of oage-settings
 + added menu_icon_0 and menu_icon_1

@@ -1,10 +1,10 @@
 <?php
 /**
- * @category     Core
- * @package      Core_security
+ * @category     WebsiteBaker
+ * @package      WebsiteBaker_Core
  * @author       Werner v.d.Decken
- * @copyright    ISTeasy-project(http://isteasy.de/)
- * @license      Creative Commons BY-SA 3.0 http://creativecommons.org/licenses/by-sa/3.0/
+ * @copyright    WebsiteBaker Org e.V.
+ * @license      http://www.gnu.org/licenses/gpl.html
  * @version      $Id$
  * @filesource   $HeadURL$
  * @since        Datei vorhanden seit Release 2.8.2
@@ -56,6 +56,7 @@ class ModLanguage {
 		   $this->_sCurrentLanguage != $sLanguage ||
 		   $this->_sDefaultLanguage != $sDefault)
 		{
+		// only load language if not already loaded
 			$this->_sLanguageDirectory = rtrim($sLangDir, '/').'/';
 			$this->_sCurrentLanguage = $sLanguage;
 			$this->_sDefaultLanguage = $sDefault;
