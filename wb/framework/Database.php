@@ -31,14 +31,14 @@ define('DATABASE_CLASS_LOADED', true);
 
 class Database {
 
-//	$sdb = 'mysql://user:password@demo.de:3604/datenbank';
+//	$sdb = 'mysql://user:password@demo.de:3306/datenbank';
 
 	private $_db_handle = null; // readonly from outside
 	private $_scheme    = 'mysql';
 	private $_hostname  = 'localhost';
 	private $_username  = '';
 	private $_password  = '';
-	private $_hostport  = '3406';
+	private $_hostport  = '3306';
 	private $_db_name   = '';
 
 	private $connected  = false;
@@ -61,11 +61,7 @@ class Database {
 			$this->_hostport = $this->_hostport == '3306' ? '' : ':'.$this->_hostport;
 			$this->_db_name  = ltrim(isset($aIni['path']) ? $aIni['path'] : '', '/\\');
 		}else {
-			$this->_hostname = DB_HOST;
-			$this->_username = DB_USERNAME;
-			$this->_password = DB_PASSWORD;
-			$this->_hostport = '';
-			$this->_db_name  = DB_NAME;
+			throw new RuntimeException('Missing parameter: unable to connect database');
 		}
 		// Connect to database
 		$this->connect();
