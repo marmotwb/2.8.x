@@ -501,12 +501,12 @@ verwendet werden und sollen durch den entsprechenden Text ersetzt werden.
 [class]         Liste der Klassen für diese Seite
 [menu_title]    Text des Menütitel 
                 (HTML entity escaped ausser das SM2_NOESCAPE Flag ist gesetzt)
-[menu_icon_0]	die URL zu einer Bilddatei mit normal - Darstellung (ab WB2.9.0)
-[menu_icon_1]	die URL zu einer Bilddatei mit active/hover - Darstellung (ab WB2.9.0)
+[menu_icon_0]	die URL zu einer Bilddatei mit normal - Darstellung (ab WB2.8.4)
+[menu_icon_1]	die URL zu einer Bilddatei mit active/hover - Darstellung (ab WB2.8.4)
 [page_title]    text des Seitentitel 
                 (HTML entity escaped ausser das SM2_NOESCAPE Flag ist gesetzt)
-[page_icon]		die URL zu einer seitenbezogenen Bilddatei (ab WB2.9.0)
-[tooltip]       Tooltip-Text, der normal im title-Attribut der Links ausgegeben wird
+[page_icon]		die URL zu einer seitenbezogenen Bilddatei (ab WB2.8.4)
+[tooltip]       Tooltip-Text, der normal im title-Attribut der Links ausgegeben wird (ab WB2.8.4)
 [url]           die URL der Seiten für den <a> tag
 [target]        das Seitenziel für den <a> tag
 [page_id]       die Page ID des aktuellen Menüpunktes.

@@ -78,6 +78,11 @@ $language = strtoupper($admin->get_post('language'));
 $language = (preg_match('/^[A-Z]{2}$/', $language) ? $language : DEFAULT_LANGUAGE);
 $menu = intval($admin->get_post('menu')); // fix secunia 2010-91-3
 $page_code = (isset($_POST['page_code']) ? intval($_POST['page_code']) : 0);
+$sPageIcon = (isset($_POST['page_icon']) ? $_POST['page_icon'] : 0);
+$sMenuIcon0 = (isset($_POST['menu_icon_0']) ? $_POST['menu_icon_0'] : 0);
+$sMenuIcon1 = (isset($_POST['menu_icon_1']) ? $_POST['menu_icon_1'] : 0);
+
+
 // Validate data
 if($page_title == '' || substr($page_title,0,1)=='.')
 {
@@ -121,6 +126,13 @@ $sViewingGroups = (preg_match('/^,|[^0-9,]|,,|,$/', $sViewingGroups) ? '1' : $sV
 $aViewingUsers = (is_array($aViewingUsers) ? $aViewingUsers : array());
 $sViewingUsers = implode(',', array_diff($aViewingUsers, array(0)));
 $sViewingUsers = (preg_match('/^,|[^0-9,]|,,|,$/', $sViewingUsers) ? array() : $sViewingUsers);
+
+$sPageIcon = (($sPageIcon == '0') ? '' : $sPageIcon);
+if(!is_readable(WB_PATH.$sPageIcon)) { $sPageIcon = ''; }
+$sMenuIcon0 = (($sMenuIcon0 == '0') ? '' : $sMenuIcon0);
+if(!is_readable(WB_PATH.$sMenuIcon0)) { $sMenuIcon0 = ''; }
+$sMenuIcon1 = (($sMenuIcon1 == '0') ? '' : $sMenuIcon1);
+if(!is_readable(WB_PATH.$sMenuIcon1)) { $sMenuIcon1 = ''; }
 
 // If needed, get new order
 if($parent != $old_parent)
@@ -196,7 +208,11 @@ $page_trail = get_page_trail($page_id);
 $sql = 'UPDATE `'.TABLE_PREFIX.'pages` '
      . 'SET `parent`='.$parent.', '
      .     '`page_title`=\''.$page_title.'\', '
+     .     '`tooltip`=\''.$page_title.'\', '
+     .     '`page_icon` =\''.mysql_real_escape_string($sPageIcon).'\', '
      .     '`menu_title`=\''.$menu_title.'\', '
+     .     '`menu_icon_0` =\''.mysql_real_escape_string($sMenuIcon0).'\', '
+     .     '`menu_icon_1` =\''.mysql_real_escape_string($sMenuIcon1).'\', '
      .     '`menu`='.$menu.', '
      .     '`level`='.$level.', '
      .     '`page_trail`=\''.$page_trail.'\', '

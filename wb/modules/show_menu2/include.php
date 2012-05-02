@@ -539,7 +539,7 @@ function show_menu2(
         if (version_compare(WB_VERSION, '2.7', '>=')) { // WB 2.7+
             $fields .= ',`viewing_users`';
         }
-		if(version_compare(WB_VERSION, '2.9.0', '>=')) {
+		if(version_compare(WB_VERSION, '2.8.4', '>=')) {
             $fields .= ',`menu_icon_0`,`menu_icon_1`,`page_icon`,`tooltip`';
 		}
         if ($flags & SM2_ALLINFO) {
@@ -576,6 +576,16 @@ function show_menu2(
                         continue;
                     }
                 }
+				if(isset($page['page_icon']) && $page['page_icon'] != '') {
+					$page['page_icon'] = WB_URL.$page['page_icon'];
+				}
+				if(isset($page['menu_icon_0']) && $page['menu_icon_0'] != '') {
+					$page['menu_icon_0'] = WB_URL.$page['menu_icon_0'];
+				}
+				if(isset($page['menu_icon_1']) && $page['menu_icon_1'] != '') {
+					$page['menu_icon_1'] = WB_URL.$page['menu_icon_1'];
+				}
+
 				if(!isset($page['tooltip'])) { $page['tooltip'] = $page['page_title']; }
                 // ensure that we have an array entry in the table to add this to
                 $idx = $page['parent'];

@@ -1,6 +1,5 @@
 <!-- BEGIN main_block -->
 <script src="{ADMIN_URL}/pages/page_settings.js" type="text/javascript"></script>
-<link href="http://istmzw01.isteam.loc/WB28x-Branch/wb/templates/wb_theme/theme.css" rel="stylesheet" type="text/css" />
 <table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="100%" style="margin-bottom:10px;">
   <tr style="background:#f0f0f0;">
 	<td valign="middle" align="left"><h2>{HEADING_MODIFY_PAGE_SETTINGS}</h2></td>
@@ -15,7 +14,7 @@
 		</span>
 		<br />
 		<span style="color:#999;" class="{DISPLAY_MODIFIED}">
-			{LAST_MODIFIED} {MODIFIED_BY} ({MODIFIED_BY_USERNAME}), {MODIFIED_WHEN}
+			{TEXT_LAST_MODIFIED} {MODIFIED_BY} ({MODIFIED_BY_USERNAME}), {MODIFIED_WHEN}
 		</span>
 	</td>
   </tr>
@@ -26,31 +25,46 @@
 	<input type="hidden" name="page_id" value="{PAGE_IDKEY}" />
 	<div class="page-settings">
 		<div class="page-settings-leftcol"> <!-- left column -->
+			<div class="caption">{TEXT_SECTION_GENERAL}</div>
 			<div>
 				<label for="">{TEXT_PAGE_TITLE}:</label><input
 					type="text" name="page_title" value="{PAGE_TITLE}" />
+			</div>
+			<div>
+				<label for="" style="vertical-align: bottom;">{TEXT_PAGE_ICON}:<br />
+					<span style="font-size:0.85em;">( {ICON_DIR} )</span></label><select
+					name="page_icon">
+					<option value="0">--- {TEXT_NO_SELECTION} ---</option>
+				<!-- BEGIN page_icon_list_block -->
+					<option value="{VALUE}"{SELECTED}>{NAME}</option>
+				<!-- END page_icon_list_block -->
+				</select>
 			</div>
 			<div>
 				<label for="">{TEXT_MENU_TITLE}:</label><input
 					type="text" name="menu_title" value="{MENU_TITLE}" />
 			</div>
 			<div>
-				<label for="">{TEXT_PARENT}:</label><select name="parent">
-				<!-- BEGIN parent_page_list_block -->
-					<option value="{ID}"{SELECTED} style="background: {FLAG_ROOT_ICON} no-repeat center left; padding-left: 20px;">{TITLE}</option>
-				<!-- END parent_page_list_block -->
+				<label for="" style="vertical-align: bottom;">{TEXT_MENU_ICON_0}:<br />
+					<span style="font-size:0.85em;">( {ICON_DIR} )</span></label><select
+					name="menu_icon_0">
+					<option value="0">--- {TEXT_NO_SELECTION} ---</option>
+				<!-- BEGIN menu_icon0_list_block -->
+					<option value="{VALUE}"{SELECTED}>{NAME}</option>
+				<!-- END menu_icon0_list_block -->
 				</select>
 			</div>
 			<div>
-				<label for="">{TEXT_VISIBILITY}:</label><select
-					name="visibility" onchange="javascript: toggle_viewers();">
-					<option value="public"{PUBLIC_SELECTED}>{TEXT_PUBLIC}</option>
-					<option value="private"{PRIVATE_SELECTED}>{TEXT_PRIVATE}</option>
-					<option value="registered"{REGISTERED_SELECTED}>{TEXT_REGISTERED}</option>
-					<option value="hidden"{HIDDEN_SELECTED}>{TEXT_HIDDEN}</option>
-					<option value="none"{NO_VIS_SELECTED}>{TEXT_NONE}</option>
+				<label for="" style="vertical-align: bottom;">{TEXT_MENU_ICON_1}:<br />
+					<span style="font-size:0.85em;">( {ICON_DIR} )</span></label><select
+					name="menu_icon_1">
+					<option value="0">--- {TEXT_NO_SELECTION} ---</option>
+				<!-- BEGIN menu_icon1_list_block -->
+					<option value="{VALUE}"{SELECTED}>{NAME}</option>
+				<!-- END menu_icon1_list_block -->
 				</select>
 			</div>
+
 			<div>
 				<label for="">{TEXT_DESCRIPTION}:</label><textarea
 					name="description" rows="14" cols="1">{DESCRIPTION}</textarea>
@@ -59,6 +73,24 @@
 				<label for="">{TEXT_KEYWORDS}:</label><textarea
 					name="keywords" rows="14" cols="1">{KEYWORDS}</textarea>
 			</div>
+			<div class="caption">{TEXT_SECTION_ORGANISATION}</div>
+			<div>
+				<label for="">{TEXT_PARENT}:</label><select name="parent">
+				<!-- BEGIN parent_page_list_block -->
+					<option value="{ID}"{SELECTED} style="background: {FLAG_ROOT_ICON} no-repeat center left; padding-left: 20px;">{TITLE}</option>
+				<!-- END parent_page_list_block -->
+				</select>
+			</div>
+		<!-- BEGIN show_menu_list_block -->
+			<div>
+				<label for="">{TEXT_MENU}:</label><select
+					name="menu">
+				<!-- BEGIN menu_list_block -->
+					<option value="{VALUE}"{SELECTED}>{NAME}</option>
+				<!-- END menu_list_block -->
+				</select>
+			</div>
+		<!-- END show_menu_list_block -->
 			<div>
 				<label for="">{TEXT_TARGET}:</label><select
 					name="target" ><!--  value="{TARGET}" -->
@@ -77,16 +109,7 @@
 				<!-- END template_list_block -->
 				</select>
 			</div>
-		<!-- BEGIN show_menu_list_block -->
-			<div>
-				<label for="">{TEXT_MENU}:</label><select
-					name="menu">
-				<!-- BEGIN menu_list_block -->
-					<option value="{VALUE}"{SELECTED}>{NAME}</option>
-				<!-- END menu_list_block -->
-				</select>
-			</div>
-		<!-- END show_menu_list_block -->
+			<div class="caption">{TEXT_SECTION_CONTENT}</div>
 			<div>
 				<label for="">{TEXT_LANGUAGE}:</label><select
 					name="language">
@@ -113,9 +136,24 @@
 				</select>
 			</div>
 		</div>
+		<div class="page-settings-righttoprow">
+			<div class="caption">{TEXT_SECTION_SECURITY}</div>
+			<div>
+				<label for="">{TEXT_VISIBILITY}:</label><select
+					name="visibility" onchange="javascript: toggle_viewers();">
+					<option value="public"{PUBLIC_SELECTED}>{TEXT_PUBLIC}</option>
+					<option value="private"{PRIVATE_SELECTED}>{TEXT_PRIVATE}</option>
+					<option value="registered"{REGISTERED_SELECTED}>{TEXT_REGISTERED}</option>
+					<option value="hidden"{HIDDEN_SELECTED}>{TEXT_HIDDEN}</option>
+					<option value="none"{NO_VIS_SELECTED}>{TEXT_NONE}</option>
+				</select>
+			</div>
+		</div>
+
+
 		<div class="page-settings-centercol"> <!-- center column -->
-			{TEXT_ADMINISTRATORS}<hr />
-			{TEXT_GROUP}<br />
+			<b>{TEXT_ADMINISTRATORS}</b><hr />
+			<u>{TEXT_GROUP}</u><br />
 <!-- *** List of groups which can administrate this page *** -->
 			<ul style="list-style-type: none; margin: 0; padding: 0;">
 			<!-- BEGIN admin_group_list_block -->
@@ -126,7 +164,7 @@
 			<!-- END admin_group_list_block -->
 			</ul>
 			<hr />
-			{TEXT_USER}<br />
+			<u>{TEXT_USER}</u><br />
 <!-- *** List of users which can administrate this page *** -->
 			<select name="admin_users[]" multiple="multiple" size="{USER_LIST_SIZE}">
 				<option value="0">--- {TEXT_NO_SELECTION} ---</option>
@@ -137,8 +175,8 @@
 		</div>
 
 		<div id="allowed_viewers" class="page-settings-rightcol" style="{DISPLAY_VIEWERS}"> <!-- right column -->
-			{TEXT_ALLOWED_VIEWERS}<hr />
-			{TEXT_GROUP}<br />
+			<b>{TEXT_ALLOWED_VIEWERS}</b><hr />
+			<u>{TEXT_GROUP}</u><br />
 <!-- *** List of groups which can see this page *** -->
 			<ul style="list-style-type:none;margin:0;padding:0;">
 			<!-- BEGIN viewer_group_list_block -->
@@ -149,7 +187,7 @@
 			<!-- END viewer_group_list_block -->
 			</ul>
 			<hr />
-			{TEXT_USER}<br />
+			<u>{TEXT_USER}</u><br />
 <!-- *** List of users which can see this page *** -->
 			<select name="viewing_users[]" multiple="multiple" size="{USER_LIST_SIZE}">
 				<option value="0">--- {TEXT_NO_SELECTION} ---</option>
@@ -158,6 +196,7 @@
 			<!-- END viewer_user_list_block -->
 			</select>
 		</div>
+
 		<div style="clear:both; padding-top: 1em;">
 			<input type="submit" name="submit" value="{TEXT_SAVE}" style="width: 117px;" />
 			<input type="reset" name="reset" value="{TEXT_RESET}" style="width: 117px;" />

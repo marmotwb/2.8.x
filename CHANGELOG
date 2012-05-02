@@ -11,6 +11,12 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+03 May-2012 Build 1681 Werner v.d.Decken(DarkViper)
+! reorganisation of default theme of oage-settings
++ added menu_icon_0 and menu_icon_1
+! update show_menu2 to handle the new icon fields (see README.de|en.txt)
++ add new droplet 'iParentIcon' for use with the new icons
++ added new module-depending language files (not complete yet) in admin/pages
 03 May-2012 Build 1680 Werner v.d.Decken(DarkViper)
 ! renamed file class.database.php to Database.php
 ! renamed class database into Database
