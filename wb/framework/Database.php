@@ -27,16 +27,20 @@ if(!defined('WB_PATH')) {
 	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
-if(!defined('DB_URL')) {
-	//define('DB_URL', DB_TYPE.'://'.DB_USERNAME.':'.DB_PASSWORD.'@'.DB_HOST.'/'.DB_NAME);
-}
-
 define('DATABASE_CLASS_LOADED', true);
 
-class database {
+class Database {
 
-	private $db_handle  = null; // readonly from outside
-	private $db_name    = '';
+//	$sdb = 'mysql://user:password@demo.de:3604/datenbank';
+
+	private $_db_handle = null; // readonly from outside
+	private $_scheme    = 'mysql';
+	private $_hostname  = 'localhost';
+	private $_username  = '';
+	private $_password  = '';
+	private $_hostport  = '3406';
+	private $_db_name   = '';
+
 	private $connected  = false;
 
 	private $error      = '';
@@ -46,27 +50,41 @@ class database {
 
 
 	// Set DB_URL
-	function database($url = '') {
+	function __construct($url = '') {
+		if($url != '') {
+			$aIni = parse_url($url);
+			$this->_scheme   = isset($aIni['scheme']) ? $aIni['scheme'] : 'mysql';
+			$this->_hostname = isset($aIni['host']) ? $aIni['host'] : '';
+			$this->_username = isset($aIni['user']) ? $aIni['user'] : '';
+			$this->_password = isset($aIni['pass']) ? $aIni['pass'] : '';
+			$this->_hostport = isset($aIni['port']) ? $aIni['port'] : '3306';
+			$this->_hostport = $this->_hostport == '3306' ? '' : ':'.$this->_hostport;
+			$this->_db_name  = ltrim(isset($aIni['path']) ? $aIni['path'] : '', '/\\');
+		}else {
+			$this->_hostname = DB_HOST;
+			$this->_username = DB_USERNAME;
+			$this->_password = DB_PASSWORD;
+			$this->_hostport = '';
+			$this->_db_name  = DB_NAME;
+		}
 		// Connect to database
 		$this->connect();
-		// Check for database connection error
-		if($this->is_error()) {
-			die($this->get_error());
-		}
 	}
 	
 	// Connect to the database
 	function connect() {
-		$status = $this->db_handle = mysql_connect(DB_HOST, DB_USERNAME, DB_PASSWORD);
-		if(mysql_error()) {
-			$this->connected = false;
-			$this->error = mysql_error();
+		$this->_db_handle = mysql_connect($this->_hostname.$this->_hostport,
+		                                  $this->_username,
+		                                  $this->_password);
+		if(!$this->_db_handle) {
+			throw new RuntimeException('unable to connect \''.$this->_scheme.'://'.
+			                           $this->_hostname.$this->_hostport.'\'');
 		} else {
-			if(!mysql_select_db(DB_NAME)) {
-				$this->connected = false;
-				$this->error = mysql_error();
+			if(!mysql_select_db($this->_db_name)) {
+				throw new RuntimeException('unable to select database \''.$this->_db_name.
+				                           '\' on \''.$this->_scheme.'://'.
+				                           $this->_hostname.$this->_hostport.'\'');
 			} else {
-				$this->db_name = DB_NAME;
 				$this->connected = true;
 			}
 		}
@@ -76,7 +94,7 @@ class database {
 	// Disconnect from the database
 	function disconnect() {
 		if($this->connected==true) {
-			mysql_close();
+			mysql_close($this->_db_handle);
 			return true;
 		} else {
 			return false;
@@ -87,9 +105,9 @@ class database {
 	function query($statement) {
 		$this->iQueryCount++;
 		$mysql = new mysql();
-		$mysql->query($statement);
-		$this->set_error($mysql->error());
-		if($mysql->error()) {
+		$mysql->query($statement, $this->_db_handle);
+		$this->set_error($mysql->error($this->_db_handle));
+		if($mysql->error($this->_db_handle)) {
 			return null;
 		} else {
 			return $mysql;
@@ -100,10 +118,10 @@ class database {
 	function get_one( $statement )
 	{
 		$this->iQueryCount++;
-		$fetch_row = mysql_fetch_array(mysql_query($statement) );
+		$fetch_row = mysql_fetch_array(mysql_query($statement, $this->_db_handle));
 		$result = $fetch_row[0];
-		$this->set_error(mysql_error());
-		if(mysql_error()) {
+		$this->set_error(mysql_error($this->_db_handle));
+		if(mysql_error($this->_db_handle)) {
 			return null;
 		} else {
 			return $result;
@@ -142,12 +160,12 @@ class database {
 			case 'db_handle':
 			case 'DbHandle':
 			case 'getDbHandle':
-				$retval = $this->db_handle;
+				$retval = $this->_db_handle;
 				break;
 			case 'db_name':
 			case 'DbName':
 			case 'getDbName':
-				$retval = $this->db_name;
+				$retval = $this->_db_name;
 				break;
 			case 'getQueryCount':
 				$retval = $this->iQueryCount;
@@ -167,7 +185,7 @@ class database {
 	public function field_exists($table_name, $field_name)
 	{
 		$sql = 'DESCRIBE `'.$table_name.'` `'.$field_name.'` ';
-		$query = $this->query($sql);
+		$query = $this->query($sql, $this->_db_handle);
 		return ($query->numRows() != 0);
 	}
 
@@ -181,7 +199,7 @@ class database {
 		$number_fields = intval($number_fields);
 		$keys = 0;
 		$sql = 'SHOW INDEX FROM `'.$table_name.'`';
-		if( ($res_keys = $this->query($sql)) )
+		if( ($res_keys = $this->query($sql, $this->_db_handle)) )
 		{
 			while(($rec_key = $res_keys->fetchRow()))
 			{
@@ -211,8 +229,8 @@ class database {
 		if( !$this->field_exists($table_name, $field_name) )
 		{ // add new field into a table
 			$sql = 'ALTER TABLE `'.$table_name.'` ADD '.$field_name.' '.$description.' ';
-			$query = $this->query($sql);
-			$this->set_error(mysql_error());
+			$query = $this->query($sql, $this->_db_handle);
+			$this->set_error(mysql_error($this->_db_handle));
 			if( !$this->is_error() )
 			{
 				return ( $this->field_exists($table_name, $field_name) ) ? true : false;
@@ -236,7 +254,7 @@ class database {
 		if( $this->field_exists($table_name, $field_name) )
 		{ // modify a existing field in a table
 			$sql  = 'ALTER TABLE `'.$table_name.'` MODIFY `'.$field_name.'` '.$description;
-			$retval = ( $this->query($sql) ? true : false);
+			$retval = ( $this->query($sql, $this->_db_handle) ? true : false);
 			$this->set_error(mysql_error());
 		}
 		return $retval;
@@ -253,7 +271,7 @@ class database {
 		if( $this->field_exists($table_name, $field_name) )
 		{ // modify a existing field in a table
 			$sql  = 'ALTER TABLE `'.$table_name.'` DROP `'.$field_name.'`';
-			$retval = ( $this->query($sql) ? true : false );
+			$retval = ( $this->query($sql, $this->_db_handle) ? true : false );
 		}
 		return $retval;
 	}
@@ -277,11 +295,11 @@ class database {
 		{
 			$sql  = 'ALTER TABLE `'.$table_name.'` ';
 			$sql .= 'DROP INDEX `'.$index_name.'`';
-			if( $this->query($sql))
+			if( $this->query($sql, $this->_db_handle))
 			{
 				$sql  = 'ALTER TABLE `'.$table_name.'` ';
 				$sql .= 'ADD '.$index_type.' `'.$index_name.'` ( '.$field_list.' ); ';
-				if( $this->query($sql)) { $retval = true; }
+				if( $this->query($sql, $this->_db_handle)) { $retval = true; }
 			}
 		}
 		return $retval;
@@ -298,7 +316,7 @@ class database {
 		if( $this->index_exists($table_name, $index_name) )
 		{ // modify a existing field in a table
 			$sql  = 'ALTER TABLE `'.$table_name.'` DROP INDEX `'.$index_name.'`';
-			$retval = ( $this->query($sql) ? true : false );
+			$retval = ( $this->query($sql, $this->_db_handle) ? true : false );
 		}
 		return $retval;
 	}
@@ -330,9 +348,9 @@ class database {
 				if ((substr($sql,-1,1) == ';')) {
 					$sql = trim(str_replace( $aSearch, $aReplace, $sql));
 					if (!($bPreserve && preg_match('/^\s*DROP TABLE IF EXISTS/siU', $sql))) {
-						if(!mysql_query($sql, $this->db_handle)) {
+						if(!mysql_query($sql, $this->_db_handle)) {
 							$retval = false;
-							$this->error = mysql_error($this->db_handle);
+							$this->error = mysql_error($this->_db_handle);
 							unset($aSql);
 							break;
 						}
@@ -352,10 +370,10 @@ class database {
 	public function getTableEngine($table)
 	{
 		$retVal = false;
-		$mysqlVersion = mysql_get_server_info($this->db_handle);
+		$mysqlVersion = mysql_get_server_info($this->_db_handle);
 		$engineValue = (version_compare($mysqlVersion, '5.0') < 0) ? 'Type' : 'Engine';
-		$sql = "SHOW TABLE STATUS FROM " . $this->db_name . " LIKE '" . $table . "'";
-		if(($result = $this->query($sql))) {
+		$sql = "SHOW TABLE STATUS FROM " . $this->_db_name . " LIKE '" . $table . "'";
+		if(($result = $this->query($sql, $this->_db_handle))) {
 			if(($row = $result->fetchRow(MYSQL_ASSOC))) {
 				$retVal = $row[$engineValue];
 			}
@@ -371,10 +389,13 @@ define('MYSQL_SEEK_LAST', -1);
 
 class mysql {
 
+	private $result = null;
+	private $_db_handle = null;
 	// Run a query
-	function query($statement) {
-		$this->result = mysql_query($statement);
-		$this->error = mysql_error();
+	function query($statement, $dbHandle) {
+		$this->_db_handle = $dbHandle;
+		$this->result = mysql_query($statement, $this->_db_handle);
+		$this->error = mysql_error($this->_db_handle);
 		return $this->result;
 	}
 	
@@ -435,7 +456,9 @@ class mysql {
 		foreach( $key as $index=>$val)
 		{
 			$index = strtolower($index);
-			$sql = 'SELECT COUNT(`setting_id`) FROM `'.TABLE_PREFIX.$table.'` WHERE `name` = \''.$index.'\' ';
+			$sql = 'SELECT COUNT(`setting_id`) '
+			     . 'FROM `'.TABLE_PREFIX.$table.'` '
+			     . 'WHERE `name` = \''.$index.'\' ';
 			if($database->get_one($sql))
 			{
 				$sql = 'UPDATE ';

@@ -11,7 +11,14 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-
+03 May-2012 Build 1680 Werner v.d.Decken(DarkViper)
+! renamed file class.database.php to Database.php
+! renamed class database into Database
++ classes SecurityException and SecDirectoryTraversalException added in globalExceptionHandler.php
++ CoreAutoloader() added in initialize.php
++ new Constants 'WB_REL' and 'DOCUMENT_ROOT' in initialize.php
+! class Database is able now to create multiple connections at same time
++ class ModLanguage added for easy handle of languages from modules
 28 Apr-2012 Build 1679 Dietmar Woellbrink (Luisehahne)
 + add tool_icon.png to admintools
 27 Apr-2012 Build 1678 Dietmar Woellbrink (Luisehahne)

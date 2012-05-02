@@ -51,6 +51,15 @@
 		}
 	} // end of class
 
+/* -- several security exceptions ----------------------------------------------------- */
+	class SecurityException extends RuntimeException { 	}
+
+	class SecDirectoryTraversalException extends SecurityException {
+		public function __toString() {
+			return 'possible directory traversal attack';
+		}
+	}
+/* ------------------------------------------------------------------------------------ */
 /**
  *
  * @param Exception $e
@@ -59,12 +68,21 @@
 		// hide server internals from filename where the exception was thrown
 		$file = str_replace(dirname(dirname(__FILE__)), '', $e->getFile());
 		// select some exceptions for special handling
-		if ($e instanceof IllegalFileException) {
+		if ($e instanceof SecurityException) {
+			$out = 'Exception: "'.(string)$e.'" @ ';
+		    $trace = $e->getTrace();
+			if($trace[0]['class'] != '') {
+				$out .= $trace[0]['class'].'->';
+			}
+			$out .= $trace[0]['function'].'();<br />';
+			$out .= 'in "'.$file.'"'."\n";
+			echo $out;
+		}elseif ($e instanceof IllegalFileException) {
 			$sResponse  = $_SERVER['SERVER_PROTOCOL'].' 403 Forbidden';
 			header($sResponse);
 			echo $e;
 		}elseif($e instanceof RuntimeException) {
-			$out  ='There was a serious runtime error:'."\n";
+			$out  = 'There was a serious runtime error:'."\n";
 			$out .= $e->getMessage()."\n";
 			$out .= 'in line ('.$e->getLine().') of ('.$file.')'."\n";
 			echo $out;
