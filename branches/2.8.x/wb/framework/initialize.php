@@ -49,31 +49,54 @@ if(!defined('WB_URL')) { throw new IllegalFileException(); }
 		}
 		$_SERVER['HTTP_REFERER'] = $sTmpReferer;
 	}
-
-$starttime = array_sum(explode(" ",microtime()));
-if(!defined('DEBUG')){ define('DEBUG', false); }// Include config file
-if( !defined('ADMIN_DIRECTORY')) { define('ADMIN_DIRECTORY', 'admin'); }
-if(!preg_match('/xx[a-z0-9_][a-z0-9_\-\.]+/i', 'xx'.ADMIN_DIRECTORY)) {
-	throw new RuntimeException('Invalid admin-directory: ' . ADMIN_DIRECTORY);
-}
-
-if( !defined('ADMIN_URL')) { define('ADMIN_URL', WB_URL.'/'.ADMIN_DIRECTORY); }
-if( !defined('WB_PATH')) { define('WB_PATH', dirname(dirname(__FILE__))); }
-if( !defined('ADMIN_PATH')) { define('ADMIN_PATH', WB_PATH.'/'.ADMIN_DIRECTORY); }
-
-if (file_exists(WB_PATH.'/framework/class.database.php')) {
-	// sanitize $_SERVER['HTTP_REFERER']
-	SanitizeHttpReferer(WB_URL);
+/* -------------------------------------------------------- */
+/**
+ * Autoloader to load classes according to the new WB-2.9 standard
+ * @param string $sClassName name of the requested class
+ */
+	function CoreAutoloader($sClassName) {
+		$iCount = 0;
+		$aSearch = array('/^m_/i', '/^a_/i');
+		$aReplace = array('modules_', ADMIN_DIRECTORY.'_' );
+		$sClassName = preg_replace($aSearch, $aReplace, $sClassName, 1, $iCount);
+		if(!$iCount) { $sClassName = 'framework_'.$sClassName; }
+		$sFileName = WB_PATH.'/'.str_replace('_', '/', $sClassName).'.php';
+		if(file_exists($sFileName)) {
+			include($sFileName);
+		}
+	}
+/* -------------------------------------------------------- */
+	function SetInstallPathConstants() {
+		if(!defined('DEBUG')){ define('DEBUG', false); }// Include config file
+		if(!defined('ADMIN_DIRECTORY')){ define('ADMIN_DIRECTORY', 'admin'); }
+		if(!preg_match('/xx[a-z0-9_][a-z0-9_\-\.]+/i', 'xx'.ADMIN_DIRECTORY)) {
+			throw new RuntimeException('Invalid admin-directory: ' . ADMIN_DIRECTORY);
+		}
+		if(!defined('WB_PATH')){ define('WB_PATH', dirname(dirname(__FILE__))); }
+		if(!defined('ADMIN_URL')){ define('ADMIN_URL', WB_URL.'/'.ADMIN_DIRECTORY); }
+		if(!defined('ADMIN_PATH')){ define('ADMIN_PATH', WB_PATH.'/'.ADMIN_DIRECTORY); }
+		if(!defined('WB_REL')){
+			$x1 = parse_url(WB_URL);
+			define('WB_REL', (isset($x1['path']) ? $x1['path'] : ''));
+		}
+		if(!defined('DOCUMENT_ROOT')) {
+			define('DOCUMENT_ROOT', preg_replace('/'.preg_quote(WB_REL, '/').'$/', '', WB_PATH));
+		}
+	}
+/* -------------------------------------------------------- */
+	$starttime = array_sum(explode(" ",microtime()));
+	SetInstallPathConstants();
+	SanitizeHttpReferer(WB_URL); // sanitize $_SERVER['HTTP_REFERER']
+	spl_autoload_register('CoreAutoloader'); // activate core autoloader
 	date_default_timezone_set('UTC');
-	require_once(WB_PATH.'/framework/class.database.php');
-
 	// Create database class
-	$database = new database();
-
-    if(version_compare(PHP_VERSION, '5.3.0', '<'))
-    {
-        set_magic_quotes_runtime(0); // Disable magic_quotes_runtime
-    }
+	$database = new Database();
+	// disable all kind of magic_quotes
+	if(get_magic_quotes_gpc() || get_magic_quotes_runtime()) {
+		@ini_set('magic_quotes_sybase', 0);
+		@ini_set('magic_quotes_gpc', 0);
+		@ini_set('magic_quotes_runtime', 0);
+	}
 	// Get website settings (title, keywords, description, header, and footer)
 	$query_settings = "SELECT name,value FROM ".TABLE_PREFIX."settings";
 	$get_settings = $database->query($query_settings);
@@ -133,7 +156,7 @@ if (file_exists(WB_PATH.'/framework/class.database.php')) {
 
 	// Get users language
 	if(isset($_GET['lang']) AND $_GET['lang'] != '' AND !is_numeric($_GET['lang']) AND strlen($_GET['lang']) == 2) {
-	  	define('LANGUAGE', strtoupper($_GET['lang']));
+		define('LANGUAGE', strtoupper($_GET['lang']));
 		$_SESSION['LANGUAGE']=LANGUAGE;
 	} else {
 		if(isset($_SESSION['LANGUAGE']) AND $_SESSION['LANGUAGE'] != '') {
@@ -142,7 +165,7 @@ if (file_exists(WB_PATH.'/framework/class.database.php')) {
 			define('LANGUAGE', DEFAULT_LANGUAGE);
 		}
 	}
-	
+
 	// Load Language file
 	if(!defined('LANGUAGE_LOADED')) {
 		if(!file_exists(WB_PATH.'/languages/'.LANGUAGE.'.php')) {
@@ -151,7 +174,7 @@ if (file_exists(WB_PATH.'/framework/class.database.php')) {
 			require_once(WB_PATH.'/languages/'.LANGUAGE.'.php');
 		}
 	}
-	
+
 	// Get users timezone
 	if(isset($_SESSION['TIMEZONE'])) {
 		define('TIMEZONE', $_SESSION['TIMEZONE']);
@@ -175,9 +198,7 @@ if (file_exists(WB_PATH.'/framework/class.database.php')) {
 	define('THEME_URL', WB_URL.'/templates/'.DEFAULT_THEME);
 	define('THEME_PATH', WB_PATH.'/templates/'.DEFAULT_THEME);
 
-    // extended wb_settings
+	// extended wb_settings
 	define('EDIT_ONE_SECTION', false);
 
 	define('EDITOR_WIDTH', 0);
-
-}
