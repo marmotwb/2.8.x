@@ -15,15 +15,10 @@
  * @lastmodified    $Date$
  *
  */
-
-/*
-*/
 // Create new admin object
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_settings');
-// Include the WB functions file
-//require_once(WB_PATH.'/framework/functions-utf8.php');
 
 /*-- Parent page list ------------------------------------------------------------------*/
 	function parent_list($parent)
@@ -84,6 +79,8 @@ $admin = new admin('Pages', 'pages_settings');
 		}
 	} // end of function parent_list
 /* -------------------------------------------------------------------------------------*/
+	$mLang = ModLanguage::getInstance();
+	$mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
 	$sDisabled = ' disabled="disabled"';
 	$sSelected  = ' selected="selected"';
 	$sChecked   = ' checked="checked"';
@@ -94,13 +91,6 @@ $admin = new admin('Pages', 'pages_settings');
 		header("Location: index.php");
 		exit(0);
 	}
-/*
-if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD']))) )
-{
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
-	exit();
-}
-*/
 /*-- get all details of current page ---------------------------------------------------*/
 	$sql = 'SELECT * FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
 	if( ($oPages = $database->query($sql)) ) {
@@ -154,13 +144,55 @@ if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD'])))
 /*-- workout if we should show the "manage sections" link ------------------------------*/
 	$sql = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'sections` '
 	     . 'WHERE `page_id`='.$page_id.' AND `module`=\'menu_link\'';
-	$sections_available = (intval($database->get_one($sql)) != 0);
-	if ($sections_available) {
-		$oTpl->set_var('DISPLAY_MANAGE_SECTIONS', 'display:none;');
-	} elseif(MANAGE_SECTIONS == 'enabled') {
-		$oTpl->set_var('TEXT_MANAGE_SECTIONS', $HEADING['MANAGE_SECTIONS']);
-	} else {
-		$oTpl->set_var('DISPLAY_MANAGE_SECTIONS', 'display:none;');
+	$bIsMenuLink = (intval($database->get_one($sql)) != 0);
+	$oTpl->set_block('main_block', 'show_manage_sections_block', 'show_manage_sections');
+	if(!$bIsMenuLink && (MANAGE_SECTIONS == true)) {
+		$oTpl->parse('show_manage_sections', 'show_manage_sections_block', true);
+	}else {
+		$oTpl->set_block('show_manage_sections', '');
+	}
+
+/*-- collect page-icons for select boxes -----------------------------------------------*/
+    $sAllowedImageTypes = '\.jpg|\.jpeg|\.png|\.gif';
+	$aPageIcons = array();
+	$aIcon = array();
+	$sTemplate = ($aCurrentPage['template'] == '' ? DEFAULT_TEMPLATE : $aCurrentPage['template']);
+	$sIconDir = str_replace('\\', '/', ((defined('PAGE_ICON_DIR') && PAGE_ICON_DIR != '') ? PAGE_ICON_DIR : MEDIA_DIRECTORY));
+	$sIconDir = str_replace('/*', '/'.$sTemplate, $sIconDir);
+	$oTpl->set_var('ICON_DIR', WB_REL.$sIconDir);
+	if(is_readable(WB_PATH.$sIconDir)) {
+		$oIterator = new DirectoryIterator(WB_PATH.$sIconDir);
+		foreach ($oIterator as $fileinfo) {
+			if(preg_match('/'.$sAllowedImageTypes.'$/i', $fileinfo->getFilename())) {
+				$sItem = str_replace(WB_PATH, '', str_replace('\\', '/', $fileinfo->getPathname()));
+//				$sItem = WB_REL.$sItem;
+				$aPageIcons[] = array('VALUE'=>$sItem, 'NAME'=>$fileinfo->getFilename());
+			}
+		}
+	}
+/*-- show page-icon select box ---------------------------------------------------------*/
+	$oTpl->set_block('main_block', 'page_icon_list_block', 'page_icon_list');
+	foreach($aPageIcons as $value) {
+		$aIcon = $value;
+		$aIcon['SELECTED'] = ($aCurrentPage['page_icon'] == $aIcon['VALUE'] ? $sSelected : '');
+		$oTpl->set_var($aIcon);
+		$oTpl->parse('page_icon_list', 'page_icon_list_block', true);
+	}
+/*-- show menu-icon-0 select box -------------------------------------------------------*/
+	$oTpl->set_block('main_block', 'menu_icon0_list_block', 'menu_icon0_list');
+	foreach($aPageIcons as $value) {
+		$aIcon = $value;
+		$aIcon['SELECTED'] = ($aCurrentPage['menu_icon_0'] == $aIcon['VALUE'] ? $sSelected : '');
+		$oTpl->set_var($aIcon);
+		$oTpl->parse('menu_icon0_list', 'menu_icon0_list_block', true);
+	}
+/*-- show menu-icon-1 select box -------------------------------------------------------*/
+	$oTpl->set_block('main_block', 'menu_icon1_list_block', 'menu_icon1_list');
+	foreach($aPageIcons as $value) {
+		$aIcon = $value;
+		$aIcon['SELECTED'] = ($aCurrentPage['menu_icon_1'] == $aIcon['VALUE'] ? $sSelected : '');
+		$oTpl->set_var($aIcon);
+		$oTpl->parse('menu_icon1_list', 'menu_icon1_list_block', true);
 	}
 
 /*-- show visibility select box --------------------------------------------------------*/
@@ -305,10 +337,9 @@ if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD'])))
 		 file_exists(WB_PATH.'/modules/mod_multilingual/update_keys.php') )
 	{
 		// workout field is set but module missing
-		$TEXT['PAGE_CODE'] = empty($TEXT['PAGE_CODE']) ? 'Pagecode' : $TEXT['PAGE_CODE'];
 		$oTpl->set_var('TEXT_PAGE_CODE',
 						   '<a href="'.WB_URL.'/modules/mod_multilingual/update_keys.php?page_id='.
-						   $page_id.'">'.$TEXT['PAGE_CODE'].'</a>'
+						   $page_id.'">'.$mLang->TEXT_PAGE_CODE.'</a>'
 		);
 	/*-- begin recursive function page_code list ---------------------------------------*/
 		function page_code_list($parent)
@@ -373,7 +404,7 @@ if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD'])))
 			$selected = ($aCurrentPage['parent'] == 0 ? $sSelected : '');
 			$oTpl->set_var(array(
 					'VALUE' => 0,
-					'PAGE_CODE' => $TEXT['NONE'],
+					'PAGE_CODE' => $mLang->TEXT_NONE,
 					'PAGE_VALUE' => '',
 					'SELECTED' => $selected
 				)
@@ -393,7 +424,7 @@ if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD'])))
 	if($admin->get_permission('pages_add_l0') == true OR $aCurrentPage['level'] == 0) {
 		$oTpl->set_var(array(
 					'ID' => '0',
-					'TITLE' => $TEXT['NONE'],
+					'TITLE' => $mLang->TEXT_NONE,
 					'SELECTED' => ($aCurrentPage['parent'] == 0 ? $sSelected : ''),
 					) );
 		$oTpl->parse('parent_page_list', 'parent_page_list_block', true);
@@ -493,51 +524,9 @@ if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD'])))
 	$oTpl->set_var('BLANK_SELECTED', ($aCurrentPage['target'] == '_blank' ? $sSelected : ''));
 
 /*-- insert all needed vars from language files ----------------------------------------*/
-	$oTpl->set_var(array(
-		'HEADING_MODIFY_PAGE_SETTINGS' => $HEADING['MODIFY_PAGE_SETTINGS'],
-		'TEXT_CURRENT_PAGE'            => $TEXT['CURRENT_PAGE'],
-		'TEXT_MODIFY'                  => $TEXT['MODIFY'],
-		'TEXT_MODIFY_PAGE'             => $HEADING['MODIFY_PAGE'],
-		'LAST_MODIFIED'                => $MESSAGE['PAGES_LAST_MODIFIED'],
-		'TEXT_PAGE_TITLE'              => $TEXT['PAGE_TITLE'],
-		'TEXT_MENU_TITLE'              => $TEXT['MENU_TITLE'],
-		'TEXT_TYPE'                    => $TEXT['TYPE'],
-		'TEXT_MENU'                    => $TEXT['MENU'],
-		'TEXT_PARENT'                  => $TEXT['PARENT'],
-		'TEXT_VISIBILITY'              => $TEXT['VISIBILITY'],
-		'TEXT_PUBLIC'                  => $TEXT['PUBLIC'],
-		'TEXT_PRIVATE'                 => $TEXT['PRIVATE'],
-		'TEXT_REGISTERED'              => $TEXT['REGISTERED'],
-		'TEXT_NONE'                    => $TEXT['NONE'],
-		'TEXT_HIDDEN'                  => $TEXT['HIDDEN'],
-		'TEXT_TEMPLATE'                => $TEXT['TEMPLATE'],
-		'TEXT_TARGET'                  => $TEXT['TARGET'],
-		'TEXT_SYSTEM_DEFAULT'          => $TEXT['SYSTEM_DEFAULT'],
-		'TEXT_PLEASE_SELECT'           => $TEXT['PLEASE_SELECT'],
-		'TEXT_NEW_WINDOW'              => $TEXT['NEW_WINDOW'],
-		'TEXT_SAME_WINDOW'             => $TEXT['SAME_WINDOW'],
-		'TEXT_TOP_FRAME'               => $TEXT['TOP_FRAME'],
-		'TEXT_ADMINISTRATORS'          => $TEXT['ADMINISTRATORS'],
-		'TEXT_ALLOWED_VIEWERS'         => $TEXT['ALLOWED_VIEWERS'],
-		'TEXT_USER'                    => $TEXT['USER'],
-		'TEXT_GROUP'                   => $TEXT['GROUP'],
-		'TEXT_DESCRIPTION'             => $TEXT['DESCRIPTION'],
-		'TEXT_KEYWORDS'                => $TEXT['KEYWORDS'],
-		'TEXT_SEARCHING'               => $TEXT['SEARCHING'],
-		'TEXT_LANGUAGE'                => $TEXT['LANGUAGE'],
-		'TEXT_ENABLED'                 => $TEXT['ENABLED'],
-		'TEXT_DISABLED'                => $TEXT['DISABLED'],
-		'TEXT_SAVE'                    => $TEXT['SAVE'],
-		'TEXT_RESET'                   => $TEXT['RESET'],
-		'LAST_MODIFIED'                => $MESSAGE['PAGES_LAST_MODIFIED'],
-		'HEADING_MODIFY_PAGE'          => $HEADING['MODIFY_PAGE'],
-		'TEXT_NO_SELECTION'            => $TEXT['NO_SELECTION'],
-	) );
-
+	$oTpl->set_var($mLang->getLangArray());
+/*-- finalize the page -----------------------------------------------------------------*/
 	$oTpl->parse('main', 'main_block', false);
 	$oTpl->pparse('output', 'page');
-
 // Print admin footer
 	$admin->print_footer();
-
-?>

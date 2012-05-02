@@ -449,10 +449,11 @@ $aMenuOpen and will be replaced with the appropriate text.
 [ul]            <ul> tag including class:   '<ul class="[class]">'
 [class]         List of classes for that page
 [menu_title]    Menu title text (HTML entity escaped unless SM2_NOESCAPE flag is used)
-[menu_icon_0]	URL poining to an image for display normal - status
-[menu_icon_1]	URL poining to an image for display active/hover - status
+[menu_icon_0]	URL poining to an image for display normal - status (from WB2.8.4)
+[menu_icon_1]	URL poining to an image for display active/hover - status (from WB2.8.4)
 [page_title]    Page title text (HTML entity escaped unless SM2_NOESCAPE flag is used)
-[page_icon]		URL poining to an image relating to the current page
+[page_icon]		URL poining to an image relating to the current page (from WB2.8.4)
+[tooltip]       Tooltip caption, normaly shown in title-attribute of links (ab WB2.8.4)
 [url]           Page URL for the <a> tag
 [target]        Page target for the <a> tag
 [page_id]       Page ID of the current menu item
