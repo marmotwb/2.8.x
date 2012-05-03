@@ -91,7 +91,8 @@ if(!defined('WB_URL')) { throw new IllegalFileException(); }
 	date_default_timezone_set('UTC');
 	// Create database class
 	$sSqlUrl = DB_TYPE.'://'.DB_USERNAME.':'.DB_PASSWORD.'@'.DB_HOST.'/'.DB_NAME;
-	$database = new Database($sSqlUrl);
+	$database = Database::getInstance();
+	$database->doConnect($sSqlUrl);
 	// disable all kind of magic_quotes
 	if(get_magic_quotes_gpc() || get_magic_quotes_runtime()) {
 		@ini_set('magic_quotes_sybase', 0);

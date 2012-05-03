@@ -28,7 +28,7 @@ class ModLanguage {
  * get a valid instance of this class
  * @return object
  */
-	public function getInstance() {
+	static public function getInstance() {
 		if( is_null(self::$_oInstance) ) {
             $c = __CLASS__;
             self::$_oInstance = new $c;
