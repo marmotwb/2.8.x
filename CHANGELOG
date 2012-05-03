@@ -12,6 +12,10 @@ Legend:
 ===============================================================================
 
 03 May-2012 Build 1682 Werner v.d.Decken(DarkViper)
+! changed class Database into a Singleton-Class
+# added forgotten 'static' keyword in ModLanguage
+# removed version control from sm2 - include.php
+03 May-2012 Build 1682 Werner v.d.Decken(DarkViper)
 ! some little corrections ModLanguage/Database/initialize.php
 03 May-2012 Build 1681 Werner v.d.Decken(DarkViper)
 ! reorganisation of default theme of oage-settings

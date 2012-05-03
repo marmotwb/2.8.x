@@ -535,13 +535,8 @@ function show_menu2(
         // is called (i.e. where the database is loaded) then the info won't
         // exist anyhow.
         $fields  = '`parent`,`page_id`,`menu_title`,`page_title`,`link`,`target`,';
-		$fields .= '`level`,`visibility`,`viewing_groups`';
-        if (version_compare(WB_VERSION, '2.7', '>=')) { // WB 2.7+
-            $fields .= ',`viewing_users`';
-        }
-		if(version_compare(WB_VERSION, '2.8.4', '>=')) {
-            $fields .= ',`menu_icon_0`,`menu_icon_1`,`page_icon`,`tooltip`';
-		}
+		$fields .= '`level`,`visibility`,`viewing_groups`,`viewing_users`,';
+		$fields .= '`menu_icon_0`,`menu_icon_1`,`page_icon`,`tooltip`';
         if ($flags & SM2_ALLINFO) {
             $fields = '*';
         }

@@ -29,9 +29,30 @@ if(!defined('WB_PATH')) {
 /* -------------------------------------------------------- */
 define('DATABASE_CLASS_LOADED', true);
 
-class Database {
 
-//	$sdb = 'mysql://user:password@demo.de:3306/datenbank';
+class Database extends DatabaseX {
+	
+	private static $_oInstance = array();
+/* prevent from public instancing */
+	protected function  __construct() {}
+/* prevent from cloning */
+	private function __clone() {}
+/**
+ * get a valid instance of this class
+ * @param string $sIdentifier selector for several different instances
+ * @return object
+ */
+	public static function getInstance($sIdentifier = 'core') {
+		if( !isset(self::$_oInstance[$sIdentifier])) {
+            $c = __CLASS__;
+            self::$_oInstance[$sIdentifier] = new $c;
+		}
+		return self::$_oInstance[$sIdentifier];
+	}
+}
+
+
+class DatabaseX {
 
 	private $_db_handle = null; // readonly from outside
 	private $_scheme    = 'mysql';
@@ -48,9 +69,19 @@ class Database {
 	private $message    = array();
 	private $iQueryCount= 0;
 
-
-	// Set DB_URL
-	function __construct($url = '') {
+/* prevent from public instancing */
+	protected function __construct() {}
+/* prevent from cloning */
+	private function __clone() {}
+	
+/**
+ * Connect to the database
+ * @param string $url
+ * @return bool
+ *
+ * Example for SQL-Url:  'mysql://user:password@demo.de[:3306]/datenbank'
+ */
+	public function doConnect($url = '') {
 		if($url != '') {
 			$aIni = parse_url($url);
 			$this->_scheme   = isset($aIni['scheme']) ? $aIni['scheme'] : 'mysql';
@@ -63,12 +94,6 @@ class Database {
 		}else {
 			throw new RuntimeException('Missing parameter: unable to connect database');
 		}
-		// Connect to database
-		$this->connect();
-	}
-	
-	// Connect to the database
-	function connect() {
 		$this->_db_handle = mysql_connect($this->_hostname.$this->_hostport,
 		                                  $this->_username,
 		                                  $this->_password);
