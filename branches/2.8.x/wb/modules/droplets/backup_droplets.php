@@ -3,10 +3,9 @@
  *
  * @category        module
  * @package         droplet
- * @author          Ruud Eisinga (Ruud) John (PCWacht)
- * @author          WebsiteBaker Project
- * @copyright       2009-2012, Website Baker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @author          Ruud Eisinga (Ruud) John (PCWacht), WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
+ * @link			http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
@@ -15,6 +14,8 @@
  * @lastmodified    $Date$
  *
  */
+
+
 
 // tool_edit.php
 require_once('../../config.php');
@@ -43,13 +44,20 @@ if (!$id or $id != 999) {
 
 $OK  = ' <span style="color:#006400; font-weight:bold;">OK</span> ';
 $FAIL = ' <span style="color:#ff0000; font-weight:bold;">FAILED</span> ';
-
+$sBackupName = strftime('%Y%m%d_%H%M%S', time()+ TIMEZONE ).'_droplets.zip';
 $temp_dir = '/temp/droplets/';
-$temp_file = $temp_dir.'backup-droplets.zip';
+$temp_file = $temp_dir.$sBackupName;
 
 if(is_writeable(dirname(WB_PATH.$temp_dir))) {
  	rm_full_dir ( WB_PATH.$temp_dir );
 }
+
+/*
+// make the temporary working directory
+if(!make_dir(WB_PATH.$temp_dir, octdec('0777') )){
+//  $admin->print_error($MESSAGE['MEDIA_DIR_NOT_MADE'], $module_edit_link);
+}
+*/
 
 $msg = createFolderProtectFile(rtrim( WB_PATH.$temp_dir,'/') );
 if(sizeof($msg)) {
@@ -80,7 +88,7 @@ if(sizeof($msg)) {
 
 $sFilesToZip = rtrim($sFilesToZip,',');
 
-echo '<br />Create archive: backup-droplets.zip<br />';
+echo '<br />Create archive: <strong>'.$sBackupName.'</strong><br />';
 
 require_once(WB_PATH.'/include/pclzip/pclzip.lib.php');
 $archive = new PclZip(WB_PATH.$temp_file);

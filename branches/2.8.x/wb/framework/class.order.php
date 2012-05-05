@@ -24,7 +24,7 @@ if(!defined('WB_PATH')) {
 /* -------------------------------------------------------- */
 	define('ORDERING_CLASS_LOADED', true);
 // Load the other required class files if they are not already loaded
-	require_once(WB_PATH."/framework/class.database.php");
+//	require_once(WB_PATH."/framework/class.database.php");
 
 class order {
 
@@ -118,7 +118,7 @@ class order {
 		// Get current order
 		return $this->move($id, self::MOVE_DOWN);
 	}
-	
+
 	/**
 	 * Get next free number for order
 	 * @param string|int $group
@@ -131,7 +131,7 @@ class order {
 		$max = intval($this->_DB->get_one($sql)) + 1;
 		return $max;
 	}
-	
+
 	/**
 	 * Renumbering a group from 1 to n (should be called if a row in the middle has been deleted)
 	 * @param string|int $group

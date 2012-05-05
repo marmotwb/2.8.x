@@ -143,7 +143,7 @@ if(isset($_POST['save_settings'])) {
 	echo '<h2>' .$MOD_CAPTCHA_CONTROL['HEADING'] .'</h2>';
 
 	// output the form with values from the database
-	echo '<p>' .$MOD_CAPTCHA_CONTROL['HOWTO'] .'</p>';
+	echo '<p class="info big120">' .$MOD_CAPTCHA_CONTROL['HOWTO'] .'</p>';
 ?>
 <form name="store_settings" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 	<?php echo $admin->getFTAN(); ?>
@@ -180,7 +180,7 @@ if(isset($_POST['save_settings'])) {
 				name="enabled_captcha" value="0" /><?php echo $MOD_CAPTCHA_CONTROL['DISABLED'];?>
 		</td>
 	</tr>
-	<tr><td>&nbsp;</td><td style="font-size:smaller;"><?php echo $MOD_CAPTCHA_CONTROL['CAPTCHA_EXP'];?></td></tr>
+	<tr><td>&nbsp;</td><td><?php echo $MOD_CAPTCHA_CONTROL['CAPTCHA_EXP'];?></td></tr>
 	<tr><td colspan="2"><br /><strong><?php echo $MOD_CAPTCHA_CONTROL['ASP_CONF'];?>:</strong></td></tr>
 	<tr>
 		<td><?php echo $MOD_CAPTCHA_CONTROL['ASP_TEXT'];?>:</td>
@@ -193,7 +193,7 @@ if(isset($_POST['save_settings'])) {
 	</tr>
 	<tr>
         <td>&nbsp;</td>
-        <td style="font-size:smaller;"><?php echo $MOD_CAPTCHA_CONTROL['ASP_EXP'];?></td>
+        <td ><?php echo $MOD_CAPTCHA_CONTROL['ASP_EXP'];?></td>
     </tr>
 	</table>
 	<input type="submit" name="save_settings" style="margin-top:10px; width:140px;" value="<?php echo $TEXT['SAVE']; ?>" />

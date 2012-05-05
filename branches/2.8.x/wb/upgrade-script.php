@@ -4,8 +4,8 @@
  * @category        backend
  * @package         installation
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2012, Website Baker Org. e.V.
+ * @link            http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
@@ -19,7 +19,7 @@ require_once('config.php');
 
 require_once(WB_PATH.'/framework/functions.php');
 require_once(WB_PATH.'/framework/class.admin.php');
-require_once(WB_PATH.'/framework/class.database.php');
+// require_once(WB_PATH.'/framework/Database.php');
 $admin = new admin('Addons', 'modules', false, false);
 
 $oldVersion  = 'Version '.WB_VERSION;
@@ -62,11 +62,14 @@ $filesRemove['0'] = array(
 			'[ADMIN]/preferences/details.php',
 			'[ADMIN]/preferences/email.php',
 			'[ADMIN]/preferences/password.php',
-			'[ADMIN]/pages/settings2.php'
+			'[ADMIN]/pages/settings2.php',
+
+			'[FRAMEWORK]/class.msg_queue.php',
+			'[FRAMEWORK]/class.database.php',
 
 		 );
 
-if(version_compare(WB_REVISION, '1671', '<'))
+if(version_compare(WB_REVISION, '1681', '<'))
 {
 	$filesRemove['1'] = array(
 
@@ -218,7 +221,7 @@ $all_tables = check_wb_tables();
 <title>Upgrade script</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
-html { overflow: -moz-scrollbars-vertical; /* Force firefox to always show room for a vertical scrollbar */ }
+html { overflow-y: scroll; /* Force firefox to always show room for a vertical scrollbar */ }
 
 body {
 	margin:0;
@@ -385,7 +388,7 @@ echo '<h3>Step '.(++$stepID).': Updating settings</h3>';
  */
 echo "<br />Adding sec_anchor to settings table";
 $cfg = array(
-	'sec_anchor' => 'wb_'
+	'sec_anchor' => defined('SEC_ANCHOR') ? SEC_ANCHOR : 'wb_'
 );
 
 echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
@@ -396,7 +399,7 @@ echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
  */
 echo "Adding redirect timer to settings table";
 $cfg = array(
-	'redirect_timer' => '1500'
+	'redirect_timer' => defined('Redirect_Timer') ? Redirect_Timer : '1500'
 );
 echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
@@ -405,7 +408,7 @@ echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
  */
 echo "Updating rename_files_on_upload to settings table";
 $cfg = array(
-	'rename_files_on_upload' => 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js'
+	'rename_files_on_upload' => (defined('RENAME_FILES_ON_UPLOAD') ? RENAME_FILES_ON_UPLOAD : 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js')
 );
 echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
@@ -414,7 +417,7 @@ echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
  */
 echo "Adding mediasettings to settings table";
 $cfg = array(
-	'mediasettings' => '',
+	'mediasettings' => (defined('MEDIASETTINGS') ? MEDIASETTINGS : ''),
 );
 
 echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
@@ -424,8 +427,8 @@ echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
  */
 echo "Adding fingerprint_with_ip_octets to settings table";
 $cfg = array(
-	'fingerprint_with_ip_octets' => '2',
-	'secure_form_module' => ''
+	'fingerprint_with_ip_octets' => (defined('FINGERPRINT_WITH_IP_OCTETS') ? FINGERPRINT_WITH_IP_OCTETS : '2'),
+	'secure_form_module' => (defined('SECURE_FORM_MODULE') ? SECURE_FORM_MODULE : '')
 );
 
 echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
@@ -435,7 +438,7 @@ echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
  */
 echo "Adding page_icon_dir to settings table";
 $cfg = array(
-	'page_icon_dir' => '/templates/*/title_images',
+	'page_icon_dir' => (defined('PAGE_ICON_DIR') ? PAGE_ICON_DIR : '/templates/*/title_images'),
 );
 
 echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
@@ -445,12 +448,12 @@ echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
  */
 echo "Adding dev_infos to settings table";
 $cfg = array(
-	'dev_infos' => 'true',
+	'dev_infos' => (defined('DEV_INFOS') ? DEV_INFOS : 'false')
 );
 
 echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-if(version_compare(WB_REVISION, '1675', '<'))
+if(version_compare(WB_REVISION, '1680', '<'))
 {
 	echo '<h3>Step '.(++$stepID).': Updating core tables</h3>';
 
@@ -495,7 +498,7 @@ if(version_compare(WB_REVISION, '1675', '<'))
  */
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'page_icon';
-	$description = "VARCHAR( 255 ) NOT NULL DEFAULT '' AFTER `page_title`";
+	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `page_title`";
 	if(!$database->field_exists($table_name,$field_name)) {
 		echo "Adding field page_icon to pages table";
 		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
@@ -523,7 +526,7 @@ if(version_compare(WB_REVISION, '1675', '<'))
  */
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'menu_icon_0';
-	$description = "VARCHAR( 255 ) NOT NULL DEFAULT '' AFTER `menu_title`";
+	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `menu_title`";
 	if(!$database->field_exists($table_name,$field_name)) {
 		echo "Adding field menu_icon_0 to pages table";
 		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
@@ -537,12 +540,26 @@ if(version_compare(WB_REVISION, '1675', '<'))
  */
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'menu_icon_1';
-	$description = "VARCHAR( 255 ) NOT NULL DEFAULT '' AFTER `menu_icon_0`";
+	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `menu_icon_0`";
 	if(!$database->field_exists($table_name,$field_name)) {
 		echo "Adding field menu_icon_1 to pages table";
 		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 	} else {
 		echo "Modify field menu_icon_1 to pages table";
+		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+	}
+
+	/**********************************************************
+	 *  - Add field "tooltip" to table "pages"
+ */
+	$table_name = TABLE_PREFIX.'pages';
+	$field_name = 'tooltip';
+	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `menu_icon_1`";
+	if(!$database->field_exists($table_name,$field_name)) {
+		echo "Adding field tooltip to pages table";
+		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+	} else {
+		echo "Modify field tooltip to pages table";
 		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 	}
 

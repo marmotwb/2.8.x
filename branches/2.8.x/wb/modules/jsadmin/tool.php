@@ -101,7 +101,7 @@ if(isset($_POST['save_settings']))  {
 <div  id="jsadmin_form"></div>
    <form name="store_settings" style="margin-top: 1em; display: true;" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 	<?php echo $admin->getFTAN(); ?>
-   <table summary="" cellpadding="4" cellspacing="0" border="0">
+   <table class="jsadmin_drag_area" summary="" cellpadding="4" cellspacing="0" border="0">
    <tr>
 	     <td colspan="2"><?php echo $MOD_JSADMIN['TXT_HEADING_B']; ?>:</td>
    </tr>

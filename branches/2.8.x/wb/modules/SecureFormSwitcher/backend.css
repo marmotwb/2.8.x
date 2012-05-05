@@ -26,7 +26,7 @@ table.switch-ftan-form tbody td select { font-size :1.0em; width : 101.5%; }
 .check { color:#555; }
 
 .module-info { padding :10px; margin :0px auto; background :transparent; color :#000000; font-size :1.0em; }
-.module-info p { margin :0.2em auto; }
+.module-info p { margin :0.2em auto; font-size :100%; }
 .warning { border-radius :10px; -khtml-border-radius :10px; -webkit-border-radius :10px; -moz-border-radius :10px; background :#fee; border :0.2em #844 solid; color :#990000; margin :0.2em auto; padding :0.63em; width :60%; text-align :center; }
 .warning strong { font-size :1.2em; }
 .warning span { font-size :1.2em; line-height :1.5em; color :#333333; }
