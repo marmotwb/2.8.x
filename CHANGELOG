@@ -11,7 +11,16 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-03 May-2012 Build 1682 Werner v.d.Decken(DarkViper)
+03 May-2012 Build 1684 Dietmar Woellbrink (Luisehahne)
+! update upgrade-script, now don't overwrite existings values in settings
++ add field tooltip to table pages in installer
+! change some module tool_icon.png (Tks to Stefek) 
+! add date_time string to backup_droplets.zip
+- search and comment out founded require_once(WB_PATH."/framework/class.database.php"); 
+- this will be never needed anymore and produce errors
+! rename class.msg_queue.php in msgQueue.php to work with autokoader
++ add function format_message to class.wb.php 
+03 May-2012 Build 1683 Werner v.d.Decken(DarkViper)
 ! changed class Database into a Singleton-Class
 # added forgotten 'static' keyword in ModLanguage
 # removed version control from sm2 - include.php

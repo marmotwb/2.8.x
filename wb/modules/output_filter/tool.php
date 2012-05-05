@@ -79,12 +79,12 @@ if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 	}  else {
 }
 	// read settings from the database to show
-		require_once($modPath.'filter-routines.php');
-		$data = getOutputFilterSettings();
+	require_once($modPath.'filter-routines.php');
+	$data = getOutputFilterSettings();
 ?>
 <h2><?php echo $MOD_MAIL_FILTER['HEADING']; ?></h2>
-<p><?php echo $MOD_MAIL_FILTER['HOWTO']; ?></p>
-<p><?php echo $MOD_MAIL_FILTER['HOWTOTIP']; ?></p>
+<p class=" big120"><?php echo $MOD_MAIL_FILTER['HOWTO']; ?></p>
+<p class="info normal"><?php echo $MOD_MAIL_FILTER['HOWTOTIP']; ?></p>
 <form name="store_settings" action="<?php echo $_SERVER['REQUEST_URI'];?>" method="post">
 	<?php echo $admin->getFTAN(); ?>
 	<input type="hidden" name="save_settings" value="save" />

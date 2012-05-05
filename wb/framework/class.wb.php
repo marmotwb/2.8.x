@@ -383,6 +383,57 @@ class wb extends SecureForm
 		}
 		exit();
 	}
+/*
+ * @param string $message: the message to format
+ * @param string $status:  ('ok' / 'error' / '') status defines the apereance of the box
+ * @return string: the html-formatted message (using template 'message.htt')
+ */
+	public function format_message($message, $status = 'ok')
+	{
+		$id = uniqid('x');
+		$tpl = new Template(dirname($this->correct_theme_source('message.htt')));
+		$tpl->set_file('page', 'message.htt');
+		$tpl->set_block('page', 'main_block', 'main');
+		$tpl->set_var('MESSAGE', $message);
+ 	    $tpl->set_var( 'THEME_URL', THEME_URL );
+		$tpl->set_var( 'ID', $id );
+		if($status == 'ok' || $status == 'error' || $status = 'warning')
+		{
+			$tpl->set_var('BOX_STATUS', ' box-'.$status);
+		}else
+		{
+			$tpl->set_var('BOX_STATUS', '');
+		}
+		$tpl->set_var('STATUS', $status);
+		if(!defined('REDIRECT_TIMER') ) { define('REDIRECT_TIMER', -1); }
+		$retval = '';
+		if( $status != 'error' )
+		{
+			switch(REDIRECT_TIMER):
+				case 0: // do not show message
+					unset($tpl);
+					break;
+				case -1: // show message permanently
+					$tpl->parse('main', 'main_block', false);
+					$retval = $tpl->finish($tpl->parse('output', 'page', false));
+					unset($tpl);
+					break;
+				default: // hide message after REDIRECTOR_TIMER milliseconds
+					$retval = '<script type="text/javascript">/* <![CDATA[ */ function '.$id.'_hide() {'.
+							  'document.getElementById(\''.$id.'\').style.display = \'none\';}'.
+							  'window.setTimeout(\''.$id.'_hide()\', '.REDIRECT_TIMER.');/* ]]> */ </script>';
+					$tpl->parse('main', 'main_block', false);
+					$retval = $tpl->finish($tpl->parse('output', 'page', false)).$retval;
+					unset($tpl);
+			endswitch;
+		}else
+		{
+			$tpl->parse('main', 'main_block', false);
+			$retval = $tpl->finish($tpl->parse('output', 'page', false)).$retval;
+			unset($tpl);
+		}
+		return $retval;
+	}
 
 	// Validate send email
 	function mail($fromaddress, $toaddress, $subject, $message, $fromname='', $replyTo='') {

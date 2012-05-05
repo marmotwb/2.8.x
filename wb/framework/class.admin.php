@@ -4,7 +4,7 @@
  * @category        framewotk
  * @package         backend admin
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -31,8 +31,25 @@ require_once(ADMIN_PATH.'/interface/version.php');
 //require_once(WB_PATH . '/framework/SecureForm.php');
 
 
+/**
+ * admin
+ *
+ * @package
+ * @copyright
+ * @version 2012
+ * @access public
+ */
 class admin extends wb {
 	// Authenticate user then auto print the header
+	/**
+	 * admin::__construct()
+	 *
+	 * @param string $section_name
+	 * @param string $section_permission
+	 * @param bool $auto_header
+	 * @param bool $auto_auth
+	 * @return void
+	 */
 	public function __construct($section_name= '##skip##', $section_permission = 'start', $auto_header = true, $auto_auth = true)
 	{
 		parent::__construct(SecureForm::BACKEND);
@@ -88,7 +105,14 @@ class admin extends wb {
 	}
 
 	// Print the admin header
-	function print_header($body_tags = '') {
+	/**
+	 * admin::print_header()
+	 *
+	 * @param string $body_tags
+	 * @return void
+	 */
+	function print_header($body_tags = '')
+	{
 		// Get vars from the language file
 		global $MENU, $MESSAGE, $TEXT;
 		// Connect to database and get website title
@@ -99,7 +123,7 @@ class admin extends wb {
 		$get_title = $database->query($sql);
 		$title = $get_title->fetchRow();
 		// Setup template object, parse vars to it, then parse it
-		$header_template = new Template(dirname($this->correct_theme_source('header.htt')),'keep');
+		$header_template = new Template(dirname($this->correct_theme_source('header.htt')) );
 		$header_template->set_file('page', 'header.htt');
 		$header_template->set_block('page', 'header_block', 'header');
 		if(defined('DEFAULT_CHARSET')) {
@@ -121,7 +145,8 @@ class admin extends wb {
 		}
 
 		$header_template->set_var(	array(
-							'SECTION_NAME' => $MENU[strtoupper($this->section_name)],
+							'SECTION_FORGOT' => $MENU['FORGOT'],
+							'SECTION_NAME' => $MENU['LOGIN'],
 							'BODY_TAGS' => $body_tags,
 							'WEBSITE_TITLE' => ($title['value']),
 							'TEXT_ADMINISTRATION' => $TEXT['ADMINISTRATION'],
@@ -136,27 +161,59 @@ class admin extends wb {
 							'WB_URL' => WB_URL,
 							'ADMIN_URL' => ADMIN_URL,
 							'THEME_URL' => THEME_URL,
-							'TITLE_START' => $MENU['START'],
-							'TITLE_VIEW' => $MENU['VIEW'],
+							'START_URL' => ADMIN_URL.'/index.php',
+							'START_CLASS' => 'start',
+							'TITLE_START' => $TEXT['READ_MORE'],
+							'TITLE_VIEW' => $TEXT['WEBSITE'],
 							'TITLE_HELP' => $MENU['HELP'],
-							'TITLE_LOGOUT' =>  $MENU['LOGOUT'],
 							'URL_VIEW' => $view_url,
-							'URL_HELP' => 'http://www.websitebaker2.org/',
+							'TITLE_LOGOUT' => $MENU['LOGIN'],
+							'LOGIN_DISPLAY_NONE' => ' display: none; ',
+							'LOGIN_LINK' => $_SERVER['SCRIPT_NAME'],
+							'LOGIN_ICON' => 'login',
+							'START_ICON' => 'blank',
+							'URL_HELP' => 'http://www.websitebaker.org/',
 							'BACKEND_MODULE_CSS' => $this->register_backend_modfiles('css'),	// adds backend.css
 							'BACKEND_MODULE_JS'  => $this->register_backend_modfiles('js')		// adds backend.js
 						)
 					);
 
 		// Create the menu
+		if(!$this->is_authenticated())
+		{
 		$menu = array(
+//						array('http://www.websitebaker.org/', '_blank', 'WebsiteBaker Home', 'help', 0),
+//						array($view_url, '_blank', $TEXT['FRONTEND'], '', 0),
+//						array(ADMIN_URL.'/login/index.php', '', $MENU['LOGIN'], '', 0)
+						);
+		} else {
+			$header_template->set_var(	array(
+						'SECTION_NAME' => $MENU[strtoupper($this->section_name)],
+						'TITLE_LOGOUT' => $MENU['LOGOUT'],
+						'LOGIN_DISPLAY_NONE' => '',
+						'START_ICON' => 'home',
+						'LOGIN_ICON' => 'logout',
+						'LOGIN_LINK' => ADMIN_URL.'/logout/index.php',
+						'TITLE_START' => $MENU['START']
+						)
+					);
+			// @array ( $url, $target, $title, $page_permission, $ppermission_required )
+			$menu = array(
+//					array(ADMIN_URL.'/index.php', '', $MENU['START'], 'start', 1 ),
 					array(ADMIN_URL.'/pages/index.php', '', $MENU['PAGES'], 'pages', 1),
+// 					array($view_url, '_blank', $MENU['FRONTEND'], 'pages', 1),
 					array(ADMIN_URL.'/media/index.php', '', $MENU['MEDIA'], 'media', 1),
 					array(ADMIN_URL.'/addons/index.php', '', $MENU['ADDONS'], 'addons', 1),
 					array(ADMIN_URL.'/preferences/index.php', '', $MENU['PREFERENCES'], 'preferences', 0),
 					array(ADMIN_URL.'/settings/index.php', '', $MENU['SETTINGS'], 'settings', 1),
 					array(ADMIN_URL.'/admintools/index.php', '', $MENU['ADMINTOOLS'], 'admintools', 1),
-					array(ADMIN_URL.'/access/index.php', '', $MENU['ACCESS'], 'access', 1)
+					array(ADMIN_URL.'/access/index.php', '', $MENU['ACCESS'], 'access', 1),
+//					array('http://www.websitebaker.org/', '_blank', 'WebsiteBaker Home', '', 0),
+//					array(ADMIN_URL.'/logout/index.php', '', $MENU['LOGOUT'], '', 0)
+
 					);
+		}
+
 		$header_template->set_block('header_block', 'linkBlock', 'link');
 		foreach($menu AS $menu_item) {
 			$link = $menu_item[0];
@@ -165,7 +222,8 @@ class admin extends wb {
 			$permission_title = $menu_item[3];
 			$required = $menu_item[4];
 			$replace_old = array(ADMIN_URL, WB_URL, '/', 'index.php');
-			if($required == false OR $this->get_link_permission($permission_title)) {
+			if($required == false || ($this->is_authenticated() && $this->get_link_permission($permission_title)) )
+			{
 				$header_template->set_var('LINK', $link);
 				$header_template->set_var('TARGET', $target);
 				// If link is the current section apply a class name
@@ -182,10 +240,10 @@ class admin extends wb {
 		$header_template->parse('header', 'header_block', false);
 		$header_template->pparse('output', 'page');
 	}
-	
+
 	// Print the admin footer
 		function print_footer($activateJsAdmin = false) {
-		global $database;
+		global $database,$starttime;
 		// include the required file for Javascript admin
 		if($activateJsAdmin != false) {
 			if(file_exists(WB_PATH.'/modules/jsadmin/jsadmin_backend_include.php')){
@@ -211,6 +269,7 @@ class admin extends wb {
 //         if( $debug && (1 == $this->get_user_id()))
         if( $bDevInfo )
 		{
+
 			$footer_template->set_var('MEMORY', number_format(memory_get_peak_usage(), 0, ',', '.').'&nbsp;Byte' );
 			$footer_template->set_var('QUERIES', $database->getQueryCount );
 			// $footer_template->set_var('QUERIES', 'disabled' );
@@ -220,7 +279,7 @@ class admin extends wb {
 			$sum_filesize = 0;
 			$footer_template->set_block('show_debug_block', 'show_block_list', 'show_list');
 			$footer_template->set_block('show_block_list', 'include_block_list', 'include_list');
-			// $debug = true;
+			// $bDebug = true;  for testing
 			foreach($included_files as $filename)
 			{
 				if(!is_readable($filename)) { continue; }
@@ -234,23 +293,30 @@ class admin extends wb {
 			}
 			$footer_template->parse('show_list', 'show_block_list', true);
 
+			$endtime = array_sum(explode(" ",microtime()));
+			$iEndTime = $endtime;
+			$iStartTime = $starttime;
 			if(!$bDebug)
 			{
-				$footer_template->parse('include_list', '');
 				$footer_template->parse('show_list', '');
+				$footer_template->parse('include_list', '');
 			}
 
 			$footer_template->set_var('FILESIZE', ini_get('memory_limit'));
 			$footer_template->set_var('TXT_SUM_FILESIZE', 'Summary size of included files:&nbsp;');
 			$footer_template->set_var('SUM_FILESIZE', number_format($sum_filesize, 0, ',', '.').'&nbsp;Byte');
+			$footer_template->set_var('PAGE_LOAD_TIME', round($iEndTime-$iStartTime,3 ));
+
 			$footer_template->parse('show_debug', 'show_debug_block', true);
         } else {
 			$footer_template->parse('show_debug', '');
+			$footer_template->parse('show_list', '');
+
         }
 		$footer_template->parse('header', 'footer_block', false);
 		$footer_template->pparse('output', 'page');
 	}
-	
+
 	// Return a system permission
 	function get_permission($name, $type = 'system') {
 		// Append to permission type
@@ -509,5 +575,3 @@ class admin extends wb {
 		}
 	}
 }
-
-?>

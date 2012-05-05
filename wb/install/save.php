@@ -332,7 +332,7 @@ if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 	set_error('It appears the Absolute path that you entered is incorrect');
 }
 
-// Try connecting to database	
+// Try connecting to database
 if(!@mysql_connect(DB_HOST, DB_USERNAME, DB_PASSWORD)) {
 	set_error('Database host name, username and/or password incorrect. MySQL Error:<br />'.mysql_error());
 }
@@ -393,42 +393,43 @@ if($install_tables == true) {
 	// Addons table
 	$addons = "DROP TABLE IF EXISTS `".TABLE_PREFIX."addons`";
 	$database->query($addons);
-				
+
 	// Try installing tables
-	
+
 	// Pages table
 	$pages = 'CREATE TABLE `'.TABLE_PREFIX.'pages` ( `page_id` INT NOT NULL auto_increment,'
-	       . ' `parent` INT NOT NULL DEFAULT \'0\','
-	       . ' `root_parent` INT NOT NULL DEFAULT \'0\','
-	       . ' `level` INT NOT NULL DEFAULT \'0\','
-	       . ' `link` VARCHAR( 255 ) NOT NULL,'
-	       . ' `target` VARCHAR( 7 ) NOT NULL DEFAULT \'\' ,'
-	       . ' `page_title` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-		   . ' `page_icon` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-	       . ' `menu_title` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-		   . ' `menu_icon_0` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-		   . ' `menu_icon_1` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-	       . ' `description` TEXT NOT NULL ,'
-	       . ' `keywords` TEXT NOT NULL ,'
-	       . ' `page_trail` VARCHAR( 255 ) NOT NULL  ,'
-	       . ' `template` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-	       . ' `visibility` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-	       . ' `position` INT NOT NULL DEFAULT \'0\','
-	       . ' `menu` INT NOT NULL DEFAULT \'0\','
-	       . ' `language` VARCHAR( 5 ) NOT NULL DEFAULT \'\' ,'
-	       . ' `page_code` INT NOT NULL DEFAULT \'0\','
-	       . ' `searching` INT NOT NULL DEFAULT \'0\','
-	       . ' `admin_groups` VARCHAR( 512 ) NOT NULL DEFAULT \'1\' ,'
-	       . ' `admin_users` VARCHAR( 512 ) NOT NULL ,'
-	       . ' `viewing_groups` VARCHAR( 512 ) NOT NULL DEFAULT \'1\' ,'
-	       . ' `viewing_users` VARCHAR( 512 ) NOT NULL ,'
-	       . ' `modified_when` INT NOT NULL DEFAULT \'0\','
-	       . ' `modified_by` INT NOT NULL  DEFAULT \'0\','
-	       . ' PRIMARY KEY ( `page_id` ) '
-	       . ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
+				. ' `parent` INT NOT NULL DEFAULT \'0\','
+				. ' `root_parent` INT NOT NULL DEFAULT \'0\','
+				. ' `level` INT NOT NULL DEFAULT \'0\','
+				. ' `link` VARCHAR( 255 ) NOT NULL,'
+				. ' `target` VARCHAR( 7 ) NOT NULL DEFAULT \'\' ,'
+				. ' `page_title` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
+				. ' `page_icon` VARCHAR( 512 ) NOT NULL DEFAULT \'\' ,'
+				. ' `menu_title` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
+				. ' `menu_icon_0` VARCHAR( 512 ) NOT NULL DEFAULT \'\' ,'
+				. ' `menu_icon_1` VARCHAR( 512 ) NOT NULL DEFAULT \'\' ,'
+				. ' `tooltip` VARCHAR( 512 ) NOT NULL DEFAULT \'\' ,'
+				. ' `description` TEXT NOT NULL ,'
+				. ' `keywords` TEXT NOT NULL ,'
+				. ' `page_trail` VARCHAR( 255 ) NOT NULL  ,'
+				. ' `template` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
+				. ' `visibility` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
+				. ' `position` INT NOT NULL DEFAULT \'0\','
+				. ' `menu` INT NOT NULL DEFAULT \'0\','
+				. ' `language` VARCHAR( 5 ) NOT NULL DEFAULT \'\' ,'
+				. ' `page_code` INT NOT NULL DEFAULT \'0\','
+				. ' `searching` INT NOT NULL DEFAULT \'0\','
+				. ' `admin_groups` VARCHAR( 512 ) NOT NULL DEFAULT \'1\' ,'
+				. ' `admin_users` VARCHAR( 512 ) NOT NULL ,'
+				. ' `viewing_groups` VARCHAR( 512 ) NOT NULL DEFAULT \'1\' ,'
+				. ' `viewing_users` VARCHAR( 512 ) NOT NULL ,'
+				. ' `modified_when` INT NOT NULL DEFAULT \'0\','
+				. ' `modified_by` INT NOT NULL  DEFAULT \'0\','
+				. ' PRIMARY KEY ( `page_id` ) '
+				. ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	if(!$database->query($pages)) {
 	}
-	
+
 	// Sections table
 	$pages = 'CREATE TABLE `'.TABLE_PREFIX.'sections` ( `section_id` INT NOT NULL auto_increment,'
 	       . ' `page_id` INT NOT NULL DEFAULT \'0\','
@@ -436,13 +437,13 @@ if($install_tables == true) {
 	       . ' `module` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
 	       . ' `block` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
 	       . ' `publ_start` VARCHAR( 255 ) NOT NULL DEFAULT \'0\' ,'
-	       . ' `publ_end` VARCHAR( 255 ) NOT NULL DEFAULT \'0\' ,' 
+	       . ' `publ_end` VARCHAR( 255 ) NOT NULL DEFAULT \'0\' ,'
 	       . ' PRIMARY KEY ( `section_id` ) '
 	       . ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($pages);
 
 	require(ADMIN_PATH.'/interface/version.php');
-	
+
 	// Settings table
 	$settings='CREATE TABLE `'.TABLE_PREFIX.'settings` ( `setting_id` INT NOT NULL auto_increment,'
 		. ' `name` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
@@ -490,7 +491,7 @@ if($install_tables == true) {
 	." ('search', 'public'),"
 	." ('page_extension', '.php'),"
 	." ('page_spacer', '-'),"
-	." ('dev_infos', 'true'),"
+	." ('dev_infos', 'false'),"
 	." ('pages_directory', '/pages'),"
 	." ('page_icon_dir', '/templates/*/title_images'),"
 	." ('rename_files_on_upload', 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx'),"
@@ -509,7 +510,7 @@ if($install_tables == true) {
 	." ('secure_form_module', ''),"
 	." ('mediasettings', '')";
 	$database->query($settings_rows);
-	
+
 	// Users table
 	$users = 'CREATE TABLE `'.TABLE_PREFIX.'users` ( `user_id` INT NOT NULL auto_increment,'
 	       . ' `group_id` INT NOT NULL DEFAULT \'0\','
@@ -531,7 +532,7 @@ if($install_tables == true) {
 	       . ' PRIMARY KEY ( `user_id` ) '
 	       . ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($users);
-	
+
 	// Groups table
 	$groups = 'CREATE TABLE `'.TABLE_PREFIX.'groups` ( `group_id` INT NOT NULL auto_increment,'
 	        . ' `name` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
@@ -541,7 +542,7 @@ if($install_tables == true) {
 	        . ' PRIMARY KEY ( `group_id` ) '
 	        . ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($groups);
-	
+
 	// Search settings table
 	$search = 'CREATE TABLE `'.TABLE_PREFIX.'search` ( `search_id` INT NOT NULL auto_increment,'
 	        . ' `name` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
@@ -550,7 +551,7 @@ if($install_tables == true) {
 	        . ' PRIMARY KEY ( `search_id` ) '
 	        . ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($search);
-	
+
 	// Addons table
 	$addons = 'CREATE TABLE `'.TABLE_PREFIX.'addons` ( '
 			.'`addon_id` INT NOT NULL auto_increment ,'
@@ -568,7 +569,7 @@ if($install_tables == true) {
 	$database->query($addons);
 
 	// Insert default data
-	
+
 	// Admin group
 	$full_system_permissions = 'pages,pages_view,pages_add,pages_add_l0,pages_settings,pages_modify,pages_intro,pages_delete,media,media_view,media_upload,media_rename,media_delete,media_create,addons,modules,modules_view,modules_install,modules_uninstall,templates,templates_view,templates_install,templates_uninstall,languages,languages_view,languages_install,languages_uninstall,settings,settings_basic,settings_advanced,access,users,users_view,users_add,users_modify,users_delete,groups,groups_view,groups_add,groups_modify,groups_delete,admintools';
 	$insert_admin_group = "INSERT INTO `".TABLE_PREFIX."groups` VALUES ('1', 'Administrators', '$full_system_permissions', '', '')";
@@ -576,7 +577,7 @@ if($install_tables == true) {
 	// Admin user
 	$insert_admin_user = "INSERT INTO `".TABLE_PREFIX."users` (user_id,group_id,groups_id,active,username,password,email,display_name) VALUES ('1','1','1','1','$admin_username','".md5($admin_password)."','$admin_email','Administrator')";
 	$database->query($insert_admin_user);
-	
+
 	// Search header
 	$search_header = addslashes('
 <h1>[TEXT_SEARCH]</h1>
@@ -668,15 +669,15 @@ if($install_tables == true) {
 	// Install add-ons
 	if(file_exists(WB_PATH.'/install/modules')) {
 		// Unpack pre-packaged modules
-			
+
 	}
 	if(file_exists(WB_PATH.'/install/templates')) {
 		// Unpack pre-packaged templates
-		
+
 	}
 	if(file_exists(WB_PATH.'/install/languages')) {
 		// Unpack pre-packaged languages
-		
+
 	}
 
 	$admin=new admin_dummy('Start','',false,false);
@@ -708,13 +709,13 @@ if($install_tables == true) {
 		closedir($handle);
 		}
 	}
-	
+
 	// Check if there was a database error
 	if($database->is_error()) {
 		set_error($database->get_error());
 	}
 
-// end of if install_tables	
+// end of if install_tables
 } else {
 	/**
 	 *	DB - Exists
@@ -723,7 +724,7 @@ if($install_tables == true) {
 	 */
 	$requested_tables = array("pages","sections","settings","users","groups","search","addons");
 	for($i=0;$i<count($requested_tables);$i++) $requested_tables[$i] = $table_prefix.$requested_tables[$i];
-	
+
 	$result = mysql_list_tables( DB_NAME );
 	$all_tables = array();
 	for($i=0; $i < mysql_num_rows($result); $i++) $all_tables[] = mysql_table_name($result, $i);
@@ -734,19 +735,19 @@ if($install_tables == true) {
 			$missing_tables[] = $temp_table;
 		}
 	}
-	
+
 	/**
-	 *	If one or more needed tables are missing, so 
+	 *	If one or more needed tables are missing, so
 	 *	we can't go on and have to display an error
 	 */
 	if ( count($missing_tables) > 0 ) {
 		$error_message  = "One or more tables are missing in the selected database <b><font color='#990000'>".DB_NAME."</font></b>.<br />";
 		$error_message .= "Please install the missing tables or choose 'install tables' as recommend.<br />";
 		$error_message .= "Missing tables are: <b>".implode(", ", $missing_tables)."</b>";
-		
+
 		set_error( $error_message );
 	}
-	
+
 	/**
 	 *	Try to get some default settings ...
 	 */
@@ -759,9 +760,9 @@ if($install_tables == true) {
 		'SMART_LOGIN'	=> false
 	);
 	foreach($vars as $k => $v) if (!defined($k)) define($k, $v);
-	
+
 	if (!isset($MESSAGE)) include (WB_PATH."/languages/".LANGUAGE.".php");
-	
+
 	/**
 	 *	The important part ...
 	 *	Is there an valid user?
@@ -776,7 +777,7 @@ if($install_tables == true) {
 	 	 */
 	 	set_error ("Unkown user. Please use a valid username.");
 	} else {
-	 	
+
 		$data = $result->fetchRow();
 	 	/**
 	 	 *	Does the password match

@@ -96,7 +96,7 @@ switch ($action) :
 	case 'save_settings_default':
 		if (!$admin->checkFTAN())
 		{
-			if(!$admin_header) { $admin->print_header(); }
+// 			if(!$admin_header) { $admin->print_header(); }
 			$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$_SERVER['REQUEST_URI']);
 		}
 		if(file_exists($MultitabTarget)) {
@@ -119,10 +119,11 @@ switch ($action) :
 endswitch;
 
 // set template file and assign module and template block
-$tpl = new Template(WB_PATH.'/modules/SecureFormSwitcher/htt','keep');
-$tpl->set_file('page', 'switchform.htt');
-$tpl->debug = false; // false, true
-$tpl->set_block('page', 'main_block', 'main');
+$oSecureTpl = new Template(WB_PATH.'/modules/SecureFormSwitcher/htt','keep');
+// $tpl = new Template(dirname($admin->correct_theme_source('switchform.htt')),'keep');
+$oSecureTpl->set_file('page', 'switchform.htt');
+$oSecureTpl->debug = false; // false, true
+$oSecureTpl->set_block('page', 'main_block', 'main');
 
 $checked = ($setting['secure_form_module']!='');
 
@@ -144,8 +145,8 @@ if(!file_exists($MultitabTarget)) {
 // convert settings name to upper
 array_walk($setting,'converttoupper', array(&$search, &$replace ));
 
-$tpl->set_var($replace);
-$tpl->set_var(array(
+$oSecureTpl->set_var($replace);
+$oSecureTpl->set_var(array(
 	'FTAN' => $admin->getFTAN(),
 	'SERVER_REQUEST_URI' => $_SERVER['REQUEST_URI'],
 	'TEXT_CANCEL' => $TEXT['CANCEL'],
@@ -167,7 +168,7 @@ $tpl->set_var(array(
 	)
 );
 
-$tpl->set_var(array(
+$oSecureTpl->set_var(array(
 		'USEIP_SELECTED' => '',
 		'TXT_SECFORM_USEIP' => $SFS_TEXT['WB_SECFORM_USEIP'],
         'TXT_SECFORM_USEIP_TOOLTIP' => $SFS_TEXT['WB_SECFORM_USEIP_TOOLTIP'], // Tooltip
@@ -179,30 +180,30 @@ $tpl->set_var(array(
 	)
 );
 
-$tpl->set_block('main_block', 'useip_mtab_loop', 'mtab_loop');
+$oSecureTpl->set_block('main_block', 'useip_mtab_loop', 'mtab_loop');
 	for($x=0; $x < 5; $x++) {
 		// iu value == default set first option with standardtext
 		if(intval($default_cfg['fingerprint_with_ip_octets'])==$x ) {
-			$tpl->set_var(array(
+			$oSecureTpl->set_var(array(
 					'USEIP_VALUE' => $x,
 					'USEIP_DEFAULT_SELECTED' => ((intval($setting['fingerprint_with_ip_octets'])==$x) ? ' selected="selected"' : ''),
 					'USEIP_SELECTED' => '',
 					)
 			);
 		} else {
-			$tpl->set_var(array(
+			$oSecureTpl->set_var(array(
 					'USEIP_VALUE' => $x,
 					'USEIP_SELECTED' => ((intval($setting['fingerprint_with_ip_octets'])==$x) && (intval($setting['fingerprint_with_ip_octets'])!=intval($default_cfg['fingerprint_with_ip_octets'])) ? ' selected="selected"' : ''),
 				)
 			);
 		}
-		$tpl->parse('mtab_loop','useip_mtab_loop', true);
+		$oSecureTpl->parse('mtab_loop','useip_mtab_loop', true);
 	}
 
-$tpl->set_block('main_block', 'show_mtab_block', 'show_mtab');
-$tpl->set_block('main_block', 'mtab_block', 'mtab');
+$oSecureTpl->set_block('main_block', 'show_mtab_block', 'show_mtab');
+$oSecureTpl->set_block('main_block', 'mtab_block', 'mtab');
 if($checked) {
-	$tpl->set_var(array(
+	$oSecureTpl->set_var(array(
 			'TEXT_ENABLED' => $SFS_TEXT['ON_OFF'],
 			'TXT_SECFORM_TOKENNAME' => $SFS_TEXT['WB_SECFORM_TOKENNAME'],
             'TXT_SECFORM_TOKENNAME_TOOLTIP' => $SFS_TEXT['WB_SECFORM_TOKENNAME_TOOLTIP'],
@@ -217,16 +218,16 @@ if($checked) {
             'TXT_SECFORM_USEFP_TOOLTIP' => $SFS_TEXT['WB_SECFORM_USEFP_TOOLTIP'],
 		)
 	);
-	$tpl->parse('mtab','mtab_block', true);
-	$tpl->parse('show_mtab','show_mtab_block', true);
+	$oSecureTpl->parse('mtab','mtab_block', true);
+	$oSecureTpl->parse('show_mtab','show_mtab_block', true);
 } else  {
-	$tpl->parse('mtab', '');
-	$tpl->parse('show_mtab', '');
+	$oSecureTpl->parse('mtab', '');
+	$oSecureTpl->parse('show_mtab', '');
 }
 
 // Parse template object
-$tpl->parse('main', 'main_block', false);
-$output = $tpl->finish($tpl->parse('output', 'page'));
-unset($tpl);
+$oSecureTpl->parse('main', 'main_block', false);
+$output = $oSecureTpl->finish($oSecureTpl->parse('output', 'page'));
+unset($oSecureTpl);
 print $output;
 

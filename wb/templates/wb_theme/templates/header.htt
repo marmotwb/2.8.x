@@ -40,10 +40,10 @@ function confirm_link(message, url) {
 		<a href="{ADMIN_URL}" title="{TITLE_START}"><img src="{THEME_URL}/images/logo.png" border="0" alt="Logo" /></a>
 	</td>
 	<td class="topnav">
-         <a href="{ADMIN_URL}" title="{TITLE_START}"><img src="{THEME_URL}/images/home.png" border="0" alt="{TITLE_START}" /></a>
-         &nbsp;&nbsp;<a href="{URL_VIEW}" target="_blank" title="{TITLE_VIEW}"><img src="{THEME_URL}/images/view.png" border="0" alt="{WB_URL}" /></a>
-	&nbsp; <a href="{URL_HELP}" target="_blank" title="{TITLE_HELP}"><img src="{THEME_URL}/images/help.png" border="0" alt="{TITLE_HELP}" /></a>
-         &nbsp; <a href="{ADMIN_URL}/logout" title="{TITLE_LOGOUT}"><img src="{THEME_URL}/images/dl.png" border="0" alt="{TITLE_LOGOUT}" /></a>
+		<span><a href="{ADMIN_URL}" title="{TITLE_START}"><img src="{THEME_URL}/images/{START_ICON}.png" border="0" alt="{TITLE_START}" /></a></span>
+		&nbsp;&nbsp;<a href="{URL_VIEW}" target="_blank" title="{TITLE_VIEW}"><img src="{THEME_URL}/images/view.png" border="0" alt="{WB_URL}" /></a>
+		&nbsp; <a href="{URL_HELP}" target="_blank" title="{TITLE_HELP}"><img src="{THEME_URL}/images/help.png" border="0" alt="{TITLE_HELP}" /></a>
+		&nbsp; <a href="{LOGIN_LINK}" title="{TITLE_LOGOUT}"><img src="{THEME_URL}/images/{LOGIN_ICON}.png" border="0" alt="{TITLE_LOGOUT}" /></a>
 </td>
 	<td class="version">
 	Version {VERSION} {SP}<br />

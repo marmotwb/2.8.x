@@ -24,7 +24,7 @@ if(defined('WB_PATH') == false)
 }
 /* -------------------------------------------------------- */
 
-require_once(WB_PATH.'/framework/class.database.php');
+// require_once(WB_PATH.'/framework/class.database.php');
 require_once(WB_PATH.'/framework/functions.php');
 
 $sql  = 'DELETE FROM `'.TABLE_PREFIX.'settings` ';

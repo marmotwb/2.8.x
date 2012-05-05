@@ -17,6 +17,7 @@
 <div class="mbox dev-info">
 	<div style="text-align:left; width: auto;">
 		<span class="">Memory Limit: {FILESIZE}&nbsp;|&nbsp;</span>
+		<span class="">Script load: {PAGE_LOAD_TIME} Sec&nbsp;|&nbsp;</span>
 		<span class="">Used Memory: {MEMORY}&nbsp;|&nbsp;</span>
 		<span class="">SQL-Queries executed: {QUERIES}&nbsp;|&nbsp;</span>
 		<span class="">Summary size of {INCLUDES} included files: {SUM_FILESIZE}</span>
