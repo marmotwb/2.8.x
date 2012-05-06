@@ -35,9 +35,9 @@ class frontend extends wb {
 	// page database row
 	public $page;
 	public $page_id,$page_title,$menu_title,$parent,$root_parent,$level,$position,$visibility;
-	public $page_description,$page_keywords,$page_link;
+	public $page_description,$page_keywords,$page_link, $page_icon, $menu_icon_0, $menu_icon_1, $tooltip;
 	public $page_trail=array();
-	
+
 	public $page_access_denied;
 	public $page_no_active_sections;
 	
@@ -157,6 +157,10 @@ class frontend extends wb {
 				if(!defined('MENU_TITLE')) {define('MENU_TITLE', PAGE_TITLE);}
 			}
 			$this->menu_title = MENU_TITLE;
+			$this->page_icon = $this->page['page_icon'];
+			$this->menu_icon_0 = $this->page['menu_icon_0'];
+			$this->menu_icon_1 = $this->page['menu_icon_1'];
+			$this->tooltip = $this->page['tooltip'];
 			// Page parent
 			if(!defined('PARENT')) {define('PARENT', $this->page['parent']);}
 			$this->parent=$this->page['parent'];

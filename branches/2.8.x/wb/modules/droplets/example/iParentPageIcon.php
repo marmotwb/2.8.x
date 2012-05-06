@@ -13,7 +13,6 @@ if( isset($icon) && file_exists(WB_PATH.'/'.TEMPLATE.'/'.$icon) )
 {
 	$icon_url = WB_REL.'/'.TEMPLATE.'/'.$icon;
 }
-if( !isset($wb->page_icon) ) { return $icon_url; }
 $tmp_trail = $wb->page_trail;
 $tmp_trail = array_reverse($tmp_trail);
 foreach($tmp_trail as $pid)
