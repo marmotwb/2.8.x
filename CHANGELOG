@@ -11,7 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-03 May-2012 Build 1684 Dietmar Woellbrink (Luisehahne)
+06 May-2012 Build 1685 Werner v.d.Decken(DarkViper)
+! last fixes for use of page_icon s.o.
+06 May-2012 Build 1684 Dietmar Woellbrink (Luisehahne)
 ! update upgrade-script, now don't overwrite existings values in settings
 + add field tooltip to table pages in installer
 ! change some module tool_icon.png (Tks to Stefek) 

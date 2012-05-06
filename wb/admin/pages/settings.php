@@ -164,7 +164,8 @@ $admin = new admin('Pages', 'pages_settings');
 		$oIterator = new DirectoryIterator(WB_PATH.$sIconDir);
 		foreach ($oIterator as $fileinfo) {
 			if(preg_match('/'.$sAllowedImageTypes.'$/i', $fileinfo->getFilename())) {
-				$sItem = str_replace(WB_PATH, '', str_replace('\\', '/', $fileinfo->getPathname()));
+				$sItem = str_replace(str_replace('\\', '/', WB_PATH), '',
+						             str_replace('\\', '/', $fileinfo->getPathname()));
 //				$sItem = WB_REL.$sItem;
 				$aPageIcons[] = array('VALUE'=>$sItem, 'NAME'=>$fileinfo->getFilename());
 			}
