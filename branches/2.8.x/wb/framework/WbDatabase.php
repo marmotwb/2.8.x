@@ -30,9 +30,22 @@ if(!defined('WB_PATH')) {
 define('DATABASE_CLASS_LOADED', true);
 
 
-class Database extends DatabaseX {
+class WbDatabase {
 	
-	private static $_oInstance = array();
+	private static $_oInstances = array();
+
+	private $_db_handle = null; // readonly from outside
+	private $_scheme    = 'mysql';
+	private $_hostname  = 'localhost';
+	private $_username  = '';
+	private $_password  = '';
+	private $_hostport  = '3306';
+	private $_db_name   = '';
+	private $connected  = false;
+	private $error      = '';
+	private $error_type = '';
+	private $iQueryCount= 0;
+
 /* prevent from public instancing */
 	protected function  __construct() {}
 /* prevent from cloning */
@@ -43,37 +56,24 @@ class Database extends DatabaseX {
  * @return object
  */
 	public static function getInstance($sIdentifier = 'core') {
-		if( !isset(self::$_oInstance[$sIdentifier])) {
+		if( !isset(self::$_oInstances[$sIdentifier])) {
             $c = __CLASS__;
-            self::$_oInstance[$sIdentifier] = new $c;
+            self::$_oInstances[$sIdentifier] = new $c;
 		}
-		return self::$_oInstance[$sIdentifier];
+		return self::$_oInstances[$sIdentifier];
 	}
-}
-
-
-class DatabaseX {
-
-	private $_db_handle = null; // readonly from outside
-	private $_scheme    = 'mysql';
-	private $_hostname  = 'localhost';
-	private $_username  = '';
-	private $_password  = '';
-	private $_hostport  = '3306';
-	private $_db_name   = '';
-
-	private $connected  = false;
-
-	private $error      = '';
-	private $error_type = '';
-	private $message    = array();
-	private $iQueryCount= 0;
-
-/* prevent from public instancing */
-	protected function __construct() {}
-/* prevent from cloning */
-	private function __clone() {}
-	
+/**
+ * disconnect and kills an existing instance
+ * @param string $sIdentifier
+ */
+	public static function killInstance($sIdentifier) {
+		if($sIdentifier != 'core') {
+			if( isset(self::$_oInstances[$sIdentifier])) {
+				self::$_oInstances[$sIdentifier]->disconnect();
+				unset(self::$_oInstances[$sIdentifier]);
+			}
+		}
+	}
 /**
  * Connect to the database
  * @param string $url
@@ -113,7 +113,7 @@ class DatabaseX {
 	}
 	
 	// Disconnect from the database
-	function disconnect() {
+	public function disconnect() {
 		if($this->connected==true) {
 			mysql_close($this->_db_handle);
 			return true;
@@ -123,7 +123,7 @@ class DatabaseX {
 	}
 	
 	// Run a query
-	function query($statement) {
+	public function query($statement) {
 		$this->iQueryCount++;
 		$mysql = new mysql();
 		$mysql->query($statement, $this->_db_handle);
@@ -136,7 +136,7 @@ class DatabaseX {
 	}
 
 	// Gets the first column of the first row
-	function get_one( $statement )
+	public function get_one( $statement )
 	{
 		$this->iQueryCount++;
 		$fetch_row = mysql_fetch_array(mysql_query($statement, $this->_db_handle));
@@ -150,7 +150,7 @@ class DatabaseX {
 	}
 	
 	// Set the DB error
-	function set_error($message = null) {
+	public function set_error($message = null) {
 		global $TABLE_DOES_NOT_EXIST, $TABLE_UNKNOWN;
 		$this->error = $message;
 		if(strpos($message, 'no such table')) {
@@ -161,12 +161,12 @@ class DatabaseX {
 	}
 	
 	// Return true if there was an error
-	function is_error() {
+	public function is_error() {
 		return (!empty($this->error)) ? true : false;
 	}
 	
 	// Return the error
-	function get_error() {
+	public function get_error() {
 		return $this->error;
 	}
 
