@@ -71,8 +71,10 @@ if(!defined('WB_URL')) { throw new IllegalFileException(); }
 	$starttime = array_sum(explode(" ",microtime()));
 	SetInstallPathConstants();
 	SanitizeHttpReferer(WB_URL); // sanitize $_SERVER['HTTP_REFERER']
-	if(!class_exists('WbAutoloader', false)){ include(dirname(__FILE__.'/WbAutoloader.php')); }
-	WbAutoloader::doRegister(array(ADMIN_DIRECTORY => 'a', 'modules' => 'm'));
+	if(!class_exists('WbAutoloader', false)){ include(dirname(__FILE__).'/WbAutoloader.php'); }
+	WbAutoloader::doRegister(array(ADMIN_DIRECTORY=>'a', 'modules'=>'m'));
+	require_once dirname(dirname(__FILE__)).'/include/Twig/Autoloader.php';
+	Twig_Autoloader::register();
 	date_default_timezone_set('UTC');
 	// Create database class
 	$sSqlUrl = DB_TYPE.'://'.DB_USERNAME.':'.DB_PASSWORD.'@'.DB_HOST.'/'.DB_NAME;

@@ -235,11 +235,7 @@ if(preg_match('/[^a-z0-9_]+/i', $_POST['table_prefix'])) {
 }
 
 // Find out if the user wants to install tables and data
-if(isset($_POST['install_tables']) AND $_POST['install_tables'] == 'true') {
-	$install_tables = true;
-} else {
-	$install_tables = false;
-}
+$install_tables ((isset($_POST['install_tables']) AND $_POST['install_tables'] == 'true'));
 // End database details code
 
 // Begin website title code
@@ -360,7 +356,7 @@ if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 	require_once(WB_PATH.'/framework/class.login.php');
 // Check if we should install tables
 
-	$sql = 'SHOW TABLES LIKE \''.str_replace('_', '\_', TABLE_PREFIX).'%';
+	$sql = 'SHOW TABLES LIKE \''.str_replace('_', '\_', TABLE_PREFIX).'%\'';
 	$aTables = array();
 	if(($oTables = $database->query($sql))) {
 		while($aTable = $oTables->fetchRow()) {
