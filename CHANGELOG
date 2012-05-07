@@ -11,6 +11,11 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+
+08 May-2012 Build 1688 Dietmar Woellbrink (Luisehahne)
+! update upgrade-script first remove access files in an existing pages folder
+  before rebuilding them 
+! for security upgrade don't remove access files in root
 07 May-2012 Build 1687 Werner v.d.Decken(DarkViper)
 # Drop tables in installer fixed
 + Twig_Autoloader activated

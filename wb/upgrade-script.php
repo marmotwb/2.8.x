@@ -4,7 +4,7 @@
  * @category        backend
  * @package         installation
  * @author          WebsiteBaker Project
- * @copyright       2009-2012, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link            http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -23,11 +23,11 @@ require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Addons', 'modules', false, false);
 
 $oldVersion  = 'Version '.WB_VERSION;
-$oldVersion .= (defined('WB_SP') ? ' '.WB_SP : '');
-$oldVersion .= (defined('WB_REVISION') ? ' Revision ['.WB_REVISION.'] ' : '') ;
+$oldVersion .= (defined('WB_SP') ? '.'.WB_SP : '');
+$oldRevision = (defined('WB_REVISION') ? ' Revision ['.WB_REVISION.'] ' : '') ;
 $newVersion  = 'Version '.VERSION;
-$newVersion .= (defined('SP') ? ' '.SP : '');
-$newVersion .= (defined('REVISION') ? ' Revision ['.REVISION.'] ' : '');
+$newVersion .= (defined('SP') ? '.'.SP : '');
+$newRevision = (defined('REVISION') ? ' Revision ['.REVISION.'] ' : '');
 
 // set addition settings if not exists, otherwise upgrade will be breaks
 if(!defined('WB_SP')) { define('WB_SP',''); }
@@ -306,7 +306,7 @@ h3 { font-size: 110%; font-weight: bold;; }
 	}
 
 ?>
-<p>This script upgrades an existing WebsiteBaker <strong> <?php echo $oldVersion; ?></strong> installation to the <strong> <?php echo $newVersion ?> </strong>.<br />The upgrade script alters the existing WB database to reflect the changes introduced with WB 2.8.x</p>
+<p>This script upgrades an existing WebsiteBaker <strong> <?php echo $oldRevision; ?></strong> installation to the <strong> <?php echo $newRevision ?> </strong>.<br />The upgrade script alters the existing WB database to reflect the changes introduced with WB 2.8.x</p>
 
 <?php
 /**
@@ -352,7 +352,7 @@ echo (db_update_key_value( 'settings', 'default_theme', $DEFAULT_THEME ) ? " $OK
 
     if(sizeof($all_tables) == 22)
     {
-        echo '<h4>NOTICE: Your database '.DB_NAME.' has '.sizeof($all_tables).' '.$check_text.' tables from '.sizeof($table_list).' included in package '.$OK.'</h4>';
+        echo '<h4>NOTICE: Your database '.DB_NAME.' has '.sizeof($all_tables).' '.$check_text.' tables from '.sizeof($aTable).' included in package '.$OK.'</h4>';
     }
     else
     {
@@ -453,7 +453,7 @@ $cfg = array(
 
 echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-if(version_compare(WB_REVISION, '1680', '<'))
+if(version_compare(WB_REVISION, REVISION, '<='))
 {
 	echo '<h3>Step '.(++$stepID).': Updating core tables</h3>';
 
@@ -508,13 +508,18 @@ if(version_compare(WB_REVISION, '1680', '<'))
 	}
 
 	/**********************************************************
-	 *  - Add field "admin_groups" to table "pages"
+	 *  - Add field "tooltip" to table "pages"
  */
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'tooltip';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `page_icon`";
+	if(!$database->field_exists($table_name,$field_name)) {
+		echo "Adding field tooltip to pages table";
+		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+	} else {
 	echo "Modify field tooltip to pages table";
 	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+	}
 
 	/**********************************************************
 	 *  - Add field "page_code" to table "pages"
@@ -627,6 +632,19 @@ if(version_compare(WB_REVISION, '1680', '<'))
  * upgrade pages folder index access files
  */
 	echo '<h4>Upgrade /pages/ index.php access files</h4><br />';
+
+    ///**********************************************************
+    // *  - try to remove access files
+    // */
+	$sTempDir = (defined('PAGES_DIRECTORY') && (PAGES_DIRECTORY != '') ? PAGES_DIRECTORY : '');
+	if(($sTempDir!='') && is_readable(WB_PATH.$sTempDir)==true) {
+	 	if(rm_full_dir (WB_PATH.$sTempDir, true )==false) {
+			$msg[] = '<strong>Could not delete existing access files</strong><br />';
+	 	} else {
+			$msg[] = createFolderProtectFile(rtrim( WB_PATH.$sTempDir,'/') );
+        }
+	}
+
     ///**********************************************************
     // *  - Reformat/rebuild all existing access files
     // */
