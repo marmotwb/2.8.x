@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+07 May-2012 Build 1687 Werner v.d.Decken(DarkViper)
+# Drop tables in installer fixed
++ Twig_Autoloader activated
 07 May-2012 Build 1686 Werner v.d.Decken(DarkViper)
 ! some modifications concerning the new autoloader
 + Twig Template engine v.1.7.0
