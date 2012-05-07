@@ -1,6 +1,6 @@
 //:Randomly display one WYSIWYG section from a given list
 //:Use [[ShowRandomWysiwyg?section=10,12,15,20]] possible Delimiters: [ ,;:|-+#/ ]
-global $database;
+global $database, $section_id;
 	$content = '';
 	if (isset($section)) {
 		if( preg_match('/^[0-9]+(?:\s*[\,\|\-\;\:\+\#\/]\s*[0-9]+\s*)*$/', $section)) {
@@ -8,10 +8,12 @@ global $database;
 			// if valid arguments given and module wysiwyg is installed
 				// split and sanitize arguments
 				$aSections = preg_split('/[\s\,\|\-\;\:\+\#\/]+/', $section);
+				$iOldSectionId = intval($section_id); // save old SectionID
 				$section_id = $aSections[array_rand($aSections)]; // get random element
 				ob_start(); // generate output by wysiwyg module
 				require(WB_PATH.'/modules/wysiwyg/view.php');
 				$content = ob_get_clean();
+				$section_id = $iOldSectionId; // restore old SectionId
 			}
 		}
 	}

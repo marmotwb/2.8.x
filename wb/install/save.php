@@ -32,6 +32,10 @@ if(!defined('SESSION_STARTED')) {
 list($usec,$sec) = explode(' ',microtime());
 srand((float)$sec+((float)$usec*100000));
 $session_rand = rand(1000,9999);
+if(!class_exists('WbAutoloader', false)) {
+	include(dirname(dirname(__FILE__)).'/framework/WbAutoloader.php');
+}
+WbAutoloader::doRegister(array('admin'=>'a', 'modules'=>'m'));
 
 // Function to set error
 function set_error($message, $field_name = '') {
@@ -322,80 +326,52 @@ define('DB_NAME', $database_name);
 define('DB_USERNAME', $database_username);
 define('DB_PASSWORD', $database_password);
 define('TABLE_PREFIX', $table_prefix);
-define('WB_PATH', str_replace(array('/install','\install'), '',dirname(__FILE__)));
+define('WB_PATH', dirname(dirname(__FILE__)));
 define('WB_URL', $wb_url);
-define('ADMIN_PATH', WB_PATH.'/admin');
-define('ADMIN_URL', $wb_url.'/admin');
+define('ADMIN_DIRECTORY', 'admin');
+define('ADMIN_PATH', WB_PATH.'/'.ADMIN_DIRECTORY);
+define('ADMIN_URL', $wb_url.'/'.ADMIN_DIRECTORY);
 
 // Check if the user has entered a correct path
 if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 	set_error('It appears the Absolute path that you entered is incorrect');
 }
+	$sSqlUrl = DB_TYPE.'://'.DB_USERNAME.':'.DB_PASSWORD.'@'.DB_HOST.'/'.DB_NAME;
+	$database = WbDatabase::getInstance();
+	$database->doConnect($sSqlUrl);
 
-// Try connecting to database
-if(!@mysql_connect(DB_HOST, DB_USERNAME, DB_PASSWORD)) {
-	set_error('Database host name, username and/or password incorrect. MySQL Error:<br />'.mysql_error());
-}
-
-// Try to create the database
-mysql_query('CREATE DATABASE `'.$database_name.'`');
-
-// Close the mysql connection
-mysql_close();
-
-$sSecMod = (defined('SECURE_FORM_MODULE') && SECURE_FORM_MODULE != '') ? '.'.SECURE_FORM_MODULE : '';
-$sSecMod = WB_PATH.'/framework/SecureForm'.$sSecMod.'.php';
-require_once($sSecMod);
-
-require_once(WB_PATH.'/framework/class.admin.php');
+	$sSecMod = (defined('SECURE_FORM_MODULE') && SECURE_FORM_MODULE != '') ? '.'.SECURE_FORM_MODULE : '';
+	$sSecMod = WB_PATH.'/framework/SecureForm'.$sSecMod.'.php';
+	require_once($sSecMod);
+	require_once(WB_PATH.'/framework/class.admin.php');
 
 // Dummy class to allow modules' install scripts to call $admin->print_error
-class admin_dummy extends admin
-{
-	var $error='';
-	function print_error($message, $link = 'index.php', $auto_footer = true)
+	class admin_dummy extends admin
 	{
-		$this->error=$message;
+		var $error='';
+		function print_error($message, $link = 'index.php', $auto_footer = true)
+		{
+			$this->error=$message;
+		}
 	}
-}
-
 // Include WB functions file
-require_once(WB_PATH.'/framework/functions.php');
-
+	require_once(WB_PATH.'/framework/functions.php');
 // Re-connect to the database, this time using in-build database class
-require_once(WB_PATH.'/framework/class.login.php');
-
-$database=new database();
-
+	require_once(WB_PATH.'/framework/class.login.php');
 // Check if we should install tables
-if($install_tables == true) {
-	if (!defined('WB_INSTALL_PROCESS')) define ('WB_INSTALL_PROCESS', true);
-	// Remove tables if they exist
 
-	// Pages table
-	$pages = "DROP TABLE IF EXISTS `".TABLE_PREFIX."pages`";
-	$database->query($pages);
-	// Sections table
-	$sections = "DROP TABLE IF EXISTS `".TABLE_PREFIX."sections`";
-	$database->query($sections);
-	// Settings table
-	$settings = "DROP TABLE IF EXISTS `".TABLE_PREFIX."settings`";
-	$database->query($settings);
-	// Users table
-	$users = "DROP TABLE IF EXISTS `".TABLE_PREFIX."users`";
-	$database->query($users);
-	// Groups table
-	$groups = "DROP TABLE IF EXISTS `".TABLE_PREFIX."groups`";
-	$database->query($groups);
-	// Search table
-	$search = "DROP TABLE IF EXISTS `".TABLE_PREFIX."search`";
-	$database->query($search);
-	// Addons table
-	$addons = "DROP TABLE IF EXISTS `".TABLE_PREFIX."addons`";
-	$database->query($addons);
-
+	$sql = 'SHOW TABLES LIKE \''.str_replace('_', '\_', TABLE_PREFIX).'%';
+	$aTables = array();
+	if(($oTables = $database->query($sql))) {
+		while($aTable = $oTables->fetchRow()) {
+			$aTables[] = $aTable[0];
+		}
+	}
+	$sTableList = implode(', ', $aTables);
+	if($sTableList != '') {
+		$database->query('DROP TABLE '.$sTableList);
+	}
 	// Try installing tables
-
 	// Pages table
 	$pages = 'CREATE TABLE `'.TABLE_PREFIX.'pages` ( `page_id` INT NOT NULL auto_increment,'
 				. ' `parent` INT NOT NULL DEFAULT \'0\','
@@ -662,33 +638,26 @@ if($install_tables == true) {
 	$database->query("INSERT INTO `".TABLE_PREFIX."search` (name) VALUES ('template')");
 
 	require_once(WB_PATH.'/framework/initialize.php');
-
 	// Include the PclZip class file (thanks to
 	require_once(WB_PATH.'/include/pclzip/pclzip.lib.php');
-
 	// Install add-ons
 	if(file_exists(WB_PATH.'/install/modules')) {
 		// Unpack pre-packaged modules
-
 	}
 	if(file_exists(WB_PATH.'/install/templates')) {
 		// Unpack pre-packaged templates
-
 	}
 	if(file_exists(WB_PATH.'/install/languages')) {
 		// Unpack pre-packaged languages
-
 	}
-
 	$admin=new admin_dummy('Start','',false,false);
-
 	// Load addons into DB
 	$dirs['modules'] = WB_PATH.'/modules/';
 	$dirs['templates'] = WB_PATH.'/templates/';
 	$dirs['languages'] = WB_PATH.'/languages/';
 
 	foreach($dirs AS $type => $dir) {
-		if($handle = opendir($dir)) {
+		if(($handle = opendir($dir))) {
 			while(false !== ($file = readdir($handle))) {
 				if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'admin.php' AND $file != 'index.php') {
 					// Get addon type
@@ -706,7 +675,7 @@ if($install_tables == true) {
 					}
 				}
 			}
-		closedir($handle);
+			closedir($handle);
 		}
 	}
 
@@ -716,77 +685,6 @@ if($install_tables == true) {
 	}
 
 // end of if install_tables
-} else {
-	/**
-	 *	DB - Exists
-	 *	Tables also?
-	 *
-	 */
-	$requested_tables = array("pages","sections","settings","users","groups","search","addons");
-	for($i=0;$i<count($requested_tables);$i++) $requested_tables[$i] = $table_prefix.$requested_tables[$i];
-
-	$result = mysql_list_tables( DB_NAME );
-	$all_tables = array();
-	for($i=0; $i < mysql_num_rows($result); $i++) $all_tables[] = mysql_table_name($result, $i);
-
-	$missing_tables = array();
-	foreach($requested_tables as $temp_table) {
-		if (!in_array($temp_table, $all_tables)) {
-			$missing_tables[] = $temp_table;
-		}
-	}
-
-	/**
-	 *	If one or more needed tables are missing, so
-	 *	we can't go on and have to display an error
-	 */
-	if ( count($missing_tables) > 0 ) {
-		$error_message  = "One or more tables are missing in the selected database <b><font color='#990000'>".DB_NAME."</font></b>.<br />";
-		$error_message .= "Please install the missing tables or choose 'install tables' as recommend.<br />";
-		$error_message .= "Missing tables are: <b>".implode(", ", $missing_tables)."</b>";
-
-		set_error( $error_message );
-	}
-
-	/**
-	 *	Try to get some default settings ...
-	 */
-	$vars = array(
-		'DEFAULT_THEME'	=> "wb_theme",
-		'THEME_URL'		=> WB_URL."/templates/wb_theme",
-		'THEME_PATH'	=> WB_PATH."/templates/wb_theme",
-		'LANGUAGE'		=> $_POST['default_language'],
-		'SERVER_EMAIL'	=> "admin@yourdomain.com",
-		'SMART_LOGIN'	=> false
-	);
-	foreach($vars as $k => $v) if (!defined($k)) define($k, $v);
-
-	if (!isset($MESSAGE)) include (WB_PATH."/languages/".LANGUAGE.".php");
-
-	/**
-	 *	The important part ...
-	 *	Is there an valid user?
-	 */
-	$result = $database->query("SELECT * from ".$table_prefix."users where username='".$_POST['admin_username']."'");
-	if ( $database->is_error() ) {
-		set_error ($database->get_error() );
-	}
-	if ($result->numRows() == 0) {
-		/**
-		 *	No matches found ... user properly unknown
-	 	 */
-	 	set_error ("Unkown user. Please use a valid username.");
-	} else {
-
-		$data = $result->fetchRow();
-	 	/**
-	 	 *	Does the password match
-	 	 */
-	 	if ( md5($_POST['admin_password']) != $data['password']) {
-	 		set_error ("Password didn't match");
-	 	}
-	}
-}
 
 $ThemeUrl = WB_URL.$admin->correct_theme_source('warning.html');
 // Setup template object, parse vars to it, then parse it

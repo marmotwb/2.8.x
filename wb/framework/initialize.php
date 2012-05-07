@@ -50,22 +50,6 @@ if(!defined('WB_URL')) { throw new IllegalFileException(); }
 		$_SERVER['HTTP_REFERER'] = $sTmpReferer;
 	}
 /* -------------------------------------------------------- */
-/**
- * Autoloader to load classes according to the new WB-2.9 standard
- * @param string $sClassName name of the requested class
- */
-	function CoreAutoloader($sClassName) {
-		$iCount = 0;
-		$aSearch = array('/^m_/i', '/^a_/i');
-		$aReplace = array('modules_', ADMIN_DIRECTORY.'_' );
-		$sClassName = preg_replace($aSearch, $aReplace, $sClassName, 1, $iCount);
-		if(!$iCount) { $sClassName = 'framework_'.$sClassName; }
-		$sFileName = WB_PATH.'/'.str_replace('_', '/', $sClassName).'.php';
-		if(file_exists($sFileName)) {
-			include($sFileName);
-		}
-	}
-/* -------------------------------------------------------- */
 	function SetInstallPathConstants() {
 		if(!defined('DEBUG')){ define('DEBUG', false); }// Include config file
 		if(!defined('ADMIN_DIRECTORY')){ define('ADMIN_DIRECTORY', 'admin'); }
@@ -87,11 +71,12 @@ if(!defined('WB_URL')) { throw new IllegalFileException(); }
 	$starttime = array_sum(explode(" ",microtime()));
 	SetInstallPathConstants();
 	SanitizeHttpReferer(WB_URL); // sanitize $_SERVER['HTTP_REFERER']
-	spl_autoload_register('CoreAutoloader'); // activate core autoloader
+	if(!class_exists('WbAutoloader', false)){ include(dirname(__FILE__.'/WbAutoloader.php')); }
+	WbAutoloader::doRegister(array(ADMIN_DIRECTORY => 'a', 'modules' => 'm'));
 	date_default_timezone_set('UTC');
 	// Create database class
 	$sSqlUrl = DB_TYPE.'://'.DB_USERNAME.':'.DB_PASSWORD.'@'.DB_HOST.'/'.DB_NAME;
-	$database = Database::getInstance();
+	$database = WbDatabase::getInstance();
 	$database->doConnect($sSqlUrl);
 	// disable all kind of magic_quotes
 	if(get_magic_quotes_gpc() || get_magic_quotes_runtime()) {

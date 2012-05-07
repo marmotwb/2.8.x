@@ -11,6 +11,11 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+07 May-2012 Build 1686 Werner v.d.Decken(DarkViper)
+! some modifications concerning the new autoloader
++ Twig Template engine v.1.7.0
+! unfinished change in installer
+! some droplets actualisized
 06 May-2012 Build 1685 Werner v.d.Decken(DarkViper)
 ! last fixes for use of page_icon s.o.
 06 May-2012 Build 1684 Dietmar Woellbrink (Luisehahne)

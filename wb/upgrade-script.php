@@ -508,6 +508,15 @@ if(version_compare(WB_REVISION, '1680', '<'))
 	}
 
 	/**********************************************************
+	 *  - Add field "admin_groups" to table "pages"
+ */
+	$table_name = TABLE_PREFIX.'pages';
+	$field_name = 'tooltip';
+	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `page_icon`";
+	echo "Modify field tooltip to pages table";
+	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+
+	/**********************************************************
 	 *  - Add field "page_code" to table "pages"
 	 */
 	$table_name = TABLE_PREFIX.'pages';
