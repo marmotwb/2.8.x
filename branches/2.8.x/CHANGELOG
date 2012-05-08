@@ -11,7 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-
+08 May-2012 Build 1689 Werner v.d.Decken(DarkViper)
+# fixed Errorhandling for old class.database
 08 May-2012 Build 1688 Dietmar Woellbrink (Luisehahne)
 ! update upgrade-script first remove access files in an existing pages folder
   before rebuilding them 
