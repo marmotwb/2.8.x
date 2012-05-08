@@ -23,10 +23,10 @@ require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Addons', 'modules', false, false);
 
 $oldVersion  = 'Version '.WB_VERSION;
-$oldVersion .= (defined('WB_SP') ? '.'.WB_SP : '');
+$oldVersion .= (defined('WB_SP') ? WB_SP : '');
 $oldRevision = (defined('WB_REVISION') ? ' Revision ['.WB_REVISION.'] ' : '') ;
 $newVersion  = 'Version '.VERSION;
-$newVersion .= (defined('SP') ? '.'.SP : '');
+$newVersion .= (defined('SP') ? SP : '');
 $newRevision = (defined('REVISION') ? ' Revision ['.REVISION.'] ' : '');
 
 // set addition settings if not exists, otherwise upgrade will be breaks
@@ -65,7 +65,8 @@ $filesRemove['0'] = array(
 			'[ADMIN]/pages/settings2.php',
 
 			'[FRAMEWORK]/class.msg_queue.php',
-			'[FRAMEWORK]/class.database.php',
+			'[FRAMEWORK]/class.logfile.php',
+//			'[FRAMEWORK]/class.database.php',
 
 		 );
 
@@ -453,7 +454,7 @@ $cfg = array(
 
 echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-if(version_compare(WB_REVISION, REVISION, '<='))
+if(version_compare(WB_REVISION, REVISION, '<'))
 {
 	echo '<h3>Step '.(++$stepID).': Updating core tables</h3>';
 

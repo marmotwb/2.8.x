@@ -32,10 +32,15 @@ class WbAutoloader
  */
 	static public function CoreAutoloader($sClassName)
 	{
-		$sClassName = preg_replace(self::$_aSearchpatterns, self::$_aReplacements, $sClassName);
-		$sFileName = dirname(dirname(__FILE__)).'/'.str_replace('_', '/', $sClassName).'.php';
-		if(is_file($sFileName = dirname(dirname(__FILE__)).'/'.str_replace('_', '/', $sClassName).'.php')) {
-			include($sFileName);
+		if($sClassName == 'database'){
+			$sFileName = dirname(__FILE__).'/class.database.php';
+			if(is_file($sFileName)) { include($sFileName); }
+		}else {
+			$sClassName = preg_replace(self::$_aSearchpatterns, self::$_aReplacements, $sClassName);
+			$sFileName = dirname(dirname(__FILE__)).'/'.str_replace('_', '/', $sClassName).'.php';
+			if(is_file($sFileName = dirname(dirname(__FILE__)).'/'.str_replace('_', '/', $sClassName).'.php')) {
+				include($sFileName);
+			}
 		}
 	}
 } // end class Autoloader

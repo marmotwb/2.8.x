@@ -17,11 +17,11 @@
  */
 
 /**
- * Description of classlog
+ * !!! This class is exclusive for developing purposes !!!!
  *
  * @author wkl
  */
-class LogFile {
+class LogfileDev {
 
 	private $_fh;                  // file-handle for logfile
 	private $_log_path;            // path to logfile
