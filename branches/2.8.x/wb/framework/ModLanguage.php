@@ -7,23 +7,37 @@
  * @license      http://www.gnu.org/licenses/gpl.html
  * @version      $Id$
  * @filesource   $HeadURL$
- * @since        Datei vorhanden seit Release 2.8.2
+ * @since        Datei vorhanden seit Release 2.8.4
  * @lastmodified $Date$
  */
 class ModLanguage {
 
-	private $_sCurrentLanguage   = '';
+// @var string 2 upercase chars for hardcoded system default language
+	private $_sSystemLanguage    = 'EN';
+// @var string 2 upercase chars for default fallback language
 	private $_sDefaultLanguage   = '';
+// @var string 2 upercase chars for current active language
+	private $_sCurrentLanguage   = '';
+// @var string full directory with trailing slash to search language files in
 	private $_sLanguageDirectory = '';
-	private $_sLanguageFile      = '';
-	private $_LanguageTable      = array();
-	private $_bLoaded            = false;
+// @array list to hold the complete resulting translation table
+	private $_aLanguageTable     = array();
+// @array list of all loaded/merged languages
+	private $_aLoadedLanguages   = array();
 
+// @boolean set to TRUE if language is successfully loaded
+	private $_bLoaded            = false;
+// @object hold the Singleton instance
 	private static $_oInstance   = null;
-/* prevent from public instancing */
-	protected function  __construct() { }
-/* prevent from cloning */
-	private function __clone() {}
+
+/**
+ *  prevent class from public instancing
+ */
+	final protected function  __construct() { }
+/**
+ *  prevent from cloning existing instance
+ */
+	final private function __clone() {}
 /**
  * get a valid instance of this class
  * @return object
@@ -36,112 +50,153 @@ class ModLanguage {
 		return self::$_oInstance;
 	}
 /**
- * set language and load needed language file
- * @param string $sDirectory full path to the language files
- * @param string $sLanguage 2-letters language code
- * @param string $sDefault 2-letters default-language code
- */
-	public function setLanguage($sDirectory, $sLanguage, $sDefault = 'EN')
-	{
-		$sBasePath = realpath(dirname(dirname(__FILE__)));
-		$sLangDir = realpath($sDirectory);
-		if(!preg_match('/^'.preg_quote($sBasePath, '/').'/', $sLangDir)) {
-			throw new SecDirectoryTraversalException();
-		}
-		$sLangDir = str_replace('\\', '/', $sLangDir);
-		$sLangDir = rtrim($sLangDir, '/').'/';
-		$sLanguage = strtoupper($sLanguage);
-		$sLanguage = strtoupper($sDefault);
-		if($this->_sLanguageDirectory != $sLangDir ||
-		   $this->_sCurrentLanguage != $sLanguage ||
-		   $this->_sDefaultLanguage != $sDefault)
-		{
-		// only load language if not already loaded
-			$this->_sLanguageDirectory = rtrim($sLangDir, '/').'/';
-			$this->_sCurrentLanguage = $sLanguage;
-			$this->_sDefaultLanguage = $sDefault;
-
-			if(!$this->_findLanguageFile()) {
-				$msg  = 'unable to find valid language definition file in<br />';
-				$msg .= '"'.str_replace($sBasePath, '', $this->_sLanguageDirectory).'"';
-				throw new TranslationException($msg);
-			}
-			$this->_importArrays();
-		}
-		$this->_bLoaded = (sizeof($this->_LanguageTable) > 0);
-	}
-/**
  * return requested translation for a key
  * @param string $sLanguageKey 2-uppercase letters language code
- * @return string found translation or empty string 
+ * @return string found translation or empty string
+ * @throws TranslationException
  */
 	public function __get($sLanguageKey)
 	{
-		$sRetval = (isset($this->_LanguageTable[$sLanguageKey])
-		            ? $this->_LanguageTable[$sLanguageKey] : '{missing: '.$sLanguageKey.'}');
-		return $sRetval;
+		if($this->_bLoaded) {
+			$sRetval = (isset($this->_aLanguageTable[$sLanguageKey])
+						? $this->_aLanguageTable[$sLanguageKey] : '{missing: '.$sLanguageKey.'}');
+			return $sRetval;
+		}
+		$msg = 'No translation table loaded';
+		throw new TranslationException($msg);
 	}
 /**
  * returns the whoole language array for use in templateengine
  * @return array
+ * @throws TranslationException
  */
 	public function getLangArray()
 	{
-		return $this->_LanguageTable;
+		if($this->_bLoaded) {
+			return $this->_aLanguageTable;
+		}
+		$msg = 'No translation table loaded';
+		throw new TranslationException($msg);
 	}
 /**
- * search language file in order: LANGUAGE - DEFAULT_LANGUAGE - FIRST_FOUND
- * @return boolean
+ * set language and load needed language file
+ * @param string $sDirectory full path to the language files
+ * @param string $sLanguage 2 chars current active language code
+ * @param string $sDefault 2 chars default fallback language code
+ * @throws SecDirectoryTraversalException [global exception]
+ * @throws TranslationException [private exception]
  */
-	private function _findLanguageFile()
+	public function setLanguage($sDirectory, $sCurrentLanguage, $sDefaultLanguage = 'EN')
 	{
-		$bMatch = false;
-		$dir = $this->_sLanguageDirectory;
-		if(is_readable($dir.$this->_sCurrentLanguage.'.php')) {
-		// check actual language
-			$this->_sLanguageFile = $dir.$this->_sCurrentLanguage.'.php';
-			$bMatch = true;
-		}else {
-			if(is_readable($dir.$this->_sDefaultLanguage.'.php')) {
-			// check default language
-				$this->_sLanguageFile = $dir.$this->_sDefaultLanguage.'.php';
-				$bMatch = true;
-			}else {
-			// search for first available and readable language file
-				if(is_readable($dir)) {
-					$iterator = new DirectoryIterator($dir);
-					foreach ($iterator as $fileinfo) {
-						if(!preg_match('/^[A-Z]{2}\.php$/', $fileinfo->getBasename())) { continue; }
-						$sLanguageFile = str_replace('\\', '/', $fileinfo->getPathname());
-						if(is_readable($sLanguageFile)) {
-							$this->_sLanguageFile = $sLanguageFile;
-							$bMatch = true;
-							break;
-						}
+		// sanitize arguments
+		$sBasePath = realpath(dirname(dirname(__FILE__)));
+		$sLangDir  = realpath($sDirectory);
+		if(preg_match('/^'.preg_quote($sBasePath, '/').'/', $sLangDir)) {
+			$sLangDir  = rtrim(str_replace('\\', '/', $sLangDir), '/').'/';
+			$sCurrentLanguage = strtoupper($sCurrentLanguage);
+			$sDefaultLanguage = strtoupper($sDefaultLanguage);
+			// check if the requested language is not already loaded
+			if($this->_sLanguageDirectory != $sLangDir ||
+			   $this->_sCurrentLanguage   != $sCurrentLanguage ||
+			   $this->_sDefaultLanguage   != $sDefaultLanguage)
+			{
+			// now load and merge the files in order SYSTEM - DEFAULT - CURRENT
+				$this->_aLanguageTable = array();
+				// at first search SYSTEM_LANGUAGE
+				$this->_loadLanguage($sLangDir, $this->_sSystemLanguage);
+				// at second merge DEFAULT_LANGUAGE
+				if(!in_array($sDefaultLanguage, $this->_aLoadedLanguages)) {
+					$this->_loadLanguage($sLangDir, $sDefaultLanguage);
+				}
+				// at third merge CURRENT_LANGUAGE
+				if(!in_array($sCurrentLanguage, $this->_aLoadedLanguages)) {
+					$this->_loadLanguage($sLangDir, $sCurrentLanguage);
+				}
+				// if no predefined language was fond, search for first available language
+				if(sizeof($this->_aLanguageTable) == 0) {
+					// if absolutely no language was fond, throw an exception
+					if(false !== ($sRandomLanguage = $this->_findFirstLanguage($sLangDir))) {
+						$this->_loadLanguage($sLangDir, $sRandomLanguage);
 					}
+				}
+				// remember last settings
+				$this->_sLanguageDirectory = $sLangDir;
+				$this->_sCurrentLanguage   = $sCurrentLanguage;
+				$this->_sDefaultLanguage   = $sDefaultLanguage;
+			}
+			if(!($this->_bLoaded = (sizeof($this->_aLanguageTable) != 0))) {
+				$msg  = 'unable to find valid language definition file in<br />';
+				$msg .= '"'.str_replace($sBasePath, '', $this->_sLanguageDirectory).'"';
+				throw new TranslationException($msg);
+			}
+			$this->_bLoaded = true;
+		}else {
+			throw new SecDirectoryTraversalException($sLangDir);
+		}
+	}
+/**
+ * load language from given directory
+ * @param string $sLangDir
+ * @param string $sLanguage
+ */
+	private function _loadLanguage($sLangDir, $sLanguage)
+	{
+		if(is_readable($sLangDir.$sLanguage.'.php')) {
+			$this->_aLanguageTable = array_merge($this->_aLanguageTable,
+			                                    $this->_importArrays($sLangDir.$sLanguage.'.php'));
+			$this->_aLoadedLanguages[] = $sLanguage;
+		}
+	}
+/**
+ * find first available language in given directory
+ * @param  string $sLangDir the directory to scan for language files
+ * @return string returns the 2 char language code or FALSE if search fails
+ */
+	private function _findFirstLanguage($sLangDir)
+	{
+	// search for first available and readable language file
+		$sRetval = false;
+		if(is_readable($sLangDir)) {
+			$iterator = new DirectoryIterator($sLangDir);
+			foreach ($iterator as $fileinfo) {
+				if(!preg_match('/^[A-Z]{2}\.php$/', $fileinfo->getBasename())) { continue; }
+				$sLanguageFile = $fileinfo->getPathname();
+				if(is_readable($sLanguageFile)) {
+					$sRetval = basename($sLanguageFile, '.php');
+					break;
 				}
 			}
 		}
-		return $bMatch;
+		return $sRetval;
 	}
 /**
  * import key-values from language file
+ * @param  string $sLanguageFile
+ * @return array of language definitions
  */
-	private function _importArrays()
+	private function _importArrays($sLanguageFile)
 	{
-		include($this->_sLanguageFile);
-		$aLangSections = array('HEADING', 'TEXT', 'MESSAGE', 'MENU', 'OVERVIEW', 'GENERIC');
-		foreach($aLangSections as $sSection) {
-			if(isset(${$sSection}) && is_array(${$sSection})) {
-				foreach(${$sSection} as $key => $value) {
-					$this->_LanguageTable[$sSection.'_'.$key] = $value;
-				}
+		include($sLanguageFile);
+		$aAllVars = get_defined_vars();
+		$aLangSections = array();
+		$aLanguageTable = array();
+		foreach($aAllVars as $key=>$value) {
+		// extract the names of arrays from language file
+			if(is_array($value)) {
+				$aLangSections[] = $key;
 			}
 		}
+		foreach($aLangSections as $sSection) {
+		// walk through all arrays
+			foreach(${$sSection} as $key => $value) {
+			// and import all found translations
+				$aLanguageTable[$sSection.'_'.$key] = $value;
+			}
+		}
+		return $aLanguageTable;
 	}
 } // end class Translate
 /**
  *  Exception class for Translation
  */
 class TranslationException extends AppException {}
-

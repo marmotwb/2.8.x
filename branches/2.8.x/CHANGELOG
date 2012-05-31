@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+31 May-2012 Build 1690 Werner v.d.Decken(DarkViper)
+! ModLanguage modified for auto fallback to DEFAULT_LANGUAGE
+! globalExceptionHandler added AppException, SecurityException, SecDirectoryTraversalException
+! Errormessage for old class.database modified
 08 May-2012 Build 1689 Werner v.d.Decken(DarkViper)
 # fixed Errorhandling for old class.database
 08 May-2012 Build 1688 Dietmar Woellbrink (Luisehahne)

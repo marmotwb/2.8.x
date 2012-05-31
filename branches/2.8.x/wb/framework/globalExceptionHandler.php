@@ -32,6 +32,9 @@
 				if(mysql_errno()) {
 					$result .= mysql_errno().': '.mysql_error().'<br />'."\n";
 				}
+				$result .= '<pre>'."\n";
+				$result .= print_r($trace, true)."\n";
+				$result .= '</pre>'."\n";
 			}else {
 				$result = 'Exception: "'.$this->getMessage().'" in ['.$file.']<br />'."\n";
 			}
@@ -56,7 +59,9 @@
 
 	class SecDirectoryTraversalException extends SecurityException {
 		public function __toString() {
-			return 'possible directory traversal attack';
+			$out  = 'possible directory traversal attack<br />'."\n";
+			$out .= '\''.$e->getMessage().'\'<br />'."\n";
+			return $out;
 		}
 	}
 /* ------------------------------------------------------------------------------------ */
@@ -77,6 +82,8 @@
 			$out .= $trace[0]['function'].'();<br />';
 			$out .= 'in "'.$file.'"'."\n";
 			echo $out;
+		}elseif ($e instanceof AppException) {
+			echo (string)$e;
 		}elseif ($e instanceof IllegalFileException) {
 			$sResponse  = $_SERVER['SERVER_PROTOCOL'].' 403 Forbidden';
 			header($sResponse);
