@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+10 Jun-2012 Build 1691 Werner v.d.Decken(DarkViper)
+# fixed the order of loading languages
 31 May-2012 Build 1690 Werner v.d.Decken(DarkViper)
 ! ModLanguage modified for auto fallback to DEFAULT_LANGUAGE
 ! globalExceptionHandler added AppException, SecurityException, SecDirectoryTraversalException

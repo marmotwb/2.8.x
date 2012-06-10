@@ -102,15 +102,15 @@ class ModLanguage {
 			{
 			// now load and merge the files in order SYSTEM - DEFAULT - CURRENT
 				$this->_aLanguageTable = array();
-				// at first search SYSTEM_LANGUAGE
-				$this->_loadLanguage($sLangDir, $this->_sSystemLanguage);
-				// at second merge DEFAULT_LANGUAGE
-				if(!in_array($sDefaultLanguage, $this->_aLoadedLanguages)) {
-					$this->_loadLanguage($sLangDir, $sDefaultLanguage);
-				}
-				// at third merge CURRENT_LANGUAGE
+				// at first load DEFAULT_LANGUAGE
+				$this->_loadLanguage($sLangDir, $sDefaultLanguage);
+				// at second merge CURRENT_LANGUAGE to front if not already loaded
 				if(!in_array($sCurrentLanguage, $this->_aLoadedLanguages)) {
 					$this->_loadLanguage($sLangDir, $sCurrentLanguage);
+				}
+				// at last merge SYSTEM_LANGUAGE to background if not already loaded
+				if(!in_array($this->_sSystemLanguage, $this->_aLoadedLanguages)) {
+					$this->_loadLanguage($sLangDir, $this->_sSystemLanguage, true);
 				}
 				// if no predefined language was fond, search for first available language
 				if(sizeof($this->_aLanguageTable) == 0) {
@@ -139,11 +139,15 @@ class ModLanguage {
  * @param string $sLangDir
  * @param string $sLanguage
  */
-	private function _loadLanguage($sLangDir, $sLanguage)
+	private function _loadLanguage($sLangDir, $sLanguage, $bLoadSystemLanguage = false)
 	{
 		if(is_readable($sLangDir.$sLanguage.'.php')) {
-			$this->_aLanguageTable = array_merge($this->_aLanguageTable,
-			                                    $this->_importArrays($sLangDir.$sLanguage.'.php'));
+			$aTemp = $this->_importArrays($sLangDir.$sLanguage.'.php');
+			if($bLoadSystemLanguage) {
+				$this->_aLanguageTable = array_merge($aTemp, $this->_aLanguageTable);
+			}else {
+				$this->_aLanguageTable = array_merge($this->_aLanguageTable, $aTemp);
+			}
 			$this->_aLoadedLanguages[] = $sLanguage;
 		}
 	}
