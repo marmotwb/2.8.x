@@ -67,17 +67,8 @@ $sql  = 'SELECT `admin_groups`,`admin_users` FROM `'.TABLE_PREFIX.'pages` ';
 $sql .= 'WHERE `page_id` = '.$page_id;
 $results = $database->query($sql);
 $results_array = $results->fetchRow();
-$old_admin_groups = explode(',', str_replace('_', '', $results_array['admin_groups']));
-$old_admin_users = explode(',', str_replace('_', '', $results_array['admin_users']));
-$in_old_group = FALSE;
-foreach($admin->get_groups_id() as $cur_gid)
-{
-    if (in_array($cur_gid, $old_admin_groups))
-    {
-        $in_old_group = TRUE;
-    }
-}
-if((!$in_old_group) && !is_numeric(array_search($admin->get_user_id(), $old_admin_users)))
+if(!$admin->ami_group_member($results_array['admin_users']) && 
+   !$admin->is_group_match($admin->get_groups_id(), $results_array['admin_groups']))
 {
 	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
 }
@@ -85,20 +76,9 @@ if((!$in_old_group) && !is_numeric(array_search($admin->get_user_id(), $old_admi
 $sql  = 'SELECT `module` FROM `'.TABLE_PREFIX.'sections` ';
 $sql .= 'WHERE `page_id`='.$page_id.' AND `section_id`='.$section_id;
 $module = $database->get_one($sql);
-if(!$module)
-{
+if(!$module) {
 	$admin->print_error( $database->is_error() ? $database->get_error() : $MESSAGE['PAGES']['NOT_FOUND']);
 }
-//$results = $database->query($sql);
-//if($database->is_error()) {
-//	$admin->print_error($database->get_error());
-//}
-//if($results->numRows() == 0) {
-//	$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
-//}
-//$results_array = $results->fetchRow();
-//$module = $results_array['module'];
-
 // Update the pages table
 $now = time();
 $sql  = 'UPDATE `'.TABLE_PREFIX.'pages` SET ';
@@ -114,9 +94,9 @@ if(file_exists(WB_PATH.'/modules/'.$module.'/save.php'))
 // Check if there is a db error, otherwise say successful
 if($database->is_error())
 {
-	$admin->print_error($database->get_error(), ADMIN_URL.'/pages/modify.php?page_id='.$results_array['page_id'] );
+	$admin->print_error($database->get_error(), ADMIN_URL.'/pages/modify.php?page_id='.$page_id );
 } else {
-	$admin->print_success($MESSAGE['PAGES']['SAVED'], ADMIN_URL.'/pages/modify.php?page_id='.$results_array['page_id'] );
+	$admin->print_success($MESSAGE['PAGES']['SAVED'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id );
 }
 
 // Print admin footer
