@@ -41,19 +41,19 @@ switch ($n) {
 		$x = mt_rand(1,9);
 		$y = mt_rand(1,9);
 		$_SESSION['captcha'.$sec_id] = $x + $y;
-		$cap = "$x+$y"; 
-		break; 
+		$cap = "$x+$y";
+		break;
 	case 2:
 		$x = mt_rand(10,20);
 		$y = mt_rand(1,9);
-		$_SESSION['captcha'.$sec_id] = $x - $y; 
-		$cap = "$x-$y"; 
+		$_SESSION['captcha'.$sec_id] = $x - $y;
+		$cap = "$x-$y";
 		break;
 	case 3:
 		$x = mt_rand(2,10);
 		$y = mt_rand(2,5);
-		$_SESSION['captcha'.$sec_id] = $x * $y; 
-		$cap = "$x*$y"; 
+		$_SESSION['captcha'.$sec_id] = $x * $y;
+		$cap = "$x*$y";
 		break;
 }
 
@@ -71,7 +71,7 @@ for($i = 0; $i < 30; $i++) {
 	$y1 = mt_rand(0,30);
 	$x2 = mt_rand(0,120);
 	$y2 = mt_rand(0,30);
-	imageline($image, $x1, $y1, $x2, $y2 , $gray);  
+	imageline($image, $x1, $y1, $x2, $y2 , $gray);
 }
 
 $x = 10;
@@ -79,8 +79,8 @@ $l = strlen($cap);
 for($i = 0; $i < $l; $i++) {
 	$fnt = mt_rand(3,5);
 	$x = $x + mt_rand(12 , 20);
-	$y = mt_rand(7 , 12); 
-	imagestring($image, $fnt, $x, $y, substr($cap, $i, 1), $darkgray); 
+	$y = mt_rand(7 , 12);
+	imagestring($image, $fnt, $x, $y, substr($cap, $i, 1), $darkgray);
 }
 
 imagealphablending($reload, TRUE);
@@ -94,5 +94,3 @@ $image = $reload;
 captcha_header();
 imagepng($image);
 imagedestroy($image);
-
-?>

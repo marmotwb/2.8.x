@@ -27,7 +27,7 @@ require_once("../../../config.php");
 require_once(WB_PATH.'/include/captcha/captcha.php');
 
 if(!isset($_SESSION['captcha_time']))
-	exit;
+	exit('missing captcha_time');
 //unset($_SESSION['captcha_time']);		// otherwise there can't be 2 captchas on one page!
 
 // get lists of fonts and backgrounds
@@ -36,8 +36,8 @@ $t_fonts = file_list(WB_PATH.'/include/captcha/fonts');
 $t_bgs = file_list(WB_PATH.'/include/captcha/backgrounds');
 $fonts = array();
 $bgs = array();
-foreach($t_fonts as $file) if(eregi('\.ttf$',$file)) $fonts[]=$file;
-foreach($t_bgs as $file) if(eregi('\.png$',$file)) $bgs[]=$file;
+foreach($t_fonts as $file) { if(preg_match('/\.ttf/',$file)) { $fonts[]=$file; } }
+foreach($t_bgs as $file) { if(preg_match('/\.png/',$file)) { $bgs[]=$file; } }
 
 // Captcha
 $sec_id = '';
@@ -50,19 +50,19 @@ switch ($n) {
 		$x = mt_rand(1,9);
 		$y = mt_rand(1,9);
 		$_SESSION['captcha'.$sec_id] = $x + $y;
-		$cap = "$x+$y"; 
-		break; 
+		$cap = "$x+$y";
+		break;
 	case 2:
 		$x = mt_rand(10,20);
 		$y = mt_rand(1,9);
-		$_SESSION['captcha'.$sec_id] = $x - $y; 
-		$cap = "$x-$y"; 
+		$_SESSION['captcha'.$sec_id] = $x - $y;
+		$cap = "$x-$y";
 		break;
 	case 3:
 		$x = mt_rand(2,10);
 		$y = mt_rand(2,5);
-		$_SESSION['captcha'.$sec_id] = $x * $y; 
-		$cap = "$x*$y"; 
+		$_SESSION['captcha'.$sec_id] = $x * $y;
+		$cap = "$x*$y";
 		break;
 }
 $text = $cap;
@@ -104,9 +104,9 @@ if(mt_rand(0,2)==0) { // 1 out of 3
 		if(++$count > 4) // too many tries! Use the image
 			break;
 	} while($image_failed);
-	
+
 } else {
-	
+
 	// draw whole string at once
 	$image_failed = true;
 	$count=0;
@@ -121,9 +121,9 @@ if(mt_rand(0,2)==0) { // 1 out of 3
 		$y = mt_rand($height-10,$height-2);
 		$res = imagettftext($image, $ttfsize, $angle, $x, $y, $color, $ttf, $text);
 		// check if text fits into the image
-		if(($res[0]>0 && $res[0]<$width) && ($res[1]>0 && $res[1]<$height) && 
-			 ($res[2]>0 && $res[2]<$width) && ($res[3]>0 && $res[3]<$height) && 
-			 ($res[4]>0 && $res[4]<$width) && ($res[5]>0 && $res[5]<$height) && 
+		if(($res[0]>0 && $res[0]<$width) && ($res[1]>0 && $res[1]<$height) &&
+			 ($res[2]>0 && $res[2]<$width) && ($res[3]>0 && $res[3]<$height) &&
+			 ($res[4]>0 && $res[4]<$width) && ($res[5]>0 && $res[5]<$height) &&
 			 ($res[6]>0 && $res[6]<$width) && ($res[7]>0 && $res[7]<$height)
 		) {
 			$image_failed = false;
@@ -131,7 +131,7 @@ if(mt_rand(0,2)==0) { // 1 out of 3
 		if(++$count > 4) // too many tries! Use the image
 			break;
 	} while($image_failed);
-	
+
 }
 
 imagealphablending($reload, TRUE);
@@ -145,8 +145,6 @@ $image = $reload;
 captcha_header();
 ob_start();
 imagepng($image);
-header("Content-Length: ".ob_get_length()); 
+header("Content-Length: ".ob_get_length());
 ob_end_flush();
 imagedestroy($image);
-
-?>

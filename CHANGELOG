@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+
+18 Aug-2012 Build 1693 Dietmar Woellbrink (Luisehahne)
+# fixed deprecated erigi in captcha
 08 Aug-2012 Build 1692 Werner v.d.Decken(DarkViper)
 # corrected pageID in forwarding links
 ! changed request of permission to ami_group_member() and is_group_match()

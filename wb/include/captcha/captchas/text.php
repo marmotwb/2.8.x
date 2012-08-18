@@ -93,5 +93,3 @@ $k = array_rand($qa[$lang]);
 $_SESSION['captcha'.$sec_id] = $qa[$lang][$k];
 
 echo $k;
-
-?>
