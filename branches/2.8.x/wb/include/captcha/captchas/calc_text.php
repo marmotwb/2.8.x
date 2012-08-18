@@ -42,20 +42,19 @@ switch ($n) {
 		$x = mt_rand(1,9);
 		$y = mt_rand(1,9);
 		$_SESSION['captcha'.$sec_id] = $x + $y;
-		$cap = "$x {$MOD_CAPTCHA['ADDITION']} $y"; 
-		break; 
+		$cap = "$x {$MOD_CAPTCHA['ADDITION']} $y";
+		break;
 	case 2:
 		$x = mt_rand(10,20);
 		$y = mt_rand(1,9);
-		$_SESSION['captcha'.$sec_id] = $x - $y; 
-		$cap = "$x {$MOD_CAPTCHA['SUBTRAKTION']} $y"; 
+		$_SESSION['captcha'.$sec_id] = $x - $y;
+		$cap = "$x {$MOD_CAPTCHA['SUBTRAKTION']} $y";
 		break;
 	case 3:
 		$x = mt_rand(2,10);
 		$y = mt_rand(2,5);
-		$_SESSION['captcha'.$sec_id] = $x * $y; 
-		$cap = "$x {$MOD_CAPTCHA['MULTIPLIKATION']} $y"; 
+		$_SESSION['captcha'.$sec_id] = $x * $y;
+		$cap = "$x {$MOD_CAPTCHA['MULTIPLIKATION']} $y";
 		break;
 }
 echo $cap;
-?>
