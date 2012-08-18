@@ -3,9 +3,8 @@
  *
  * @category        backend
  * @package         install
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich, WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -235,7 +234,7 @@ if(preg_match('/[^a-z0-9_]+/i', $_POST['table_prefix'])) {
 }
 
 // Find out if the user wants to install tables and data
-$install_tables ((isset($_POST['install_tables']) AND $_POST['install_tables'] == 'true'));
+$install_tables = ((isset($_POST['install_tables']) AND $_POST['install_tables'] == 'true'));
 // End database details code
 
 // Begin website title code
