@@ -12,6 +12,8 @@ Legend:
 ===============================================================================
 
 
+18 Aug-2012 Build 1694 Dietmar Woellbrink (Luisehahne)
++ add var $iPhpDeclaredClasses = sizeof(get_declared_classes() set by PHP in initialize.php
 18 Aug-2012 Build 1693 Dietmar Woellbrink (Luisehahne)
 # fixed deprecated erigi in captcha
 08 Aug-2012 Build 1692 Werner v.d.Decken(DarkViper)

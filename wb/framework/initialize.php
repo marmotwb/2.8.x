@@ -3,9 +3,8 @@
  *
  * @category        framework
  * @package         initialize
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich, WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -69,6 +68,7 @@ if(!defined('WB_URL')) { throw new IllegalFileException(); }
 	}
 /* -------------------------------------------------------- */
 	$starttime = array_sum(explode(" ",microtime()));
+	$iPhpDeclaredClasses =  sizeof(get_declared_classes());
 	SetInstallPathConstants();
 	SanitizeHttpReferer(WB_URL); // sanitize $_SERVER['HTTP_REFERER']
 	if(!class_exists('WbAutoloader', false)){ include(dirname(__FILE__).'/WbAutoloader.php'); }
@@ -94,10 +94,9 @@ if(!defined('WB_URL')) { throw new IllegalFileException(); }
 	while($setting = $get_settings->fetchRow()) {
 		$setting_name=strtoupper($setting['name']);
 		$setting_value=$setting['value'];
-		if ($setting_value=='false')
-			$setting_value=false;
-		if ($setting_value=='true')
-			$setting_value=true;
+//		if ($setting_value=='') {$setting_value=false;}
+		if ($setting_value=='false'){$setting_value=false;}
+		if ($setting_value=='true'){$setting_value=true;}
 		@define($setting_name,$setting_value);
 	}
 	@define('DO_NOT_TRACK', (isset($_SERVER['HTTP_DNT'])));
