@@ -4,7 +4,7 @@
  * @category        framewotk
  * @package         backend admin
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2012, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -71,7 +71,7 @@ class admin extends wb {
 
 			// Now check if they are allowed in this section
 			if($this->get_permission($section_permission) == false) {
-				die($MESSAGE['ADMIN']['INSUFFICIENT_PRIVELLIGES']);
+				die($MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES']);
 			}
 		}
 
@@ -143,21 +143,21 @@ class admin extends wb {
 			$row = @$result->fetchRow();
 			if($row) $view_url .= PAGES_DIRECTORY .$row['link']. PAGE_EXTENSION;
 		}
-
+		$sServerAdress = isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : '127.0.0.1';
 		$header_template->set_var(	array(
 							'SECTION_FORGOT' => $MENU['FORGOT'],
 							'SECTION_NAME' => $MENU['LOGIN'],
 							'BODY_TAGS' => $body_tags,
 							'WEBSITE_TITLE' => ($title['value']),
 							'TEXT_ADMINISTRATION' => $TEXT['ADMINISTRATION'],
-							'CURRENT_USER' => $MESSAGE['START']['CURRENT_USER'],
+							'CURRENT_USER' => $MESSAGE['START_CURRENT_USER'],
 							'DISPLAY_NAME' => $this->get_display_name(),
 							'CHARSET' => $charset,
 							'LANGUAGE' => strtolower(LANGUAGE),
 							'VERSION' => VERSION,
 							'SP' => (defined('SP') ? SP : ''),
 							'REVISION' => REVISION,
-							'SERVER_ADDR' => ((int)$this->get_user_id()==1 ? $_SERVER['SERVER_ADDR'] : ''),
+							'SERVER_ADDR' => ((int)$this->get_user_id()==1 ? $sServerAdress : ''),
 							'WB_URL' => WB_URL,
 							'ADMIN_URL' => ADMIN_URL,
 							'THEME_URL' => THEME_URL,
@@ -168,7 +168,8 @@ class admin extends wb {
 							'TITLE_HELP' => $MENU['HELP'],
 							'URL_VIEW' => $view_url,
 							'TITLE_LOGOUT' => $MENU['LOGIN'],
-							'LOGIN_DISPLAY_NONE' => ' display: none; ',
+							'LOGIN_DISPLAY_HIDDEN' => !$this->is_authenticated() ? 'hidden' : '',
+							'LOGIN_DISPLAY_NONE' => !$this->is_authenticated() ? 'none' : '',
 							'LOGIN_LINK' => $_SERVER['SCRIPT_NAME'],
 							'LOGIN_ICON' => 'login',
 							'START_ICON' => 'blank',
@@ -181,12 +182,14 @@ class admin extends wb {
 		// Create the menu
 		if(!$this->is_authenticated())
 		{
+		$header_template->set_var('STYLE', 'login');
 		$menu = array(
 //						array('http://www.websitebaker.org/', '_blank', 'WebsiteBaker Home', 'help', 0),
 //						array($view_url, '_blank', $TEXT['FRONTEND'], '', 0),
 //						array(ADMIN_URL.'/login/index.php', '', $MENU['LOGIN'], '', 0)
 						);
 		} else {
+			$header_template->set_var('STYLE', 'start');
 			$header_template->set_var(	array(
 						'SECTION_NAME' => $MENU[strtoupper($this->section_name)],
 						'TITLE_LOGOUT' => $MENU['LOGOUT'],
@@ -204,7 +207,7 @@ class admin extends wb {
 // 					array($view_url, '_blank', $MENU['FRONTEND'], 'pages', 1),
 					array(ADMIN_URL.'/media/index.php', '', $MENU['MEDIA'], 'media', 1),
 					array(ADMIN_URL.'/addons/index.php', '', $MENU['ADDONS'], 'addons', 1),
-					array(ADMIN_URL.'/preferences/index.php', '', $MENU['PREFERENCES'], 'preferences', 0),
+					array(ADMIN_URL.'/preferences/index.php', '', $MENU['PREFERENCES'], 'preferences', 1),
 					array(ADMIN_URL.'/settings/index.php', '', $MENU['SETTINGS'], 'settings', 1),
 					array(ADMIN_URL.'/admintools/index.php', '', $MENU['ADMINTOOLS'], 'admintools', 1),
 					array(ADMIN_URL.'/access/index.php', '', $MENU['ACCESS'], 'access', 1),
@@ -215,7 +218,8 @@ class admin extends wb {
 		}
 
 		$header_template->set_block('header_block', 'linkBlock', 'link');
-		foreach($menu AS $menu_item) {
+		foreach($menu AS $menu_item)
+		{
 			$link = $menu_item[0];
 			$target = ($menu_item[1] == '') ? '_self' : $menu_item[1];
 			$title = $menu_item[2];
@@ -229,8 +233,9 @@ class admin extends wb {
 				// If link is the current section apply a class name
 				if($permission_title == strtolower($this->section_name)) {
 					$header_template->set_var('CLASS', $menu_item[3] . ' current');
+					$header_template->set_var('STYLE', $menu_item[3] );
 				} else {
-					$header_template->set_var('CLASS', $menu_item[3]);
+					$header_template->set_var('CLASS', $menu_item[3] );
 				}
 				$header_template->set_var('TITLE', $title);
 				// Print link
@@ -239,11 +244,12 @@ class admin extends wb {
 		}
 		$header_template->parse('header', 'header_block', false);
 		$header_template->pparse('output', 'page');
+		unset($header_template);
 	}
 
 	// Print the admin footer
 		function print_footer($activateJsAdmin = false) {
-		global $database,$starttime;
+		global $database,$starttime,$iPhpDeclaredClasses;
 		// include the required file for Javascript admin
 		if($activateJsAdmin != false) {
 			if(file_exists(WB_PATH.'/modules/jsadmin/jsadmin_backend_include.php')){
@@ -270,12 +276,16 @@ class admin extends wb {
         if( $bDevInfo )
 		{
 
-			$footer_template->set_var('MEMORY', number_format(memory_get_peak_usage(), 0, ',', '.').'&nbsp;Byte' );
+			$footer_template->set_var('MEMORY', number_format(memory_get_peak_usage(true), 0, ',', '.').'&nbsp;Byte' );
+//			$footer_template->set_var('MEMORY', number_format(memory_get_usage(true), 0, ',', '.').'&nbsp;Byte' );
 			$footer_template->set_var('QUERIES', $database->getQueryCount );
 			// $footer_template->set_var('QUERIES', 'disabled' );
 	        $included_files =  get_included_files();
 			$footer_template->set_var('INCLUDES', sizeof($included_files) );
+	        $included_classes =  get_declared_classes();
+			$footer_template->set_var('CLASSES', sizeof($included_classes)-$iPhpDeclaredClasses );
 
+			$sum_classes = 0;
 			$sum_filesize = 0;
 			$footer_template->set_block('show_debug_block', 'show_block_list', 'show_list');
 			$footer_template->set_block('show_block_list', 'include_block_list', 'include_list');
@@ -305,7 +315,9 @@ class admin extends wb {
 			$footer_template->set_var('FILESIZE', ini_get('memory_limit'));
 			$footer_template->set_var('TXT_SUM_FILESIZE', 'Summary size of included files:&nbsp;');
 			$footer_template->set_var('SUM_FILESIZE', number_format($sum_filesize, 0, ',', '.').'&nbsp;Byte');
+			$footer_template->set_var('SUM_CLASSES', number_format($sum_classes, 0, ',', '.').'&nbsp;Byte');
 			$footer_template->set_var('PAGE_LOAD_TIME', round($iEndTime-$iStartTime,3 ));
+			$footer_template->set_var('DUMP_CLASSES', '<pre>'.var_export($included_classes,true).'</pre>');
 
 			$footer_template->parse('show_debug', 'show_debug_block', true);
         } else {
@@ -315,10 +327,12 @@ class admin extends wb {
         }
 		$footer_template->parse('header', 'footer_block', false);
 		$footer_template->pparse('output', 'page');
+		unset($footer_template);
 	}
 
 	// Return a system permission
 	function get_permission($name, $type = 'system') {
+
 		// Append to permission type
 		$type .= '_permissions';
 		// Check if we have a section to check for
@@ -346,21 +360,9 @@ class admin extends wb {
 				}
 			}
 		}
+
 	}
-/*
-	function get_user_details($user_id) {
-		global $database;
-		$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'users` ';
-		$sql .= 'WHERE `user_id`='.(int)$user_id.' LIMIT 1';
-		if(($resUser = $database->query($sql))){
-			if(!($recUser = $resUser->fetchRow())) {
-				$recUser['display_name'] = 'Unknown';
-				$recUser['username'] = 'unknown';
-			}
-		}
-		return $recUser;
-	}
-*/
+
  function get_user_details($user_id) {
   global $database;
   $retval = array('username'=>'unknown','display_name'=>'Unknown','email'=>'');
