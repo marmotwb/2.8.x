@@ -3,9 +3,8 @@
  *
  * @category        admin
  * @package         pages
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich, WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -67,17 +66,17 @@ $sql  = 'SELECT `admin_groups`,`admin_users` FROM `'.TABLE_PREFIX.'pages` ';
 $sql .= 'WHERE `page_id` = '.$page_id;
 $results = $database->query($sql);
 $results_array = $results->fetchRow();
-if(!$admin->ami_group_member($results_array['admin_users']) && 
+if(!$admin->ami_group_member($results_array['admin_users']) &&
    !$admin->is_group_match($admin->get_groups_id(), $results_array['admin_groups']))
 {
-	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
+	$admin->print_error($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']);
 }
 // Get page module
 $sql  = 'SELECT `module` FROM `'.TABLE_PREFIX.'sections` ';
 $sql .= 'WHERE `page_id`='.$page_id.' AND `section_id`='.$section_id;
 $module = $database->get_one($sql);
 if(!$module) {
-	$admin->print_error( $database->is_error() ? $database->get_error() : $MESSAGE['PAGES']['NOT_FOUND']);
+	$admin->print_error( $database->is_error() ? $database->get_error() : $MESSAGE['PAGES_NOT_FOUND']);
 }
 // Update the pages table
 $now = time();
@@ -96,10 +95,8 @@ if($database->is_error())
 {
 	$admin->print_error($database->get_error(), ADMIN_URL.'/pages/modify.php?page_id='.$page_id );
 } else {
-	$admin->print_success($MESSAGE['PAGES']['SAVED'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id );
+	$admin->print_success($MESSAGE['PAGES_SAVED'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id );
 }
 
 // Print admin footer
 $admin->print_footer();
-
-?>
