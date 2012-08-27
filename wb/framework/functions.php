@@ -3,9 +3,8 @@
  *
  * @category        frontend
  * @package         framework
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich,WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -427,7 +426,7 @@ function change_mode($sName, $iMode = 0)
 {
 	$bRetval = true;
 	$iMode = intval($iMode) & 0777; // sanitize value
-	if((substr(__FILE__, 0, 1)) == '/')
+	if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')
 	{ // Only chmod if os is not windows
 		$bRetval = false;
 		if(!$iMode) {
