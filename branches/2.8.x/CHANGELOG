@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+27 Aug-2012 Build 1698 Dietmar Woellbrink (Luisehahne)
+! optimize some methods
++ add method send_header, replace header('Location:...  with new method
++ if header send failed you get a manuell redirected link, so script don't break
 27 Aug-2012 Build 1697 Dietmar Woellbrink (Luisehahne)
 # Bugfixed issues whith storing text for Search function on WYSIWYG module.
 # Html tags where not filtered out.

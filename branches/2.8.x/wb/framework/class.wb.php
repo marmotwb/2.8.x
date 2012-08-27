@@ -2,9 +2,9 @@
 /**
  *
  * @category        framework
- * @package         frontend 
+ * @package         frontend
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -46,7 +46,7 @@ class wb extends SecureForm
  * @param array &$matches: an array-var whitch will return possible matches
  * @return bool: true there is a match, otherwise false
  */
-	function is_group_match( $groups_list1 = '', $groups_list2 = '', &$matches = null )
+	public function is_group_match( $groups_list1 = '', $groups_list2 = '', &$matches = null )
 	{
 		if( $groups_list1 == '' ) { return false; }
 		if( $groups_list2 == '' ) { return false; }
@@ -69,7 +69,7 @@ class wb extends SecureForm
  * @param mixed $groups_list: an array or a coma seperated list of group-ids
  * @return bool: true if current user is member of one of this groups, otherwise false
  */
-	function ami_group_member( $groups_list = '' )
+	public function ami_group_member( $groups_list = '' )
 	{
 		if( $this->get_user_id() == 1 ) { return true; }
 		return $this->is_group_match( $groups_list, $this->get_groups_id() );
@@ -81,88 +81,61 @@ class wb extends SecureForm
 		false: if page-visibility is 'none' or 'deleted', or page-vis. is 'registered' or 'private' and user isn't allowed to see the page.
 		true: if page-visibility is 'public' or 'hidden', or page-vis. is 'registered' or 'private' and user _is_ allowed to see the page.
 	*/
-	function page_is_visible($page)
+	public function page_is_visible($page)
     {
-		$show_it = false; // shall we show the page?
-		$page_id = $page['page_id'];
-		$visibility = $page['visibility'];
-		$viewing_groups = $page['viewing_groups'];
-		$viewing_users = $page['viewing_users'];
-
 		// First check if visibility is 'none', 'deleted'
-		if($visibility == 'none')
-        {
-			return(false);
-		} elseif($visibility == 'deleted')
-        {
-			return(false);
+		$show_it = false; // shall we show the page?
+		switch( $page['visibility'] )
+		{
+			case 'none':
+			case 'deleted':
+				$show_it = false;
+				break;
+			case 'hidden':
+			case 'public':
+				$show_it = true;
+				break;
+			case 'private':
+			case 'registered':
+				if($this->is_authenticated() == true)
+				{
+					$show_it = ( $this->is_group_match($this->get_groups_id(), $page['viewing_groups']) ||
+								 $this->is_group_match($this->get_user_id(), $page['viewing_users']) );
+				}
 		}
 
-		// Now check if visibility is 'hidden', 'private' or 'registered'
-		if($visibility == 'hidden') { // hidden: hide the menu-link, but show the page
-			$show_it = true;
-		} elseif($visibility == 'private' || $visibility == 'registered')
-        {
-			// Check if the user is logged in
-			if($this->is_authenticated() == true)
-            {
-				// Now check if the user has perms to view the page
-				$in_group = false;
-				foreach($this->get_groups_id() as $cur_gid)
-                {
-				    if(in_array($cur_gid, explode(',', $viewing_groups)))
-                    {
-				        $in_group = true;
-				    }
-				}
-				if($in_group || in_array($this->get_user_id(), explode(',', $viewing_users))) {
-					$show_it = true;
-				} else {
-					$show_it = false;
-				}
-			} else {
-				$show_it = false;
-			}
-		} elseif($visibility == 'public') {
-			$show_it = true;
-		} else {
-			$show_it = false;
-		}
 		return($show_it);
 	}
+
 	// Check if there is at least one active section on this page
-	function page_is_active($page)
+	public function page_is_active($page)
     {
 		global $database;
-		$has_active_sections = false;
-		$page_id = $page['page_id'];
 		$now = time();
-		$sql  = 'SELECT `publ_start`, `publ_end` ';
-		$sql .= 'FROM `'.TABLE_PREFIX.'sections` WHERE `page_id`='.(int)$page_id;
-		$query_sections = $database->query($sql);
-		if($query_sections->numRows() != 0) {
-			while($section = $query_sections->fetchRow()) {
-				if( $now<$section['publ_end'] &&
-					($now>$section['publ_start'] || $section['publ_start']==0) ||
-					$now>$section['publ_start'] && $section['publ_end']==0)
-				{
-					$has_active_sections = true;
-					break;
-				}
-			}
-		}
-		return($has_active_sections);
-	}
+		$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'sections` ';
+		$sql .= 'WHERE ('.$now.' BETWEEN `publ_start` AND `publ_end`) OR ';
+		$sql .=       '('.$now.' > `publ_start` AND `publ_end`=0) ';
+		$sql .=       'AND `page_id`='.(int)$page['page_id'];
+		return ($database->get_one($sql) != false);
+   	}
 
 	// Check whether we should show a page or not (for front-end)
-	function show_page($page)
+	public function show_page($page)
     {
-		$retval = ($this->page_is_visible($page) && $this->page_is_active($page));
-		return $retval;
+		if( !is_array($page) )
+		{
+			$sql  = 'SELECT `page_id`, `visibility`, `viewing_groups`, `viewing_users` ';
+			$sql .= 'FROM `'.TABLE_PREFIX.'pages` WHERE `page_id`='.(int)$page;
+			if( ($res_pages = $database->query($sql))!= null )
+			{
+				if( !($page = $res_pages->fetchRow()) ) { return false; }
+			}
+		}
+		return ($this->page_is_visible($page) && $this->page_is_active($page));
 	}
 
 	// Check if the user is already authenticated or not
-	function is_authenticated() {
+	public function is_authenticated() {
 		$retval = ( isset($_SESSION['USER_ID']) AND
 		            $_SESSION['USER_ID'] != "" AND
 		            is_numeric($_SESSION['USER_ID']));
@@ -201,7 +174,7 @@ class wb extends SecureForm
 			return $link;
 		}
 	}
-	
+
 	// Get POST data
 	function get_post($field) {
 		return (isset($_POST[$field]) ? $_POST[$field] : null);
@@ -212,7 +185,7 @@ class wb extends SecureForm
 		$result = $this->get_post($field);
 		return (is_null($result)) ? null : $this->add_slashes($result);
 	}
-	
+
 	// Get GET data
 	function get_get($field) {
 		return (isset($_GET[$field]) ? $_GET[$field] : null);
@@ -291,6 +264,28 @@ class wb extends SecureForm
 		// regex from NorHei 2011-01-11
 		$retval = preg_match("/^((([!#$%&'*+\\-\/\=?^_`{|}~\w])|([!#$%&'*+\\-\/\=?^_`{|}~\w][!#$%&'*+\\-\/\=?^_`{|}~\.\w]{0,}[!#$%&'*+\\-\/\=?^_`{|}~\w]))[@]\w+(([-.]|\-\-)\w+)*\.\w+(([-.]|\-\-)\w+)*)$/", $email);
 		return ($retval != false);
+	}
+
+	/**
+	 * wb::send_header()
+     * replace header('Location:...  with new method
+	 * if header send failed you get a manuell redirected link, so script don't break
+	 * @param string $location, redirected url
+	 * @return void
+	 */
+	public function send_header ($location) {
+		if(!headers_sent()) {
+			header('Location: '.$location);
+		    exit(0);
+		} else {
+//			$aDebugBacktrace = debug_backtrace();
+//			array_walk( $aDebugBacktrace, create_function( '$a,$b', 'print "<br /><b>". basename( $a[\'file\'] ). "</b> &nbsp; <font color=\"red\">{$a[\'line\']}</font> &nbsp; <font color=\"green\">{$a[\'function\']} ()</font> &nbsp; -- ". dirname( $a[\'file\'] ). "/";' ) );
+		    $msg =  "<div style=\"text-align:center;\"><h2>An error has occurred</h2><p>The <strong>Redirect</strong> could not be start automatically.\n" .
+		         "Please click <a style=\"font-weight:bold;\" " .
+		         "href=\"".$location."\">on this link</a> to continue!</p></div>\n";
+
+			throw new AppException($msg);
+		}
 	}
 
 /* ****************
@@ -437,7 +432,7 @@ class wb extends SecureForm
 
 	// Validate send email
 	function mail($fromaddress, $toaddress, $subject, $message, $fromname='', $replyTo='') {
-/* 
+/*
 	INTEGRATED OPEN SOURCE PHPMAILER CLASS FOR SMTP SUPPORT AND MORE
 	SOME SERVICE PROVIDERS DO NOT SUPPORT SENDING MAIL VIA PHP AS IT DOES NOT PROVIDE SMTP AUTHENTICATION
 	NEW WBMAILER CLASS IS ABLE TO SEND OUT MESSAGES USING SMTP WHICH RESOLVE THESE ISSUE (C. Sommer)
@@ -445,7 +440,7 @@ class wb extends SecureForm
 	NOTE:
 	To use SMTP for sending out mails, you have to specify the SMTP host of your domain
 	via the Settings panel in the backend of Website Baker
-*/ 
+*/
 
 		$fromaddress = preg_replace('/[\r\n]/', '', $fromaddress);
 		$toaddress = preg_replace('/[\r\n]/', '', $toaddress);
