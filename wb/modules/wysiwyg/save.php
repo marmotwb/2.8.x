@@ -46,7 +46,7 @@ if(isset($_POST['content'.$section_id])) {
     $content = preg_replace($searchfor, '$1{SYSVAR:MEDIA_REL}$3', $content);
 	// searching in $text will be much easier this way
     $content = mysql_real_escape_string ($content);
-	$text = umlauts_to_entities($content, strtoupper(DEFAULT_CHARSET), 0);
+	$text = umlauts_to_entities(strip_tags($content), strtoupper(DEFAULT_CHARSET), 0);
 	$sql  = 'UPDATE `'.TABLE_PREFIX.'mod_wysiwyg` ';
 	$sql .= 'SET `content`=\''.$content.'\', `text`=\''.$text.'\' ';
 	$sql .= 'WHERE `section_id`='.(int)$section_id;
