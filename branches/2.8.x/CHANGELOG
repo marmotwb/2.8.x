@@ -11,7 +11,11 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-
+27 Aug-2012 Build 1697 Dietmar Woellbrink (Luisehahne)
+# Bugfixed issues whith storing text for Search function on WYSIWYG module.
+# Html tags where not filtered out.
+27 Aug-2012 Build 1696 Dietmar Woellbrink (Luisehahne)
+! move extra handling of menu links in index.php to the view.php of module menu links {Tks to NorHei)
 18 Aug-2012 Build 1695 Dietmar Woellbrink (Luisehahne)
 # fixed $install_tables in install/save.php 
 18 Aug-2012 Build 1694 Dietmar Woellbrink (Luisehahne)
