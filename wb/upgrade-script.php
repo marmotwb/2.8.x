@@ -473,10 +473,11 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	}
 	/**********************************************************
  *  - Add field "redirect_type" to table "mod_menu_link"
+ *  has to be moved later to upgrade.php in modul menu_link, because modul can be removed
  */
 	$table_name = TABLE_PREFIX.'mod_menu_link';
 	$field_name = 'redirect_type';
-	$description = "INT NOT NULL DEFAULT '302' AFTER `target_page_id`";
+	$description = "INT NOT NULL DEFAULT '301' AFTER `target_page_id`";
 	if(!$database->field_exists($table_name,$field_name)) {
 		echo "<br />Adding field redirect_type to mod_menu_link table";
 		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
