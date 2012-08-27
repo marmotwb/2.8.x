@@ -13,6 +13,10 @@ Legend:
 
 
 
+27 Aug-2012 Build 1702 Dietmar Woellbrink (Luisehahne)
+! /framework/class.frontend.php
+! set $_SESSION['HTTP_REFERER'] to WB_URL if menu url is a registered page
+! set some header("Location:.. to new method send_header(
 27 Aug-2012 Build 1701 Dietmar Woellbrink (Luisehahne)
 ! /framework/frontend.functions
 ! change multi-dimensional arrays (variables) to similar arrays
