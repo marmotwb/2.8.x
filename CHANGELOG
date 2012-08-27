@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+
+27 Aug-2012 Build 1699 Dietmar Woellbrink (Luisehahne)
+! Fixed IDKEY in Secureform.mtab to solve issues whith Security warnings 
+! on pages that used a lot of IDKEYS. (fixed by NorHei)
 27 Aug-2012 Build 1698 Dietmar Woellbrink (Luisehahne)
 ! optimize some methods
 + add method send_header, replace header('Location:...  with new method

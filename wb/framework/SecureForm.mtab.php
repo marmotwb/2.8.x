@@ -17,15 +17,16 @@
  */
 ##  Heavy patched version, idea for patches based on :
 ##  http://stackoverflow.com/questions/2695153/php-csrf-how-to-make-it-works-in-all-tabs/2695291#2695291
-##  Whith this patch the token System now allows for multiple browser tabs but 
+##  Whith this patch the token System now allows for multiple browser tabs but
 ##  denies the use of multiple browsers.
 ##  You can configure this class by adding several constants to your config.php
-##  All Patches are Copyright Norbert Heimsath released under GPLv3 
+##  All Patches are Copyright Norbert Heimsath released under GPLv3
 ##  http://www.gnu.org/licenses/gpl.html
 ##  Take a look at  __construkt  for configuration options(constants).
 ##  Patch version 0.3.5
 
 /**
+ *
  * If you want some special configuration put this somewhere in your config.php for
  * example or just uncomment the lines here
  *
@@ -44,7 +45,27 @@
  * define ('WB_SECFORM_TOKENNAME','my3form3');
  * how many blocks of the IP should be used in fingerprint 0=no ipcheck, possible values 0-4
  * define ('FINGERPRINT_WITH_IP_OCTETS',2);
+ *
+ * Fixed IDKEY in Secureform 2012/08/27 by NorHey
+ *
+ * I still had problems whith Security warnings on pages that used alot of
+ * IDKEYS. For example if i tried to move a field in the basic form module
+ * i had one  Warning on in about 15 atempts.
+ *
+ * Another Problem: unused old IDKEYS where never deleted so session got
+ * spammed by idkeys.
+ *
+ * So i made a more unique ID, recursive checking for overlapping ids,
+ * added a tiemout for IDKEYS (same as for FTAN) and added a page parameter
+ * to instantly delete all keys from a pagecall if one is used.
+ *
+ * Last thing i added is an additional parameter that allows the use of
+ * IDKEYS whith ajax scripts. If this setting is used, the key is not
+ * removed and can be used multiple times. (this is a small security risk
+ * but nothing compared to the 1 in 16 chance to guess the key that we had before.)
+ *
  */
+
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
 if(!defined('WB_PATH')) {
@@ -56,15 +77,17 @@ if(!defined('WB_PATH')) {
 class SecureForm {
 
 	const FRONTEND = 0;
-	const BACKEND  = 1;      
+	const BACKEND  = 1;
 
         ## additional private data
 	private $_secret      	 = '5609bnefg93jmgi99igjefg';
-	private $_secrettime  	 = 86400;   #Approx. one day 
+	private $_secrettime  	 = 86400;   #Approx. one day
         private $_tokenname   	 = 'formtoken';
-	private $_timeout	 = 7200;         
+	private $_timeout	 = 7200;
 	private $_useipblocks	 = 2;
 	private $_usefingerprint = true;
+	private $_page_uid = "";
+	private $_page_id = "";
         ### additional private data
 
         private $_FTAN           = '';
@@ -77,31 +100,36 @@ class SecureForm {
 	/* Construtor */
 	protected function __construct($mode = self::FRONTEND){
 
-        	## additional constants and stuff for global configuration
+        	// additional constants and stuff for global configuration
 
-		# Secret can contain anything its the base for the secret part of the hash
-                if (defined ('WB_SECFORM_SECRET')){ 	
+		// Secret can contain anything its the base for the secret part of the hash
+                if (defined ('WB_SECFORM_SECRET')){
 			$this->_secret=WB_SECFORM_SECRET;
 		}
 
-		# shall we use fingerprinting
+		// shall we use fingerprinting
                 if (defined ('WB_SECFORM_USEFP') AND WB_SECFORM_USEFP===false){
 			$this->_usefingerprint	= false;
 		}
 
-                # Timeout till the form token times out. Integer value between 0-86400 seconds (one day)
+                // Timeout till the form token times out. Integer value between 0-86400 seconds (one day)
                 if (defined ('WB_SECFORM_TIMEOUT') AND is_numeric(WB_SECFORM_TIMEOUT) AND intval(WB_SECFORM_TIMEOUT) >=0 AND intval(WB_SECFORM_TIMEOUT) <=86400 ){
 			$this->_timeout=intval(WB_SECFORM_TIMEOUT);
 		}
-		# Name for the token form element only alphanumerical string allowed that starts whith a charakter
+		// Name for the token form element only alphanumerical string allowed that starts whith a charakter
                 if (defined ('WB_SECFORM_TOKENNAME') AND !$this->_validate_alalnum(WB_SECFORM_TOKENNAME)){
 			$this->_tokenname=WB_SECFORM_TOKENNAME;
 		}
-		# how many bloks of the IP should be used 0=no ipcheck 
+		// how many bloks of the IP should be used 0=no ipcheck
                 if (defined ('FINGERPRINT_WITH_IP_OCTETS') AND !$this->_is04(FINGERPRINT_WITH_IP_OCTETS)){
 			$this->_useipblocks=FINGERPRINT_WITH_IP_OCTETS;
                 }
-		## additional stuff end 
+
+		// create a unique pageid for per page management of idkeys , especially
+		// to identify and delete unused ones from same page call.
+		$this->_page_uid = uniqid (rand(), true);
+
+		// additional stuff end
 		$this->_browser_fingerprint   = $this->_browser_fingerprint(true);
 		$this->_fingerprint   = $this->_generate_fingerprint();
 		$this->_serverdata    = $this->_generate_serverdata();
@@ -132,7 +160,7 @@ class SecureForm {
 
 		$secret .= $this->_secret.$this->_serverdata.session_id();
 		if ($this->_usefingerprint){$secret.= $this->_browser_fingerprint;}
-		
+
 	return $secret;
 	}
 
@@ -155,7 +183,7 @@ class SecureForm {
 	{
 	// server depending values
  		$fingerprint  = $this->_generate_serverdata();
-		
+
 	// client depending values
 		$fingerprint .= ( isset($_SERVER['HTTP_USER_AGENT']) ) ? $_SERVER['HTTP_USER_AGENT'] : '17';
 		$usedOctets = ( defined('FINGERPRINT_WITH_IP_OCTETS') ) ? intval(defined('FINGERPRINT_WITH_IP_OCTETS')) : 0;
@@ -192,7 +220,7 @@ class SecureForm {
 	return  $serverdata;
 	}
 
-        // fake funktion , just exits to avoid error message 
+        // fake funktion , just exits to avoid error message
         final protected function createFTAN(){}
 
 	/*
@@ -261,28 +289,29 @@ class SecureForm {
 	*
 	* @requirements: an active session must be available
 	* @description: IDKEY can handle string/numeric/array - vars. Each key is a
+	*  shortened md5 String
 	*/
-	final public function getIDKEY($value)
-	{
-		if( is_array($value) == true )
-		{ // serialize value, if it's an array
-			$value = serialize($value);
+	final public function getIDKEY($value) {
+
+
+		// serialize value, if it's an array
+		if( is_array($value) == true ) $value = serialize($value);
+
+		// cryptsome random stuff with salt into md5-hash
+		$key = md5($this->_salt.rand().uniqid('', true));
+
+		//shorten hash a bit
+		$key = str_replace(array("=","$","+"),array("-","_",""),base64_encode(pack('H*',$key)));
+
+		// the key is unique, so store it in list
+		if( !array_key_exists($key,  $_SESSION[$this->_idkey_name])) {
+			$_SESSION[$this->_idkey_name][$key]['value'] = $value;
+			$_SESSION[$this->_idkey_name][$key]['time'] = time();
+			$_SESSION[$this->_idkey_name][$key]['page'] = $this->_page_uid;
 		}
-		// crypt value with salt into md5-hash
-		// and return a 16-digit block from random start position
-		$key = substr( md5($this->_salt.(string)$value), rand(0,15), 16);
-		do{ // loop while key/value isn't added
-			if( !array_key_exists($key, $this->_IDKEYs) )
-			{ // the key is unique, so store it in list
-				$this->_IDKEYs[$key] = $value;
-				break;
-			}else {
-				// if key already exist, increment the last five digits until the key is unique
-				$key = substr($key, 0, -5).dechex(('0x'.substr($key, -5)) + 1);
-			}
-		}while(0);
-		// store key/value-pairs into session
-		$_SESSION[$this->_idkey_name] = $this->_IDKEYs;
+		// if key already exist, try again, dont store as it already been stored
+		else $key = $this->getIDKEY($value);
+
 		return $key;
 	}
 
@@ -298,8 +327,12 @@ class SecureForm {
 	* @description: each IDKEY can be checked only once. Unused Keys stay in list until the
 	*               session is destroyed.
 	*/
- 	final public function checkIDKEY( $fieldname, $default = 0, $request = 'POST' )
+ 	final public function checkIDKEY( $fieldname, $default = 0, $request = 'POST', $ajax=false)
 	{
+		//Remove timed out idkeys
+		$_SESSION[$this->_idkey_name]= array_filter( $_SESSION[$this->_idkey_name],array($this, "_timedout"));
+
+
 		$return_value = $default; // set returnvalue to default
 		switch( strtoupper($request) )
 		{
@@ -312,20 +345,33 @@ class SecureForm {
 			default:
 				$key = $fieldname;
 		}
-		if( preg_match('/[0-9a-f]{16}$/', $key) )
-		{ // key must be a 16-digit hexvalue
-			if( array_key_exists($key, $this->_IDKEYs))
-			{ // check if key is stored in IDKEYs-list
-				$return_value = $this->_IDKEYs[$key]; // get stored value
-				unset($this->_IDKEYs[$key]);   // remove from list to prevent multiuse
-				$_SESSION[$this->_idkey_name] = $this->_IDKEYs; // save modified list into session again
+		if( preg_match('/[0-9a-zA-Z\-\_]{1,32}$/', $key) ) { // key must match the generated ones
+			if( array_key_exists($key, $_SESSION[$this->_idkey_name])) { // check if key is stored in IDKEYs-list
+				$return_value = $_SESSION[$this->_idkey_name][$key]['value']; // get stored value
+				$this->_page_id = $_SESSION[$this->_idkey_name][$key]['page'];
+
+				if ($ajax === false) {
+					//Remove all keys from this page to prevent multiuse and session mem usage
+					$_SESSION[$this->_idkey_name]= array_filter( $_SESSION[$this->_idkey_name],array($this, "_fpages"));
+					//unset($_SESSION[$this->_idkey_name][$key]);   // remove from list to prevent multiuse
+				}
 				if( preg_match('/.*(?<!\{).*(\d:\{.*;\}).*(?!\}).*/', $return_value) )
 				{ // if value is a serialized array, then deserialize it
 					$return_value = unserialize($return_value);
 				}
 			}
 		}
+
 		return $return_value;
+	}
+
+ 	private function _timedout( $var ) {
+		if ($var['time'] < time()-$this->_timeout) return false;
+		return true;
+	}
+ 	private function _fpages( $var ) {
+		if ($var['page'] == $this->_page_id) return false;
+		return true;
 	}
 
 	/* @access public
@@ -345,21 +391,21 @@ class SecureForm {
 	## all are Copyright Norbert Heimsath, heimsath.org
 	## released under GPLv3  http://www.gnu.org/licenses/gpl.html
 
-	/* Made because ctype_ gives strange results using mb Strings*/ 
+	/* Made because ctype_ gives strange results using mb Strings*/
  	private function _validate_alalnum($input){
-	# alphanumerical string that starts whith a letter charakter 
+	# alphanumerical string that starts whith a letter charakter
 		if (preg_match('/^[a-zA-Z][0-9a-zA-Z]+$/u', $input))
 			{return false;}
-	
+
 	return "The given input is not an alphanumeric string.";
-	} 
+	}
 
  	private function _is04($input){
 	# integer value between 0-4
 		if (preg_match('/^[0-4]$/', $input)) {return false;}
-	
+
 	return "The given input is not an alphanumeric string.";
-	} 
+	}
 
 
 	private function _getip($ipblocks=4){
@@ -368,8 +414,8 @@ class SecureForm {
 	*/
 		$ip    	=   ""; //Ip address result
 		$cutip	=   ""; //Ip address cut to limit
-	
-		# mabe user is behind a Proxy but we need his real ip address if we got a nice Proxyserver, 
+
+		# mabe user is behind a Proxy but we need his real ip address if we got a nice Proxyserver,
 		# it sends us the "HTTP_X_FORWARDED_FOR" Header. Sometimes there is more than one Proxy.
 		# !!!!!! THIS PART WAS NEVER TESTED BECAUSE I ONLY GOT A DIRECT INTERNET CONNECTION !!!!!!
 		# long2ip(ip2long($lastip)) makes sure we got nothing else than an ip into our script ;-)
@@ -380,16 +426,16 @@ class SecureForm {
 			$lastip = array_pop($iplist);
 			$ip.= long2ip(ip2long($lastip));
 		}
-		
+
 		/* If theres no other supported info we just use REMOTE_ADDR
 		If we have a fiendly proxy supporting  HTTP_X_FORWARDED_FOR its ok to use the full address.
-		But if there is no HTTP_X_FORWARDED_FOR we can  not be sure if its a proxy or whatever, so we use the 
-		blocklimit for IP address. 
+		But if there is no HTTP_X_FORWARDED_FOR we can  not be sure if its a proxy or whatever, so we use the
+		blocklimit for IP address.
 		*/
-		else 
+		else
 		{
 			$ip = long2ip(ip2long($_SERVER['REMOTE_ADDR']));
-	
+
 			# ipblocks used here defines how many blocks of the ip adress are checked xxx.xxx.xxx.xxx
 			$blocks = explode('.', $ip);
 			for ($i=0; $i<$ipblocks; $i++){
@@ -397,25 +443,25 @@ class SecureForm {
 				}
 			$ip=substr($cutip, 0, -1);
 		}
-		
+
 	return $ip;
 	}
-	
+
 	private function _browser_fingerprint($encode=true,$fpsalt="My Fingerprint: "){
 	/*
 	Creates a basic Browser Fingerprint for securing the session and forms.
 	*/
-	
+
 		$fingerprint=$fpsalt;
 		if (isset($_SERVER['HTTP_USER_AGENT'])){ $fingerprint .= $_SERVER['HTTP_USER_AGENT'];}
 		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])){ $fingerprint .= $_SERVER['HTTP_ACCEPT_LANGUAGE'];}
 		if (isset($_SERVER['HTTP_ACCEPT_ENCODING'])){ $fingerprint .= $_SERVER['HTTP_ACCEPT_ENCODING'];}
 		if (isset($_SERVER['HTTP_ACCEPT_CHARSET'])){ $fingerprint .= $_SERVER['HTTP_ACCEPT_CHARSET'];}
-		
+
 		$fingerprint.= $this->_getip($this->_useipblocks);
-		
+
 		if ($encode){$fingerprint=md5($fingerprint);}
-	
+
 	return $fingerprint;
 	}
 	##
