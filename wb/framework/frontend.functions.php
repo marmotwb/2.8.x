@@ -3,9 +3,8 @@
  *
  * @category        framework
  * @package         frontend.functions
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich, WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -79,7 +78,7 @@ if (!function_exists('get_page_link')) {
 	 * get relative link from database based on pages_dir
 	 * @global <type> $database
 	 * @param <type> $id
-	 * @return <type> 
+	 * @return <type>
 	 */
 	function get_page_link( $id )
     {
@@ -238,9 +237,10 @@ if (!function_exists('page_content')) {
 	 * @global wb $wb
 	 * @global string $global_name
 	 * @param int $block
+	 * @param boolean true to print $content, false return $content
 	 * @return void
 	 */
-	function page_content($block = 1) {
+	function page_content($block = 1, $echo=true) {
 		// Get outside objects
 		global $TEXT,$MENU,$HEADING,$MESSAGE;
 		global $globals;
@@ -248,11 +248,11 @@ if (!function_exists('page_content')) {
 		global $wb;
 		$admin = $wb;
 		if ($wb->page_access_denied==true) {
-	        echo $MESSAGE['FRONTEND']['SORRY_NO_VIEWING_PERMISSIONS'];
+	        echo $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'];
 			return;
 		}
 		if ($wb->page_no_active_sections==true) {
-	        echo $MESSAGE['FRONTEND']['SORRY_NO_ACTIVE_SECTIONS'];
+	        echo $MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'];
 			return;
 		}
 		if(isset($globals) AND is_array($globals)) {
@@ -288,7 +288,7 @@ if (!function_exists('page_content')) {
 					$page_id = $wb->default_block_content;
 				} else {
 					$page_id = $wb->default_page_id;
-				}				
+				}
 				$sql  = 'SELECT `section_id`, `module`, `publ_start`, `publ_end` ';
 				$sql .= 'FROM `'.TABLE_PREFIX.'sections` ';
 				$sql .= 'WHERE `page_id`='.$page_id.' AND `block`='.$block.' ';
@@ -326,12 +326,13 @@ if (!function_exists('page_content')) {
 						$arr_string[0] = str_replace("_", " ", $arr_string[0]);
 					}
 					echo search_highlight($content, $arr_string);
-				} else {
+				} elseif($echo==true) {
 					echo $content;
+				} else {
+				    return $content;
 				}
 			}
-		}
-        else {
+		} else {
 			require(PAGE_CONTENT);
 		}
 	}
@@ -640,11 +641,11 @@ if(!function_exists('register_frontend_modfiles'))
         print $head_links;
     }
 }
-
+/*
 	function moveCssToHead($content) {
 		// move css definitions into head section
 		$pattern1 = '/(?:<body.*?)(<link[^>]*?\"text\/css\".*?\/>)/si';
-		$pattern2 = '/(?:<body.*?)(<style[^>]*?\"text\/css\"[^>]*?>.*?<\/style>)/si';
+		$pattern2 = '/(?:<body.*?)(<style[^>]*?\"text\/css\"[^>]* ?>.*?<\/style>)/si';
 		while(preg_match($pattern1, $content, $matches)==1) {
 		// loop through all linked CSS
 			$insert = $matches[1];
@@ -661,3 +662,4 @@ if(!function_exists('register_frontend_modfiles'))
 		}
 		return $content;
 	}
+*/
