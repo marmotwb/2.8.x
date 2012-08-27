@@ -12,6 +12,11 @@ Legend:
 ===============================================================================
 
 
+
+
+27 Aug-2012 Build 1700 Dietmar Woellbrink (Luisehahne)
+! change multi-dimensional arrays (variables) to similar arrays
++ add variables for backend-menu, header.htt and footer.htt 
 27 Aug-2012 Build 1699 Dietmar Woellbrink (Luisehahne)
 ! Fixed IDKEY in Secureform.mtab to solve issues whith Security warnings 
 ! on pages that used a lot of IDKEYS. (fixed by NorHei)
