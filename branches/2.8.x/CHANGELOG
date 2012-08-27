@@ -13,6 +13,9 @@ Legend:
 
 
 
+27 Aug-2012 Build 1705 Dietmar Woellbrink (Luisehahne)
+! update headerinfo
+! change os_version request if os is not windows
 27 Aug-2012 Build 1704 Dietmar Woellbrink (Luisehahne)
 + add overlib_mini.js to include/jquery/ will be needed for help
 27 Aug-2012 Build 1703 Dietmar Woellbrink (Luisehahne)
