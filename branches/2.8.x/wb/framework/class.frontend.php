@@ -4,7 +4,7 @@
  * @category        framework
  * @package         frontend
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -40,13 +40,13 @@ class frontend extends wb {
 
 	public $page_access_denied;
 	public $page_no_active_sections;
-	
+
 	// website settings
 	public $website_title,$website_description,$website_keywords,$website_header,$website_footer;
 
 	// ugly database stuff
 	public $extra_where_sql, $sql_where_language;
-	
+
 	public function __construct() {
 		parent::__construct(SecureForm::FRONTEND);
 	}
@@ -98,8 +98,9 @@ class frontend extends wb {
 				// Check if we should redirect or include page inline
 				if(HOMEPAGE_REDIRECTION) {
 					// Redirect to page
-					header("Location: ".$this->page_link($this->default_link));
-					exit();
+//					header("Location: ".$this->page_link($this->default_link));
+//					exit();
+					$this->send_header($this->page_link($this->default_link));
 				} else {
 					// Include page inline
 					$this->page_id = $this->default_page_id;
@@ -191,7 +192,8 @@ class frontend extends wb {
 			// Page link
 			$this->link=$this->page_link($this->page['link']);
 			$_SESSION['PAGE_ID'] = $this->page_id;
-			$_SESSION['HTTP_REFERER'] = $this->link;
+            $bCanRedirect = ($this->visibility == 'registered' || $this->visibility == 'privat');
+			$_SESSION['HTTP_REFERER'] = $bCanRedirect != true ? $this->link : WB_URL;
 
 		// End code to set details as either variables of constants
 		}
@@ -226,7 +228,7 @@ class frontend extends wb {
 					// User isnt allowed on this page so tell them
 					$this->page_access_denied=true;
 				}
-				
+
 			}
 		}
 		// check if there is at least one active section
@@ -261,7 +263,7 @@ class frontend extends wb {
 		} elseif(SEARCH == 'private' AND $this->is_authenticated() == true) {
 			define('SHOW_SEARCH', true);
 		} elseif(SEARCH == 'registered' AND $this->is_authenticated() == true) {
-			define('SHOW_SEARCH', true);	
+			define('SHOW_SEARCH', true);
 		} else {
 			define('SHOW_SEARCH', false);
 		}
@@ -286,46 +288,11 @@ class frontend extends wb {
  * @return void
  * @history 100216 17:00:00 optimise errorhandling, speed, SQL-strict
  */
-	public function preprocess(&$content)
-	{
-		global $database;
-		$replace_list = array();
-		$pattern = '/\[wblink([0-9]+)\]/isU';
-		if(preg_match_all($pattern,$content,$ids))
-		{
-			foreach($ids[1] as $key => $page_id)
-			{
-				$replace_list[$page_id] = $ids[0][$key];
-			}
-			foreach($replace_list as $page_id => $tag)
-			{
-				$sql = 'SELECT `link` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.(int)$page_id;
-				$link = $database->get_one($sql);
-				if(!is_null($link))
-				{
-					$link = $this->page_link($link);
-					$content = str_replace($tag, $link, $content);
-				}
-			}
-		}
-	}
+     public function preprocess(&$content)
+     {
+    //   do nothing
+     }
 
-/*
-	function preprocess(&$content) {
-		global $database;
-		// Replace [wblink--PAGE_ID--] with real link
-		$pattern = '/\[wblink(.+?)\]/s';
-		preg_match_all($pattern,$content,$ids);
-		foreach($ids[1] AS $page_id) {
-			$pattern = '/\[wblink'.$page_id.'\]/s';
-			// Get page link
-			$get_link = $database->query("SELECT link FROM ".TABLE_PREFIX."pages WHERE page_id = '$page_id' LIMIT 1");
-			$fetch_link = $get_link->fetchRow();
-			$link = $this->page_link($fetch_link['link']);
-			$content = preg_replace($pattern,$link,$content);
-		}
-	}
-*/
 	public function menu() {
 		global $wb;
 	   if (!isset($wb->menu_number)) {
@@ -363,7 +330,7 @@ class frontend extends wb {
 	   }
 	   $wb->show_menu();
 	}
-	
+
 	public function show_menu() {
 		global $database;
 		if ($this->menu_start_level>0) {
@@ -451,4 +418,3 @@ class frontend extends wb {
 	}
 }
 
-?>
