@@ -13,7 +13,10 @@ Legend:
 
 
 
-
+27 Aug-2012 Build 1701 Dietmar Woellbrink (Luisehahne)
+! /framework/frontend.functions
+! change multi-dimensional arrays (variables) to similar arrays
+! method page_content, add parameter $echo true to print $content, false return $content
 27 Aug-2012 Build 1700 Dietmar Woellbrink (Luisehahne)
 ! change multi-dimensional arrays (variables) to similar arrays
 + add variables for backend-menu, header.htt and footer.htt 
