@@ -4,7 +4,7 @@
  * @category        admin
  * @package         settings
  * @author          WebsiteBaker Project
- * @copyright       2009-2012, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -47,9 +47,10 @@ $admin->print_header();
 if(isset($_POST['server_email']))
 {
 	$_POST['server_email'] = strip_tags($_POST['server_email']);
-    // $pattern = '/^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9]([-a-z0-9_]?[a-z0-9])*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z]{2})|([1]?\d{1,2}|2[0-4]{1}\d{1}|25[0-5]{1})(\.([1]?\d{1,2}|2[0-4]{1}\d{1}|25[0-5]{1})){3})(:[0-9]{1,5})?\r/im';
-    $pattern = '/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,6}))$/';
-    if(false == preg_match($pattern, $_POST['server_email']))
+//    // $pattern = '/^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9]([-a-z0-9_]?[a-z0-9])*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z]{2})|([1]?\d{1,2}|2[0-4]{1}\d{1}|25[0-5]{1})(\.([1]?\d{1,2}|2[0-4]{1}\d{1}|25[0-5]{1})){3})(:[0-9]{1,5})?\r/im';
+//    $pattern = '/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,6}))$/';
+//    if(false == preg_match($pattern, $_POST['server_email']))
+	if(!$admin->validate_email($_POST['server_email']))
     {
 		$admin->print_error($MESSAGE['USERS_INVALID_EMAIL'].
 			'<br /><strong>Email: '.htmlentities($_POST['server_email']).'</strong>', $js_back);
@@ -152,8 +153,8 @@ if($advanced == '')
 	}
 }
 
-$allow_tags_in_fields = array('website_header', 'website_footer');
-$allow_empty_values = array('website_header','website_footer','sec_anchor','pages_directory','page_spacer');
+$allow_tags_in_fields = array('website_header', 'website_footer','website_signature');
+$allow_empty_values = array('website_header','website_footer','sec_anchor','pages_directory','page_spacer','website_signature');
 $disallow_in_fields = array('pages_directory', 'media_directory','wb_version');
 
 // Query current settings in the db, then loop through them and update the db with the new value
