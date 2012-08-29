@@ -3,9 +3,8 @@
  *
  * @category        admin
  * @package         pages
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich, WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -25,13 +24,13 @@ require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_settings',false);
 
 // Get page id
-if(!isset($_POST['page_id']) || preg_match('/[^0-9a-f]/i',$_POST['page_id']))
+if(!isset($_POST['page_id']) || (isset($_POST['page_id'])&& !preg_match('/[^0-9a-f]/i',$_POST['page_id'])) )
 {
 	header("Location: index.php");
 	exit(0);
 } else {
 //	$page_id = $admin->checkIDKEY('page_id');
-//	$page_id = (int)$_POST['page_id'];
+//	$page_id = (int)$_POST['page_id']; || preg_match('/[^0-9a-f]/i',$_POST['page_id'])
 	if((!($page_id = $admin->checkIDKEY('page_id')))) {
 		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/index.php');
 	}
@@ -86,11 +85,11 @@ $sMenuIcon1 = (isset($_POST['menu_icon_1']) ? $_POST['menu_icon_1'] : 0);
 // Validate data
 if($page_title == '' || substr($page_title,0,1)=='.')
 {
-	$admin->print_error($MESSAGE['PAGES']['BLANK_PAGE_TITLE']);
+	$admin->print_error($MESSAGE['PAGES_BLANK_PAGE_TITLE']);
 }
 if($menu_title == '' || substr($menu_title,0,1)=='.')
 {
-	$admin->print_error($MESSAGE['PAGES']['BLANK_MENU_TITLE']);
+	$admin->print_error($MESSAGE['PAGES_BLANK_MENU_TITLE']);
 }
 
 // Get existing perms
@@ -102,21 +101,22 @@ $old_parent = $results_array['parent'];
 $old_link = $results_array['link'];
 $old_position = $results_array['position'];
 
-if(!$admin->ami_group_member($results_array['admin_groups']) &&
-   !$admin->is_group_match($admin->get_user_id(), $results_array['admin_users']))
-{
-	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
+if($admin->ami_group_member('1')) {
+	if(!$admin->ami_group_member($results_array['admin_groups']) &&
+	   !$admin->is_group_match($admin->get_user_id(), $results_array['admin_users']))
+	{
+		$admin->print_error($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']);
+	}
+	// Setup admin groups
+	$aAdminGroups = (is_array($aAdminGroups) ? $aAdminGroups : array(1));
+	array_unshift($aAdminGroups, 1);
+	$sAdminGroups = implode(',', array_unique($aAdminGroups, SORT_REGULAR));
+	$sAdminGroups = (preg_match('/^,|[^0-9,]|,,|,$/', $sAdminGroups) ? '1' : $sAdminGroups);
+
+	$aAdminUsers = (is_array($aAdminUsers) ? $aAdminUsers : array());
+	$sAdminUsers = implode(',', array_diff($aAdminUsers, array(0)));
+	$sAdminUsers = (preg_match('/^,|[^0-9,]|,,|,$/', $sAdminUsers) ? array() : $sAdminUsers);
 }
-
-// Setup admin groups
-$aAdminGroups = (is_array($aAdminGroups) ? $aAdminGroups : array(1));
-array_unshift($aAdminGroups, 1);
-$sAdminGroups = implode(',', array_unique($aAdminGroups, SORT_REGULAR));
-$sAdminGroups = (preg_match('/^,|[^0-9,]|,,|,$/', $sAdminGroups) ? '1' : $sAdminGroups);
-
-$aAdminUsers = (is_array($aAdminUsers) ? $aAdminUsers : array());
-$sAdminUsers = implode(',', array_diff($aAdminUsers, array(0)));
-$sAdminUsers = (preg_match('/^,|[^0-9,]|,,|,$/', $sAdminUsers) ? array() : $sAdminUsers);
 
 $aViewingGroups = (is_array($aViewingGroups) ? $aViewingGroups : array(1));
 array_unshift($aViewingGroups, 1);
@@ -193,7 +193,7 @@ $get_same_page = $database->query($sql);
 
 if($get_same_page->numRows() > 0)
 {
-	$admin->print_error($MESSAGE['PAGES']['PAGE_EXISTS']);
+	$admin->print_error($MESSAGE['PAGES_PAGE_EXISTS']);
 }
 
 // Update page with new order
@@ -225,13 +225,18 @@ $sql = 'UPDATE `'.TABLE_PREFIX.'pages` '
      .     '`position`='.$position.', '
      .     '`visibility`=\''.$visibility.'\', '
      .     '`searching`='.$searching.', '
-     .     '`language`=\''.$language.'\', '
-     .     '`admin_groups`=\''.$sAdminGroups.'\', '
-     .     '`admin_users`=\''.$sAdminUsers.'\', '
+     .     '`language`=\''.$language.'\', ';
+if($admin->ami_group_member('1')) {
+	$sql .= ''
+	     .     '`admin_groups`=\''.$sAdminGroups.'\', '
+	     .     '`admin_users`=\''.$sAdminUsers.'\', ';
+}
+$sql .= ''
      .     '`viewing_groups`=\''.$sViewingGroups.'\', '
      .     '`viewing_users`=\''.$sViewingUsers.'\', '
      .     '`page_code`='.$page_code.' '
      . 'WHERE `page_id`='.$page_id;
+
 if(!$database->query($sql)) {
 	$target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
 	$admin->print_error($database->get_error(), $target_url );
@@ -247,7 +252,7 @@ if($parent != $old_parent)
 // Create a new file in the /pages dir if title changed
 if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/'))
 {
-	$admin->print_error($MESSAGE['PAGES']['CANNOT_CREATE_ACCESS_FILE']);
+	$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
 } else {
     $old_filename = WB_PATH.PAGES_DIRECTORY.$old_link.PAGE_EXTENSION;
 	// First check if we need to create a new file
@@ -334,7 +339,7 @@ if($database->is_error())
 {
 	$admin->print_error($database->get_error(), $target_url );
 } else {
-	$admin->print_success($MESSAGE['PAGES']['SAVED_SETTINGS'], $target_url );
+	$admin->print_success($MESSAGE['PAGES_SAVED_SETTINGS'], $target_url );
 }
 
 // Print admin footer
