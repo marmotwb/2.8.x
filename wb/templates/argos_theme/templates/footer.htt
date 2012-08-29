@@ -15,15 +15,16 @@
   </tr>
 </table>
 <!-- BEGIN show_debug_block -->
-<div style="position: relative; width:998px;margin:15px auto;" class="shadow">
-	<div style="padding:10px;left:0; margin-bottom:25px; z-index:10; background-color:#dddddd;color:#dd0000;">
+<div class="mbox dev-info">
+	<div style="text-align:left; width: auto;">
 		<span class="">Memory Limit: {FILESIZE}&nbsp;|&nbsp;</span>
-		<span class="">Script load: {PAGE_LOAD_TIME} Sec&nbsp;|&nbsp;</span>
 		<span class="">Used Memory: {MEMORY}&nbsp;|&nbsp;</span>
-		<span class="">SQL-Queries executed: {QUERIES}&nbsp;|&nbsp;</span>
+		<span class="">Script loaded in: {PAGE_LOAD_TIME} Sec&nbsp;|&nbsp;</span>
+		<span class="">{QUERIES} SQL-Queries executed &nbsp;|&nbsp;</span>
+		<span class="">{CLASSES} declared classes&nbsp;|&nbsp;</span>
 		<span class="">Summary size of {INCLUDES} included files: {SUM_FILESIZE}</span>
 	<!-- BEGIN show_block_list -->
-		<ul style="margin-left: 27px; margin-top: 0;">
+		<br /><ul style="margin-left: 27px; margin-top: 0;">
 		<!-- BEGIN include_block_list -->
 			<li style="color: #336699; list-style:decimal-leading-zero;">{INCLUDES_ARRAY} ({FILESIZE})</li>
 		<!-- END include_block_list -->

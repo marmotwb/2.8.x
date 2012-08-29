@@ -1,0 +1,10 @@
+div.main .table { width :70%; overflow :hidden; border-radius :10px; -khtml-border-radius :10px; -webkit-border-radius :10px; -moz-border-radius :10px; -moz-box-shadow :5px 5px 5px rgba(68,68,68,0.6); -webkit-box-shadow :5px 5px 5px rgba(68,68,68,0.6); box-shadow :5px 5px 5px rgba(68,68,68,0.6); zoom :1; }
+table.header { width :70%; }
+.td,
+.content { padding :0; }
+.login_box { border :none; }
+ .login_box a { text-decoration :none; }
+ .login_box a:hover { text-decoration :underline; color :#3366ff; }
+form.settings_table { overflow :visible; margin :0; padding :0; }
+form.settings_table fieldset { border :1px none #eeeeee; display :block; margin :0; padding :0; }
+legend.settings_table, form.settings_table legend { background :#336699 url(../images/menu.png) repeat-x center; border :medium none; color :#ffffff; font-size :140%; height :25px; margin :0 auto auto -7px!important; padding :10px 0 0 10px; width :100%; text-align :left; }
