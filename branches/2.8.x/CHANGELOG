@@ -13,6 +13,11 @@ Legend:
 
 
 
+29 Aug-2012 Build 1720 Dietmar Woellbrink (Luisehahne)
+! FCKEditor remove som php endtags in connector
+29 Aug-2012 Build 1719 Dietmar Woellbrink (Luisehahne)
+! beginning update frontend account
+! remove html markup from code
 29 Aug-2012 Build 1718 Dietmar Woellbrink (Luisehahne)
 ! update headerinfo
 ! change multi-dimensional arrays (variables) to similar arrays

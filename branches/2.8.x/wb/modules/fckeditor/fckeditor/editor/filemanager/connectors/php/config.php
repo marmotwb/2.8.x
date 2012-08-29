@@ -231,5 +231,3 @@ $Config['FileTypesPath']['Media']				= $Config['UserFilesPath'] . '' ;
 $Config['FileTypesAbsolutePath']['Media']		= $Config['UserFilesAbsolutePath'];
 $Config['QuickUploadPath']['Media']				= $Config['UserFilesPath'] ;
 $Config['QuickUploadAbsolutePath']['Media']	= $Config['UserFilesAbsolutePath'] ;
-
-?>
