@@ -50,7 +50,7 @@ class msgQueue {
 	{
 		return (sizeof(self::handle()->_success) == 0 && sizeof(self::handle()->_error) == 0 );
 	}
-	
+
 	public static function getError($retval_type = self::RETVAL_STRING)
 	{
 		if(sizeof(self::handle()->_error))
@@ -81,4 +81,3 @@ class msgQueue {
 
 
 }
-?>
