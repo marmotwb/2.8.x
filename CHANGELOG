@@ -13,6 +13,10 @@ Legend:
 
 
 
+29 Aug-2012 Build 1707 Dietmar Woellbrink (Luisehahne)
+! update folder admin/pages, admin/skel/htt
+! change multi-dimensional arrays (variables) to similar arrays
+! change default templates, change code to new templates
 29 Aug-2012 Build 1706 Dietmar Woellbrink (Luisehahne)
 # fixed save page option 
 27 Aug-2012 Build 1705 Dietmar Woellbrink (Luisehahne)

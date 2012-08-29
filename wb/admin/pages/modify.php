@@ -3,9 +3,8 @@
  *
  * @category        admin
  * @package         pages
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich, WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -14,7 +13,7 @@
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
  *
-*/
+ */
 /*
 */
 // Create new admin object
@@ -48,7 +47,7 @@ if( (!($page_id = $admin->checkIDKEY('page_id', $page_id, $_SERVER['REQUEST_METH
 
 // Get perms
 if(!$admin->get_page_permission($page_id,'admin')) {
-	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
+	$admin->print_error($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']);
 }
 
 $sectionId = isset($_GET['wysiwyg']) ? htmlspecialchars($admin->get_get('wysiwyg')) : NULL;
@@ -67,7 +66,7 @@ $modified_ts = ($results_array['modified_when'] != 0)
 // $ftan_module = $GLOBALS['ftan_module'];
 // Setup template object, parse vars to it, then parse it
 // Create new template object
-$template = new Template(dirname($admin->correct_theme_source('pages_modify.htt')));
+$template = new Template(dirname($admin->correct_theme_source('pages_modify.htt')),'keep');
 // $template->debug = true;
 $template->set_file('page', 'pages_modify.htt');
 $template->set_block('page', 'main_block', 'main');
@@ -88,7 +87,9 @@ $template->set_var(array(
 			'MODIFIED_BY' => $user['display_name'],
 			'MODIFIED_BY_USERNAME' => $user['username'],
 			'MODIFIED_WHEN' => $modified_ts,
-			'LAST_MODIFIED' => $MESSAGE['PAGES']['LAST_MODIFIED'],
+//			'LAST_MODIFIED' => $MESSAGE['PAGES_LAST_MODIFIED'],
+			'TEXT_LAST_MODIFIED' => $TEXT['LAST_UPDATED_BY'],
+			'TEXT_MANAGE_SECTIONS' => $HEADING['MANAGE_SECTIONS']
 			));
 
 $template->set_block('main_block', 'show_modify_block', 'show_modify');
@@ -103,10 +104,49 @@ if($modified_ts == 'Unknown')
 }
 
 // Work-out if we should show the "manage sections" link
-$sql  = 'SELECT `section_id` FROM `'.TABLE_PREFIX.'sections` WHERE `page_id` = '.(int)$page_id.' ';
-$sql .= 'AND `module` = "menu_link"';
-$query_sections = $database->query($sql);
+//$sql  = 'SELECT `section_id` FROM `'.TABLE_PREFIX.'sections` WHERE `page_id` = '.(int)$page_id.' ';
+//$sql .= 'AND `module` = "menu_link"';
+//$query_sections = $database->query($sql);
 
+if( $admin->get_permission('pages_settings') )
+{
+	$template->set_var(array(
+			'SETTINGS_LINK_BEFORE' => '<a href="'.ADMIN_URL.'/pages/settings.php?page_id='.$results_array['page_id'].'">',
+			'SETTINGS_LINK_AFTER' => '</a>',
+			'DISPLAY_MANAGE_SETTINGS' => 'link',
+			));
+} else {
+	$template->set_var(array(
+			'SETTINGS_LINK_BEFORE' => '<span class="bold grey">',
+			'SETTINGS_LINK_AFTER' => '</span>',
+			'DISPLAY_MANAGE_SECTIONS' => 'link',
+			));
+}
+
+/*-- workout if we should show the "manage sections" link ------------------------------*/
+	$sql = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'sections` '
+	     . 'WHERE `page_id`='.$page_id.' AND `module`=\'menu_link\'';
+	$bIsMenuLink = (intval($database->get_one($sql)) != 0);
+//	$oTpl->set_block('main_block', 'show_manage_sections_block', 'show_manage_sections');
+//	if(!$bIsMenuLink && (MANAGE_SECTIONS == true) && $admin->get_permission('pages_add') )
+	if((MANAGE_SECTIONS == true) && $admin->get_permission('pages_add') )
+	{
+//		$oTpl->parse('show_manage_sections', 'show_manage_sections_block', true);
+		$template->set_var(array(
+				'SECTIONS_LINK_BEFORE' => '<a href="'.ADMIN_URL.'/pages/sections.php?page_id='.$results_array['page_id'].'">',
+				'SECTIONS_LINK_AFTER' => '</a>',
+				'DISPLAY_MANAGE_SECTIONS' => 'link',
+				));
+	}else {
+//		$oTpl->set_block('show_manage_sections', '');
+		$template->set_var(array(
+				'SECTIONS_LINK_BEFORE' => '<span class="bold grey">',
+				'SECTIONS_LINK_AFTER' => '</span>',
+				'DISPLAY_MANAGE_SECTIONS' => 'link',
+				));
+	}
+
+/*
 $template->set_block('main_block', 'show_section_block', 'show_section');
 if($query_sections->numRows() > 0)
 {
@@ -124,7 +164,7 @@ if($query_sections->numRows() > 0)
 	$template->set_var('DISPLAY_MANAGE_SECTIONS', 'display:none;');
 
 }
-
+*/
 // Insert language TEXT
 $template->set_var(array(
 				'TEXT_CURRENT_PAGE' => $TEXT['CURRENT_PAGE'],

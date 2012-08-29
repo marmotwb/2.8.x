@@ -5,8 +5,8 @@
  * deutsch                                                                              *
  ****************************************************************************************/
 
-$HEADING['MODIFY_PAGE']          = 'Seite &auml;ndern';
-$HEADING['MODIFY_PAGE_SETTINGS'] = 'Seitenoptionen &auml;ndern';
+$HEADING['MODIFY_PAGE']          = 'Seite ändern';
+$HEADING['MODIFY_PAGE_SETTINGS'] = 'Seitenoptionen ändern';
 
 $TEXT['ADMINISTRATORS']  = 'Administratoren';
 $TEXT['ALLOWED_VIEWERS'] = 'Zugelassene Besucher';
@@ -16,25 +16,25 @@ $TEXT['DISABLED']        = 'Ausgeschaltet';
 $TEXT['ENABLED']         = 'Eingeschaltet';
 $TEXT['GROUP']           = 'Gruppen';
 $TEXT['HIDDEN']          = 'Versteckt';
-$TEXT['KEYWORDS']        = 'Schl&uuml;sselw&ouml;rter';
+$TEXT['KEYWORDS']        = 'Schlüsselwörter';
 $TEXT['LANGUAGE']        = 'Sprache';
-$TEXT['LAST_MODIFIED']   = 'Letzte &Auml;nderung durch';
+$TEXT['LAST_MODIFIED']   = 'Letzte Änderung durch';
 $TEXT['MANAGE_SECTIONS'] = 'Abschnitte verwalten';
-$TEXT['MENU']            = 'Men&uuml;';
-$TEXT['MENU_TITLE']      = 'Men&uuml;titel';
-$TEXT['MODIFY']          = '&Auml;ndern';
-$TEXT['MODIFY_PAGE']     = 'Seite &auml;ndern';
+$TEXT['MENU']            = 'Menü';
+$TEXT['MENU_TITLE']      = 'Menütitel';
+$TEXT['MODIFY']          = 'Ändern';
+$TEXT['MODIFY_PAGE']     = 'Seite ändern';
 $TEXT['NEW_WINDOW']      = 'Neues Fenster';
 $TEXT['NO_SELECTION']    = 'keine Auswahl';
 $TEXT['NONE']            = 'Keine';
-$TEXT['PAGE_CODE']       = 'Seitencode (Sprachlink)';
+$TEXT['PAGE_CODE']       = 'Seitensprachcode';
 $TEXT['PAGE_TITLE']      = 'Seitentitel';
-$TEXT['PARENT']          = '&Uuml;bergeordnete Seite';
-$TEXT['PLEASE_SELECT']   = 'Bitte ausw&auml;hlen';
+$TEXT['PARENT']          = 'Übergeordnete Seite';
+$TEXT['PLEASE_SELECT']   = 'Bitte auswählen';
 $TEXT['PRIVATE']         = 'Privat';
-$TEXT['PUBLIC']          = '&Ouml;ffentlich';
+$TEXT['PUBLIC']          = 'Öffentlich';
 $TEXT['REGISTERED']      = 'registriert';
-$TEXT['RESET']           = 'Zur&uuml;cksetzen';
+$TEXT['RESET']           = 'Zurücksetzen';
 $TEXT['SAME_WINDOW']     = 'Gleiches Fenster';
 $TEXT['SAVE']            = 'Speichern';
 $TEXT['SEARCHING']       = 'Suchfunktion';
@@ -51,7 +51,24 @@ $TEXT['SECTION_ORGANISATION'] = 'Organisation';
 $TEXT['SECTION_CONTENT']      = 'Inhalt';
 $TEXT['SECTION_SECURITY']     = 'Sicherheit';
 $TEXT['PAGE_ICON']            = 'Seitenbild';
+$TEXT['PAGE_ICON_DIR']        = 'Verzeichnis Seitenbilder';
 $TEXT['MENU_ICON_0']          = 'Menübild normal';
+$TEXT['MENU_ICON_0_DIR']      = 'Verzeichnis Menübild normal';
 $TEXT['MENU_ICON_1']          = 'Menübild hover';
+$TEXT['MENU_ICON_1_DIR']      = 'Verzeichnis Menübild hover';
+$TEXT['SEO_TITLE']            = 'Seotitel';
+$MESSAGE['PAGES_LAST_MODIFIED'] = 'Letze Änderung durch';
 
-$MESSAGE['PAGES_LAST_MODIFIED'] = 'Letze &Auml;nderung durch';
+$HELP['PAGE_IMAGE_DIR']  = '<p>Der aktuelle Seitenbildpfad ist<br /> <b>{{icon_dir}}</b>.</p>';
+$HELP['PAGE_IMAGE_DIR'] .='<p>Als Systemadministrator können Sie das Verzeichnis für Seiten-/Menuebilder unter <i>Optionen</i> <i>Erweiterte Optionen</i> in <i>Servereinstellung</i> ändern.</p>';
+$HELP['PAGE_IMAGE_DIR'] .='<p>Beispiel:<br /><b>/media/banner</b></p>';
+$HELP['PAGE_IMAGE_DIR'] .='<p>&nbsp;</p>';
+
+$HELP['PAGE_CODE']  = '<p>Wenn Sie dieses Feld sehen, haben Sie das Modul für die Mehrsprachigkeit registriert.</p>';
+$HELP['PAGE_CODE'] .= '<p>Der erste Schritt ist einen Seitenbaum, wie in der WebsiteBaker Hilfe beschrieben, zu erstellen</p>';
+$HELP['PAGE_CODE'] .= '<p>Link: <a href=\\\'http:\/\/www.websitebaker2.org/de/hilfe/designerhandbuch/mehrsprachige-webseiten.php\\\' target=\\\'_blank\\\'>Mehrsprachige Webseiten</a></p>';
+$HELP['PAGE_CODE'] .= '<p>Der Seitensprachbaum wird aus den erstellten Seiten der Standardsprache (Standardeinstellungen in <i>Optionen</i>) erstellt.</p>';
+$HELP['PAGE_CODE'] .= '<p>Sie können jederzeit den Standard Seitensprachbaum durch Klick auf den Titeltext aktualisieren! Die zugewiesenen Seiten bleiben unverändert.</p>';
+$HELP['PAGE_CODE'] .= '<p>Wenn sie eine Seite in einer anderen Sprache angelegt haben, bestätigen Sie aus dieser Liste den dazugehörigen Eintrag der Standardsprache.</p>';
+$HELP['PAGE_CODE'] .= '<p>Beispiel:<br />Erstellte Seite im Zweig EN: <b>Imprint</b> zuweisen an Standardsprache DE: <b>Impressum</b></p>';
+
