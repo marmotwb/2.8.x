@@ -1,6 +1,6 @@
 <!-- BEGIN main_block -->
 
-<form action="groups.php" method="post">
+<form class="access" action="groups.php" method="post">
  {FTAN}
   <table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="100%" style="margin-bottom:10px;">
 	<tr style="background:#f0f0f0;">

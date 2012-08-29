@@ -1,10 +1,10 @@
 <!-- BEGIN main_block -->
-<h2>{ACCESS}</h2>
-<table summary="" cellpadding="0" cellspacing="0" border="0" width="99%" align="center">
+<h2 class="left">{ACCESS}</h2>
+<table summary="">
 	<tr>
 		<td align="center" valign="top">
-			<!-- BEGIN users_block -->	
-			<table summary="" cellpadding="0" cellspacing="0" border="0" class="section" {DISPLAY_USERS} >
+			<!-- BEGIN users_block -->
+			<table summary="" class="section" {DISPLAY_USERS} >
 				<tr>
 					<td class="graphic" align="center" valign="top" rowspan="2">
 						<a href="{ADMIN_URL}/users/index.php"><img src="{THEME_URL}/icons/users.png" alt="{USERS}" /></a>
@@ -13,10 +13,10 @@
 						<a href="{ADMIN_URL}/users/index.php"><span class="title">{USERS}</span></a><p>{USERS_OVERVIEW}</p>
 					</td>
 				</tr>
-			</table>	
+			</table>
 			<!-- END users_block -->
-			<!-- BEGIN groups_block -->		
-			<table summary="" cellpadding="0" cellspacing="0" border="0" class="section" {DISPLAY_GROUPS} >
+			<!-- BEGIN groups_block -->
+			<table summary="" class="section" {DISPLAY_GROUPS} >
 				<tr>
 					<td class="graphic" align="center" valign="top" rowspan="2">
 						<a href="{ADMIN_URL}/groups/index.php"><img src="{THEME_URL}/icons/groups.png" alt="{GROUPS}" /></a>

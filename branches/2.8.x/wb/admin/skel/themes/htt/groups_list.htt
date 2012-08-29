@@ -1,0 +1,47 @@
+<!-- BEGIN main_block -->
+<div class="content_box">
+<table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="100%" style="margin-bottom:10px;">
+	<tr style="background:#f0f0f0;">
+		<td align="left"><h2>{CONTENT_HEADER}</h2></td>
+		<td align="right">
+	<!-- BEGIN show_cmd_manage_users_block -->
+		<form name="cmd_manage_users" action="{LINK_MANAGE_USERS}" method="post">
+			{FTAN}
+			<input class="submit" type="submit" name="cmd_manage_users" value="{TEXT_MANAGE_USERS}" />
+		</form>
+	<!-- END show_cmd_manage_users_block -->
+		</td>
+     </tr>
+</table>
+	<!-- BEGIN show_cmd_group_list_block -->
+		<form class="access" name="{FORM_NAME_GROUPLIST}" id="{FORM_NAME_GROUPLIST}" action="{ACTION_URL}" method="post">
+			{FTAN}
+			<div class="mbox curved curved h80">
+		        <h3>{CONTENT_HEADER}</h3>
+				<select class="c400" name="group_id" >
+	<!-- BEGIN grouplist_block -->
+					<option value="{GROUP_ID}">{GROUP_DISPLAY_NAME}</option>
+	<!-- END grouplist_block -->
+				</select>
+	<!-- BEGIN show_cmd_modify_group_block -->
+				<input type="submit" name="action_modify" value="{TEXT_MODIFY}" />
+	<!-- END show_cmd_modify_group_block -->
+	<!-- BEGIN show_cmd_delete_group_block -->
+				<input type="submit" name="action_delete" value="{TEXT_DELETE}" onclick="return confirm('{CONFIRM_DELETE}');" />
+	<!-- END show_cmd_delete_group_block -->
+			</div>
+		</form>
+	<!-- END show_cmd_group_list_block -->
+	<!-- BEGIN show_cmd_add_input_block -->
+		<form name="group" action="{GROUP_ACTION_URL}" method="post" class="access {DISPLAY_ADD}">
+			<input type="hidden" name="group_id" value="0" />
+			{FTAN}
+			<div class="mbox curved h80">
+		        <h3>{GROUPS_HEADER}</h3>
+			 	<input type="text" name="name" maxlength="120" value="" class="c400" />
+				<input type="submit" name="{ACTION_HANDLE}" value="{SUBMIT_TITLE}" />
+			</div>
+		</form>
+	<!-- END show_cmd_add_input_block -->
+</div>
+<!-- END main_block -->

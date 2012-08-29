@@ -7,19 +7,30 @@ function toggle_radio(radio_on, radio_off) {
 }
 </script>
 
-<h2 style="{DISPLAY_EXTRA}">{HEADING_MODIFY_USER}</h2>
+<h2 class="left" style="{DISPLAY_EXTRA}">{HEADING_MODIFY_USER}</h2>
 
-<form name="user" action="{ACTION_URL}" method="post" class="{DISPLAY_ADD}">
+<form name="user" action="{ACTION_URL}" method="post" class="{DISPLAY_ADD} left settings_table">
 <input type="hidden" name="user_id" value="{USER_ID}" />
 <input type="hidden" name="username_fieldname" value="{USERNAME_FIELDNAME}" />
 {FTAN}
 <table summary="" cellpadding="5" cellspacing="0" border="0" width="100%">
+<!-- BEGIN show_modify_loginname_block -->
+<tr>
+	<td width="150">{TEXT_USERNAME}:</td>
+	<td class="value_input">
+		<input type="hidden" name="{USERNAME_FIELDNAME}" value="{USERNAME}" />
+		<input class="button" type="button" value="{USERNAME}" disabled="disabled" readonly="readonly" />
+	</td>
+</tr>
+<!-- END show_modify_loginname_block -->
+<!-- BEGIN show_add_loginname_block -->
 <tr>
 	<td width="150">{TEXT_USERNAME}:</td>
 	<td class="value_input">
 		<input type="text" name="{USERNAME_FIELDNAME}" maxlength="30" value="{USERNAME}" />
 	</td>
 </tr>
+<!-- END show_add_loginname_block -->
 <tr>
 	<td>{TEXT_PASSWORD}:</td>
 	<td class="value_input">

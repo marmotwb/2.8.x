@@ -3,9 +3,8 @@
  *
  * @category        admin
  * @package         users
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich, WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -38,7 +37,7 @@ if(!isset($_POST['user_id']) OR !is_numeric($_POST['user_id']) OR $_POST['user_i
 	header("Location: index.php");
 	exit(0);
 } else {
-	$user_id = $_POST['user_id'];
+	$user_id = intval($_POST['user_id']);
 }
 
 // Gather details entered
@@ -54,18 +53,22 @@ $home_folder = $admin->get_post_escaped('home_folder');
 
 // Check values
 if($groups_id == "") {
-	$admin->print_error($MESSAGE['USERS']['NO_GROUP'], $js_back);
+	$admin->print_error($MESSAGE['USERS_NO_GROUP'], $js_back);
 }
-if(!preg_match('/^[a-z]{1}[a-z0-9_-]{2,}$/i', $username)) {
+if(!preg_match('/^[a-z]{1}[a-z0-9_-]{2,}$/i', $username))
+{
+
+//	print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
+//	print_r( $_POST ); print '</pre>';
 	$admin->print_error( $MESSAGE['USERS_NAME_INVALID_CHARS'].' / '.
 	                  $MESSAGE['USERS_USERNAME_TOO_SHORT'], $js_back);
 }
 if($password != "") {
 	if(strlen($password) < 2) {
-		$admin->print_error($MESSAGE['USERS']['PASSWORD_TOO_SHORT'], $js_back);
+		$admin->print_error($MESSAGE['USERS_PASSWORD_TOO_SHORT'], $js_back);
 	}
 	if($password != $password2) {
-		$admin->print_error($MESSAGE['USERS']['PASSWORD_MISMATCH'], $js_back);
+		$admin->print_error($MESSAGE['USERS_PASSWORD_MISMATCH'], $js_back);
 	}
 }
 
@@ -73,21 +76,21 @@ if($email != "")
 {
 	if($admin->validate_email($email) == false)
     {
-        $admin->print_error($MESSAGE['USERS']['INVALID_EMAIL'], $js_back);
+        $admin->print_error($MESSAGE['USERS_INVALID_EMAIL'], $js_back);
 	}
 } else { // e-mail must be present
-	$admin->print_error($MESSAGE['SIGNUP']['NO_EMAIL'], $js_back);
+	$admin->print_error($MESSAGE['SIGNUP_NO_EMAIL'], $js_back);
 }
 
 // Check if the email already exists
 $results = $database->query("SELECT user_id FROM ".TABLE_PREFIX."users WHERE email = '".$admin->add_slashes($_POST['email'])."' AND user_id <> '".$user_id."' ");
 if($results->numRows() > 0)
 {
-	if(isset($MESSAGE['USERS']['EMAIL_TAKEN']))
+	if(isset($MESSAGE['USERS_EMAIL_TAKEN']))
     {
-		$admin->print_error($MESSAGE['USERS']['EMAIL_TAKEN'], $js_back);
+		$admin->print_error($MESSAGE['USERS_EMAIL_TAKEN'], $js_back);
 	} else {
-		$admin->print_error($MESSAGE['USERS']['INVALID_EMAIL'], $js_back);
+		$admin->print_error($MESSAGE['USERS_INVALID_EMAIL'], $js_back);
 	}
 }
 
@@ -110,7 +113,7 @@ $database->query($query);
 if($database->is_error()) {
 	$admin->print_error($database->get_error(),$js_back);
 } else {
-	$admin->print_success($MESSAGE['USERS']['SAVED']);
+	$admin->print_success($MESSAGE['USERS_SAVED']);
 }
 
 // Print admin footer
