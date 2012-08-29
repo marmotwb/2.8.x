@@ -1,0 +1,9 @@
+<!-- BEGIN main_block -->
+<div class="msg-box info">
+<!-- BEGIN show_registration_block -->
+	<p>{MESSAGE_VALUE}</p>
+<!-- END show_registration_block -->
+	<p>{MESSAGE}</p>
+<input type="button" name="submit" value="{BACK}" onclick="javascript:window.location='{HTTP_REFERER}';" style="padding: 0 3px;" />
+</div>
+<!-- END main_block -->

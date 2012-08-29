@@ -4,7 +4,7 @@
  * @category        frontend
  * @package         account
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -15,11 +15,18 @@
  *
  */
 
-// Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+if(defined('WB_PATH') == false)
+{
+	// Stop this file being access directly
+		die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
+}
+/* -------------------------------------------------------- */
 // Check if the user has already submitted the form, otherwise show it
 $message = $MESSAGE['FORGOT_PASS_NO_DATA'];
 $errMsg ='';
+$redirect_url = (isset($redirect_url) && ($redirect_url!='')  ? $redirect_url : $_SESSION['HTTP_REFERER'] );
 if(isset($_POST['email']) && $_POST['email'] != "" )
 {
 	$email = strip_tags($_POST['email']);
@@ -100,28 +107,41 @@ if( ($errMsg=='') && ($message != '')) {
 	$message = $errMsg;
 	$message_color = 'ff0000';
 }
-?>
-<div style="margin: 1em auto;">
-	<button type="button" value="cancel" onClick="javascript: window.location = '<?php print $_SESSION['HTTP_REFERER'] ?>';"><?php print $TEXT['CANCEL'] ?></button>
-</div>
-<h1 style="text-align: center;"><?php echo $MENU['FORGOT']; ?></h1>
-<form name="forgot_pass" action="<?php echo WB_URL.'/account/forgot.php'; ?>" method="post">
-	<input type="hidden" name="url" value="{URL}" />
-		<table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="500">
-		<tr>
-			<td height="40" align="center" style="color: #<?php echo $message_color; ?>;" colspan="3">
-			<strong><?php echo $message; ?></strong>
-			</td>
-		</tr>
-<?php if(!isset($display_form) OR $display_form != false) { ?>
-		<tr>
-			<td height="10" colspan="2"></td>
-		</tr>
-		<tr>
-			<td width="165" height="30" align="right"><?php echo $TEXT['EMAIL']; ?>:</td>
-			<td><input type="text" maxlength="255" name="email" value="<?php echo $email; ?>" style="width: 180px;" /></td>
-			<td><input type="submit" name="submit" value="<?php echo $TEXT['SEND_DETAILS']; ?>" style="width: 180px; font-size: 10px; color: #003366; border: 1px solid #336699; background-color: #DDDDDD; padding: 3px; text-transform: uppercase;" /></td>
-		</tr>
-<?php } ?>
-		</table>
-</form>
+
+// set template file and assign module and template block
+	$oTpl = new Template(dirname(__FILE__).'/htt','keep');
+	$oTpl->set_file('page', 'forgot.htt');
+	$oTpl->debug = false; // false, true
+	$oTpl->set_block('page', 'main_block', 'main');
+
+	$oTpl->set_block('main_block', 'message_block', 'message');
+	$oTpl->set_block('message', '');
+	if(!isset($display_form) OR $display_form != false) {}
+// generell vars
+	$oTpl->set_var(array(
+		'FTAN' => $wb->getFTAN(),
+		'ACTION_URL' => WB_URL.'/account/forgot.php',
+		'LOGIN_URL' => WB_URL.'/account/login.php',
+		'REDIRECT_URL' => $redirect_url,
+		'WB_URL' => WB_URL,
+		'THEME_URL' => THEME_URL,
+		'HTTP_REFERER' => $_SESSION['HTTP_REFERER'],
+		'MESSAGE_VALUE' => '',
+		'ERROR_VALUE' => '',
+		'THISAPP_MESSAGE_VALUE' => $message,
+		'TEXT_USERNAME' => $TEXT['USERNAME'],
+		'TEXT_EMAIL' => $TEXT['EMAIL'],
+//		'USER_FIELDNAME' => $username_fieldname,
+		'TEXT_SEND_DETAILS' => $TEXT['SEND_DETAILS'],
+		'TEXT_NEED_TO_LOGIN' => $TEXT['NEED_TO_LOGIN'],
+		'MENU_FORGOT' => $MENU['FORGOT'],
+		'TEXT_RESET' => $TEXT['RESET'],
+		'TEXT_CANCEL' => $TEXT['CANCEL'],
+		)
+	);
+
+	//$oTpl->parse('message', 'message_block', true);
+	$oTpl->parse('main', 'main_block', false);
+	$output = $oTpl->finish($oTpl->parse('output', 'page'));
+	unset($oTpl);
+	print $output;

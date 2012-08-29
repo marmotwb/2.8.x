@@ -3,9 +3,8 @@
  *
  * @category        frontend
  * @package         account
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich, WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -20,13 +19,13 @@ require_once("../config.php");
 
 // Make sure the login is enabled
 if(!FRONTEND_LOGIN) {
-	if(INTRO_PAGE) {
-		header('Location: '.WB_URL.PAGES_DIRECTORY.'/index.php');
-		exit(0);
-	} else {
 		header('Location: '.WB_URL.'/index.php');
 		exit(0);
-	}
+//	if(INTRO_PAGE) {
+//		header('Location: '.WB_URL.PAGES_DIRECTORY.'/index.php');
+//		exit(0);
+//	} else {
+//	}
 }
 
 $page_id = !empty($_SESSION['PAGE_ID']) ? $_SESSION['PAGE_ID'] : 0;
@@ -62,7 +61,7 @@ $loginUrl .= (!empty($redirect) ? '?redirect=' .$_SESSION['HTTP_REFERER'] : '');
 
 $ThemeUrl  = WB_URL.$wb->correct_theme_source('warning.html');
 // Setup template object, parse vars to it, then parse it
-$ThemePath = realpath(WB_PATH.$wb->correct_theme_source('login.htt'));
+$ThemePath = realpath(WB_PATH.$wb->correct_theme_source('loginBox.htt'));
 
 $thisApp = new Login(
 				array(
@@ -76,7 +75,7 @@ $thisApp = new Login(
 						"MAX_USERNAME_LEN" => "30",
 						"MAX_PASSWORD_LEN" => "30",
 						"LOGIN_URL" => $loginUrl,
-						"DEFAULT_URL" => WB_URL.PAGES_DIRECTORY."/index.php",
+						"DEFAULT_URL" => WB_URL."/index.php",
 						"TEMPLATE_DIR" => $ThemePath,
 						"TEMPLATE_FILE" => "login.htt",
 						"FRONTEND" => true,

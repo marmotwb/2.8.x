@@ -4,8 +4,7 @@
  * @category        frontend
  * @package         account
  * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -16,16 +15,22 @@
  *
  */
 
-// Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+if(defined('WB_PATH') == false)
+{
+	// Stop this file being access directly
+		die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
+}
+/* -------------------------------------------------------- */
 
+	// Generate username field name
 $username_fieldname = 'username';
 $password_fieldname = 'password';
+$output = '';
+msgQueue::clear();
 
-if(defined('SMART_LOGIN') AND SMART_LOGIN == 'enabled') {
-	// Generate username field name
-	$username_fieldname = 'username_';
-	$password_fieldname = 'password_';
+if(defined('SMART_LOGIN') AND SMART_LOGIN == 'true') {
 
 	$temp = array_merge(range('a','z'), range(0,9));
 	shuffle($temp);
@@ -36,58 +41,55 @@ if(defined('SMART_LOGIN') AND SMART_LOGIN == 'enabled') {
 }
 
 $thisApp->redirect_url = (isset($thisApp->redirect_url) && ($thisApp->redirect_url!='')  ? $thisApp->redirect_url : $_SESSION['HTTP_REFERER'] );
-?>
-<div style="margin: 1em auto;">
-	<button type="button" value="cancel" onClick="javascript: window.location = '<?php print $_SESSION['HTTP_REFERER'] ?>';"><?php print $TEXT['CANCEL'] ?></button>
-</div>
-<h1>&nbsp;Login</h1>
-&nbsp;<?php echo $thisApp->message; ?>
-<br />
-<br />
 
-<form class="login-box" action="<?php echo WB_URL.'/account/login.php'; ?>" method="post">
-<input type="hidden" name="username_fieldname" value="<?php echo $username_fieldname; ?>" />
-<input type="hidden" name="password_fieldname" value="<?php echo $password_fieldname; ?>" />
-<input type="hidden" name="redirect" value="<?php echo $thisApp->redirect_url;?>" />
+// set template file and assign module and template block
+	$oTpl = new Template(dirname(__FILE__).'/htt','keep');
+	$oTpl->set_file('page', 'login.htt');
+	$oTpl->debug = false; // false, true
+	$oTpl->set_block('page', 'main_block', 'main');
 
-<table cellpadding="5" cellspacing="0" border="0" width="90%">
-<tr>
-	<td style="width:100px"><?php echo $TEXT['USERNAME']; ?>:</td>
-	<td class="value_input">
-		<input type="text" name="<?php echo $username_fieldname; ?>" maxlength="30" style="width:220px;"/>
-    	<script type="text/javascript">
-    	// document.login.<?php echo $username_fieldname; ?>.focus();
-    	var ref= document.getElementById("<?php echo $username_fieldname; ?>");
-    	if (ref) ref.focus();
-    	</script>
-	</td>
-</tr>
-<tr>
-	<td style="width:100px"><?php echo $TEXT['PASSWORD']; ?>:</td>
-	<td class="value_input">
-		<input type="password" name="<?php echo $password_fieldname; ?>" maxlength="30" style="width:220px;"/>
-	</td>
-</tr>
-<?php if($username_fieldname != 'username') { ?>
-<tr>
-	<td>&nbsp;</td>
-	<td>
-		<input type="checkbox" name="remember" id="remember" value="true"/>
-		<label for="remember"><?php echo $TEXT['REMEMBER_ME']; ?></label>
-	</td>
-</tr>
-<?php } ?>
-<tr>
-	<td>&nbsp;</td>
-	<td>
-		<input type="submit" name="submit" value="<?php echo $TEXT['LOGIN']; ?>"  />
-		<input type="reset" name="reset" value="<?php echo $TEXT['RESET']; ?>"  />
-	</td>
-</tr>
-</table>
+	$oTpl->set_block('main_block', 'message_block', 'message');
+	$oTpl->set_block('message', '');
 
-</form>
+// generell vars
+	$oTpl->set_var(array(
+		'FTAN' => $wb->getFTAN(),
+		'ACTION_URL' => WB_URL.'/account/login.php',
+		'FORGOT_URL' => WB_URL.'/account/forgot.php',
+		'REDIRECT_URL' => $thisApp->redirect_url,
+		'WB_URL' => WB_URL,
+		'THEME_URL' => THEME_URL,
+		'HTTP_REFERER' => $_SESSION['HTTP_REFERER'],
+		'MESSAGE_VALUE' => '',
+		'ERROR_VALUE' => '',
+		'THISAPP_MESSAGE_VALUE' => $thisApp->message,
+		'TEXT_FORGOTTEN_DETAILS' => $TEXT['FORGOTTEN_DETAILS'],
+		'TEXT_USERNAME' => $TEXT['USERNAME'],
+		'TEXT_PASSWORD' => $TEXT['PASSWORD'],
+		'USER_FIELDNAME' => $username_fieldname,
+		'PASSWORD_FIELDNAME' => $password_fieldname,
+		'TEXT_LOGIN' => $TEXT['LOGIN'],
+		'TEXT_RESET' => $TEXT['RESET'],
+		'TEXT_CANCEL' => $TEXT['CANCEL'],
+		)
+	);
 
-<br />
+	$oTpl->set_block('main_block', 'show_smart_login_block', 'show_smart_login');
+//	$oTpl->parse('show_smart_login', '');
+	if($username_fieldname != 'username') {
+		$oTpl->set_var(array(
+		'TEXT_REMEMBER_ME' => $TEXT['REMEMBER_ME'],
+			)
+		);
 
-<a href="<?php echo WB_URL; ?>/account/forgot.php"><?php echo $TEXT['FORGOTTEN_DETAILS']; ?></a>
+		$oTpl->parse('smart_login', 'show_smart_login_block', true);
+	} else {
+		$oTpl->set_block('show_smart_login', '');
+	}
+
+	//$oTpl->parse('message', 'message_block', true);
+	$oTpl->parse('main', 'main_block', false);
+	$output = $oTpl->finish($oTpl->parse('output', 'page'));
+	unset($oTpl);
+	print $output;
+
