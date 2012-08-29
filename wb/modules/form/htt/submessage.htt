@@ -1,0 +1,37 @@
+<!-- BEGIN main_block -->
+
+<div class="previewPrintTop">
+<a title="{TEXT_PRINT_PAGE} ({TEXT_REQUIRED_JS})" href="javascript:window.print()">
+{TEXT_PRINT_PAGE}<img width="16px" height="14px" alt="" src="{MODULE_URL}/htt/print.gif" />
+</a>
+</div>
+
+<table class="frm-submission print-email">
+<tr>
+	<td colspan="2">{SUCCESS_EMAIL_TEXT}</td>
+</tr>
+<tr>
+	<td colspan="2"><p class="frm-warning {NIX_HIER}">{SUCCESS_PRINT}</p></td>
+</tr>
+
+<tr>
+	<td>{TEXT_SUBMISSION_ID}:</td>
+	<td>{submission_submission_id}</td>
+</tr>
+<tr>
+	<td>{TEXT_SUBMITTED}:</td>
+	<td>{submission_submitted_when}</td>
+</tr>
+<tr>
+	<td>{TEXT_USER}:</td>
+	<td>{user_display_name} ({user_username})</td>
+</tr>
+<tr>
+	<td colspan="2"><hr /></td>
+</tr>
+<tr>
+	<td colspan="2">{submission_body}</td>
+</tr>
+</table>
+
+<!-- END main_block -->

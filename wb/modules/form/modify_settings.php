@@ -12,7 +12,7 @@
  * @version         $Id$
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
- * @description     
+ * @description
  */
 
 require('../../config.php');
@@ -29,6 +29,14 @@ include_once(WB_PATH .'/framework/module.functions.php');
 // load module language file
 $lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
 require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
+
+// later in upgrade.php
+$table_name = TABLE_PREFIX.'mod_form_settings';
+$field_name = 'perpage_submissions';
+$description = "INT NOT NULL DEFAULT '10' AFTER `max_submissions`";
+if(!$database->field_exists($table_name,$field_name)) {
+	$database->field_add($table_name, $field_name, $description);
+}
 
 $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
 
@@ -113,6 +121,12 @@ if(function_exists('edit_module_css')) {
 		</td>
 	</tr>
 	<tr>
+		<td class="frm-setting_name"><?php echo $TEXT['SUBMISSIONS_PERPAGE']; ?>:</td>
+		<td class="frm-setting_value">
+			<input type="text" name="perpage_submissions" style="width: 30px;" maxlength="255" value="<?php echo str_replace($raw, $friendly, ($setting['perpage_submissions'])); ?>" />
+		</td>
+	</tr>
+	<tr>
 		<td class="frm-setting_name"><?php echo $TEXT['HEADER']; ?>:</td>
 		<td class="frm-setting_value">
 			<textarea name="header" cols="80" rows="6" style="width: 98%; height: 80px;"><?php echo ($setting['header']); ?></textarea>
@@ -130,7 +144,7 @@ if(function_exists('edit_module_css')) {
 			<textarea name="footer" cols="80" rows="6" style="width: 98%; height: 80px;"><?php echo str_replace($raw, $friendly, ($setting['footer'])); ?></textarea>
 		</td>
 	</tr>
-</table>	
+</table>
 <!-- E-Mail Optionen -->
 <table summary="<?php echo $TEXT['EMAIL'].' '.$TEXT['SETTINGS']; ?>" class="row_a" cellpadding="2" cellspacing="0" border="0" width="100%" style="margin-top: 3px;">
 	<tr>
@@ -169,7 +183,35 @@ if(function_exists('edit_module_css')) {
 		<td class="frm-setting_name"><?php echo $TEXT['EMAIL'].' '.$MOD_FORM['TO']; ?>:</td>
 		<td class="frm-setting_value"><?php echo  $MOD_FORM['RECIPIENT'] ?>	</td>
 	</tr>
-
+	<tr>
+		<td colspan="2"><p class="frm-warning"><?php echo $MOD_FORM['SPAM']; ?></p></td>
+	</tr>
+	<tr>
+		<td class="frm-setting_name"><?php echo $MOD_FORM['REPLYTO']; ?>:</td>
+		<td class="frm-setting_value">
+			<select name="success_email_to" style="width: 98%;">
+			<option value="" onclick="javascript: document.getElementById('success_email_to').style.display = 'block';"><?php echo $TEXT['NONE']; ?></option>
+			<?php
+			$success_email_to = str_replace($raw, $friendly, ($setting['success_email_to']));
+			$sql  = 'SELECT `field_id`, `title` FROM `'.TABLE_PREFIX.'mod_form_fields` ';
+			$sql .= 'WHERE `section_id` = '.(int)$section_id.' ';
+			$sql .= '  AND  `type` = \'email\' ';
+			$sql .= 'ORDER BY `position` ASC ';
+			if($query_email_fields = $database->query($sql)) {
+				if($query_email_fields->numRows() > 0) {
+					while($field = $query_email_fields->fetchRow(MYSQL_ASSOC)) {
+						?>
+						<option value="field<?php echo $field['field_id']; ?>"<?php if($success_email_to == 'field'.$field['field_id']) { echo ' selected'; $selected = true; } ?> onclick="javascript: document.getElementById('email_from').style.display = 'none';">
+							<?php echo $TEXT['FIELD'].': '.$field['title']; ?>
+						</option>
+						<?php
+					}
+				}
+			}
+			?>
+			</select>
+		</td>
+	</tr>
 	<tr>
 		<td class="frm-setting_name"><?php echo $TEXT['DISPLAY_NAME']; ?>:</td>
 		<td class="frm-setting_value">
@@ -195,13 +237,13 @@ if(function_exists('edit_module_css')) {
 		<td class="frm-newsection">
 			<select name="success_page">
 			<option value="none"><?php echo $TEXT['NONE']; ?></option>
-			<?php 
+			<?php
 			// Get exisiting pages and show the pagenames
 			$query = $database->query("SELECT * FROM ".TABLE_PREFIX."pages WHERE visibility <> 'deleted'");
 			while($mail_page = $query->fetchRow(MYSQL_ASSOC)) {
 				if(!$admin->page_is_visible($mail_page))
 					continue;
-				$mail_pagename = $mail_page['menu_title'];		
+				$mail_pagename = $mail_page['menu_title'];
 				$success_page = $mail_page['page_id'];
 			  //	echo $success_page.':'.$setting['success_page'].':'; not vailde
 				if($setting['success_page'] == $success_page) {

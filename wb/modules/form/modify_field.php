@@ -12,7 +12,7 @@
  * @version         $Id$
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
- * @description     
+ * @description
  */
 
 require('../../config.php');
@@ -157,12 +157,12 @@ $friendly = array('&lt;', '&gt;');
 		<td><?php echo $TEXT['ALLOW_MULTIPLE_SELECTIONS']; ?>:</td>
 		<td>
 			<input type="radio" name="multiselect" id="multiselect_true" value="multiple" <?php if($form['extra'][1] == 'multiple') { echo ' checked="checked"'; } ?> />
-			<a href="#" onclick="javascript: document.getElementById('multiselect_true').checked = true;">
+			<a href="#" onclick="javascript:document.getElementById('multiselect_true').checked = true;">
 			<?php echo $TEXT['YES']; ?>
 			</a>
 			&nbsp;
 			<input type="radio" name="multiselect" id="multiselect_false" value="" <?php if($form['extra'][1] == '') { echo ' checked="checked"'; } ?> />
-			<a href="#" onclick="javascript: document.getElementById('multiselect_false').checked = true;">
+			<a href="#" onclick="javascript:document.getElementById('multiselect_false').checked = true;">
 			<?php echo $TEXT['NO']; ?>
 			</a>
 		</td>
@@ -206,7 +206,7 @@ $friendly = array('&lt;', '&gt;');
 		<td align="center">
 			<input type="button" value="<?php echo $TEXT['ADD'].' '.$TEXT['FIELD']; ?>" onclick="javascript: window.location = '<?php echo WB_URL; ?>/modules/form/add_field.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>';" style="width: 200px; margin-top: 5px;" />
 		</td>
-		<?php } 
+		<?php }
 		// end addition
 		?>
 		<td align="right">

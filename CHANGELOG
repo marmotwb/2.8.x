@@ -13,6 +13,11 @@ Legend:
 
 
 
+29 Aug-2012 Build 1714 Dietmar Woellbrink (Luisehahne)
+! update module form
+! not auth users get no confirmation mail, but can print message
+! add replyto to received messages, so answer is possible by e-mail client
+! add pagination to submissionlist
 29 Aug-2012 Build 1713 Dietmar Woellbrink (Luisehahne)
 ! remove html markup from code to a template
 29 Aug-2012 Build 1712 Dietmar Woellbrink (Luisehahne)

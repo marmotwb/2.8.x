@@ -4,7 +4,7 @@
  * @category        module
  * @package         Form
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -12,7 +12,7 @@
  * @version         $Id$
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
- * @description     
+ * @description
  */
 
 // Must include code to stop this file being access directly
@@ -20,7 +20,7 @@
 if(defined('WB_PATH') == false)
 {
 	// Stop this file being access directly
-		die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+		die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
 }
 /* -------------------------------------------------------- */
 
@@ -45,6 +45,7 @@ $sql .=   'AND title=\'\' ';
 if( !$database->query($sql) ) {
 // error msg
 }
+
 
 ?>
 <table summary="" width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -164,7 +165,7 @@ if($query_fields = $database->query($sql)) {
 <?php
 				$url = (WB_URL.'/modules/form/delete_field.php?page_id='.$page_id.'&amp;section_id='.$section_id.'&amp;field_id='.$admin->getIDKEY($field['field_id']))
 ?>
-					<a href="javascript: confirm_link('<?php echo url_encode($TEXT['ARE_YOU_SURE']); ?>', '<?php echo $url; ?>');" title="<?php echo $TEXT['DELETE']; ?>">
+					<a href="javascript:confirm_link('<?php echo url_encode($TEXT['ARE_YOU_SURE']); ?>','<?php echo $url; ?>');" title="<?php echo $TEXT['DELETE']; ?>">
 						<img src="<?php echo THEME_URL; ?>/images/delete_16.png" border="0" alt="X" />
 					</a>
 				</td>
@@ -185,109 +186,119 @@ if($query_fields = $database->query($sql)) {
 		echo $TEXT['NONE_FOUND'];
 	}
 }
-?>
-
-<br /><br />
-
-<h2><?php echo $TEXT['SUBMISSIONS']; ?></h2>
-
-<?php
-// Query submissions table
+// Query overview submissions table
 /*
-$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'mod_form_submissions`  ';
-$sql .= 'WHERE `section_id` = '.(int)$section_id.' ';
-$sql .= 'ORDER BY `submitted_when` ASC ';
 */
+$sql  = 'SELECT `perpage_submissions` FROM `'.TABLE_PREFIX.'mod_form_settings`  ';
+$sql .= 'WHERE `section_id` = '.(int)$section_id.' ';
+//$sql .= 'ORDER BY `submitted_when` ASC ';
+$limit = $database->get_one($sql);
+
+$page = 1;
+if(isset($_GET['page']) && is_numeric(trim($_GET['page'])))
+{
+	$page = intval(mysql_real_escape_string($_GET['page']));
+}
+
+// How many adjacent pages should be shown on each side?
+$adjacents = 1;
+
+$startrow = ($page * $limit) - ($limit);
+
 $sql  = 'SELECT s.*, u.`display_name`, u.`email` ';
 $sql .=            'FROM `'.TABLE_PREFIX.'mod_form_submissions` s ';
 $sql .= 'LEFT OUTER JOIN `'.TABLE_PREFIX.'users` u ';
 $sql .= 'ON u.`user_id` = s.`submitted_by` ';
 $sql .= 'WHERE s.`section_id` = '.(int)$section_id.' ';
-$sql .= 'ORDER BY s.`submitted_when` ASC ';
+$sql .= 'ORDER BY s.`submitted_when` DESC ';
+//$sql .= "LIMIT $startrow,$limit ";
 
 if($query_submissions = $database->query($sql)) {
-?>
-<!-- submissions -->
-		<table summary="" width="100%" cellpadding="2" cellspacing="0" border="0" class="" id="frm-ScrollTable" >
-		<thead>
-		<tr style="background-color: #dddddd; font-weight: bold;">
-			<th width="23" style="text-align: center;">&nbsp;</th>
-			<th width="33" style="text-align: right;"> ID </th>
-			<th width="200" style="padding-left: 10px;"><?php echo $TEXT['SUBMITTED'] ?></th>
-			<th width="200" style="padding-left: 10px;"><?php echo $TEXT['USER']; ?></th>
-			<th width="350"><?php echo $TEXT['EMAIL'].' '.$MOD_FORM['FROM'] ?></th>
-			<th width="20">&nbsp;</th>
-			<th width="20">&nbsp;</th>
-			<th width="20">&nbsp;</th>
-			<th width="20">&nbsp;</th>
-		</tr>
-		</thead>
-		<tbody>
-<?php
+    $totalrows = $query_submissions->numRows();
+
+// set template file and assign module and template block
+	$oTpl = new Template(dirname(__FILE__).'/htt','keep');
+	$oTpl->set_file('page', 'OverviewSubmission.htt');
+	$oTpl->debug = false; // false, true
+	$oTpl->set_block('page', 'main_block', 'main');
+// generell vars
+	$oTpl->set_var(array(
+		'TEXT_SUBMISSIONS' => $TEXT['SUBMISSIONS'],
+		'WB_URL' => WB_URL,
+		'THEME_URL' => THEME_URL,
+		'MESSAGE_VALUE' => '',
+		'PAGINATION' => '',
+		'PAGE_ID' => $page_id,
+		'SECTION_ID' => $section_id,
+		'TEXT_SUBMITTED' => $TEXT['SUBMITTED'],
+		'TEXT_USER' => $TEXT['USER'],
+		'TEXT_EMAIL' => $TEXT['EMAIL'],
+		'MOD_FORM_FROM' => $MOD_FORM['FROM'],
+		'TEXT_NONE_FOUND' => '',
+		)
+	);
+
+	$oTpl->set_block('main_block', 'language_list_block', 'language_list');
 	if($query_submissions->numRows() > 0) {
+//print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
+//print_r( $_SERVER ); print '</pre>'; // flush ();sleep(10); die();
+		if($startrow > 0  ){
+			$query_submissions->seekRow($startrow);
+		} else {
+			$query_submissions->rewind();
+		}
 		// List submissions
+        $currentrow = 0;
 		$row = 'a';
-		while($submission = $query_submissions->fetchRow(MYSQL_ASSOC)) {
+    	$oTpl->set_block('main_block', 'loop_submmission_block', 'loop_submmission');
+		while($submission = $query_submissions->fetchRow(MYSQL_ASSOC) )
+        {
+			$currentrow++;
 	        $submission['display_name'] = (($submission['display_name']!=null) ? $submission['display_name'] : '');
 			$sBody = $submission['body'];
 			$regex = "/[a-z0-9\-_]?[a-z0-9.\-_]+[a-z0-9\-_]?@[a-z0-9.-]+\.[a-z]{2,}/iU";
 			preg_match ($regex, $sBody, $output);
 // workout if output is empty
 			$submission['email'] = (isset($output['0']) ? $output['0'] : '');
-?>
-			<tr class="row_<?php echo $row; ?>">
-				<td width="20" style="padding-left: 5px;text-align: center;">
-					<a href="<?php echo WB_URL; ?>/modules/form/view_submission.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>&amp;submission_id=<?php echo $admin->getIDKEY($submission['submission_id']); ?>" title="<?php echo $TEXT['OPEN']; ?>">
-						<img src="<?php echo THEME_URL; ?>/images/folder_16.png" alt="<?php echo $TEXT['OPEN']; ?>" border="0" />
-					</a>
-				</td>
-				<td width="30" style="padding-right: 5px;text-align: right;"><?php echo $submission['submission_id']; ?></td>
-				<td width="200" style="padding-left: 10px;"><?php echo gmdate(DATE_FORMAT.', '.TIME_FORMAT, $submission['submitted_when']+TIMEZONE ); ?></td>
-				<td width="200" style="padding-left: 10px;"><?php echo $submission['display_name']; ?></td>
-				<td width="350"><?php echo $submission['email']; ?></td>
-				<td width="20" style="text-align: center;">&nbsp;</td>
-				<td width="20">&nbsp;</td>
-				<td width="20" style="text-align: center;">
-<?php
-				$url = (WB_URL.'/modules/form/delete_submission.php?page_id='.$page_id.'&amp;section_id='.$section_id.'&amp;submission_id='.$admin->getIDKEY($submission['submission_id']))
-?>
-					<a href="javascript: confirm_link('<?php echo url_encode($TEXT['ARE_YOU_SURE']); ?>', '<?php echo $url; ?>');" title="<?php echo $TEXT['DELETE']; ?>">
-						<img src="<?php echo THEME_URL; ?>/images/delete_16.png" border="0" alt="X" />
-					</a>
-				</td>
-				<td width="20">&nbsp;</td>
-			</tr>
-<?php
-			// Alternate row color
-			if($row == 'a') {
-				$row = 'b';
-			} else {
-				$row = 'a';
-			}
+			$querystr = 'page='.$page.'&amp;page_id='.$page_id.'&amp;section_id='.$section_id.'&amp;submission_id='.$admin->getIDKEY($submission['submission_id']);
+			$row = $row=='a' ? 'b' : 'a';
+
+			$oTpl->set_var('ROW_BIT',$row);
+			$oTpl->set_var('QUERYSTR', $querystr);
+			$oTpl->set_var('TEXT_ARE_YOU_SURE', url_encode($TEXT['ARE_YOU_SURE']));
+			$oTpl->set_var('SUBMISSION_IDKEY', $admin->getIDKEY($submission['submission_id']));
+			$oTpl->set_var('TEXT_DELETE', $TEXT['DELETE']);
+			$oTpl->set_var('PAGE', $page);
+			$oTpl->set_var('TEXT_OPEN', $TEXT['OPEN']);
+			$oTpl->set_var('SUBMISSION_ID', $submission['submission_id']);
+			$oTpl->set_var('SUBMISSION_CREATE_WHEN', gmdate(DATE_FORMAT.', '.TIME_FORMAT, $submission['submitted_when']+TIMEZONE ));
+			$oTpl->set_var('SUBMISSION_BY', $submission['display_name']);
+			$oTpl->set_var('SUBMISSION_EMAIL', $submission['email']);
+
+			$oTpl->parse('loop_submmission', 'loop_submmission_block', true);
+
+			if ($currentrow==$limit) { break;}
 		}
+        $script_name = $_SERVER['SCRIPT_NAME'];
+        //include_once((dirname(__FILE__)) .'/DiggPagination.php');
+        $pagination = m_form_DiggPagination::Pager($page,$totalrows,$limit,$adjacents,$script_name);
+    	$oTpl->set_var(array(
+    		'PAGINATION' => $pagination,
+    		)
+    	);
+
 	} else {
-?>
-<tr><td colspan="8"><?php echo $TEXT['NONE_FOUND'] ?></td></tr>
-<?php
-	}
-?>
-		</tbody>
-		<tfoot>
-		<tr style="background-color: #dddddd; font-weight: bold;">
-			<th width="23" style="text-align: center;">&nbsp;</th>
-			<th width="33" style="text-align: right;"> ID </th>
-			<th width="200" style="padding-left: 10px;"><?php echo $TEXT['SUBMITTED'] ?></th>
-			<th width="200" style="padding-left: 10px;"><?php echo $TEXT['USER']; ?></th>
-			<th width="350"><?php echo $TEXT['EMAIL'].' '.$MOD_FORM['FROM'] ?></th>
-			<th width="20">&nbsp;</th>
-			<th width="20">&nbsp;</th>
-			<th width="20">&nbsp;</th>
-			<th width="20">&nbsp;</th>
-		</tr>
-		</tfoot>
-		</table>
-<?php
+			$oTpl->set_var('TEXT_NONE_FOUND', $TEXT['NONE_FOUND']);
+    }
 } else {
 	echo $database->get_error().'<br />';
 	echo $sql;
+
 }
+
+// Parse template object
+$oTpl->parse('main', 'main_block', false);
+$output = $oTpl->finish($oTpl->parse('output', 'page'));
+unset($oTpl);
+print $output;
+$output = '';

@@ -10,5 +10,11 @@
 .frm-radio_label { font-size :11px; cursor :pointer; }
 .frm-email { font-size :12px; width : 90%; }
 /*** Don't remove the class nixhier, this is required for ASP ***/
+.nixhier,
 .frm-nixhier { display :none; }
-.frm-submission { margin :0 auto; position :relative; width :auto; }		
+.frm-submission { margin :0 auto; position :relative; width :auto; }
+.print-email { font-size :0.8em; color :#000; margin :10px auto; }	
+.frm-warning { background :#ffeeee; border :0.2em #884444 solid; color :#e10000; margin-bottom :1em; padding :0.8em; font-size :1.2em; font-weight :bold; }
+.frm-note { background :#eeffee; border :0.2em #448844 solid; color :#004400; margin-bottom :1em; padding :0.8em; font-size :1.2em; font-weight :bold; }
+.previewPrintTop { text-align :right; font-size :0.9em; }
+.previewPrintTop img { padding-left :16px; }

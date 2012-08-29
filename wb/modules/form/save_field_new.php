@@ -4,7 +4,7 @@
  * @category        module
  * @package         Form
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -46,7 +46,7 @@ $admin->print_header();
 
 // Validate all fields
 if($admin->get_post('title') == '' OR $admin->get_post('type') == '') {
-	$admin->print_error($MESSAGE['GENERIC']['FILL_IN_ALL'], WB_URL.'/modules/form/modify_field.php?page_id='.$page_id.'&section_id='.$section_id.'&field_id='.$admin->getIDKEY($field_id));
+	$admin->print_error($MESSAGE['GENERIC_FILL_IN_ALL'], WB_URL.'/modules/form/modify_field.php?page_id='.$page_id.'&section_id='.$section_id.'&field_id='.$admin->getIDKEY($field_id));
 } else {
 	$title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('title'), ENT_QUOTES));
 	$type = $admin->add_slashes($admin->get_post('type'));
@@ -54,7 +54,7 @@ if($admin->get_post('title') == '' OR $admin->get_post('type') == '') {
 }
 
 // If field type has multiple options, get all values and implode them
-	 $value = $extra = '';
+	$value = $extra = '';
 	$list_count = $admin->get_post('list_count');
 	if(is_numeric($list_count)) {
 		$values = array();
@@ -81,7 +81,7 @@ if($admin->get_post('title') == '' OR $admin->get_post('type') == '') {
 			$extra = $admin->add_slashes($extra);
 			break;
 		case 'select':
-			$extra = $admin->get_post_escaped('size').','.$admin->get_post_escaped('multiselect');
+			$extra = intval($admin->get_post_escaped('size')).','.$admin->get_post_escaped('multiselect');
 			break;
 		case 'checkbox':
 			$extra = str_replace(array("[[", "]]"), '', $admin->get_post_escaped('seperator'));

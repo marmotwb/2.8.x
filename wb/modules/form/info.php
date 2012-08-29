@@ -4,7 +4,7 @@
  * @category        module
  * @package         Form
  * @author          WebsiteBaker Project
- * @copyright       2009-2012, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.3
@@ -12,7 +12,7 @@
  * @version         $Id$
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
- * @description     
+ * @description
  */
 
 // Must include code to stop this file being access directly
@@ -24,7 +24,7 @@ if(!defined('WB_URL')) {
 $module_directory = 'form';
 $module_name = 'Form';
 $module_function = 'page';
-$module_version = '2.8.5';
+$module_version = '2.9.0';
 $module_platform = '2.8.3';
 $module_author = 'Ryan Djurovich & Rudolph Lartey - additions John Maats - PCWacht, dev-team';
 $module_license = 'GNU General Public License';
