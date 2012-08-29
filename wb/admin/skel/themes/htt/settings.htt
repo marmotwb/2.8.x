@@ -178,7 +178,7 @@
 			</span>
 			<span>
 			<input class="radio" type="radio" name="frontend_login" id="frontend_login_false" value="false"{PRIVATE_DISABLED} />
-		<label for="_login_false">{TEXT_DISABLED}</label>
+		<label for="frontend_login_false">{TEXT_DISABLED}</label>
 			</span>
 		</div>
 
