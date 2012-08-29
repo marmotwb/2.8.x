@@ -1,5 +1,7 @@
 <!-- BEGIN main_block -->
+<script src="{WB_URL}/include/jquery/overlib_mini.js" type="text/javascript"></script>
 <script src="{ADMIN_URL}/pages/page_settings.js" type="text/javascript"></script>
+
 <table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="100%" style="margin-bottom:10px;">
   <tr style="background:#f0f0f0;">
 	<td valign="middle" align="left"><h2>{HEADING_MODIFY_PAGE_SETTINGS}</h2></td>
@@ -8,9 +10,9 @@
 		{TEXT_CURRENT_PAGE}:
 		<b>{PAGE_TITLE}</b>
 		-
-		<a href="{ADMIN_URL}/pages/modify.php?page_id={PAGE_ID}">{TEXT_MODIFY_PAGE}</a>
-		<span style="{DISPLAY_MANAGE_SECTIONS}">
-		- <a href="{ADMIN_URL}/pages/sections.php?page_id={PAGE_ID}">{TEXT_MANAGE_SECTIONS}</a>
+		{MODIFY_LINK_BEFORE}{TEXT_MODIFY_PAGE}{MODIFY_LINK_AFTER}
+		<span class="{DISPLAY_MANAGE_SECTIONS}">
+		- {SECTIONS_LINK_BEFORE}{TEXT_MANAGE_SECTIONS}{SECTIONS_LINK_AFTER}
 		</span>
 		<br />
 		<span style="color:#999;" class="{DISPLAY_MODIFIED}">
@@ -27,13 +29,13 @@
 		<div class="page-settings-leftcol"> <!-- left column -->
 			<div class="caption">{TEXT_SECTION_GENERAL}</div>
 			<div>
-				<label for="">{TEXT_PAGE_TITLE}:</label><input
-					type="text" name="page_title" value="{PAGE_TITLE}" />
+				<label for="page_title">{TEXT_PAGE_TITLE}:</label>
+				<input type="text" id="page_title" name="page_title" value="{PAGE_TITLE}" />
 			</div>
 			<div>
-				<label for="" style="vertical-align: bottom;">{TEXT_PAGE_ICON}:<br />
-					<span style="font-size:0.85em;">( {ICON_DIR} )</span></label><select
-					name="page_icon">
+				<label for="page_icon" {p_page_icon_dir} style="background-image: url({THEME_URL}/icons/help_16.png);" >{TEXT_PAGE_ICON}:
+				</label>
+				<select id="page_icon" name="page_icon">
 					<option value="0">--- {TEXT_NO_SELECTION} ---</option>
 				<!-- BEGIN page_icon_list_block -->
 					<option value="{VALUE}"{SELECTED}>{NAME}</option>
@@ -41,13 +43,12 @@
 				</select>
 			</div>
 			<div>
-				<label for="">{TEXT_MENU_TITLE}:</label><input
-					type="text" name="menu_title" value="{MENU_TITLE}" />
+				<label for="menu_title">{TEXT_MENU_TITLE}:</label>
+				<input type="text" id="menu_title" name="menu_title" value="{MENU_TITLE}" />
 			</div>
 			<div>
-				<label for="" style="vertical-align: bottom;">{TEXT_MENU_ICON_0}:<br />
-					<span style="font-size:0.85em;">( {ICON_DIR} )</span></label><select
-					name="menu_icon_0">
+				<label for="menu_icon_0" {p_menu_icon0_dir} style="background-image: url({THEME_URL}/icons/help_16.png);">{TEXT_MENU_ICON_0}:</label>
+					<select id="menu_icon_0" name="menu_icon_0">
 					<option value="0">--- {TEXT_NO_SELECTION} ---</option>
 				<!-- BEGIN menu_icon0_list_block -->
 					<option value="{VALUE}"{SELECTED}>{NAME}</option>
@@ -55,27 +56,26 @@
 				</select>
 			</div>
 			<div>
-				<label for="" style="vertical-align: bottom;">{TEXT_MENU_ICON_1}:<br />
-					<span style="font-size:0.85em;">( {ICON_DIR} )</span></label><select
-					name="menu_icon_1">
+				<label for="menu_icon_1" {p_menu_icon1_dir} style="background-image: url({THEME_URL}/icons/help_16.png);">{TEXT_MENU_ICON_1}:</label>
+					<select id="menu_icon_1" name="menu_icon_1">
 					<option value="0">--- {TEXT_NO_SELECTION} ---</option>
 				<!-- BEGIN menu_icon1_list_block -->
 					<option value="{VALUE}"{SELECTED}>{NAME}</option>
 				<!-- END menu_icon1_list_block -->
 				</select>
 			</div>
-
 			<div>
-				<label for="">{TEXT_DESCRIPTION}:</label><textarea
-					name="description" rows="14" cols="1">{DESCRIPTION}</textarea>
+				<label for="description">{TEXT_DESCRIPTION}:</label>
+				<textarea id="description" name="description" rows="14" cols="1">{DESCRIPTION}</textarea>
 			</div>
 			<div>
-				<label for="">{TEXT_KEYWORDS}:</label><textarea
-					name="keywords" rows="14" cols="1">{KEYWORDS}</textarea>
+				<label for="keywords">{TEXT_KEYWORDS}:</label>
+				<textarea id="keywords" name="keywords" rows="14" cols="1">{KEYWORDS}</textarea>
 			</div>
 			<div class="caption">{TEXT_SECTION_ORGANISATION}</div>
 			<div>
-				<label for="">{TEXT_PARENT}:</label><select name="parent">
+				<label for="parent">{TEXT_PARENT}:</label>
+				<select id="parent" name="parent">
 				<!-- BEGIN parent_page_list_block -->
 					<option value="{ID}"{SELECTED} style="background: {FLAG_ROOT_ICON} no-repeat center left; padding-left: 20px;">{TITLE}</option>
 				<!-- END parent_page_list_block -->
@@ -83,8 +83,8 @@
 			</div>
 		<!-- BEGIN show_menu_list_block -->
 			<div>
-				<label for="">{TEXT_MENU}:</label><select
-					name="menu">
+				<label for="menu">{TEXT_MENU}:</label>
+				<select id="menu" name="menu">
 				<!-- BEGIN menu_list_block -->
 					<option value="{VALUE}"{SELECTED}>{NAME}</option>
 				<!-- END menu_list_block -->
@@ -92,16 +92,16 @@
 			</div>
 		<!-- END show_menu_list_block -->
 			<div>
-				<label for="">{TEXT_TARGET}:</label><select
-					name="target" ><!--  value="{TARGET}" -->
+				<label for="target">{TEXT_TARGET}:</label>
+				<select id="target" name="target" ><!--  value="{TARGET}" -->
 					<option value="_blank"{BLANK_SELECTED}>{TEXT_NEW_WINDOW}</option>
 					<option value="_self"{SELF_SELECTED}>{TEXT_SAME_WINDOW}</option>
 					<option value="_top"{TOP_SELECTED}>{TEXT_TOP_FRAME}</option>
 				</select>
 			</div>
 			<div>
-				<label for="">{TEXT_TEMPLATE}:</label><select
-					name="template">
+				<label for="template">{TEXT_TEMPLATE}:</label>
+				<select id="template" name="template">
 					<option value="">{TEXT_SYSTEM_DEFAULT}</option>
 					<option value="">----------------------</option>
 				<!-- BEGIN template_list_block -->
@@ -111,8 +111,8 @@
 			</div>
 			<div class="caption">{TEXT_SECTION_CONTENT}</div>
 			<div>
-				<label for="">{TEXT_LANGUAGE}:</label><select
-					name="language">
+				<label for="language">{TEXT_LANGUAGE}:</label>
+				<select id="language" name="language">
 				<!-- BEGIN language_list_block -->
 					<option value="{VALUE}"{SELECTED} style="background: {FLAG_LANG_ICONS} no-repeat center left; padding-left: 20px;">{NAME}</option>
 				<!-- END language_list_block -->
@@ -120,8 +120,8 @@
 			</div>
 		<!-- BEGIN show_page_code_block -->
 			<div>
-				<label for="">{TEXT_PAGE_CODE}:</label><select
-					name="page_code" class="value_page_code">
+				<label for="page_code" {p_menu_page_code} style="background-image: url({THEME_URL}/icons/help_16.png);">{TEXT_PAGE_CODE}:</label>
+				<select id="page_code" name="page_code" class="value_page_code">
 				<!-- BEGIN page_code_list_block -->
 						<option value="{VALUE}"{SELECTED} style="background: {FLAG_CODE_ICON} no-repeat center left; padding-left: 20px;">&nbsp;{PAGE_VALUE}</option>
 				<!-- END page_code_list_block -->
@@ -129,8 +129,8 @@
 			</div>
 		<!-- END show_page_code_block -->
 			<div>
-				<label for="">{TEXT_SEARCHING}:</label><select
-					name="searching">
+				<label for="searching">{TEXT_SEARCHING}:</label>
+				<select id="searching" name="searching">
 					<option value="1"{SEARCHING_SELECTED_ON}>{TEXT_ENABLED}</option>
 					<option value="0"{SEARCHING_SELECTED_OFF}>{TEXT_DISABLED}</option>
 				</select>
@@ -139,8 +139,8 @@
 		<div class="page-settings-righttoprow">
 			<div class="caption">{TEXT_SECTION_SECURITY}</div>
 			<div>
-				<label for="">{TEXT_VISIBILITY}:</label><select
-					name="visibility" onchange="javascript: toggle_viewers();">
+				<label for="visibility">{TEXT_VISIBILITY}:</label>
+				<select id="visibility" name="visibility" onchange="javascript: toggle_viewers();">
 					<option value="public"{PUBLIC_SELECTED}>{TEXT_PUBLIC}</option>
 					<option value="private"{PRIVATE_SELECTED}>{TEXT_PRIVATE}</option>
 					<option value="registered"{REGISTERED_SELECTED}>{TEXT_REGISTERED}</option>
@@ -151,6 +151,7 @@
 		</div>
 
 
+	<!-- BEGIN admin_group_show_list_block -->
 		<div class="page-settings-centercol"> <!-- center column -->
 			<b>{TEXT_ADMINISTRATORS}</b><hr />
 			<u>{TEXT_GROUP}</u><br />
@@ -173,6 +174,7 @@
 			<!-- END admin_user_list_block -->
 			</select>
 		</div>
+	<!-- END admin_group_show_list_block -->
 
 		<div id="allowed_viewers" class="page-settings-rightcol" style="{DISPLAY_VIEWERS}"> <!-- right column -->
 			<b>{TEXT_ALLOWED_VIEWERS}</b><hr />

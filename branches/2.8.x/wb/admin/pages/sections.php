@@ -3,9 +3,8 @@
  *
  * @category        admin
  * @package         pages
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich, WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -149,7 +148,7 @@ switch ($action):
 		if((!$in_old_group) && !is_numeric(array_search($admin->get_user_id(), $old_admin_users)))
 		{
 			$admin->print_header();
-			$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
+			$admin->print_error($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']);
 		}
 
 		// Get page details
@@ -165,9 +164,18 @@ switch ($action):
 		if($results->numRows() == 0)
 		{
 			// $admin->print_header();
-			$admin->print_error($MESSAGE['PAGES']['NOT_FOUND']);
+			$admin->print_error($MESSAGE['PAGES_NOT_FOUND']);
 		}
 		$results_array = $results->fetchRow();
+
+		// Get display name of person who last modified the page
+			$user=$admin->get_user_details($results_array['modified_by']);
+		// Convert the unix ts for modified_when to human a readable form
+			if($results_array['modified_when'] != 0) {
+				$modified_ts = gmdate(TIME_FORMAT.', '.DATE_FORMAT, $results_array['modified_when']+TIMEZONE);
+			} else {
+				$modified_ts = 'Unknown';
+			}
 
 		// Set module permissions
 		$module_permissions = $_SESSION['MODULE_PERMISSIONS'];
@@ -218,6 +226,7 @@ switch ($action):
 						'PAGE_TITLE' => ($results_array['page_title']),
 						'MENU_TITLE' => ($results_array['menu_title']),
 						'TEXT_CURRENT_PAGE' => $TEXT['CURRENT_PAGE'],
+						'TEXT_LAST_MODIFIED' => $TEXT['LAST_UPDATED_BY'],
 						'HEADING_MANAGE_SECTIONS' => $HEADING['MANAGE_SECTIONS'],
 						'HEADING_MODIFY_PAGE' => $HEADING['MODIFY_PAGE'],
 						'TEXT_CHANGE_SETTINGS' => $TEXT['CHANGE_SETTINGS'],
@@ -228,11 +237,45 @@ switch ($action):
 						'TEXT_PUBL_START_DATE' => $TEXT{'PUBL_START_DATE'},
 						'TEXT_PUBL_END_DATE' => $TEXT['PUBL_END_DATE'],
 						'TEXT_ACTIONS' => $TEXT['ACTIONS'],
+						'MODIFIED_BY'          => $user['display_name'],
+						'MODIFIED_BY_USERNAME' => $user['username'],
+						'MODIFIED_WHEN'        => $modified_ts,
 						'ADMIN_URL' => ADMIN_URL,
 						'WB_URL' => WB_URL,
 						'THEME_URL' => THEME_URL
 						)
 					);
+// check modify page permission
+	if( $admin->get_permission('pages_modify') )
+	{
+		$tpl->set_var(array(
+				'MODIFY_LINK_BEFORE' => '<a href="'.ADMIN_URL.'/pages/modify.php?page_id='.$results_array['page_id'].'">',
+				'MODIFY_LINK_AFTER' => '</a>',
+				'DISPLAY_MANAGE_MODIFY' => 'link',
+				));
+	} else {
+		$tpl->set_var(array(
+				'MODIFY_LINK_BEFORE' => '<span class="bold grey">',
+				'MODIFY_LINK_AFTER' => '</span>',
+				'DISPLAY_MANAGE_MODIFY' => 'link',
+				));
+	}
+
+// check settings page permission
+	if( $admin->get_permission('pages_settings') )
+	{
+		$tpl->set_var(array(
+				'SETTINGS_LINK_BEFORE' => '<a href="'.ADMIN_URL.'/pages/settings.php?page_id='.$results_array['page_id'].'">',
+				'SETTINGS_LINK_AFTER' => '</a>',
+				'DISPLAY_MANAGE_SETTINGS' => 'link',
+				));
+	} else {
+		$tpl->set_var(array(
+				'SETTINGS_LINK_BEFORE' => '<span class="bold grey">',
+				'SETTINGS_LINK_AFTER' => '</span>',
+				'DISPLAY_MANAGE_SECTIONS' => 'link',
+				));
+	}
 
 		// Insert variables
 		$tpl->set_var(array(

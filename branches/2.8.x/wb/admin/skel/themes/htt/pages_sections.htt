@@ -1,21 +1,26 @@
 <!-- BEGIN main_block -->
 <div class="jsadmin jcalendar hide"></div>
 <table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="100%" style="margin-bottom:10px;">
-	<tr style="background:#f0f0f0;">
-		<td valign="middle" align="left"><h2>{HEADING_MANAGE_SECTIONS}</h2></td>
-		<td align="left" width="20%">ID: {PAGE_ID}</td>
-		<td align="right">{TEXT_CURRENT_PAGE}: <b>{PAGE_TITLE}</b>
-			-
-			<a href="{ADMIN_URL}/pages/modify.php?page_id={PAGE_IDKEY}">{HEADING_MODIFY_PAGE}</a>
-			-
-			<a href="{ADMIN_URL}/pages/settings.php?page_id={PAGE_IDKEY}">{TEXT_CHANGE_SETTINGS}</a>
-		</td>
-     </tr>
+  <tr style="background:#f0f0f0;">
+	<td valign="middle" align="left"><h2>{HEADING_MANAGE_SECTIONS}</h2></td>
+	<td nowrap="nowrap">ID: {PAGE_ID}</td>
+	<td align="right">{TEXT_CURRENT_PAGE}:<b>{PAGE_TITLE}</b>
+		-
+		{MODIFY_LINK_BEFORE}{HEADING_MODIFY_PAGE}{MODIFY_LINK_AFTER}
+		<span class="{DISPLAY_MANAGE_SETTINGS}">
+		- {SETTINGS_LINK_BEFORE}{TEXT_CHANGE_SETTINGS}{SETTINGS_LINK_AFTER}
+		</span>
+		<br />
+		<span style="color:#999;" class="{DISPLAY_MODIFIED}">
+			{TEXT_LAST_MODIFIED} {MODIFIED_BY} ({MODIFIED_BY_USERNAME}), {MODIFIED_WHEN}
+		</span>
+	</td>
+  </tr>
 </table>
 
         <form name="section_properties" action="{ADMIN_URL}/pages/sections_save.php?page_id={PAGE_IDKEY}" method="post">
 		{FTAN}
-		
+
         <table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="img_noborder">
 			<tr class="sections_list">
 				<td class="header_list_type">{TEXT_TYPE}</td>
@@ -33,9 +38,9 @@
                       <input type="hidden" name="section_id" value="{VAR_SECTION_ID}"  />
                       {VAR_SECTION_ID}
                     </td>
-					
+
                     <td>{LINK_MODIFY_URL_VAR_MODUL_NAME}</td>
-					
+
                     <td class="{INPUT_ATTRIBUTE}"><span {STYLE_DISPLAY_SECTION_BLOCK}>
                     	<select name="block{VAR_SECTION_ID}" class="input_normal">
                         {SET_NONE_DISPLAY_OPTION}
@@ -44,19 +49,19 @@
                     	<!-- END block_block -->
                     	</select></span>&nbsp;
                     </td>
-					
+
                     <td class="list_pubdate_start"><input type="text" id="start_date{VAR_SECTION_ID}" name="start_date{VAR_SECTION_ID}" value="{VALUE_PUBL_START}" class="input_normal" />
                         <img src="{THEME_URL}/images/calendar_16.png" id="trigger_start{VAR_SECTION_ID}" style="cursor:pointer;" title="{TEXT_CALENDAR}" alt="{TEXT_CALENDAR}"  />
                         <img src="{THEME_URL}/images/{CLOCK_DEL_16_PNG}" style="cursor:pointer;" alt="{TEXT_DELETE_DATE}" title="{TEXT_DELETE_DATE}" onclick="document.section_properties.start_date{VAR_SECTION_ID}.value=''" />
                     </td>
-					
+
                     <td class="list_pubdate_end"><input type="text" id="end_date{VAR_SECTION_ID}" name="end_date{VAR_SECTION_ID}" value="{VALUE_PUBL_END}" class="input_normal" />
                         <img src="{THEME_URL}/images/calendar_16.png" id="trigger_stop{VAR_SECTION_ID}" alt="{TEXT_CALENDAR}" style="cursor: pointer;" title="{TEXT_CALENDAR}"  />
                         <img src="{THEME_URL}/images/{CLOCK_DEL_16_PNG}" style="cursor:pointer;" alt="{TEXT_DELETE_DATE}" title="{TEXT_DELETE_DATE}" onclick="document.section_properties.end_date{VAR_SECTION_ID}.value=''" />
                     </td>
 
 					<td>{VAR_MOVE_UP_URL}</td>
-					
+
                     <td>{VAR_MOVE_DOWN_URL}</td>
 
                     <td>

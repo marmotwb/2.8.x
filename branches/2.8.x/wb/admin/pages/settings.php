@@ -3,9 +3,8 @@
  *
  * @category        admin
  * @package         pages
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich, WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -118,12 +117,12 @@ $admin = new admin('Pages', 'pages_settings');
 // Convert the unix ts for modified_when to human a readable form
 	if($aCurrentPage['modified_when'] != 0) {
 		$modified_ts = gmdate(TIME_FORMAT.', '.DATE_FORMAT, $aCurrentPage['modified_when']+TIMEZONE);
-	}else {
+	} else {
 		$modified_ts = 'Unknown';
 	}
 // Setup template object, parse vars to it, then parse it
 // Create new template object
-	$oTpl = new Template(dirname($admin->correct_theme_source('pages_settings.htt')), 'keep');
+	$oTpl = new Template(dirname($admin->correct_theme_source('pages_settings.htt')),'keep' );
 	$oTpl->set_file('page', 'pages_settings.htt');
 	$oTpl->set_block('page', 'main_block', 'main');
 	$oTpl->set_var('FTAN', $admin->getFTAN());
@@ -141,15 +140,44 @@ $admin = new admin('Pages', 'pages_settings');
 			'WB_URL'               => WB_URL,
 			'THEME_URL'            => THEME_URL
 			));
+
+	if( $admin->get_permission('pages_modify') )
+	{
+		$oTpl->set_var(array(
+				'MODIFY_LINK_BEFORE' => '<a href="'.ADMIN_URL.'/pages/modify.php?page_id='.$aCurrentPage['page_id'].'">',
+				'MODIFY_LINK_AFTER' => '</a>',
+				'DISPLAY_MANAGE_MODIFY' => 'link',
+				));
+	} else {
+		$oTpl->set_var(array(
+				'MODIFY_LINK_BEFORE' => '<span class="bold grey">',
+				'MODIFY_LINK_AFTER' => '</span>',
+				'DISPLAY_MANAGE_MODIFY' => 'link',
+				));
+	}
+
+
 /*-- workout if we should show the "manage sections" link ------------------------------*/
 	$sql = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'sections` '
 	     . 'WHERE `page_id`='.$page_id.' AND `module`=\'menu_link\'';
 	$bIsMenuLink = (intval($database->get_one($sql)) != 0);
-	$oTpl->set_block('main_block', 'show_manage_sections_block', 'show_manage_sections');
-	if(!$bIsMenuLink && (MANAGE_SECTIONS == true)) {
-		$oTpl->parse('show_manage_sections', 'show_manage_sections_block', true);
+//	$oTpl->set_block('main_block', 'show_manage_sections_block', 'show_manage_sections');
+//	if(!$bIsMenuLink && (MANAGE_SECTIONS == true) && $admin->get_permission('pages_add') )
+	if((MANAGE_SECTIONS == true) && $admin->get_permission('pages_add') )
+	{
+//		$oTpl->parse('show_manage_sections', 'show_manage_sections_block', true);
+		$oTpl->set_var(array(
+				'SECTIONS_LINK_BEFORE' => '<a href="'.ADMIN_URL.'/pages/sections.php?page_id='.$aCurrentPage['page_id'].'">',
+				'SECTIONS_LINK_AFTER' => '</a>',
+				'DISPLAY_MANAGE_SECTIONS' => 'link',
+				));
 	}else {
-		$oTpl->set_block('show_manage_sections', '');
+//		$oTpl->set_block('show_manage_sections', '');
+		$oTpl->set_var(array(
+				'SECTIONS_LINK_BEFORE' => '<span class="bold grey">',
+				'SECTIONS_LINK_AFTER' => '</span>',
+				'DISPLAY_MANAGE_SECTIONS' => 'link',
+				));
 	}
 
 /*-- collect page-icons for select boxes -----------------------------------------------*/
@@ -159,7 +187,14 @@ $admin = new admin('Pages', 'pages_settings');
 	$sTemplate = ($aCurrentPage['template'] == '' ? DEFAULT_TEMPLATE : $aCurrentPage['template']);
 	$sIconDir = str_replace('\\', '/', ((defined('PAGE_ICON_DIR') && PAGE_ICON_DIR != '') ? PAGE_ICON_DIR : MEDIA_DIRECTORY));
 	$sIconDir = str_replace('/*', '/'.$sTemplate, $sIconDir);
-	$oTpl->set_var('ICON_DIR', WB_REL.$sIconDir);
+//	$oTpl->set_var('ICON_DIR', WB_REL.$sIconDir);
+	$sHelp = replaceVars($mLang->HELP_PAGE_IMAGE_DIR, array('icon_dir'=>WB_REL.$sIconDir ) );
+
+	$oTpl->set_var('p_page_icon_dir',  p($sHelp,$mLang->TEXT_PAGE_ICON_DIR));
+	$oTpl->set_var('p_menu_icon0_dir', p($sHelp,$mLang->TEXT_MENU_ICON_0_DIR));
+	$oTpl->set_var('p_menu_icon1_dir', p($sHelp,$mLang->TEXT_MENU_ICON_1_DIR));
+	$oTpl->set_var('p_menu_page_code', p($mLang->HELP_PAGE_CODE,$mLang->TEXT_PAGE_CODE));
+
 	if(is_readable(WB_PATH.$sIconDir)) {
 		$oIterator = new DirectoryIterator(WB_PATH.$sIconDir);
 		foreach ($oIterator as $fileinfo) {
@@ -173,29 +208,40 @@ $admin = new admin('Pages', 'pages_settings');
 	}
 /*-- show page-icon select box ---------------------------------------------------------*/
 	$oTpl->set_block('main_block', 'page_icon_list_block', 'page_icon_list');
-	foreach($aPageIcons as $value) {
-		$aIcon = $value;
-		$aIcon['SELECTED'] = ($aCurrentPage['page_icon'] == $aIcon['VALUE'] ? $sSelected : '');
-		$oTpl->set_var($aIcon);
-		$oTpl->parse('page_icon_list', 'page_icon_list_block', true);
+	if(sizeof($aPageIcons)>0){
+		foreach($aPageIcons as $value) {
+			$aIcon = $value;
+			$aIcon['SELECTED'] = ($aCurrentPage['page_icon'] == $aIcon['VALUE'] ? $sSelected : '');
+			$oTpl->set_var($aIcon);
+			$oTpl->parse('page_icon_list', 'page_icon_list_block', true);
+		}
+	} else {
+	$oTpl->parse('page_icon_list', '');
 	}
 /*-- show menu-icon-0 select box -------------------------------------------------------*/
 	$oTpl->set_block('main_block', 'menu_icon0_list_block', 'menu_icon0_list');
-	foreach($aPageIcons as $value) {
-		$aIcon = $value;
-		$aIcon['SELECTED'] = ($aCurrentPage['menu_icon_0'] == $aIcon['VALUE'] ? $sSelected : '');
-		$oTpl->set_var($aIcon);
-		$oTpl->parse('menu_icon0_list', 'menu_icon0_list_block', true);
+	if(sizeof($aPageIcons)>0){
+		foreach($aPageIcons as $value) {
+			$aIcon = $value;
+			$aIcon['SELECTED'] = ($aCurrentPage['menu_icon_0'] == $aIcon['VALUE'] ? $sSelected : '');
+			$oTpl->set_var($aIcon);
+			$oTpl->parse('menu_icon0_list', 'menu_icon0_list_block', true);
+		}
+	} else {
+	$oTpl->parse('menu_icon0_list', '');
 	}
 /*-- show menu-icon-1 select box -------------------------------------------------------*/
 	$oTpl->set_block('main_block', 'menu_icon1_list_block', 'menu_icon1_list');
-	foreach($aPageIcons as $value) {
-		$aIcon = $value;
-		$aIcon['SELECTED'] = ($aCurrentPage['menu_icon_1'] == $aIcon['VALUE'] ? $sSelected : '');
-		$oTpl->set_var($aIcon);
-		$oTpl->parse('menu_icon1_list', 'menu_icon1_list_block', true);
+	if(sizeof($aPageIcons)>0){
+		foreach($aPageIcons as $value) {
+			$aIcon = $value;
+			$aIcon['SELECTED'] = ($aCurrentPage['menu_icon_1'] == $aIcon['VALUE'] ? $sSelected : '');
+			$oTpl->set_var($aIcon);
+			$oTpl->parse('menu_icon1_list', 'menu_icon1_list_block', true);
+		}
+	} else {
+	$oTpl->parse('menu_icon1_list', '');
 	}
-
 /*-- show visibility select box --------------------------------------------------------*/
 	$aVisibility = array();
 	$aVisibility['PUBLIC_SELECTED']     = ($aCurrentPage['visibility'] == 'public' ? $sSelected : '');
@@ -263,11 +309,14 @@ $admin = new admin('Pages', 'pages_settings');
 	}
 
 /*-- admin user list block -------------------------------------------------------------*/
+// admin_group_show_list_block
+	$oTpl->set_block('main_block', 'admin_group_show_list_block', 'admin_group_show_list');
+
 	$aAdminUsers = ($aCurrentPage['admin_users'] == ''
 	                ? array()
 	                : explode(',', $aCurrentPage['admin_users']));
 	$aAdminUsers = explode(',', $aCurrentPage['admin_users']);
-	$oTpl->set_block('main_block', 'admin_user_list_block', 'admin_user_list');
+	$oTpl->set_block('admin_group_show_list_block', 'admin_user_list_block', 'admin_user_list');
 	$sAllowedAdminUsers = trim(implode(',',$aAdminUsers));
 	$sAllowedAdminUsers = $sAllowedAdminUsers ? $sAllowedAdminUsers : '-1';
 	$sql = 'SELECT `user_id`, `display_name` '
@@ -284,6 +333,12 @@ $admin = new admin('Pages', 'pages_settings');
 			));
 			$oTpl->parse('admin_user_list', 'admin_user_list_block', true);
 		}
+	}
+	if($admin->ami_group_member('1')) {
+		$oTpl->parse('admin_group_show_list', 'admin_group_show_list_block', true);
+
+	} else {
+		$oTpl->parse('admin_group_show_list', '', true);
 	}
 
 /*-- viewer users list block -----------------------------------------------------------*/
@@ -339,8 +394,7 @@ $admin = new admin('Pages', 'pages_settings');
 	{
 		// workout field is set but module missing
 		$oTpl->set_var('TEXT_PAGE_CODE',
-						   '<a href="'.WB_URL.'/modules/mod_multilingual/update_keys.php?page_id='.
-						   $page_id.'">'.$mLang->TEXT_PAGE_CODE.'</a>'
+						   '<a href="'.WB_URL.'/modules/mod_multilingual/update_keys.php?page_id='.$page_id.'">'.$mLang->TEXT_PAGE_CODE.'</a>'
 		);
 	/*-- begin recursive function page_code list ---------------------------------------*/
 		function page_code_list($parent)
@@ -531,3 +585,49 @@ $admin = new admin('Pages', 'pages_settings');
 	$oTpl->pparse('output', 'page');
 // Print admin footer
 	$admin->print_footer();
+
+function p($text,$lang)
+{
+	global $admin;
+	$retVal  = 'onmouseover="return overlib(';
+	$retVal .= '\''.$text.'\',';
+	$retVal .= 'CAPTION,\''.$lang.'\',';
+	$retVal .= 'FGCOLOR,\'#ffffff\',';
+	$retVal .= 'BGCOLOR,\'#557c9e\',';
+	$retVal .= 'BORDER,1,';
+	$retVal .= 'WIDTH,';
+	$retVal .= 'HEIGHT,';
+	$retVal .= 'STICKY,';
+	$retVal .= 'CAPTIONSIZE,\'13px\',';
+	$retVal .= 'CLOSETEXT,\'X\',';
+	$retVal .= 'CLOSESIZE,\'14px\',';
+	$retVal .= 'CLOSECOLOR,\'#ffffff\',';
+	$retVal .= 'TEXTSIZE,\'12px\',';
+	$retVal .= 'VAUTO,';
+	$retVal .= 'HAUTO,';
+	$retVal .= 'MOUSEOFF,';
+	$retVal .= 'WRAP,';
+	$retVal .= 'CELLPAD,5';
+	$retVal .= ')" onmouseout="return nd()"';
+//	$retVal .= '';
+
+	return $retVal;
+}
+
+/**
+* replace varnames with values in a string
+*
+* @param string $subject: stringvariable with vars placeholder
+* @param array $replace: values to replace vars placeholder
+* @return string
+*/
+function replaceVars($subject = '', $replace = null )
+{
+	if(is_array($replace)==true)
+	{
+		foreach ($replace  as $key => $value) {
+			$subject = str_replace("{{".$key."}}", $value, $subject);
+		}
+	}
+	return $subject;
+}

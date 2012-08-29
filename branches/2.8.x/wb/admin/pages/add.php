@@ -3,9 +3,8 @@
  *
  * @category        admin
  * @package         pages
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich, WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -53,24 +52,24 @@ $admin->print_header();
 if ($parent!=0) {
 	if (!$admin->get_page_permission($parent,'admin'))
     {
-        $admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
+        $admin->print_error($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']);
     }
 
 } elseif (!$admin->get_permission('pages_add_l0','system'))
 {
-	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
-}	
+	$admin->print_error($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']);
+}
 
 // check module permissions:
 if (!$admin->get_permission($module, 'module'))
 {
-	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
-}	
+	$admin->print_error($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']);
+}
 
 // Validate data
 if($title == '' || substr($title,0,1)=='.')
 {
-	$admin->print_error($MESSAGE['PAGES']['BLANK_PAGE_TITLE']);
+	$admin->print_error($MESSAGE['PAGES_BLANK_PAGE_TITLE']);
 }
 
 // Check to see if page created has needed permissions
@@ -82,11 +81,11 @@ if(!in_array(1, $admin->get_groups_id()))
 		if (in_array($adm_group, $admin->get_groups_id()))
         {
 			$admin_perm_ok = true;
-		} 
+		}
 	}
 	if ($admin_perm_ok == false)
     {
-		$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
+		$admin->print_error($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']);
 	}
 	$admin_perm_ok = false;
 	foreach ($viewing_groups as $view_group)
@@ -98,7 +97,7 @@ if(!in_array(1, $admin->get_groups_id()))
 	}
 	if ($admin_perm_ok == false)
     {
-		$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
+		$admin->print_error($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']);
 	}
 }
 
@@ -134,7 +133,7 @@ if($parent == '0')
 $get_same_page = $database->query("SELECT page_id FROM ".TABLE_PREFIX."pages WHERE link = '$link'");
 if($get_same_page->numRows() > 0 OR file_exists(WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION) OR file_exists(WB_PATH.PAGES_DIRECTORY.$link.'/'))
 {
-	$admin->print_error($MESSAGE['PAGES']['PAGE_EXISTS']);
+	$admin->print_error($MESSAGE['PAGES_PAGE_EXISTS']);
 }
 
 // Include the ordering class
@@ -238,7 +237,7 @@ if(file_exists(WB_PATH.'/modules/'.$module.'/add.php')) {
 if($database->is_error()) {
 	$admin->print_error($database->get_error());
 } else {
-	$admin->print_success($MESSAGE['PAGES']['ADDED'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+	$admin->print_success($MESSAGE['PAGES_ADDED'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 }
 
 // Print admin footer
