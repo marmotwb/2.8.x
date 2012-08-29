@@ -13,6 +13,8 @@ Legend:
 
 
 
+29 Aug-2012 Build 1706 Dietmar Woellbrink (Luisehahne)
+# fixed save page option 
 27 Aug-2012 Build 1705 Dietmar Woellbrink (Luisehahne)
 ! update headerinfo
 ! change os_version request if os is not windows
