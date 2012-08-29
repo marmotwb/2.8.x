@@ -4,7 +4,7 @@
  * @category        admin
  * @package         templates
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -27,7 +27,26 @@ if( !$admin->checkFTAN() )
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
 }
 
+// After check print the header
+$admin->print_header();
 // Get template name
+if(!isset($_POST['file']) OR $_POST['file'] == "") {
+	$admin->print_error($MESSAGE['GENERIC_FORGOT_OPTIONS']);
+} else {
+	$file = preg_replace('/[^a-z0-9_-]/i', "", $_POST['file']);  // fix secunia 2010-92-2
+}
+
+// Check if the template exists
+if(!is_dir(WB_PATH.'/templates/'.$file)) {
+	$admin->print_error($MESSAGE['GENERIC_NOT_INSTALLED']);
+}
+
+// Check if the template exists
+if(!is_readable(WB_PATH.'/templates/'.$file)) {
+	$admin->print_error($MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES']);
+}
+
+/*
 if(!isset($_POST['file']) OR $_POST['file'] == "") {
 	header("Location: index.php");
 	exit(0);
@@ -35,14 +54,18 @@ if(!isset($_POST['file']) OR $_POST['file'] == "") {
 	$file = preg_replace('/[^a-z0-9_-]/i', "", $_POST['file']);  // fix secunia 2010-92-2
 }
 
-// Check if the template exists
 if(!file_exists(WB_PATH.'/templates/'.$file)) {
 	header("Location: index.php");
 	exit(0);
 }
+// Check if the template exists
+if(!is_dir(WB_PATH.'/templates/'.$file)) {
+	$admin->print_error($MESSAGE['GENERIC_NOT_INSTALLED']);
+}
+*/
 
 // Print admin header
-$admin = new admin('Addons', 'templates_view');
+//$admin = new admin('Addons', 'templates_view');
 
 // Setup template object, parse vars to it, then parse it
 // Create new template object
@@ -75,7 +98,7 @@ if(function_exists('file_get_contents') && file_exists(WB_PATH.'/templates/'.$fi
 if($tool_description !== false) {
 	// Override the template-description with correct desription in users language
 	$row['description'] = $tool_description;
-}	
+}
 
 $template->set_var(array(
 								'NAME' => $row['name'],
@@ -87,28 +110,16 @@ $template->set_var(array(
 								)
 						);
 
-// Insert language headings
-$template->set_var(array(
-								'HEADING_TEMPLATE_DETAILS' => $HEADING['TEMPLATE_DETAILS']
-								)
-						);
-// Insert language text and messages
-$template->set_var(array(
-								'TEXT_NAME' => $TEXT['NAME'],
-								'TEXT_AUTHOR' => $TEXT['AUTHOR'],
-								'TEXT_VERSION' => $TEXT['VERSION'],
-								'TEXT_DESIGNED_FOR' => $TEXT['DESIGNED_FOR'],
-								'TEXT_DESCRIPTION' => $TEXT['DESCRIPTION'],
-								'TEXT_BACK' => $TEXT['BACK'],
-								'TEXT_LICENSE' => $TEXT['LICENSE'],
-								)
-						);
-$template->set_var('TEXT_FUNCTION', ($row['function'] == 'theme' ? $TEXT['THEME'] : $TEXT['TEMPLATE']));
+$mLang = ModLanguage::getInstance();
+$mLang->setLanguage(ADMIN_PATH.'/addons/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+
+/*-- insert all needed vars from language files ----------------------------------------*/
+$template->set_var($mLang->getLangArray());
+
+$template->set_var('TEXT_FUNCTION', ($row['function'] == 'theme' ? $mLang->TEXT_THEME : $mLang->TEXT_TEMPLATE));
 // Parse template object
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
 
 // Print admin footer
 $admin->print_footer();
-
-?>

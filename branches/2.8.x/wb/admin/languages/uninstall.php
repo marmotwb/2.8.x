@@ -3,9 +3,8 @@
  *
  * @category        admin
  * @package         languages
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich, WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link            http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -29,6 +28,30 @@ if( !$admin->checkFTAN() )
 // After check print the header
 $admin->print_header();
 
+// Get language name
+if(!isset($_POST['code']) OR $_POST['code'] == "") {
+	$code = '';
+	$file = '';
+} else {
+	$code = $_POST['code'];
+	$file = $_POST['code'].'.php';
+}
+// fix secunia 2010-93-2
+if (!preg_match('/^([A-Z]{2}.php)/', $file)) {
+	$admin->print_error($MESSAGE['GENERIC_FORGOT_OPTIONS']);
+}
+
+// Check if the template exists
+if(!is_file(WB_PATH.'/languages/'.$file)) {
+	$admin->print_error($MESSAGE['GENERIC_NOT_INSTALLED']);
+}
+
+// Check if the template exists
+if(!is_readable(WB_PATH.'/languages/'.$file)) {
+	$admin->print_error($MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES']);
+}
+
+/*
 // Check if user selected language
 if(!isset($_POST['code']) OR $_POST['code'] == "") {
 	header("Location: index.php");
@@ -41,36 +64,34 @@ if(trim($_POST['code']) == '') {
 	exit(0);
 }
 
+// Check if the language exists
+if(!file_exists(WB_PATH.'/languages/'.$_POST['code'].'.php')) {
+	$admin->print_error($MESSAGE['GENERIC_NOT_INSTALLED']);
+}
+*/
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 
-// Check if the language exists
-if(!file_exists(WB_PATH.'/languages/'.$_POST['code'].'.php')) {
-	$admin->print_error($MESSAGE['GENERIC']['NOT_INSTALLED']);
-}
-
 // Check if the language is in use
-if($_POST['code'] == DEFAULT_LANGUAGE OR $_POST['code'] == LANGUAGE) {
-	$admin->print_error($MESSAGE['GENERIC']['CANNOT_UNINSTALL_IN_USE']);
+if($code == DEFAULT_LANGUAGE OR $code == LANGUAGE) {
+	$admin->print_error($MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE']);
 } else {
-	$query_users = $database->query("SELECT user_id FROM ".TABLE_PREFIX."users WHERE language = '".$admin->add_slashes($_POST['code'])."' LIMIT 1");
+	$query_users = $database->query("SELECT user_id FROM ".TABLE_PREFIX."users WHERE language = '".$admin->add_slashes($code)."' LIMIT 1");
 	if($query_users->numRows() > 0) {
-		$admin->print_error($MESSAGE['GENERIC']['CANNOT_UNINSTALL_IN_USE']);
+		$admin->print_error($MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE']);
 	}
 }
 
 // Try to delete the language code
-if(!unlink(WB_PATH.'/languages/'.$_POST['code'].'.php')) {
-	$admin->print_error($MESSAGE['GENERIC']['CANNOT_UNINSTALL']);
+if(!unlink(WB_PATH.'/languages/'.$file)) {
+	$admin->print_error($MESSAGE['GENERIC_CANNOT_UNINSTALL']);
 } else {
 	// Remove entry from DB
-	$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE directory = '".$_POST['code']."' AND type = 'language'");
+	$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE directory = \'".$code."\' AND type = 'language'");
 }
 
 // Print success message
-$admin->print_success($MESSAGE['GENERIC']['UNINSTALLED']);
+$admin->print_success($MESSAGE['GENERIC_UNINSTALLED']);
 
 // Print admin footer
 $admin->print_footer();
-
-?>

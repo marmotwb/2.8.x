@@ -4,7 +4,7 @@
  * @category        admin
  * @package         languages
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link            http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -23,7 +23,7 @@ $admin = new admin('Addons', 'languages');
 
 // Setup template object, parse vars to it, then parse it
 // Create new template object
-$template = new Template(dirname($admin->correct_theme_source('languages.htt')));
+$template = new Template(dirname($admin->correct_theme_source('languages.htt')),'keep');
 // $template->debug = true;
 $template->set_file('page', 'languages.htt');
 $template->set_block('page', 'main_block', 'main');
@@ -50,13 +50,11 @@ if($admin->get_permission('languages_view') != true) {
 	$template->set_var('DISPLAY_LIST', 'hide');
 }
 
-// Insert language headings
-$template->set_var(array(
-				'HEADING_INSTALL_LANGUAGE' => $HEADING['INSTALL_LANGUAGE'],
-				'HEADING_UNINSTALL_LANGUAGE' => $HEADING['UNINSTALL_LANGUAGE'],
-				'HEADING_LANGUAGE_DETAILS' => $HEADING['LANGUAGE_DETAILS']
-			)
-		);
+$mLang = ModLanguage::getInstance();
+$mLang->setLanguage(ADMIN_PATH.'/addons/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+
+/*-- insert all needed vars from language files ----------------------------------------*/
+$template->set_var($mLang->getLangArray());
 // insert urls
 $template->set_var(array(
 				'ADMIN_URL' => ADMIN_URL,
@@ -67,15 +65,12 @@ $template->set_var(array(
 		);
 // Insert language text and messages
 $template->set_var(array(
+	'URL_ADVANCED' => '<b>'.$TEXT['ADVANCED'].'</b>' ,
 	'URL_MODULES' => $admin->get_permission('modules') ?
-		'<a href="' . ADMIN_URL . '/modules/index.php">' . $MENU['MODULES'] . '</a>' : '',
-	'URL_ADVANCED' => '&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;',
+		'<a href="' . ADMIN_URL . '/modules/index.php">' . $mLang->MENU_MODULES . '</a>' : '<b>'.$mLang->MENU_MODULES.'</b>',
 	'URL_TEMPLATES' => $admin->get_permission('templates') ?
-		'<a href="' . ADMIN_URL . '/templates/index.php">' . $MENU['TEMPLATES'] . '</a>' : '',
-	'TEXT_INSTALL' => $TEXT['INSTALL'],
-	'TEXT_UNINSTALL' => $TEXT['UNINSTALL'],
-	'TEXT_VIEW_DETAILS' => $TEXT['VIEW_DETAILS'],
-	'TEXT_PLEASE_SELECT' => $TEXT['PLEASE_SELECT']
+		'<a href="' . ADMIN_URL . '/templates/index.php">' . $mLang->MENU_TEMPLATES . '</a>' : '<b>'.$mLang->MENU_TEMPLATES.'</b>',
+	'HEADING_CHANGE_TEMPLATE_NOTICE' => ''
 	)
 );
 
