@@ -1,0 +1,8 @@
+.rBold { font-weight :bold; text-align :right; }
+form.settings_table {
+   text-align :left;
+}
+h2 {
+    font-weight : normal;
+  color :#006699;
+}

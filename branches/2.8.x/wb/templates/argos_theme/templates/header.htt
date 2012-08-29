@@ -10,7 +10,7 @@
 <meta name="author" content="WebsiteBaker Org e.V." />
 <meta http-equiv="Content-Encoding" content="gzip" />
 <meta http-equiv="Accept-Encoding" content="gzip, deflate" />
-<link href="{THEME_URL}/theme.css" rel="stylesheet" type="text/css" />
+<link href="{THEME_URL}/css/screen.css" rel="stylesheet" type="text/css" />
 {BACKEND_MODULE_CSS}
 <script type="text/javascript">
 var WB_URL = '{WB_URL}';
@@ -32,23 +32,27 @@ function confirm_link(message, url) {
 <body>
 <div id="admin_header">
   <div id="header_top">
-    <div id="topmenu"> <a href="{ADMIN_URL}" title="{TITLE_START}">Home</a>| <a href="{URL_VIEW}" target="_blank" title="{TITLE_VIEW}">{TITLE_VIEW}</a>| <a href="{ADMIN_URL}/logout/" title="{TITLE_LOGOUT}">{TITLE_LOGOUT}</a>
+    <div id="topmenu">
+		<a href="{ADMIN_URL}" title="{TITLE_START}">Home</a>
+		| <a href="{URL_VIEW}" target="_blank" title="{TITLE_VIEW}">{TITLE_VIEW}</a>
+		| <a href="{LOGIN_LINK}" title="{TITLE_LOGOUT}">{TITLE_LOGOUT}</a>
 	  <br />
       <br />
       <span class="version">CMS Version {VERSION} {SP}</span><br/>
       <span class="version">Revision {REVISION}</span><br/>
-      <span class="version">Admin version 1.6</span>
+      <span class="version">Admin version 1.7</span>
 	 </div>
     <a href="{ADMIN_URL}" title="{TITLE_START}" id="website_title">
     {WEBSITE_TITLE} - {TEXT_ADMINISTRATION}
     <!-- <img src="{THEME_URL}/images/logo.png" border="0" alt="Logo" /> -->
-    </a> 
+    </a>
 	</div>
   <div class="menu">
     <ul>
       <!-- BEGIN linkBlock -->
       <li class="{CLASS}"><a href="{LINK}" target="{TARGET}"><span>{TITLE}</span></a></li>
       <!-- END linkBlock -->
+		<li>&nbsp;</li>
     </ul>
   </div>
 </div>
