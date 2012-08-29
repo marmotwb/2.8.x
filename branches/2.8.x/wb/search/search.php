@@ -3,9 +3,8 @@
  *
  * @category        frontend
  * @package         search
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          yan Djurovich, WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -153,7 +152,7 @@ if(isset($_REQUEST['search_path'])) {
 			if($i++ > 0) {
 				$search_path_SQL .= ' $op';
 			}
-			$search_path_SQL .= " link $not LIKE '".$p."%'";			
+			$search_path_SQL .= " link $not LIKE '".$p."%'";
 		}
 		$search_path_SQL .= ' )';
 	}
@@ -187,7 +186,7 @@ $search_display_string = ''; // for displaying
 $search_url_string = ''; // for $_GET -- ATTN: unquoted! Will become urldecoded later
 $string = '';
 if(isset($_REQUEST['string'])) {
-	if($match!='exact') { // $string will be cleaned below 
+	if($match!='exact') { // $string will be cleaned below
 		$string=str_replace(',', '', $_REQUEST['string']);
 	} else {
 		$string=$_REQUEST['string'];
@@ -357,7 +356,7 @@ if($search_normal_string != '') {
 				continue; // there is no search_func for this module
 			}
 			// get each section for $module_name
-			$table_s = TABLE_PREFIX."sections";	
+			$table_s = TABLE_PREFIX."sections";
 			$table_p = TABLE_PREFIX."pages";
 			$sections_query = $database->query("
 				SELECT s.section_id, s.page_id, s.module, s.publ_start, s.publ_end,
@@ -622,7 +621,7 @@ if($search_normal_string != '') {
 						if(isset($seen_pages[$module_name][$page['page_id']]) || isset($pages_listed[$page['page_id']])) {
 							continue;
 						}
-						
+
 						// don't list pages with visibility == none|deleted and check if user is allowed to see the page
 						$p_table = TABLE_PREFIX."pages";
 						$viewquery = $database->query("
@@ -654,7 +653,7 @@ if($search_normal_string != '') {
 								}
 							}
 						}
-	
+
 						// Get page link
 						$link = page_link($page['link']);
 						// Add search string for highlighting
@@ -705,5 +704,3 @@ if($search_normal_string != '') {
 echo $search_results_footer;
 // Show search footer
 echo $search_footer;
-
-?>

@@ -4,7 +4,7 @@
  * @category        backend
  * @package         modules
  * @author          WebsiteBaker Project
- * @copyright       2009-2010, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -13,12 +13,12 @@
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
  *
-*/
+ */
 
 // Stop this file being access directly
 if(defined('WB_PATH') == false)
 {
-	die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+	die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
 }
 
 // Get page id
@@ -53,7 +53,7 @@ $admin = new admin('Pages', 'pages_modify',(bool)$admin_header);
 // Get perms
 // unset($admin_header);
 
-$page = $admin->get_page_details($page_id,ADMIN_URL.'/pages/index.php' );
+$page = $admin->get_page_details($page_id, ADMIN_URL.'/pages/index.php' );
 
 $old_admin_groups = explode(',', str_replace('_', '', $page['admin_groups']));
 $old_admin_users = explode(',', str_replace('_', '', $page['admin_users']));
@@ -68,7 +68,7 @@ foreach($admin->get_groups_id() as $cur_gid){
 if((!$in_group) && !is_numeric(array_search($admin->get_user_id(), $old_admin_users))) {
 	print $admin->get_group_id().$admin->get_user_id();
 	// print_r ($old_admin_groups);
-	$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
+	$admin->print_error($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']);
 }
 
 // some additional security checks:
@@ -77,7 +77,7 @@ if ($section_id != 0) {
 	$section = $admin->get_section_details($section_id,ADMIN_URL.'/pages/index.php');
 	if (!$admin->get_permission($section['module'], 'module'))
 	{
-		$admin->print_error($MESSAGE['PAGES']['INSUFFICIENT_PERMISSIONS']);
+		$admin->print_error($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']);
 	}
 }
 
@@ -97,7 +97,7 @@ if(isset($print_info_banner) && $print_info_banner == true) {
 
 	// Setup template object, parse vars to it, then parse it
 	// Create new template object
-	$template = new Template(dirname($admin->correct_theme_source('pages_modify.htt')));
+	$template = new Template(dirname($admin->correct_theme_source('pages_modify.htt')),'keep');
 	// $template->debug = true;
 	$template->set_file('page', 'pages_modify.htt');
 	$template->set_block('page', 'main_block', 'main');
@@ -116,10 +116,12 @@ if(isset($print_info_banner) && $print_info_banner == true) {
 
 	$template->set_var(array(
 				'MODIFIED_BY' => $user['display_name'],
+				'TEXT_LAST_MODIFIED' => $TEXT['LAST_UPDATED_BY'],
 				'MODIFIED_BY_USERNAME' => $user['username'],
 				'MODIFIED_WHEN' => $modified_ts,
-				'LAST_MODIFIED' => $MESSAGE['PAGES']['LAST_MODIFIED'],
-				));
+				'LAST_MODIFIED' => $MESSAGE['PAGES_LAST_MODIFIED'],
+				'TEXT_MANAGE_SECTIONS' => $HEADING['MANAGE_SECTIONS']
+			));
 
 	$template->set_block('main_block', 'show_modify_block', 'show_modify');
 	if($modified_ts == 'Unknown')
@@ -133,10 +135,45 @@ if(isset($print_info_banner) && $print_info_banner == true) {
 	}
 
 	// Work-out if we should show the "manage sections" link
-	$sql  = 'SELECT `section_id` FROM `'.TABLE_PREFIX.'sections` WHERE `page_id` = '.(int)$page_id.' ';
-	$sql .= 'AND `module` = "menu_link"';
-	$query_sections = $database->query($sql);
+//	$sql  = 'SELECT `section_id` FROM `'.TABLE_PREFIX.'sections` WHERE `page_id` = '.(int)$page_id.' ';
+//	$sql .= 'AND `module` = "menu_link"';
+//	$query_sections = $database->query($sql);
+/*-- workout if we should show the "manage sections" link ------------------------------*/
+	$sql = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'sections` '
+	     . 'WHERE `page_id`='.$page_id.' AND `module`=\'menu_link\'';
+	$bIsMenuLink = (intval($database->get_one($sql)) != 0);
+//	if(!$bIsMenuLink && (MANAGE_SECTIONS == true) && $admin->get_permission('pages_add') )
+	if((MANAGE_SECTIONS == true) && $admin->get_permission('pages_add') )
+	{
+		$template->set_var(array(
+				'SECTIONS_LINK_BEFORE' => '<a href="'.ADMIN_URL.'/pages/sections.php?page_id='.$page['page_id'].'">',
+				'SECTIONS_LINK_AFTER' => '</a>',
+				'DISPLAY_MANAGE_SECTIONS' => 'link',
+				));
+	}else {
+//		$oTpl->set_block('show_manage_sections', '');
+		$template->set_var(array(
+				'SECTIONS_LINK_BEFORE' => '<span class="bold grey">',
+				'SECTIONS_LINK_AFTER' => '</span>',
+				'DISPLAY_MANAGE_SECTIONS' => 'link',
+				));
+	}
 
+	if( $admin->get_permission('pages_settings') )
+	{
+		$template->set_var(array(
+				'SETTINGS_LINK_BEFORE' => '<a href="'.ADMIN_URL.'/pages/settings.php?page_id='.$page['page_id'].'">',
+				'SETTINGS_LINK_AFTER' => '</a>',
+				'DISPLAY_MANAGE_SETTINGS' => 'link',
+				));
+	} else {
+		$template->set_var(array(
+				'SETTINGS_LINK_BEFORE' => '<span class="bold grey">',
+				'SETTINGS_LINK_AFTER' => '</span>',
+				'DISPLAY_MANAGE_SECTIONS' => 'link',
+				));
+	}
+/*
 	$template->set_block('main_block', 'show_section_block', 'show_section');
 	if($query_sections->numRows() > 0)
 	{
@@ -154,7 +191,7 @@ if(isset($print_info_banner) && $print_info_banner == true) {
 		$template->set_var('DISPLAY_MANAGE_SECTIONS', 'display:none;');
 
 	}
-
+*/
 	// Insert language TEXT
 	$template->set_var(array(
 					'TEXT_CURRENT_PAGE' => $TEXT['CURRENT_PAGE'],
@@ -173,8 +210,7 @@ if(isset($print_info_banner) && $print_info_banner == true) {
                  {
 			$block_name = htmlentities(strip_tags($block[$section['block']]));
 		} else {
-			if ($section['block'] == 1)
-                     {
+			if ($section['block'] == 1) {
 				$block_name = $TEXT['MAIN'];
 			} else {
 				$block_name = '#' . (int) $section['block'];
@@ -182,9 +218,9 @@ if(isset($print_info_banner) && $print_info_banner == true) {
 		}
 
 		$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? 'id="'.SEC_ANCHOR.$section['section_id'].'"' : '');
-		print '<div class="section-info" '.$sec_anchor.' ><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
+		print '<div class="section-info" ><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
 		print '<b>  Modul: </b>' . $section['module']." ";
-		print '<b>  ID: </b>' . $section_id."</div>\n";
+		print '<b>  ID: </b><a' . $section_id."></a></div>\n";
 	}
 
 } //
