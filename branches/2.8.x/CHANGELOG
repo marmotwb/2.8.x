@@ -13,6 +13,13 @@ Legend:
 
 
 
+29 Aug-2012 Build 1717 Dietmar Woellbrink (Luisehahne)
+! update droplets uninstall, upgrade
+! add $database=WbDatabase::getInstance();
+! update /examples/
+29 Aug-2012 Build 1716 Dietmar Woellbrink (Luisehahne)
+! update folder admin/settings admin/skel/htt
+! change Template to div container
 29 Aug-2012 Build 1715 Dietmar Woellbrink (Luisehahne)
 ! forgot some files in folder admin
 29 Aug-2012 Build 1714 Dietmar Woellbrink (Luisehahne)

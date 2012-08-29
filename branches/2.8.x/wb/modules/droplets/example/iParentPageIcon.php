@@ -9,9 +9,9 @@ global $wb, $database;
 $type = !isset($type) ? 0 : (intval($type) % 3);
 $icontypes = array( 0=>'page_icon', 1=>'menu_icon_0', 2=>'menu_icon_1');
 $icon_url = '';
-if( isset($icon) && file_exists(WB_PATH.'/'.TEMPLATE.'/'.$icon) )
+if( isset($icon) && is_readable(WB_PATH.'/templates/'.TEMPLATE.'/'.$icon) )
 {
-	$icon_url = WB_REL.'/'.TEMPLATE.'/'.$icon;
+	$icon_url = WB_REL.'/templates/'.TEMPLATE.'/'.$icon;
 }
 $tmp_trail = $wb->page_trail;
 $tmp_trail = array_reverse($tmp_trail);

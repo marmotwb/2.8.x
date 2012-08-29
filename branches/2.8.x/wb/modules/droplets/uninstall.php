@@ -24,6 +24,7 @@ if(!defined('WB_PATH')) {
 	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
+$database=WbDatabase::getInstance();
 
 $sql  = 'DROP TABLE IF EXISTS `'.TABLE_PREFIX.'mod_droplets` ';
 $database->query($sql);

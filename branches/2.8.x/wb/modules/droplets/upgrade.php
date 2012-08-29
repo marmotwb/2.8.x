@@ -24,7 +24,7 @@ if(!defined('WB_PATH')) {
 	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
-
+$database=WbDatabase::getInstance();
 $table_name = TABLE_PREFIX .'mod_droplets';
 $description = 'INT NOT NULL default 0 ';
 $database->field_add($table_name,'show_wysiwyg',$description.'AFTER `active`' );
