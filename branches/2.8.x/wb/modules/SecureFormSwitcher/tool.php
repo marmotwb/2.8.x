@@ -4,7 +4,7 @@
  * @category        modules
  * @package         SecureFormSwitcher
  * @author          WebsiteBaker Project, D Woellbrink
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.2
@@ -18,11 +18,14 @@
 // Must include code to stop this file being access directly
 if(defined('WB_PATH') == false)
 {
-	die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+	die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
 }
 
 // load module language file
 $mod_path = (dirname(__FILE__));
+$mod_rel = str_replace('\\','/',str_replace(WB_PATH,'',$mod_path));
+$sModulesUrl = WB_URL.$mod_rel;
+//echo realpath($mod_rel);
 require_once( $mod_path.'/language_load.php' );
 // callback function for settings name
 function converttoupper($val, $key, $vars) {
@@ -33,6 +36,7 @@ function converttoupper($val, $key, $vars) {
 // create backlinks
 $js_back =  ADMIN_URL.'/admintools/tool.php?tool=SecureFormSwitcher';
 $backlink =  ADMIN_URL.'/admintools/index.php';
+
 $FileNotFound = '&nbsp;';
 // defaults settings
 $default_cfg = array(
@@ -69,6 +73,8 @@ if($res = $database->query($sql) ) {
 $action = 'show';
 $action = isset($_POST['save_settings']) ? 'save_settings' : $action;
 $action = isset($_POST['save_settings_default']) ? 'save_settings_default' : $action;
+$action = isset($_POST['save_settings']) ? 'save_settings' : $action;
+//$action = isset($_POST['cancel']) ? 'cancel' : $action;
 
 switch ($action) :
 	case 'save_settings':
@@ -89,7 +95,6 @@ switch ($action) :
 		$cfg['secure_form_module'] = $setting['secure_form_module'];
 		break;
 endswitch;
-
 
 switch ($action) :
 	case 'save_settings':
@@ -125,21 +130,21 @@ $oSecureTpl->set_file('page', 'switchform.htt');
 $oSecureTpl->debug = false; // false, true
 $oSecureTpl->set_block('page', 'main_block', 'main');
 
-$checked = ($setting['secure_form_module']!='');
-
+$checked  = ($setting['secure_form_module']!='');
+$target   = ($checked) ? '.'.$setting['secure_form_module'] : '';
+$target   = WB_PATH.'/framework/SecureForm'.$target.'.php';
 $ftanMode = ($checked ? $SFS_TEXT['SECURE_FORM'] : $SFS_TEXT['SECURE_FORMMTAB']);
-$target = ($checked) ? '.'.$setting['secure_form_module'] : '';
-$target = WB_PATH.'/framework/SecureForm'.$target.'.php';
 
 $SingleTabStatus = intval($checked==false);
 $MultitabStatus = intval($checked==true);
 $NotFoundClass = '';
+$HiddenClass = 'none';
+$FileNotFound = '';
 if(!file_exists($MultitabTarget)) {
 	$SingleTabStatus = true;
 	$MultitabStatus = false;
-	$FileNotFound = $SFS_TEXT['FILE_FORMTAB_NOT_GOUND'];
-	$NotFoundClass = 'class="warning"';
-} else {
+	$FileNotFound = $SFS_TEXT['FILE_FORMTAB_NOT_FOUND'];
+	$HiddenClass = 'warning';
 }
 
 // convert settings name to upper
@@ -148,9 +153,13 @@ array_walk($setting,'converttoupper', array(&$search, &$replace ));
 $oSecureTpl->set_var($replace);
 $oSecureTpl->set_var(array(
 	'FTAN' => $admin->getFTAN(),
+	'ADMIN_URL' => ADMIN_URL,
+	'WB_URL' => WB_URL,
+	'URL_VIEW' => WB_URL,
+	'THEME_URL' => THEME_URL,
 	'SERVER_REQUEST_URI' => $_SERVER['REQUEST_URI'],
 	'TEXT_CANCEL' => $TEXT['CANCEL'],
-	'BACKLINK' => (isset($_POST['cancel'])) ? $backlink : '#',
+	'BACKLINK' => $backlink,
 	'TEXT_INFO' => $SFS_TEXT['INFO'],
 	'TEXT_SUBMIT' => $SFS_TEXT['SUBMIT'],
 	'TEXT_MSUBMIT' => $SFS_TEXT['RESET_SETTINGS'],
@@ -158,20 +167,22 @@ $oSecureTpl->set_var(array(
 	'SELECTED' => ( ($SingleTabStatus) ? ' checked="checked"' : ''),
 	'SELECTED_TAB' => ( ($MultitabStatus) ? ' checked="checked"' : ''),
 	'SUBMIT_TYPE' => ($checked ? 'multitab' : 'singletab'),
+	'MODULES_URL' => $sModulesUrl,
 	'MSELECTED' => '',
 	'MSELECTED_TAB' => '',
+	'DISPLAY_MISSING_MTAB' =>  $HiddenClass,
+//	'DISPLAY_RIGHT_SUBMIT' =>  ( ($MultitabStatus) ? '' : 'none'),
 	'FTAN_COLOR' => ($checked ? 'grey' : 'norm'),
 	'TXT_SUBMIT_FORM' => $SFS_TEXT['SUBMIT_FORM'],
 	'TXT_SUBMIT_FORMTAB' => $SFS_TEXT['SUBMIT_FORMTAB'],
 	'FILE_FORMTAB_WARNING' => $NotFoundClass,
-	'FILE_FORMTAB_NOT_GOUND' => $FileNotFound,
+	'FILE_FORMTAB_NOT_FOUND' => $FileNotFound,
 	)
 );
 
 $oSecureTpl->set_var(array(
 		'USEIP_SELECTED' => '',
-		'TXT_SECFORM_USEIP' => $SFS_TEXT['WB_SECFORM_USEIP'],
-        'TXT_SECFORM_USEIP_TOOLTIP' => $SFS_TEXT['WB_SECFORM_USEIP_TOOLTIP'], // Tooltip
+		'TXT_SECFORM_USEIP' => $CAPTION['WB_SECFORM_USEIP'],
 		'TEXT_DEFAULT_SETTINGS' => $HEADING['DEFAULT_SETTINGS'],
 		'USEIP_DEFAULT' => $default_cfg['fingerprint_with_ip_octets'],
 		'USEFP_CHECKED_TRUE' => (($setting['wb_secform_usefp']=='true') ? ' checked="checked"' : ''),
@@ -179,6 +190,13 @@ $oSecureTpl->set_var(array(
 		'TEXT_DEFAULT_SETTINGS' => $HEADING['DEFAULT_SETTINGS'],
 	)
 );
+
+foreach($HELP as $key=>$value)
+{
+	$sHelp[$key] = $value;
+	$oSecureTpl->set_var('p_'.strtolower($key),  p($sHelp[$key],$CAPTION[$key] ));
+//	echo ' {p_'.strtolower($key).'}<br />';
+}
 
 $oSecureTpl->set_block('main_block', 'useip_mtab_loop', 'mtab_loop');
 	for($x=0; $x < 5; $x++) {
@@ -204,20 +222,17 @@ $oSecureTpl->set_block('main_block', 'show_mtab_block', 'show_mtab');
 $oSecureTpl->set_block('main_block', 'mtab_block', 'mtab');
 if($checked) {
 	$oSecureTpl->set_var(array(
-			'TEXT_ENABLED' => $SFS_TEXT['ON_OFF'],
-			'TXT_SECFORM_TOKENNAME' => $SFS_TEXT['WB_SECFORM_TOKENNAME'],
-            'TXT_SECFORM_TOKENNAME_TOOLTIP' => $SFS_TEXT['WB_SECFORM_TOKENNAME_TOOLTIP'],
-			'TXT_SECFORM_TIMEOUT' => $SFS_TEXT['WB_SECFORM_TIMEOUT'],
-            'TXT_SECFORM_TIMEOUT_TOOLTIP' => $SFS_TEXT['WB_SECFORM_TIMEOUT_TOOLTIP'],
-			'TXT_SECFORM_SECRETTIME' => $SFS_TEXT['WB_SECFORM_SECRETTIME'],
-            'TXT_SECFORM_SECRETTIME_TOOLTIP' => $SFS_TEXT['WB_SECFORM_SECRETTIME_TOOLTIP'],
-			'TXT_SECFORM_SECRET' => $SFS_TEXT['WB_SECFORM_SECRET'],
-            'TXT_SECFORM_SECRET_TOOLTIP' => $SFS_TEXT['WB_SECFORM_SECRET_TOOLTIP'],
-			'TXT_SECFORM_USEFP' => $SFS_TEXT['WB_SECFORM_USEFP'],
+			'TEXT_ENABLED' => $SFS_TEXT['ON'],
+			'TEXT_DISABLED' => $SFS_TEXT['OFF'],
+			'TXT_SECFORM_TOKENNAME' => $CAPTION['WB_SECFORM_TOKENNAME'],
+			'TXT_SECFORM_TIMEOUT' => $CAPTION['WB_SECFORM_TIMEOUT'],
+			'TXT_SECFORM_SECRETTIME' => $CAPTION['WB_SECFORM_SECRETTIME'],
+			'TXT_SECFORM_SECRET' => $CAPTION['WB_SECFORM_SECRET'],
+			'TXT_SECFORM_USEFP' => $CAPTION['WB_SECFORM_USEFP'],
 			'SECFORM_USEFP' => 'true',
-            'TXT_SECFORM_USEFP_TOOLTIP' => $SFS_TEXT['WB_SECFORM_USEFP_TOOLTIP'],
 		)
 	);
+
 	$oSecureTpl->parse('mtab','mtab_block', true);
 	$oSecureTpl->parse('show_mtab','show_mtab_block', true);
 } else  {
@@ -231,3 +246,38 @@ $output = $oSecureTpl->finish($oSecureTpl->parse('output', 'page'));
 unset($oSecureTpl);
 print $output;
 
+
+/**
+ * p()
+ *
+ * @param string $text
+ * @param string $caption
+ * @return
+ */
+function p($sTooltip,$sCaption)
+{
+	global $admin;
+	$retVal  = 'onmouseover="return overlib(';
+	$retVal .= '\''.$sTooltip.'\',';
+	$retVal .= 'CAPTION,\''.$sCaption.'\',';
+	$retVal .= 'FGCOLOR,\'#ffffff\',';
+	$retVal .= 'BGCOLOR,\'#557c9e\',';
+	$retVal .= 'BORDER,1,';
+	$retVal .= 'WIDTH,';
+	$retVal .= 'HEIGHT,';
+	$retVal .= 'STICKY,';
+	$retVal .= 'CAPTIONSIZE,\'13px\',';
+	$retVal .= 'CLOSETEXT,\'X\',';
+	$retVal .= 'CLOSESIZE,\'16px\',';
+	$retVal .= 'CLOSECOLOR,\'#ffffff\',';
+	$retVal .= 'TEXTSIZE,\'12px\',';
+	$retVal .= 'VAUTO,';
+	$retVal .= 'HAUTO,';
+	$retVal .= 'MOUSEOFF,';
+	$retVal .= 'WRAP,';
+	$retVal .= 'CELLPAD,5';
+	$retVal .= ')" onmouseout="return nd();"';
+//	$retVal .= '';
+
+	return $retVal;
+}

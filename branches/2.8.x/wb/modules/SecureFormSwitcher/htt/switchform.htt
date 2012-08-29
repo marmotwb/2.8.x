@@ -1,141 +1,114 @@
 <!-- BEGIN main_block -->
-<script language="JavaScript" type="text/javascript">
-/*<![CDATA[*/
-if('{BACKLINK}'!=false) {
-	redirect_to_page ('{BACKLINK}', 0);
-}
-/*]]>*/
-</script>
-   <table class="switch-ftan-info" summary="" cellpadding="4" cellspacing="0" border="0">
-	<thead>
-		<tr>
-			<th colspan="3">Status: <span class="{FTAN_COLOR}">{TXT_HEADING}</span></th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td colspan="2" class="module-info"><p>{TEXT_INFO}</p></td>
-		</tr>
-		<tr>
-			<td colspan="2"><p {FILE_FORMTAB_WARNING}>{FILE_FORMTAB_NOT_GOUND}</p></td>
-		</tr>
-	</tbody>
-   </table>
-
+<script src="{WB_URL}/include/jquery/overlib_mini.js" type="text/javascript"></script>
+<div class="form-wrapper">
    <form class="secure_switch" name="store_settings" action="{SERVER_REQUEST_URI}" method="post" >
 	{FTAN}
 	<input type="hidden" name="{SUBMIT_TYPE}" value="true" />
-	<div class="left-content">
-	   <table class="switch-ftan-form" summary="" cellpadding="4" cellspacing="0" border="0">
-		<tbody>
-			<tr>
-				<td width="20"><input type="radio" name="ftan_switch" id="ftan_switch" value=""{SELECTED}/></td>
-				<td><label for="ftan_switch">{TXT_SUBMIT_FORM}</label></td>
-			</tr>
-			<tr>
-				<td width="20"><input type="radio" name="ftan_switch" id="ftan_switch_tab" value="mtab"{SELECTED_TAB}/></td>
-				<td><label for="ftan_switch_tab">{TXT_SUBMIT_FORMTAB}</label></td>
-			</tr>
-			<tr>
-				<td colspan="2">&nbsp;</td>
-			</tr>
-<!-- BEGIN show_mtab_block -->
-			<tr>
-				<td colspan="2">&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="2">&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="2">&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="2">&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="2">&nbsp;</td>
-			</tr>
-<!-- END show_mtab_block -->
-			<tr>
-				<td colspan="2">
-					<input type="submit" name="save_settings" value="{TEXT_SUBMIT}" />
-					<input type="submit" name="cancel" value="{TEXT_CANCEL}" />
-				</td>
-			</tr>
-		</tbody>
-	   </table>
-	</div>
-	<div class="right-content">
-	   <table class="switch-ftan-form" summary="" cellpadding="4" cellspacing="0" border="0">
-		<tbody>
-			<tr>
-				<td colspan="2">
-					<select name="fingerprint_with_ip_octets">
+	<fieldset class="switch-ftan-form">
+		<legend>Status: <b class="{FTAN_COLOR}">{TXT_HEADING}</b></legend>
+		<p class="info">{TEXT_INFO}</p>
+		<p class="{DISPLAY_MISSING_MTAB}" >{FILE_FORMTAB_NOT_FOUND}</p>
+	</fieldset><br class="" />
+	<fieldset class="switch-ftan-form left-content">
+		<div class="content-ftan">
+			<div class="mbox">
+				<div>
+				<input type="radio" name="ftan_switch" id="ftan_switch" value=""{SELECTED}/>
+				<label for="ftan_switch">{TXT_SUBMIT_FORM}</label>
+				</div>
+			</div>
+			<div class="mbox">
+				<div>
+				<input type="radio" name="ftan_switch" id="ftan_switch_tab" value="mtab"{SELECTED_TAB}/>
+				<label for="ftan_switch_tab">{TXT_SUBMIT_FORMTAB}</label>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	<fieldset class="switch-ftan-form right-content">
+		<div  class="content-mftan">
+			<div class="mbox">
+				<div>
+					<select style=" width :203px;" name="fingerprint_with_ip_octets" id="fingerprint_with_ip_octets">
 						<option value="{USEIP_DEFAULT}"{USEIP_DEFAULT_SELECTED}>{TEXT_DEFAULT_SETTINGS}</option>
-	<!-- BEGIN useip_mtab_loop -->
+			<!-- BEGIN useip_mtab_loop -->
 						<option value="{USEIP_VALUE}"{USEIP_SELECTED}>{USEIP_VALUE}</option>
-	<!-- END useip_mtab_loop -->
+			<!-- END useip_mtab_loop -->
 					</select>
-				</td>
-				<td><label for="fingerprint_with_ip_octets">{TXT_SECFORM_USEIP}
-						<a class="tooltip" href="#">? {TXT_SECFORM_USEIP_TOOLTIP}</a>
-				</label></td>
-			</tr>
+					<label title="" for="fingerprint_with_ip_octets" {p_wb_secform_useip} style="background-image: url({MODULES_URL}/icons/help_16.png);" >
+					{TXT_SECFORM_USEIP}</label>
+				</div>
+			</div>
 	<!-- BEGIN mtab_block -->
-			<tr>
-				<td colspan="2"><input type="text" name="wb_secform_tokenname" id="wb_secform_tokenname" value="{WB_SECFORM_TOKENNAME}"/></td>
-				<td><label for="wb_secform_tokenname">{TXT_SECFORM_TOKENNAME}
-					<a class="tooltip" href="#">? {TXT_SECFORM_TOKENNAME_TOOLTIP}</a>
-				</label></td>
-			</tr>
-			<tr>
-				<td colspan="2"><input type="text" name="wb_secform_secret" id="wb_secform_secret" value="{WB_SECFORM_SECRET}"/></td>
-				<td><label for="wb_secform_secret">{TXT_SECFORM_SECRET}
-					<a class="tooltip" href="#">? {TXT_SECFORM_SECRET_TOOLTIP}</a>
-				</label></td>
-			</tr>
-			<tr>
-				<td colspan="2"><input type="text" name="wb_secform_secrettime" id="wb_secform_secrettime" value="{WB_SECFORM_SECRETTIME}"/></td>
-				<td><label for="wb_secform_secrettime">{TXT_SECFORM_SECRETTIME}
-					<a class="tooltip" href="#">? {TXT_SECFORM_SECRETTIME_TOOLTIP}</a>
-				</label></td>
-			</tr>
-			<tr>
-				<td colspan="2"><input type="text" name="wb_secform_timeout" id="wb_secform_timeout" value="{WB_SECFORM_TIMEOUT}"/></td>
-				<td><label for="wb_secform_timeout">{TXT_SECFORM_TIMEOUT}
-					<a class="tooltip" href="#">? {TXT_SECFORM_TIMEOUT_TOOLTIP}</a>
-				</label></td>
-			</tr>
-			<tr>
-				<td>
+			<div class="mbox">
+				<div>
+				<input style=" width :200px;" type="text" name="wb_secform_tokenname" id="wb_secform_tokenname" value="{WB_SECFORM_TOKENNAME}"/>
+				<label for="wb_secform_tokenname" {p_wb_secform_tokenname} style="background-image: url({MODULES_URL}/icons/help_16.png);">
+				{TXT_SECFORM_TOKENNAME}
+				</label>
+				</div>
+			</div>
+			<div class="mbox">
+				<div>
+				<input style=" width :200px;" type="text" name="wb_secform_secret" id="wb_secform_secret" value="{WB_SECFORM_SECRET}"/>
+				<label for="wb_secform_secret" {p_wb_secform_secret} style="background-image: url({MODULES_URL}/icons/help_16.png);">
+				{TXT_SECFORM_SECRET}
+				</label>
+				</div>
+			</div>
+			<div class="mbox">
+				<div>
+				<input style=" width :200px;" type="text" name="wb_secform_secrettime" id="wb_secform_secrettime" value="{WB_SECFORM_SECRETTIME}"/>
+				<label for="wb_secform_secrettime" {p_wb_secform_secrettime} style="background-image: url({MODULES_URL}/icons/help_16.png);">
+				{TXT_SECFORM_SECRETTIME}
+				</label>
+				</div>
+			</div>
+			<div class="mbox">
+				<div>
+				<input style=" width :200px;" type="text" name="wb_secform_timeout" id="wb_secform_timeout" value="{WB_SECFORM_TIMEOUT}"/>
+				<label for="wb_secform_timeout" {p_wb_secform_timeout} style="background-image: url({MODULES_URL}/icons/help_16.png);">
+				{TXT_SECFORM_TIMEOUT}
+				</label>
+				</div>
+			</div>
+			<div class="mbox">
+				<div>
+				<span style=" width :102px;">
+					<input type="radio" name="wb_secform_usefp" id="wb_secform_usefp_true" value="true" {USEFP_CHECKED_TRUE} />
 					<label for="wb_secform_usefp_true">{TEXT_ENABLED}</label>
-				</td>
-				<td width="50">
-					<input type="radio" value="true" id="wb_secform_usefp_true" name="wb_secform_usefp"{USEFP_CHECKED_TRUE} />
-					<input type="radio" value="false" id="wb_secform_usefp_false" name="wb_secform_usefp"{USEFP_CHECKED_FALSE} />
-				</td>
-				<td><label for="wb_secform_usefp">{TXT_SECFORM_USEFP}
-					<a class="tooltip" href="#">? {TXT_SECFORM_USEFP_TOOLTIP}</a>
-				</label></td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-			</tr>
-
-			<tr>
-				<td colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="4">
-					<input type="submit" name="save_settings_default" value="{TEXT_MSUBMIT}" />
-				</td>
-			</tr>
+				</span>
+				<span style=" width :102px;">
+					<input type="radio" name="wb_secform_usefp" id="wb_secform_usefp_false" value="false" {USEFP_CHECKED_FALSE} />
+					<label for="wb_secform_usefp_false">{TEXT_DISABLED}</label>
+				</span>
+				<label {p_wb_secform_usefp} style="background-image: url({MODULES_URL}/icons/help_16.png);">
+				{TXT_SECFORM_USEFP}
+				</label>
+				</div>
+			</div>
 <!-- END mtab_block -->
-		</tbody>
-	   </table>
-	</div>
+		</div>
+	</fieldset><br class="clear" />
 
-   </form>
+	<fieldset class="switch-ftan-form left_submit">
+		<div class="mbox">
+			<label class="setting_name">&nbsp;</label>
+			<div style="margin-top: 5px;">
+				<input type="submit" name="save_settings" value="{TEXT_SUBMIT}" />
+				<input type="button" name="cancel" onclick="javascript:window.location='{BACKLINK}';" value="{TEXT_CANCEL}" />
+			</div>
+		</div>
+	</fieldset>
+	<fieldset class="switch-ftan-form right_submit">
+		<div class="mbox">
+			<div class="{DISPLAY_RIGHT_SUBMIT}" style="margin-top: 5px;">
+				<input type="submit" name="save_settings_default" value="{TEXT_MSUBMIT}" />
+			</div>
+		</div>
+	</fieldset>
+
+   </form><br class="clear" />
+</div>
+
 <!-- END main_block -->
