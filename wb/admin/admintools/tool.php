@@ -4,7 +4,7 @@
  * @category        admin
  * @package         admintools
  * @author          WB-Project, Werner v.d. Decken
- * @copyright       2011, Website Baker Org. e.V.
+ * @copyright       2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.2
@@ -40,13 +40,15 @@ require_once(WB_PATH.'/framework/functions.php');
 			// include modules tool.php
 			require(WB_PATH.'/modules/'.$toolDir.'/tool.php');
 			$admin->print_footer();
-		}else {
+		} else {
 		// no installed module found, jump to index.php of admintools
-			header('location: '.ADMIN_URL.'/admintools/index.php');
-			exit(0);
+//			header('location: '.ADMIN_URL.'/admintools/index.php');
+//			exit(0);
+			$admin->send_header(ADMIN_URL.'/admintools/index.php');
 		}
 	}else {
 	// invalid module name requested, jump to index.php of admintools
-		header('location: '.ADMIN_URL.'/admintools/index.php');
-		exit(0);
+//		header('location: '.ADMIN_URL.'/admintools/index.php');
+//		exit(0);
+		$admin->send_header(ADMIN_URL.'/admintools/index.php');
 	}

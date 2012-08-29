@@ -3,13 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <title>Browse Media</title>
-<link href="{THEME_URL}/browse.css" rel="stylesheet" type="text/css" />
+<link href="{THEME_URL}/css/browse.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
 function confirm_link(message, url) {
 	if(confirm(message)) location.href = url;
 }
 </script>
-<script type="text/javascript" src="overlib.js"></script>
+<script src="{WB_URL}/include/jquery/overlib_mini.js" type="text/javascript"></script>
 </head>
 <body onload="parent.document.create.target.value = '{MEDIA_DIRECTORY}{CURRENT_DIR}'; parent.document.upload.target.value = '{MEDIA_DIRECTORY}{CURRENT_DIR}';">
 
