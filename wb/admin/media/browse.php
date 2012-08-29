@@ -139,7 +139,7 @@ $template->set_var(array(
 					'CURRENT_DIR' => $directory,
 					'PARENT_DIR_LINK' => $parent_dir_link,
 					'DISPLAY_UP_ARROW' => $display_up_arrow,
-					'INCLUDE_PATH' => WB_URL.'/include'
+					'INCLUDE_PATH' => WB_REL.'/include'
 				)
 			);
 
@@ -322,4 +322,4 @@ if($admin->ami_group_member('1') ) {
 	// $debugVMsg = print_message($debugVMsg,'#','debug',-1,false);
 	print $debugVMsg.'<br />';
  }
-*/ 
+*/

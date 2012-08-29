@@ -32,16 +32,20 @@ if(!defined('ERROR_REPORTING_LEVELS_LOADED')) {
 
 // Create array
 $ER_LEVELS = array();
-
-// Add values to list
-if(isset($TEXT['SYSTEM_DEFAULT'])) {
-	$ER_LEVELS[''] = $TEXT['SYSTEM_DEFAULT'];
-} else {
-	$ER_LEVELS[''] = 'System Default';
-}
-$ER_LEVELS['6135'] = 'E_ALL^E_NOTICE'; // standard: E_ALL without E_NOTICE
-$ER_LEVELS['0'] = 'E_NONE';
-$ER_LEVELS['6143'] = 'E_ALL';
-$ER_LEVELS['8191'] = htmlentities('E_ALL&E_STRICT'); // for programmers
-
-?>
+//
+//// Add values to list
+//if(isset($TEXT['SYSTEM_DEFAULT'])) {
+//	$ER_LEVELS[''] = $TEXT['SYSTEM_DEFAULT'];
+//} else {
+//	$ER_LEVELS[''] = 'System Default';
+//}
+//$ER_LEVELS['0'] = 'E_NONE';
+//$ER_LEVELS['6143'] = 'E_ALL';
+//$ER_LEVELS['6135'] = 'E_ALL^E_NOTICE'; // standard: E_ALL without E_NOTICE
+//$ER_LEVELS['8191'] = htmlentities('E_ALL&E_STRICT'); // for programmers
+//
+$ER_LEVELS[''] = $TEXT['SYSTEM_DEFAULT'];
+$ER_LEVELS[0] = 'E_NONE';
+$ER_LEVELS[E_ALL^E_NOTICE] = 'E_ALL^E_NOTICE'; // standard: E_ALL without E_NOTICE
+$ER_LEVELS[E_ALL] = 'E_ALL ->'.' PHP'.phpversion();
+$ER_LEVELS[-1] = 'E_ALL';
