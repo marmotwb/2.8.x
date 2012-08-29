@@ -4,7 +4,7 @@
  * @category        framework
  * @package         backend login
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -70,8 +70,9 @@ class login extends admin {
 		}
 		if($this->is_authenticated() == true) {
 			// User already logged-in, so redirect to default url
-			header('Location: '.$this->url);
-			exit();
+//				header("Location: ".$this->url);
+//				exit(0);
+				$this->send_header($this->url);
 		} elseif($this->is_remembered() == true) {
 			// User has been "remembered"
 			// Get the users password
@@ -85,43 +86,45 @@ class login extends admin {
 			// Check if the user exists (authenticate them)
 			if($this->authenticate()) {
 				// Authentication successful
-				header("Location: ".$this->url);
-				exit(0);
+//				header("Location: ".$this->url);
+//				exit(0);
+				$this->send_header($this->url);
 			} else {
-				$this->message = $MESSAGE['LOGIN']['AUTHENTICATION_FAILED'];
+				$this->message = $MESSAGE['LOGIN_AUTHENTICATION_FAILED'];
 				$this->increase_attemps();
 			}
 		} elseif($this->username == '' AND $this->password == '') {
-			$this->message = $MESSAGE['LOGIN']['BOTH_BLANK'];
+			$this->message = $MESSAGE['LOGIN_BOTH_BLANK'];
 			$this->display_login();
 		} elseif($this->username == '') {
-			$this->message = $MESSAGE['LOGIN']['USERNAME_BLANK'];
+			$this->message = $MESSAGE['LOGIN_USERNAME_BLANK'];
 			$this->increase_attemps();
 		} elseif($this->password == '') {
-			$this->message = $MESSAGE['LOGIN']['PASSWORD_BLANK'];
+			$this->message = $MESSAGE['LOGIN_PASSWORD_BLANK'];
 			$this->increase_attemps();
 		} elseif($this->username_len < $config_array['MIN_USERNAME_LEN']) {
-			$this->message = $MESSAGE['LOGIN']['USERNAME_TOO_SHORT'];
+			$this->message = $MESSAGE['LOGIN_USERNAME_TOO_SHORT'];
 			$this->increase_attemps();
 		} elseif($this->password_len < $config_array['MIN_PASSWORD_LEN']) {
-			$this->message = $MESSAGE['LOGIN']['PASSWORD_TOO_SHORT'];
+			$this->message = $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'];
 			$this->increase_attemps();
 		} elseif($this->username_len > $config_array['MAX_USERNAME_LEN']) {
-			$this->message = $MESSAGE['LOGIN']['USERNAME_TOO_LONG'];
+			$this->message = $MESSAGE['LOGIN_USERNAME_TOO_LONG'];
 			$this->increase_attemps();
 		} elseif($this->password_len > $config_array['MAX_PASSWORD_LEN']) {
-			$this->message = $MESSAGE['LOGIN']['PASSWORD_TOO_LONG'];
+			$this->message = $MESSAGE['LOGIN_PASSWORD_TOO_LONG'];
 			$this->increase_attemps();
 		} else {
 			// Check if the user exists (authenticate them)
 			$this->password = md5($this->password);
 			if($this->authenticate()) {
 				// Authentication successful
-				//echo $this->url;exit();
-				header("Location: ".$this->url);
-				exit(0);
+// 				echo $this->url;exit();
+// 				header("Location: ".$this->url);
+// 				exit(0);
+				$this->send_header($this->url);
 			} else {
-				$this->message = $MESSAGE['LOGIN']['AUTHENTICATION_FAILED'];
+				$this->message = $MESSAGE['LOGIN_AUTHENTICATION_FAILED'];
 				$this->increase_attemps();
 			}
 		}
@@ -213,7 +216,7 @@ class login extends admin {
 					}
 				}
 				$first_group = false;
-			}	
+			}
 
 			// Update the users table with current ip and timestamp
 			$get_ts = time();
@@ -238,107 +241,29 @@ class login extends admin {
 		}
 		$this->display_login();
 	}
-	
-	// Function to set a "remembering" cookie for the user
+
+	// Function to set a "remembering" cookie for the user - removed
 	function remember($user_id) {
 		return true;
-//		global $database;
-//		$remember_key = '';
-//		// Generate user id to append to the remember key
-//		$length = 11-strlen($user_id);
-//		if($length > 0) {
-//			for($i = 1; $i <= $length; $i++) {
-//				$remember_key .= '0';
-//			}
-//		}
-//		// Generate remember key
-//		$remember_key .= $user_id.'_';
-//		$salt = "abchefghjkmnpqrstuvwxyz0123456789";
-//		srand((double)microtime()*1000000);
-//		$i = 0;
-//		while ($i <= 10) {
-//			$num = rand() % 33;
-//			$tmp = substr($salt, $num, 1);
-//			$remember_key = $remember_key . $tmp;
-//			$i++;
-//		}
-//		$remember_key = $remember_key;
-//		// Update the remember key in the db
-//		// $database = new database();
-//		$database->query("UPDATE ".$this->users_table." SET remember_key = '$remember_key' WHERE user_id = '$user_id' LIMIT 1");
-//		if($database->is_error()) {
-//			return false;
-//		} else {
-//			// Workout options for the cookie
-//			$cookie_name = 'REMEMBER_KEY';
-//			$cookie_value = $remember_key;
-//			$cookie_expire = time()+60*60*24*30;
-//			// Set the cookie
-//			if(setcookie($cookie_name, $cookie_value, $cookie_expire, '/')) {
-//				return true;
-//			} else {
-//				return false;
-//			}
-//		}
 	}
-	
-	// Function to check if a user has been remembered
+
+	// Function to check if a user has been remembered - removed
 	function is_remembered()
 	{
 		return false;
-//		global $database;
-//		// add if get_safe_remember_key not empty
-//		if(isset($_COOKIE['REMEMBER_KEY']) && ($_COOKIE['REMEMBER_KEY'] != '') && ($this->get_safe_remember_key() <> '' ) )
-//		{
-//			// Check if the remember key is correct
-//			// $database = new database();
-//			$sql = "SELECT `user_id` FROM `" . $this->users_table . "` WHERE `remember_key` = '";
-//			$sql .= $this->get_safe_remember_key() . "' LIMIT 1";
-//			$check_query = $database->query($sql);
-//
-//			if($check_query->numRows() > 0)
-//			{
-//				$check_fetch = $check_query->fetchRow();
-//				$user_id = $check_fetch['user_id'];
-//				// Check the remember key prefix
-//				$remember_key_prefix = '';
-//				$length = 11-strlen($user_id);
-//				if($length > 0)
-//				{
-//					for($i = 1; $i <= $length; $i++)
-//					{
-//						$remember_key_prefix .= '0';
-//					}
-//				}
-//				$remember_key_prefix .= $user_id.'_';
-//				$length = strlen($remember_key_prefix);
-//				if(substr($_COOKIE['REMEMBER_KEY'], 0, $length) == $remember_key_prefix)
-//				{
-//					return true;
-//				} else {
-//					return false;
-//				}
-//			} else {
-//				return false;
-//			}
-//		} else {
-//			return false;
-//		}
 	}
 
 	// Display the login screen
 	function display_login() {
 		// Get language vars
-		global $MESSAGE;
-		global $MENU;
-		global $TEXT;
+		global $MESSAGE, $MENU, $TEXT;
 		// If attemps more than allowed, warn the user
 		if($this->get_session('ATTEMPS') > $this->max_attemps) {
 			$this->warn();
 		}
 		// Show the login form
 		if($this->frontend != true) {
-			require_once(WB_PATH.'/include/phplib/template.inc');
+			//require_once(WB_PATH.'/include/phplib/template.inc');
 			// $template = new Template($this->template_dir);
 			// Setup template object, parse vars to it, then parse it
 			$template = new Template(dirname($this->correct_theme_source($this->template_file)));
@@ -356,12 +281,17 @@ class login extends admin {
 				'USERNAME_FIELDNAME' => $this->username_fieldname,
 				'PASSWORD_FIELDNAME' => $this->password_fieldname,
 				'MESSAGE' => $this->message,
+				'WEBSITE_TITLE' => WEBSITE_TITLE,
+				'TEXT_ADMINISTRATION' => $TEXT['ADMINISTRATION'],
 				'INTERFACE_DIR_URL' =>  ADMIN_URL.'/interface',
 				'MAX_USERNAME_LEN' => $this->max_username_len,
 				'MAX_PASSWORD_LEN' => $this->max_password_len,
+				'ADMIN_URL' => ADMIN_URL,
 				'WB_URL' => WB_URL,
+				'URL_VIEW' => WB_URL,
 				'THEME_URL' => THEME_URL,
 				'VERSION' => VERSION,
+				'SP' => (defined('SP') ? SP : ''),
 				'REVISION' => REVISION,
 				'LANGUAGE' => strtolower(LANGUAGE),
 				'FORGOTTEN_DETAILS_APP' => $this->forgotten_details_app,
@@ -370,9 +300,19 @@ class login extends admin {
 				'TEXT_PASSWORD' => $TEXT['PASSWORD'],
 				'TEXT_REMEMBER_ME' => $TEXT['REMEMBER_ME'],
 				'TEXT_LOGIN' => $TEXT['LOGIN'],
+				'TITLE_LOGOUT' => $MENU['LOGIN'],
+				'TEXT_RESET' => $TEXT['RESET'],
 				'TEXT_HOME' => $TEXT['HOME'],
+				'TITLE_VIEW' => $TEXT['WEBSITE'],
 				'PAGES_DIRECTORY' => PAGES_DIRECTORY,
-				'SECTION_LOGIN' => $MENU['LOGIN']
+				'SECTION_NAME' => $MENU['LOGIN'],
+				'SECTION_LOGIN' => $MENU['LOGIN'],
+				'LOGIN_DISPLAY_HIDDEN' => !$this->is_authenticated() ? 'hidden' : '',
+				'LOGIN_DISPLAY_NONE' => !$this->is_authenticated() ? 'none' : '',
+				'LOGIN_LINK' => $_SERVER['SCRIPT_NAME'],
+				'LOGIN_ICON' => 'login',
+				'START_ICON' => 'blank',
+				'URL_HELP' => 'http://www.websitebaker.org/',
 				)
 			);
 			if(defined('DEFAULT_CHARSET')) {
@@ -380,8 +320,8 @@ class login extends admin {
 			} else {
 				$charset='utf-8';
 			}
-			
-			$template->set_var('CHARSET', $charset);	
+
+			$template->set_var('CHARSET', $charset);
 
 			$template->parse('main', 'mainBlock', false);
 			$template->pparse('output', 'page');
@@ -395,13 +335,12 @@ class login extends admin {
 		$clean_cookie = sprintf('%011d', (int) substr($_COOKIE['REMEMBER_KEY'], 0, 11)) . substr($_COOKIE['REMEMBER_KEY'], 11);
 		return ($clean_cookie == $_COOKIE['REMEMBER_KEY']) ? $this->add_slashes($clean_cookie) : '';
 	}
-	
+
 	// Warn user that they have had to many login attemps
 	function warn() {
-		header('Location: '.$this->warning_url);
+//		header('Location: '.$this->warning_url);
+		$this->send_header($this->warning_url);
 		exit(0);
 	}
-	
-}
 
-?>
+}
