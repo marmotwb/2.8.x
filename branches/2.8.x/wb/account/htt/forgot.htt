@@ -1,0 +1,46 @@
+<!-- BEGIN main_block -->
+<!-- BEGIN message_block -->
+{MESSAGE_VALUE}
+<!-- END message_block -->
+
+<hr />
+<form class="forgot-box" action="{ACTION_URL}" method="post">
+	<input type="hidden" name="action" value="forgot" />
+	<input type="hidden" name="url" value="{URL}" />
+
+<table summary="" style="width: 60%; font-size: 1em;">
+<tr>
+	<td height="10" colspan="2" style="text-align: center;"><h1>{MENU_FORGOT}</h1></td>
+</tr>
+<tr>
+	<td height="40" style="text-align: center;" colspan="2">
+	<strong style="text-align: center;">{THISAPP_MESSAGE_VALUE}</strong>
+	</td>
+</tr>
+		<tr>
+			<td height="10" colspan="2">&nbsp;</td>
+		</tr>
+<tr>
+	<td style="width:100px">{TEXT_EMAIL}:</td>
+	<td class="value_input">
+		<input type="text" name="email" maxlength="255" style="width:220px;"/>
+	</td>
+</tr>
+		<tr>
+			<td height="10" colspan="2">&nbsp;</td>
+		</tr>
+<tr>
+	<td colspan="2" style="text-align: center;">
+		<input type="submit" name="submit" value="{TEXT_SEND_DETAILS}" style="padding: 3px;"  />
+		<input type="reset" name="reset" value="{TEXT_RESET}" style="padding: 3px;"  />
+	<button type="button" value="cancel" onclick="javascript:window.location = '{HTTP_REFERER}';" style="padding: 3px;" >{TEXT_CANCEL}</button>
+	</td>
+</tr>
+<tr>
+	<td colspan="2" style="text-align: center;">
+	<p class="link"><a href="{LOGIN_URL}">{TEXT_NEED_TO_LOGIN}</a></p>
+	</td>
+</tr>
+</table>
+</form>
+<!-- END main_block -->

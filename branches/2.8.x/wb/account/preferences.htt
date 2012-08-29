@@ -1,4 +1,3 @@
-<!-- begin settings_modify.html -->
 <!-- BEGIN main_block -->
 <!-- BEGIN success_block -->
 <p class="mod_preferences_success">
@@ -11,7 +10,7 @@
 </p>
 <!-- END error_block -->
 <div style="margin: 1em auto;">
-	<button type="button" value="cancel" onClick="javascript: window.location = '{HTTP_REFERER}';">{TEXT_CANCEL}</button>
+	<button type="button" value="cancel" onclick="javascript:window.location = '{HTTP_REFERER}';">{TEXT_CANCEL}</button>
 </div>
 <hr />
 <form name="details" action="" method="post">
@@ -20,7 +19,8 @@
 		<tr>
 			<td width="160">{TEXT_DISPLAY_NAME}:</td>
 			<td>
-				<input type="text" name="display_name" value="{DISPLAY_NAME}" style="width: 98%;" readonly="readonly" />
+				<input class="button" type="button" name="display_name" value="{DISPLAY_NAME}" disabled="disabled" readonly="readonly"
+				 style="border :1px solid #666666; color :#000000; text-align :left; font-weight :bold; background-color :#dddddd; margin : 2px auto; padding :2px 0px 2px 6px; width :71%;"/>
 			</td>
 		</tr>
 		<tr>
@@ -132,7 +132,6 @@
 	</table>
 </form>
 <div style="margin: 1em auto;">
-	<button type="button" value="cancel" onClick="javascript: window.location = '{HTTP_REFERER}';">{TEXT_CANCEL}</button>
+	<button type="button" value="cancel" onclick="javascript:window.location = '{HTTP_REFERER}';">{TEXT_CANCEL}</button>
 </div>
 <!-- END main_block -->
-<!-- end settings_modify.html -->

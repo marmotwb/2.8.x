@@ -4,8 +4,7 @@
  * @category        frontend
  * @package         account
  * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -16,8 +15,14 @@
  *
  */
 
-// prevent this file from being accesses directly
-if(defined('WB_PATH') == false) {	exit("Cannot access this file directly"); }
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+if(defined('WB_PATH') == false)
+{
+	// Stop this file being access directly
+		die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
+}
+/* -------------------------------------------------------- */
 
 	if($wb->is_authenticated() === false) {
 // User needs to login first
@@ -41,7 +46,7 @@ if(defined('WB_PATH') == false) {	exit("Cannot access this file directly"); }
 	require(ADMIN_PATH.'/interface/time_formats.php');
 	$error = array();
 	$success = array();
-	$template = new Template(WB_PATH .'/account','remove');
+	$template = new Template(WB_PATH .'/account','keep');
 
 	switch($wb->get_post('action')):
 		case 'details':
@@ -59,7 +64,7 @@ if(defined('WB_PATH') == false) {	exit("Cannot access this file directly"); }
 	endswitch; // switch
 
 // show template
-	$template->set_file('page', 'template.html');
+	$template->set_file('page', 'preferences.htt');
 	$template->set_block('page', 'main_block', 'main');
 // get existing values from database
 	$sql = "SELECT display_name,email FROM ".TABLE_PREFIX."users WHERE user_id = '".$wb->get_user_id()."'";
@@ -173,19 +178,25 @@ if(defined('WB_PATH') == false) {	exit("Cannot access this file directly"); }
 						);
 // Insert error and/or success messages
 	$template->set_block('main_block', 'error_block', 'error_list');
+	$template->set_var('ERROR_VALUE', '');
 	if(sizeof($error)>0){
 		foreach($error AS $value){
 			$template->set_var('ERROR_VALUE', $value);
 			$template->parse('error_list', 'error_block', true);
 		}
+	} else {
+		$template->parse('error_list', '');
 	}
 
 	$template->set_block('main_block', 'success_block', 'success_list');
+	$template->set_var('SUCCESS_VALUE', '');
 	if(sizeof($success)!=0){
 		foreach($success AS $value){
 			$template->set_var('SUCCESS_VALUE', $value);
 			$template->parse('success_list', 'success_block', true);
 		}
+	} else {
+		$template->parse('success_list', '');
 	}
 // Parse template for preferences form
 	$template->parse('main', 'main_block', false);

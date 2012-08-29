@@ -3,9 +3,8 @@
  *
  * @category        frontend
  * @package         account
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich, WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -19,16 +18,19 @@
 require_once('../config.php');
 
 if(!FRONTEND_LOGIN) {
-	if(INTRO_PAGE) {
-		header('Location: '.WB_URL.PAGES_DIRECTORY.'/index.php');
-		exit(0);
-	} else {
 		header('Location: '.WB_URL.'/index.php');
 		exit(0);
-	}
+//	if(INTRO_PAGE) {
+//		header('Location: '.WB_URL.PAGES_DIRECTORY.'/index.php');
+//		exit(0);
+//	} else {
+//		header('Location: '.WB_URL.'/index.php');
+//		exit(0);
+//	}
 }
 
 require_once(WB_PATH.'/framework/class.frontend.php');
+
 $wb_inst = new wb();
 if ($wb_inst->is_authenticated()==false) {
 	header('Location: '.WB_URL.'/account/login.php');

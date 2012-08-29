@@ -3,9 +3,8 @@
  *
  * @category        frontend
  * @package         account
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich, WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -22,7 +21,7 @@ if(isset($_COOKIE['REMEMBER_KEY'])) {
 	setcookie('REMEMBER_KEY', '', time()-3600, '/');
 }
 
-$redirect = ((isset($_SESSION['HTTP_REFERER']) && $_SESSION['HTTP_REFERER'] != '') ?  $_SESSION['HTTP_REFERER'] : WB_URL.'/index.php');
+$redirect = ((isset($_SESSION['HTTP_REFERER']) && $_SESSION['HTTP_REFERER'] != '' && basename($_SESSION['HTTP_REFERER']) != 'logout.php') ?  $_SESSION['HTTP_REFERER'] : WB_URL.'/index.php');
 
 $_SESSION['USER_ID'] = null;
 $_SESSION['GROUP_ID'] = null;
@@ -37,7 +36,7 @@ unset($_COOKIE[session_name()]);
 session_destroy();
 
 if(INTRO_PAGE) {
-	header('Location: '.WB_URL.PAGES_DIRECTORY.'/index.php');
+	header('Location: '.WB_URL.'/index.php');
 } else {
 	header('Location: '.$redirect);
 }

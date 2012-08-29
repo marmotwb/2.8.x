@@ -1,0 +1,62 @@
+<!-- BEGIN main_block -->
+<!-- BEGIN message_block -->
+{MESSAGE_VALUE}
+<!-- END message_block -->
+
+<hr />
+<form class="login-box" action="{ACTION_URL}" method="post">
+	<input type="hidden" name="action" value="login" />
+	<input type="hidden" name="username_fieldname" value="{USER_FIELDNAME}" />
+	<input type="hidden" name="password_fieldname" value="{PASSWORD_FIELDNAME}" />
+	<input type="hidden" name="redirect" value="{REDIRECT_URL}" />
+
+<table summary="" style="width: 60%; font-size: 1em;">
+		<tr>
+			<td height="10" colspan="2" style="text-align: center;"><h1>{TEXT_LOGIN}</h1></td>
+		</tr>
+		<tr>
+			<td height="40" style="text-align: center;" colspan="2">
+			<strong style="text-align: center;">{THISAPP_MESSAGE_VALUE}</strong>
+			</td>
+		</tr>
+<tr>
+	<td style="width:100px">{TEXT_USERNAME}:</td>
+	<td class="value_input">
+		<input type="text" name="{USER_FIELDNAME}" maxlength="30" style="width:220px;"/>
+    	<script type="text/javascript">
+    	// document.login.{USER_FIELDNAME}.focus();
+    	var ref= document.getElementById("{USER_FIELDNAME}");
+    	if (ref) ref.focus();
+    	</script>
+	</td>
+</tr>
+<tr>
+	<td style="width:100px">{TEXT_PASSWORD}:</td>
+	<td class="value_input">
+		<input type="password" name="{PASSWORD_FIELDNAME}" maxlength="30" style="width:220px;"/>
+	</td>
+</tr>
+<!-- BEGIN show_smart_login_block -->
+<tr>
+	<td>&nbsp;</td>
+	<td>
+		<input type="checkbox" name="remember" id="remember" value="true"/>
+		<label for="remember">{TEXT_REMEMBER_ME}</label>
+	</td>
+</tr>
+<!-- END show_smart_login_block -->
+<tr>
+	<td colspan="2" style="text-align: center;">
+		<input type="submit" name="submit" value="{TEXT_LOGIN}" style="padding: 3px;"  />
+		<input type="reset" name="reset" value="{TEXT_RESET}" style="padding: 3px;"  />
+	<button type="button" value="cancel" onclick="javascript:window.location = '{HTTP_REFERER}';" style="padding: 3px;" >{TEXT_CANCEL}</button>
+	</td>
+</tr>
+<tr>
+	<td colspan="2" style="text-align: center;">
+	<p class="link"><a href="{FORGOT_URL}">{TEXT_FORGOTTEN_DETAILS}</a></p>
+	</td>
+</tr>
+</table>
+</form>
+<!-- END main_block -->
