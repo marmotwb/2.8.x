@@ -4,7 +4,7 @@
  * @category        module
  * @package         Form
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -12,7 +12,7 @@
  * @version         $Id$
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
- * @description     
+ * @description
  */
 
 require('../../config.php');
@@ -48,15 +48,23 @@ if (!function_exists('emailAdmin')) {
 // load module language file
 $lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
 require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
+// later in upgrade.php
+$table_name = TABLE_PREFIX.'mod_form_settings';
+$field_name = 'perpage_submissions';
+$description = "INT NOT NULL DEFAULT '10' AFTER `max_submissions`";
+if(!$database->field_exists($table_name,$field_name)) {
+	$database->field_add($table_name, $field_name, $description);
+}
+
 
 // This code removes any <?php tags and adds slashes
 $friendly = array('&lt;', '&gt;', '?php');
 $raw = array('<', '>', '');
-$header = $admin->add_slashes($_POST['header']);
+$header     = $admin->add_slashes($_POST['header']);
 $field_loop = $admin->add_slashes($_POST['field_loop']);
-$footer = $admin->add_slashes($_POST['footer']);
-$email_to = $admin->add_slashes($_POST['email_to']);
-$email_to = ($email_to != '' ? $email_to : emailAdmin());
+$footer     = $admin->add_slashes($_POST['footer']);
+$email_to   = $admin->add_slashes($_POST['email_to']);
+$email_to   = ($email_to != '' ? $email_to : emailAdmin());
 $email_from = $admin->add_slashes(SERVER_EMAIL);
 $use_captcha = $admin->add_slashes($_POST['use_captcha']);
 /*
@@ -84,6 +92,9 @@ $success_email_text = (($success_email_text != '') ? $success_email_text : '');
 $success_email_subject = $admin->add_slashes($_POST['success_email_subject']);
 $success_email_subject = (($success_email_subject  != '') ? $success_email_subject : '');
 
+//print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
+//print_r( $_POST ); print '</pre>';
+
 if(!is_numeric($_POST['max_submissions'])) {
 	$max_submissions = 50;
 } else {
@@ -93,6 +104,11 @@ if(!is_numeric($_POST['stored_submissions'])) {
 	$stored_submissions = 100;
 } else {
 	$stored_submissions = $_POST['stored_submissions'];
+}
+if(!is_numeric($_POST['perpage_submissions'])) {
+	$perpage_submissions = 10;
+} else {
+	$perpage_submissions = $_POST['perpage_submissions'];
 }
 // Make sure max submissions is not greater than stored submissions if stored_submissions <>0
 if($max_submissions > $stored_submissions) {
@@ -117,6 +133,7 @@ $sql .= '`success_email_text` = \''.$success_email_text.'\', ';
 $sql .= '`success_email_subject` = \''.$success_email_subject.'\', ';
 $sql .= '`max_submissions` = \''.$max_submissions.'\', ';
 $sql .= '`stored_submissions` = \''.$stored_submissions.'\', ';
+$sql .= '`perpage_submissions` = \''.$perpage_submissions.'\', ';
 $sql .= '`use_captcha` = \''.$use_captcha.'\' ';
 $sql .= 'WHERE `section_id` = '.(int)$section_id.' ';
 $sql .= '';

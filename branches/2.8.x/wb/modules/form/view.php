@@ -4,7 +4,7 @@
  * @category        module
  * @package         Form
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -20,7 +20,7 @@
 if(defined('WB_PATH') == false)
 {
 	// Stop this file being access directly
-		die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+		die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
 }
 /* -------------------------------------------------------- */
 
@@ -42,7 +42,7 @@ function checkbreaks($value) {
 	return $value === removebreaks($value);
 }
 */
-
+$aSuccess =array();
 if (!function_exists('emailAdmin')) {
 	function emailAdmin() {
 		global $database,$admin;
@@ -151,7 +151,7 @@ if($_POST == array())
 	}
 
 // do not use sec_anchor, can destroy some layouts
-$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
+$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$fetch_settings['section_id'] : '' );
 
 	// Get list of fields
 	$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'mod_form_fields` ';
@@ -174,7 +174,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 				if(ENABLED_ASP) { // first add some honeypot-fields
 				?>
 					<input type="hidden" name="submitted_when" value="<?php $t=time(); echo $t; $_SESSION['submitted_when']=$t; ?>" />
-					<p class="frm-nixhier">
+					<p class="nixhier">
 					email address:
 					<label for="email">Leave this field email-address blank:</label>
 					<input id="email" name="email" size="56" value="" /><br />
@@ -221,6 +221,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 					$options = explode(',', $value);
 					array_walk($options, 'make_option', (isset($_SESSION['field'.$field_id])?$_SESSION['field'.$field_id]:array()));
 					$field['extra'] = explode(',',$field['extra']);
+					$field['extra'][1] = ($field['extra'][1]='multiple') ? $field['extra'][1].'="'.$field['extra'][1].'"' : '';
 					$values[] = '<select name="field'.$field_id.'[]" id="field'.$field_id.'" size="'.$field['extra'][0].'" '.$field['extra'][1].' class="frm-select">'.implode($options).'</select>'.PHP_EOL;
 				} elseif($field['type'] == 'heading') {
 					$vars[] = '{FIELD}';
@@ -296,20 +297,22 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 			(!isset($_POST['url']) OR $_POST['url'])
 		)) {
 			// spam
-			header("Location: ".WB_URL.PAGES_DIRECTORY."");
+			header("Location: ".WB_URL."");
             exit();
 		}
 		// Submit form data
 		// First start message settings
 		$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'mod_form_settings` ';
 		$sql .= 'WHERE `section_id` = '.(int)$section_id.'';
-		if($query_settings = $database->query($sql) ) {
-			if($query_settings->numRows() > 0) {
+		if($query_settings = $database->query($sql) )
+		{
+			if($query_settings->numRows() > 0)
+			{
 				$fetch_settings = $query_settings->fetchRow(MYSQL_ASSOC);
 
 				// $email_to = $fetch_settings['email_to'];
 				$email_to = (($fetch_settings['email_to'] != '') ? $fetch_settings['email_to'] : emailAdmin());
-				$email_from = $admin->add_slashes(SERVER_EMAIL);
+				$email_from = $wb->add_slashes(SERVER_EMAIL);
 /*
 				if(substr($email_from, 0, 5) == 'field') {
 					// Set the email from field to what the user entered in the specified field
@@ -317,8 +320,8 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 				}
 */
 				$email_fromname = $fetch_settings['email_fromname'];
-// 				$email_fromname = (($mail_replyName='') ? $fetch_settings['email_fromname'] : $mail_replyName);
- 				$email_fromname = (($mail_replyName='') ? htmlspecialchars($wb->add_slashes($fetch_settings['email_fromname'])) : $mail_replyName);
+ 				$email_fromname = (($mail_replyName='') ? $fetch_settings['email_fromname'] : $mail_replyName);
+// 				$email_fromname = (($mail_replyName='') ? htmlspecialchars($wb->add_slashes($fetch_settings['email_fromname'])) : $mail_replyName);
 
 				if(substr($email_fromname, 0, 5) == 'field') {
 					// Set the email_fromname to field to what the user entered in the specified field
@@ -328,15 +331,22 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 				$email_subject = (($fetch_settings['email_subject'] != '') ? $fetch_settings['email_subject'] : $MOD_FORM['EMAIL_SUBJECT']);
 				$success_page = $fetch_settings['success_page'];
 				$success_email_to = $mail_replyto;
-/*
-				$success_email_to = (($fetch_settings['success_email_to'] != '') ? $fetch_settings['success_email_to'] : '');
-				if(substr($success_email_to, 0, 5) == 'field') {
-					// Set the success_email to field to what the user entered in the specified field
-					$success_email_to = htmlspecialchars($wb->add_slashes($_POST[$success_email_to]));
-				}
-*/
-				$success_email_from = $admin->add_slashes(SERVER_EMAIL);
+				$success_email_from = $wb->add_slashes(SERVER_EMAIL);
 				$success_email_fromname = $fetch_settings['success_email_fromname'];
+/*
+*/
+				if($mail_replyto == '') {
+					$success_email_to = (($fetch_settings['success_email_to'] != '') ? $fetch_settings['success_email_to'] : '');
+					if(substr($success_email_to, 0, 5) == 'field') {
+						// Set the success_email to field to what the user entered in the specified field
+						 $mail_replyto = $success_email_to = htmlspecialchars($wb->add_slashes($_POST[$success_email_to]));
+					}
+					$success_email_to = '';
+					$email_fromname = $TEXT['UNKNOWN'];
+//					$success_email_fromname = $TEXT['UNKNOWN'];
+//					$email_from = $TEXT['UNKNOWN'];
+				}
+
 				$success_email_text = htmlspecialchars($wb->add_slashes($fetch_settings['success_email_text']));
 				$success_email_text = (($success_email_text != '') ? $success_email_text : $MOD_FORM['SUCCESS_EMAIL_TEXT']);
 				$success_email_subject = (($fetch_settings['success_email_subject'] != '') ? $fetch_settings['success_email_subject'] : $MOD_FORM['SUCCESS_EMAIL_SUBJECT']);
@@ -388,7 +398,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 								$_SESSION['field'.$field['field_id']] = str_replace(array("[[", "]]"), array("&#91;&#91;", "&#93;&#93;"), htmlspecialchars($wb->strip_slashes($_POST['field'.$field['field_id']])));
 							}
 
-							if($field['type'] == 'email' AND $admin->validate_email($_POST['field'.$field['field_id']]) == false) {
+							if($field['type'] == 'email' AND $wb->validate_email($_POST['field'.$field['field_id']]) == false) {
 								$email_error = $MESSAGE['USERS_INVALID_EMAIL'];
 								$required[]= '';
 							}
@@ -420,7 +430,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 			} else {
 				echo '<h3>'.$MESSAGE['MOD_FORM_REQUIRED_FIELDS'].'</h3>';
 			}
-			echo "<ul>\n";
+			echo "<ol class=\"warning\">\n";
 			foreach($required AS $field_title) {
 				if($field_title!=''){
 					echo '<li>'.$field_title."</li>\n";
@@ -436,19 +446,19 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 			}
 			// Create blank "required" array
 			$required = array();
-			echo "</ul>\n";
+			echo "</ol>\n";
 
 			echo '<p>&nbsp;</p>'."\n".'<p><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'."\n";
 		} else {
 			if(isset($email_error)) {
-				echo '<br /><ul>'."\n";
+				echo '<br /><ol class=\"warning\">'."\n";
 				echo '<li>'.$email_error.'</li>'."\n";
-				echo '</ul>'."\n";
+				echo '</ol>'."\n";
 				echo '<a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a>';
 			} elseif(isset($captcha_error)) {
-				echo '<br /><ul>'."\n";
+				echo '<br /><ol class=\"warning\">'."\n";
 				echo '<li>'.$captcha_error.'</li>'."\n";
-				echo '</ul>'."\n";
+				echo '</ol>'."\n";
 				echo '<p>&nbsp;</p>'."\n".'<p><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'."\n";
 			} else {
 				// Check how many times form has been submitted in last hour
@@ -474,7 +484,8 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 						$email_fromname = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "", $recipient );
 						$email_body = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "", $email_body );
 
-						if($email_to != '') {
+						if($mail_replyto != '') {
+
 							if($email_from != '') {
 								$success = $wb->mail(SERVER_EMAIL,$email_to,$email_subject,$email_body,$email_fromname,$mail_replyto);
 							} else {
@@ -487,20 +498,23 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 							$recipient = preg_replace( "/[^a-z0-9 !?:;,.\/_\-=+@#$&\*\(\)]/im", "", $success_email_fromname );
 							$success_email_fromname = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "", $recipient );
 							$success_email_text = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "", $success_email_text );
-							if($success_email_to != '') {
-								if($success_email_from != '') {
-									$success = $wb->mail(SERVER_EMAIL,$success_email_to,$success_email_subject,($success_email_text).$MOD_FORM['SUCCESS_EMAIL_TEXT_GENERATED'],$success_email_fromname,$mail_replyto);
+							if($success_email_to != '')
+							{
+								if($success_email_from != '')
+								{
+									$success = $wb->mail(SERVER_EMAIL,$success_email_to,$success_email_subject,($success_email_text).'<br /><br />'.($email_body).$MOD_FORM['SUCCESS_EMAIL_TEXT_GENERATED'],$success_email_fromname);
 								} else {
-									$success = $wb->mail('',$success_email_to,$success_email_subject,($success_email_text).$MOD_FORM['SUCCESS_EMAIL_TEXT_GENERATED'],$success_email_fromname,$mail_replyto);
+									$success = $wb->mail('',$success_email_to,$success_email_subject,($success_email_text).'<br /><br />'.($email_body).$MOD_FORM['SUCCESS_EMAIL_TEXT_GENERATED'],$success_email_fromname);
 								}
 							}
 						}
 
 						if($success==true)
 						{
+							$aSuccess[] .= 'INSERT INTO '.TABLE_PREFIX.'mod_form_submissions<br /> ';;
 							// Write submission to database
-							if(isset($admin) AND $admin->is_authenticated() AND $admin->get_user_id() > 0) {
-								$submitted_by = $admin->get_user_id();
+							if(isset($wb) AND $wb->is_authenticated() AND $wb->get_user_id() > 0) {
+								$submitted_by = $wb->get_user_id();
 							} else {
 								$submitted_by = 0;
 							}
@@ -514,6 +528,9 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 							$sql .= 'body=\''.$email_body.'\' ';
 							if($database->query($sql))
 							{
+								// Get the page id
+								$iSubmissionId = intval($database->get_one("SELECT LAST_INSERT_ID()"));
+
 								if(!$database->is_error()) {
 									$success = true;
 								}
@@ -556,8 +573,66 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 	if(isset($success) && $success == true)
 	{
 	   if ($success_page=='none') {
-			echo str_replace("\n","<br />",($success_email_text));
-			echo '<p>&nbsp;</p>'.PHP_EOL.'<p><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'.PHP_EOL;
+
+			// Get submission details
+			$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'mod_form_submissions` ';
+			$sql .= 'WHERE submission_id = '.$iSubmissionId.' ';
+			if($query_content = $database->query($sql)) {
+				$submission = $query_content->fetchRow(MYSQL_ASSOC);
+			}
+			$Message = '';
+			$NixHier = 'nixhier';
+			// Get the user details of whoever did this submission
+			$sql  = 'SELECT `username`,`display_name` FROM `'.TABLE_PREFIX.'users` ';
+			$sql .= 'WHERE `user_id` = '.$submission['submitted_by'];
+			if($get_user = $database->query($sql))
+			{
+				if($get_user->numRows() != 0) {
+					$user = $get_user->fetchRow(MYSQL_ASSOC);
+				} else {
+					$Message = $MOD_FORM['PRINT'];
+					$NixHier = '';
+					$user['display_name'] = $TEXT['GUEST'];
+					$user['username'] = $TEXT['UNKNOWN'];
+				}
+			}
+
+			$aSubSuccess = array();
+			// set template file and assign module and template block
+			$oTpl = new Template(WB_PATH.'/modules/form/htt','keep');
+			// $tpl = new Template(dirname($admin->correct_theme_source('switchform.htt')),'keep');
+			$oTpl->set_file('page', 'submessage.htt');
+			$oTpl->debug = false; // false, true
+			$oTpl->set_block('page', 'main_block', 'main');
+            $oTpl->set_var(array(
+            		'ADMIN_URL' => ADMIN_URL,
+            		'THEME_URL' => THEME_URL,
+            		'MODULE_URL' => dirname(__FILE__),
+            		'WB_URL' => WB_URL
+            	)
+            );
+			$oTpl->set_var(array(
+					'SUCCESS_EMAIL_TEXT' => $success_email_text,
+					'TEXT_SUBMISSION_ID' => $TEXT['SUBMISSION_ID'],
+					'submission_submission_id' => $submission['submission_id'],
+					'TEXT_SUBMITTED' => $TEXT['SUBMITTED'],
+					'submission_submitted_when' => gmdate( DATE_FORMAT .', '.TIME_FORMAT, $submission['submitted_when']+TIMEZONE ),
+					'NIX_HIER' => $NixHier,
+					'TEXT_USER' => $TEXT['USER'],
+					'TEXT_PRINT_PAGE' => $TEXT['PRINT_PAGE'],
+					'TEXT_REQUIRED_JS' => $TEXT['REQUIRED_JS'],
+					'user_display_name' => $user['display_name'],
+					'user_username' => $user['username'],
+					'SUCCESS_PRINT' => $Message,
+					'submission_body' => nl2br($submission['body'])
+					)
+				);
+
+			$oTpl->parse('main', 'main_block', false);
+			$output = $oTpl->finish($oTpl->parse('output', 'page'));
+			unset($oTpl);
+			print $output;
+
   		} else {
 			echo "<script type='text/javascript'>location.href='".$sSuccessLink."';</script>";
 		}

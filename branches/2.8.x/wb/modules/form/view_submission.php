@@ -3,9 +3,8 @@
  *
  * @category        module
  * @package         Form
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich, WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -13,7 +12,7 @@
  * @version         $Id$
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
- * @description     
+ * @description
  */
 
 require('../../config.php');
@@ -22,18 +21,27 @@ require('../../config.php');
 require(WB_PATH.'/modules/admin.php');
 /* */
 include_once (WB_PATH.'/framework/functions.php');
+// Get page
+$requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
+$page = intval(isset(${$requestMethod}['page'])) ? ${$requestMethod}['page'] : 1;
+
 // Get id
 $submission_id = intval($admin->checkIDKEY('submission_id', false, 'GET'));
 if (!$submission_id) {
- $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+ $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page='.$page.'&amp;page_id='.$page_id.'#submissions');
 }
 
 // Get submission details
 $sql  = 'SELECT * FROM `'.TABLE_PREFIX.'mod_form_submissions` ';
-$sql .= 'WHERE submission_id = '.$submission_id.' ';
+$sql .= 'WHERE `submission_id` = '.$submission_id.' ';
 if($query_content = $database->query($sql)) {
+
 	$submission = $query_content->fetchRow(MYSQL_ASSOC);
 }
+
+//print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
+//print_r( $page ); print '</pre>';
+
 // Get the user details of whoever did this submission
 $sql  = 'SELECT `username`,`display_name` FROM `'.TABLE_PREFIX.'users` ';
 $sql .= 'WHERE `user_id` = '.$submission['submitted_by'];
@@ -45,7 +53,8 @@ if($get_user = $database->query($sql)) {
 		$user['username'] = 'unknown';
 	}
 }
-$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
+//$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
+$sec_anchor = '#submissions';
 ?>
 <table class="frm-submission" summary="" cellpadding="0" cellspacing="0" border="0">
 <tr>
@@ -74,8 +83,8 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 
 <br />
 
-<input type="button" value="<?php echo $TEXT['CLOSE']; ?>" onclick="javascript: window.location = '<?php echo ADMIN_URL; ?>/pages/modify.php?page_id=<?php echo $page_id.$sec_anchor; ?>';" style="width: 150px; margin-top: 5px;" />
-<input type="button" value="<?php echo $TEXT['DELETE']; ?>" onclick="javascript: confirm_link('<?php echo $TEXT['ARE_YOU_SURE']; ?>', '<?php echo WB_URL; ?>/modules/form/delete_submission.php?page_id=<?php echo $page_id; ?>&section_id=<?php echo $section_id; ?>&submission_id=<?php echo $admin->getIDKEY($submission_id); ?>');" style="width: 150px; margin-top: 5px;" />
+<input type="button" value="<?php echo $TEXT['CLOSE']; ?>" onclick="javascript: window.location = '<?php echo ADMIN_URL; ?>/pages/modify.php?page=<?php echo $page?>&amp;page_id=<?php echo $page_id.$sec_anchor; ?>';" style="width: 150px; margin-top: 5px;" />
+<input type="button" value="<?php echo $TEXT['DELETE']; ?>" onclick="javascript: confirm_link('<?php echo $TEXT['ARE_YOU_SURE']; ?>', '<?php echo WB_URL; ?>/modules/form/delete_submission.php?page_id=<?php echo $page_id; ?>&section_id=<?php echo $section_id; ?>&submission_id=<?php echo $admin->getIDKEY($submission_id).$sec_anchor; ?>');" style="width: 150px; margin-top: 5px;" />
 <?php
 
 // Print admin footer

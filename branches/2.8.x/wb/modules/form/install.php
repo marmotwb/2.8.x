@@ -17,7 +17,7 @@
 
 if(defined('WB_URL'))
 {
-		
+
 	// $database->query("DROP TABLE IF EXISTS `".TABLE_PREFIX."mod_form_fields`");
 	// $database->query("DROP TABLE IF EXISTS `".TABLE_PREFIX."mod_form_submissions`");
 	// $database->query("DROP TABLE IF EXISTS `".TABLE_PREFIX."mod_form_settings`");
@@ -54,11 +54,12 @@ if(defined('WB_URL'))
 		. ' `success_email_subject` VARCHAR(255) NOT NULL DEFAULT \'\' ,'
 		. ' `stored_submissions` INT NOT NULL DEFAULT \'0\' ,'
 		. ' `max_submissions` INT NOT NULL DEFAULT \'0\' ,'
+		. ' `perpage_submissions` INT NOT NULL DEFAULT \'10\' ,'
 		. ' `use_captcha` INT NOT NULL DEFAULT \'0\' ,'
 		. ' PRIMARY KEY ( `section_id` ) '
 		. ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($mod_form);
-	
+
 	$mod_form = 'CREATE TABLE IF NOT EXISTS `'.TABLE_PREFIX.'mod_form_submissions` ( `submission_id` INT NOT NULL AUTO_INCREMENT,'
 		. ' `section_id` INT NOT NULL DEFAULT \'0\' ,'
 		. ' `page_id` INT NOT NULL DEFAULT \'0\' ,'
@@ -68,7 +69,7 @@ if(defined('WB_URL'))
 		. ' PRIMARY KEY ( `submission_id` ) '
 		. ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	$database->query($mod_form);
-		
+
     $mod_search = "SELECT * FROM ".TABLE_PREFIX."search  WHERE value = 'form'";
     $insert_search = $database->query($mod_search);
     if( $insert_search->numRows() == 0 )

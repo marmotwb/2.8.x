@@ -4,7 +4,7 @@
  * @category        module
  * @package         Form
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -12,7 +12,7 @@
  * @version         $Id$
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
- * @description     
+ * @description
  */
 
 require('../../config.php');
@@ -103,7 +103,7 @@ if($admin->get_post('type') == 'textfield') {
 	$extra = $admin->add_slashes($extra);
 	$database->query("UPDATE ".TABLE_PREFIX."mod_form_fields SET value = '', extra = '$extra' WHERE field_id = '$field_id'");
 } elseif($admin->get_post('type') == 'select') {
-	$extra = $admin->get_post_escaped('size').','.$admin->get_post_escaped('multiselect');
+	$extra = intval($admin->get_post_escaped('size')).','.$admin->get_post_escaped('multiselect');
 	$database->query("UPDATE ".TABLE_PREFIX."mod_form_fields SET value = '$value', extra = '$extra' WHERE field_id = '$field_id'");
 } elseif($admin->get_post('type') == 'checkbox') {
 	$extra = str_replace(array("[[", "]]"), '', $admin->get_post_escaped('seperator'));
