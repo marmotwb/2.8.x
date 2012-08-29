@@ -4,7 +4,7 @@
  * @category        admin
  * @package         templates
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -22,7 +22,7 @@ $admin = new admin('Addons', 'templates');
 
 // Setup template object, parse vars to it, then parse it
 // Create new template object
-$template = new Template(dirname($admin->correct_theme_source('templates.htt')));
+$template = new Template(dirname($admin->correct_theme_source('templates.htt')),'keep');
 // $template->debug = true;
 $template->set_file('page', 'templates.htt');
 $template->set_block('page', 'main_block', 'main');
@@ -33,7 +33,9 @@ $template->set_block('main_block', 'template_list_block', 'template_list');
 $sql = 'SELECT `directory`, `name`, `function` FROM `'.TABLE_PREFIX.'addons` '
      . 'WHERE `type`=\'template\' ORDER BY `name`';
 if(($result = $database->query($sql))) {
-	while($addon = $result->fetchRow(MYSQL_ASSOC)) {
+	while($addon = $result->fetchRow(MYSQL_ASSOC))
+	{
+		if ($admin->get_permission($addon['directory'],'template')==false) { continue;}
 		$template->set_var('VALUE', $addon['directory']);
 		$template->set_var('NAME', (($addon['function'] == 'theme' ? '[Theme] ' : '').$addon['name']));
 		$template->parse('template_list', 'template_list_block', true);
@@ -51,13 +53,12 @@ if($admin->get_permission('templates_view') != true) {
 	$template->set_var('DISPLAY_LIST', 'hide');
 }
 
-// Insert language headings
-$template->set_var(array(
-					'HEADING_INSTALL_TEMPLATE' => $HEADING['INSTALL_TEMPLATE'],
-					'HEADING_UNINSTALL_TEMPLATE' => $HEADING['UNINSTALL_TEMPLATE'],
-					'HEADING_TEMPLATE_DETAILS' => $HEADING['TEMPLATE_DETAILS']
-				)
-			);
+$mLang = ModLanguage::getInstance();
+$mLang->setLanguage(ADMIN_PATH.'/addons/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+
+/*-- insert all needed vars from language files ----------------------------------------*/
+$template->set_var($mLang->getLangArray());
+
 // insert urls
 $template->set_var(array(
 					'ADMIN_URL' => ADMIN_URL,
@@ -68,16 +69,12 @@ $template->set_var(array(
 			);
 // Insert language text and messages
 $template->set_var(array(
-	'URL_MODULES' => $admin->get_permission('modules') ? 
-		'<a href="' . ADMIN_URL . '/modules/index.php">' . $MENU['MODULES'] . '</a>' : '',
+	'URL_MODULES' => $admin->get_permission('modules') ?
+		'<a href="' . ADMIN_URL . '/modules/index.php">' . $mLang->MENU_MODULES . '</a>' : '<b>'.$mLang->MENU_MODULES.'</b>',
 	'URL_LANGUAGES' => $admin->get_permission('languages') ?
-		'<a href="' . ADMIN_URL . '/languages/index.php">' . $MENU['LANGUAGES'] . '</a>' : '',
-	'URL_ADVANCED' => '&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;',
-	'TEXT_INSTALL' => $TEXT['INSTALL'],
-	'TEXT_UNINSTALL' => $TEXT['UNINSTALL'],
-	'TEXT_VIEW_DETAILS' => $TEXT['VIEW_DETAILS'],
-	'TEXT_PLEASE_SELECT' => $TEXT['PLEASE_SELECT'],
-	'CHANGE_TEMPLATE_NOTICE' => $MESSAGE['TEMPLATES']['CHANGE_TEMPLATE_NOTICE']
+		'<a href="' . ADMIN_URL . '/languages/index.php">' . $mLang->MENU_LANGUAGES . '</a>' : '<b>'.$mLang->MENU_LANGUAGES.'</b>',
+	'URL_ADVANCED' => $admin->get_permission('settings_advanced')
+                ? '<a href="' . ADMIN_URL . '/addons/index.php?advanced">' . $mLang->TEXT_ADVANCED . '</a>' : '<b>'.$mLang->TEXT_ADVANCED.'</b>' ,
 	)
 );
 

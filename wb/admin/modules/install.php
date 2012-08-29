@@ -3,9 +3,8 @@
  *
  * @category        admin
  * @package         modules
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich,WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -75,7 +74,7 @@ if(!$_FILES['userfile']['error']) {
 	$admin->print_error($MESSAGE[$key].'<br />'.$MESSAGE['GENERIC_CANNOT_UPLOAD']);
 }
 
-// Include the PclZip class file (thanks to 
+// Include the PclZip class file (thanks to
 require_once(WB_PATH.'/include/pclzip/pclzip.lib.php');
 
 // Remove any vars with name "module_directory"
@@ -105,7 +104,7 @@ rm_full_dir($temp_unzip);
 if(!isset($module_directory))
 {
 	if(file_exists($temp_file)) { unlink($temp_file); } // Remove temp file
-	$admin->print_error($MESSAGE['GENERIC']['INVALID']);
+	$admin->print_error($MESSAGE['GENERIC_INVALID']);
 }
 
 // Check if this module is already installed
@@ -122,7 +121,7 @@ if(is_dir(WB_PATH.'/modules/'.$module_directory))
         {
 
 			if(file_exists($temp_file)) { unlink($temp_file); } // Remove temp file
-			$admin->print_error($MESSAGE['GENERIC']['ALREADY_INSTALLED']);
+			$admin->print_error($MESSAGE['GENERIC_ALREADY_INSTALLED']);
 		}
 
 		$action="upgrade";
@@ -134,7 +133,7 @@ if(is_dir(WB_PATH.'/modules/'.$module_directory))
 if(!is_writable(WB_PATH.'/modules/'))
 {
 	if(file_exists($temp_file)) { unlink($temp_file); } // Remove temp file
-	$admin->print_error($MESSAGE['GENERIC']['BAD_PERMISSIONS']);
+	$admin->print_error($MESSAGE['GENERIC_BAD_PERMISSIONS']);
 }
 
 // Set module directory
@@ -152,7 +151,7 @@ if(isset($_POST['overwrite'])){
 
 if(!$list)
 {
-	$admin->print_error($MESSAGE['GENERIC']['CANNOT_UNZIP']);
+	$admin->print_error($MESSAGE['GENERIC_CANNOT_UNZIP']);
 }
 /*
 
@@ -186,15 +185,13 @@ if ($action=="install")
 {
 	// Load module info into DB
 	load_module(WB_PATH.'/modules/'.$module_directory, false);
-	$admin->print_success($MESSAGE['GENERIC']['INSTALLED']);
+	$admin->print_success($MESSAGE['GENERIC_INSTALLED']);
 } elseif ($action=="upgrade")
 {
 
 	upgrade_module($module_directory, false);
-	$admin->print_success($MESSAGE['GENERIC']['UPGRADED']);
+	$admin->print_success($MESSAGE['GENERIC_UPGRADED']);
 }
 
 // Print admin footer
 $admin->print_footer();
-
-?>

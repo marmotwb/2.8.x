@@ -4,7 +4,7 @@
  * @category        admin
  * @package         modules
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -29,6 +29,26 @@ if( !$admin->checkFTAN() )
 // After check print the header
 $admin->print_header();
 
+$mLang = ModLanguage::getInstance();
+$mLang->setLanguage(ADMIN_PATH.'/addons/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+
+if(!isset($_POST['file']) OR $_POST['file'] == "") {
+	$admin->print_error($MESSAGE['GENERIC_FORGOT_OPTIONS']);
+} else {
+	$file = preg_replace('/[^a-z0-9_-]/i', "", $_POST['file']);  // fix secunia 2010-92-2
+}
+
+// Check if the template exists
+if(!is_dir(WB_PATH.'/modules/'.$file)) {
+	$admin->print_error($MESSAGE['GENERIC_NOT_INSTALLED']);
+}
+
+// Check if the template exists
+if(!is_readable(WB_PATH.'/modules/'.$file)) {
+	$admin->print_error($MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES']);
+}
+
+/*
 // Get module name
 if(!isset($_POST['file']) OR $_POST['file'] == "")
 {
@@ -41,14 +61,15 @@ else
 }
 
 // Check if the module exists
-if(!file_exists(WB_PATH.'/modules/'.$file)) {
+if(!is_readable(WB_PATH.'/modules/'.$file)) {
 	header("Location: index.php");
 	exit(0);
 }
+*/
 
 // Setup template object, parse vars to it, then parse it
 // Create new template object
-$template = new Template(dirname($admin->correct_theme_source('modules_details.htt')));
+$template = new Template(dirname($admin->correct_theme_source('modules_details.htt')),'keep');
 // $template->debug = true;
 $template->set_file('page', 'modules_details.htt');
 $template->set_block('page', 'main_block', 'main');
@@ -58,6 +79,9 @@ $result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'm
 if($result->numRows() > 0) {
 	$module = $result->fetchRow();
 }
+
+/*-- insert all needed vars from language files ----------------------------------------*/
+$template->set_var($mLang->getLangArray());
 
 // check if a module description exists for the displayed backend language
 $tool_description = false;
@@ -72,7 +96,7 @@ if(function_exists('file_get_contents') && file_exists(WB_PATH.'/modules/'.$file
 	} else {
 		$tool_description = false;
 	}
-}		
+}
 if($tool_description !== false) {
 	// Override the module-description with correct desription in users language
 	$module['description'] = $tool_description;
@@ -89,7 +113,7 @@ $template->set_var(array(
 								'THEME_URL' => THEME_URL
 								)
 						);
-						
+
 switch ($module['function']) {
 	case NULL:
 		$type_name = $TEXT['UNKNOWN'];
@@ -117,23 +141,23 @@ switch ($module['function']) {
 }
 $template->set_var('TYPE', $type_name);
 
-// Insert language headings
-$template->set_var(array(
-								'HEADING_MODULE_DETAILS' => $HEADING['MODULE_DETAILS']
-								)
-						);
-// Insert language text and messages
-$template->set_var(array(
-								'TEXT_NAME' => $TEXT['NAME'],
-								'TEXT_TYPE' => $TEXT['TYPE'],
-								'TEXT_AUTHOR' => $TEXT['AUTHOR'],
-								'TEXT_VERSION' => $TEXT['VERSION'],
-								'TEXT_DESIGNED_FOR' => $TEXT['DESIGNED_FOR'],
-								'TEXT_DESCRIPTION' => $TEXT['DESCRIPTION'],
-								'TEXT_BACK' => $TEXT['BACK']
-								)
-						);
-
+//// Insert language headings
+//$template->set_var(array(
+//								'HEADING_MODULE_DETAILS' => $HEADING['MODULE_DETAILS']
+//								)
+//						);
+//// Insert language text and messages
+//$template->set_var(array(
+//								'TEXT_NAME' => $TEXT['NAME'],
+//								'TEXT_TYPE' => $TEXT['TYPE'],
+//								'TEXT_AUTHOR' => $TEXT['AUTHOR'],
+//								'TEXT_VERSION' => $TEXT['VERSION'],
+//								'TEXT_DESIGNED_FOR' => $TEXT['DESIGNED_FOR'],
+//								'TEXT_DESCRIPTION' => $TEXT['DESCRIPTION'],
+//								'TEXT_BACK' => $TEXT['BACK']
+//								)
+//						);
+//
 // Parse module object
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
