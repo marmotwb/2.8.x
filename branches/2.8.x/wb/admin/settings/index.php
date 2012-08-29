@@ -40,7 +40,7 @@ $mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE)
 
 // Setup template object, parse vars to it, then parse it
 // Create new template object
-$template = new Template(dirname($admin->correct_theme_source('settings.htt')),'keep');
+$template = new Template(dirname($admin->correct_theme_source('settings.htt')));
 // $template->debug = true;
 $template->set_file('page',        'settings.htt');
 $template->set_block('page',       'main_block', 'main');
@@ -397,33 +397,61 @@ if($is_advanced)
 	// Work-out if multiple menus feature is enabled
 	if(defined('MULTIPLE_MENUS') && MULTIPLE_MENUS == true)
 	{
-		$template->set_var('MULTIPLE_MENUS_ENABLED', $checked);
+    	$template->set_var(array(
+				'MULTIPLE_MENUS_ENABLED' => $checked,
+				'MULTIPLE_MENUS_DISABLED' => '',
+				));
 	} else {
-		$template->set_var('MULTIPLE_MENUS_DISABLED', $checked);
+    	$template->set_var(array(
+				'MULTIPLE_MENUS_DISABLED' => $checked,
+				'MULTIPLE_MENUS_ENABLED' => '',
+				));
 	}
 
 	// Work-out if page languages feature is enabled
 	if(defined('PAGE_LANGUAGES') && PAGE_LANGUAGES == true)
 	{
-        $template->set_var('PAGE_LANGUAGES_ENABLED', $checked);
+    	$template->set_var(array(
+				'PAGE_LANGUAGES_ENABLED' => $checked,
+				'PAGE_LANGUAGES_DISABLED' => '',
+				));
 	} else {
-        $template->set_var('PAGE_LANGUAGES_DISABLED', $checked);
+    	$template->set_var(array(
+				'PAGE_LANGUAGES_DISABLED' => $checked,
+				'PAGE_LANGUAGES_ENABLED' => '',
+				));
 	}
 
 	// Work-out if warn_page_leave feature is enabled
 	if (defined('WARN_PAGE_LEAVE') && WARN_PAGE_LEAVE == true)
 	{
 		$template->set_var('WARN_PAGE_LEAVE_ENABLED', $checked);
+    	$template->set_var(array(
+				'WARN_PAGE_LEAVE_ENABLED' => $checked,
+				'WARN_PAGE_LEAVE_DISABLED' => '',
+				));
 	} else {
 		$template->set_var('WARN_PAGE_LEAVE_DISABLED', $checked);
+    	$template->set_var(array(
+				'MANAGE_SECTIONS_DISABLED' => $checked,
+				'WARN_PAGE_LEAVE_DISABLED' => '',
+				));
 	}
 
 	// Work-out if smart login feature is enabled
 	if(defined('SMART_LOGIN') && SMART_LOGIN == true)
 	{
 		$template->set_var('SMART_LOGIN_ENABLED', $checked);
+    	$template->set_var(array(
+				'SMART_LOGIN_ENABLED' => $checked,
+				'SMART_LOGIN_DISABLED' => '',
+				));
 	} else {
 		$template->set_var('SMART_LOGIN_DISABLED', $checked);
+    	$template->set_var(array(
+				'SMART_LOGIN_DISABLED' => $checked,
+				'SMART_LOGIN_ENABLED' => '',
+				));
 	}
 
 	/* Make's sure GD library is installed */
@@ -437,17 +465,31 @@ if($is_advanced)
 	// Work-out if section blocks feature is enabled
 	if(defined('SECTION_BLOCKS') && SECTION_BLOCKS == true)
 	{
-		$template->set_var('SECTION_BLOCKS_ENABLED', $checked);
+    	$template->set_var(array(
+				'SECTION_BLOCKS_ENABLED' => $checked,
+				'SECTION_BLOCKS_DISABLED' => '',
+				));
 	} else {
-		$template->set_var('SECTION_BLOCKS_DISABLED', $checked);
+    	$template->set_var(array(
+				'SECTION_BLOCKS_DISABLED' => $checked,
+				'SECTION_BLOCKS_ENABLED' => '',
+				));
 	}
 
 	// Work-out if homepage redirection feature is enabled
 	if(defined('HOMEPAGE_REDIRECTION') && HOMEPAGE_REDIRECTION == true)
 	{
-		$template->set_var('HOMEPAGE_REDIRECTION_ENABLED', $checked);
+//		$template->set_var('HOMEPAGE_REDIRECTION_ENABLED', $checked);
+    	$template->set_var(array(
+				'HOMEPAGE_REDIRECTION_ENABLED' => $checked,
+				'HOMEPAGE_REDIRECTION_DISABLED' => '',
+				));
 	} else {
-		$template->set_var('HOMEPAGE_REDIRECTION_DISABLED', $checked);
+//		$template->set_var('HOMEPAGE_REDIRECTION_DISABLED', $checked);
+    	$template->set_var(array(
+				'HOMEPAGE_REDIRECTION_DISABLED' => $checked,
+				'HOMEPAGE_REDIRECTION_ENABLED' => '',
+				));
 	}
 
 	// Work-out which server os should be checked
@@ -462,16 +504,30 @@ if($is_advanced)
 	if(defined('DEV_INFOS') && DEV_INFOS == true)
 	{
 		$template->set_var('DEV_INFOS_ENABLED', $checked);
+    	$template->set_var(array(
+				'DEV_INFOS_ENABLED' => $checked,
+				'DEV_INFOS_DISABLED' => '',
+				));
 	} else {
 		$template->set_var('DEV_INFOS_DISABLED', $checked);
+    	$template->set_var(array(
+				'DEV_INFOS_DISABLED' => $checked,
+				'DEV_INFOS_ENABLED' => '',
+				));
 	}
 
 	// Work-out if manage sections feature is enabled
 	if(MANAGE_SECTIONS)
 	{
-		$template->set_var('MANAGE_SECTIONS_ENABLED', $checked);
+    	$template->set_var(array(
+				'MANAGE_SECTIONS_ENABLED' => $checked,
+				'MANAGE_SECTIONS_DISABLED' => '',
+				));
 	} else {
-		$template->set_var('MANAGE_SECTIONS_DISABLED', $checked);
+    	$template->set_var(array(
+				'MANAGE_SECTIONS_DISABLED' => $checked,
+				'MANAGE_SECTIONS_ENABLED' => '',
+				));
 	}
 
 	// Work-out which wbmailer routine should be checked
@@ -521,36 +577,64 @@ if($is_advanced)
 	// Work-out if intro feature is enabled
 	if(INTRO_PAGE)
 	{
-		$template->set_var('INTRO_PAGE_ENABLED', $checked);
+    	$template->set_var(array(
+				'INTRO_PAGE_ENABLED' => $checked,
+				'INTRO_PAGE_DISABLED' => '',
+				));
 	} else {
-		$template->set_var('INTRO_PAGE_DISABLED', $checked);
+    	$template->set_var(array(
+				'INTRO_PAGE_DISABLED' => $checked,
+				'INTRO_PAGE_ENABLED' => '',
+				));
 	}
 
 	// Work-out if frontend login feature is enabled
 	if(FRONTEND_LOGIN)
 	{
-		$template->set_var('PRIVATE_ENABLED', $checked);
+    	$template->set_var(array(
+				'PRIVATE_ENABLED' => $checked,
+				'PRIVATE_DISABLED' => '',
+				));
 	} else {
-		$template->set_var('PRIVATE_DISABLED', $checked);
+    	$template->set_var(array(
+				'PRIVATE_DISABLED' => $checked,
+				'INTRO_PAGE_ENABLED' => '',
+				));
 	}
 	// Work-out if frontend login feature is enabled
 
 	if(CONFIRMED_REGISTRATION)
 	{
-		$template->set_var('CONFIRMED_REGISTRATION_ENABLED', $checked);
+    	$template->set_var(array(
+				'CONFIRMED_REGISTRATION_ENABLED' => $checked,
+				'CONFIRMED_REGISTRATION_DISABLED' => '',
+				));
 	} else {
-		$template->set_var('CONFIRMED_REGISTRATION_DISABLED', $checked);
+    	$template->set_var(array(
+				'CONFIRMED_REGISTRATION_DISABLED' => $checked,
+				'CONFIRMED_REGISTRATION_ENABLED' => '',
+				));
 	}
 
 	// Work-out if page trash feature is disabled, in-line, or separate
 	if(PAGE_TRASH == 'disabled')
 	{
-		$template->set_var('PAGE_TRASH_DISABLED', $checked);
-		$template->set_var('DISPLAY_PAGE_TRASH_SEPARATE', 'display: none;');
+//		$template->set_var('PAGE_TRASH_DISABLED', $checked);
+//		$template->set_var('DISPLAY_PAGE_TRASH_SEPARATE', 'display: none;');
+    	$template->set_var(array(
+				'PAGE_TRASH_DISABLED' => $checked,
+				'PAGE_TRASH_INLINE' => '',
+				'DISPLAY_PAGE_TRASH_SEPARATE' => 'display: none;',
+				));
 	} elseif(PAGE_TRASH == 'inline')
 	{
-		$template->set_var('PAGE_TRASH_INLINE', $checked);
-		$template->set_var('DISPLAY_PAGE_TRASH_SEPARATE', 'display: none;');
+//		$template->set_var('PAGE_TRASH_INLINE', $checked);
+//		$template->set_var('DISPLAY_PAGE_TRASH_SEPARATE', 'display: none;');
+    	$template->set_var(array(
+				'PAGE_TRASH_INLINE' => $checked,
+				'PAGE_TRASH_DISABLED' => '',
+				'DISPLAY_PAGE_TRASH_SEPARATE' => 'display: none;',
+				));
 	} elseif(PAGE_TRASH == 'separate')
 	{
 		$template->set_var('PAGE_TRASH_SEPARATE', $checked);
@@ -560,22 +644,47 @@ if($is_advanced)
 	// Work-out if media home folde feature is enabled
 	if(HOME_FOLDERS)
 	{
-		$template->set_var('HOME_FOLDERS_ENABLED', $checked);
+    	$template->set_var(array(
+				'HOME_FOLDERS_ENABLED' => $checked,
+				'HOME_FOLDERS_DISABLED' => '',
+				));
 	} else {
-		$template->set_var('HOME_FOLDERS_DISABLED', $checked);
+    	$template->set_var(array(
+				'HOME_FOLDERS_DISABLED' => $checked,
+				'HOME_FOLDERS_ENABLED' => '',
+				));
 	}
 
 	// Insert search select
 	if(SEARCH == 'private')
 	{
-		$template->set_var('PRIVATE_SEARCH', $sSelected);
+    	$template->set_var(array(
+				'PRIVATE_SEARCH' => $sSelected,
+				'REGISTERED_SEARCH' => '',
+				'NONE_SEARCH' => '',
+				));
+	} elseif(SEARCH == 'public') {
+    	$template->set_var(array(
+				'PRIVATE_SEARCH' => '',
+				'REGISTERED_SEARCH' => '',
+				'NONE_SEARCH' => '',
+				));
 	} elseif(SEARCH == 'registered') {
-		$template->set_var('REGISTERED_SEARCH', $sSelected);
+    	$template->set_var(array(
+				'PRIVATE_SEARCH' => '',
+				'REGISTERED_SEARCH' => $sSelected,
+				'NONE_SEARCH' => '',
+				));
 	} elseif(SEARCH == 'none') {
-		$template->set_var('NONE_SEARCH', $sSelected);
+    	$template->set_var(array(
+				'PRIVATE_SEARCH' => '',
+				'REGISTERED_SEARCH' => '',
+				'NONE_SEARCH' => $sSelected,
+				));
 	}
 
 	// Work-out if 777 permissions are set
+	$template->set_var('WORLD_WRITEABLE_SELECTED', '');
 	if(STRING_FILE_MODE == '0777' AND STRING_DIR_MODE == '0777')
 	{
 		$template->set_var('WORLD_WRITEABLE_SELECTED', $checked);
