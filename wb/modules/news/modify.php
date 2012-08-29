@@ -4,7 +4,7 @@
  * @category        modules
  * @package         news
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -20,12 +20,13 @@
 if(defined('WB_PATH') == false)
 {
 	// Stop this file being access directly
-		die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+		die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
 }
 /* -------------------------------------------------------- */
-
-$database->query("DELETE FROM ".TABLE_PREFIX."mod_news_posts  WHERE page_id = '$page_id' and section_id = '$section_id' and title=''"); 
-$database->query("DELETE FROM ".TABLE_PREFIX."mod_news_groups  WHERE page_id = '$page_id' and section_id = '$section_id' and title=''"); 
+// fixed escaping malformed URI reference
+$TEXT['ARE_YOU_SURE'] = str_replace(' ','%20',$TEXT['ARE_YOU_SURE']);
+$database->query("DELETE FROM ".TABLE_PREFIX."mod_news_posts  WHERE page_id = '$page_id' and section_id = '$section_id' and title=''");
+$database->query("DELETE FROM ".TABLE_PREFIX."mod_news_groups  WHERE page_id = '$page_id' and section_id = '$section_id' and title=''");
 
 //overwrite php.ini on Apache servers for valid SESSION ID Separator
 if(function_exists('ini_set')) {
@@ -129,7 +130,7 @@ if($query_posts->numRows() > 0) {
 			<?php } ?>
 			</td>
 			<td width="20">
-				<a href="javascript: confirm_link('<?php echo $TEXT['ARE_YOU_SURE']; ?>', '<?php echo WB_URL; ?>/modules/news/delete_post.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>&amp;post_id=<?php echo $pid; ?>');" title="<?php echo $TEXT['DELETE']; ?>">
+				<a href="javascript:confirm_link('<?php echo $TEXT['ARE_YOU_SURE']; ?>','<?php echo WB_URL; ?>/modules/news/delete_post.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>&amp;post_id=<?php echo $pid; ?>');" title="<?php echo $TEXT['DELETE']; ?>">
 					<img src="<?php echo THEME_URL; ?>/images/delete_16.png" border="0" alt="X" />
 				</a>
 			</td>
@@ -171,7 +172,7 @@ if($query_groups->numRows() > 0) {
 				<a href="<?php echo WB_URL; ?>/modules/news/modify_group.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>&amp;group_id=<?php echo $gid; ?>" title="<?php echo $TEXT['MODIFY']; ?>">
 					<img src="<?php echo THEME_URL; ?>/images/modify_16.png" border="0" alt="Modify - " />
 				</a>
-			</td>		
+			</td>
 			<td width="50" style="text-align: right;">
 				<?php echo $group['group_id'] ?>
 			</td>

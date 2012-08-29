@@ -13,6 +13,9 @@ Legend:
 
 
 
+29 Aug-2012 Build 1718 Dietmar Woellbrink (Luisehahne)
+! update headerinfo
+! change multi-dimensional arrays (variables) to similar arrays
 29 Aug-2012 Build 1717 Dietmar Woellbrink (Luisehahne)
 ! update droplets uninstall, upgrade
 ! add $database=WbDatabase::getInstance();
