@@ -1,279 +1,361 @@
 <!-- BEGIN main_block -->
-<h2 style="{DISPLAY_EXTRA}">{HEADING_MODIFY_GROUP}</h2>
+		<div class="content_box">
+			<form name="group" action="{GROUP_ACTION_URL}" method="post" class="access {DISPLAY_ADD}">
+			<input type="hidden" name="group_id" value="{GROUP_ID}" />
+			<input type="hidden" name="advance_action" value="{ADVANCED}" />
+			<input type="hidden" name="{FORM_NAME_GROUPMASK}" value="1" />
+			<input type="hidden" name="group_name" maxlength="120" value="{GROUP_NAME}" />
+			<input type="hidden" name="{ACTION_HIDDEN}" value="{SUBMIT_TITLE}" />
+				{FTAN}
+				<div class="mbox curved h65">
+			        <h3>{GROUPS_HEADER}</h3>
+				 	<input type="text" name="name" maxlength="120" value="{GROUP_NAME}" class="c400{GROUPNAME_INPUT_DISABLED}"{GROUPNAME_DISABLED} />
+				</div>
+	<!-- BEGIN show_cmd_permission_block -->
+				<div class="col_content">
+					<input type="submit" name="{ACTION_HANDLE}" value="{SUBMIT_TITLE}" />
+					<input type="submit" name="action_cancel" value="{TEXT_CANCEL}" />
+					<input type="reset" name="reset" value="{TEXT_RESET}" />
+		 	        <input class="cright" type="submit" name="advanced_action" style="{DISPLAY_ADVANCED}" value="{ADVANCED_BUTTON}" />
+				</div>
+				<br class="clear ie-clearing none" />
+		<!-- BEGIN show_cmd_manage_permission_block -->
+				<div class="cleft col_width100">
+					<div class="col_content aBlock">
+			<!-- BEGIN show_cmd_hidden_permission_list_block -->
+						<input name="{SYS_NAME}" type="hidden" value="{SYS_VALUE}" />
+			<!-- END show_cmd_hidden_permission_list_block -->
 
-<form name="group" action="{ACTION_URL}" method="post" class="{DISPLAY_ADD}">
-<input type="hidden" name="advanced" value="{ADVANCED}" />
-<input type="hidden" name="group_id" value="{GROUP_ID}" />
-{FTAN}
-<table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
-<tr>
-	<td width="150">{TEXT_NAME}:</td>
-	<td>
-		<input type="text" name="group_name" maxlength="255" value="{GROUP_NAME}" style="width:98%" />
-	</td>
-</tr>
-</table>
-<table summary="" cellpadding="2" cellspacing="0" border="0" width="100%" style="{DISPLAY_BASIC}">
-<tr>
-	<td width="150" valign="top">{TEXT_SYSTEM_PERMISSIONS}:</td>
-	<td>
-		<table summary="" cellpadding="0" cellspacing="0" width="100%" border="0">
-		<tr>
-			<td>
-				<input type="checkbox" name="pages" id="pages" value="1" {pages_checked} />
-				<label for="pages">{SECTION_PAGES}</label>
-			</td>
-			<td>
-				<input type="checkbox" name="media" id="media" value="1" {media_checked} />
-				<label for="media">{SECTION_MEDIA}</label>
-			</td>
-			<td>
-				<input type="checkbox" name="modules" id="modules" value="1" {modules_checked} />
-				<label for="modules">{SECTION_MODULES}</label>
-			</td>
-			<td>
-				<input type="checkbox" name="templates" id="templates" value="1" {templates_checked} />
-				<label for="templates">{SECTION_TEMPLATES}</label>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<input type="checkbox" name="languages" id="languages" value="1" {languages_checked} />
-				<label for="languages">{SECTION_LANGUAGES}</label>
-			</td>
-			<td>		
-				<input type="checkbox" name="settings" id="settings" value="1" {settings_checked} />
-				<label for="settings">{SECTION_SETTINGS}</label>
-			</td>
-			<td>
-				<input type="checkbox" name="users" id="users" value="1" {users_checked} />
-				<label for="users">{SECTION_USERS}</label>
-			</td>
-			<td>
-				<input type="checkbox" name="groups" id="groups" value="1" {groups_checked} />
-				<label for="groups">{SECTION_GROUPS}</label>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<input type="checkbox" name="admintools" id="admintools" value="1" {admintools_checked} />
-				<label for="admintools">{SECTION_ADMINTOOLS}</label>
-			</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-		</tr>
-		</table>
-	</td>
-</tr>
-</table>
-<table summary="" cellpadding="2" cellspacing="0" border="0" width="100%" style="{DISPLAY_ADVANCED}">
-<tr>
-	<td width="150" valign="top">{TEXT_SYSTEM_PERMISSIONS}:</td>
-	<td align="left">
+						<div class="mbox curved h65 floatbox">
+							<h4>{TEXT_FILESYSTEM_PERMISSIONS}</h4>
+							<span>
+								<input type="checkbox" name="system_permissions[pages_view]" id="pages_view" value="1" {pages_view_checked} />
+								<label for="pages_view">{MENU_PAGES}</label>
+							</span>
+							<span>
+								<input type="checkbox" name="system_permissions[media_view]" id="media_view" value="1" {media_view_checked} />
+								<label for="media_view">{MENU_MEDIA}</label>
+							</span>
+							<span>
+								<input type="checkbox" name="system_permissions[modules_view]" id="modules_view" value="1" {modules_view_checked} />
+								<label for="modules_view">{MENU_MODULES}</label>
+							</span>
+							<span>
+								<input type="checkbox" name="system_permissions[templates_view]" id="templates_view" value="1" {templates_view_checked} />
+								<label for="templates_view">{MENU_TEMPLATES}</label>
+							</span>
+							<span>
+								<input type="checkbox" name="system_permissions[languages_view]" id="languages_view" value="1" {languages_view_checked} />
+								<label for="languages_view">{MENU_LANGUAGES}</label>
+							</span>
+							<span>
+								<input type="checkbox" name="system_permissions[settings_view]" id="settings_view" value="1" {settings_view_checked} />
+								<label for="settings_view">{MENU_SETTINGS}</label>
+							</span>
+							<span>
+								<input type="checkbox" name="system_permissions[admintools_view]" id="admintools_view" value="1" {admintools_view_checked} />
+								<label for="admintools_view">{MENU_ADMINTOOLS}</label>
+							</span>
+							<span>
+								<input type="checkbox" name="system_permissions[users_view]" id="users_view" value="1" {users_view_checked} />
+								<label for="users_view">{MENU_USERS}</label>
+							</span>
+							<span>
+								<input type="checkbox" name="system_permissions[groups_view]" id="groups_view" value="1" {groups_view_checked} />
+								<label for="groups_view">{MENU_GROUPS}</label>
+							</span>
+							<span>
+								<input type="checkbox" name="system_permissions[preferences_view]" id="preferences_view" value="1" {preferences_view_checked} />
+								<label for="preferences_view">{MENU_USER_PREFERENCES}</label>
+							</span>
+						</div>
+					</div>
+				</div>
+		<!-- END show_cmd_manage_permission_block -->
+		<!-- BEGIN show_cmd_advanced_permission_block -->
+				<div class="cleft col_width33">
+					<div class="col_content aBlock">
+			<!-- BEGIN show_cmd_hidden_advanced_permission_list_block -->
+						<input name="{SYS_NAME}" type="hidden" value="{SYS_VALUE}" />
+			<!-- END show_cmd_hidden_advanced_permission_list_block -->
+						<div class="mbox curved min_h100 floatbox">
+							<h6>{FILESYSTEM_PERMISSIONS} {MENU_PAGES}</h6>
+							<ul>
+								<li class="c100">
+									<input name="system_permissions[pages_view]" id="pages_view" type="checkbox" value="{VALUE}" {pages_view_checked} />
+									<label for="pages_view">{TEXT_VIEW}</label>
+								</li>
+								<li class="c100">
+									<input name="system_permissions[pages_add_l0]" id="pages_add_l0" type="checkbox" value="{VALUE}" {pages_add_l0_checked} />
+									<label for="pages_add_l0">{TEXT_ADD} ({TEXT_LEVEL} 0)</label>
+								</li>
+								<li class="c100">
+									<input name="system_permissions[pages_add]" id="pages_add" type="checkbox" value="{VALUE}" {pages_add_checked} />
+									<label for="pages_add">{TEXT_ADD}</label>
+								</li>
+								<li class="c100">
+									<input name="system_permissions[pages_settings]" id="pages_settings" type="checkbox" value="{VALUE}" {pages_settings_checked} />
+									<label for="pages_settings">{TEXT_MODIFY_SETTINGS}</label>
+								</li>
+								<li class="c100">
+									<input name="system_permissions[pages_modify]" id="pages_modify" type="checkbox" value="{VALUE}" {pages_modify_checked} />
+									<label for="pages_modify">{TEXT_MODIFY_CONTENT}</label>
+								</li>
+								<li class="c100">
+									<input name="system_permissions[pages_intro]" id="pages_intro" type="checkbox" value="{VALUE}" {pages_intro_checked} />
+									<label for="pages_intro">{HEADING_MODIFY_INTRO_PAGE}</label>
+								</li>
+								<li class="c100">
+									<input name="system_permissions[pages_delete]" id="pages_delete" type="checkbox" value="{VALUE}" {pages_delete_checked} />
+									<label for="pages_delete">{TEXT_DELETE}</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="cleft col_width33">
+					<div class="col_content">
+						<div class="mbox curved min_h100 floatbox">
+							<h6>{TEXT_FILESYSTEM_PERMISSIONS} {MENU_MEDIA}</h6>
+							<ul>
+								<li class="c100">
+								<input name="system_permissions[media_view]" id="media_view" type="checkbox" value="1" {media_view_checked} />
+								<label for="media_view">{TEXT_VIEW}</label>
+								</li>
+								<li class="c100">
+								<input name="system_permissions[media_upload]" id="media_upload" type="checkbox" value="1" {media_upload_checked} />
+								<label for="media_upload">{TEXT_UPLOAD_FILES}</label>
+								</li>
+								<li class="c100">
+								<input name="system_permissions[media_rename]" id="media_rename" type="checkbox" value="1" {media_rename_checked} />
+								<label for="media_rename">{TEXT_RENAME}</label>
+								</li>
+								<li class="c100">
+								<input name="system_permissions[media_delete]" id="media_delete" type="checkbox" value="1" {media_delete_checked} />
+								<label for="media_delete">{TEXT_DELETE}</label>
+								</li>
+								<li class="c100">
+								<input name="system_permissions[media_create]" id="media_create" type="checkbox" value="1" {media_create_checked} />
+								<label  for="media_create">{TEXT_CREATE_FOLDER}</label>
+								</li>
+								<li class="c100">
+								<p>&nbsp;</p>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="cleft col_width33">
+					<div class="col_content">
+						<div class="mbox curved min_h100 floatbox">
+							<h6>{FILESYSTEM_PERMISSIONS} {MENU_SETTINGS}</h6>
+							<ul>
+								<li class="c100">
+									<input name="system_permissions[settings_view]" id="settings_view" type="checkbox" value="1" {settings_view_checked} />
+									<label for="settings_view">{TEXT_BASIC}</label>
+								</li>
+								<li class="c100">
+									<input name="system_permissions[settings_advanced]" id="settings_advanced" type="checkbox" value="1" {settings_advanced_checked} />
+									<label for="settings_advanced">{TEXT_ADVANCED}</label>
+								</li>
+							</ul><br />
+							<h6>{FILESYSTEM_PERMISSIONS} {MENU_ADMINTOOLS}</h6>
+							<ul>
+								<li class="c100">
+									<input name="system_permissions[admintools_view]" id="admintools_view" type="checkbox" value="1" {admintools_view_checked} />
+									<label for="admintools_view">{TEXT_MODIFY}</label>
+								</li>
+							</ul><br />
+							<h6>{FILESYSTEM_PERMISSIONS} {MENU_USER_PREFERENCES}</h6>
+							<ul>
+								<li class="c100">
+									<input name="system_permissions[preferences_view]" id="preferences_view" type="checkbox" value="1" {preferences_view_checked} />
+									<label for="preferences_view">{TEXT_MODIFY}</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<br class="clear ie-clearing none" />
+				<div class="cleft col_width33">
+					<div class="col_content">
+						<div class="mbox curved min_h100 floatbox">
+							<h6>{FILESYSTEM_PERMISSIONS} {MENU_MODULES}</h6>
+							<ul>
+								<li class="c100">
+								<input name="system_permissions[modules_view]" id="modules_view" type="checkbox" value="1" {modules_view_checked} />
+								<label for="modules_view">{TEXT_VIEW}</label>
+								</li>
+								<li class="c100">
+								<input name="system_permissions[modules_install]" id="modules_install" type="checkbox" value="1" {modules_install_checked} />
+								<label for="modules_install">{TEXT_ADD}</label>
+								</li>
+								<li class="c100">
+								<input name="system_permissions[modules_uninstall]" id="modules_uninstall" type="checkbox" value="1" {modules_uninstall_checked} />
+								<label for="modules_uninstall">{TEXT_DELETE}</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="cleft col_width33">
+					<div class="col_content">
+						<div class="mbox curved min_h100 floatbox">
+							<h6>{FILESYSTEM_PERMISSIONS} {MENU_TEMPLATES}</h6>
+							<ul>
+								<li class="c100">
+									<input name="system_permissions[templates_view]" id="templates_view" type="checkbox" value="1" {templates_view_checked} />
+									<label for="templates_view">{TEXT_VIEW}</label>
+								</li>
+								<li class="c100">
+									<input name="system_permissions[templates_install]" id="templates_install" type="checkbox" value="1" {templates_install_checked} />
+									<label for="templates_install">{TEXT_ADD}</label>
+								</li>
+								<li class="c100">
+									<input name="system_permissions[templates_uninstall]" id="templates_uninstall" type="checkbox" value="1" {templates_uninstall_checked} />
+									<label for="templates_uninstall">{TEXT_DELETE}</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="cleft col_width33">
+					<div class="col_content">
+						<div class="mbox curved min_h100 floatbox">
+							<h6>{FILESYSTEM_PERMISSIONS} {MENU_LANGUAGES}</h6>
+							<ul>
+								<li class="c100">
+									<input name="system_permissions[languages_view]" id="languages_view" type="checkbox" value="1" {languages_view_checked} />
+									<label for="languages_view">{TEXT_VIEW}</label>
+								</li>
+								<li class="c100">
+									<input name="system_permissions[languages_install]" id="languages_install" type="checkbox" value="1" {languages_install_checked} />
+									<label for="languages_install">{TEXT_ADD}</label>
+								</li>
+								<li class="c100">
+									<input name="system_permissions[languages_uninstall]" id="languages_uninstall" type="checkbox" value="1" {languages_uninstall_checked} />
+									<label for="languages_uninstall">{TEXT_DELETE}</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<br class="clear ie-clearing none" />
+				<div class="cleft col_width33">
+					<div class="col_content">
+						<div class="mbox curved min_h100 floatbox">
+							<h6>{FILESYSTEM_PERMISSIONS} {MENU_USERS}</h6>
+							<ul>
+								<li class="c100">
+									<input name="system_permissions[users_view]" id="users_view" type="checkbox" value="1" {users_view_checked} />
+									<label for="users_view">{TEXT_VIEW}</label>
+								</li>
+								<li class="c100">
+									<input name="system_permissions[users_add]" id="users_add" type="checkbox" value="1" {users_add_checked} />
+									<label for="users_add">{TEXT_ADD}</label>
+								</li>
+								<li class="c100">
+									<input name="system_permissions[users_modify]" id="users_modify" type="checkbox" value="1" {users_modify_checked} />
+									<label for="users_modify">{TEXT_MODIFY}</label>
+								</li>
+								<li class="c100">
+									<input name="system_permissions[users_delete]" id="users_delete" type="checkbox" value="1" {users_delete_checked} />
+									<label for="users_delete">{TEXT_DELETE}</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="cleft col_width33">
+					<div class="col_content">
+						<div class="mbox curved min_h100 floatbox">
+							<h6>{FILESYSTEM_PERMISSIONS} {MENU_GROUPS}</h6>
+							<ul>
+								<li class="c100">
+									<input name="system_permissions[groups_view]" id="groups_view" type="checkbox" value="1" {groups_view_checked} />
+									<label for="groups_view">{TEXT_VIEW}</label>
+								</li>
+								<li class="c100">
+									<input name="system_permissions[groups_add]" id="groups_add" type="checkbox" value="1" {groups_add_checked} />
+									<label for="groups_add">{TEXT_ADD}</label>
+								</li>
+								<li class="c100">
+									<input name="system_permissions[groups_modify]" id="groups_modify" type="checkbox" value="1" {groups_modify_checked} />
+									<label for="groups_modify">{TEXT_MODIFY}</label>
+								</li>
+								<li class="c100">
+									<input name="system_permissions[groups_delete]" id="groups_delete" type="checkbox" value="1" {groups_delete_checked} />
+									<label for="groups_delete">{TEXT_DELETE}</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+		<!-- END show_cmd_advanced_permission_block -->
+				<hr class="clear" />
+				<div class="cleft col_width33">
+					<div class="col_content">
+                        {HEADER_MODULE_FUNCTION}
+						<div class="mbox curved min_h100" style="overflow: hidden;">
+							<ul style="margin: 0; padding: 0; ">
+		<!-- BEGIN pages_module_list_block -->
+								<li class="c100">
+                                    {MODULE_FUNCTION}
+								<div style="white-space: nowrap;">
+									<input class="radio" type="checkbox" name="module_permissions[]" id="m_{MOD_VALUE}" value="{MOD_VALUE}" {MOD_CHECKED} />
+									<label class="" for="m_{MOD_VALUE}">{MOD_NAME}</label>
+								</div>
 
-<table summary="" cellpadding="0" cellspacing="0" border="0" width="330">
-<tr>
-	<td colspan="4"><h3>{SECTION_PAGES}</h3></td>
-</tr>
-<tr>
-	<td><input name="pages_view" id="pages_view" type="checkbox" value="1" {pages_view_checked} /></td>
-	<td><label for="pages_view">{TEXT_VIEW}</label></td>
-	<td><input name="pages_add" id="pages_add" type="checkbox" value="1" {pages_add_checked} /></td>
-	<td>
-		<label for="pages_add">{TEXT_ADD}</label>
-		&nbsp;
-		(<input name="pages_add_l0" id="pages_add_l0" type="checkbox" value="1" {pages_add_l0_checked} />
-		<label for="pages_add_l0">{TEXT_LEVEL} 0</label>)
-	</td>
-</tr>
-<tr>
-	<td><input name="pages_settings" id="pages_settings" type="checkbox" value="1" {pages_settings_checked} /></td>
-	<td><label for="pages_settings">{TEXT_MODIFY_SETTINGS}</label></td>
-	<td><input name="pages_modify" id="pages_modify" type="checkbox" value="1" {pages_modify_checked} /></td>
-	<td><label for="pages_modify">{TEXT_MODIFY_CONTENT}</label></td>
-</tr>
-<tr>
-	<td><input name="pages_intro" id="pages_intro" type="checkbox" value="1" {pages_intro_checked} /></td>
-	<td><label for="pages_intro">{HEADING_MODIFY_INTRO_PAGE}</label></td>
-	<td><input name="pages_delete" id="pages_delete" type="checkbox" value="1" {pages_delete_checked} /></td>
-	<td><label for="pages_delete">{TEXT_DELETE}</label></td>
-</tr>
-<tr>
-	<td colspan="4"><h3>{SECTION_MEDIA}</h3></td>
-</tr>
-<tr>
-	<td><input name="media_view" id="media_view" type="checkbox" value="1" {media_view_checked} /></td>
-	<td><label for="media_view">{TEXT_VIEW}</label></td>
-	<td><input name="media_upload" id="media_upload" type="checkbox" value="1" {media_upload_checked} /></td>
-	<td><label for="media_upload">{TEXT_UPLOAD_FILES}</label></td>
-</tr>
-<tr>
-	<td><input name="media_rename" id="media_rename" type="checkbox" value="1" {media_rename_checked} /></td>
-	<td><label for="media_rename">{TEXT_RENAME}</label></td>
-	<td><input name="media_delete" id="media_delete" type="checkbox" value="1" {media_delete_checked} /></td>
-	<td><label for="media_delete">{TEXT_DELETE}</label></td>
-</tr>
-<tr>
-	<td><input name="media_create" id="media_create" type="checkbox" value="1" {media_create_checked} /></td>
-	<td><label for="media_create">{TEXT_CREATE_FOLDER}</label></td>
-	<td>&nbsp;</td>
-	<td>&nbsp;</td>
-</tr>
-<tr>
-	<td colspan="4"><h3>{SECTION_MODULES}</h3></td>
-</tr>
-<tr>
-	<td><input name="modules_view" id="modules_view" type="checkbox" value="1" {modules_view_checked} /></td>
-	<td><label for="modules_view">{TEXT_VIEW}</label></td>
-	<td><input name="modules_install" id="modules_install" type="checkbox" value="1" {modules_install_checked} /></td>
-	<td><label for="modules_install">{TEXT_ADD}</label></td>
-</tr>
-<tr>
-	<td><input name="modules_uninstall" id="modules_uninstall" type="checkbox" value="1" {modules_uninstall_checked} /></td>
-	<td><label for="modules_uninstall">{TEXT_DELETE}</label></td>
-	<td>&nbsp;</td>
-	<td>&nbsp;</td>
-</tr>
-<tr>
-	<td colspan="4"><h3>{SECTION_TEMPLATES}</h3></td>
-</tr>
-<tr>
-	<td><input name="templates_view" id="templates_view" type="checkbox" value="1" {templates_view_checked} /></td>
-	<td><label for="templates_view">{TEXT_VIEW}</label></td>
-	<td><input name="templates_install" id="templates_install" type="checkbox" value="1" {templates_install_checked} /></td>
-	<td><label for="templates_install">{TEXT_ADD}</label></td>
-</tr>
-<tr>
-	<td><input name="templates_uninstall" id="templates_uninstall" type="checkbox" value="1" {templates_uninstall_checked} /></td>
-	<td><label for="templates_uninstall">{TEXT_DELETE}</label></td>
-	<td>&nbsp;</td>
-	<td>&nbsp;</td>
-</tr>
-<tr>
-	<td colspan="4"><h3>{SECTION_LANGUAGES}</h3></td>
-</tr>
-<tr>
-	<td><input name="languages_view" id="languages_view" type="checkbox" value="1" {languages_view_checked} /></td>
-	<td><label for="languages_view">{TEXT_VIEW}</label></td>
-	<td><input name="languages_install" id="languages_install" type="checkbox" value="1" {languages_install_checked} /></td>
-	<td><label for="languages_install">{TEXT_ADD}</label></td>
-</tr>
-<tr>
-	<td><input name="languages_uninstall" id="languages_uninstall" type="checkbox" value="1" {languages_uninstall_checked} /></td>
-	<td><label for="languages_uninstall">{TEXT_DELETE}</label></td>
-	<td>&nbsp;</td>
-	<td>&nbsp;</td>
-</tr>
-<tr>
-	<td colspan="4"><h3>{SECTION_SETTINGS}</h3></td>
-</tr>
-<tr>
-	<td><input name="settings_basic" id="settings_basic" type="checkbox" value="1" {settings_basic_checked} /></td>
-	<td><label for="settings_basic">{TEXT_BASIC}</label></td>
-	<td><input name="settings_advanced" id="settings_advanced" type="checkbox" value="1" {settings_advanced_checked} /></td>
-	<td><label for="settings_advanced">{TEXT_ADVANCED}</label></td>
-</tr>
-<tr>
-	<td colspan="4"><h3>{SECTION_USERS}</h3></td>
-</tr>
-<tr>
-	<td><input name="users_view" id="users_view" type="checkbox" value="1" {users_view_checked} /></td>
-	<td><label for="users_view">{TEXT_VIEW}</label></td>
-	<td><input name="users_add" id="users_add" type="checkbox" value="1" {users_add_checked} /></td>
-	<td><label for="users_add">{TEXT_ADD}</label></td>
-</tr>
-<tr>
-	<td><input name="users_modify" id="users_modify" type="checkbox" value="1" {users_modify_checked} /></td>
-	<td><label for="users_modify">{TEXT_MODIFY}</label></td>
-	<td><input name="users_delete" id="users_delete" type="checkbox" value="1" {users_delete_checked} /></td>
-	<td><label for="users_delete">{TEXT_DELETE}</label></td>
-</tr>
-<tr>
-	<td colspan="4"><h3>{SECTION_GROUPS}</h3></td>
-
-</tr>
-<tr>
-	<td><input name="groups_view" id="groups_view" type="checkbox" value="1" {groups_view_checked} /></td>
-	<td><label for="groups_view">{TEXT_VIEW}</label></td>
-	<td><input name="groups_add" id="groups_add" type="checkbox" value="1" {groups_add_checked} /></td>
-	<td><label for="groups_add">{TEXT_ADD}</label></td>
-</tr>
-<tr>
-	<td><input name="groups_modify" id="groups_modify" type="checkbox" value="1" {groups_modify_checked} /></td>
-	<td><label for="groups_modify">{TEXT_MODIFY}</label></td>
-	<td><input name="groups_delete" id="groups_delete" type="checkbox" value="1" {groups_delete_checked} /></td>
-	<td><label for="groups_delete">{TEXT_DELETE}</label></td>
-</tr>
-<tr>
-	<td colspan="4">
-		<h3>{SECTION_ADMINTOOLS}</h3>
-	</td>
-</tr>
-<tr>
-	<td><input name="admintools_settings" id="admintools_settings" type="checkbox" value="1" {admintools_settings_checked} /></td>
-	<td><label for="admintools_settings">{TEXT_MODIFY_SETTINGS}</label></td>
-	<td>&nbsp;</td>
-	<td>&nbsp;</td>
-</tr>
-</table>
-
-
-	</td>
-</tr>
-</table>
-
-<table summary="" cellpadding="2" cellspacing="0" border="0" width="100%" style="padding-top: 5px; padding-bottom: 5px;">
-<tr>
-	<td valign="top" align="left" width="150">{TEXT_MODULE_PERMISSIONS}:</td>
-	<td valign="top" align="left">
-		<ul style="margin: 0; padding: 0; list-style: none;">
-			<!-- BEGIN module_list_block -->
-			<li>
-				<input type="checkbox" name="module_permissions[]" id="m_{VALUE}" value="{VALUE}" {CHECKED} />
-				<label for="m_{VALUE}">{NAME}</label>
 			</li>
-			<!-- END module_list_block -->
+		<!-- END pages_module_list_block -->
 		</ul>
-	</td>
-	<td valign="top" align="left" width="150">{TEXT_TEMPLATE_PERMISSIONS}:</td>
-	<td valign="top" align="left">
-		<ul style="margin: 0; padding: 0; list-style: none;">
+						</div>
+					</div>
+				</div>
+				<div class="cleft col_width33">
+					<div class="col_content">
+                        {HEADER_MODULE_FUNCTION}
+						<div class="mbox curved min_h100" style="overflow: hidden;">
+							<ul style="margin: 0; padding: 0; ">
+		<!-- BEGIN tools_module_list_block -->
+								<li class="c100">
+                                    {MODULE_FUNCTION}
+								<div>
+									<input class="radio" type="checkbox" name="module_permissions[]" id="m_{ADM_VALUE}" value="{ADM_VALUE}" {ADM_CHECKED} />
+									<label class="" for="m_{ADM_VALUE}">{ADM_NAME}</label>
+								</div>
+								</li>
+		<!-- END tools_module_list_block -->
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="cleft col_width33">
+					<div class="col_content">
+                        {HEADER_TEMPLATE_FUNCTION}
+						<div class="mbox curved min_h100" style="overflow: hidden;">
+							<ul style="margin: 0; padding: 0; ">
 			<!-- BEGIN template_list_block -->
-			<li>
-				<input type="checkbox" name="template_permissions[]" id="t_{VALUE}" value="{VALUE}" {CHECKED} />
-				<label for="t_{VALUE}">{NAME}</label>
+								<li class="c100">
+                                    {TEMPLATE_FUNCTION}
+									<input class="radio" type="checkbox" name="template_permissions[]" id="m_{TMP_VALUE}" value="{TMP_VALUE}" {TMP_CHECKED} />
+									<label class="" for="m_{TMP_VALUE}">{TMP_NAME}</label>
 			</li>
 			<!-- END template_list_block -->
 		</ul>
-	</td>
-</tr>
-<tr style="text-align:center;width:100%">
-    <td>&nbsp;</td>
-	<td style="text-align:right;">
-		<input type="submit" name="save" value="{SUBMIT_TITLE}" />
-	</td>
-	<td style="text-align:left;">
-		<input type="reset" name="reset" value="{TEXT_RESET}" />
-	</td>
-    <td>&nbsp;</td>
-</tr>
-</table>
-</form>
+						</div>
+					</div>
+				</div>
+				<hr class="clear" />
+				<div class="col_content">
+					<input type="submit" name="{ACTION_HANDLE}" value="{SUBMIT_TITLE}" />
+					<input type="submit" name="action_cancel" value="{TEXT_CANCEL}" />
+					<input type="reset" name="reset" value="{TEXT_RESET}" />
+		 	        <input class="cright" type="submit" name="advanced_action" style="{DISPLAY_ADVANCED}" value="{ADVANCED_BUTTON}" />
+				</div>
+				<br class="clear ie-clearing none" />
+	<!-- END show_cmd_permission_block -->
+		 	</form>
 
-
-<form name="advanced" action="{ADVANCED_LINK}" method="post">
-<input type="hidden" name="group_id" value="{GROUP_ID}" />
-<input type="hidden" name="action" value="modify" />
-{FTAN}
-<table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
-<tr>
-    <td>&nbsp;</td>
-	<td style="text-align:center;">
-		<input type="submit" name="advanced" onclick="window.location = '{ADVANCED_LINK}';" value="{ADVANCED_BUTTON}" />
-	</td>
-    <td>&nbsp;</td>
-</tr>
-</table>
-</form>
+		</div>
 <!-- END main_block -->

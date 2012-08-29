@@ -4,7 +4,7 @@
  * @category        admin
  * @package         users
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -44,10 +44,12 @@ switch ($action):
 
 			// Setup template object, parse vars to it, then parse it
 			// Create new template object
-			$template = new Template(dirname($admin->correct_theme_source('users_form.htt')));
+			$template = new Template(dirname($admin->correct_theme_source('users_form.htt')),'keep');
 			// $template->debug = true;
 			$template->set_file('page', 'users_form.htt');
 			$template->set_block('page', 'main_block', 'main');
+			$template->set_block('main_block', 'show_modify_loginname_block', 'show_modify_loginname');
+			$template->set_block('main_block', 'show_add_loginname_block', 'show_add_loginname');
 			$template->set_var(	array(
 								'ACTION_URL' => ADMIN_URL.'/users/save.php',
 								'SUBMIT_TITLE' => $TEXT['SAVE'],
@@ -166,12 +168,14 @@ switch ($action):
 								'TEXT_NONE' => $TEXT['NONE'],
 								'TEXT_HOME_FOLDER' => $TEXT['HOME_FOLDER'],
 								'USERNAME_FIELDNAME' => $username_fieldname,
-								'CHANGING_PASSWORD' => $MESSAGE['USERS']['CHANGING_PASSWORD'],
+								'CHANGING_PASSWORD' => $MESSAGE['USERS_CHANGING_PASSWORD'],
 								'HEADING_MODIFY_USER' => $HEADING['MODIFY_USER']
 								)
 						);
 
 			// Parse template object
+			$template->parse('show_modify_loginname', 'show_modify_loginname_block', true);
+			$template->parse('show_add_loginname', '', true);
 			$template->parse('main', 'main_block', false);
 			$template->pparse('output', 'page');
 			// Print admin footer

@@ -4,7 +4,7 @@
  * @category        admin
  * @package         users
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -25,7 +25,7 @@ unset($_GET);
 
 // Setup template object, parse vars to it, then parse it
 // Create new template object
-$template = new Template(dirname($admin->correct_theme_source('users.htt')));
+$template = new Template(dirname($admin->correct_theme_source('users.htt')),'keep');
 // $template->debug = true;
 
 $template->set_file('page', 'users.htt');
@@ -108,7 +108,7 @@ $template->set_var(array(
 		'TEXT_MODIFY' => $TEXT['MODIFY'],
 		'TEXT_DELETE' => $TEXT['DELETE'],
 		'TEXT_MANAGE_GROUPS' => ( $admin->get_permission('groups') == true ) ? $TEXT['MANAGE_GROUPS'] : "**",
-		'CONFIRM_DELETE' => (($iUserStatus == 1) ? $TEXT['ARE_YOU_SURE'] : $MESSAGE['USERS']['CONFIRM_DELETE'])
+		'CONFIRM_DELETE' => (($iUserStatus == 1) ? $TEXT['ARE_YOU_SURE'] : $MESSAGE['USERS_CONFIRM_DELETE'])
 		)
 );
 if ( $admin->get_permission('groups') == true ) $template->parse("groups", "manage_groups_block", true);
@@ -118,10 +118,12 @@ $template->pparse('output', 'page');
 
 // Setup template object, parse vars to it, then parse it
 // Create new template object
-$template = new Template(dirname($admin->correct_theme_source('users_form.htt')));
+$template = new Template(dirname($admin->correct_theme_source('users_form.htt')),'keep');
 // $template->debug = true;
 $template->set_file('page', 'users_form.htt');
 $template->set_block('page', 'main_block', 'main');
+$template->set_block('main_block', 'show_modify_loginname_block', 'show_modify_loginname');
+$template->set_block('main_block', 'show_add_loginname_block', 'show_add_loginname');
 $template->set_var('DISPLAY_EXTRA', 'display:none;');
 $template->set_var('ACTIVE_CHECKED', ' checked="checked"');
 $template->set_var('ACTION_URL', ADMIN_URL.'/users/add.php');
@@ -129,6 +131,10 @@ $template->set_var('SUBMIT_TITLE', $TEXT['ADD']);
 $template->set_var('FTAN', $admin->getFTAN());
 // insert urls
 $template->set_var(array(
+		'USER_ID' => '',
+		'USERNAME' => '',
+		'DISPLAY_NAME' => '',
+		'EMAIL' => '',
 		'ADMIN_URL' => ADMIN_URL,
 		'WB_URL' => WB_URL,
 		'THEME_URL' => THEME_URL
@@ -215,11 +221,13 @@ $template->set_var(array(
 			'TEXT_NONE' => $TEXT['NONE'],
 			'TEXT_HOME_FOLDER' => $TEXT['HOME_FOLDER'],
 			'USERNAME_FIELDNAME' => $username_fieldname,
-			'CHANGING_PASSWORD' => $MESSAGE['USERS']['CHANGING_PASSWORD']
+			'CHANGING_PASSWORD' => $MESSAGE['USERS_CHANGING_PASSWORD']
 			)
 	);
 
 // Parse template for add user form
+$template->parse('show_modify_loginname', '', true);
+$template->parse('show_add_loginname', 'show_add_loginname_block', true);
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
 
