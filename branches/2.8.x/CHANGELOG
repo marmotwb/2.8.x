@@ -13,6 +13,9 @@ Legend:
 
 
 
+30 Aug-2012 Build 1727 Dietmar Woellbrink (Luisehahne)
+# fixed upgrading group systempermission by upgrading WebsiteBaker
+! set svn properties /media/upload.php
 30 Aug-2012 Build 1726 Dietmar Woellbrink (Luisehahne)
 ! change multi-dimensional arrays (variables) to similar arrays
 ! change message if uploaded file exists
