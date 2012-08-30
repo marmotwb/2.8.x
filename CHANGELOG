@@ -13,6 +13,8 @@ Legend:
 
 
 
+30 Aug-2012 Build 1725 Dietmar Woellbrink (Luisehahne)
++ add missing preferences rights for sysadmin in install
 30 Aug-2012 Build 1724 Dietmar Woellbrink (Luisehahne)
 # fixed form submission output if no entry exist
 30 Aug-2012 Build 1723 Dietmar Woellbrink (Luisehahne)
