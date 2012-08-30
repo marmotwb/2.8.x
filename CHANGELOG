@@ -13,6 +13,9 @@ Legend:
 
 
 
+30 Aug-2012 Build 1726 Dietmar Woellbrink (Luisehahne)
+! change multi-dimensional arrays (variables) to similar arrays
+! change message if uploaded file exists
 30 Aug-2012 Build 1725 Dietmar Woellbrink (Luisehahne)
 + add missing preferences rights for sysadmin in install
 30 Aug-2012 Build 1724 Dietmar Woellbrink (Luisehahne)
