@@ -3,16 +3,15 @@
  *
  * @category        admin
  * @package         media
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich,WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date:  $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 
@@ -48,7 +47,7 @@ $rootlink = 'index.php?dir=';
 // Check to see if target contains ../
 if (!check_media_path($target, false))
 {
-	$admin->print_error($MESSAGE['MEDIA']['TARGET_DOT_DOT_SLASH'] );
+	$admin->print_error($MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] );
 }
 
 // Create relative path of the target location for the file
@@ -170,11 +169,16 @@ if (isset($_POST['unzip']) && isset($filename1) && file_exists($filename1) ) {
 unset($list);
 
 if($sum_files == 1) {
-	$admin->print_success($sum_files.' '.$MESSAGE['MEDIA']['SINGLE_UPLOADED'] );
+	$admin->print_success($sum_files.' '.$MESSAGE['MEDIA_SINGLE_UPLOADED'] );
 } elseif($sum_files > 1) {
-	$admin->print_success($sum_files.' '.$MESSAGE['MEDIA']['UPLOADED'] );
+	$admin->print_success($sum_files.' '.$MESSAGE['MEDIA_UPLOADED'] );
 } else {
-	$admin->print_error($MESSAGE['MEDIA_NO_FILE_UPLOADED'] );
+
+	if(file_exists($relative.$filename)) {
+    	$admin->print_error($MESSAGE['MEDIA_FILE_EXISTS'] );
+    } else {
+    	$admin->print_error($MESSAGE['MEDIA_NO_FILE_UPLOADED'] );
+    }
 }
 
 // Print admin

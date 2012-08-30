@@ -3,9 +3,8 @@
  *
  * @category        admin
  * @package         pages
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich,WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -46,10 +45,10 @@ if(file_put_contents($filename, utf8_encode($content))===false){
 	$admin->print_error($MESSAGE['PAGES_NOT_SAVED']);
 } else {
 	change_mode($filename);
-	$admin->print_success($MESSAGE['PAGES']['INTRO_SAVED']);
+	$admin->print_success($MESSAGE['PAGES_INTRO_SAVED']);
 }
 if(!is_writable($filename)) {
-	$admin->print_error($MESSAGE['PAGES']['INTRO_NOT_WRITABLE']);
+	$admin->print_error($MESSAGE['PAGES_INTRO_NOT_WRITABLE']);
 }
 
 // Print admin footer
