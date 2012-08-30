@@ -135,7 +135,7 @@ if(($directory == '') or ($directory==$currentHome)) {
 // Insert values
 $template->set_var(array(
 					'THEME_URL' => THEME_URL,
-					// 'THEME_URL' => '',
+					'WB_URL' => WB_URL,
 					'CURRENT_DIR' => $directory,
 					'PARENT_DIR_LINK' => $parent_dir_link,
 					'DISPLAY_UP_ARROW' => $display_up_arrow,
