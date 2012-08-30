@@ -129,7 +129,7 @@ function add_slashes($input) {
 // Begin check to see if form was even submitted
 // Set error if no post vars found
 if(!isset($_POST['website_title'])) {
-	set_error('Please fill-in the form below');
+	set_error('Please fill-in the wesite title below');
 }
 // End check to see if form was even submitted
 
@@ -542,7 +542,10 @@ if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 	// Insert default data
 
 	// Admin group
-	$full_system_permissions = 'pages,pages_view,pages_add,pages_add_l0,pages_settings,pages_modify,pages_intro,pages_delete,media,media_view,media_upload,media_rename,media_delete,media_create,addons,modules,modules_view,modules_install,modules_uninstall,templates,templates_view,templates_install,templates_uninstall,languages,languages_view,languages_install,languages_uninstall,settings,settings_basic,settings_advanced,access,users,users_view,users_add,users_modify,users_delete,groups,groups_view,groups_add,groups_modify,groups_delete,admintools';
+	$full_system_permissions  = 'access,addons,admintools,admintools_view,groups,groups_add,groups_delete,groups_modify,groups_view,';
+	$full_system_permissions .= 'languages,languages_install,languages_uninstall,languages_view,media,media_create,media_delete,media_rename,media_upload,media_view,';
+	$full_system_permissions .= 'modules,modules_install,modules_uninstall,modules_view,pages,pages_add,pages_add_l0,pages_delete,pages_intro,pages_modify,pages_settings,pages_view,';
+	$full_system_permissions .= 'preferences,preferences_view,settings,settings_advanced,settings_basic,settings_view,templates,templates_install,templates_uninstall,templates_view,users,users_add,users_delete,users_modify,users_view';
 	$insert_admin_group = "INSERT INTO `".TABLE_PREFIX."groups` VALUES ('1', 'Administrators', '$full_system_permissions', '', '')";
 	$database->query($insert_admin_group);
 	// Admin user
