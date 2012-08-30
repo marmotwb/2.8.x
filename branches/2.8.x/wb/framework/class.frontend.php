@@ -190,10 +190,15 @@ class frontend extends wb {
 			// Page keywords
 			$this->page_keywords=$this->page['keywords'];
 			// Page link
-			$this->link=$this->page_link($this->page['link']);
-			$_SESSION['PAGE_ID'] = $this->page_id;
+
             $bCanRedirect = ($this->visibility == 'registered' || $this->visibility == 'privat');
+
+			$this->link=$this->page_link($this->page['link']);
+
+			$_SESSION['PAGE_ID'] = $this->page_id;
+
 			$_SESSION['HTTP_REFERER'] = $bCanRedirect != true ? $this->link : WB_URL;
+            $_SESSION['HTTP_REFERER'] = !$this->is_authenticated() ? $this->link : $_SESSION['HTTP_REFERER'];
 
 		// End code to set details as either variables of constants
 		}

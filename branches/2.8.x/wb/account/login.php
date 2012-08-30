@@ -53,11 +53,14 @@ $wb = new frontend();
 // Create new login app
 $requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
 $redirect  = strip_tags(isset(${$requestMethod}['redirect']) ? ${$requestMethod}['redirect'] : '');
-$redirect = ((isset($_SERVER['HTTP_REFERER']) && empty($redirect)) ?  $_SERVER['HTTP_REFERER'] : $redirect);
+//$redirect = ( (empty($redirect)) ?  $_SERVER['HTTP_REFERER'] : $redirect);
 $_SESSION['HTTP_REFERER'] = str_replace(WB_URL,'',$redirect);
 
 $loginUrl  = WB_URL.'/account/login.php';
 $loginUrl .= (!empty($redirect) ? '?redirect=' .$_SESSION['HTTP_REFERER'] : '');
+
+//print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
+//print_r( $redirect ); print '</pre>';
 
 $ThemeUrl  = WB_URL.$wb->correct_theme_source('warning.html');
 // Setup template object, parse vars to it, then parse it
