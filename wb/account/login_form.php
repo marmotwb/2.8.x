@@ -42,6 +42,9 @@ if(defined('SMART_LOGIN') AND SMART_LOGIN == 'true') {
 
 $thisApp->redirect_url = (isset($thisApp->redirect_url) && ($thisApp->redirect_url!='')  ? $thisApp->redirect_url : $_SESSION['HTTP_REFERER'] );
 
+//print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
+//print_r( $thisApp->redirect_url ); print '</pre>';
+
 // set template file and assign module and template block
 	$oTpl = new Template(dirname(__FILE__).'/htt','keep');
 	$oTpl->set_file('page', 'login.htt');

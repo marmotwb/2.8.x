@@ -13,6 +13,8 @@ Legend:
 
 
 
+30 Aug-2012 Build 1728 Dietmar Woellbrink (Luisehahne)
+! change redirect logic for registered pages
 30 Aug-2012 Build 1727 Dietmar Woellbrink (Luisehahne)
 # fixed upgrading group systempermission by upgrading WebsiteBaker
 ! set svn properties /media/upload.php

@@ -26,7 +26,12 @@ if(defined('WB_PATH') == false)
 // Check if the user has already submitted the form, otherwise show it
 $message = $MESSAGE['FORGOT_PASS_NO_DATA'];
 $errMsg ='';
+
 $redirect_url = (isset($redirect_url) && ($redirect_url!='')  ? $redirect_url : $_SESSION['HTTP_REFERER'] );
+
+//print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
+//print_r( $redirect_url ); print '</pre>';
+
 if(isset($_POST['email']) && $_POST['email'] != "" )
 {
 	$email = strip_tags($_POST['email']);
@@ -123,6 +128,7 @@ if( ($errMsg=='') && ($message != '')) {
 		'ACTION_URL' => WB_URL.'/account/forgot.php',
 		'LOGIN_URL' => WB_URL.'/account/login.php',
 		'REDIRECT_URL' => $redirect_url,
+		'URL' => $redirect_url,
 		'WB_URL' => WB_URL,
 		'THEME_URL' => THEME_URL,
 		'HTTP_REFERER' => $_SESSION['HTTP_REFERER'],
