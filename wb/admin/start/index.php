@@ -93,7 +93,8 @@ if( ($admin->get_user_id()==1) &&
 	if($wb_revision = $database->get_one($sql)) {
 
 	}
-	if (version_compare($wb_revision, '1691' ) < 0) {
+
+	if ((version_compare($wb_revision, '1800' )  < 0)&& !defined('GROUPS_UPDATED')) {
 		require_once (ADMIN_PATH.'/groups/upgradePermissions.php');
 		// build new or changed $sTempPermissions
 		if(upgrade_group_system_permissions()){
