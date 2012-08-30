@@ -30,7 +30,7 @@ if(!defined('WB_PATH')) {
 	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
-
+    require_once(WB_PATH.'/framework/class.admin.php');
 	function do_eval($_x_codedata, $_x_varlist, &$wb_page_data)
 	{
 		extract($_x_varlist, EXTR_SKIP);
@@ -112,7 +112,7 @@ if(!defined('WB_PATH')) {
 	function evalDroplets( &$wb_page_data, $max_loops = 3 ) {
 		$max_loops = ((int)$max_loops = 0 ? 3 : (int)$max_loops);
 		while( (processDroplets($wb_page_data) == true) && ($max_loops > 0))
-		{ 
+		{
 			$max_loops--;
 		}
 		return $wb_page_data;
