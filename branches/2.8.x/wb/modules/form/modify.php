@@ -235,10 +235,16 @@ if($query_submissions = $database->query($sql)) {
 		'TEXT_EMAIL' => $TEXT['EMAIL'],
 		'MOD_FORM_FROM' => $MOD_FORM['FROM'],
 		'TEXT_NONE_FOUND' => '',
+		'SUBMISSION_ID' => '',
+		'SUBMISSION_CREATE_WHEN' => '',
+		'SUBMISSION_BY' => '',
+		'SUBMISSION_EMAIL' => '',
+		'loop_submmission' => '',
 		)
 	);
 
-	$oTpl->set_block('main_block', 'language_list_block', 'language_list');
+//	$oTpl->set_block('main_block', 'language_list_block', 'language_list');
+	$oTpl->set_block('main_block', 'loop_submmission_block', 'loop_submmission');
 	if($query_submissions->numRows() > 0) {
 //print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
 //print_r( $_SERVER ); print '</pre>'; // flush ();sleep(10); die();
@@ -250,7 +256,7 @@ if($query_submissions = $database->query($sql)) {
 		// List submissions
         $currentrow = 0;
 		$row = 'a';
-    	$oTpl->set_block('main_block', 'loop_submmission_block', 'loop_submmission');
+//    	$oTpl->set_block('main_block', 'loop_submmission_block', 'loop_submmission');
 		while($submission = $query_submissions->fetchRow(MYSQL_ASSOC) )
         {
 			$currentrow++;
@@ -288,7 +294,8 @@ if($query_submissions = $database->query($sql)) {
     	);
 
 	} else {
-			$oTpl->set_var('TEXT_NONE_FOUND', $TEXT['NONE_FOUND']);
+    	$oTpl->set_block('loop_submmission_block', '');
+		$oTpl->set_var('TEXT_NONE_FOUND', $TEXT['NONE_FOUND']);
     }
 } else {
 	echo $database->get_error().'<br />';

@@ -13,6 +13,11 @@ Legend:
 
 
 
+30 Aug-2012 Build 1724 Dietmar Woellbrink (Luisehahne)
+# fixed form submission output if no entry exist
+30 Aug-2012 Build 1723 Dietmar Woellbrink (Luisehahne)
+# fixed missing class.admin
+# check droplet skype if no existing user 
 30 Aug-2012 Build 1722 Dietmar Woellbrink (Luisehahne)
 # fixed missing login template after install
 29 Aug-2012 Build 1721 Dietmar Woellbrink (Luisehahne)
