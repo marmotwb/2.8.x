@@ -13,6 +13,8 @@ Legend:
 
 
 
+30 Aug-2012 Build 1722 Dietmar Woellbrink (Luisehahne)
+# fixed missing login template after install
 29 Aug-2012 Build 1721 Dietmar Woellbrink (Luisehahne)
 # fixed admin/settings, remove unknown variables
 29 Aug-2012 Build 1720 Dietmar Woellbrink (Luisehahne)
