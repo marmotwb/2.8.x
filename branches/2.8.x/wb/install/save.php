@@ -683,7 +683,7 @@ if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 
 $ThemeUrl = WB_URL.$admin->correct_theme_source('warning.html');
 // Setup template object, parse vars to it, then parse it
-$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('login.htt'));
+$ThemePath = realpath(WB_PATH.$admin->correct_theme_source('loginBox.htt'));
 
 // Log the user in and go to Website Baker Administration
 $thisApp = new Login(
@@ -700,7 +700,7 @@ $thisApp = new Login(
 				'LOGIN_URL' => ADMIN_URL."/login/index.php",
 				'DEFAULT_URL' => ADMIN_URL."/start/index.php",
 				'TEMPLATE_DIR' => $ThemePath,
-				'TEMPLATE_FILE' => 'login.htt',
+				'TEMPLATE_FILE' => 'loginBox.htt',
 				'FRONTEND' => false,
 				'FORGOTTEN_DETAILS_APP' => ADMIN_URL."/login/forgot/index.php",
 				'USERS_TABLE' => TABLE_PREFIX."users",
