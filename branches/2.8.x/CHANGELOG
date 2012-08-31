@@ -13,6 +13,8 @@ Legend:
 
 
 
+31 Aug-2012 Build 1736 Dietmar Woellbrink (Luisehahne)
+! replace more invalid char in secureform.mtab to work with settings_page
 31 Aug-2012 Build 1735 Dietmar Woellbrink (Luisehahne)
 # fixed missing $admin-print_header() by security warning
 # fixed secureform.mtab because settings_page failed
