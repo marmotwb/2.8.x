@@ -17,6 +17,7 @@
 var WB_URL = '{WB_URL}';
 var THEME_URL = '{THEME_URL}';
 var ADMIN_URL = '{ADMIN_URL}';
+var LANGUAGE = '{LANGUAGE}';
 </script>
 <script type="text/javascript">
 function confirm_link(message, url) {

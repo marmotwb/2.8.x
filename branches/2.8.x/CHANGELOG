@@ -13,6 +13,8 @@ Legend:
 
 
 
+31 Aug-2012 Build 1730 Dietmar Woellbrink (Luisehahne)
++ add gobal javascript var LANGUAGE
 30 Aug-2012 Build 1729 Dietmar Woellbrink (Luisehahne)
 ! Fixed missin WB_URL in media_browse
 30 Aug-2012 Build 1728 Dietmar Woellbrink (Luisehahne)
