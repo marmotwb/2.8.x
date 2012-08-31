@@ -439,7 +439,16 @@ echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
  */
 echo "Adding page_icon_dir to settings table";
 $cfg = array(
-	'page_icon_dir' => (defined('PAGE_ICON_DIR') ? PAGE_ICON_DIR : '/templates/*/title_images'),
+	'page_extended' => (defined('PAGE_ICON_DIR') ? PAGE_ICON_DIR : '/templates/*/title_images'),
+);
+
+echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+/**********************************************************
+ *  - Adding page_extended to settings table
+ */
+echo "Adding ppage_extended to settings table";
+$cfg = array(
+	'page_extended' => (defined('PAGE_EXTENDED') ? PAGE_EXTENDED : 'true'),
 );
 
 echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");

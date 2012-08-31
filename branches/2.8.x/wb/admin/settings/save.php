@@ -154,7 +154,7 @@ if($advanced == '')
 }
 
 $allow_tags_in_fields = array('website_header', 'website_footer','website_signature');
-$allow_empty_values = array('website_header','website_footer','sec_anchor','pages_directory','page_spacer','website_signature');
+$allow_empty_values = array('website_header','website_footer','sec_anchor','pages_directory','page_spacer','website_signature,page_icon_dir');
 $disallow_in_fields = array('pages_directory', 'media_directory','wb_version');
 
 // Query current settings in the db, then loop through them and update the db with the new value
@@ -256,6 +256,6 @@ while($search_setting = $res_search->fetchRow())
 if($database->is_error()) {
 	$admin->print_error($database->get_error, $js_back );
 } else {
-	$admin->print_success($MESSAGE['SETTINGS']['SAVED'], $js_back );
+	$admin->print_success($MESSAGE['SETTINGS_SAVED'], $js_back );
 }
 $admin->print_footer();

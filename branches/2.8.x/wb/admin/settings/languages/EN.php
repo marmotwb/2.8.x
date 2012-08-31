@@ -6,3 +6,4 @@
  ****************************************************************************************/
 
 $TEXT['WEBSITE_SIGNATURE'] = 'Contact Signature';
+$TEXT['PAGE_EXTENDED'] = 'Extended Pagesettings';

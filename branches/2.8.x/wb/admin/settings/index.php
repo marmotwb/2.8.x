@@ -503,16 +503,32 @@ if($is_advanced)
 	// Work-out if developer infos feature is enabled
 	if(defined('DEV_INFOS') && DEV_INFOS == true)
 	{
-		$template->set_var('DEV_INFOS_ENABLED', $checked);
+		//$template->set_var('DEV_INFOS_ENABLED', $checked);
     	$template->set_var(array(
 				'DEV_INFOS_ENABLED' => $checked,
 				'DEV_INFOS_DISABLED' => '',
 				));
 	} else {
-		$template->set_var('DEV_INFOS_DISABLED', $checked);
+		//$template->set_var('DEV_INFOS_DISABLED', $checked);
     	$template->set_var(array(
 				'DEV_INFOS_DISABLED' => $checked,
 				'DEV_INFOS_ENABLED' => '',
+				));
+	}
+
+	// Work-out if developer infos feature is enabled
+	if(defined('PAGE_EXTENDED') && PAGE_EXTENDED == true)
+	{
+		//$template->set_var('DEV_INFOS_ENABLED', $checked);
+    	$template->set_var(array(
+				'PAGE_EXTENDED_ENABLED' => $checked,
+				'PAGE_EXTENDED_DISABLED' => '',
+				));
+	} else {
+		//$template->set_var('PAGE_EXTENDED_DISABLED', $checked);
+    	$template->set_var(array(
+				'PAGE_EXTENDED_DISABLED' => $checked,
+				'PAGE_EXTENDED_ENABLED' => '',
 				));
 	}
 
