@@ -13,6 +13,9 @@ Legend:
 
 
 
+31 Aug-2012 Build 1735 Dietmar Woellbrink (Luisehahne)
+# fixed missing $admin-print_header() by security warning
+# fixed secureform.mtab because settings_page failed
 31 Aug-2012 Build 1734 Dietmar Woellbrink (Luisehahne)
 # typofix in /install/save.php and /admin/settings_page.php
 31 Aug-2012 Build 1733 Dietmar Woellbrink (Luisehahne)

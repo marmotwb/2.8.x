@@ -301,7 +301,7 @@ class SecureForm {
 		$key = md5($this->_salt.rand().uniqid('', true));
 
 		//shorten hash a bit
-		$key = str_replace(array("=","$","+"),array("-","_",""),base64_encode(pack('H*',$key)));
+		$key = str_replace(array("=","$","+","/"),array("","","",""),base64_encode(pack('H*',$key)));
 
 		// the key is unique, so store it in list
 		if( !array_key_exists($key,  $_SESSION[$this->_idkey_name])) {

@@ -24,7 +24,7 @@ require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_settings',false);
 
 // Get page id
-if(!isset($_POST['page_id']) || (isset($_POST['page_id']) && preg_match('/[^0-9a-f]/i',$_POST['page_id'])) )
+if(!isset($_POST['page_id']) || (isset($_POST['page_id']) && preg_match('/[^0-9a-z]/i',$_POST['page_id'])) )
 {
 	header("Location: index.php");
 	exit(0);
@@ -32,6 +32,7 @@ if(!isset($_POST['page_id']) || (isset($_POST['page_id']) && preg_match('/[^0-9a
 //	$page_id = $admin->checkIDKEY('page_id');
 //	$page_id = (int)$_POST['page_id']; || preg_match('/[^0-9a-f]/i',$_POST['page_id'])
 	if((!($page_id = $admin->checkIDKEY('page_id')))) {
+		$admin->print_header();
 		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/index.php');
 	}
 }
