@@ -187,7 +187,7 @@ $admin = new admin('Pages', 'pages_settings');
 	$sTemplate = ($aCurrentPage['template'] == '' ? DEFAULT_TEMPLATE : $aCurrentPage['template']);
 	$sIconDir = str_replace('\\', '/', ((defined('PAGE_ICON_DIR') && PAGE_ICON_DIR != '') ? PAGE_ICON_DIR : MEDIA_DIRECTORY));
 	$sIconDir = str_replace('/*', '/'.$sTemplate, $sIconDir);
-	$bIconDirHide = (defined('PAGE_EXTENDED') && PAGE_EXTENDED == 'true') ? '' : 'hide';
+	$bIconDirHide = (defined('PAGE_EXTENDED') && PAGE_EXTENDED) ? '' : 'hide';
 //	$oTpl->set_var('ICON_DIR', WB_REL.$sIconDir);
 	$sHelp = replaceVars($mLang->HELP_PAGE_IMAGE_DIR, array('icon_dir'=>WB_REL.$sIconDir ) );
 
