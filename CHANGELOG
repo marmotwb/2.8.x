@@ -13,6 +13,8 @@ Legend:
 
 
 
+31 Aug-2012 Build 1734 Dietmar Woellbrink (Luisehahne)
+# typofix in /install/save.php and /admin/settings_page.php
 31 Aug-2012 Build 1733 Dietmar Woellbrink (Luisehahne)
 + forgot the jquery version.txt 
 31 Aug-2012 Build 1732 Dietmar Woellbrink (Luisehahne)

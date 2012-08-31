@@ -24,7 +24,7 @@ require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_settings',false);
 
 // Get page id
-if(!isset($_POST['page_id']) || (isset($_POST['page_id'])&& !preg_match('/[^0-9a-f]/i',$_POST['page_id'])) )
+if(!isset($_POST['page_id']) || (isset($_POST['page_id']) && preg_match('/[^0-9a-f]/i',$_POST['page_id'])) )
 {
 	header("Location: index.php");
 	exit(0);
