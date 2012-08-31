@@ -32,7 +32,7 @@
 				<label for="page_title">{TEXT_PAGE_TITLE}:</label>
 				<input type="text" id="page_title" name="page_title" value="{PAGE_TITLE}" />
 			</div>
-			<div>
+			<div class="{PAGE_EXTENDED_HIDE}">
 				<label for="page_icon" {p_page_icon_dir} style="background-image: url({THEME_URL}/icons/help_16.png);" >{TEXT_PAGE_ICON}:
 				</label>
 				<select id="page_icon" name="page_icon">
@@ -46,7 +46,7 @@
 				<label for="menu_title">{TEXT_MENU_TITLE}:</label>
 				<input type="text" id="menu_title" name="menu_title" value="{MENU_TITLE}" />
 			</div>
-			<div>
+			<div class="{PAGE_EXTENDED_HIDE}">
 				<label for="menu_icon_0" {p_menu_icon0_dir} style="background-image: url({THEME_URL}/icons/help_16.png);">{TEXT_MENU_ICON_0}:</label>
 					<select id="menu_icon_0" name="menu_icon_0">
 					<option value="0">--- {TEXT_NO_SELECTION} ---</option>
@@ -55,7 +55,7 @@
 				<!-- END menu_icon0_list_block -->
 				</select>
 			</div>
-			<div>
+			<div class="{PAGE_EXTENDED_HIDE}">
 				<label for="menu_icon_1" {p_menu_icon1_dir} style="background-image: url({THEME_URL}/icons/help_16.png);">{TEXT_MENU_ICON_1}:</label>
 					<select id="menu_icon_1" name="menu_icon_1">
 					<option value="0">--- {TEXT_NO_SELECTION} ---</option>
@@ -154,9 +154,11 @@
 	<!-- BEGIN admin_group_show_list_block -->
 		<div class="page-settings-centercol"> <!-- center column -->
 			<b>{TEXT_ADMINISTRATORS}</b><hr />
-			<u>{TEXT_GROUP}</u><br />
+			<p class="page_group" style="text-decoration: underline;">{TEXT_GROUP}</p>
 <!-- *** List of groups which can administrate this page *** -->
-			<ul style="list-style-type: none; margin: 0; padding: 0;">
+            <div class="page_group" style="height: 112px;max-height: 112px; margin: 0; padding: 5px 0 5px 0; overflow: auto;">
+            <div style="overflow: hidden;">
+			<ul style="list-style-type: none; margin: 0; padding: 5px 0 5px 0;">
 			<!-- BEGIN admin_group_list_block -->
 				<li>
 					<input type="checkbox" name="admin_groups[]" id="admin_group_{ID}" value="{ID}"{CHECKED}{DISABLED} />
@@ -164,8 +166,10 @@
 				</li>
 			<!-- END admin_group_list_block -->
 			</ul>
+            </div>
+            </div>
 			<hr />
-			<u>{TEXT_USER}</u><br />
+			<p class="page_user" style="text-decoration: underline;">{TEXT_USER}</p>
 <!-- *** List of users which can administrate this page *** -->
 			<select name="admin_users[]" multiple="multiple" size="{USER_LIST_SIZE}">
 				<option value="0">--- {TEXT_NO_SELECTION} ---</option>
@@ -178,9 +182,11 @@
 
 		<div id="allowed_viewers" class="page-settings-rightcol" style="{DISPLAY_VIEWERS}"> <!-- right column -->
 			<b>{TEXT_ALLOWED_VIEWERS}</b><hr />
-			<u>{TEXT_GROUP}</u><br />
+			<p style="text-decoration: underline;">{TEXT_GROUP}</p>
 <!-- *** List of groups which can see this page *** -->
-			<ul style="list-style-type:none;margin:0;padding:0;">
+            <div class="page_group" style="height: 112px;max-height: 112px; margin: 2px 0 2px 0; padding: 5px 0 5px 0; overflow: auto;">
+            <div style="overflow: hidden;">
+			<ul style="list-style-type:none;margin:0;padding: 5px 0 5px 0;">
 			<!-- BEGIN viewer_group_list_block -->
 				<li>
 					<input type="checkbox" name="viewing_groups[]" id="viewing_group_{ID}" value="{ID}"{CHECKED}{DISABLED} />
@@ -188,8 +194,10 @@
 				</li>
 			<!-- END viewer_group_list_block -->
 			</ul>
+            </div>
+            </div>
 			<hr />
-			<u>{TEXT_USER}</u><br />
+			<p class="page_user" style="text-decoration: underline;">{TEXT_USER}</p>
 <!-- *** List of users which can see this page *** -->
 			<select name="viewing_users[]" multiple="multiple" size="{USER_LIST_SIZE}">
 				<option value="0">--- {TEXT_NO_SELECTION} ---</option>

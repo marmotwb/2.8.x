@@ -479,6 +479,8 @@ if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 	." ('wbmailer_smtp_password', ''),"
 	." ('fingerprint_with_ip_octets', '2'),"
 	." ('secure_form_module', ''),"
+	." ('groups_updated', time(),"
+	." ('page_extended', 'true'),"
 	." ('mediasettings', '')";
 	$database->query($settings_rows);
 
