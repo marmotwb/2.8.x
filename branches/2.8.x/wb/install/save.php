@@ -479,7 +479,7 @@ if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 	." ('wbmailer_smtp_password', ''),"
 	." ('fingerprint_with_ip_octets', '2'),"
 	." ('secure_form_module', ''),"
-	." ('groups_updated', time(),"
+	." ('groups_updated', 'time()' ),"
 	." ('page_extended', 'true'),"
 	." ('mediasettings', '')";
 	$database->query($settings_rows);
@@ -650,6 +650,7 @@ if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 	if(file_exists(WB_PATH.'/install/languages')) {
 		// Unpack pre-packaged languages
 	}
+
 	$admin=new admin_dummy('Start','',false,false);
 	// Load addons into DB
 	$dirs['modules'] = WB_PATH.'/modules/';
