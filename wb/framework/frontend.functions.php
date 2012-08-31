@@ -459,10 +459,10 @@ function bind_jquery ($file_id='jquery')
 		/* include the Javascript jquery api  */
 		if( $file_id == 'jquery' AND file_exists(WB_PATH .'/include/jquery/jquery-min.js'))
         {
-            $wbpath = str_replace('\\','/',WB_PATH);  // fixed localhost problem with ie
+            $language = LANGUAGE;
 			$jquery_links .= "<script type=\"text/javascript\">\n"
                 ."var URL = '".WB_URL."';\n"
-               /* ."var WB_PATH = '".$wbpath."';\n" */
+                ."var LANGUAGE = '".$language."';\n"
                 ."var WB_URL = '".WB_URL."';\n"
                 ."var TEMPLATE_DIR = '".TEMPLATE_DIR."';\n"
                 ."</script>\n";
