@@ -13,6 +13,10 @@ Legend:
 
 
 
+05 Sep-2012 Build 1737 Dietmar Woellbrink (Luisehahne)
+# fixed sql statement groups_added in settings
+! set stored passwords in $session to empty string
+! installer now detect browser language and operating_system
 31 Aug-2012 Build 1736 Dietmar Woellbrink (Luisehahne)
 ! replace more invalid char in secureform.mtab to work with settings_page
 31 Aug-2012 Build 1735 Dietmar Woellbrink (Luisehahne)
