@@ -240,13 +240,14 @@ if (!function_exists('page_content')) {
 	 * @param boolean true to print $content, false return $content
 	 * @return void
 	 */
-	function page_content($block = 1, $echo=true) {
+	function page_content($block = 1) {
 		// Get outside objects
 		global $TEXT,$MENU,$HEADING,$MESSAGE;
 		global $globals;
 		global $database;
 		global $wb;
 		$admin = $wb;
+        $retVal = '';
 		if ($wb->page_access_denied==true) {
 	        echo $MESSAGE['FRONTEND_SORRY_NO_VIEWING_PERMISSIONS'];
 			return;
@@ -266,39 +267,33 @@ if (!function_exists('page_content')) {
 		if(!defined('PAGE_CONTENT') OR $block!=1)
         {
 			$page_id = intval($wb->page_id);
-/* move to class.frontend
-            // set session variable to save page_id only if PAGE_CONTENT is empty
-            $_SESSION['PAGE_ID'] = !isset($_SESSION['PAGE_ID']) ? $page_id : $_SESSION['PAGE_ID'];
-            // set to new value if page_id changed and not 0
-            if(($page_id != 0) && ($_SESSION['PAGE_ID'] <> $page_id))
-            {
-	            $_SESSION['PAGE_ID'] = $page_id;
-            }
-*/
+
 		// First get all sections for this page
 			$sql  = 'SELECT `section_id`, `module`, `publ_start`, `publ_end` ';
 			$sql .= 'FROM `'.TABLE_PREFIX.'sections` ';
 			$sql .= 'WHERE `page_id`='.$page_id.' AND `block`='.$block.' ';
 			$sql .= 'ORDER BY `position`';
-			if( !($query_sections = $database->query($sql)) ) { return; }
+			if( !($oSections = $database->query($sql)) ) { return; }
 		// If none were found, check if default content is supposed to be shown
-			if($query_sections->numRows() == 0) {
+			if($oSections->numRows() == 0) {
 				if($wb->default_block_content == 'none') { return; }
 				if (is_numeric($wb->default_block_content)) {
 					$page_id = $wb->default_block_content;
 				} else {
 					$page_id = $wb->default_page_id;
 				}
+
 				$sql  = 'SELECT `section_id`, `module`, `publ_start`, `publ_end` ';
 				$sql .= 'FROM `'.TABLE_PREFIX.'sections` ';
 				$sql .= 'WHERE `page_id`='.$page_id.' AND `block`='.$block.' ';
 				$sql .= 'ORDER BY `position`';
-				if( !($query_sections = $database->query($sql)) ) { return; }
+				if( !($oSections = $database->query($sql)) ) { return; }
 				// Still no cotent found? Give it up, there's just nothing to show!
-				if($query_sections->numRows() == 0) { return; }
+				if($oSections->numRows() == 0) { return; }
 			}
+
 			// Loop through them and include their module file
-			while($section = $query_sections->fetchRow()) {
+			while($section = $oSections->fetchRow()) {
 				// skip this section if it is out of publication-date
 				$now = time();
 				if( !(($now<=$section['publ_end'] || $section['publ_end']==0) && ($now>=$section['publ_start'] || $section['publ_start']==0)) ) {
@@ -306,35 +301,37 @@ if (!function_exists('page_content')) {
 				}
 				$section_id = $section['section_id'];
 				$module = $section['module'];
-				// make a anchor for every section.
-				if(defined('SEC_ANCHOR') && SEC_ANCHOR!='') {
-					echo '<a class="section_anchor" id="'.SEC_ANCHOR.$section_id.'" name="'.SEC_ANCHOR.$section_id.'"></a>';
-				}
                 // check if module exists - feature: write in errorlog
 				if(file_exists(WB_PATH.'/modules/'.$module.'/view.php')) {
 				// fetch content -- this is where to place possible output-filters (before highlighting)
 					ob_start(); // fetch original content
+				// make a anchor for every section
+    				if(defined('SEC_ANCHOR') && SEC_ANCHOR!='') {
+    					echo "\n".'<a class="section_anchor" id="'.SEC_ANCHOR.$section_id.'" name="'.SEC_ANCHOR.$section_id.'"></a>'."\n";
+    				}
 					require(WB_PATH.'/modules/'.$module.'/view.php');
 					$content = ob_get_clean();
 				} else {
 					continue;
 				}
+
 				// highlights searchresults
-				if(isset($_GET['searchresult']) && is_numeric($_GET['searchresult']) && !isset($_GET['nohighlight']) && isset($_GET['sstring']) && !empty($_GET['sstring'])) {
+				if(isset($_GET['searchresult']) && is_numeric($_GET['searchresult']) && !isset($_GET['nohighlight']) && isset($_GET['sstring']) && !empty($_GET['sstring']))
+                {
 					$arr_string = explode(" ", $_GET['sstring']);
-					if($_GET['searchresult']==2) { // exact match
+					if($_GET['searchresult']==2) {  //exact match
 						$arr_string[0] = str_replace("_", " ", $arr_string[0]);
 					}
 					echo search_highlight($content, $arr_string);
-				} elseif($echo==true) {
-					echo $content;
 				} else {
-				    return $content;
+					echo $content;
 				}
 			}
 		} else {
 			require(PAGE_CONTENT);
 		}
+    return $retVal;
+
 	}
 }
 

@@ -221,7 +221,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 					$options = explode(',', $value);
 					array_walk($options, 'make_option', (isset($_SESSION['field'.$field_id])?$_SESSION['field'.$field_id]:array()));
 					$field['extra'] = explode(',',$field['extra']);
-					$field['extra'][1] = ($field['extra'][1]='multiple') ? $field['extra'][1].'="'.$field['extra'][1].'"' : '';
+					$field['extra'][1] = ($field['extra'][1]=='multiple') ? $field['extra'][1].'="'.$field['extra'][1].'"' : '';
 					$values[] = '<select name="field'.$field_id.'[]" id="field'.$field_id.'" size="'.$field['extra'][0].'" '.$field['extra'][1].' class="frm-select">'.implode($options).'</select>'.PHP_EOL;
 				} elseif($field['type'] == 'heading') {
 					$vars[] = '{FIELD}';

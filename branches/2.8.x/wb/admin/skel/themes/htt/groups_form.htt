@@ -78,7 +78,7 @@
 			<!-- BEGIN show_cmd_hidden_advanced_permission_list_block -->
 						<input name="{SYS_NAME}" type="hidden" value="{SYS_VALUE}" />
 			<!-- END show_cmd_hidden_advanced_permission_list_block -->
-						<div class="mbox curved min_h100 floatbox">
+						<div class="mbox curved min_h100 floatbox" style="height: 180px;">
 							<h6>{FILESYSTEM_PERMISSIONS} {MENU_PAGES}</h6>
 							<ul>
 								<li class="c100">
@@ -115,7 +115,7 @@
 				</div>
 				<div class="cleft col_width33">
 					<div class="col_content">
-						<div class="mbox curved min_h100 floatbox">
+						<div class="mbox curved min_h100 floatbox" style="height: 180px;">
 							<h6>{TEXT_FILESYSTEM_PERMISSIONS} {MENU_MEDIA}</h6>
 							<ul>
 								<li class="c100">
@@ -147,7 +147,7 @@
 				</div>
 				<div class="cleft col_width33">
 					<div class="col_content">
-						<div class="mbox curved min_h100 floatbox">
+						<div class="mbox curved min_h100 floatbox" style="height: 180px;">
 							<h6>{FILESYSTEM_PERMISSIONS} {MENU_SETTINGS}</h6>
 							<ul>
 								<li class="c100">
@@ -294,9 +294,10 @@
 		<!-- END show_cmd_advanced_permission_block -->
 				<hr class="clear" />
 				<div class="cleft col_width33">
-					<div class="col_content">
                         {HEADER_MODULE_FUNCTION}
-						<div class="mbox curved min_h100" style="overflow: hidden;">
+					<div class="col_content">
+						<div class="mbox curved min_h100" style="overflow: auto; margin-top: 0;height: 300px;">
+                        <div style="overflow: hidden;">
 							<ul style="margin: 0; padding: 0; ">
 		<!-- BEGIN pages_module_list_block -->
 								<li class="c100">
@@ -305,17 +306,18 @@
 									<input class="radio" type="checkbox" name="module_permissions[]" id="m_{MOD_VALUE}" value="{MOD_VALUE}" {MOD_CHECKED} />
 									<label class="" for="m_{MOD_VALUE}">{MOD_NAME}</label>
 								</div>
-
-			</li>
+                    			</li>
 		<!-- END pages_module_list_block -->
-		</ul>
+                    		</ul>
+						</div>
 						</div>
 					</div>
 				</div>
 				<div class="cleft col_width33">
-					<div class="col_content">
                         {HEADER_MODULE_FUNCTION}
-						<div class="mbox curved min_h100" style="overflow: hidden;">
+					<div class="col_content" >
+						<div class="mbox curved min_h100" style="overflow: auto; margin-top: 0;height: 300px">
+                        <div style="overflow: hidden;">
 							<ul style="margin: 0; padding: 0; ">
 		<!-- BEGIN tools_module_list_block -->
 								<li class="c100">
@@ -328,21 +330,24 @@
 		<!-- END tools_module_list_block -->
 							</ul>
 						</div>
+						</div>
 					</div>
 				</div>
 				<div class="cleft col_width33">
-					<div class="col_content">
                         {HEADER_TEMPLATE_FUNCTION}
-						<div class="mbox curved min_h100" style="overflow: hidden;">
+					<div class="col_content" >
+						<div class="mbox curved min_h100" style="overflow: auto; margin-top: 0;height: 300px">
+                        <div style="overflow: hidden;">
 							<ul style="margin: 0; padding: 0; ">
 			<!-- BEGIN template_list_block -->
 								<li class="c100">
                                     {TEMPLATE_FUNCTION}
 									<input class="radio" type="checkbox" name="template_permissions[]" id="m_{TMP_VALUE}" value="{TMP_VALUE}" {TMP_CHECKED} />
 									<label class="" for="m_{TMP_VALUE}">{TMP_NAME}</label>
-			</li>
+                    			</li>
 			<!-- END template_list_block -->
-		</ul>
+                    		</ul>
+						</div>
 						</div>
 					</div>
 				</div>

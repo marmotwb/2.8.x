@@ -13,6 +13,12 @@ Legend:
 
 
 
+05 Sep-2012 Build 1740 Dietmar Woellbrink (Luisehahne)
+! frontend.functions.php remove return $content in page_content(), 
+  incompatible with search logic
+! /include/jquery forgot jquery version.txt 
+# /form/view.php fixed wrong compare syntax 
+! group management, design style, set max-heights for permission boxes
 05 Sep-2012 Build 1739 Dietmar Woellbrink (Luisehahne)
 ! update jquery ui to version 1.8.23
 05 Sep-2012 Build 1738 Dietmar Woellbrink (Luisehahne)
