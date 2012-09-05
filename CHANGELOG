@@ -13,6 +13,8 @@ Legend:
 
 
 
+05 Sep-2012 Build 1738 Dietmar Woellbrink (Luisehahne)
+! remove folder structure in zip file for backup droplets
 05 Sep-2012 Build 1737 Dietmar Woellbrink (Luisehahne)
 # fixed sql statement groups_added in settings
 ! set stored passwords in $session to empty string

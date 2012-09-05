@@ -72,7 +72,7 @@ if(sizeof($msg)) {
 
 	$query_droplets = $database->query($sql);
 	while($droplet = $query_droplets->fetchRow()) {
-		echo 'Saving: /temp/droplets/'.$droplet["name"].'.php';
+		echo 'Saving: '.$droplet["name"].'.php';
 		$sFile = $droplet["name"].'.php';
 		if($fh = fopen(WB_PATH.$temp_dir.$sFile, 'w'))
 		{
@@ -93,7 +93,7 @@ echo '<br />Create archive: <strong>'.$sBackupName.'</strong><br />';
 require_once(WB_PATH.'/include/pclzip/pclzip.lib.php');
 $archive = new PclZip(WB_PATH.$temp_file);
 
-$file_list = $archive->create($sFilesToZip , PCLZIP_OPT_ADD_PATH, WB_PATH.$temp_dir );
+$file_list = $archive->create($sFilesToZip , PCLZIP_OPT_REMOVE_ALL_PATH );
 if ($file_list == 0){
 	echo "Packaging error: '.$archive->errorInfo(true).'";
 	die("Error : ".$archive->errorInfo(true));
