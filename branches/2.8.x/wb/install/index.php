@@ -68,13 +68,20 @@ if(strpos($sapi, 'apache')!==FALSE || strpos($sapi, 'nsapi')!==FALSE) {
 	}
 }
 
+$sapi_type = php_sapi_name();
+
+if(!isset($_SESSION['operating_system'])) {
+    $operating_system = ((strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 'windows' : 'linux');
+} else {
+    $operating_system = $_SESSION['operating_system'];
+}
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <title>WebsiteBaker Installation Wizard</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <link href="stylesheet.css" rel="stylesheet" type="text/css" />
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 
 function confirm_link(message, url) {
 	if(confirm(message)) location.href = url;
@@ -337,6 +344,13 @@ But this solution does not guarranty a correct displaying of the content from al
 			<td>
 				<select <?php echo field_error('default_language');?> tabindex="3" name="default_language" style="width: 100%;">
 					<?php
+                	$sAutoLanguage = 'EN'; // default, if no information from client available
+                	if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+                		if(preg_match('/([a-z]{2})(?:-[a-z]{2})*/i', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']), $matches)) {
+                			$sAutoLanguage = strtoupper($matches[1]);
+                		}
+                	}
+                	$sAutoLanguage = isset($_SESSION['default_language']) ? $_SESSION['default_language'] : $sAutoLanguage;
 					$DEFAULT_LANGUAGE = array(
 						'BG'=>'Bulgarian', 'CA'=>'Catalan', 'CS'=>'&#268;e&scaron;tina', 'DA'=>'Danish', 'DE'=>'Deutsch', 'EN'=>'English',
 						'ES'=>'Spanish', 'ET'=>'Eesti', 'FI'=>'Suomi', 'FR'=>'Fran&ccedil;ais',
@@ -345,7 +359,7 @@ But this solution does not guarranty a correct displaying of the content from al
 					);
 					foreach($DEFAULT_LANGUAGE as $lang_id => $lang_title) {
 						?>
-							<option value="<?php echo $lang_id; ?>"<?php if(isset($_SESSION['default_language']) AND $_SESSION['default_language'] == $lang_id) { echo ' selected="selected"'; } elseif(!isset($_SESSION['default_language']) AND $lang_id == 'EN') { echo ' selected="selected"'; } ?>><?php echo $lang_title; ?></option>
+							<option value="<?php echo $lang_id; ?>"<?php if($sAutoLanguage == $lang_id) { echo ' selected="selected"'; }  ?> ><?php echo $lang_title; ?></option>
 						<?php
 					}
 					?>
@@ -361,12 +375,12 @@ But this solution does not guarranty a correct displaying of the content from al
 			<td class="name">&nbsp;
 				Server Operating System:
 			</td>
-			<td style="">
-				<input type="radio" tabindex="4" name="operating_system" id="operating_system_linux" onclick="document.getElementById('file_perms_box').style.display = 'none';" value="linux"<?php if(!isset($_SESSION['operating_system']) OR $_SESSION['operating_system'] == 'linux') { echo ' checked="checked"'; } ?> />
-				<span style="cursor: pointer;" onclick="javascript: change_os('linux');">Linux/Unix based</span>
+			<td style="<?php echo $operating_system ?>">
+				<input type="radio" tabindex="4" name="operating_system" id="operating_system_linux" onclick="document.getElementById('file_perms_box').style.display = 'none';" value="linux"<?php if($operating_system == 'linux') { echo ' checked="checked"'; } ?> />
+				<span style="cursor: pointer;" onclick="javascript:change_os('linux');">Linux/Unix based</span>
 				<br />
-				<input type="radio" tabindex="5" name="operating_system" id="operating_system_windows" onclick="document.getElementById('file_perms_box').style.display = 'none';" value="windows"<?php if(isset($_SESSION['operating_system']) AND $_SESSION['operating_system'] == 'windows') { echo ' checked="checked"'; } ?> />
-				<span style="cursor: pointer;" onclick="javascript: change_os('windows');">Windows</span>
+				<input type="radio" tabindex="5" name="operating_system" id="operating_system_windows" onclick="document.getElementById('file_perms_box').style.display = 'none';" value="windows"<?php if($operating_system == 'windows') { echo ' checked="checked"'; } ?> />
+				<span style="cursor: pointer;" onclick="javascript:change_os('windows');">Windows</span>
 			</td>
 		</tr>
 		<tr>

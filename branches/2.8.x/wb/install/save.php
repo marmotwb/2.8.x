@@ -42,7 +42,7 @@ function set_error($message, $field_name = '') {
 	if(isset($message) AND $message != '') {
 		// Copy values entered into session so user doesn't have to re-enter everything
 		if(isset($_POST['website_title'])) {
-			$_SESSION['wb_url'] = $_POST['wb_url'];
+			$_SESSION['website_title'] = $_POST['website_title'];
 			$_SESSION['default_timezone'] = $_POST['default_timezone'];
 			$_SESSION['default_language'] = $_POST['default_language'];
 			if(!isset($_POST['operating_system'])) {
@@ -57,19 +57,19 @@ function set_error($message, $field_name = '') {
 			}
 			$_SESSION['database_host'] = $_POST['database_host'];
 			$_SESSION['database_username'] = $_POST['database_username'];
-			$_SESSION['database_password'] = $_POST['database_password'];
+			$_SESSION['database_password'] = '';
 			$_SESSION['database_name'] = $_POST['database_name'];
 			$_SESSION['table_prefix'] = $_POST['table_prefix'];
 			if(!isset($_POST['install_tables'])) {
-				$_SESSION['install_tables'] = false;
+				$_SESSION['install_tables'] = true;
 			} else {
 				$_SESSION['install_tables'] = true;
 			}
 			$_SESSION['website_title'] = $_POST['website_title'];
 			$_SESSION['admin_username'] = $_POST['admin_username'];
 			$_SESSION['admin_email'] = $_POST['admin_email'];
-			$_SESSION['admin_password'] = $_POST['admin_password'];
-			$_SESSION['admin_repassword'] = $_POST['admin_repassword'];
+			$_SESSION['admin_password'] = '';
+			$_SESSION['admin_repassword'] = '';
 		}
 		// Set the message
 		$_SESSION['message'] = $message;
@@ -479,7 +479,7 @@ if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 	." ('wbmailer_smtp_password', ''),"
 	." ('fingerprint_with_ip_octets', '2'),"
 	." ('secure_form_module', ''),"
-	." ('groups_updated', 'time()' ),"
+    ." ('groups_updated', '".time()."' ),"
 	." ('page_extended', 'true'),"
 	." ('mediasettings', '')";
 	$database->query($settings_rows);
