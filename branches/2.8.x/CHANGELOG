@@ -13,6 +13,11 @@ Legend:
 
 
 
+07 Sep-2012 Build 1742 Dietmar Woellbrink (Luisehahne)
+! Now you can style account login with your frontend Template CSS
+  this change is in work for the whole account
+07 Sep-2012 Build 1741 Dietmar Woellbrink (Luisehahne)
+! Preparing Separation of code and HTML in Droplets
 05 Sep-2012 Build 1740 Dietmar Woellbrink (Luisehahne)
 ! frontend.functions.php remove return $content in page_content(), 
   incompatible with search logic

@@ -46,7 +46,7 @@ $thisApp->redirect_url = (isset($thisApp->redirect_url) && ($thisApp->redirect_u
 //print_r( $thisApp->redirect_url ); print '</pre>';
 
 // set template file and assign module and template block
-	$oTpl = new Template(dirname(__FILE__).'/htt','keep');
+	$oTpl = new Template(dirname(__FILE__).'/htt');
 	$oTpl->set_file('page', 'login.htt');
 	$oTpl->debug = false; // false, true
 	$oTpl->set_block('page', 'main_block', 'main');
@@ -62,6 +62,7 @@ $thisApp->redirect_url = (isset($thisApp->redirect_url) && ($thisApp->redirect_u
 		'REDIRECT_URL' => $thisApp->redirect_url,
 		'WB_URL' => WB_URL,
 		'THEME_URL' => THEME_URL,
+		'TEMPLATE_URL' => TEMPLATE_DIR,
 		'HTTP_REFERER' => $_SESSION['HTTP_REFERER'],
 		'MESSAGE_VALUE' => '',
 		'ERROR_VALUE' => '',
@@ -85,7 +86,7 @@ $thisApp->redirect_url = (isset($thisApp->redirect_url) && ($thisApp->redirect_u
 			)
 		);
 
-		$oTpl->parse('smart_login', 'show_smart_login_block', true);
+		$oTpl->parse('show_smart_login', 'show_smart_login_block', true);
 	} else {
 		$oTpl->set_block('show_smart_login', '');
 	}

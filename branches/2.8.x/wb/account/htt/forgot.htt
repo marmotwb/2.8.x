@@ -2,45 +2,52 @@
 <!-- BEGIN message_block -->
 {MESSAGE_VALUE}
 <!-- END message_block -->
-
-<hr />
-<form class="forgot-box" action="{ACTION_URL}" method="post">
+<hr /><br />
+<div class="login-box rounded" style="overflow: hidden;width:100%;">
+<form class="login-box" action="{ACTION_URL}" method="post">
 	<input type="hidden" name="action" value="forgot" />
 	<input type="hidden" name="url" value="{URL}" />
 
-<table summary="" style="width: 60%; font-size: 1em;">
-<tr>
-	<td height="10" colspan="2" style="text-align: center;"><h1>{MENU_FORGOT}</h1></td>
+<table summary="">
+<tbody>
+<tr class="row1">
+	<td colspan="3"><h1>{MENU_FORGOT}</h1></td>
 </tr>
-<tr>
-	<td height="40" style="text-align: center;" colspan="2">
-	<strong style="text-align: center;">{THISAPP_MESSAGE_VALUE}</strong>
+<tr class="row2">
+	<td colspan="3">
+	<strong>{THISAPP_MESSAGE_VALUE}</strong>
 	</td>
 </tr>
-		<tr>
-			<td height="10" colspan="2">&nbsp;</td>
-		</tr>
-<tr>
-	<td style="width:100px">{TEXT_EMAIL}:</td>
-	<td class="value_input">
-		<input type="text" name="email" maxlength="255" style="width:220px;"/>
+<tr class="row3">
+	<td colspan="3">&nbsp;</td>
+</tr>
+<tr class="row4">
+	<td class="bold">{TEXT_EMAIL}:</td>
+	<td colspan="2">
+		<input type="text" name="email" maxlength="255" style="width:98%;"/>
 	</td>
 </tr>
-		<tr>
-			<td height="10" colspan="2">&nbsp;</td>
-		</tr>
-<tr>
-	<td colspan="2" style="text-align: center;">
-		<input type="submit" name="submit" value="{TEXT_SEND_DETAILS}" style="padding: 3px;"  />
-		<input type="reset" name="reset" value="{TEXT_RESET}" style="padding: 3px;"  />
-	<button type="button" value="cancel" onclick="javascript:window.location = '{WB_URL}/';" style="padding: 3px;" >{TEXT_CANCEL}</button>
+<tr class="row5" >
+	<td colspan="3">&nbsp;</td>
+</tr>
+<tr class="submit">
+	<td>
+	<p><input type="submit" name="submit" value="{TEXT_SEND_DETAILS}"  /></p>
+	</td>
+	<td>
+	<p><input type="reset" name="reset" value="{TEXT_RESET}" /></p>
+	</td>
+	<td>
+	<p><button type="button" value="cancel" onclick="javascript:window.location='{WB_URL}/';" >{TEXT_CANCEL}</button></p>
 	</td>
 </tr>
 <tr>
-	<td colspan="2" style="text-align: center;">
+	<td class="row6" colspan="3">
 	<p class="link"><a href="{LOGIN_URL}">{TEXT_NEED_TO_LOGIN}</a></p>
 	</td>
 </tr>
+</tbody>
 </table>
 </form>
+</div>
 <!-- END main_block -->

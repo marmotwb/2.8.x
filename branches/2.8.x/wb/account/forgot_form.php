@@ -28,6 +28,7 @@ $message = $MESSAGE['FORGOT_PASS_NO_DATA'];
 $errMsg ='';
 
 $redirect_url = (isset($redirect_url) && ($redirect_url!='')  ? $redirect_url : $_SESSION['HTTP_REFERER'] );
+$redirect = (isset($redirect_url) && ($redirect_url!='')  ? '?redirect='.$redirect_url : '' );
 
 //print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
 //print_r( $redirect_url ); print '</pre>';
@@ -126,11 +127,12 @@ if( ($errMsg=='') && ($message != '')) {
 	$oTpl->set_var(array(
 		'FTAN' => $wb->getFTAN(),
 		'ACTION_URL' => WB_URL.'/account/forgot.php',
-		'LOGIN_URL' => WB_URL.'/account/login.php',
+		'LOGIN_URL' => WB_URL.'/account/login.php'.$redirect,
 		'REDIRECT_URL' => $redirect_url,
 		'URL' => $redirect_url,
 		'WB_URL' => WB_URL,
 		'THEME_URL' => THEME_URL,
+		'TEMPLATE_URL' => TEMPLATE_DIR,
 		'HTTP_REFERER' => $_SESSION['HTTP_REFERER'],
 		'MESSAGE_VALUE' => '',
 		'ERROR_VALUE' => '',
@@ -138,7 +140,7 @@ if( ($errMsg=='') && ($message != '')) {
 		'TEXT_USERNAME' => $TEXT['USERNAME'],
 		'TEXT_EMAIL' => $TEXT['EMAIL'],
 //		'USER_FIELDNAME' => $username_fieldname,
-		'TEXT_SEND_DETAILS' => $TEXT['SEND_DETAILS'],
+		'TEXT_SEND_DETAILS' => $TEXT['NEW_PASSWORD'],
 		'TEXT_NEED_TO_LOGIN' => $TEXT['NEED_TO_LOGIN'],
 		'MENU_FORGOT' => $MENU['FORGOT'],
 		'TEXT_RESET' => $TEXT['RESET'],

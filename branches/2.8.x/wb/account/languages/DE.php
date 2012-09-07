@@ -101,7 +101,7 @@ $MESSAGE['CONFIRMED'] .= 'Kennwort: ';
 $MESSAGE['CONFIRMED'] .= 'Vielen Dank!';
 $MESSAGE['CHANGE_PASSWORD'] = 'Aus Sicherheitsgründen sollten Sie dieses Kennwort sofort ändern. Besuchen Sie dazu folgende Website:';
 
-$MESSAGE['LOGIN_BOTH_BLANK'] = 'Bitte geben Sie unten Ihren Loginnamen und Passwort ein';
+$MESSAGE['LOGIN_BOTH_BLANK'] = 'Bitte geben Sie Ihren Loginnamen und Passwort ein';
 $MESSAGE['LOGIN_PASSWORD_BLANK'] = 'Bitte geben Sie Ihr Passwort ein';
 $MESSAGE['LOGIN_PASSWORD_TOO_LONG'] = 'Das angegebene Passwort ist zu lang';
 $MESSAGE['LOGIN_PASSWORD_TOO_SHORT'] = 'Das angegebene Passwort ist zu kurz';
@@ -144,3 +144,4 @@ $TEXT['NEED_TO_LOGIN'] = 'M&uuml;ssen Sie sich einloggen?';
 $TEXT['NEW_PASSWORD'] = 'Neues Passwort';
 $TEXT['PASSWORD'] = 'Kennwort';
 $TEXT['ACTIVATION'] = 'Freischalten';
+$TEXT['SEND'] = 'Anfordern';
