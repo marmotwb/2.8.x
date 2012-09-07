@@ -1,0 +1,72 @@
+<!-- BEGIN main_block -->
+<div class="droplets">
+
+<h4 style="margin: 0; border-bottom: 1px solid #DDD; padding-bottom: 5px;">
+	<a href="{ADMINTOOL_LINK}" title="{HEADING_ADMINISTRATION_TOOLS}">{HEADING_ADMINISTRATION_TOOLS}</a>
+	<span> &raquo; </span>
+	<a href="{MODULE_EDIT_LINK}" title="">Droplet Overview</a>
+</h4>
+
+<table summary="" >
+<tbody>
+<tr>
+	<td>
+		<button class="add" type="button" name="add_droplet" onclick="javascript:window.location='<?php echo WB_URL; ?>/modules/droplets/add_droplet.php';">{TEXT_ADD} {DR_TEXT_DROPLETS}</button>
+	</td>
+	<td>
+		<a href="#" onclick="javascript:window.open('<?php echo WB_URL; ?>/modules/droplets/readme/{DR_TEXT_README}','helpwindow','width=700,height=550,directories=no,location=no,menubar=no,scrollbars=yes,status=no,toolbar=no,resizable=yes');">{DR_TEXT_HELP}</a>
+		<br /><br />
+		<a href="#" onclick="javascript:window.location='<?php echo WB_URL; ?>/modules/droplets/backup_droplets.php?id=<?php echo $admin->getIDKEY(999); ?>'">{DR_TEXT_BACKUP}</a>
+	</td>
+</tr>
+</tbody>
+</table>
+
+<table summary="" >
+<thead>
+<tr>
+	<td style="width: 3%;"></td>
+	<td style="width: 21%;">{TEXT_NAME}</td>
+	<td style="width: 68%;">{TEXT_DESCRIPTION}</td>
+	<td style="width: 4%;">{TEXT_ACTIVE}</td>
+	<td style="width: 3%;"></td>
+</tr>
+</thead>
+<tfoot>
+<tr>
+<td>{PAGINATION}</td>
+</tr>
+</tfoot>
+<tbody>
+<!-- BEGIN loop_droplet_block -->
+<tr class="row_{ROWBIT}" >
+	<td >
+		<a href="{WB_URL}/modules/droplets/modify_droplet.php?droplet_id={DROPLET_IDKEY}" title="TEXT_MODIFY">
+			<img src="{THEME_URL}/images/modify_16.png" alt="Modify" />
+		</a>
+	</td>
+	<td >
+		<a href="{WB_URL}/modules/droplets/modify_droplet.php?droplet_id={DROPLET_IDKEY}" class="tooltip">
+		<img src="{WB_URL}/modules/droplets/img/{STATUS_ICON}" title="" alt=""/>{DROPLET_NAME}{COMMENTS}
+		</a>
+	</td>
+	<td >
+		<small>{DESCRIPTION}</small>
+	</td>
+	<td>
+		<strong>{DROPLET_ACTIVE}</strong>
+	</td>
+	<td >
+		<a href="javascript:confirm_link('{TEXT_ARE_YOU_SURE}','{WB_URL}/modules/droplets/delete_droplet.php?droplet_id={DROPLET_IDKEY}');" title="{TEXT_DELETE}">
+			<img src="{THEME_URL}/images/delete_16.png" alt="{TEXT_DELETE}" />
+		</a>
+	</td>
+</tr>
+<!-- END loop_droplet_block -->
+<tr>
+<td>{NO_DROPLET_FOUND}</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- END main_block -->

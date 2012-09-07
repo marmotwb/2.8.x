@@ -3,10 +3,8 @@
  *
  * @category        module
  * @package         droplet
- * @author          Ruud Eisinga (Ruud) John (PCWacht)
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ruud Eisinga (Ruud) John (PCWacht),WebsiteBaker Project
+ * @copyright       2009-2012, Website Baker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -64,10 +62,11 @@ $query_content = $database->query($sql);
 $fetch_content = $query_content->fetchRow();
 $content = (htmlspecialchars($fetch_content['code']));
 ?>
+<div class="droplets" style="margin-top: 6px;">
 <h4 style="margin: 0; border-bottom: 1px solid #DDD; padding-bottom: 5px;">
 	<a href="<?php echo $admintool_link;?>" title="<?php echo $HEADING['ADMINISTRATION_TOOLS']; ?>"><?php echo $HEADING['ADMINISTRATION_TOOLS']; ?></a>
-	->
-	<a href="<?php echo $module_edit_link;?>" title="<?php echo $sOverviewDroplets ?>" alt="<?php echo $sOverviewDroplets ?>">Droplet Edit</a>
+	<span> &raquo; </span>
+	<a href="<?php echo $module_edit_link;?>" title="<?php echo $sOverviewDroplets ?>" alt="<?php echo $sOverviewDroplets ?>">Droplet Overview</a>
 </h4>
 <br />
 <form name="modify" action="<?php echo WB_URL; ?>/modules/droplets/save_droplet.php" method="post" style="margin: 0;">
@@ -95,7 +94,7 @@ $content = (htmlspecialchars($fetch_content['code']));
 		<td class="setting_name" width="60px">
 			<?php echo $TEXT['ACTIVE']; ?>:
 		</td>
-		<td>	
+		<td>
 			<input type="radio" name="active" id="active_true" value="1" <?php if($fetch_content['active'] == 1) { echo ' checked="checked"'; } ?> />
 			<a href="#" onclick="javascript: document.getElementById('active_true').checked = true;">
 			<label><?php echo $TEXT['YES']; ?></label>
@@ -114,8 +113,8 @@ if ($modified_by == 1) {
 		<td class="setting_name" width="60px">
 			<?php echo $TEXT['ADMIN']; ?>:
 		</td>
-		<td> 
-			<?php echo $DR_TEXT['ADMIN_EDIT']; ?>&nbsp;   	
+		<td>
+			<?php echo $DR_TEXT['ADMIN_EDIT']; ?>&nbsp;
 			<input type="radio" name="admin_edit" id="admin_edit_true" value="1" <?php if($fetch_content['admin_edit'] == 1) { echo ' checked="checked"'; } ?> />
 			<a href="#" onclick="javascript: document.getElementById('admin_edit_true').checked = true;">
 			<label><?php echo $TEXT['YES']; ?></label>
@@ -124,7 +123,7 @@ if ($modified_by == 1) {
 			<a href="#" onclick="javascript: document.getElementById('admin_edit_false').checked = true;">
 			<label><?php echo $TEXT['NO']; ?></label>
 			</a>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 			<?php echo $DR_TEXT['ADMIN_VIEW']; ?>:
 			<input type="radio" name="admin_view" id="admin_view_true" value="1" <?php if($fetch_content['admin_view'] == 1) { echo ' checked="checked"'; } ?> />
 			<a href="#" onclick="javascript: document.getElementById('admin_view_true').checked = true;">
@@ -145,7 +144,7 @@ if ($modified_by == 1) {
 		</td>
 	</tr>
 	<tr>
-		<td colspan="2">					
+		<td colspan="2">
 		</td>
 	</tr>
 	<tr>
@@ -155,7 +154,7 @@ if ($modified_by == 1) {
 		</td>
 	</tr>
 	<tr>
-		<td colspan="2">&nbsp;					
+		<td colspan="2">&nbsp;
 		</td>
 	</tr>
 </table>
@@ -178,6 +177,7 @@ if ($modified_by == 1 OR $fetch_content['admin_edit'] == 0 ) {
 	</tr>
 </table>
 </form>
+</div>
 <?php
 
 // Print admin footer

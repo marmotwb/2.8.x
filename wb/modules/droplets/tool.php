@@ -3,10 +3,8 @@
  *
  * @category        module
  * @package         droplet
- * @author          Ruud Eisinga (Ruud) John (PCWacht)
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ruud Eisinga (Ruud) John (PCWacht),WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -18,7 +16,7 @@
  */
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
-if(!defined('WB_PATH')) {
+if(!defined('WB_URL')) {
 
 	require_once(dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
 	throw new IllegalFileException();
@@ -66,7 +64,8 @@ if( !$database->get_one($sql) ) {
 if(is_writeable(dirname(WB_PATH.$temp_dir))) {
  	rm_full_dir ( WB_PATH.$temp_dir );
 }
-?><br />
+?><div class="droplets" style="margin-top: -6px; border-top: 1px solid #DDD;">
+
 <table summary="" cellpadding="0" cellspacing="0" border="0" width="100%">
 <tr>
 	<td valign="bottom" width="50%">
@@ -160,6 +159,7 @@ if($num_droplets > 0) {
 	}
 	?>
 	</table>
+</div>
 	<?php
 }
 
