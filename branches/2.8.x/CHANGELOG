@@ -13,6 +13,8 @@ Legend:
 
 
 
+07 Sep-2012 Build 1743 Dietmar Woellbrink (Luisehahne)
+! styling permissions blocks in page settings by backend theme css
 07 Sep-2012 Build 1742 Dietmar Woellbrink (Luisehahne)
 ! Now you can style account login with your frontend Template CSS
   this change is in work for the whole account

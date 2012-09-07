@@ -124,6 +124,7 @@ div.mbox.dev-info div span { margin-bottom :1px; }
 .tool_table ul { margin :0; padding :0; margin-left :20px; margin-bottom :2px; }
 .tool_table li { padding :1px; list-style-type :disc; }
 /* new tablelayout without table attribute  */
+div.settings_table { margin :0 auto; width :90%; }
 form.settings_table { border :1px none #eeee; font-family :verdana,arial,helvetica,sans-serif; margin :5px auto; padding :5px; }
    form.settings_table fieldset { border :1px none #eeeeee; display :block; line-height :1.0em; margin-bottom :1px; padding :3px 0px 3px 0px; }
    form input[type="file"] { width :80%; border :1px solid black; background-color :#ccccff; }
@@ -136,11 +137,11 @@ form.settings_table { border :1px none #eeee; font-family :verdana,arial,helveti
    form.settings_table fieldset div.input input.radio { margin :0.8em auto; border :none; padding-left :6px; }
    form.settings_table fieldset div.input label { margin :6px auto; padding-left :6px; min-height :1em; width :35%; float :none; display :inline; vertical-align :top; }
    form.settings_table input[type="text"],
-   form.settings_table input[type="password"] { border :1px solid #666666; margin : 0px auto; padding-left : 5px; width :70%; }
+   form.settings_table input[type="password"] { border :1px solid #666666; margin : 0px auto; padding-left : 5px; width :72%; }
    form.settings_table input.radio { border :1px none #666666; margin :0px auto; padding-left :0.5em; height :1em; }
    form.settings_table input[type="button"].button { border :1px solid #666666; color :#000000; text-align :left; font-weight :bold; background-color :#dddddd; margin : 2px auto; padding :2px 0px 2px 6px; width : 70%; }
-   form.settings_table textarea { border :1px solid #666666; margin :3px auto; padding-left :0.5em; min-height :1em; width :70%; }
-   form.settings_table select { border :1px solid #666666; margin :3px auto; padding-left :0.5em; min-height :1em; width :50%; }
+   form.settings_table textarea { border :1px solid #666666; margin :3px auto; padding-left :0.5em; min-height :1em; width :72%; }
+   form.settings_table select { border :1px solid #666666; margin :3px auto; padding-left :0.5em; min-height :1em; width :73%; }
 /* */
 div.content_box form { }
 div.sub-row { background-color :#eeeeee; margin : 1px auto; overflow :hidden; padding :0; }
@@ -258,6 +259,12 @@ div.page-settings-leftcol label a:link { text-decoration :none; color :#003366; 
 div.page-settings-leftcol label a:hover { color : #006699; text-decoration : underline; }
 div.page-settings-leftcol textarea { resize :vertical; } 
 #overDiv { max-width :450px; background-position :center; background-attachment :fixed; text-align :left; padding :1px; font-size :120%; }
+/* */
+div.page_group { height: 180px;max-height: 260px; margin: 0; padding: 0; overflow: auto; }
+div.page_group div { overflow: hidden; }
+div.page-settings p.page_user,
+div.page-settings p.page_group {  } 
+
 /* */
 .header_title, .setting_value input, .setting_value select, .setting_value textarea, .value_input input, .value_input text, .value_input select, .form_submit, .input_full { width :80%; }
 .content_box { text-align :left; }

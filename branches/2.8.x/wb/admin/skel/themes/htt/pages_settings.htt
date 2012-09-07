@@ -154,11 +154,11 @@
 	<!-- BEGIN admin_group_show_list_block -->
 		<div class="page-settings-centercol"> <!-- center column -->
 			<b>{TEXT_ADMINISTRATORS}</b><hr />
-			<p class="page_group" style="text-decoration: underline;">{TEXT_GROUP}</p>
+			<p class="page_group" style="text-decoration :underline;">{TEXT_GROUP}</p>
 <!-- *** List of groups which can administrate this page *** -->
-            <div class="page_group" style="height: 112px;max-height: 112px; margin: 0; padding: 5px 0 5px 0; overflow: auto;">
-            <div style="overflow: hidden;">
-			<ul style="list-style-type: none; margin: 0; padding: 5px 0 5px 0;">
+            <div class="page_group">
+            <div>
+			<ul style="list-style-type: none; margin: 0;padding: 0;">
 			<!-- BEGIN admin_group_list_block -->
 				<li>
 					<input type="checkbox" name="admin_groups[]" id="admin_group_{ID}" value="{ID}"{CHECKED}{DISABLED} />
@@ -169,7 +169,7 @@
             </div>
             </div>
 			<hr />
-			<p class="page_user" style="text-decoration: underline;">{TEXT_USER}</p>
+			<p class="page_user" style="text-decoration :underline;">{TEXT_USER}</p>
 <!-- *** List of users which can administrate this page *** -->
 			<select name="admin_users[]" multiple="multiple" size="{USER_LIST_SIZE}">
 				<option value="0">--- {TEXT_NO_SELECTION} ---</option>
@@ -182,11 +182,11 @@
 
 		<div id="allowed_viewers" class="page-settings-rightcol" style="{DISPLAY_VIEWERS}"> <!-- right column -->
 			<b>{TEXT_ALLOWED_VIEWERS}</b><hr />
-			<p style="text-decoration: underline;">{TEXT_GROUP}</p>
+			<p class="page_group" style="text-decoration :underline;">{TEXT_GROUP}</p>
 <!-- *** List of groups which can see this page *** -->
-            <div class="page_group" style="height: 112px;max-height: 112px; margin: 2px 0 2px 0; padding: 5px 0 5px 0; overflow: auto;">
-            <div style="overflow: hidden;">
-			<ul style="list-style-type:none;margin:0;padding: 5px 0 5px 0;">
+            <div class="page_group">
+            <div>
+			<ul style="list-style-type: none; margin: 0;padding: 0;">
 			<!-- BEGIN viewer_group_list_block -->
 				<li>
 					<input type="checkbox" name="viewing_groups[]" id="viewing_group_{ID}" value="{ID}"{CHECKED}{DISABLED} />
@@ -197,7 +197,7 @@
             </div>
             </div>
 			<hr />
-			<p class="page_user" style="text-decoration: underline;">{TEXT_USER}</p>
+			<p class="page_user" style="text-decoration :underline;">{TEXT_USER}</p>
 <!-- *** List of users which can see this page *** -->
 			<select name="viewing_users[]" multiple="multiple" size="{USER_LIST_SIZE}">
 				<option value="0">--- {TEXT_NO_SELECTION} ---</option>
