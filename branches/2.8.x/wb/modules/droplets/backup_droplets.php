@@ -35,10 +35,11 @@ if (!$id or $id != 999) {
 }
 
 ?>
+<div class="droplets" style="margin-top: 6px;">
 <h4 style="margin: 0; border-bottom: 1px solid #DDD; padding-bottom: 5px;">
 	<a href="<?php echo $admintool_link;?>" title="<?php echo $HEADING['ADMINISTRATION_TOOLS']; ?>"><?php echo $HEADING['ADMINISTRATION_TOOLS']; ?></a>
-	->
-	<a href="<?php echo $module_edit_link;?>" title="<?php echo $sOverviewDroplets ?>" alt="<?php echo $sOverviewDroplets ?>">Droplet Edit</a>
+	<span> &raquo; </span>
+	<a href="<?php echo $module_edit_link;?>" title="<?php echo $sOverviewDroplets ?>" alt="<?php echo $sOverviewDroplets ?>">Droplet Overview</a>
 </h4>
 <?php
 
@@ -104,5 +105,5 @@ elseif(is_readable(WB_PATH.$temp_file)) {
 else {
 	echo '<br /><br />Backup not created - <a href="'.$module_edit_link.'">'.$TEXT['BACK'].'</a>';
 }
-
+echo '</div>';
 $admin->print_footer();
