@@ -10,7 +10,7 @@
 		<table summary="" cellpadding="3" cellspacing="0" border="0" width="100%">
           <tr>
             <td>{TEXT_TARGET_FOLDER}:<br />
-              <select name="target" style="width:100%;" 
+              <select name="target" style="width:100%;"
 		   onchange="browse.location.href='browse.php?dir=' +
 		   	document.upload.target.value.substr(6,100);
 		   document.create.target.value = document.upload.target.value;">
@@ -22,7 +22,8 @@
             </td>
           </tr>
         </table>
-        <table summary="" cellpadding="3" cellspacing="0" border="0" width="100%">
+        <table summary="">
+        <tbody>
           <tr>
 		  	<td valign="top">
 				<input type="checkbox" name="unzip" id="unzip"  onclick="toggle();" />
@@ -33,38 +34,39 @@
 			</td>
           </tr>
           <tr>
-            <td width="50%" align="left"><input type="file" size="33" name="file1" /> </td>
+            <td ><input type="file" name="file1" /> </td>
           </tr>
           <tr>
-            <td width="50%" align="left"><input type="file" size="33" name="file2" id="file2" style="visibility: visible;" /> </td>
+            <td><input type="file" size="20" name="file2" id="file2" style="visibility: visible;" /> </td>
           </tr>
           <tr>
-            <td width="50%" align="left"><input type="file" size="33" name="file3" id="file3" style="visibility: visible;" /> </td>
+            <td><input type="file" name="file3" id="file3" style="visibility: visible;" /> </td>
           </tr>
           <tr>
-            <td width="50%" align="left"><input type="file" size="33" name="file4" id="file4" style="visibility: visible;" /> </td>
+            <td><input type="file" name="file4" id="file4" style="visibility: visible;" /> </td>
           </tr>
           <tr>
-            <td width="50%" align="left"><input type="file" size="33" name="file5" id="file5" style="visibility: visible;" /> </td>
+            <td><input type="file" name="file5" id="file5" style="visibility: visible;" /> </td>
           </tr>
 		  <tr>
-            <td width="50%" align="left"><input type="file" size="33" name="file6" id="file6" style="visibility: visible;" /> </td>
+            <td><input type="file" name="file6" id="file6" style="visibility: visible;" /> </td>
           </tr>
           <tr>
-            <td width="50%" align="left"><input type="file" size="33" name="file7" id="file7" style="visibility: visible;" /> </td>
+            <td><input type="file" name="file7" id="file7" style="visibility: visible;" /> </td>
           </tr>
           <tr>
-            <td width="50%" align="left"><input type="file" size="33" name="file8" id="file8" style="visibility: visible;" /> </td>
+            <td><input type="file" name="file8" id="file8" style="visibility: visible;" /> </td>
           </tr>
 		  <tr>
-            <td width="50%" align="left"><input type="file" size="33" name="file9" id="file9" style="visibility: visible;" /> </td>
+            <td><input type="file" name="file9" id="file9" style="visibility: visible;" /> </td>
           </tr>
           <tr>
-            <td width="50%" align="left"><input type="file" size="33" name="file10" id="file10" style="visibility: visible;" /> </td>
+            <td><input type="file" name="file10" id="file10" style="visibility: visible;" /> </td>
           </tr>
+        </tbody>
         </table>
 
-        <table summary="" cellpadding="3" cellspacing="0" border="0" width="100%">
+        <table summary="">
           <tr>
             <td colspan="2"><input type="checkbox" name="overwrite" id="overwrite" value="yes" />
               <label for="overwrite">{TEXT_OVERWRITE_EXISTING} {TEXT_FILES}</label><br />
@@ -76,7 +78,7 @@
 <!--
 If you want to HIDE the option of creating folders in the Media-folder (for your clients, for example),
 please set the class below to "hide", else to "show".
---> 
+-->
       <div class="show">
 	  <br /><br />
         <form name="create" action="create.php" method="post" class="{DISPLAY_CREATE}">

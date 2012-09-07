@@ -1,4 +1,5 @@
 <!-- BEGIN main_block -->
+<div class="settings_table">
 <form class="settings_table" name="settings" action="save.php" method="post">
 <input type="hidden" name="advanced" value="{ADVANCED}" />
 <input type="hidden" name="wbmailer_smtp_auth" value="true"  />
@@ -742,12 +743,12 @@
 	<hr class="hr-top" />
 	<fieldset class="hr-top">
 		<div class="mbox sub-row">
-			<h4 class="warning cleft {DISPLAY_ADVANCED_BUTTON}">{MODE_SWITCH_WARNING}</h4>
+			<h4 class="warning {DISPLAY_ADVANCED_BUTTON}">{MODE_SWITCH_WARNING}</h4>
 			<button title="{MODE_SWITCH_WARNING}" onclick="window.location = '{ADVANCED_LINK}'; return false;" class="cright {DISPLAY_ADVANCED_BUTTON}">{ADVANCED_BUTTON}</button>
 		</div>
 	</fieldset>
 
 </form>
-
+</div>
 <script src="{ADMIN_URL}/settings/setting.js" type="text/javascript"></script>
 <!-- END main_block -->
