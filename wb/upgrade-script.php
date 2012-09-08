@@ -400,7 +400,7 @@ echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
  */
 echo "Adding redirect timer to settings table";
 $cfg = array(
-	'redirect_timer' => defined('Redirect_Timer') ? Redirect_Timer : '1500'
+	'redirect_timer' => defined('REDIRECT_TIMER') ? REDIRECT_TIMER : '1500'
 );
 echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
