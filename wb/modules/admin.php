@@ -217,8 +217,9 @@ if(isset($print_info_banner) && $print_info_banner == true) {
 			}
 		}
 
-		$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? 'id="'.SEC_ANCHOR.$section['section_id'].'"' : '');
-		print '<div class="section-info" ><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
+        $sec_anchor = '#'.(defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? SEC_ANCHOR.$section_id : 'section_'.$section_id );
+		//print '<div class="section-info" ><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
+		print '<div class="section-info" '.$sec_anchor.' ><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
 		print '<b>  Modul: </b>' . $section['module']." ";
 		print '<b>  ID: </b><a' . $section_id."></a></div>\n";
 	}

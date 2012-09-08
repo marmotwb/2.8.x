@@ -184,7 +184,7 @@
 		</div>
 
 		<div class="mbox sub-row">
-			<label class="setting_name">{TEXT_CONFIRMED_REGISTRATION}:</label>
+			<label title="{HELP_ACTIVATION_MAIL}" class="setting_name">{TEXT_CONFIRMED_REGISTRATION}:</label>
 			<span>
 			<input class="radio" type="radio" name="confirmed_registration" id="confirmed_registration_true" value="1"{CONFIRMED_REGISTRATION_ENABLED} />
 		<label for="confirmed_registration_true">{TEXT_ENABLED}</label>
@@ -482,7 +482,7 @@
 	 		<label class="setting_name" id="{ADVANCED_FILE_PERMS_ID}1">{TEXT_FILESYSTEM_PERMISSIONS}:</label>
 			<div class="cleft" id="file_mode">
 				<div class="input" >
-					<table class="permission_box" summary="" cellpadding="2" cellspacing="0" border="0" id="{ADVANCED_FILE_PERMS_ID}2">
+					<table class="permission_box" summary="" id="{ADVANCED_FILE_PERMS_ID}2">
 			<caption>{TEXT_FILES}: {STRING_FILE_MODE}</caption>
 		<thead>
 		<tr>
@@ -528,7 +528,7 @@
 			</div>
 			<div class="cright" id="dir_mode">
 				<div class="input" >
-					<table class="permission_box" summary="" cellpadding="2" cellspacing="0" border="0" id="{ADVANCED_FILE_PERMS_ID}3">
+					<table class="permission_box" summary="" id="{ADVANCED_FILE_PERMS_ID}3">
 		<caption>{TEXT_DIRECTORIES}: {STRING_DIR_MODE}</caption>
 		<thead>
 		<tr>

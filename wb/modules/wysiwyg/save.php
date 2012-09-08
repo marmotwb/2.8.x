@@ -57,7 +57,7 @@ if(isset($_POST['content'.$section_id])) {
 	$aErrors[] = $MESSAGE['GENERIC_NOT_UPGRADED'].((defined('DEBUG') && DEBUG) ? '<br />'.$MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] : '');
 }
 
-$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
+$sec_anchor = '#'.(defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? SEC_ANCHOR.$section_id : 'section_'.$section_id );
 if(defined('EDIT_ONE_SECTION') and EDIT_ONE_SECTION){
     $edit_page = ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'&wysiwyg='.$section_id;
 } else {

@@ -20,7 +20,7 @@ require('../../config.php');
 // Include WB admin wrapper script
 require(WB_PATH.'/modules/admin.php');
 
-$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
+$sec_anchor = '#'.(defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? SEC_ANCHOR.$section_id : 'section_'.$section_id );
 
 // Include the ordering class
 require(WB_PATH.'/framework/class.order.php');

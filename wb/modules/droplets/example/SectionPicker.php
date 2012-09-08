@@ -18,9 +18,12 @@ if( $sid ) {
 					$_sFrontendCss = '<link href="'.WB_URL.$_sFrontendCss.'" rel="stylesheet" type="text/css" media="screen" />';
 				}
 			} else { $_sFrontendCss = ''; }
-			ob_start();
 			$section_id = $sid;
-			require(WB_PATH.'/modules/'.$module.'/view.php');
+			ob_start();
+            $sectionAnchor = (defined('SEC_ANCHOR') && SEC_ANCHOR!='') ? SEC_ANCHOR.$section_id : 'section_'.$section_id;
+            echo PHP_EOL.'<div id="'.$sectionAnchor.'" class="'.$module.'" >'.PHP_EOL;
+            require(WB_PATH.'/modules/'.$module.'/view.php');
+            echo PHP_EOL.'</div><!-- '.$module.$section_id.' -->'.PHP_EOL;
 			$content = $_sFrontendCss.ob_get_clean();
 			$section_id = $oldSid; // restore old sectionID
 		}
