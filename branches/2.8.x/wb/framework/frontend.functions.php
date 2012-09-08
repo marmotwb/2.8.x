@@ -305,11 +305,10 @@ if (!function_exists('page_content')) {
 				if(file_exists(WB_PATH.'/modules/'.$module.'/view.php')) {
 				// fetch content -- this is where to place possible output-filters (before highlighting)
 					ob_start(); // fetch original content
-				// make a anchor for every section
-    				if(defined('SEC_ANCHOR') && SEC_ANCHOR!='') {
-    					echo "\n".'<a class="section_anchor" id="'.SEC_ANCHOR.$section_id.'" name="'.SEC_ANCHOR.$section_id.'"></a>'."\n";
-    				}
+                    $sectionAnchor = (defined('SEC_ANCHOR') && SEC_ANCHOR!='') ? SEC_ANCHOR.$section_id : 'section_'.$section_id;
+                    echo PHP_EOL.'<div id="'.$sectionAnchor.'" class="'.$module.'" >'.PHP_EOL;
 					require(WB_PATH.'/modules/'.$module.'/view.php');
+                    echo PHP_EOL.'</div><!-- '.$module.$section_id.' -->'.PHP_EOL;
 					$content = ob_get_clean();
 				} else {
 					continue;

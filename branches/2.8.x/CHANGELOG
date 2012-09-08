@@ -13,7 +13,13 @@ Legend:
 
 
 
-07 Sep-2012 Build 1744 Dietmar Woellbrink (Luisehahne)
+08 Sep-2012 Build 1745 Dietmar Woellbrink (Luisehahne)
+! add div container in page_content for each sections,
+! update droplets SectionPicker, ShowWysiwyg and ShowRandomWysiwyg
+! put sec_anchor in this div, sec_anchor fixed in all found files
+  sec_anchor default now set to "section_", 
+  sec_anchor can't be empty for future developement
+08 Sep-2012 Build 1744 Dietmar Woellbrink (Luisehahne)
 # typofix upgrade-script Adding redirect timer to settings table
 07 Sep-2012 Build 1743 Dietmar Woellbrink (Luisehahne)
 ! styling permissions blocks in page settings by backend theme css

@@ -387,7 +387,7 @@ echo '<h3>Step '.(++$stepID).': Updating settings</h3>';
 /**********************************************************
  *  - Adding field sec_anchor to settings table
  */
-echo "<br />Adding sec_anchor to settings table";
+echo "<br />Adding/updating sec_anchor to settings table";
 $cfg = array(
 	'sec_anchor' => defined('SEC_ANCHOR') ? SEC_ANCHOR : 'wb_'
 );
@@ -398,7 +398,7 @@ echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 /**********************************************************
  *  - Adding redirect timer to settings table
  */
-echo "Adding redirect timer to settings table";
+echo "Adding/updating redirect timer to settings table";
 $cfg = array(
 	'redirect_timer' => defined('REDIRECT_TIMER') ? REDIRECT_TIMER : '1500'
 );
@@ -407,7 +407,7 @@ echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 /**********************************************************
  *  - Adding rename_files_on_upload to settings table
  */
-echo "Updating rename_files_on_upload to settings table";
+echo "Adding/Updating rename_files_on_upload to settings table";
 $cfg = array(
 	'rename_files_on_upload' => (defined('RENAME_FILES_ON_UPLOAD') ? RENAME_FILES_ON_UPLOAD : 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js')
 );
@@ -416,7 +416,7 @@ echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 /**********************************************************
  *  - Adding mediasettings to settings table
  */
-echo "Adding mediasettings to settings table";
+echo "Adding/updating mediasettings to settings table";
 $cfg = array(
 	'mediasettings' => (defined('MEDIASETTINGS') ? MEDIASETTINGS : ''),
 );
@@ -426,7 +426,7 @@ echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 /**********************************************************
  *  - Adding fingerprint_with_ip_octets to settings table
  */
-echo "Adding fingerprint_with_ip_octets to settings table";
+echo "Adding/updating fingerprint_with_ip_octets to settings table";
 $cfg = array(
 	'fingerprint_with_ip_octets' => (defined('FINGERPRINT_WITH_IP_OCTETS') ? FINGERPRINT_WITH_IP_OCTETS : '2'),
 	'secure_form_module' => (defined('SECURE_FORM_MODULE') ? SECURE_FORM_MODULE : '')
@@ -437,7 +437,7 @@ echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 /**********************************************************
  *  - Adding page_icon_dir to settings table
  */
-echo "Adding page_icon_dir to settings table";
+echo "Adding/updating page_icon_dir to settings table";
 $cfg = array(
 	'page_extended' => (defined('PAGE_ICON_DIR') ? PAGE_ICON_DIR : '/templates/*/title_images'),
 );
@@ -446,7 +446,7 @@ echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 /**********************************************************
  *  - Adding page_extended to settings table
  */
-echo "Adding ppage_extended to settings table";
+echo "Adding/updating ppage_extended to settings table";
 $cfg = array(
 	'page_extended' => (defined('PAGE_EXTENDED') ? PAGE_EXTENDED : 'true'),
 );
@@ -454,9 +454,18 @@ $cfg = array(
 echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
 /**********************************************************
+ *  - Adding sec_anchor to settings table
+ */
+echo "Adding/updating sec_anchor to settings table";
+$cfg = array(
+	'sec_anchor' => (defined('SEC_ANCHOR') && (SEC_ANCHOR=='') ? 'section_' : SEC_ANCHOR)
+);
+
+echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+/**********************************************************
  *  - Adding dev_infos to settings table
  */
-echo "Adding dev_infos to settings table";
+echo "Adding/updating dev_infos to settings table";
 $cfg = array(
 	'dev_infos' => (defined('DEV_INFOS') ? DEV_INFOS : 'false')
 );

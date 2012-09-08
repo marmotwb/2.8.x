@@ -69,6 +69,8 @@ $template->set_block('main_block', 'show_wysiwyg_block',          'show_wysiwyg'
 $template->set_block('main_block', 'show_access_block',           'show_access');
 $template->set_block('main_block', 'show_search_block',           'show_search');
 $template->set_block('main_block', 'show_redirect_timer_block',   'show_redirect_timer');
+/*-- insert all needed vars from language files ----------------------------------------*/
+	$template->set_var($mLang->getLangArray());
 
 // Query current settings in the db, then loop through them and print them
 $query = "SELECT * FROM ".TABLE_PREFIX."settings";
@@ -157,8 +159,6 @@ if($is_advanced)
 
 	$sSelected = ' selected="selected"';
 	$checked   = ' checked="checked"';
-/*-- insert all needed vars from language files ----------------------------------------*/
-	$template->set_var($mLang->getLangArray());
 
 	$template->set_var(array(
 						'WB_URL' => WB_URL,
@@ -901,7 +901,6 @@ if($is_advanced)
 					'TEXT_EXECUTE' => $TEXT['EXECUTE'],
 					'TEXT_WARN_PAGE_LEAVE' => '',
 					'TEXT_SMART_LOGIN' => $TEXT['SMART_LOGIN'],
-					'TEXT_CONFIRMED_REGISTRATION' => $TEXT['EMAIL'].' '.$TEXT['SIGNUP'],
 					'TEXT_MULTIPLE_MENUS' => $TEXT['MULTIPLE_MENUS'],
 					'TEXT_HOMEPAGE_REDIRECTION' => $TEXT['HOMEPAGE_REDIRECTION'],
 					'TEXT_SECTION_BLOCKS' => $TEXT['SECTION_BLOCKS'],
@@ -913,8 +912,8 @@ if($is_advanced)
 					'TEXT_HOME_FOLDERS' => $TEXT['HOME_FOLDERS'],
 					'TEXT_WYSIWYG_STYLE' => $TEXT['WYSIWYG_STYLE'],
 					'TEXT_WORLD_WRITEABLE_FILE_PERMISSIONS' => $TEXT['WORLD_WRITEABLE_FILE_PERMISSIONS'],
-					'MODE_SWITCH_WARNING' => $MESSAGE['SETTINGS']['MODE_SWITCH_WARNING'],
-					'WORLD_WRITEABLE_WARNING' => $MESSAGE['SETTINGS']['WORLD_WRITEABLE_WARNING'],
+					'MODE_SWITCH_WARNING' => $MESSAGE['SETTINGS_MODE_SWITCH_WARNING'],
+					'WORLD_WRITEABLE_WARNING' => $MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'],
 					'TEXT_MODULE_ORDER' => $TEXT['MODULE_ORDER'],
 					'TEXT_MAX_EXCERPT' => $TEXT['MAX_EXCERPT'],
 					'TEXT_TIME_LIMIT' => $TEXT['TIME_LIMIT']

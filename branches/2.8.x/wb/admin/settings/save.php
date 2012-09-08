@@ -154,7 +154,7 @@ if($advanced == '')
 }
 
 $allow_tags_in_fields = array('website_header', 'website_footer','website_signature');
-$allow_empty_values = array('website_header','website_footer','sec_anchor','pages_directory','page_spacer','website_signature,page_icon_dir');
+$allow_empty_values = array('website_header','website_footer','pages_directory','page_spacer','website_signature,page_icon_dir');
 $disallow_in_fields = array('pages_directory', 'media_directory','wb_version');
 
 // Query current settings in the db, then loop through them and update the db with the new value
@@ -185,6 +185,9 @@ if($res_settings = $database->query($sql)) {
 				$value=$file_mode;
 	 			$passed = true;
 			break;
+			case 'sec_anchor':
+				$value=(($value=='') ? 'section_' : $value);
+	 			$passed = true;
 			case 'pages_directory':
 				break;
 			case 'wbmailer_smtp_auth':

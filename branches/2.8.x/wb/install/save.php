@@ -437,7 +437,7 @@ if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 	." ('er_level', ''),"
 	." ('default_language', '$default_language'),"
 	." ('app_name', 'wb_$session_rand'),"
-	." ('sec_anchor', 'wb_'),"
+	." ('sec_anchor', 'section_'),"
 	." ('default_timezone', '$default_timezone'),"
 	." ('default_date_format', 'M d Y'),"
 	." ('default_time_format', 'g:i A'),"
