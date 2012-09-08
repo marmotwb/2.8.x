@@ -306,7 +306,7 @@ if (!function_exists('page_content')) {
 				// fetch content -- this is where to place possible output-filters (before highlighting)
 					ob_start(); // fetch original content
                     $sectionAnchor = (defined('SEC_ANCHOR') && SEC_ANCHOR!='') ? SEC_ANCHOR.$section_id : 'section_'.$section_id;
-                    echo PHP_EOL.'<div id="'.$sectionAnchor.'" class="'.$module.'" >'.PHP_EOL;
+                    echo PHP_EOL.'<div id="'.$sectionAnchor.'" class="wb_'.$module.'" >'.PHP_EOL;
 					require(WB_PATH.'/modules/'.$module.'/view.php');
                     echo PHP_EOL.'</div><!-- '.$module.$section_id.' -->'.PHP_EOL;
 					$content = ob_get_clean();
