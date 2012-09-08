@@ -13,6 +13,9 @@ Legend:
 
 
 
+08 Sep-2012 Build 1746 Dietmar Woellbrink (Luisehahne)
+# add prefix wb_ to class name for content container 
+  if module has the same name as a html markup e.g code
 08 Sep-2012 Build 1745 Dietmar Woellbrink (Luisehahne)
 ! add div container in page_content for each sections,
 ! update droplets SectionPicker, ShowWysiwyg and ShowRandomWysiwyg
