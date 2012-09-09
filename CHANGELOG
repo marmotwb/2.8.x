@@ -13,6 +13,8 @@ Legend:
 
 
 
+08 Sep-2012 Build 1747 Dietmar Woellbrink (Luisehahne)
+# fixed issues with older table strucure for earlier WB installations
 08 Sep-2012 Build 1746 Dietmar Woellbrink (Luisehahne)
 # add prefix wb_ to class name for content container 
   if module has the same name as a html markup e.g code

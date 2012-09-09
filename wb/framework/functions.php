@@ -1165,6 +1165,8 @@ function load_language($file)
 			}
 			$sql .= '`directory`=\''.$language_code.'\', ';
 			$sql .= '`name`=\''.$language_name.'\', ';
+            $sql .= '`description`=\'\', ';
+			$sql .= '`function`=\'\', ';
 			$sql .= '`type`=\'language\', ';
 			$sql .= '`version`=\''.$language_version.'\', ';
 			$sql .= '`platform`=\''.$language_platform.'\', ';
