@@ -20,7 +20,7 @@
 if(defined('WB_PATH') == false)
 {
 	// Stop this file being access directly
-		die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+		die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
 }
 /* -------------------------------------------------------- */
 
@@ -43,27 +43,38 @@ if(isset($_POST['save_settings'])) {
 		if(!$admin_header) { $admin->print_header(); }
 		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $js_back );
 	}
-	
+
+    $ct_text = '';
+    $captcha_type = 'calc_text';
 	// get configuration settings
 	$enabled_captcha = ($_POST['enabled_captcha'] == '1') ? '1' : '0';
 	$enabled_asp = ($_POST['enabled_asp'] == '1') ? '1' : '0';
 	$captcha_type = $admin->add_slashes($_POST['captcha_type']);
-	
-	// update database settings
-	$database->query("UPDATE $table SET
-		enabled_captcha = '$enabled_captcha',
-		enabled_asp = '$enabled_asp',
-		captcha_type = '$captcha_type'
-	");
-
 	// save text-captchas
 	if($captcha_type == 'text') { // ct_text
 		$text_qa=$admin->add_slashes($_POST['text_qa']);
 		if(!preg_match('/### .*? ###/', $text_qa)) {
-			$database->query("UPDATE $table SET ct_text = '$text_qa'");
+            $ct_text = $text_qa;
 		}
 	}
-	
+
+
+	// update database settings
+
+    $sql  = 'UPDATE '.$table.' ';
+    $sql .= 'SET `enabled_captcha` = \''.$enabled_captcha.'\', ';
+    $sql .=     '`enabled_asp` = \''.$enabled_asp.'\', ';
+    $sql .=     '`captcha_type` = \''.$captcha_type.'\', ';
+    $sql .=     '`asp_session_min_age` = 20, ';
+    $sql .=     '`asp_view_min_age` = 10, ';
+    $sql .=     '`asp_input_min_age` = 5, ';
+    $sql .=     '`ct_text` =\''.$ct_text.'\' ';
+
+    if(!$database->query($sql)) {
+    //    print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
+    //    print_r( explode(',',$sql) ); print '</pre>'; // flush ();sleep(10); die();
+    }
+
 	// check if there is a database error, otherwise say successful
 	if(!$admin_header) { $admin->print_header(); }
 	if($database->is_error()) {
@@ -74,7 +85,7 @@ if(isset($_POST['save_settings'])) {
 
 } else {
 }
-	
+
 	// include captcha-file
 	require_once(WB_PATH .'/include/captcha/captcha.php');
 
@@ -103,10 +114,10 @@ if(isset($_POST['save_settings'])) {
 
 	pics["old_image"] = new Image();
 	pics["old_image"].src = "<?php echo WB_URL.'/include/captcha/captchas/old_image.png'?>";
-	
+
 	pics["calc_text"] = new Image();
 	pics["calc_text"].src = "<?php echo WB_URL.'/include/captcha/captchas/calc_text.png'?>";
-	
+
 	pics["text"] = new Image();
 	pics["text"].src = "<?php echo WB_URL.'/include/captcha/captchas/text.png'?>";
 
@@ -114,7 +125,7 @@ if(isset($_POST['save_settings'])) {
 		document.captcha_example.src = pics[document.store_settings.captcha_type.value].src;
 		toggle_text_qa();
 	}
-	
+
 	function toggle_text_qa() {
 		if(document.store_settings.captcha_type.value == 'text' ) {
 			document.getElementById('text_qa').style.display = '';
@@ -138,7 +149,7 @@ if(isset($_POST['save_settings'])) {
 		$enabled_asp = '1';
 		$captcha_type = 'calc_text';
 	}
-		
+
 	// write out heading
 	echo '<h2>' .$MOD_CAPTCHA_CONTROL['HEADING'] .'</h2>';
 
