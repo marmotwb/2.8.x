@@ -13,6 +13,13 @@ Legend:
 
 
 
+14 Sep-2012 Build 1752 Dietmar Woellbrink (Luisehahne)
+! forgot to upload CHANGELOG and version.php
+14 Sep-2012 Build 1751 Dietmar Woellbrink (Luisehahne)
+- remove Template Engine Quickskin, but don't delete by upgrade-script on your webspace
+! see Revsion 1749 set pages field menu to default 1 by new install
++ add folder DOCS to Twig with changelog, authours and licence
+  please find the Twig Book as pdf, This is the documentation for Twig,
 14 Sep-2012 Build 1750 Dietmar Woellbrink (Luisehahne)
 # fixed missing ({missing: TEXT_TEMPLATE}) in template details
 14 Sep-2012 Build 1749 Dietmar Woellbrink (Luisehahne)
