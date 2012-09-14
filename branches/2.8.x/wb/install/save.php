@@ -386,7 +386,7 @@ if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 				. ' `template` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
 				. ' `visibility` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
 				. ' `position` INT NOT NULL DEFAULT \'0\','
-				. ' `menu` INT NOT NULL DEFAULT \'0\','
+				. ' `menu` INT NOT NULL DEFAULT \'1\','
 				. ' `language` VARCHAR( 5 ) NOT NULL DEFAULT \'\' ,'
 				. ' `page_code` INT NOT NULL DEFAULT \'0\','
 				. ' `searching` INT NOT NULL DEFAULT \'0\','
