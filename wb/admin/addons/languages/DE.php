@@ -86,6 +86,7 @@ $TEXT['NAME'] = 'Name';
 $TEXT['PLEASE_SELECT'] = 'Bitte auswählen';
 $TEXT['RESET'] = 'Zurücksetzen';
 $TEXT['SAVE'] = 'Speichern';
+$TEXT['TEMPLATE'] = 'Template';
 $TEXT['THEME'] = 'Backend-Theme';
 $TEXT['TYPE'] = 'Art';
 $TEXT['UNINSTALL'] = 'Deinstallieren';

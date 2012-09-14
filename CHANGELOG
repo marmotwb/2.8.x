@@ -13,6 +13,8 @@ Legend:
 
 
 
+14 Sep-2012 Build 1750 Dietmar Woellbrink (Luisehahne)
+# fixed missing ({missing: TEXT_TEMPLATE}) in template details
 14 Sep-2012 Build 1749 Dietmar Woellbrink (Luisehahne)
 # fixed save pagesettings, if multiple menus is disabled, set page['menu'] to default = 1
 12 Sep-2012 Build 1748 Werner v.d.Decken(DarkViper)
