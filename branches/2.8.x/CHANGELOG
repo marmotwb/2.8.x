@@ -13,6 +13,8 @@ Legend:
 
 
 
+14 Sep-2012 Build 1749 Dietmar Woellbrink (Luisehahne)
+# fixed save pagesettings, if multiple menus is disabled, set page['menu'] to default = 1
 12 Sep-2012 Build 1748 Werner v.d.Decken(DarkViper)
 ! 3th party class idna_convert updated to version 0.8.0
 08 Sep-2012 Build 1747 Dietmar Woellbrink (Luisehahne)

@@ -77,11 +77,11 @@ $searching = intval($admin->get_post('searching'));
 $language = strtoupper($admin->get_post('language'));
 $language = (preg_match('/^[A-Z]{2}$/', $language) ? $language : DEFAULT_LANGUAGE);
 $menu = intval($admin->get_post('menu')); // fix secunia 2010-91-3
+$menu = ($menu==0) ? 1 : $menu;
 $page_code = (isset($_POST['page_code']) ? intval($_POST['page_code']) : 0);
 $sPageIcon = (isset($_POST['page_icon']) ? $_POST['page_icon'] : 0);
 $sMenuIcon0 = (isset($_POST['menu_icon_0']) ? $_POST['menu_icon_0'] : 0);
 $sMenuIcon1 = (isset($_POST['menu_icon_1']) ? $_POST['menu_icon_1'] : 0);
-
 
 // Validate data
 if($page_title == '' || substr($page_title,0,1)=='.')
