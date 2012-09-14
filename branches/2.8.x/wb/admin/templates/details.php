@@ -101,14 +101,14 @@ if($tool_description !== false) {
 }
 
 $template->set_var(array(
-								'NAME' => $row['name'],
-								'AUTHOR' => $row['author'],
-								'DESCRIPTION' => $row['description'],
-								'VERSION' => $row['version'],
-								'DESIGNED_FOR' => $row['platform'],
-								'LICENSE' => $row['license'],
-								)
-						);
+      'NAME' => $row['name'],
+      'AUTHOR' => $row['author'],
+      'DESCRIPTION' => $row['description'],
+      'VERSION' => $row['version'],
+      'DESIGNED_FOR' => $row['platform'],
+      'LICENSE' => $row['license'],
+    )
+);
 
 $mLang = ModLanguage::getInstance();
 $mLang->setLanguage(ADMIN_PATH.'/addons/languages/', LANGUAGE, DEFAULT_LANGUAGE);
