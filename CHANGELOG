@@ -13,6 +13,8 @@ Legend:
 
 
 
+15 Sep-2012 Build 1756 Dietmar Woellbrink (Luisehahne)
+! update wysiwyg install.php, now using methode SqlImport from WBDatabase
 15 Sep-2012 Build 1755 Dietmar Woellbrink (Luisehahne)
 ! update upgrade-script, see Revsion 1735
 15 Sep-2012 Build 1754 Dietmar Woellbrink (Luisehahne)
