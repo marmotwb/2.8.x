@@ -223,19 +223,29 @@ create_access_file($filename, $page_id, $level);
 $position = 1;
 
 // Add new record into the sections table
-$database->query("INSERT INTO ".TABLE_PREFIX."sections (page_id,position,module,block) VALUES ('$page_id','$position', '$module','1')");
+//$database->query("INSERT INTO ".TABLE_PREFIX."sections (page_id,position,module,block) VALUES ('$page_id','$position', '$module','1')");
 
-// Get the section id
-$section_id = $database->get_one("SELECT LAST_INSERT_ID()");
-
-// Include the selected modules add file if it exists
-if(file_exists(WB_PATH.'/modules/'.$module.'/add.php')) {
-	require(WB_PATH.'/modules/'.$module.'/add.php');
+// Insert module into DB
+$sql  = 'INSERT INTO `'.TABLE_PREFIX.'sections` SET ';
+$sql .= '`page_id` = '.(int)$page_id.', ';
+$sql .= '`module` = \''.$module.'\', ';
+$sql .= '`position` = '.(int)$position.', ';
+$sql .= '`block` = \'1\', ';
+$sql .= '`publ_start` = \'0\',';
+$sql .= '`publ_end` = \'0\' ';
+if($database->query($sql)) {
+	// Get the section id
+	$section_id = $database->get_one("SELECT LAST_INSERT_ID()");
+	// Include the selected modules add file if it exists
+	if(file_exists(WB_PATH.'/modules/'.$module.'/add.php'))
+    {
+		require(WB_PATH.'/modules/'.$module.'/add.php');
+	}
 }
 
 // Check if there is a db error, otherwise say successful
 if($database->is_error()) {
-	$admin->print_error($database->get_error());
+	$admin->print_error($database->get_error().' (sections)');
 } else {
 	$admin->print_success($MESSAGE['PAGES_ADDED'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 }

@@ -156,8 +156,12 @@ if ($parent!='0')
 	$root_parent = root_parent($parent);
 }
 else {
-	$level = '0';
-	$root_parent = '0';
+//	$level = '0';
+//	$root_parent = '0';
+// Work out level
+    $level = level_count($page_id);
+// Work out root parent
+    $root_parent = root_parent($page_id);
 }
 
 // Work-out what the link should be
