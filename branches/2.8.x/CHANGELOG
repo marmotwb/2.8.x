@@ -13,6 +13,10 @@ Legend:
 
 
 
+15 Sep-2012 Build 1754 Dietmar Woellbrink (Luisehahne)
+# fixed Duplicate entry  for key 'PRIMARY' if adding a new  pageX
+  search for ->page['root_parent'] == 0 in module and shoe_menu2 calls
+  page['root_parent'] has always the page_id from the first adding new page in level  
 15 Sep-2012 Build 1753 Dietmar Woellbrink (Luisehahne)
 ! remove summary="" in captcha tables frontend
 ! fixed calendar time, now all Calendar in WB shows right user TIMEZONE

@@ -478,15 +478,16 @@ function root_parent($page_id)
 	global $database;
 	// Get page details
 	$sql = 'SELECT `parent`, `level` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
+
 	$query_page = $database->query($sql);
 	$fetch_page = $query_page->fetchRow();
 	$parent = $fetch_page['parent'];
 	$level = $fetch_page['level'];
 	if($level == 1) {
 		return $parent;
-	}elseif($parent == 0) {
+	} elseif($parent == 0) {
 		return $page_id;
-	}else {	// Figure out what the root parents id is
+	} else {	// Figure out what the root parents id is
 		$parent_ids = array_reverse(get_parent_ids($page_id));
 		return $parent_ids[0];
 	}

@@ -21,7 +21,6 @@ if(!defined('WB_PATH')) {
 	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
-
 $msg = '';
 $sTable = TABLE_PREFIX.'mod_wysiwyg';
 if(($sOldType = $database->getTableEngine($sTable))) {
@@ -33,6 +32,17 @@ if(($sOldType = $database->getTableEngine($sTable))) {
 } else {
 	$msg .= $database->get_error().'<br />';
 }
+
+$sql = 'ALTER TABLE `'.DB_NAME.'`.`'.$sTable.'` DROP PRIMARY KEY';
+if(!$database->query($sql)) {
+	$msg .= $database->get_error().'<br />';
+}
+
+$sql = 'ALTER TABLE `'.$sTable.'`  ADD `wysiwyg_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST';
+if(!$database->query($sql)) {
+	$msg .= $database->get_error().'<br />';
+}
+
 // change internal absolute links into relative links
 $sTable = TABLE_PREFIX.'mod_wysiwyg';
 $sql  = 'UPDATE `'.$sTable.'` ';
