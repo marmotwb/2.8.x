@@ -38,7 +38,7 @@ if(!defined('WB_URL')) {
 // require_once(WB_PATH.'/include/jscalendar/calendar-system.css');
 ?>
 <!--</style>  -->
-<script type="text/javascript" src="<?php echo WB_URL ?>/include/jscalendar/calendar.js"></script>
+<script src="<?php echo WB_URL ?>/include/jscalendar/calendar.js" type="text/javascript"></script>
 <?php // some stuff for jscalendar
 	// language
 	$jscal_lang = defined('LANGUAGE')?strtolower(LANGUAGE):'en';
@@ -47,7 +47,7 @@ if(!defined('WB_URL')) {
 		$jscal_lang = 'en';
 	}
 	// today
-	$jscal_today = gmdate('Y/m/d H:i');
+	$jscal_today = gmdate('Y/m/d H:i', time()+TIMEZONE);
 	// first-day-of-week
 	$jscal_firstday = '1'; // monday
 	if(LANGUAGE=='EN')
@@ -77,12 +77,12 @@ if(!defined('WB_URL')) {
 			$jscal_ifformat = '%Y-%m-%d';
 			break;
 	}
-	if(isset($jscal_use_time) && $jscal_use_time==TRUE) {
+	if(isset($jscal_use_time) && $jscal_use_time==true) {
 		$jscal_format .= ' H:i';
 		$jscal_ifformat .= ' %H:%M';
 	}
 
 	// load scripts for jscalendar
 ?>
-<script type="text/javascript" src="<?php echo WB_URL ?>/include/jscalendar/lang/calendar-<?php echo $jscal_lang ?>.js"></script>
-<script type="text/javascript" src="<?php echo WB_URL ?>/include/jscalendar/calendar-setup.js"></script>
+<script src="<?php echo WB_URL ?>/include/jscalendar/lang/calendar-<?php echo $jscal_lang ?>.js" type="text/javascript"></script>
+<script src="<?php echo WB_URL ?>/include/jscalendar/calendar-setup.js" type="text/javascript"></script>
