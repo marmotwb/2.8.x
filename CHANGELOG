@@ -13,6 +13,8 @@ Legend:
 
 
 
+15 Sep-2012 Build 1755 Dietmar Woellbrink (Luisehahne)
+! update upgrade-script, see Revsion 1735
 15 Sep-2012 Build 1754 Dietmar Woellbrink (Luisehahne)
 # fixed Duplicate entry  for key 'PRIMARY' if adding a new  pageX
   search for ->page['root_parent'] == 0 in module and shoe_menu2 calls
