@@ -632,6 +632,21 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT ''";
 	echo "Modify field viewing_users to pages table";
 	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+
+	/**********************************************************
+	 *  - Remove/add PRIMARY KEY from/to "section_id" from table "mod_wysiwygs"
+	 */
+	$sTable = TABLE_PREFIX.'mod_wysiwyg';
+	$field_name = 'wysiwyg_id';
+	if(!$database->field_exists($sTable,$field_name)) {
+    	echo "Remove PRIMARY KEY from table mod_wysiwygs";
+        $sql = 'ALTER TABLE `'.DB_NAME.'`.`'.$sTable.'` DROP PRIMARY KEY';
+        echo ($database->query($sql) ? " $OK<br />" : " $FAIL!<br />");
+
+    	echo "add new PRIMARY KEY to table mod_wysiwygs";
+        $sql = 'ALTER TABLE `'.$sTable.'`  ADD `wysiwyg_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST';
+        echo ($database->query($sql) ? " $OK<br />" : " $FAIL!<br />");
+    }
 }
 
 /**********************************************************
