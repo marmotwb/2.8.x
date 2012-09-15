@@ -13,6 +13,12 @@ Legend:
 
 
 
+15 Sep-2012 Build 1753 Dietmar Woellbrink (Luisehahne)
+! remove summary="" in captcha tables frontend
+! fixed calendar time, now all Calendar in WB shows right user TIMEZONE
+  please check module for saving timestamp minus TIMEZONE
+# recoded sections in admin/pages/, now save all fields
+  there was a problem, if blocks and menus are disabled
 14 Sep-2012 Build 1752 Dietmar Woellbrink (Luisehahne)
 ! forgot to upload CHANGELOG and version.php
 14 Sep-2012 Build 1751 Dietmar Woellbrink (Luisehahne)

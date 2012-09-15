@@ -1,27 +1,20 @@
 <?php
-
-// $Id$
-
-/*
-
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2009, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/**
+ *
+ * @category        captcha
+ * @package         include
+ * @subpackage
+ * @author          Ryan Djurovich,WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker2.org/
+ * @license         http://www.gnu.org/licenses/gpl.html
+ * @platform        WebsiteBaker 2.8.x
+ * @requirements    PHP 5.2.2 and higher
+ * @version         $Id$
+ * @filesource      $HeadURL$
+ * @lastmodified    $Date$
+ *
+ */
 
 // displays the image or text inside an <iframe>
 if(!function_exists('display_captcha_real')) {
@@ -142,7 +135,7 @@ if(!function_exists('call_captcha')) {
 		if($action=='all') {
 			switch(CAPTCHA_TYPE) {
 				case 'text': // text-captcha
-					?><table class="captcha_table" summary="captcha control"><tr>
+					?><table class="captcha_table"><tr>
 					<td class="text_captcha">
 						<?php include(WB_PATH.'/include/captcha/captchas/'.CAPTCHA_TYPE.'.php'); ?>
 					</td>
@@ -152,7 +145,7 @@ if(!function_exists('call_captcha')) {
 					</tr></table><?php
 					break;
 				case 'calc_text': // calculation as text
-					?><table class="captcha_table" summary="captcha control"><tr>
+					?><table class="captcha_table"><tr>
 					<td class="text_captcha">
 						<?php include(WB_PATH.'/include/captcha/captchas/'.CAPTCHA_TYPE.'.php'); ?>
 					</td>
@@ -163,7 +156,7 @@ if(!function_exists('call_captcha')) {
 					break;
 				case 'calc_image': // calculation with image (old captcha)
 				case 'calc_ttf_image': // calculation with varying background and ttf-font
-				  ?><table class="captcha_table" summary="captcha control"><tr>
+				  ?><table class="captcha_table"><tr>
 					<td class="image_captcha">
 						<?php echo "<iframe class=\"captcha_iframe\" width=\"$captcha_width\" height=\"$captcha_height\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" frameborder=\"0\" name=\"captcha_iframe_$sec_id\" src=\"". WB_URL ."/include/captcha/captcha.php?display_captcha_X986E21=1&amp;s=$sec_id"; ?>">
 						<img src="<?php echo WB_URL.'/include/captcha/captchas/'.CAPTCHA_TYPE.".php?t=$t&amp;s=$sec_id"; ?>" alt="Captcha" />
@@ -177,7 +170,7 @@ if(!function_exists('call_captcha')) {
 				// normal images
 				case 'ttf_image': // captcha with varying background and ttf-font
 				case 'old_image': // old captcha
-					?><table class="captcha_table" summary="captcha control"><tr>
+					?><table class="captcha_table"><tr>
 					<td class="image_captcha">
 						<?php echo "<iframe class=\"captcha_iframe\" width=\"$captcha_width\" height=\"$captcha_height\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" frameborder=\"0\" name=\"captcha_iframe_$sec_id\" src=\"". WB_URL ."/include/captcha/captcha.php?display_captcha_X986E21=1&amp;s=$sec_id"; ?>">
 						<img src="<?php echo WB_URL.'/include/captcha/captchas/'.CAPTCHA_TYPE.".php?t=$t&amp;s=$sec_id"; ?>" alt="Captcha" />

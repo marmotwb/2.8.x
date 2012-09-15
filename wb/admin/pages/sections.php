@@ -31,7 +31,7 @@ If(!defined('DEBUG')) { define('DEBUG',$debug);}
 require_once(WB_PATH.'/framework/functions.php');
 // Create new admin object
 require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Pages', 'pages_modify', false);
+$admin = new admin('Pages', 'pages_view', false);
 
 $action = 'show';
 // Get page id
@@ -51,6 +51,11 @@ $backlink = ADMIN_URL.'/pages/sections.php?page_id='.(int)$page_id;
 
 switch ($action):
 	case 'delete' :
+        if($admin->get_permission('pages_delete') == false)
+        {
+			$admin->print_header();
+			$admin->print_error($module.' '.strtolower($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']),$backlink);
+        }
 
 		if( ( !($section_id = intval($admin->checkIDKEY('section_id', 0, $_SERVER['REQUEST_METHOD'])) )) )
 		{
@@ -90,7 +95,11 @@ switch ($action):
 
 		break;
 	case 'add' :
-
+        if($admin->get_permission('pages_add') == false)
+        {
+			$admin->print_header();
+			$admin->print_error($module.' '.strtolower($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']),$backlink);
+        }
 		if (!$admin->checkFTAN())
 		{
 			$admin->print_header();
@@ -107,7 +116,10 @@ switch ($action):
 	    $sql .= '`page_id` = '.(int)$page_id.', ';
 	    $sql .= '`module` = \''.$module.'\', ';
 	    $sql .= '`position` = '.(int)$position.', ';
-	    $sql .= '`block` = 1';
+	    $sql .= '`block` = \'1\', ';
+        $sql .= '`publ_start` = \'0\',';
+        $sql .= '`publ_end` = \'0\' ';
+
         if($database->query($sql)) {
 			// Get the section id
 			$section_id = $database->get_one("SELECT LAST_INSERT_ID()");
