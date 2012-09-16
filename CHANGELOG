@@ -13,6 +13,11 @@ Legend:
 
 
 
+16 Sep-2012 Build 1757 Dietmar Woellbrink (Luisehahne)
+# fixed mysql_fetch_array() expects parameter 1 to be resource, boolean given
+  by adding a new form on page, 
+! refactroring form/install.php to SqlImport, add a form sql dump
+! correcting some SEC_ANCHOR in form
 15 Sep-2012 Build 1756 Dietmar Woellbrink (Luisehahne)
 ! update wysiwyg install.php, now using methode SqlImport from WBDatabase
 15 Sep-2012 Build 1755 Dietmar Woellbrink (Luisehahne)

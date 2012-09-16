@@ -30,7 +30,7 @@ if (!$admin->checkFTAN())
 }
 $admin->print_header();
 
-$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
+$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : 'section_'.$section_id );
 
 if (!function_exists('emailAdmin')) {
 	function emailAdmin() {
@@ -114,7 +114,7 @@ if(!is_numeric($_POST['perpage_submissions'])) {
 if($max_submissions > $stored_submissions) {
 	$max_submissions = $stored_submissions;
 }
-$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
+$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : 'section_'.$section_id );
 
 // Update settings
 $sql  = 'UPDATE `'.TABLE_PREFIX.'mod_form_settings` SET ';

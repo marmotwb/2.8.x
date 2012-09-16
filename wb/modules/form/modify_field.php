@@ -23,7 +23,7 @@ $update_when_modified = false;
 // Include WB admin wrapper script
 require(WB_PATH.'/modules/admin.php');
 
-$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
+$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : 'section_'.$section_id );
 /* */
 // Get id
 $field_id = intval($admin->checkIDKEY('field_id', false, 'GET'));

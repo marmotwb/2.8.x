@@ -38,7 +38,7 @@ if(!$database->field_exists($table_name,$field_name)) {
 	$database->field_add($table_name, $field_name, $description);
 }
 
-$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
+$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : 'section_'.$section_id );
 
 if (!function_exists('emailAdmin')) {
 	function emailAdmin() {
