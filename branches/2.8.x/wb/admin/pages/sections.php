@@ -323,7 +323,7 @@ switch ($action):
 					{
 						$edit_page = '';
 					}
-					$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? SEC_ANCHOR : '');
+					$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? SEC_ANCHOR : 'section_');
 					$edit_page_0 = '<a id="sid'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$results_array['page_id'];
 					$edit_page_1  = ($sec_anchor!='') ? '#'.$sec_anchor.$section['section_id'].'">' : '">';
 					$edit_page_1 .= $section['module'].'</a>';
