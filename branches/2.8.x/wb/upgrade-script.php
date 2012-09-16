@@ -446,7 +446,7 @@ echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 /**********************************************************
  *  - Adding page_extended to settings table
  */
-echo "Adding/updating ppage_extended to settings table";
+echo "Adding/updating page_extended to settings table";
 $cfg = array(
 	'page_extended' => (defined('PAGE_EXTENDED') ? PAGE_EXTENDED : 'true'),
 );
@@ -654,19 +654,19 @@ if(version_compare(WB_REVISION, REVISION, '<'))
  ALTER TABLE `wb_pages` CHANGE `page_icon` `page_icon` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT ''
  */
 	$dir = (WB_PATH.MEDIA_DIRECTORY);
-	echo '<h4>Upgrade '.MEDIA_DIRECTORY.'/ index.php protect files</h4><br />';
+	echo '<h4>Upgrade '.MEDIA_DIRECTORY.'/ index.php protect files</h4>';
 	$array = rebuildFolderProtectFile($dir);
 	if( sizeof( $array ) ){
-		print '<br /><strong>Upgrade '.sizeof( $array ).' '.MEDIA_DIRECTORY.'/ protect files</strong>'." $OK<br />";
+		print '<strong>Upgrade '.sizeof( $array ).' '.MEDIA_DIRECTORY.'/ protect files</strong>'." $OK<br />";
 	} else {
-		print '<br /><strong>Upgrade '.MEDIA_DIRECTORY.'/ protect files</strong>'." $FAIL!<br />";
+		print '<<strong>Upgrade '.MEDIA_DIRECTORY.'/ protect files</strong>'." $FAIL!<br />";
 		print implode ('<br />',$array);
 	}
 
 /**********************************************************
  * upgrade pages folder index access files
  */
-	echo '<h4>Upgrade /pages/ index.php access files</h4><br />';
+	echo '<h4>Upgrade /pages/ index.php access files</h4>';
 
     ///**********************************************************
     // *  - try to remove access files
@@ -674,7 +674,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$sTempDir = (defined('PAGES_DIRECTORY') && (PAGES_DIRECTORY != '') ? PAGES_DIRECTORY : '');
 	if(($sTempDir!='') && is_readable(WB_PATH.$sTempDir)==true) {
 	 	if(rm_full_dir (WB_PATH.$sTempDir, true )==false) {
-			$msg[] = '<strong>Could not delete existing access files</strong><br />';
+			$msg[] = '<strong>Could not delete existing access files</strong>';
 	 	} else {
 			$msg[] = createFolderProtectFile(rtrim( WB_PATH.$sTempDir,'/') );
         }
@@ -684,17 +684,20 @@ if(version_compare(WB_REVISION, REVISION, '<'))
     // *  - Reformat/rebuild all existing access files
     // */
     $msg[] = "All existing access files anew format";
-    $sql = 'SELECT `page_id`,`link`, `level` FROM `'.TABLE_PREFIX.'pages` ORDER BY `link`';
-    if (($res_pages = $database->query($sql)))
+    $sql = 'SELECT `page_id`,`root_parent`,`link`, `level` FROM `'.TABLE_PREFIX.'pages` ORDER BY `link`';
+    if (($oPage = $database->query($sql)))
     {
         $x = 0;
-        while (($rec_page = $res_pages->fetchRow()))
+        while (($page = $oPage->fetchRow(MYSQL_ASSOC)))
         {
-            $filename = WB_PATH.PAGES_DIRECTORY.$rec_page['link'].PAGE_EXTENSION;
-            $msg = create_access_file($filename, $rec_page['page_id'], $rec_page['level']);
+            $sql = 'UPDATE `'.TABLE_PREFIX.'pages` '
+                 . 'SET `root_parent`='.$page['page_id'].' WHERE page_id = '.$page['page_id'];
+            if(!$database->query($sql)) {}
+            $filename = WB_PATH.PAGES_DIRECTORY.$page['link'].PAGE_EXTENSION;
+            $msg = create_access_file($filename, $page['page_id'], $page['level']);
             $x++;
         }
-        $msg[] = '<strong>Number of the anew formatted access files: '.$x.'</strong><br />';
+        $msg[] = '<strong>Number of new formatted access files: '.$x.'</strong>';
     }
 
 	print implode ('<br />',$msg);
@@ -712,12 +715,12 @@ if(version_compare(WB_REVISION, REVISION, '<'))
  * upgrade posts folder index protect files
  */
 	$sPostsPath = WB_PATH.PAGES_DIRECTORY.'/posts';
-	echo '<h4>Upgrade /posts/ index.php protect files</h4><br />';
+	echo '<h4>Upgrade /posts/ index.php protect files</h4>';
 	$array = rebuildFolderProtectFile($sPostsPath);
 	if( sizeof( $array ) ){
-		print '<br /><strong>Upgrade '.sizeof( $array ).' /posts/ protect files</strong>'." $OK<br />";
+		print '<strong>Upgrade '.sizeof( $array ).' /posts/ protect files</strong>'." $OK<br />";
 	} else {
-		print '<br /><strong>Upgrade /posts/ protect files</strong>'." $FAIL!<br />";
+		print '<strong>Upgrade /posts/ protect files</strong>'." $FAIL!<br />";
 		print implode ('<br />',$array);
 	}
 
@@ -851,7 +854,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 		}
 		closedir($handle);
 	}
-	echo '<br />Modules reloaded<br />';
+	echo '<strong><br />Modules reloaded<br /></strong>';
 
 	////delete templates
 	//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'template'");
@@ -864,7 +867,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 		}
 		closedir($handle);
 	}
-	echo '<br />Templates reloaded<br />';
+	echo '<strong><br />Templates reloaded<br /></strong>';
 
 	////delete languages
 	//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'language'");
@@ -877,7 +880,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 		}
 		closedir($handle);
 	}
-	echo '<br />Languages reloaded<br />';
+	echo '<strong><br />Languages reloaded<br /></strong>';
 
 /**********************************************************
  *  - install new droplets

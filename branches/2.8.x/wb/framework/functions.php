@@ -410,7 +410,10 @@ function make_dir($dir_name, $dir_mode = OCTAL_DIR_MODE, $recursive=true)
 	$retVal = false;
 	if(!is_dir($dir_name))
     {
+		// To create the folder with 0777 permissions, we need to set umask to zero.
+		$oldumask = umask(0) ;
 		$retVal = mkdir($dir_name, $dir_mode,$recursive);
+		umask( $oldumask ) ;
 	}
 	return $retVal;
 }
@@ -425,6 +428,7 @@ function make_dir($dir_name, $dir_mode = OCTAL_DIR_MODE, $recursive=true)
 function change_mode($sName, $iMode = 0)
 {
 	$bRetval = true;
+    $iErrorReporting = error_reporting(0);
 	$iMode = intval($iMode) & 0777; // sanitize value
 	if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')
 	{ // Only chmod if os is not windows
@@ -437,6 +441,7 @@ function change_mode($sName, $iMode = 0)
 			$bRetval = chmod($sName, $iMode);
 		}
 	}
+    error_reporting($iErrorReporting);
 	return $bRetval;
 }
 
@@ -480,7 +485,7 @@ function root_parent($page_id)
 	$sql = 'SELECT `parent`, `level` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
 
 	$query_page = $database->query($sql);
-	$fetch_page = $query_page->fetchRow();
+	$fetch_page = $query_page->fetchRow(MYSQL_ASSOC);
 	$parent = $fetch_page['parent'];
 	$level = $fetch_page['level'];
 	if($level == 1) {
@@ -549,7 +554,7 @@ function get_subs($parent, array $subs )
 	// Get id's
 	$sql = 'SELECT `page_id` FROM `'.TABLE_PREFIX.'pages` WHERE `parent` = '.$parent;
 	if( ($query = $database->query($sql)) ) {
-		while($fetch = $query->fetchRow()) {
+		while($fetch = $query->fetchRow(MYSQL_ASSOC)) {
 			$subs[] = $fetch['page_id'];
 			// Get subs of this sub recursive
 			$subs = get_subs($fetch['page_id'], $subs);
@@ -735,7 +740,7 @@ function create_access_file($filename,$page_id,$level)
 			// can only be dirs
 			if(!file_exists($acces_file)) {
 				if(!make_dir($acces_file)) {
-					$admin->print_error($MESSAGE['PAGES']['CANNOT_CREATE_ACCESS_FILE_FOLDER']);
+					$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE_FOLDER']);
 				}
 			}
 		}
@@ -765,7 +770,7 @@ function create_access_file($filename,$page_id,$level)
 		// Chmod the file
 		change_mode($filename);
 	} else {
-		$admin->print_error($MESSAGE['PAGES']['CANNOT_CREATE_ACCESS_FILE']);
+		$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
 	}
 	return;
  }
@@ -944,8 +949,8 @@ function extract_permission($octal_value, $who, $action)
 		$sql .= 'FROM `'.TABLE_PREFIX.'pages` WHERE `page_id`='.$page_id;
 		$results = $database->query($sql);
 		if($database->is_error())    { $admin->print_error($database->get_error()); }
-		if($results->numRows() == 0) { $admin->print_error($MESSAGE['PAGES']['NOT_FOUND']); }
-		$results_array = $results->fetchRow();
+		if($results->numRows() == 0) { $admin->print_error($MESSAGE['PAGES_NOT_FOUND']); }
+		$results_array = $results->fetchRow(MYSQL_ASSOC);
 		$parent     = $results_array['parent'];
 		$level      = $results_array['level'];
 		$link       = $results_array['link'];
@@ -989,7 +994,7 @@ function extract_permission($octal_value, $who, $action)
 		if(file_exists($filename))
 		{
 			if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/')) {
-				$admin->print_error($MESSAGE['PAGES']['CANNOT_DELETE_ACCESS_FILE']);
+				$admin->print_error($MESSAGE['PAGES_CANNOT_DELETE_ACCESS_FILE']);
 			}else {
 				unlink($filename);
 				if( file_exists($directory) &&

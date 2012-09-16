@@ -13,6 +13,10 @@ Legend:
 
 
 
+17 Sep-2012 Build 1759 Dietmar Woellbrink (Luisehahne)
+! during Reformat/rebuild all existing access files in upgrade-script
+  root_parent will be set to page_id
+! change multi-dimensional arrays (variables) to similar arrays in framework/functions.php
 16 Sep-2012 Build 1758 Dietmar Woellbrink (Luisehahne)
 ! forgot to upload the install.php from wysiwyg modul in Revision 1756
 ! correcting some more SEC_ANCHOR 
