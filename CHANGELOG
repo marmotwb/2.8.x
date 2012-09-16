@@ -13,6 +13,9 @@ Legend:
 
 
 
+16 Sep-2012 Build 1758 Dietmar Woellbrink (Luisehahne)
+! forgot to upload the install.php from wysiwyg modul in Revision 1756
+! correcting some more SEC_ANCHOR 
 16 Sep-2012 Build 1757 Dietmar Woellbrink (Luisehahne)
 # fixed mysql_fetch_array() expects parameter 1 to be resource, boolean given
   by adding a new form on page, 

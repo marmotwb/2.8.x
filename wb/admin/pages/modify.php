@@ -230,7 +230,7 @@ if($query_sections->numRows() > 0)
 						}
 					}
 
-                    $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? 'id="'.SEC_ANCHOR.$section['section_id'].'"' : '');
+                    $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? 'id="'.SEC_ANCHOR.$section['section_id'].'"' : 'section_'.$section_id);
 					print '<div class="section-info" '.$sec_anchor.' ><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
 					print '<b>  Modul: </b>' . $section['module']." ";
 					print '<b>  ID: </b>' . $section_id."</div>\n";
