@@ -25,8 +25,17 @@ if(defined('WB_PATH') == false)
 /* -------------------------------------------------------- */
 
 // load module language file
-$lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
-require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
+//$lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
+//require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
+
+// ------------------------------------
+$table_name = TABLE_PREFIX.'mod_form_settings';
+$field_name = 'perpage_submissions';
+$description = "INT NOT NULL DEFAULT '10' AFTER `max_submissions`";
+if(!$database->field_exists($table_name,$field_name)) {
+	$database->field_add($table_name, $field_name, $description);
+}
+// ------------------------------------
 
 // Insert an extra rows into the database
 $header = '<table class="frm-field_table" cellpadding=\"2\" cellspacing=\"0\" border=\"0\" summary=\"form\">';
@@ -50,6 +59,7 @@ $success_email_text = '';
 $success_email_subject = '';
 $max_submissions = 50;
 $stored_submissions = 50;
+$perpage_submissions = 10;
 $use_captcha = true;
 
 // $database->query("INSERT INTO ".TABLE_PREFIX."mod_form_settings (page_id,section_id,header,field_loop,footer,email_to,email_from,email_fromname,email_subject,success_page,success_email_to,success_email_from,success_email_fromname,success_email_text,success_email_subject,max_submissions,stored_submissions,use_captcha) VALUES ('$page_id','$section_id','$header','$field_loop','$footer','$email_to','$email_from','$email_fromname','$email_subject','$success_page','$success_email_to','$success_email_from','$success_email_fromname','$success_email_text','$success_email_subject','$max_submissions','$stored_submissions','$use_captcha')");
@@ -73,6 +83,7 @@ $sql .= '`success_email_text` = \''.$success_email_text.'\', ';
 $sql .= '`success_email_subject` = \''.$success_email_subject.'\', ';
 $sql .= '`max_submissions` = \''.$max_submissions.'\', ';
 $sql .= '`stored_submissions` = \''.$stored_submissions.'\', ';
+$sql .= '`perpage_submissions` = \''.$perpage_submissions.'\', ';
 $sql .= '`use_captcha` = \''.$use_captcha.'\' ';
 $sql .= '';
 if($database->query($sql)) {

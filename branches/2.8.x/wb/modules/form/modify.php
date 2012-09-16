@@ -35,7 +35,7 @@ require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $
 
 include_once(WB_PATH.'/framework/functions.php');
 
-$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
+$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : 'section_'.$section['section_id'] );
 
 //Delete all form fields with no title
 $sql  = 'DELETE FROM `'.TABLE_PREFIX.'mod_form_fields` ';
@@ -46,7 +46,13 @@ if( !$database->query($sql) ) {
 // error msg
 }
 
-
+// later in upgrade.php
+$table_name = TABLE_PREFIX.'mod_form_settings';
+$field_name = 'perpage_submissions';
+$description = "INT NOT NULL DEFAULT '10' AFTER `max_submissions`";
+if(!$database->field_exists($table_name,$field_name)) {
+	$database->field_add($table_name, $field_name, $description);
+}
 ?>
 <table summary="" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
