@@ -607,7 +607,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
             $oTpl->set_var(array(
             		'ADMIN_URL' => ADMIN_URL,
             		'THEME_URL' => THEME_URL,
-            		'MODULE_URL' => dirname(__FILE__),
+            		'MODULE_URL' => WB_URL.'/modules/form',
             		'WB_URL' => WB_URL
             	)
             );

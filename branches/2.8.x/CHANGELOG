@@ -13,6 +13,9 @@ Legend:
 
 
 
+18 Sep-2012 Build 1761 Dietmar Woellbrink (Luisehahne)
+# fixed wrong MODULE_URL in form modul
+# fixed loginForgot.htt missing vars in <title></title> 
 18 Sep-2012 Build 1760 Dietmar Woellbrink (Luisehahne)
 ! fallback changes in wysiwyg Revision 1754
   because it's required that section_id is the PRIMARY KEY
