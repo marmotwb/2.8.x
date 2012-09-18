@@ -5,7 +5,7 @@ body{ margin :0 auto; padding :0px; background :#a8bccb; text-align :left; font-
 /*  */
 div.main { border :0px none #666666; margin :0px auto 1em auto; min-width :60em; max-width :90em; font-size :1.0em; padding :4px; width : 85%; overflow :hidden; }
 .td { clear :both; font-size :1.0em; margin :0 auto; text-align :center; width :100%; }
-div.main .table { background :url(../images/bgtitle.png) #ffffff repeat-x; margin :0 auto; width :100%; }
+div.main .table { background :url(../images/bgtitle.png) #ffffff repeat-x; margin :0 auto; overflow :auto; width :100%; }
 .wrapper { position :relative; display :block; overflow :auto; width :inherit; }
 .content { padding :10px; text-align :left; overflow :hidden; }
 img { border :none; }
@@ -28,14 +28,14 @@ table.header td { min-width :10%; }
    table td a:hover { color :#3366ff; text-decoration :underline; }
 /* header horizontal navigation */  
 div.hmenu { background :#486991 url(../images/menu.png) repeat-x center; line-height :32px; margin :0px auto; font-size :1em; float :left; width :100%; }
-   div.hmenu ul { color :#ffffff; margin :0px auto; display :block; padding :0; list-style-position :outside; }
+   div.hmenu ul { color :#ffffff; margin :0px auto; display :block; padding :0 0 0 10px; list-style-position :outside; }
 	   div.hmenu * a { color :#ffffff; text-decoration :none; }
    div.hmenu ul li { color :#ffffff; display :inline; padding :10px 0px; }
    div.hmenu ul li a { color :#ffffff; display :inline; height :2em; padding :7px 5px; font-weight :bold; background :transparent; }
    div.hmenu ul li a.active,
    div.hmenu ul li a.current { color :#ffffff; background :transparent url(../images/menuo.png) repeat-x center; }
    div.hmenu ul li:hover,
-   div.hmenu ul li a:hover { color :#ffff99; background :transparent url(../images/menuo.png) repeat-x center; }
+   div.hmenu ul li a:hover { color :#fff; background :transparent url(../images/menuo.png) repeat-x center; }
 /* */
 table.footer { margin :1em auto; width :100%; }
 table.footer fieldset { background :#a8bccb; margin :0.5em auto; text-align :center; }
@@ -189,6 +189,7 @@ table.pages_view tr:hover { background-color :#f1f8dd; }
 table a:link { display :inline; font-weight :bold; padding-top :0; text-decoration :none; vertical-align :baseline; }
 table a:hover { color :#6699ff; }
 a:link { display :inline; font-weight :bold; padding-top :0; text-decoration :none; vertical-align :baseline; }
+a:visited { color :#0066cc; }
 a:hover { color :#6699ff; text-decoration :underline; }
 /**/
 .header_list_actions { text-align :left; width :150px; }
@@ -247,7 +248,7 @@ div.page-settings { font-size :0.9em; border :none; text-align :left; }
 div.page-settings-leftcol { float :left; padding :10px 10px 10px 10px; border-right :groove 2px #a8bccb; }
 	div.page-settings-leftcol div { padding :2px 0 3px 0; vertical-align :top; }
 	div.page-settings-leftcol label { width :170px; vertical-align :top; }
-div.page-settings-righttoprow { margin-left :417px; padding :5px 20px 5px 10px; }
+div.page-settings-righttoprow { margin-left :417px; padding :10px; }
 	div.page-settings-righttoprow label { width :110px; vertical-align :top; }
 div.page-settings-centercol { float :left; padding :10px 20px 10px 20px; border-right :groove 2px #a8bccb; }
 div.page-settings-rightcol { float :left; padding :10px 20px 10px 10px; border :none; }
@@ -264,7 +265,6 @@ div.page_group { height: 180px;max-height: 260px; margin: 0; padding: 0; overflo
 div.page_group div { overflow: hidden; }
 div.page-settings p.page_user,
 div.page-settings p.page_group {  } 
-
 /* */
 .header_title, .setting_value input, .setting_value select, .setting_value textarea, .value_input input, .value_input text, .value_input select, .form_submit, .input_full { width :80%; }
 .content_box { text-align :left; }

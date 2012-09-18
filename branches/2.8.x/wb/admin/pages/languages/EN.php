@@ -50,15 +50,16 @@ $TEXT['SECTION_GENERAL']      = 'General';
 $TEXT['SECTION_ORGANISATION'] = 'Organisation';
 $TEXT['SECTION_CONTENT']      = 'Content';
 $TEXT['SECTION_SECURITY']     = 'Security';
+$TEXT['SEO_TITLE']            = 'Seo Title';
 $TEXT['PAGE_ICON']            = 'Page image';
 $TEXT['PAGE_ICON_DIR']        = 'Folder Page image';
 $TEXT['MENU_ICON_0']          = 'Menu image normal';
 $TEXT['MENU_ICON_0_DIR']      = 'Folder Menu image normal';
 $TEXT['MENU_ICON_1']          = 'Menu image hover';
 $TEXT['MENU_ICON_1_DIR']      = 'Folder Menu image hover';
-$TEXT['SEO_TITLE']            = 'Seotitle';
 
 $MESSAGE['PAGES_LAST_MODIFIED'] = 'Last modification by';
+$MESSAGE['PAGES_BLANK_SEO_TITLE'] = 'Please enter a sro title';
 
 
 $HELP['PAGE_IMAGE_DIR']  = '<p>The topical side picture path is<br /> <b>{{icon_dir}}</b>.</p>';

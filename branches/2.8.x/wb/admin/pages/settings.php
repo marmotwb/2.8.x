@@ -19,6 +19,7 @@ require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages_settings');
 
+
 /*-- Parent page list ------------------------------------------------------------------*/
 	function parent_list($parent)
 	{
@@ -26,7 +27,7 @@ $admin = new admin('Pages', 'pages_settings');
 		$sDisabled = ' disabled="disabled"';
 		$sSelected  = ' selected="selected"';
 
-		$sql = 'SELECT `page_id`, `level`, `parent`, `menu_title`, `page_title`, '
+		$sql = 'SELECT `page_id`, `level`, `link`, `parent`, `menu_title`, `page_title`, '
 		     .        '`language`, `admin_groups`, `admin_users`, `visibility`, '
 		     .        '`viewing_groups`, `viewing_users` '
 		     . 'FROM `'.TABLE_PREFIX.'pages` '
@@ -94,6 +95,8 @@ $admin = new admin('Pages', 'pages_settings');
 	$sql = 'SELECT * FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = '.$page_id;
 	if( ($oPages = $database->query($sql)) ) {
 		$aCurrentPage = $oPages->fetchRow(MYSQL_ASSOC);
+		// Work-out if we should set seo_title
+        $aCurrentPage['seo_title'] = basename($aCurrentPage['link']);
 		// Work-out if we should check for existing page_code
 		$field_set = isset($aCurrentPage['page_code']);
 		if( !$admin->ami_group_member($aCurrentPage['admin_groups']) &&
@@ -130,7 +133,9 @@ $admin = new admin('Pages', 'pages_settings');
 			'PAGE_ID'              => $aCurrentPage['page_id'],
 			'PAGE_IDKEY'           => $admin->getIDKEY($aCurrentPage['page_id']),
 			'PAGE_TITLE'           => ($aCurrentPage['page_title']),
+			'PAGE_LINK'            => ($aCurrentPage['link']),
 			'MENU_TITLE'           => ($aCurrentPage['menu_title']),
+			'SEO_TITLE'            => ($aCurrentPage['seo_title']=='') ? $aCurrentPage['menu_title'] : $aCurrentPage['seo_title'],
 			'DESCRIPTION'          => ($aCurrentPage['description']),
 			'KEYWORDS'             => ($aCurrentPage['keywords']),
 			'MODIFIED_BY'          => $user['display_name'],

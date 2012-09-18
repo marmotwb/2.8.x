@@ -30,8 +30,9 @@ if (!$admin->checkFTAN())
 require_once(WB_PATH.'/framework/functions.php');
 
 // Get values
-$title = $admin->get_post_escaped('title');
-$title = htmlspecialchars($title);
+//$title = $admin->get_post_escaped('title');
+//$title = htmlspecialchars($title);
+$title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('title')));
 $module = preg_replace('/[^a-z0-9_-]/i', "", $admin->get_post('type')); // fix secunia 2010-93-4
 $parent = intval($admin->get_post('parent')); // fix secunia 2010-91-2
 $visibility = $admin->get_post('visibility');
@@ -69,7 +70,7 @@ if (!$admin->get_permission($module, 'module'))
 // Validate data
 if($title == '' || substr($title,0,1)=='.')
 {
-	$admin->print_error($MESSAGE['PAGES_BLANK_PAGE_TITLE']);
+	$admin->print_error($title.'::'.$MESSAGE['PAGES_BLANK_PAGE_TITLE']);
 }
 
 // Check to see if page created has needed permissions
@@ -111,11 +112,13 @@ if($parent == '0')
 	// rename menu titles: index && intro to prevent clashes with intro page feature and WB core file /pages/index.php
 	if($link == '/index' || $link == '/intro')
     {
-		$link .= '_0';
-		$filename = WB_PATH .PAGES_DIRECTORY .'/' .page_filename($title) .'_0' .PAGE_EXTENSION;
+		$sTmpFile = WB_PATH .PAGES_DIRECTORY .$link.PAGE_EXTENSION;
+		$link .= (file_exists($sTmpFile)) ? '_0' : '';
+		$filename = WB_PATH .PAGES_DIRECTORY .$link .PAGE_EXTENSION;
 	} else {
-		$filename = WB_PATH.PAGES_DIRECTORY.'/'.page_filename($title).PAGE_EXTENSION;
+		$filename = WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION;
 	}
+
 } else {
 	$parent_section = '';
 	$parent_titles = array_reverse(get_parent_titles($parent));

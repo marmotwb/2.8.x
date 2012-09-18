@@ -24,12 +24,11 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `{TABLE_PREFIX}mod_wysiwyg`;
 CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}mod_wysiwyg` (
-  `wysiwyg_id` int(11) NOT NULL AUTO_INCREMENT,
   `section_id` int(11) NOT NULL DEFAULT '0',
   `page_id` int(11) NOT NULL DEFAULT '0',
   `content` longtext NOT NULL,
   `text` longtext NOT NULL,
-  PRIMARY KEY (`wysiwyg_id`)
+  PRIMARY KEY (`section_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

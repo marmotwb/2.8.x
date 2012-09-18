@@ -16,7 +16,7 @@
 </tbody>
 </table>
 <!-- BEGIN show_debug_block -->
-<div class="mbox dev-info">
+<div class="mbox dev-info rounded shadow">
 	<div style="text-align:left; width: auto;">
 		<span class="">Memory Limit: {FILESIZE}&nbsp;|&nbsp;</span>
 		<span class="">Used Memory: {MEMORY}&nbsp;|&nbsp;</span>

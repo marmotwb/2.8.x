@@ -13,6 +13,12 @@ Legend:
 
 
 
+18 Sep-2012 Build 1760 Dietmar Woellbrink (Luisehahne)
+! fallback changes in wysiwyg Revision 1754
+  because it's required that section_id is the PRIMARY KEY
+  Fallback will be done in upgrade-script until the final version  
+! build in extra input seo title in page settings
+! beginning rebranding wb_theme
 17 Sep-2012 Build 1759 Dietmar Woellbrink (Luisehahne)
 ! during Reformat/rebuild all existing access files in upgrade-script
   root_parent will be set to page_id
