@@ -489,10 +489,11 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 		$sql .= 'WHERE `name`=\'no_results\'';
 	    echo ($database->query($sql)) ? ' $OK<br />' : ' $FAIL<br />';
 	}
+
 	/**********************************************************
- *  - Add field "redirect_type" to table "mod_menu_link"
- *  has to be moved later to upgrade.php in modul menu_link, because modul can be removed
- */
+     *  - Add field "redirect_type" to table "mod_menu_link"
+     *  has to be moved later to upgrade.php in modul menu_link, because modul can be removed
+     */
 	$table_name = TABLE_PREFIX.'mod_menu_link';
 	$field_name = 'redirect_type';
 	$description = "INT NOT NULL DEFAULT '301' AFTER `target_page_id`";
@@ -514,8 +515,8 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 
 	/**********************************************************
- *  - Add field "page_icon" to table "pages"
- */
+     *  - Add field "page_icon" to table "pages"
+     */
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'page_icon';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `page_title`";
@@ -525,20 +526,6 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	} else {
 		echo "Modify field page_icon to pages table";
 		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-	}
-
-	/**********************************************************
-	 *  - Add field "tooltip" to table "pages"
- */
-	$table_name = TABLE_PREFIX.'pages';
-	$field_name = 'tooltip';
-	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `page_icon`";
-	if(!$database->field_exists($table_name,$field_name)) {
-		echo "Adding field tooltip to pages table";
-		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-	} else {
-	echo "Modify field tooltip to pages table";
-	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 	}
 
 	/**********************************************************
@@ -556,8 +543,8 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	}
 
 	/**********************************************************
- *  - Add field "menu_icon_0" to table "pages"
- */
+     *  - Add field "menu_icon_0" to table "pages"
+     */
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'menu_icon_0';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `menu_title`";
@@ -571,7 +558,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 
 	/**********************************************************
 	 *  - Add field "menu_icon_1" to table "pages"
- */
+     */
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'menu_icon_1';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `menu_icon_0`";
@@ -585,7 +572,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 
 	/**********************************************************
 	 *  - Add field "tooltip" to table "pages"
- */
+     */
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'tooltip';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `menu_icon_1`";
@@ -599,7 +586,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 
 	/**********************************************************
 	 *  - Add field "admin_groups" to table "pages"
- */
+     */
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'admin_groups';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '1'";
@@ -633,20 +620,31 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	echo "Modify field viewing_users to pages table";
 	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 
+
+/**
+ * This part with changing in mod_wysiwyg will be removed in the final version
+ * special workout for the tester
+ */
 	/**********************************************************
 	 *  - Remove/add PRIMARY KEY from/to "section_id" from table "mod_wysiwygs"
 	 */
 	$sTable = TABLE_PREFIX.'mod_wysiwyg';
 	$field_name = 'wysiwyg_id';
-	if(!$database->field_exists($sTable,$field_name)) {
+	if($database->field_exists($sTable,$field_name)) {
     	echo "Remove PRIMARY KEY from table mod_wysiwygs";
-        $sql = 'ALTER TABLE `'.DB_NAME.'`.`'.$sTable.'` DROP PRIMARY KEY';
+//ALTER TABLE `wb283_mod_wysiwyg` DROP `wysiwyg_id`
+        $sql = 'ALTER TABLE `'.DB_NAME.'`.`'.$sTable.'` DROP `wysiwyg_id`';
         echo ($database->query($sql) ? " $OK<br />" : " $FAIL!<br />");
 
-    	echo "add new PRIMARY KEY to table mod_wysiwygs";
-        $sql = 'ALTER TABLE `'.$sTable.'`  ADD `wysiwyg_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST';
-        echo ($database->query($sql) ? " $OK<br />" : " $FAIL!<br />");
+//    	echo "add new PRIMARY KEY to table mod_wysiwygs";
+//        $sql = 'ALTER TABLE `'.$sTable.'` DROP `wysiwyg_id`';
+//        echo ($database->query($sql) ? " $OK<br />" : " $FAIL!<br />");
     }
+	echo "Change PRIMARY KEY from table mod_wysiwygs";
+    $sql = 'ALTER TABLE `'.DB_NAME.'`.`'.$sTable.'` ADD PRIMARY KEY (`section_id`)';
+    echo ($database->query($sql) ? " $OK<br />" : " $FAIL!<br />");
+
+
 }
 
 /**********************************************************
@@ -683,15 +681,26 @@ if(version_compare(WB_REVISION, REVISION, '<'))
     ///**********************************************************
     // *  - Reformat/rebuild all existing access files
     // */
-    $msg[] = "All existing access files anew format";
+    $msg[] = "Refresh all existing access files ";
     $sql = 'SELECT `page_id`,`root_parent`,`link`, `level` FROM `'.TABLE_PREFIX.'pages` ORDER BY `link`';
     if (($oPage = $database->query($sql)))
     {
         $x = 0;
         while (($page = $oPage->fetchRow(MYSQL_ASSOC)))
         {
-            $sql = 'UPDATE `'.TABLE_PREFIX.'pages` '
-                 . 'SET `root_parent`='.$page['page_id'].' WHERE page_id = '.$page['page_id'];
+            // Work out level
+            $level = level_count($page['page_id']);
+            // Work out root parent
+            $root_parent = root_parent($page['page_id']);
+            // Work out page trail
+            $page_trail = get_page_trail($page['page_id']);
+            // Update page with new level and link
+            $sql  = 'UPDATE `'.TABLE_PREFIX.'pages` SET ';
+            $sql .= '`root_parent` = '.$root_parent.', ';
+            $sql .= '`level` = '.$level.', ';
+            $sql .= '`page_trail` = "'.$page_trail.'" ';
+            $sql .= 'WHERE `page_id` = '.$page['page_id'];
+
             if(!$database->query($sql)) {}
             $filename = WB_PATH.PAGES_DIRECTORY.$page['link'].PAGE_EXTENSION;
             $msg = create_access_file($filename, $page['page_id'], $page['level']);

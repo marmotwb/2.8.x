@@ -34,7 +34,7 @@ function confirm_link(message, url) {
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 <div class="main">
 
-<table  class="header layout">
+<table class="header layout">
 <tr>
 	<td class="logo">
 		<a href="{ADMIN_URL}" title="{TITLE_START}"><img src="{THEME_URL}/images/logo.png" alt="Logo" /></a>
@@ -54,7 +54,7 @@ function confirm_link(message, url) {
 </tr>
 </table>
 
-<div class="table">
+<div class="table rounded shadow">
 
 	<div class="hmenu {LOGIN_DISPLAY_NONE}">
 			<ul>

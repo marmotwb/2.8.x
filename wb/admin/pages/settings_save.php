@@ -20,8 +20,14 @@
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 
+$lang_dir = dirname(__FILE__).'/languages/';
+$lang = file_exists($lang_dir.LANGUAGE.'.php') ? LANGUAGE : 'EN';
+require_once($lang_dir.$lang.'.php');
+
 // suppress to print the header, so no new FTAN will be set
 $admin = new admin('Pages', 'pages_settings',false);
+
+$pagetree_url = ADMIN_URL.'/pages/index.php';
 
 // Get page id
 if(!isset($_POST['page_id']) || (isset($_POST['page_id']) && preg_match('/[^0-9a-z]/i',$_POST['page_id'])) )
@@ -33,7 +39,7 @@ if(!isset($_POST['page_id']) || (isset($_POST['page_id']) && preg_match('/[^0-9a
 //	$page_id = (int)$_POST['page_id']; || preg_match('/[^0-9a-f]/i',$_POST['page_id'])
 	if((!($page_id = $admin->checkIDKEY('page_id')))) {
 		$admin->print_header();
-		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/index.php');
+		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $pagetree_url);
 	}
 }
 
@@ -43,7 +49,6 @@ if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD'])))
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
 }
 */
-$pagetree_url = ADMIN_URL.'/pages/index.php';
 $target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
 
 if (!$admin->checkFTAN())
@@ -60,6 +65,7 @@ require_once(WB_PATH.'/framework/functions.php');
 // Get values
 $page_title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('page_title')));
 $menu_title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('menu_title')));
+$seo_title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('seo_title')));
 $page_code = intval($admin->get_post('page_code')) ;
 $description = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->add_slashes($admin->get_post('description'))));
 $keywords = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->add_slashes($admin->get_post('keywords'))));
@@ -86,18 +92,24 @@ $sMenuIcon1 = (isset($_POST['menu_icon_1']) ? $_POST['menu_icon_1'] : 0);
 // Validate data
 if($page_title == '' || substr($page_title,0,1)=='.')
 {
-	$admin->print_error($MESSAGE['PAGES_BLANK_PAGE_TITLE']);
+	$admin->print_error($MESSAGE['PAGES_BLANK_PAGE_TITLE'],$target_url);
 }
 if($menu_title == '' || substr($menu_title,0,1)=='.')
 {
-	$admin->print_error($MESSAGE['PAGES_BLANK_MENU_TITLE']);
+	$admin->print_error($MESSAGE['PAGES_BLANK_MENU_TITLE'],$target_url);
+}
+if($seo_title == '' || substr($seo_title,0,1)=='.')
+{
+	$admin->print_error($MESSAGE['PAGES_BLANK_SEO_TITLE'],$target_url);
 }
 
 // Get existing perms
-$sql = 'SELECT `parent`,`link`,`position`,`admin_groups`,`admin_users` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id`='.$page_id;
+$sql  = 'SELECT `parent`,`link`,`position`,`admin_groups`,`admin_users`,`menu_title` ';
+$sql .= 'FROM `'.TABLE_PREFIX.'pages` WHERE `page_id`='.$page_id;
+
 $results = $database->query($sql);
 
-$results_array = $results->fetchRow();
+$results_array = $results->fetchRow(MYSQL_ASSOC);
 $old_parent = $results_array['parent'];
 $old_link = $results_array['link'];
 $old_position = $results_array['position'];
@@ -154,51 +166,52 @@ if ($parent!='0')
 {
 	$level = level_count($parent)+1;
 	$root_parent = root_parent($parent);
-}
-else {
-//	$level = '0';
-//	$root_parent = '0';
+} else {
 // Work out level
     $level = level_count($page_id);
 // Work out root parent
     $root_parent = root_parent($page_id);
 }
 
+$link = '/'.page_filename($seo_title);
+
 // Work-out what the link should be
-if($parent == '0')
-{
-	$link = '/'.page_filename($menu_title);
-	// rename menu titles: index && intro to prevent clashes with intro page feature and WB core file /pages/index.php
-	if($link == '/index' || $link == '/intro')
+if($parent == '0') {
+    if($link == '/index' || $link == '/intro')
     {
-		$link .= '_' .$page_id;
-		$filename = WB_PATH.PAGES_DIRECTORY.'/'.page_filename($menu_title).'_'.$page_id .PAGE_EXTENSION;
-	} else {
-		$filename = WB_PATH.PAGES_DIRECTORY.'/'.page_filename($menu_title).PAGE_EXTENSION;
-	}
+    	$link .= '_' .$page_id;
+    	$filename = WB_PATH.PAGES_DIRECTORY.$link .PAGE_EXTENSION;
+
+    } else {
+        $filename = WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION;
+    }
 } else {
 	$parent_section = '';
 	$parent_titles = array_reverse(get_parent_titles($parent));
+
 	foreach($parent_titles AS $parent_title)
     {
-		$parent_section .= page_filename($parent_title).'/';
+		$parent_section .= '/'.page_filename($parent_title);
 	}
+
 	if($parent_section == '/')
     {
       $parent_section = '';
     }
-	$link = '/'.$parent_section.page_filename($menu_title);
-	$filename = WB_PATH.PAGES_DIRECTORY.'/'.$parent_section.page_filename($menu_title).PAGE_EXTENSION;
+
+	$link = $parent_section.$link;
+    $filename = WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION;
 }
 
 // Check if a page with same page filename exists
 // $database = new database();
 $sql = 'SELECT `page_id`,`page_title` FROM `'.TABLE_PREFIX.'pages` WHERE `link` = "'.$link.'" AND `page_id` != '.$page_id;
+
 $get_same_page = $database->query($sql);
 
 if($get_same_page->numRows() > 0)
 {
-	$admin->print_error($MESSAGE['PAGES_PAGE_EXISTS']);
+	$admin->print_error($MESSAGE['PAGES_PAGE_EXISTS'], $target_url);
 }
 
 // Update page with new order
@@ -233,8 +246,8 @@ $sql = 'UPDATE `'.TABLE_PREFIX.'pages` '
      .     '`language`=\''.$language.'\', ';
 if($admin->ami_group_member('1')) {
 	$sql .= ''
-	     .     '`admin_groups`=\''.$sAdminGroups.'\', '
-	     .     '`admin_users`=\''.$sAdminUsers.'\', ';
+	     . '`admin_groups`=\''.$sAdminGroups.'\', '
+	     . '`admin_users`=\''.$sAdminUsers.'\', ';
 }
 $sql .= ''
      .     '`viewing_groups`=\''.$sViewingGroups.'\', '
@@ -246,6 +259,7 @@ if(!$database->query($sql)) {
 	$target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
 	$admin->print_error($database->get_error(), $target_url );
 }
+
 // Clean old order if needed
 if($parent != $old_parent)
 {
@@ -257,9 +271,10 @@ if($parent != $old_parent)
 // Create a new file in the /pages dir if title changed
 if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/'))
 {
-	$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
+	$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE'], $target_url);
 } else {
     $old_filename = WB_PATH.PAGES_DIRECTORY.$old_link.PAGE_EXTENSION;
+
 	// First check if we need to create a new file
 	if(($old_link != $link) || (!file_exists($old_filename)))
     {
@@ -269,6 +284,7 @@ if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/'))
         {
 			unlink($old_filename);
 		}
+
 		// Create access file
 		create_access_file($filename,$page_id,$level);
 		// Move a directory for this page
@@ -309,43 +325,30 @@ if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/'))
 	}
 }
 
-// Function to fix page trail of subs
-function fix_page_trail($parent,$root_parent)
-{
-	// Get objects and vars from outside this function
-	global $admin, $template, $database, $TEXT, $MESSAGE;
-	// Get page list from database
-	// $database = new database();
-	$query = "SELECT page_id FROM ".TABLE_PREFIX."pages WHERE parent = '$parent'";
-	$get_pages = $database->query($query);
-	// Insert values into main page list
-	if($get_pages->numRows() > 0)
-    {
-		while($page = $get_pages->fetchRow())
-        {
-			// Fix page trail
+// using standard function by core,
+function fix_page_trail($page_id) {
+    global $database,$admin,$target_url,$MESSAGE;
+    // Work out level
+    $level = level_count($page_id);
+    // Work out root parent
+    $root_parent = root_parent($page_id);
+    // Work out page trail
+    $page_trail = get_page_trail($page_id);
+    // Update page with new level and link
+    $sql  = 'UPDATE `'.TABLE_PREFIX.'pages` SET ';
+    $sql .= '`root_parent` = '.$root_parent.', ';
+    $sql .= '`level` = '.$level.', ';
+    $sql .= '`page_trail` = "'.$page_trail.'" ';
+    $sql .= 'WHERE `page_id` = '.$page_id;
 
-			$database->query("UPDATE ".TABLE_PREFIX."pages SET ".($root_parent != 0 ?"root_parent = '$root_parent', ":"")." page_trail = '".get_page_trail($page['page_id'])."' WHERE page_id = '".$page['page_id']."'");
-			// Run this query on subs
-			fix_page_trail($page['page_id'],$root_parent);
-		}
-	}
+    if($database->query($sql)) {
+    	$admin->print_success($MESSAGE['PAGES_SAVED_SETTINGS'], $target_url );
+    } else {
+    	$admin->print_error($database->get_error(), $target_url );
+    }
 }
 
 // Fix sub-pages page trail
-fix_page_trail($page_id,$root_parent);
+fix_page_trail($page_id);
 
-/* END page "access file" code */
-
-//$pagetree_url = ADMIN_URL.'/pages/index.php';
-//$target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
-// Check if there is a db error, otherwise say successful
-if($database->is_error())
-{
-	$admin->print_error($database->get_error(), $target_url );
-} else {
-	$admin->print_success($MESSAGE['PAGES_SAVED_SETTINGS'], $target_url );
-}
-
-// Print admin footer
 $admin->print_footer();
