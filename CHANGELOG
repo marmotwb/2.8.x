@@ -13,6 +13,8 @@ Legend:
 
 
 
+18 Sep-2012 Build 1762 Dietmar Woellbrink (Luisehahne)
+# fixed upgrade-script wrong Adding/updating page_icon_dir to settings table
 18 Sep-2012 Build 1761 Dietmar Woellbrink (Luisehahne)
 # fixed wrong MODULE_URL in form modul
 # fixed loginForgot.htt missing vars in <title></title> 
