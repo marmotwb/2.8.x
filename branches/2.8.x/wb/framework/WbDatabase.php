@@ -31,7 +31,7 @@ define('DATABASE_CLASS_LOADED', true);
 
 
 class WbDatabase {
-	
+
 	private static $_oInstances = array();
 
 	private $_db_handle = null; // readonly from outside
@@ -111,7 +111,7 @@ class WbDatabase {
 		}
 		return $this->connected;
 	}
-	
+
 	// Disconnect from the database
 	public function disconnect() {
 		if($this->connected==true) {
@@ -121,7 +121,7 @@ class WbDatabase {
 			return false;
 		}
 	}
-	
+
 	// Run a query
 	public function query($statement) {
 		$this->iQueryCount++;
@@ -148,7 +148,7 @@ class WbDatabase {
 			return $result;
 		}
 	}
-	
+
 	// Set the DB error
 	public function set_error($message = null) {
 		global $TABLE_DOES_NOT_EXIST, $TABLE_UNKNOWN;
@@ -159,12 +159,12 @@ class WbDatabase {
 			$this->error_type = $TABLE_UNKNOWN;
 		}
 	}
-	
+
 	// Return true if there was an error
 	public function is_error() {
 		return (!empty($this->error)) ? true : false;
 	}
-	
+
 	// Return the error
 	public function get_error() {
 		return $this->error;
@@ -239,6 +239,7 @@ class WbDatabase {
 			return ($keys == $number_fields);
 		}
 	}
+
 /*
  * @param string $table_name: full name of the table (incl. TABLE_PREFIX)
  * @param string $field_name: name of the field to add
@@ -299,32 +300,33 @@ class WbDatabase {
 
 /*
  * @param string $table_name: full name of the table (incl. TABLE_PREFIX)
- * @param string $index_name: name of the new index
+ * @param string $index_name: name of the new index (empty string for PRIMARY)
  * @param string $field_list: comma seperated list of fields for this index
- * @param string $index_type: kind of index (UNIQUE, PRIMARY, '')
+ * @param string $index_type: kind of index (PRIMARY, UNIQUE, KEY, FULLTEXT)
  * @return bool: true if successful, otherwise false and error will be set
  */
-	public function index_add($table_name, $index_name, $field_list, $index_type = '')
-	{
-		$retval = false;
-		$field_list = str_replace(' ', '', $field_list);
-		$field_list = explode(',', $field_list);
-		$number_fields = sizeof($field_list);
-		$field_list = '`'.implode('`,`', $field_list).'`';
-		if( $this->index_exists($table_name, $index_name, $number_fields) ||
-		    $this->index_exists($table_name, $index_name))
-		{
-			$sql  = 'ALTER TABLE `'.$table_name.'` ';
-			$sql .= 'DROP INDEX `'.$index_name.'`';
-			if( $this->query($sql, $this->_db_handle))
-			{
-				$sql  = 'ALTER TABLE `'.$table_name.'` ';
-				$sql .= 'ADD '.$index_type.' `'.$index_name.'` ( '.$field_list.' ); ';
-				if( $this->query($sql, $this->_db_handle)) { $retval = true; }
-			}
-		}
-		return $retval;
-	}
+     public function index_add($table_name, $index_name, $field_list, $index_type = 'KEY')
+     {
+        $retval = false;
+        $field_list = str_replace(' ', '', $field_list);
+        $field_list = explode(',', $field_list);
+        $number_fields = sizeof($field_list);
+        $field_list = '`'.implode('`,`', $field_list).'`';
+        $index_name = $index_type == 'PRIMARY' ? $index_type : $index_name;
+        if( $this->index_exists($table_name, $index_name, $number_fields) ||
+            $this->index_exists($table_name, $index_name))
+        {
+            $sql  = 'ALTER TABLE `'.$table_name.'` ';
+            $sql .= 'DROP INDEX `'.$index_name.'`';
+            if( !$this->query($sql, $this->_db_handle)) { return false; }
+        }
+        $sql  = 'ALTER TABLE `'.$table_name.'` ';
+        $sql .= 'ADD '.$index_type.' ';
+        $sql .= $index_type == 'PRIMARY' ? 'KEY ' : '`'.$index_name.'` ';
+        $sql .= '( '.$field_list.' ); ';
+        if( $this->query($sql, $this->_db_handle)) { $retval = true; }
+        return $retval;
+    }
 
 /*
  * @param string $table_name: full name of the table (incl. TABLE_PREFIX)
@@ -341,6 +343,7 @@ class WbDatabase {
 		}
 		return $retval;
 	}
+
 /**
  * Import a standard *.sql dump file
  * @param string $sSqlDump link to the sql-dumpfile
@@ -419,7 +422,7 @@ class mysql {
 		$this->error = mysql_error($this->_db_handle);
 		return $this->result;
 	}
-	
+
 	// Fetch num rows
 	function numRows() {
 		return mysql_num_rows($this->result);
@@ -452,6 +455,7 @@ class mysql {
 	}
 
 }
+
 /* this function is placed inside this file temporarely until a better place is found */
 /*  function to update a var/value-pair(s) in table ****************************
  *  nonexisting keys are inserted
