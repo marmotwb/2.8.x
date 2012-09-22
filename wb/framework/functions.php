@@ -34,18 +34,22 @@ define('FUNCTIONS_FILE_LOADED', true);
  */
 function rm_full_dir($directory, $empty = false)
 {
+    $iErrorReporting = error_reporting(0);
 	if(substr($directory,-1) == "/") {
         $directory = substr($directory,0,-1);
     }
    // If suplied dirname is a file then unlink it
     if (is_file( $directory )&& is_writable( $directory )) {
-	  $retval = unlink($directory);
-	  clearstatcache();
-      return $retval;
+        $retval = unlink($directory);
+        clearstatcache();
+        error_reporting($iErrorReporting);
+        return $retval;
     }
     if(!is_writable($directory) || !is_dir($directory)) {
+        error_reporting($iErrorReporting);
         return false;
     } elseif(!is_readable($directory)) {
+        error_reporting($iErrorReporting);
         return false;
     } else {
         $directoryHandle = opendir($directory);
@@ -65,11 +69,15 @@ function rm_full_dir($directory, $empty = false)
         closedir($directoryHandle);
         if($empty == false) {
             if(is_dir($directory) && is_writable(dirname($directory))) {
-                return rmdir($directory);
+                $retval = rmdir($directory);
+                error_reporting($iErrorReporting);
+                return $retval;
             } else {
+                error_reporting($iErrorReporting);
 				return false;
             }
         }
+        error_reporting($iErrorReporting);
         return true;
     }
 }
@@ -407,12 +415,12 @@ function media_dirs_rw ( &$wb )
 // Function to create directories
 function make_dir($dir_name, $dir_mode = OCTAL_DIR_MODE, $recursive=true)
 {
-	$retVal = false;
+	$retVal = is_dir($dir_name);
 	if(!is_dir($dir_name))
     {
 		// To create the folder with 0777 permissions, we need to set umask to zero.
 		$oldumask = umask(0) ;
-		$retVal = mkdir($dir_name, $dir_mode,$recursive);
+		$retVal = mkdir($dir_name, $dir_mode, $recursive);
 		umask( $oldumask ) ;
 	}
 	return $retVal;
@@ -692,7 +700,7 @@ function createFolderProtectFile($sAbsDir='',$make_dir=true)
 		      if(file_put_contents($filename, $content)) {
 		//    print 'create => '.str_replace( $wb_path,'',$filename).'<br />';
 		          change_mode($filename, 'file');
-		      }else {
+		      } else {
 		    $retVal[] = $MESSAGE['GENERIC_BAD_PERMISSIONS'].' :: '.$filename;
 		   }
 		  }
@@ -728,6 +736,7 @@ function rebuildFolderProtectFile($dir='')
 function create_access_file($filename,$page_id,$level)
 {
 	global $admin, $MESSAGE;
+	$retVal = array();
 	// First make sure parent folder exists
 	$parent_folders = explode('/',str_replace(WB_PATH.PAGES_DIRECTORY, '', dirname($filename)));
 	$parents = '';
@@ -740,7 +749,8 @@ function create_access_file($filename,$page_id,$level)
 			// can only be dirs
 			if(!file_exists($acces_file)) {
 				if(!make_dir($acces_file)) {
-					$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE_FOLDER']);
+//					$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE_FOLDER']);
+                    $retVal[] = $MESSAGE['MEDIA_DIR_ACCESS_DENIED'];
 				}
 			}
 		}
@@ -770,9 +780,10 @@ function create_access_file($filename,$page_id,$level)
 		// Chmod the file
 		change_mode($filename);
 	} else {
-		$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
+//		$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
+        $retVal[] = $MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE'];
 	}
-	return;
+	return $retVal;
  }
 
 // Function for working out a file mime type (if the in-built PHP one is not enabled)
@@ -1082,7 +1093,7 @@ function load_module($directory, $install = false)
 			$sql .= '`author`=\''.addslashes($module_author).'\', ';
 			$sql .= '`license`=\''.addslashes($module_license).'\'';
 			$sql .= $sqlwhere;
-			$retVal = $database->query($sql);
+			$retVal = intval($database->query($sql) ? true : false);
 			// Run installation script
 			if($install == true) {
 				if(file_exists($directory.'/install.php')) {
@@ -1090,6 +1101,7 @@ function load_module($directory, $install = false)
 				}
 			}
 		}
+        return $retVal;
 	}
 }
 
@@ -1132,7 +1144,7 @@ function load_template($directory)
 			$sql .= '`author`=\''.addslashes($template_author).'\', ';
 			$sql .= '`license`=\''.addslashes($template_license).'\' ';
 			$sql .= $sqlwhere;
-			$retVal = $database->query($sql);
+			$retVal = intval($database->query($sql) ? true : false);
 		}
 	}
 	return $retVal;
@@ -1179,7 +1191,7 @@ function load_language($file)
 			$sql .= '`author`=\''.addslashes($language_author).'\', ';
 			$sql .= '`license`=\''.addslashes($language_license).'\' ';
 			$sql .= $sqlwhere;
-			$retVal = $database->query($sql);
+			$retVal = intval($database->query($sql) ? true : false);
 		}
 	}
 	return $retVal;
@@ -1330,3 +1342,66 @@ if(!function_exists('url_encode')){
 	    return str_replace($entities,$replacements, rawurlencode($string));
 	}
 }
+
+if(!function_exists('rebuild_all_accessfiles')){
+	function rebuild_all_accessfiles() {
+        global $database;
+    	$retVal = array();
+    	/**
+    	 * try to remove access files and build new folder protect files
+    	 */
+    	$sTempDir = (defined('PAGES_DIRECTORY') && (PAGES_DIRECTORY != '') ? PAGES_DIRECTORY : '');
+    	if(($sTempDir!='') && is_writeable(WB_PATH.$sTempDir)==true) {
+    	 	if(rm_full_dir (WB_PATH.$sTempDir, true )==false) {
+    			$retVal[] = '<span><strong>Could not delete existing access files</strong></span>';
+    	 	}
+    	}
+		$retVal[] = createFolderProtectFile(rtrim( WB_PATH.PAGES_DIRECTORY,'/') );
+    	/**
+    	 * Reformat/rebuild all existing access files
+    	 */
+        $sql = 'SELECT `page_id`,`root_parent`,`link`, `level` FROM `'.TABLE_PREFIX.'pages` ORDER BY `link`';
+        if (($oPage = $database->query($sql)))
+        {
+            $x = 0;
+            while (($page = $oPage->fetchRow(MYSQL_ASSOC)))
+            {
+                // Work out level
+                $level = level_count($page['page_id']);
+                // Work out root parent
+                $root_parent = root_parent($page['page_id']);
+                // Work out page trail
+                $page_trail = get_page_trail($page['page_id']);
+                // Update page with new level and link
+                $sql  = 'UPDATE `'.TABLE_PREFIX.'pages` SET ';
+                $sql .= '`root_parent` = '.$root_parent.', ';
+                $sql .= '`level` = '.$level.', ';
+                $sql .= '`page_trail` = "'.$page_trail.'" ';
+                $sql .= 'WHERE `page_id` = '.$page['page_id'];
+
+                if(!$database->query($sql)) {}
+                $filename = WB_PATH.PAGES_DIRECTORY.$page['link'].PAGE_EXTENSION;
+                $retVal = create_access_file($filename, $page['page_id'], $page['level']);
+                $x++;
+            }
+            $retVal[] = '<span><strong>Number of new formated access files: '.$x.'</strong></span>';
+        }
+    return $retVal;
+	}
+}
+
+if(!function_exists('upgrade_modules')){
+	function upgrade_modules($aModuleList) {
+        global $database;
+    	foreach($aModuleList as $sModul) {
+    		if(file_exists(WB_PATH.'/modules/'.$sModul.'/upgrade.php')) {
+    			$currModulVersion = get_modul_version ($sModul, false);
+    			$newModulVersion =  get_modul_version ($sModul, true);
+    			if((version_compare($currModulVersion, $newModulVersion) <= 0)) {
+    				require_once(WB_PATH.'/modules/'.$sModul.'/upgrade.php');
+    			}
+    		}
+    	}
+    }
+}
+

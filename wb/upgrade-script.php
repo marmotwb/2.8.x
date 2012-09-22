@@ -29,12 +29,14 @@ $newVersion  = 'Version '.VERSION;
 $newVersion .= (defined('SP') ? SP : '');
 $newRevision = (defined('REVISION') ? ' Revision ['.REVISION.'] ' : '');
 
+$bDebugModus = false;
+
 // set addition settings if not exists, otherwise upgrade will be breaks
 if(!defined('WB_SP')) { define('WB_SP',''); }
 if(!defined('WB_REVISION')) { define('WB_REVISION',''); }
 
 // database tables including in WB package
-$aTable = array (
+$aPackage = array (
     'settings','groups','addons','pages','sections','search','users',
     'mod_captcha_control','mod_code','mod_droplets','mod_form_fields',
     'mod_form_settings','mod_form_submissions','mod_jsadmin','mod_menu_link',
@@ -47,6 +49,7 @@ $FAIL          = ' <span class="error">FAILED</span> ';
 $DEFAULT_THEME = 'wb_theme';
 
 $stepID = 0;
+$aFilesToRemove = array();
 $dirRemove = array(
 /*
 			'[TEMPLATE]/allcss/',
@@ -57,7 +60,9 @@ $dirRemove = array(
 			'[ADMIN]/themes/',
 		 );
 
-$filesRemove['0'] = array(
+if(version_compare(WB_REVISION, '1762', '<'))
+{
+    $filesRemove['0'] = array(
 
 			'[ADMIN]/preferences/details.php',
 			'[ADMIN]/preferences/email.php',
@@ -70,8 +75,6 @@ $filesRemove['0'] = array(
 
 		 );
 
-if(version_compare(WB_REVISION, '1681', '<'))
-{
 	$filesRemove['1'] = array(
 
 			'[TEMPLATE]/argos_theme/templates/access.htt',
@@ -138,6 +141,9 @@ if(version_compare(WB_REVISION, '1681', '<'))
 			'[TEMPLATE]/wb_theme/templates/users.htt',
 			'[TEMPLATE]/wb_theme/templates/users_form.htt',
 		 );
+
+    $aFilesToRemove = array_merge($filesRemove['0'],$filesRemove['1']);
+
 }
 
 /* display a status message on the screen **************************************
@@ -146,7 +152,7 @@ if(version_compare(WB_REVISION, '1681', '<'))
  * @param string $element: witch HTML-tag use to cover the message
  * @return void
  */
-function status_msg($message, $class='check', $element='span')
+function status_msg($message, $class='check', $element='div')
 {
 	// returns a status message
 	$msg  = '<'.$element.' class="'.$class.'">';
@@ -191,26 +197,28 @@ function mysqlCheckTables( $dbName )
 // check existings tables for upgrade or install
 function check_wb_tables()
 {
-    global $database,$aTable;
+    global $database,$aPackage;
 
- // if prefix inludes '_' or '%'
- $search_for = addcslashes ( TABLE_PREFIX, '%_' );
- $get_result = $database->query( 'SHOW TABLES LIKE "'.$search_for.'%"');
+// if prefix inludes '_' or '%'
+    $search_for = addcslashes ( TABLE_PREFIX, '%_' );
+    $get_result = $database->query( 'SHOW TABLES LIKE "'.$search_for.'%"');
 
-        // $get_result = $database->query( "SHOW TABLES FROM ".DB_NAME);
-        $all_tables = array();
-        if($get_result->numRows() > 0)
-        {
-            while ($data = $get_result->fetchRow())
-            {
-                $tmp = str_replace(TABLE_PREFIX, '', $data[0]);
-                if(in_array($tmp,$aTable))
-                {
-                    $all_tables[] = $tmp;
-                }
+    // $get_result = $database->query( "SHOW TABLES FROM ".DB_NAME);
+    $all_tables = array();
+    $aTable = array();
+    if($get_result->numRows() > 0)
+    {
+        while ($data = $get_result->fetchRow()) {
+            $tmp = str_replace(TABLE_PREFIX, '', $data[0]);
+            if(in_array($tmp,$aPackage)) {
+                $all_tables[] = $tmp;
+            } else {
+                $aTable[] = $tmp;
             }
         }
-     return $all_tables;
+    }
+
+    return array_merge ( $all_tables, $aTable );
 }
 
 // check existing tables
@@ -236,16 +244,23 @@ body {
 }
 
 #container {
-	width:85%;
+	min-width:48em;
+    width: 70%;
 	background: #A8BCCB url(templates/wb_theme/images/background.png) repeat-x;
 	border:1px solid #000;
 	color:#000;
 	margin:2em auto;
-	padding:0 15px;
+	padding:0 20px;
 	min-height: 500px;
 	text-align:left;
 }
-
+.page {
+	width:100%;
+    overflow: hidden;
+}
+.content {
+    padding: 10px;
+}
 p { line-height:1.5em; }
 
 form {
@@ -260,46 +275,60 @@ input[type="submit"].restart {
 
 h1,h2,h3,h4,h5,h6 {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
-	color: #369;
+	color: #26527D;
 	margin-top: 1.0em;
 	margin-bottom: 0.1em;
 }
 
 h1 { font-size:150%; }
 h2 { font-size: 130%; border-bottom: 1px #CCC solid; }
-h3 { font-size: 110%; font-weight: bold;; }
+h3 { font-size: 110%; font-weight: bold; }
 
+textarea {
+	width:100%;
+    border: 2px groove #0F1D44;
+    padding: 2px;
+    color: #000;
+    font-weight: normal;
+}
 .ok, .error { font-weight:bold; }
 .ok { color:green; }
 .error { color:red; }
 .check { color:#555; }
 
+span.ok,
+span.error {
+    margin-left: 0em;
+}
+
 .warning {
-	width: 98%;
 	background:#FFDBDB;
-	padding:0.2em;
+	padding:1em;
 	margin-top:0.5em;
-	border: 1px solid black;
+	border: 1px solid #DB0909;
 }
 .info {
-	width: 98%;
-	background:#99CC99;
-	padding:0.2em;
+	background:#C7F4C7;
+	padding:1em;
 	margin-top:0.5em;
-	border: 1px solid black;
+	border: 1px solid #277A29;
 }
 
 </style>
 </head>
 <body>
 <div id="container">
+<div class="page">
 <img src="templates/wb_theme/images/logo.png" alt="WebsiteBaker Project" />
+<div class="content">
 <h1>WebsiteBaker Upgrade</h1>
 <?php
 	if( version_compare( WB_VERSION, '2.7', '<' )) {
 		status_msg('<strong>Warning:</strong><br />It is not possible to upgrade from WebsiteBaker Versions before 2.7.<br />For upgrading to version '.VERSION.' you must upgrade first to v.2.7 at least!!!', 'warning', 'div');
 		echo '<br /><br />';
 		echo "</div>
+        </div>
+        </div>
 		</body>
 		</html>
 		";
@@ -307,189 +336,245 @@ h3 { font-size: 110%; font-weight: bold;; }
 	}
 
 ?>
-<p>This script upgrades an existing WebsiteBaker <strong> <?php echo $oldRevision; ?></strong> installation to the <strong> <?php echo $newRevision ?> </strong>.<br />The upgrade script alters the existing WB database to reflect the changes introduced with WB 2.8.x</p>
+<p class="info">This script upgrades an existing WebsiteBaker <strong> <?php echo $oldRevision; ?></strong> installation to the <strong> <?php echo $newRevision ?> </strong>.<br />The upgrade script alters the existing WB database to reflect the changes introduced with WB 2.8.x</p>
 
 <?php
 /**
  * Check if disclaimer was accepted
  */
+$bDebugModus = false;
+$bDebugModus = ( (isset($_POST['debug_confirmed']) && $_POST['debug_confirmed'] == 'debug') ? true : false);
 if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confirmed')) { ?>
 <h2>Step 1: Backup your files</h2>
-<p>It is highly recommended to <strong>create a manual backup</strong> of the entire <strong>/pages folder</strong> and the <strong>MySQL database</strong> before proceeding.<br /><strong class="error">Note: </strong>The upgrade script alters some settings of your existing database!!! You need to confirm the disclaimer before proceeding.</p>
+<p>It is highly recommended to <strong>create a manual backup</strong> of the entire <strong><?php echo  PAGES_DIRECTORY ?>/ folder</strong> and the <strong>MySQL database</strong> before proceeding.<br /><strong class="error">Note: </strong>The upgrade script alters some settings of your existing database!!! You need to confirm the disclaimer before proceeding.</p>
 
 <form name="send" action="<?php echo $_SERVER['SCRIPT_NAME'];?>" method="post">
-<textarea cols="80" rows="5">DISCLAIMER: The WebsiteBaker upgrade script is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. One needs to confirm that a manual backup of the /pages folder (including all files and subfolders contained in it) and backup of the entire WebsiteBaker MySQL database was created before you can proceed.</textarea>
-<br /><br /><input name="backup_confirmed" type="checkbox" value="confirmed" />&nbsp;I confirm that a manual backup of the /pages folder and the MySQL database was created.
+<textarea cols="92" rows="5">DISCLAIMER: The WebsiteBaker upgrade script is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. One needs to confirm that a manual backup of the <?php echo  PAGES_DIRECTORY ?>/ folder (including all files and subfolders contained in it) and backup of the entire WebsiteBaker MySQL database was created before you can proceed.</textarea>
+<br /><br /><input name="backup_confirmed" type="checkbox" value="confirmed" />&nbsp;<strong>I confirm that a manual backup of the <?php echo  PAGES_DIRECTORY ?>/ folder and the MySQL database was created.</strong>
+<br /><br /><input name="debug_confirmed" type="checkbox" value="debug" />&nbsp;<strong>Here you can get more details during running upgrade.</strong>
 <br /><br /><input name="send" type="submit" value="Start upgrade script" />
 </form>
 <br />
 
 <?php
-	status_msg('<strong>Notice:</strong><br />You need to confirm that you have created a manual backup of the /pages directory and the MySQL database before you can proceed.', 'warning', 'div');
+	status_msg('<strong> Notice:</strong><br />You need to confirm that you have created a manual backup of the '.PAGES_DIRECTORY.'/ directory and the MySQL database before you can proceed.', 'warning', 'div');
 	echo '<br /><br />';
     echo "</div>
+    </div>
+    </div>
     </body>
     </html>
     ";
 	exit();
 }
 
-echo '<h3>Step '.(++$stepID).': Setting default_theme</h3>';
-
-/**********************************************************
- *  - Adding field default_theme to settings table
- */
-echo "<br />Adding default_theme to settings table";
-// db_update_key_value('settings', 'default_theme', $DEFAULT_THEME);
-echo (db_update_key_value( 'settings', 'default_theme', $DEFAULT_THEME ) ? " $OK<br />" : " $FAIL!<br />");
-
 // check again all tables, to get a new array
- if(sizeof($all_tables) < 22) { $all_tables = check_wb_tables(); }
+// if(sizeof($all_tables) < sizeof($aTable)) { $all_tables = check_wb_tables(); }
 /**********************************************************
- *  - check tables comin with WebsiteBaker
+ *  - check tables coming with WebsiteBaker
  */
     $check_text = 'total ';
     // $check_tables = mysqlCheckTables( DB_NAME ) ;
+    $aTable = array();
+    foreach ($all_tables as $data) {
+        $tmp = str_replace(TABLE_PREFIX, '', $data);
+        if(in_array($tmp,$aPackage)) {
+            $aTable[] = $tmp;
+        }
+    }
 
-    if(sizeof($all_tables) == 22)
+    if( (sizeof($all_tables) >= sizeof($aPackage)) && (sizeof($aTable) == sizeof($aPackage)) )
     {
-        echo '<h4>NOTICE: Your database '.DB_NAME.' has '.sizeof($all_tables).' '.$check_text.' tables from '.sizeof($aTable).' included in package '.$OK.'</h4>';
+        echo '<h4 style="margin-left:0;">NOTICE: Your database '.DB_NAME.' has '.sizeof($all_tables).' '.$check_text.' tables from '.sizeof($aPackage).' included in package '.$OK.'</h4>';
     }
     else
     {
-        status_msg('<strong>WARNING:</strong><br />can\'t run Upgrade, missing tables', 'warning', 'div');
-    	echo '<h4>Missing required tables. You can install them in backend->addons->modules->advanced. Then again run upgrade-script.php</h4>';
-        $result = array_diff ( $aTable, $all_tables );
+        status_msg('<strong>:</strong><br />can\'t run Upgrade, missing tables', 'warning', 'div');
+        echo '<h4>Missing required tables. You can install them in backend->addons->modules.<br />';
+        echo 'Or if you uploaded per FTP install possible by backend->addons->modules->advanced.<br />';
+        echo 'After installingT again run upgrade-script.php</h4>';
+        $result = array_diff ( $aPackage, $aTable );
+
         echo '<h4 class="warning"><br />';
         while ( list ( $key, $val ) = each ( $result ) )
         {
-            echo TABLE_PREFIX.$val.' '.$FAIL.'<br>';
+            echo 'TABLE ´'.TABLE_PREFIX.$val.'´ '.$FAIL.'<br>';
         }
+
         echo '<br /></h4>';
-    	echo '<br /><form action="'. $_SERVER['PHP_SELF'] .'">';
-    	echo '<input type="submit" value="kick me back" style="float:left;" />';
-    	echo '</form>';
-        if(defined('ADMIN_URL'))
-        {
-        	echo '<form action="'.ADMIN_URL.'" target="_self">';
+        echo '<br /><br />';
+        if(isset($_SERVER['SCRIPT_NAME'])) {
+        	echo '<form action="'.$_SERVER['SCRIPT_NAME'].'/">';
+        	echo '&nbsp;<input type="submit" value="Start upgrade again" />';
+        	echo '</form>';
+        }
+        if(defined('ADMIN_URL')) {
+        	echo '<form action="'.ADMIN_URL.'/">';
         	echo '&nbsp;<input type="submit" value="kick me to the Backend" />';
         	echo '</form>';
         }
+
         echo "<br /><br /></div>
+        </div>
+        </div>
         </body>
         </html>
         ";
+
         exit();
     }
 
+echo '<h3>Step '.(++$stepID).': Setting default_theme</h3>';
 
-echo '<h3>Step '.(++$stepID).': Updating settings</h3>';
-/**********************************************************
- *  - Adding field sec_anchor to settings table
- */
-echo "<br />Adding/updating sec_anchor to settings table";
-$cfg = array(
-	'sec_anchor' => defined('SEC_ANCHOR') ? SEC_ANCHOR : 'wb_'
-);
+if($bDebugModus) {
+    /**********************************************************
+     *  - Adding field default_theme to settings table
+     */
+    echo '<div style="margin-left:2em;">';
+    echo "<br /><span><strong>Adding default_theme to settings table</strong></span>";
+    // db_update_key_value('settings', 'default_theme', $DEFAULT_THEME);
+    echo (db_update_key_value( 'settings', 'default_theme', $DEFAULT_THEME ) ? " $OK<br />" : " $FAIL!<br />");
+    echo '</div>';
 
-echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+}
+    echo '<h3>Step '.(++$stepID).': Updating core tables</h3>';
+
+if($bDebugModus) {
+    /**********************************************************
+     *  - Adding field sec_anchor to settings table
+     */
+    echo '<div style="margin-left:2em;">';
+    echo "<h4>Adding/updating entries on table settings</h4>";
+    echo "<span>Adding/updating sec_anchor to settings table</span>";
+    $cfg = array(
+    	'sec_anchor' => defined('SEC_ANCHOR') ? SEC_ANCHOR : 'section_'
+    );
+
+    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
 
-/**********************************************************
- *  - Adding redirect timer to settings table
- */
-echo "Adding/updating redirect timer to settings table";
-$cfg = array(
-	'redirect_timer' => defined('REDIRECT_TIMER') ? REDIRECT_TIMER : '1500'
-);
-echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+    /**********************************************************
+     *  - Adding redirect timer to settings table
+     */
+    echo "<span>Adding/updating redirect timer to settings table</span>";
+    $cfg = array(
+    	'redirect_timer' => defined('REDIRECT_TIMER') ? REDIRECT_TIMER : '1500'
+    );
+    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-/**********************************************************
- *  - Adding rename_files_on_upload to settings table
- */
-echo "Adding/Updating rename_files_on_upload to settings table";
-$cfg = array(
-	'rename_files_on_upload' => (defined('RENAME_FILES_ON_UPLOAD') ? RENAME_FILES_ON_UPLOAD : 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js')
-);
-echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+    /**********************************************************
+     *  - Adding rename_files_on_upload to settings table
+     */
+    echo "<span>Adding/Updating rename_files_on_upload to settings table</span>";
+    $cfg = array(
+    	'rename_files_on_upload' => (defined('RENAME_FILES_ON_UPLOAD') ? RENAME_FILES_ON_UPLOAD : 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js')
+    );
+    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-/**********************************************************
- *  - Adding mediasettings to settings table
- */
-echo "Adding/updating mediasettings to settings table";
-$cfg = array(
-	'mediasettings' => (defined('MEDIASETTINGS') ? MEDIASETTINGS : ''),
-);
+    /**********************************************************
+     *  - Adding mediasettings to settings table
+     */
+    echo "<span>Adding/updating mediasettings to settings table</span>";
+    $cfg = array(
+    	'mediasettings' => (defined('MEDIASETTINGS') ? MEDIASETTINGS : ''),
+    );
 
-echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-/**********************************************************
- *  - Adding fingerprint_with_ip_octets to settings table
- */
-echo "Adding/updating fingerprint_with_ip_octets to settings table";
-$cfg = array(
-	'fingerprint_with_ip_octets' => (defined('FINGERPRINT_WITH_IP_OCTETS') ? FINGERPRINT_WITH_IP_OCTETS : '2'),
-	'secure_form_module' => (defined('SECURE_FORM_MODULE') ? SECURE_FORM_MODULE : '')
-);
+    /**********************************************************
+     *  - Adding fingerprint_with_ip_octets to settings table
+     */
+    echo "<span>Adding/updating fingerprint_with_ip_octets to settings table</span>";
+    $cfg = array(
+    	'fingerprint_with_ip_octets' => (defined('FINGERPRINT_WITH_IP_OCTETS') ? FINGERPRINT_WITH_IP_OCTETS : '2'),
+    	'secure_form_module' => (defined('SECURE_FORM_MODULE') ? SECURE_FORM_MODULE : '')
+    );
 
-echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-/**********************************************************
- *  - Adding page_icon_dir to settings table
- */
-echo "Adding/updating page_icon_dir to settings table";
-$cfg = array(
-	'page_icon_dir' => (defined('PAGE_ICON_DIR') ? PAGE_ICON_DIR : '/templates/*/title_images'),
-);
+    /**********************************************************
+     *  - Adding page_icon_dir to settings table
+     */
+    echo "<span>Adding/updating page_icon_dir to settings table</span>";
+    $cfg = array(
+    	'page_icon_dir' => (defined('PAGE_ICON_DIR') ? PAGE_ICON_DIR : '/templates/*/title_images'),
+    );
 
-echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
-/**********************************************************
- *  - Adding page_extended to settings table
- */
-echo "Adding/updating page_extended to settings table";
-$cfg = array(
-	'page_extended' => (defined('PAGE_EXTENDED') ? PAGE_EXTENDED : 'true'),
-);
+    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+    /**********************************************************
+     *  - Adding page_extended to settings table
+     */
+    echo "<span>Adding/updating page_extended to settings table</span>";
+    $cfg = array(
+    	'page_extended' => (defined('PAGE_EXTENDED') ? PAGE_EXTENDED : 'true'),
+    );
 
-echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-/**********************************************************
- *  - Adding sec_anchor to settings table
- */
-echo "Adding/updating sec_anchor to settings table";
-$cfg = array(
-	'sec_anchor' => (defined('SEC_ANCHOR') && (SEC_ANCHOR=='') ? 'section_' : SEC_ANCHOR)
-);
+    /**********************************************************
+     *  - Adding website_signature to settings table
+     */
+    echo "<span>Adding/updating website_signature to settings table</span>";
+    $cfg = array(
+    	'website_signature' => (defined('WEBSITE_SIGNATURE') && (WEBSITE_SIGNATURE=='') ? '' : WEBSITE_SIGNATURE)
+    );
 
-echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
-/**********************************************************
- *  - Adding dev_infos to settings table
- */
-echo "Adding/updating dev_infos to settings table";
-$cfg = array(
-	'dev_infos' => (defined('DEV_INFOS') ? DEV_INFOS : 'false')
-);
+    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+    /**********************************************************
+     *  - Adding confirmed_registration to settings table
+     */
+    echo "<span>Adding/updating confirmed_registration to settings table</span>";
+    $cfg = array(
+    	'confirmed_registration' => (defined('CONFIRMED_REGISTRATION') && (CONFIRMED_REGISTRATION=='') ? '' : CONFIRMED_REGISTRATION)
+    );
+
+    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+
+    /**********************************************************
+     *  - Adding dev_infos to settings table
+     */
+    echo "<span>Adding/updating dev_infos to settings table</span>";
+    $cfg = array(
+    	'dev_infos' => (defined('DEV_INFOS') ? DEV_INFOS : 'false')
+    );
+
+    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+
+    /**********************************************************
+     *  - Adding dev_infos to settings table
+     */
+    echo "<span>Adding/updating modules_upgrade_list to settings table</span>";
+    $cfg = array(
+    	'modules_upgrade_list' => (defined('MODULES_UPGRADE_LIST') ? MODULES_UPGRADE_LIST : 'news')
+    );
+
+    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+
+    echo '</div>';
+
+
+}
 
 if(version_compare(WB_REVISION, REVISION, '<'))
 {
-	echo '<h3>Step '.(++$stepID).': Updating core tables</h3>';
-
+    echo '<div style="margin-left:2em;">';
 	/**********************************************************
 	 *  - Update search no results database filed to create
 	 *  valid XHTML if search is empty
 	 */
 	if (version_compare(WB_VERSION, '2.8', '<'))
 	{
-	    echo "<br />Updating database field `no_results` of search table: ";
+        echo "<h4>Adding/updating fields on table search</h4>";
+	    echo "Updating database field `no_results` on search table: ";
 	    $search_no_results = addslashes('<tr><td><p>[TEXT_NO_RESULTS]</p></td></tr>');
 	    $sql  = 'UPDATE `'.TABLE_PREFIX.'search` ';
 		$sql .= 'SET `value`=\''.$search_no_results.'\' ';
 		$sql .= 'WHERE `name`=\'no_results\'';
-	    echo ($database->query($sql)) ? ' $OK<br />' : ' $FAIL<br />';
+	    echo ($database->query($sql)) ? " $OK<br />" : " $FAIL!<br />";
 	}
 
+    echo "<h4>Adding/updating fiekds on table mod_menu_link</h4>";
 	/**********************************************************
      *  - Add field "redirect_type" to table "mod_menu_link"
      *  has to be moved later to upgrade.php in modul menu_link, because modul can be removed
@@ -498,20 +583,21 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$field_name = 'redirect_type';
 	$description = "INT NOT NULL DEFAULT '301' AFTER `target_page_id`";
 	if(!$database->field_exists($table_name,$field_name)) {
-		echo "<br />Adding field redirect_type to mod_menu_link table";
+		echo "<span>Adding field redirect_type to mod_menu_link table</span>";
 		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 	} else {
-		echo "<br />Modify field redirect_type to mod_menu_link table";
+		echo "<span>Modify field redirect_type to mod_menu_link table</span>";
 		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 	}
 
+    echo "<h4>Adding/updating fiekds on table pages</h4>";
 	/**********************************************************
 	 *  - Add field "page_trail" to table "pages"
 	 */
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'page_trail';
 	$description = "VARCHAR( 255 ) NOT NULL DEFAULT ''";
-	echo "Modify field page_trail to pages table";
+	echo "<span>Modify field page_trail to pages table</span>";
 	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 
 	/**********************************************************
@@ -521,10 +607,10 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$field_name = 'page_icon';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `page_title`";
 	if(!$database->field_exists($table_name,$field_name)) {
-		echo "Adding field page_icon to pages table";
+		echo "<span>Adding field page_icon to pages table</span>";
 		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 	} else {
-		echo "Modify field page_icon to pages table";
+		echo "<span>Modify field page_icon to pages table</span>";
 		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 	}
 
@@ -535,10 +621,10 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$field_name = 'page_code';
 	$description = "INT NOT NULL DEFAULT '0' AFTER `language`";
 	if(!$database->field_exists($table_name,$field_name)) {
-		echo "Adding field page_code to pages table";
+		echo "<span>Adding field page_code to pages table</span>";
 		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 	} else {
-		echo "Modify field page_code to pages table";
+		echo "<span>Modify field page_code to pages table</span>";
 		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 	}
 
@@ -549,10 +635,10 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$field_name = 'menu_icon_0';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `menu_title`";
 	if(!$database->field_exists($table_name,$field_name)) {
-		echo "Adding field menu_icon_0 to pages table";
+		echo "<span>Adding field menu_icon_0 to pages table</span>";
 		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 	} else {
-		echo "Modify field menu_icon_0 to pages table";
+		echo "<span>Modify field menu_icon_0 to pages table</span>";
 		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 	}
 
@@ -563,10 +649,10 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$field_name = 'menu_icon_1';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `menu_icon_0`";
 	if(!$database->field_exists($table_name,$field_name)) {
-		echo "Adding field menu_icon_1 to pages table";
+		echo "<span>Adding field menu_icon_1 to pages table</span>";
 		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 	} else {
-		echo "Modify field menu_icon_1 to pages table";
+		echo "<span>Modify field menu_icon_1 to pages table</span>";
 		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 	}
 
@@ -577,10 +663,10 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$field_name = 'tooltip';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `menu_icon_1`";
 	if(!$database->field_exists($table_name,$field_name)) {
-		echo "Adding field tooltip to pages table";
+		echo "<span>Adding field tooltip to pages table</span>";
 		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 	} else {
-		echo "Modify field tooltip to pages table";
+		echo "<span>Modify field tooltip to pages table";
 		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 	}
 
@@ -590,7 +676,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'admin_groups';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '1'";
-	echo "Modify field admin_groups to pages table";
+	echo "<span>Modify field admin_groups to pages table";
 	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 
 	/**********************************************************
@@ -599,7 +685,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'admin_users';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT ''";
-	echo "Modify field admin_users to pages table";
+	echo "<span>Modify field admin_users to pages table</span>";
 	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 
 	/**********************************************************
@@ -608,7 +694,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'viewing_groups';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '1'";
-	echo "Modify field viewing_groups to pages table";
+	echo "<span>Modify field viewing_groups to pages table</span>";
 	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 
 	/**********************************************************
@@ -617,160 +703,119 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'viewing_users';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT ''";
-	echo "Modify field viewing_users to pages table";
+	echo "<span>Modify field viewing_users to pages table";
 	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 
 
-/**
- * This part with changing in mod_wysiwyg will be removed in the final version
- * special workout for the tester
- */
-	/**********************************************************
-	 *  - Remove/add PRIMARY KEY from/to "section_id" from table "mod_wysiwygs"
-	 */
-	$sTable = TABLE_PREFIX.'mod_wysiwyg';
-	$field_name = 'wysiwyg_id';
-	if($database->field_exists($sTable,$field_name)) {
-    	echo "Remove PRIMARY KEY from table mod_wysiwygs";
-//ALTER TABLE `wb283_mod_wysiwyg` DROP `wysiwyg_id`
-        $sql = 'ALTER TABLE `'.DB_NAME.'`.`'.$sTable.'` DROP `wysiwyg_id`';
-        echo ($database->query($sql) ? " $OK<br />" : " $FAIL!<br />");
+    /**********************************************************
+     * modify wrong strucre on table sections
+     * wrong structure let crash wb
+     */
+	echo "<h4>Change field structure on table sections</h4>";
+	$table_name = TABLE_PREFIX.'sections';
+	$description = "VARCHAR( 255 ) NOT NULL DEFAULT ''";
+	echo "<span>Modify field module on sections table</span>";
+	echo ($database->field_modify($table_name, 'module', $description) ? " $OK<br />" : " $FAIL!<br />");
+	echo "<span>Modify field block on sections table</span>";
+	echo ($database->field_modify($table_name, 'block', $description) ? " $OK<br />" : " $FAIL!<br />");
+	echo "<span>Modify field publ_start on sections table</span>";
+	echo ($database->field_modify($table_name, 'publ_start', $description) ? " $OK<br />" : " $FAIL!<br />");
+	echo "<span>Modify field publ_end on sections table</span>";
+	echo ($database->field_modify($table_name, 'publ_end', $description) ? " $OK<br />" : " $FAIL!<br />");
 
-//    	echo "add new PRIMARY KEY to table mod_wysiwygs";
-//        $sql = 'ALTER TABLE `'.$sTable.'` DROP `wysiwyg_id`';
-//        echo ($database->query($sql) ? " $OK<br />" : " $FAIL!<br />");
-    }
-	echo "Change PRIMARY KEY from table mod_wysiwygs";
-    $sql = 'ALTER TABLE `'.DB_NAME.'`.`'.$sTable.'` ADD PRIMARY KEY (`section_id`)';
-    echo ($database->query($sql) ? " $OK<br />" : " $FAIL!<br />");
-
+    echo '</div>';
 
 }
 
 /**********************************************************
- * upgrade media folder index protect files
- ALTER TABLE `wb_pages` CHANGE `page_icon` `page_icon` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT ''
+ * This part with changing in mod_wysiwyg will be removed in the final version
+ * special workout for the tester
+ *  - Remove/add PRIMARY KEY from/to "section_id" from table "mod_wysiwygs"
  */
-	$dir = (WB_PATH.MEDIA_DIRECTORY);
-	echo '<h4>Upgrade '.MEDIA_DIRECTORY.'/ index.php protect files</h4>';
-	$array = rebuildFolderProtectFile($dir);
-	if( sizeof( $array ) ){
-		print '<strong>Upgrade '.sizeof( $array ).' '.MEDIA_DIRECTORY.'/ protect files</strong>'." $OK<br />";
-	} else {
-		print '<<strong>Upgrade '.MEDIA_DIRECTORY.'/ protect files</strong>'." $FAIL!<br />";
-		print implode ('<br />',$array);
-	}
+if($bDebugModus) {
+    echo '<div style="margin-left:2em;">';
 
-/**********************************************************
- * upgrade pages folder index access files
- */
-	echo '<h4>Upgrade /pages/ index.php access files</h4>';
-
-    ///**********************************************************
-    // *  - try to remove access files
-    // */
-	$sTempDir = (defined('PAGES_DIRECTORY') && (PAGES_DIRECTORY != '') ? PAGES_DIRECTORY : '');
-	if(($sTempDir!='') && is_readable(WB_PATH.$sTempDir)==true) {
-	 	if(rm_full_dir (WB_PATH.$sTempDir, true )==false) {
-			$msg[] = '<strong>Could not delete existing access files</strong>';
-	 	} else {
-			$msg[] = createFolderProtectFile(rtrim( WB_PATH.$sTempDir,'/') );
+    $sTable = TABLE_PREFIX.'mod_wysiwyg';
+    $field_name = 'wysiwyg_id';
+    if($database->field_exists($sTable, 'wysiwyg_id')) {
+        if($database->index_exists($sTable, 'PRIMARY')) {
+            echo "<span>Remove PRIMARY KEY from table mod_wysiwyg.wysiwyg_id</span>";
+            echo $database->index_remove($sTable, 'PRIMARY') ? " $OK<br />" : " $FAIL!<br />";
         }
-	}
-
-    ///**********************************************************
-    // *  - Reformat/rebuild all existing access files
-    // */
-    $msg[] = "Refresh all existing access files ";
-    $sql = 'SELECT `page_id`,`root_parent`,`link`, `level` FROM `'.TABLE_PREFIX.'pages` ORDER BY `link`';
-    if (($oPage = $database->query($sql)))
-    {
-        $x = 0;
-        while (($page = $oPage->fetchRow(MYSQL_ASSOC)))
-        {
-            // Work out level
-            $level = level_count($page['page_id']);
-            // Work out root parent
-            $root_parent = root_parent($page['page_id']);
-            // Work out page trail
-            $page_trail = get_page_trail($page['page_id']);
-            // Update page with new level and link
-            $sql  = 'UPDATE `'.TABLE_PREFIX.'pages` SET ';
-            $sql .= '`root_parent` = '.$root_parent.', ';
-            $sql .= '`level` = '.$level.', ';
-            $sql .= '`page_trail` = "'.$page_trail.'" ';
-            $sql .= 'WHERE `page_id` = '.$page['page_id'];
-
-            if(!$database->query($sql)) {}
-            $filename = WB_PATH.PAGES_DIRECTORY.$page['link'].PAGE_EXTENSION;
-            $msg = create_access_file($filename, $page['page_id'], $page['level']);
-            $x++;
-        }
-        $msg[] = '<strong>Number of new formatted access files: '.$x.'</strong>';
+        echo "<span>Remove field 'wysiwyg_id' from table mod_wysiwyg</span>";
+        echo $database->field_remove($sTable, 'wysiwyg_id') ? " $OK<br />" : " $FAIL!<br />";
     }
 
+    echo "<br /><span>Create PRIMARY KEY ( `section_id` ) on table mod_wysiwygs.</span>";
+    echo $database->index_add($sTable, '', 'section_id', 'PRIMARY') ? " $OK<br />" : " $FAIL!<br />";
+    echo '</div>';
+}
+
+echo '<h3>Step '.(++$stepID).': Updating acess and protected files in folders</h3>';
+
+echo '<div style="margin-left:2em;">';
+    /**********************************************************
+    * upgrade media directory index protect files
+    */
+    $dir = (WB_PATH.MEDIA_DIRECTORY);
+    echo '<h4>Upgrade media directory '.MEDIA_DIRECTORY.'/ index.php protect files</h4>';
+    $array = rebuildFolderProtectFile($dir);
+    if( sizeof( $array ) ){
+    	print '<span><strong>Upgrade '.sizeof( $array ).' directory '.MEDIA_DIRECTORY.'/ protect files</strong></span>'." $OK<br />";
+    } else {
+    	print '<span><strong>Upgrade directory '.MEDIA_DIRECTORY.'/ protect files</strong></span>'." $FAIL!<br />";
+    	print implode ('<br />',$array);
+    }
+
+    /**********************************************************
+     * upgrade pages directory index access files
+     */
+	echo '<h4>Upgrade pages directory '.PAGES_DIRECTORY.'/  protect and access files</h4>';
+
+    /**********************************************************
+     *  - Reformat/rebuild all existing access files
+     */
+    $sPagePath = (defined('PAGES_DIRECTORY') && (PAGES_DIRECTORY != '') ? PAGES_DIRECTORY : '');
+    $msg = rebuild_all_accessfiles();
+
 	print implode ('<br />',$msg);
+    echo '</div>';
+    /* *****************************************************************************
+     * - check for deprecated / never needed files
+     */
+    if(sizeof($aFilesToRemove)) {
+    	echo '<h3>Step '.(++$stepID).': Remove deprecated and old files</h3>';
+    	$searches = array(
+    		'[ADMIN]',
+    		'[MEDIA]',
+    		'[PAGES]',
+    		'[FRAMEWORK]',
+    		'[MODULES]',
+    		'[TEMPLATE]'
+    	);
+    	$replacements = array(
+    		'/'.substr(ADMIN_PATH, strlen(WB_PATH)+1),
+    		MEDIA_DIRECTORY,
+    		PAGES_DIRECTORY,
+    		'/framework',
+    		'/modules',
+    		'/templates'
+    	);
 
-/*
-	if( sizeof( $msg ) ){
-
-		print '<br /><strong>Upgrade '.sizeof( $msg ).' /pages/ access files</strong>'." $OK<br />";
-	} else {
-		print '<br /><strong>Upgrade /pages/ access files</strong>'." $FAIL!<br />";
-		print implode ('<br />',$msg);
-	}
-*/
-/**********************************************************
- * upgrade posts folder index protect files
- */
-	$sPostsPath = WB_PATH.PAGES_DIRECTORY.'/posts';
-	echo '<h4>Upgrade /posts/ index.php protect files</h4>';
-	$array = rebuildFolderProtectFile($sPostsPath);
-	if( sizeof( $array ) ){
-		print '<strong>Upgrade '.sizeof( $array ).' /posts/ protect files</strong>'." $OK<br />";
-	} else {
-		print '<strong>Upgrade /posts/ protect files</strong>'." $FAIL!<br />";
-		print implode ('<br />',$array);
-	}
-
-/* *****************************************************************************
- * - check for deprecated / never needed files
- */
-	if(sizeof($filesRemove)) {
-		echo '<h3>Step '.(++$stepID).': Remove deprecated and old files</h3>';
-	}
-	$searches = array(
-		'[ADMIN]',
-		'[MEDIA]',
-		'[PAGES]',
-		'[FRAMEWORK]',
-		'[MODULES]',
-		'[TEMPLATE]'
-	);
-	$replacements = array(
-		substr(ADMIN_PATH, strlen(WB_PATH)+1),
-		MEDIA_DIRECTORY,
-		PAGES_DIRECTORY,
-		'/framework',
-		'/modules',
-		'/templates'
-	);
-
-	foreach( $filesRemove as $filesId )
-	{
 		$msg = '';
-		foreach( $filesId as $file )
-		{
+    	foreach( $aFilesToRemove as $file )
+    	{
 			$file = str_replace($searches, $replacements, $file);
-			$file = WB_PATH.'/'.$file;
-			if( file_exists($file) ) {
+			if( is_writable(WB_PATH.'/'.$file) ) {
 				// try to unlink file
-				if(!is_writable( $file ) || !unlink($file)) {
+				if(!unlink(WB_PATH.$file)) {
 					// save in err-list, if failed
 					$msg .= $file.'<br />';
-				}
+				} else {
+					$msg .= $file.'<br />';
+    			}
 			}
-		}
+    	}
 
 		if($msg != '')
 		{
@@ -783,10 +828,15 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 			echo '<form action="'.$_SERVER['SCRIPT_NAME'].'">';
 			echo '&nbsp;<input name="send" type="submit" value="Restart upgrade script" />';
 			echo '</form>';
-			echo '<br /><br /></div></body></html>';
+            echo "<br /><br /></div>
+            </div>
+            </div>
+            </body>
+            </html>
+            ";
 			exit;
 		}
-	}
+    }
 
 
 /**********************************************************
@@ -818,6 +868,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 				}
 			}
 		}
+
 		if($msg != '') {
 			$msg = '<br /><br />Following directories are deprecated, outdated or a security risk and
 					can not be removed automatically.<br /><br />Please delete them
@@ -827,69 +878,92 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 			echo '<form action="'.$_SERVER['SCRIPT_NAME'].'">';
 			echo '&nbsp;<input name="send" type="submit" value="Restart upgrade script" />';
 			echo '</form>';
-			echo '<br /><br /></div></body></html>';
+            echo "<br /><br /></div>
+            </div>
+            </div>
+            </body>
+            </html>
+            ";
 			exit;
 		}
 	}
 
-/**********************************************************
- * upgrade modules if newer version is available
- */
-	$aModuleList = array('news');
+    /**********************************************************
+     * upgrade modules if newer version is available
+     * $aModuleList list of proofed modules
+     */
+    $sModuleList = 'news,wysiwyg,form';
+    $aModuleList = explode(',', (defined('MODULES_UPGRADE_LIST') ? MODULES_UPGRADE_LIST : $sModuleList));
+    echo '<h3>Step '.(++$stepID).': Upgrade proofed modules</h3>';
+//	$aModuleList = array('news');
 	foreach($aModuleList as $sModul) {
 		if(file_exists(WB_PATH.'/modules/'.$sModul.'/upgrade.php')) {
 			$currModulVersion = get_modul_version ($sModul, false);
 			$newModulVersion =  get_modul_version ($sModul, true);
 			if((version_compare($currModulVersion, $newModulVersion) <= 0)) {
-				echo '<h3>Step '.(++$stepID).' : Upgrade module \''.$sModul.'\' to version '.$newModulVersion.'</h3>';
+                echo '<div style="margin-left:2em;">';
+				echo '<h4>'.'Upgrade module \''.$sModul.'\' version '.$newModulVersion.'</h4>';
 				require_once(WB_PATH.'/modules/'.$sModul.'/upgrade.php');
+                echo '</div>';
 			}
 		}
 	}
+
 /**********************************************************
  *  - Reload all addons
  */
 
-	echo '<h3>Step '.(++$stepID).' : Reload all addons database entry (no upgrade)</h3>';
+	echo '<h3>Step '.(++$stepID).' : Reload all addons database entry (no upgrade)</h3><br />';
+    echo '<div style="margin-left:2em;">';
+    $iFound = 0;
+    $iLoaded = 0;
 	////delete modules
 	//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'module'");
 	// Load all modules
 	if( ($handle = opendir(WB_PATH.'/modules/')) ) {
 		while(false !== ($file = readdir($handle))) {
 			if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'admin.php' AND $file != 'index.php') {
-				load_module(WB_PATH.'/modules/'.$file );
+                $iFound++;
+				$iLoaded = load_module(WB_PATH.'/modules/'.$file ) ? $iLoaded+1 : $iLoaded;
 			   // 	upgrade_module($file, true);
 			}
 		}
 		closedir($handle);
 	}
-	echo '<strong><br />Modules reloaded<br /></strong>';
+	echo '<span><strong>'.$iLoaded.' Modules reloaded,</span> found '.$iFound.' directories in folder /modules/</strong><br />';
 
+    $iFound = 0;
+    $iLoaded = 0;
 	////delete templates
 	//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'template'");
 	// Load all templates
 	if( ($handle = opendir(WB_PATH.'/templates/')) ) {
 		while(false !== ($file = readdir($handle))) {
 			if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'index.php') {
-				load_template(WB_PATH.'/templates/'.$file);
+                $iFound++;
+				$iLoaded = (load_template(WB_PATH.'/templates/'.$file)==true) ? $iLoaded+1 : $iLoaded;
 			}
 		}
 		closedir($handle);
 	}
-	echo '<strong><br />Templates reloaded<br /></strong>';
+	echo '<span><strong>'.$iLoaded.' Templates reloaded,</span> found '.$iFound.' directories in folder /templates/</strong><br />';
 
+    $iFound = 0;
+    $iLoaded = 0;
 	////delete languages
 	//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'language'");
 	// Load all languages
 	if( ($handle = opendir(WB_PATH.'/languages/')) ) {
 		while(false !== ($file = readdir($handle))) {
 			if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'index.php') {
-				load_language(WB_PATH.'/languages/'.$file);
+                $iFound++;
+				$iLoaded = load_language(WB_PATH.'/languages/'.$file) ? $iLoaded+1 : $iLoaded;
 			}
 		}
 		closedir($handle);
 	}
-	echo '<strong><br />Languages reloaded<br /></strong>';
+	echo '<span><strong>'.$iLoaded.' Languages reloaded,</span> found '.$iFound.' files in folder /languages/</strong><br />';
+    echo '</div>';
 
 /**********************************************************
  *  - install new droplets
@@ -907,30 +981,38 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 /**********************************************************
  *  - Set Version to new Version
  */
-echo '<br />Update database version number to '.VERSION.' '.SP.' '.' Revision ['.REVISION.'] : ';
+echo '<h3>Step '.(++$stepID).': Update database version number </h3>';
+echo '<div style="margin-left:2em;">';
 
 $cfg = array(
 	'wb_version' => VERSION,
 	'wb_revision' => REVISION,
 	'wb_sp' => SP
 );
-
+echo '<br /><span><strong>Set database version number to '.VERSION.' '.SP.' '.' Revision ['.REVISION.'] : </strong></span>';
 echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+echo '</div>';
 
-	echo '<p style="font-size:120%;"><strong>Congratulations: The upgrade script is finished ...</strong></p>';
-	status_msg('<strong>Warning:</strong><br />Please delete the file <strong>upgrade-script.php</strong> via FTP before proceeding.', 'warning', 'div');
-	// show buttons to go to the backend or frontend
-	echo '<br />';
+echo '<p style="font-size:140%;"><strong>Congratulations: The upgrade script is finished ...</strong></p>';
+status_msg('<strong>:</strong><br />Please delete the file <strong>upgrade-script.php</strong> via FTP before proceeding.', 'warning', 'div');
+// show buttons to go to the backend or frontend
+echo '<br />';
 
-	if(defined('WB_URL')) {
-		echo '<form action="'.WB_URL.'/">';
-		echo '&nbsp;<input type="submit" value="kick me to the Frontend" />';
-		echo '</form>';
-	}
-	if(defined('ADMIN_URL')) {
-		echo '<form action="'.ADMIN_URL.'/">';
-		echo '&nbsp;<input type="submit" value="kick me to the Backend" />';
-		echo '</form>';
-	}
+if(defined('WB_URL')) {
+	echo '<form action="'.WB_URL.'/">';
+	echo '&nbsp;<input type="submit" value="kick me to the Frontend" />';
+	echo '</form>';
+}
+if(defined('ADMIN_URL')) {
+	echo '<form action="'.ADMIN_URL.'/">';
+	echo '&nbsp;<input type="submit" value="kick me to the Backend" />';
+	echo '</form>';
+}
 
-	echo '<br /><br /></div></body></html>';
+echo "<br /><br /></div>
+</div>
+</div>
+</body>
+</html>
+";
+exit();
