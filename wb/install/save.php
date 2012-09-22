@@ -396,6 +396,8 @@ if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 				. ' `viewing_users` VARCHAR( 512 ) NOT NULL ,'
 				. ' `modified_when` INT NOT NULL DEFAULT \'0\','
 				. ' `modified_by` INT NOT NULL  DEFAULT \'0\','
+				. ' `custom01` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
+				. ' `custom02` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
 				. ' PRIMARY KEY ( `page_id` ) '
 				. ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	if(!$database->query($pages)) {

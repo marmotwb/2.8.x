@@ -13,6 +13,9 @@ Legend:
 
 
 
+23 Sep-2012 Build 1768 Dietmar Woellbrink (Luisehahne)
++ add 2 fields custom01, custom02 with VARCHAR( 255 ) to table pages
+! update upgrade-script with this 2 fields
 22 Sep-2012 Build 1767 Dietmar Woellbrink (Luisehahne)
 ! change page_extended to extended settings under page language
 22 Sep-2012 Build 1766 Dietmar Woellbrink (Luisehahne)

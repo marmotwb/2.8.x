@@ -425,137 +425,139 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
     }
 
 echo '<h3>Step '.(++$stepID).': Setting default_theme</h3>';
-
-if($bDebugModus) {
+$aDebugMessage = array();
     /**********************************************************
      *  - Adding field default_theme to settings table
      */
-    echo '<div style="margin-left:2em;">';
-    echo "<br /><span><strong>Adding default_theme to settings table</strong></span>";
+    $aDebugMessage[] = '<div style="margin-left:2em;">';
+    $aDebugMessage[] = "<br /><span><strong>Adding default_theme to settings table</strong></span>";
     // db_update_key_value('settings', 'default_theme', $DEFAULT_THEME);
-    echo (db_update_key_value( 'settings', 'default_theme', $DEFAULT_THEME ) ? " $OK<br />" : " $FAIL!<br />");
-    echo '</div>';
-
-}
-    echo '<h3>Step '.(++$stepID).': Updating core tables</h3>';
+    $aDebugMessage[] = (db_update_key_value( 'settings', 'default_theme', $DEFAULT_THEME ) ? " $OK<br />" : " $FAIL!<br />");
+    $aDebugMessage[] = '</div>';
 
 if($bDebugModus) {
+    echo implode(PHP_EOL,$aDebugMessage);
+}
+$aDebugMessage = array();
+echo'<h3>Step '.(++$stepID).': Updating core tables</h3>';
     /**********************************************************
      *  - Adding field sec_anchor to settings table
      */
     echo '<div style="margin-left:2em;">';
     echo "<h4>Adding/updating entries on table settings</h4>";
-    echo "<span>Adding/updating sec_anchor to settings table</span>";
+    $aDebugMessage[] = "<span>Adding/updating sec_anchor to settings table</span>";
     $cfg = array(
     	'sec_anchor' => defined('SEC_ANCHOR') ? SEC_ANCHOR : 'section_'
     );
 
-    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+   $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
 
     /**********************************************************
      *  - Adding redirect timer to settings table
      */
-    echo "<span>Adding/updating redirect timer to settings table</span>";
+    $aDebugMessage[] = "<span>Adding/updating redirect timer to settings table</span>";
     $cfg = array(
     	'redirect_timer' => defined('REDIRECT_TIMER') ? REDIRECT_TIMER : '1500'
     );
-    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
     /**********************************************************
      *  - Adding rename_files_on_upload to settings table
      */
-    echo "<span>Adding/Updating rename_files_on_upload to settings table</span>";
+    $aDebugMessage[] = "<span>Adding/Updating rename_files_on_upload to settings table</span>";
     $cfg = array(
     	'rename_files_on_upload' => (defined('RENAME_FILES_ON_UPLOAD') ? RENAME_FILES_ON_UPLOAD : 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js')
     );
-    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
     /**********************************************************
      *  - Adding mediasettings to settings table
      */
-    echo "<span>Adding/updating mediasettings to settings table</span>";
+    $aDebugMessage[] = "<span>Adding/updating mediasettings to settings table</span>";
     $cfg = array(
     	'mediasettings' => (defined('MEDIASETTINGS') ? MEDIASETTINGS : ''),
     );
 
-    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
     /**********************************************************
      *  - Adding fingerprint_with_ip_octets to settings table
      */
-    echo "<span>Adding/updating fingerprint_with_ip_octets to settings table</span>";
+    $aDebugMessage[] = "<span>Adding/updating fingerprint_with_ip_octets to settings table</span>";
     $cfg = array(
     	'fingerprint_with_ip_octets' => (defined('FINGERPRINT_WITH_IP_OCTETS') ? FINGERPRINT_WITH_IP_OCTETS : '2'),
     	'secure_form_module' => (defined('SECURE_FORM_MODULE') ? SECURE_FORM_MODULE : '')
     );
 
-    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
     /**********************************************************
      *  - Adding page_icon_dir to settings table
      */
-    echo "<span>Adding/updating page_icon_dir to settings table</span>";
+    $aDebugMessage[] = "<span>Adding/updating page_icon_dir to settings table</span>";
     $cfg = array(
     	'page_icon_dir' => (defined('PAGE_ICON_DIR') ? PAGE_ICON_DIR : '/templates/*/title_images'),
     );
 
-    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
     /**********************************************************
      *  - Adding page_extended to settings table
      */
-    echo "<span>Adding/updating page_extended to settings table</span>";
+    $aDebugMessage[] = "<span>Adding/updating page_extended to settings table</span>";
     $cfg = array(
     	'page_extended' => (defined('PAGE_EXTENDED') ? PAGE_EXTENDED : 'true'),
     );
 
-    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
     /**********************************************************
      *  - Adding website_signature to settings table
      */
-    echo "<span>Adding/updating website_signature to settings table</span>";
+    $aDebugMessage[] = "<span>Adding/updating website_signature to settings table</span>";
     $cfg = array(
     	'website_signature' => (defined('WEBSITE_SIGNATURE') && (WEBSITE_SIGNATURE=='') ? '' : WEBSITE_SIGNATURE)
     );
 
-    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
     /**********************************************************
      *  - Adding confirmed_registration to settings table
      */
-    echo "<span>Adding/updating confirmed_registration to settings table</span>";
+    $aDebugMessage[] = "<span>Adding/updating confirmed_registration to settings table</span>";
     $cfg = array(
     	'confirmed_registration' => (defined('CONFIRMED_REGISTRATION') && (CONFIRMED_REGISTRATION=='') ? '' : CONFIRMED_REGISTRATION)
     );
 
-    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
     /**********************************************************
      *  - Adding dev_infos to settings table
      */
-    echo "<span>Adding/updating dev_infos to settings table</span>";
+    $aDebugMessage[] = "<span>Adding/updating dev_infos to settings table</span>";
     $cfg = array(
     	'dev_infos' => (defined('DEV_INFOS') ? DEV_INFOS : 'false')
     );
 
-    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
     /**********************************************************
      *  - Adding dev_infos to settings table
      */
-    echo "<span>Adding/updating modules_upgrade_list to settings table</span>";
+    $aDebugMessage[] = "<span>Adding/updating modules_upgrade_list to settings table</span>";
     $cfg = array(
     	'modules_upgrade_list' => (defined('MODULES_UPGRADE_LIST') ? MODULES_UPGRADE_LIST : 'news')
     );
 
-    echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
-
-    echo '</div>';
+    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
 
+if($bDebugModus) {
+    echo implode(PHP_EOL,$aDebugMessage);
 }
+echo '</div>';
 
+$aDebugMessage = array();
 if(version_compare(WB_REVISION, REVISION, '<'))
 {
     echo '<div style="margin-left:2em;">';
@@ -706,6 +708,33 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	echo "<span>Modify field viewing_users to pages table";
 	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 
+	/**********************************************************
+     *  - Add field "custom01" to table "pages"
+     */
+	$table_name = TABLE_PREFIX.'pages';
+	$field_name = 'custom01';
+	$description = "VARCHAR( 255 ) NOT NULL DEFAULT '' ";
+	if(!$database->field_exists($table_name,$field_name)) {
+		echo "<span>Adding field custom01 to pages table</span>";
+		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+	} else {
+		echo "<span>Modify field custom01 to pages table</span>";
+		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+	}
+
+	/**********************************************************
+     *  - Add field "custom02" to table "pages"
+     */
+	$table_name = TABLE_PREFIX.'pages';
+	$field_name = 'custom02';
+	$description = "VARCHAR( 255 ) NOT NULL DEFAULT '' ";
+	if(!$database->field_exists($table_name,$field_name)) {
+		echo "<span>Adding field custom02 to pages table</span>";
+		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+	} else {
+		echo "<span>Modify field custom02 to pages table</span>";
+		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+	}
 
     /**********************************************************
      * modify wrong strucre on table sections
@@ -727,29 +756,37 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 
 }
 
+if($bDebugModus) {
+    echo implode(PHP_EOL,$aDebugMessage);
+}
+$aDebugMessage = array();
 /**********************************************************
  * This part with changing in mod_wysiwyg will be removed in the final version
  * special workout for the tester
  *  - Remove/add PRIMARY KEY from/to "section_id" from table "mod_wysiwygs"
  */
-if($bDebugModus) {
-    echo '<div style="margin-left:2em;">';
+    $aDebugMessage[] = '<div style="margin-left:2em;">';
 
     $sTable = TABLE_PREFIX.'mod_wysiwyg';
     $field_name = 'wysiwyg_id';
     if($database->field_exists($sTable, 'wysiwyg_id')) {
         if($database->index_exists($sTable, 'PRIMARY')) {
-            echo "<span>Remove PRIMARY KEY from table mod_wysiwyg.wysiwyg_id</span>";
-            echo $database->index_remove($sTable, 'PRIMARY') ? " $OK<br />" : " $FAIL!<br />";
+            $aDebugMessage[] = "<span>Remove PRIMARY KEY from table mod_wysiwyg.wysiwyg_id</span>";
+            $aDebugMessage[] = $database->index_remove($sTable, 'PRIMARY') ? " $OK<br />" : " $FAIL!<br />";
         }
-        echo "<span>Remove field 'wysiwyg_id' from table mod_wysiwyg</span>";
-        echo $database->field_remove($sTable, 'wysiwyg_id') ? " $OK<br />" : " $FAIL!<br />";
+        $aDebugMessage[] = "<span>Remove field 'wysiwyg_id' from table mod_wysiwyg</span>";
+        $aDebugMessage[] = $database->field_remove($sTable, 'wysiwyg_id') ? " $OK<br />" : " $FAIL!<br />";
     }
 
-    echo "<br /><span>Create PRIMARY KEY ( `section_id` ) on table mod_wysiwygs.</span>";
-    echo $database->index_add($sTable, '', 'section_id', 'PRIMARY') ? " $OK<br />" : " $FAIL!<br />";
-    echo '</div>';
+    $aDebugMessage[] = "<br /><span>Create PRIMARY KEY ( `section_id` ) on table mod_wysiwygs.</span>";
+    $aDebugMessage[] = $database->index_add($sTable, '', 'section_id', 'PRIMARY') ? " $OK<br />" : " $FAIL!<br />";
+    $aDebugMessage[] = '</div>';
+
+if($bDebugModus) {
+// $aDebugMessage[] =
+    echo implode(PHP_EOL,$aDebugMessage);
 }
+$aDebugMessage = array();
 
 echo '<h3>Step '.(++$stepID).': Updating acess and protected files in folders</h3>';
 
