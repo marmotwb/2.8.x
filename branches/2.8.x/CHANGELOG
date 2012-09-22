@@ -13,6 +13,8 @@ Legend:
 
 
 
+22 Sep-2012 Build 1767 Dietmar Woellbrink (Luisehahne)
+! change page_extended to extended settings under page language
 22 Sep-2012 Build 1766 Dietmar Woellbrink (Luisehahne)
 ! typofix in EN language,
 ! empty seo_title will set to menu_title
