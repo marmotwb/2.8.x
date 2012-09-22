@@ -13,6 +13,8 @@ Legend:
 
 
 
+22 Sep-2012 Build 1765 Dietmar Woellbrink (Luisehahne)
+! recoded module news,form,wysiwyg upgrade to work with upgrade-script
 22 Sep-2012 Build 1764 Dietmar Woellbrink (Luisehahne)
 # remove jquery core backups
 22 Sep-2012 Build 1763 Dietmar Woellbrink (Luisehahne)
