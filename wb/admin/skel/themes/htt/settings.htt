@@ -14,7 +14,8 @@
 		</div>
 		<br />
 	</fieldset>
-	<fieldset>
+
+	<fieldset class="tab-generell">
 		<legend>{HEADING_GENERAL_SETTINGS}</legend>
 		<div class="mbox sub-row">
 			<label class="setting_name">{TEXT_WEBSITE_TITLE}:</label>
@@ -69,7 +70,6 @@
 			</span>
 		</div>
 <!-- BEGIN show_checkbox_1_block -->
-
 		<div class="mbox sub-row">
 			<label class="setting_name">{TEXT_PAGE_LANGUAGES}:</label>
 			<span>
@@ -79,6 +79,17 @@
 			<span>
 				<input class="radio" type="radio" name="page_languages" id="page_languages_false" value="false"{PAGE_LANGUAGES_DISABLED} />
                 <label for="page_languages_false">{TEXT_DISABLED}</label>
+			</span>
+		</div>
+		<div class="mbox sub-row">
+	 		<label class="setting_name">{TEXT_PAGE_EXTENDED}:</label>
+			<span>
+				<input class="radio" type="radio" name="page_extended" id="page_extended_true" value="true"{PAGE_EXTENDED_ENABLED} />
+                <label for="page_extended_true">{TEXT_ENABLED}</label>
+			</span>
+			<span>
+				<input class="radio" type="radio" name="page_extended" id="page_extended_false" value="false"{PAGE_EXTENDED_DISABLED} />
+                <label for="page_extended_false">{TEXT_DISABLED}</label>
 			</span>
 		</div>
 
@@ -93,8 +104,8 @@
 		<label for="multiple_menus_false">{TEXT_DISABLED}</label>
 			</span>
 		</div>
-
 <!-- END show_checkbox_1_block -->
+
 		<div class="mbox sub-row">
 		<label class="setting_name">{TEXT_HOME_FOLDERS}:</label>
 			<span>
@@ -586,22 +597,26 @@
                 <label for="dev_infos_false">{TEXT_DISABLED}</label>
 			</span>
 		</div>
-		<div class="mbox sub-row">
-	 		<label class="setting_name">{TEXT_PAGE_EXTENDED}:</label>
-			<span>
-				<input class="radio" type="radio" name="page_extended" id="page_extended_true" value="true"{PAGE_EXTENDED_ENABLED} />
-                <label for="page_extended_true">{TEXT_ENABLED}</label>
-			</span>
-			<span>
-				<input class="radio" type="radio" name="page_extended" id="page_extended_false" value="false"{PAGE_EXTENDED_DISABLED} />
-                <label for="page_extended_false">{TEXT_DISABLED}</label>
-			</span>
-		</div>
 
 		<div class="mbox sub-row">
 	 		<label class="setting_name">{TEXT_PAGES_DIRECTORY}:</label>
 			<div class="input" >
 				<input type="text" name="pages_directory" value="{PAGES_DIRECTORY}" />
+			</div>
+		</div>
+
+		<div class="mbox sub-row hide">
+	 		<label for="rebuild_access_files" class="setting_name">{TEXT_REBUILD_ACCESS_FILES}:</label>
+			<div class="input" >
+				<input type="checkbox" name="rebuild_access_files" id="rebuild_access_files" value="true" />
+                {HELP_REBUILD_ACCESS_FILES}
+			</div>
+		</div>
+
+		<div class="mbox sub-row">
+	 		<label class="setting_name">{TEXT_MODULES_DIRECTORY}:</label>
+			<div class="input" >
+				<input type="text" name="modules_upgrade_list" value="{MODULES_UPGRADE_LIST}" />
 			</div>
 		</div>
 

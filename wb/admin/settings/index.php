@@ -28,6 +28,7 @@ if(isset($_GET['advanced']) && $_GET['advanced'] == 'yes') {
 $cfg = array(
 	'website_signature' => defined('WEBSITE_SIGNATURE') ? WEBSITE_SIGNATURE : '',
 	'confirmed_registration' => (defined('CONFIRMED_REGISTRATION') ? CONFIRMED_REGISTRATION : '0'),
+	'modules_upgrade_list' => (defined('MODULES_UPGRADE_LIST') ? MODULES_UPGRADE_LIST : ''),
 	);
 db_update_key_value( 'settings', $cfg );
 
@@ -40,7 +41,7 @@ $mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE)
 
 // Setup template object, parse vars to it, then parse it
 // Create new template object
-$template = new Template(dirname($admin->correct_theme_source('settings.htt')));
+$template = new Template(dirname($admin->correct_theme_source('settings.htt')),'keep');
 // $template->debug = true;
 $template->set_file('page',        'settings.htt');
 $template->set_block('page',       'main_block', 'main');
@@ -70,7 +71,7 @@ $template->set_block('main_block', 'show_access_block',           'show_access')
 $template->set_block('main_block', 'show_search_block',           'show_search');
 $template->set_block('main_block', 'show_redirect_timer_block',   'show_redirect_timer');
 /*-- insert all needed vars from language files ----------------------------------------*/
-	$template->set_var($mLang->getLangArray());
+$template->set_var($mLang->getLangArray());
 
 // Query current settings in the db, then loop through them and print them
 $query = "SELECT * FROM ".TABLE_PREFIX."settings";
@@ -783,6 +784,7 @@ if($is_advanced)
 
 	$template->set_var(array(
 						'PAGES_DIRECTORY' => PAGES_DIRECTORY,
+						'MODULES_DIRECTORY' => MODULES_UPGRADE_LIST,
 						'PAGE_ICON_DIR'   => PAGE_ICON_DIR,
 						'MEDIA_DIRECTORY' => MEDIA_DIRECTORY,
 						'PAGE_EXTENSION' => PAGE_EXTENSION,
@@ -951,5 +953,5 @@ if($is_advanced && $admin->get_user_id()=='1')
 // Parse template objects output
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
-
+unset($template);
 $admin->print_footer();

@@ -24,6 +24,7 @@ $advanced = ($_POST['advanced'] == 'yes') ? '?advanced=yes' : '';
 // Print admin header
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
+require_once(WB_PATH.'/framework/functions.php');
 
 // suppress to print the header, so no new FTAN will be set
 if($advanced == '')
@@ -154,8 +155,10 @@ if($advanced == '')
 }
 
 $allow_tags_in_fields = array('website_header', 'website_footer','website_signature');
-$allow_empty_values = array('website_header','website_footer','pages_directory','page_spacer','website_signature,page_icon_dir');
+$allow_empty_values = array('website_header','website_footer','pages_directory','page_spacer','website_signature,page_icon_dir','modules_upgrade_list');
 $disallow_in_fields = array('pages_directory', 'media_directory','wb_version');
+
+$bRebuildAccessFiles = ( (isset( $_POST['rebuild_access_files']) && ( $_POST['rebuild_access_files'] == true )) ? true : false ) ;
 
 // Query current settings in the db, then loop through them and update the db with the new value
 $settings = array();
@@ -168,8 +171,8 @@ if($res_settings = $database->query($sql)) {
 	$passed = false;
 	while($setting = $res_settings->fetchRow())
 	{
-		$old_settings[$setting['name']] = $setting['value'];
 		$setting_name = $setting['name'];
+		$old_settings[$setting_name] = $setting['value'];
 		$value = $admin->get_post($setting_name);
 		$value = isset($_POST[$setting_name]) ? $value : $old_settings[$setting_name] ;
 		switch ($setting_name) {
@@ -184,11 +187,20 @@ if($res_settings = $database->query($sql)) {
 			case 'string_file_mode':
 				$value=$file_mode;
 	 			$passed = true;
-			break;
+    			break;
 			case 'sec_anchor':
 				$value=(($value=='') ? 'section_' : $value);
 	 			$passed = true;
+				break;
 			case 'pages_directory':
+                $bNewPageFile = ( ( $value!= $old_settings['pages_directory'] ) ? true :  false );
+	 			$passed = $bNewPageFile;
+                $sGetId = '&amp;id='.$bNewPageFile;
+//                if(!is_dir(WB_PATH.$value) && is_writable(WB_PATH)) {
+//                    $passed = make_dir(WB_PATH.$value);
+//                }
+                $value  = (($passed == true) ? $value : $old_settings['pages_directory']);
+                $sPageDirectory = $value;
 				break;
 			case 'wbmailer_smtp_auth':
 				// $value = isset($_POST[$setting_name]) ? $_POST[$setting_name] : '' ;
@@ -199,6 +211,7 @@ if($res_settings = $database->query($sql)) {
 			    $passed = in_array($setting_name, $allow_empty_values);
 				break;
 		}
+
 
 	    if (!in_array($setting_name, $allow_tags_in_fields))
 	    {
@@ -212,7 +225,6 @@ if($res_settings = $database->query($sql)) {
 	        $sql .= 'SET `value` = \''.$value.'\' ';
 	        $sql .= 'WHERE `name` != \'wb_version\' ';
 	        $sql .= 'AND `name` = \''.$setting_name.'\' ';
-
 	        if (!$database->query($sql))
 	        {
 				if($database->is_error()) {
@@ -221,6 +233,13 @@ if($res_settings = $database->query($sql)) {
 	        }
 		}
 	}
+
+    if(($bRebuildAccessFiles==true) && ($_POST['modules_upgrade_list']!='') && ($sPageDirectory==$old_settings['pages_directory']) ) {
+        rebuild_all_accessfiles();
+        $aModuleList = ( explode(',', $_POST['modules_upgrade_list']));
+        upgrade_modules($aModuleList);
+    }
+
 }
 
 // Query current search settings in the db, then loop through them and update the db with the new value
