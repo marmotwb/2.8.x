@@ -13,6 +13,8 @@ Legend:
 
 
 
+22 Sep-2012 Build 1764 Dietmar Woellbrink (Luisehahne)
+# remove jquery core backups
 22 Sep-2012 Build 1763 Dietmar Woellbrink (Luisehahne)
 # fixed methode index_add in WbDatabase, always faild
 18 Sep-2012 Build 1762 Dietmar Woellbrink (Luisehahne)
