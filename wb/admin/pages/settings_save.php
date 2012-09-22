@@ -100,7 +100,7 @@ if($menu_title == '' || substr($menu_title,0,1)=='.')
 }
 if($seo_title == '' || substr($seo_title,0,1)=='.')
 {
-	$admin->print_error($MESSAGE['PAGES_BLANK_SEO_TITLE'],$target_url);
+    $seo_title = $menu_title;
 }
 
 // Get existing perms
@@ -287,6 +287,9 @@ if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/'))
 
 		// Create access file
 		create_access_file($filename,$page_id,$level);
+        if(!file_exists($filename)) {
+        	$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
+        }
 		// Move a directory for this page
 		if(file_exists(WB_PATH.PAGES_DIRECTORY.$old_link.'/') && is_dir(WB_PATH.PAGES_DIRECTORY.$old_link.'/'))
         {
@@ -318,7 +321,12 @@ if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/'))
                     {
 						unlink($old_subpage_file);
 					}
-					create_access_file(WB_PATH.PAGES_DIRECTORY.$new_sub_link.PAGE_EXTENSION, $sub['page_id'], $new_sub_level);
+                    $sAccessFile = WB_PATH.PAGES_DIRECTORY.$new_sub_link.PAGE_EXTENSION;
+					create_access_file($sAccessFile, $sub['page_id'], $new_sub_level);
+                    if(!file_exists($sAccessFile)) {
+                    	$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
+                    }
+
 				}
 			}
 		}
