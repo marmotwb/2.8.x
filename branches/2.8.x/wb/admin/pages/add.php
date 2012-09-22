@@ -222,6 +222,10 @@ if($database->is_error())
 // Create a new file in the /pages dir
 create_access_file($filename, $page_id, $level);
 
+if(!file_exists($filename)) {
+	$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
+}
+
 // add position 1 to new page
 $position = 1;
 

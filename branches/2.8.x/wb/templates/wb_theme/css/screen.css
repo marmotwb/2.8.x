@@ -50,7 +50,14 @@ table.footer fieldset { background :#a8bccb; margin :0.5em auto; text-align :cen
 .spacer { line-height :1em; margin-right :0.5em; position :relative; }
 /* ************************************************************************** */
 /* DIV-mbox to show selector or simply content only ************************* */
-div.mbox { padding :10px; margin :15px auto; background-color :#ffffff; color :#330033; font-size :1em; display :block; }
+div.mbox {
+   padding : 5px 10px;
+   margin : 5px auto;
+   background-color :#ffffff;
+   color :#330033;
+   font-size :1em;
+   display :block;
+}
  	div.mbox div { }
 		div.mbox div a { font-size :1em; color :#0052a1; }
 		div.mbox div a:hover { color :#0099ff; }
@@ -58,8 +65,18 @@ div.mbox { padding :10px; margin :15px auto; background-color :#ffffff; color :#
 		div.mbox div p { margin :0; padding :0 0 0.6em 0; }
 div.mbox:hover { }
 /* extension for mbox to show additional icons on left side ***************** */
-div.mbox-icon { background-repeat :no-repeat; background-image :url(icons/info_50.png); background-position :15px 50%; padding :15px; min-height :25px; }
-	div.mbox-icon div { margin-left :70px; border-left :0px outset; padding-left :5px; }
+div.mbox-icon {
+   background-repeat :no-repeat;
+   background-image :url(icons/info_50.png);
+   background-position :15px 50%;
+   padding : 10px 5px;
+   min-height :25px;
+}
+	div.mbox-icon div {
+   margin-left :70px;
+   border-left :0px outset;
+   padding-left :5px;
+}
 div.mbox-icon16 { background-repeat :no-repeat; background-image :url(icons/info_16.png); background-position :5px 50%; padding :5px; min-height :10px; }
 	div.mbox-icon16 div { margin-left :30px; border-left :4px outset; padding-left :5px; }
 /* coloring of the mbox and other boxes also ******************************** */
@@ -146,9 +163,14 @@ form.settings_table { border :1px none #eeee; font-family :verdana,arial,helveti
 div.content_box form { }
 div.sub-row { background-color :#eeeeee; margin : 1px auto; overflow :hidden; padding :0; }
 div.col_content { margin-right :0.5em; padding :2px 0; }
-.content_box { position :relative; margin :0px auto; padding :0; overflow :visible; }
+.content_box { position :relative; margin :0px auto; padding :0; }
    .content_box form { background :transparent; height :auto; }
-   .content_box li { float :left; margin :auto 0.8em; list-style-type :none; display :block; }
+   .content_box li {
+   float :left;
+   padding :0 10px;
+   list-style-type :none;
+   display :block;
+}
    .content_box ul { padding :0 0 0 15px; margin :0 auto; width :100%; }
    .content_box h5.title { color :#339bff; font-weight :bold; font-size :1.2em; margin :0 auto; text-align :left; }
    .content_box h5.title a:link  { color :#0067ca; }
@@ -267,7 +289,6 @@ div.page-settings p.page_user,
 div.page-settings p.page_group {  } 
 /* */
 .header_title, .setting_value input, .setting_value select, .setting_value textarea, .value_input input, .value_input text, .value_input select, .form_submit, .input_full { width :80%; }
-.content_box { text-align :left; }
 div.mbox span { white-space :nowrap; }
 div.mbox span label { padding-right :5px; }
 div.mbox span [type="checkbox"] { width :2.5em; }

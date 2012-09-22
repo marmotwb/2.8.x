@@ -279,7 +279,7 @@ $admin = new admin('Pages', 'pages_settings');
 			// check already selected groups
 				$bChecked = $admin->is_group_match($aGroup['ID'], $aCurrentPage['admin_groups']);
 			// disable selected groups where current user is not member of
-				$bDisabled = !$admin->ami_group_member($aGroup['ID']);
+				$bDisabled = !$admin->ami_group_member('1');
 				$aGroup['CHECKED']  = $bChecked ? $sChecked : '';
 				$aGroup['DISABLED'] = ($bChecked && $bDisabled) ? $sDisabled : '';
 			}
@@ -306,7 +306,7 @@ $admin = new admin('Pages', 'pages_settings');
 			// check already selected groups
 				$bChecked = $admin->is_group_match($aGroup['ID'], $aCurrentPage['viewing_groups']);
 			// disable selected groups where current user is not member of
-				$bDisabled = !$admin->ami_group_member($aGroup['ID']);
+				$bDisabled = !$admin->ami_group_member('1');
 				$aGroup['CHECKED']  = $bChecked ? $sChecked : '';
 				$aGroup['DISABLED'] = ($bChecked && $bDisabled) ? $sDisabled : '';
 			}

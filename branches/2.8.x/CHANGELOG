@@ -13,6 +13,10 @@ Legend:
 
 
 
+22 Sep-2012 Build 1766 Dietmar Woellbrink (Luisehahne)
+! typofix in EN language,
+! empty seo_title will set to menu_title
+! continue  rebranding wb_theme
 22 Sep-2012 Build 1765 Dietmar Woellbrink (Luisehahne)
 ! recoded module news,form,wysiwyg upgrade to work with upgrade-script
 22 Sep-2012 Build 1764 Dietmar Woellbrink (Luisehahne)
