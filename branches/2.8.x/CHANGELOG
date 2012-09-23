@@ -13,6 +13,8 @@ Legend:
 
 
 
+23 Sep-2012 Build 1769 Dietmar Woellbrink (Luisehahne)
+# typofix in upgrade-script, fixed wrong count for language and modules folder
 23 Sep-2012 Build 1768 Dietmar Woellbrink (Luisehahne)
 + add 2 fields custom01, custom02 with VARCHAR( 255 ) to table pages
 ! update upgrade-script with this 2 fields

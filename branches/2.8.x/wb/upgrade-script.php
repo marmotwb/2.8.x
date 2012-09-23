@@ -576,7 +576,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	    echo ($database->query($sql)) ? " $OK<br />" : " $FAIL!<br />";
 	}
 
-    echo "<h4>Adding/updating fiekds on table mod_menu_link</h4>";
+    echo "<h4>Adding/updating field on table mod_menu_link</h4>";
 	/**********************************************************
      *  - Add field "redirect_type" to table "mod_menu_link"
      *  has to be moved later to upgrade.php in modul menu_link, because modul can be removed
@@ -592,7 +592,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
 	}
 
-    echo "<h4>Adding/updating fiekds on table pages</h4>";
+    echo "<h4>Adding/updating field on table pages</h4>";
 	/**********************************************************
 	 *  - Add field "page_trail" to table "pages"
 	 */
@@ -959,7 +959,7 @@ echo '<div style="margin-left:2em;">';
 	// Load all modules
 	if( ($handle = opendir(WB_PATH.'/modules/')) ) {
 		while(false !== ($file = readdir($handle))) {
-			if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'admin.php' AND $file != 'index.php') {
+			if($file != '' && substr($file, 0, 1) != '.' && is_dir(WB_PATH.'/modules/'.$file) ) {
                 $iFound++;
 				$iLoaded = load_module(WB_PATH.'/modules/'.$file ) ? $iLoaded+1 : $iLoaded;
 			   // 	upgrade_module($file, true);
@@ -977,8 +977,10 @@ echo '<div style="margin-left:2em;">';
 	if( ($handle = opendir(WB_PATH.'/templates/')) ) {
 		while(false !== ($file = readdir($handle))) {
 			if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'index.php') {
+
                 $iFound++;
 				$iLoaded = (load_template(WB_PATH.'/templates/'.$file)==true) ? $iLoaded+1 : $iLoaded;
+
 			}
 		}
 		closedir($handle);
@@ -992,7 +994,7 @@ echo '<div style="margin-left:2em;">';
 	// Load all languages
 	if( ($handle = opendir(WB_PATH.'/languages/')) ) {
 		while(false !== ($file = readdir($handle))) {
-			if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'index.php') {
+			if($file != '' AND (preg_match('#^([A-Z]{2}.php)#', basename($file)))) {
                 $iFound++;
 				$iLoaded = load_language(WB_PATH.'/languages/'.$file) ? $iLoaded+1 : $iLoaded;
 			}
