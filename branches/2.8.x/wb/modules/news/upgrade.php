@@ -82,7 +82,7 @@ if(!function_exists('mod_news_Upgrade'))
 					return;
 				} else {
 //					$admin->print_error($MESSAGE['RECORD_MODIFIED_FAILED']);
-					$msg[] = $$MESSAGE['RECORD_MODIFIED_FAILED'];
+					$msg[] = $MESSAGE['RECORD_MODIFIED_FAILED'];
 					return $msg;
 				}
 			}
@@ -100,7 +100,7 @@ if(!function_exists('mod_news_Upgrade'))
 					return;
 				}else {
 //					$admin->print_error($MESSAGE['RECORD_MODIFIED_FAILED']);
-					$msg[] = $$MESSAGE['RECORD_MODIFIED_FAILED'];
+					$msg[] = $MESSAGE['RECORD_MODIFIED_FAILED'];
 					return $msg;
 				}
 			}

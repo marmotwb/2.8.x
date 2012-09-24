@@ -396,7 +396,7 @@ class WbDatabase {
 		$retVal = false;
 		$mysqlVersion = mysql_get_server_info($this->_db_handle);
 		$engineValue = (version_compare($mysqlVersion, '5.0') < 0) ? 'Type' : 'Engine';
-		$sql = "SHOW TABLE STATUS FROM " . $this->_db_name . " LIKE '" . $table . "'";
+		$sql = 'SHOW TABLE STATUS FROM `' . $this->_db_name . '` LIKE \'' . $table . '\'';
 		if(($result = $this->query($sql, $this->_db_handle))) {
 			if(($row = $result->fetchRow(MYSQL_ASSOC))) {
 				$retVal = $row[$engineValue];

@@ -201,7 +201,26 @@ if(!isset($_POST['database_host']) OR $_POST['database_host'] == '') {
 	set_error('Please enter a database host name', 'database_host');
 } else {
 	$database_host = $_POST['database_host'];
+ }
+// Check if user has entered a database name
+if(!isset($_POST['database_name']) OR $_POST['database_name'] == '') {
+	set_error('Please enter a database name', 'database_name');
+} else {
+	// make sure only allowed characters are specified
+	if(!preg_match('/^[a-z0-9_-]*$/i', $_POST['database_name'])) {
+		// contains invalid characters (only a-z, A-Z, 0-9 and _ allowed to avoid problems with table/field names)
+		set_error('Only characters a-z, A-Z, 0-9, - and _ allowed in database name.', 'database_name');
+	}
+	$database_name = $_POST['database_name'];
 }
+// Get table prefix
+if(!preg_match('/^[a-z0-9_]*$/i', $_POST['table_prefix'])) {
+	// contains invalid characters (only a-z, A-Z, 0-9 and _ allowed to avoid problems with table/field names)
+	set_error('Only characters a-z, A-Z, 0-9 and _ allowed in table_prefix.', 'table_prefix');
+} else {
+	$table_prefix = $_POST['table_prefix'];
+}
+
 // Check if user has entered a database username
 if(!isset($_POST['database_username']) OR $_POST['database_username'] == '') {
 	set_error('Please enter a database username','database_username');
@@ -213,24 +232,6 @@ if(!isset($_POST['database_password'])) {
 	set_error('Please enter a database password', 'database_password');
 } else {
 	$database_password = $_POST['database_password'];
-}
-// Check if user has entered a database name
-if(!isset($_POST['database_name']) OR $_POST['database_name'] == '') {
-	set_error('Please enter a database name', 'database_name');
-} else {
-	// make sure only allowed characters are specified
-	if(preg_match('/[^a-z0-9_-]+/i', $_POST['database_name'])) {
-		// contains invalid characters (only a-z, A-Z, 0-9 and _ allowed to avoid problems with table/field names)
-		set_error('Only characters a-z, A-Z, 0-9, - and _ allowed in database name.', 'database_name');
-	}
-	$database_name = $_POST['database_name'];
-}
-// Get table prefix
-if(preg_match('/[^a-z0-9_]+/i', $_POST['table_prefix'])) {
-	// contains invalid characters (only a-z, A-Z, 0-9 and _ allowed to avoid problems with table/field names)
-	set_error('Only characters a-z, A-Z, 0-9 and _ allowed in table_prefix.', 'table_prefix');
-} else {
-	$table_prefix = $_POST['table_prefix'];
 }
 
 // Find out if the user wants to install tables and data

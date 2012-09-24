@@ -39,21 +39,22 @@ if(!defined('WB_PATH')) {
 	if(($resSnippets = $database->query($sql))) {
 		while($recSnippet = $resSnippets->fetchRow()) {
 			$module_dir = $recSnippet['directory'];
-			if (file_exists(WB_PATH.'/modules/'.$module_dir.'/include.php')) {
+			if (is_readable(WB_PATH.'/modules/'.$module_dir.'/include.php')) {
 				include(WB_PATH.'/modules/'.$module_dir.'/include.php');
 			// check if frontend.css file needs to be included into the <head></head> of index.php
-				if( file_exists(WB_PATH .'/modules/'.$module_dir.'/frontend.css')) {
+
+				if( is_readable(WB_PATH .'/modules/'.$module_dir.'/frontend.css')) {
 					$include_head_link_css .= '<link href="'.WB_URL.'/modules/'.$module_dir.'/frontend.css"';
 					$include_head_link_css .= ' rel="stylesheet" type="text/css" media="screen" />'."\n";
 					$include_head_file = 'frontend.css';
 				}
 			// check if frontend.js file needs to be included into the <body></body> of index.php
-				if(file_exists(WB_PATH .'/modules/'.$module_dir.'/frontend.js')) {
+				if(is_readable(WB_PATH .'/modules/'.$module_dir.'/frontend.js')) {
 					$include_head_links .= '<script src="'.WB_URL.'/modules/'.$module_dir.'/frontend.js" type="text/javascript"></script>'."\n";
 					$include_head_file = 'frontend.js';
 				}
 			// check if frontend_body.js file needs to be included into the <body></body> of index.php
-				if(file_exists(WB_PATH .'/modules/'.$module_dir.'/frontend_body.js')) {
+				if(is_readable(WB_PATH .'/modules/'.$module_dir.'/frontend_body.js')) {
 					$include_body_links .= '<script src="'.WB_URL.'/modules/'.$module_dir.'/frontend_body.js" type="text/javascript"></script>'."\n";
 					$include_body_file = 'frontend_body.js';
 				}
@@ -468,12 +469,12 @@ function bind_jquery ($file_id='jquery')
 			$jquery_links .= '<script src="'.WB_URL.'/include/jquery/jquery-include.js" type="text/javascript"></script>'."\n";
             /* workout to insert ui.css and theme */
             $jquery_theme =  WB_PATH.'/modules/jquery/jquery_theme.js';
-			$jquery_links .=  file_exists($jquery_theme)
+			$jquery_links .=  is_readable($jquery_theme)
                 ? '<script src="'.WB_URL.'/modules/jquery/jquery_theme.js" type="text/javascript"></script>'."\n"
                 : '<script src="'.WB_URL.'/include/jquery/jquery_theme.js" type="text/javascript"></script>'."\n";
             /* workout to insert plugins functions, set in templatedir */
             $jquery_frontend_file = TEMPLATE_DIR.'/jquery_frontend.js';
-			$jquery_links .= file_exists(str_replace( WB_URL, WB_PATH, $jquery_frontend_file))
+			$jquery_links .= is_readable(str_replace( WB_URL, WB_PATH, $jquery_frontend_file))
                 ? '<script src="'.$jquery_frontend_file.'" type="text/javascript"></script>'."\n"
                 : '';
 		}
@@ -525,7 +526,7 @@ if(!function_exists('register_frontend_modfiles_body'))
 	    		while($row = $query_modules->fetchRow())
 	            {
 	    			// check if page module directory contains a frontend_body.js file
-	    			if(file_exists(WB_PATH ."/modules/" .$row['module'] ."/$base_file"))
+	    			if(is_readable(WB_PATH ."/modules/" .$row['module'] ."/$base_file"))
 	                {
 	    			// create link with frontend_body.js source for the current module
 	    				$tmp_link = str_replace("{MODULE_DIRECTORY}", $row['module'], $base_link);
@@ -603,7 +604,7 @@ if(!function_exists('register_frontend_modfiles'))
 	    		while($row = $query_modules->fetchRow())
 	            {
 	    			// check if page module directory contains a frontend.js or frontend.css file
-	    			if(file_exists(WB_PATH ."/modules/" .$row['module'] ."/$base_file"))
+	    			if(is_readable(WB_PATH ."/modules/" .$row['module'] ."/$base_file"))
 	                {
 	    			// create link with frontend.js or frontend.css source for the current module
 	    				$tmp_link = str_replace("{MODULE_DIRECTORY}", $row['module'], $base_link);
@@ -637,25 +638,3 @@ if(!function_exists('register_frontend_modfiles'))
         print $head_links;
     }
 }
-/*
-	function moveCssToHead($content) {
-		// move css definitions into head section
-		$pattern1 = '/(?:<body.*?)(<link[^>]*?\"text\/css\".*?\/>)/si';
-		$pattern2 = '/(?:<body.*?)(<style[^>]*?\"text\/css\"[^>]* ?>.*?<\/style>)/si';
-		while(preg_match($pattern1, $content, $matches)==1) {
-		// loop through all linked CSS
-			$insert = $matches[1];
-			$content = str_replace($insert, '', $content);
-			$insert = "\n".$insert."\n</head>\n<body";
-			$content = preg_replace('/<\/head>.*?<body/si', $insert, $content);
-		}
-		while(preg_match($pattern2, $content, $matches)==1) {
-		// loop through all inline CSS
-			$insert = $matches[1];
-			$content = str_replace($insert, '', $content);
-			$insert = "\n".$insert."\n</head>\n<body";
-			$content = preg_replace('/<\/head>.*?<body/si', $insert, $content);
-		}
-		return $content;
-	}
-*/
