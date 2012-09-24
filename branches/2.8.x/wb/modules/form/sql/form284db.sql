@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}mod_form_fields` (
   `value` text NOT NULL,
   `extra` text NOT NULL,
   PRIMARY KEY (`field_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+) {TABLE_ENGINE};
 
 -- --------------------------------------------------------
 
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}mod_form_settings` (
   `perpage_submissions` int(11) NOT NULL DEFAULT '10',
   `use_captcha` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`section_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+) {TABLE_ENGINE};
 
 -- --------------------------------------------------------
 
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}mod_form_submissions` (
   `submitted_by` int(11) NOT NULL DEFAULT '0',
   `body` text NOT NULL,
   PRIMARY KEY (`submission_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+) {TABLE_ENGINE};
 
 -- --------------------------------------------------------
 
