@@ -13,6 +13,13 @@ Legend:
 
 
 
+24 Sep-2012 Build 1770 Dietmar Woellbrink (Luisehahne)
+# fixed issues with database names
+  WbDatabase::getTableEngine() changed SQL statement to strikt.
+! remove empty warning box if you aren't sysadmin
+! change order errorhandling in installation save.php
+# typofix in news/upgrade.php $MESSAGE
+! Framework/frontend.functions.php change file_exists to is_readable
 23 Sep-2012 Build 1769 Dietmar Woellbrink (Luisehahne)
 # typofix in upgrade-script, fixed wrong count for language and modules folder
 23 Sep-2012 Build 1768 Dietmar Woellbrink (Luisehahne)

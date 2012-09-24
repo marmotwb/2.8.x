@@ -85,8 +85,7 @@ if(($admin->get_user_id()==1) && file_exists(WB_PATH.'/upgrade-script.php')) {
 // workout to upgrade the groups system_permissions
 // ---------------------------------------
 if( ($admin->get_user_id()==1) &&
-	file_exists(ADMIN_PATH.'/groups/upgradePermissions.php') &&
-	!defined('GROUPS_UPDATED') )
+	file_exists(ADMIN_PATH.'/groups/upgradePermissions.php') && !defined('GROUPS_UPDATED') )
 {
 	// check if it is neccessary to start the uograde-script
 	$sql = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` WHERE `name`=\'wb_revision\'';
@@ -235,7 +234,7 @@ $msg .= (file_exists(WB_PATH.'/install/')) ?  $MESSAGE['START_INSTALL_DIR_EXISTS
 // Check if installation directory still exists
 if(file_exists(WB_PATH.'/install/') || file_exists(WB_PATH.'/upgrade-script.php') ) {
 	// Check if user is part of Adminstrators group
-	if(in_array(1, $admin->get_groups_id()))
+	if($admin->get_user_id()==1)
     {
 		$oTpl->set_var('WARNING', $msg );
 	} else {
