@@ -13,6 +13,9 @@ Legend:
 
 
 
+24 Sep-2012 Build 1771 Dietmar Woellbrink (Luisehahne)
+# typofix in upgrade-scripts
+# fixed form form284db.sql, change hardcoded engine to "{TABLE_ENGINE};"
 24 Sep-2012 Build 1770 Dietmar Woellbrink (Luisehahne)
 # fixed issues with database names
   WbDatabase::getTableEngine() changed SQL statement to strikt.

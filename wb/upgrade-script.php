@@ -392,7 +392,7 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
         status_msg('<strong>:</strong><br />can\'t run Upgrade, missing tables', 'warning', 'div');
         echo '<h4>Missing required tables. You can install them in backend->addons->modules.<br />';
         echo 'Or if you uploaded per FTP install possible by backend->addons->modules->advanced.<br />';
-        echo 'After installingT again run upgrade-script.php</h4>';
+        echo 'After installing missing tables again run upgrade-script.php</h4>';
         $result = array_diff ( $aPackage, $aTable );
 
         echo '<h4 class="warning"><br />';
