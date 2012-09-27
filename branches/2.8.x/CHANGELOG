@@ -13,6 +13,10 @@ Legend:
 
 
 
+28 Sep-2012 Build 1772 Dietmar Woellbrink (Luisehahne)
+# fixed show e-mail in submission overview
+! set  title to tooltip if you add a pageX
+! optimize upgrade-script, add new fields to user table
 24 Sep-2012 Build 1771 Dietmar Woellbrink (Luisehahne)
 # typofix in upgrade-scripts
 # fixed form form284db.sql, change hardcoded engine to "{TABLE_ENGINE};"

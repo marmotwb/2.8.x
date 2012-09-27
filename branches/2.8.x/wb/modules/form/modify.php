@@ -268,7 +268,7 @@ if($query_submissions = $database->query($sql)) {
 			$currentrow++;
 	        $submission['display_name'] = (($submission['display_name']!=null) ? $submission['display_name'] : '');
 			$sBody = $submission['body'];
-			$regex = "/[a-z0-9\-_]?[a-z0-9.\-_]+[a-z0-9\-_]?@[a-z0-9.-]+\.[a-z]{2,}/iU";
+			$regex = "/[a-z0-9\-_]?[a-z0-9.\-_]+[a-z0-9\-_]?@[a-z0-9.-]+\.[a-z]{2,}/i";
 			preg_match ($regex, $sBody, $output);
 // workout if output is empty
 			$submission['email'] = (isset($output['0']) ? $output['0'] : '');

@@ -165,6 +165,7 @@ $sql .= '`parent` = '.$parent.', ';
 $sql .= '`target` = "_top", ';
 $sql .= '`page_title` = "'.$title.'", ';
 $sql .= '`menu_title` = "'.$title.'", ';
+$sql .= '`tooltip` = "'.$title.'", ';
 $sql .= '`template` = "'.$template.'", ';
 $sql .= '`visibility` = "'.$visibility.'", ';
 $sql .= '`position` = '.$position.', ';

@@ -65,7 +65,7 @@ if(!function_exists('mod_news_Upgrade'))
 					return $msg;
 				} else {
 					echo  ''.$MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE'].'';
-					return;
+					return $msg;
 				}
 			}
             $msg[] = '<strong>Directory "'.PAGES_DIRECTORY.'/posts/" created</strong>';
@@ -79,7 +79,7 @@ if(!function_exists('mod_news_Upgrade'))
 			                        'INT NOT NULL DEFAULT \'0\' AFTER `commenting`')) {
 				if($globalStarted){
 					echo ''.$MESSAGE['RECORD_MODIFIED_FAILED'].'';
-					return;
+					return $msg;
 				} else {
 //					$admin->print_error($MESSAGE['RECORD_MODIFIED_FAILED']);
 					$msg[] = $MESSAGE['RECORD_MODIFIED_FAILED'];
@@ -87,9 +87,9 @@ if(!function_exists('mod_news_Upgrade'))
 				}
 			}
 
-        if($globalStarted) {
-            echo 'Datafield `'.TABLE_PREFIX.'mod_news_posts`.`created_when` added.<br />';
-        }
+            if($globalStarted) {
+                echo 'Datafield `'.TABLE_PREFIX.'mod_news_posts`.`created_when` added.<br />';
+            }
 		} else { $doImportDate = false; }
 
 		if(!$database->field_exists(TABLE_PREFIX.'mod_news_posts', 'created_by')) {
@@ -97,7 +97,7 @@ if(!function_exists('mod_news_Upgrade'))
 			                        'INT NOT NULL DEFAULT \'0\' AFTER `created_when`')) {
 				if($globalStarted){
 					echo ''.$MESSAGE['RECORD_MODIFIED_FAILED'].'';
-					return;
+					return $msg;
 				}else {
 //					$admin->print_error($MESSAGE['RECORD_MODIFIED_FAILED']);
 					$msg[] = $MESSAGE['RECORD_MODIFIED_FAILED'];
