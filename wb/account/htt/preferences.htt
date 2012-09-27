@@ -1,31 +1,26 @@
 <!-- BEGIN main_block -->
 <!-- BEGIN success_block -->
-<p class="mod_preferences_success">
 	{SUCCESS_VALUE}
-</p>
 <!-- END success_block -->
 <!-- BEGIN error_block -->
-<p class="mod_preferences_error">
 	{ERROR_VALUE}
-</p>
 <!-- END error_block -->
-<div style="margin: 1em auto;">
-	<button type="button" value="cancel" onclick="javascript:window.location = '{HTTP_REFERER}';">{TEXT_CANCEL}</button>
-</div>
 <hr />
+<div class="account">
+
+<div class="details">
+<h3>{HEADING_MY_SETTINGS}</h3>
 <form name="details" action="" method="post">
-	<h3>{HEADING_MY_SETTINGS}</h3>
-	<table summary="" cellpadding="5" cellspacing="0" border="0" width="100%">
+	<table>
 		<tr>
-			<td width="160">{TEXT_DISPLAY_NAME}:</td>
-			<td>
-				<input class="button" type="button" name="display_name" value="{DISPLAY_NAME}" disabled="disabled" readonly="readonly"
-				 style="border :1px solid #666666; color :#000000; text-align :left; font-weight :bold; background-color :#dddddd; margin : 2px auto; padding :2px 0px 2px 6px; width :71%;"/>
+			<td>{TEXT_DISPLAY_NAME}:</td>
+			<td class="input">
+				<input class="display_name" type="text" name="display_name" value="{DISPLAY_NAME}" readonly="readonly" />
 			</td>
 		</tr>
 		<tr>
 			<td>{TEXT_LANGUAGE}:</td>
-			<td>
+			<td class="input">
 				<select name="language" id="language">
 					<!-- BEGIN language_list_block -->
 						<option value="{CODE}"{SELECTED} style="background: url({FLAG}.png) no-repeat center left; padding-left: 20px;">{NAME} ({CODE})</option>
@@ -35,7 +30,7 @@
 		</tr>
 		<tr>
 			<td>{TEXT_TIMEZONE}:</td>
-			<td>
+			<td class="input">
 				<select name="timezone" style="width: 98%;">
 					<option value="-20">{MOD_PREFERENCE_PLEASE_SELECT}</option>
 <!-- BEGIN timezone_list_block -->
@@ -46,7 +41,7 @@
 		</tr>
 		<tr>
 			<td>{TEXT_DATE_FORMAT}:</td>
-			<td>
+			<td class="input">
 				<select name="date_format" style="width: 98%;">
 					<option value="">{MOD_PREFERENCE_PLEASE_SELECT}</option>
 <!-- BEGIN date_format_list_block -->
@@ -57,7 +52,7 @@
 		</tr>
 		<tr>
 			<td>{TEXT_TIME_FORMAT}:</td>
-			<td>
+			<td class="input">
 				<select name="time_format" style="width: 98%;">
 					<option value="">{MOD_PREFERENCE_PLEASE_SELECT}</option>
 <!-- BEGIN time_format_list_block -->
@@ -66,72 +61,82 @@
 				</select>
 			</td>
 		</tr>
+        <tr>
+        	<td colspan="2">&nbsp;</td>
+        </tr>
 		<tr>
-			<td>&nbsp;</td>
-			<td>
+			<td colspan="2" class="button">
 				<button type="reset" name="reset" value="reset">{TEXT_RESET}</button>
 				<button type="submit" name="action" value="details">{MOD_PREFERENCE_SAVE_SETTINGS}</button>
+            	<button type="button" value="cancel" onclick="javascript:window.location='{HTTP_REFERER}';">{TEXT_CANCEL}</button>
 			</td>
 		</tr>
 	</table>
 </form>
-<hr />
+</div>
+<div class="email">
+<h3>{HEADING_MY_EMAIL}</h3>
 <form name="email" action="" method="post">
-	<h3>{HEADING_MY_EMAIL}</h3>
-	<table summary="" cellpadding="5" cellspacing="0" border="0" width="100%">
+	<table>
 		<tr>
 			<td>{TEXT_EMAIL}:</td>
-			<td>
+			<td class="input">
 				<input type="text" name="email" value="{EMAIL}" style="width: 98%;" />
 			</td>
 		</tr>
 		<tr>
-			<td width="160">{TEXT_CURRENT_PASSWORD}:</td>
-			<td>
+			<td>{TEXT_CURRENT_PASSWORD}:</td>
+			<td class="input">
 				<input type="password" name="current_password" style="width: 98%;" />
 			</td>
 		</tr>
+        <tr>
+        	<td colspan="2">&nbsp;</td>
+        </tr>
 		<tr>
-			<td>&nbsp;</td>
-			<td>
+			<td colspan="2" class="button">
 				<button type="reset" name="reset" value="reset">{TEXT_RESET}</button>
 				<button type="submit" name="action" value="email">{MOD_PREFERENCE_SAVE_EMAIL}</button>
+            	<button type="button" value="cancel" onclick="javascript:window.location='{HTTP_REFERER}';">{TEXT_CANCEL}</button>
 			</td>
 		</tr>
 	</table>
 </form>
-<hr />
+</div>
+<div class="password">
+<h3>{HEADING_MY_PASSWORD}</h3>
 <form name="password" action="" method="post">
-	<h3>{HEADING_MY_PASSWORD}</h3>
-	<table summary="" cellpadding="5" cellspacing="0" border="0" width="100%">
+	<table>
 		<tr>
-			<td width="160">{TEXT_CURRENT_PASSWORD}:</td>
-			<td>
+			<td>{TEXT_CURRENT_PASSWORD}:</td>
+			<td class="input">
 				<input type="password" name="current_password" style="width: 98%;" />
 			</td>
 		</tr>
 		<tr>
-			<td width="160">{TEXT_NEW_PASSWORD}:</td>
-			<td>
+			<td>{TEXT_NEW_PASSWORD}:</td>
+			<td class="input">
 				<input type="password" name="new_password" style="width: 98%;" />
 			</td>
 		</tr>
 		<tr>
-			<td width="160">{TEXT_RETYPE_NEW_PASSWORD}:</td>
-			<td>
+			<td>{TEXT_RETYPE_NEW_PASSWORD}:</td>
+			<td class="input">
 				<input type="password" name="new_password2" style="width: 98%;" />
 			</td>
 		</tr>
+        <tr>
+        	<td colspan="2">&nbsp;</td>
+        </tr>
 		<tr>
-			<td>&nbsp;</td>
-			<td>
+			<td colspan="2" class="button">
 				<button type="reset" name="reset" value="reset">{TEXT_RESET}</button>
 				<button type="submit" name="action" value="password">{MOD_PREFERENCE_SAVE_PASSWORD}</button>
+            	<button type="button" value="cancel" onclick="javascript:window.location='{HTTP_REFERER}';">{TEXT_CANCEL}</button>
 			</td>
 		</tr>
 	</table>
 </form>
-<div style="margin: 1em auto;">
-	<button type="button" value="cancel" onclick="javascript:window.location = '{HTTP_REFERER}';">{TEXT_CANCEL}</button>
+</div>
 </div>
 <!-- END main_block -->

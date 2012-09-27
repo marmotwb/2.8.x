@@ -13,6 +13,10 @@ Legend:
 
 
 
+28 Sep-2012 Build 1773 Dietmar Woellbrink (Luisehahne)
+! account split html and code
++ add signup activation registering
++ add missing icons in themes
 28 Sep-2012 Build 1772 Dietmar Woellbrink (Luisehahne)
 # fixed show e-mail in submission overview
 ! set  title to tooltip if you add a pageX

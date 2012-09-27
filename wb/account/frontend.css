@@ -3,26 +3,28 @@
   CSS definition for Website Baker module: WB-Preferences
   Copyright (C) 2008, Werner von der Decken
   Contact me: wkl(at)isteam.de, http://isteam.de
-
   This CSS file is free software. You can redistribute it and/or modify it
   under the terms of the GNU General Public License  - version 2 or later,
   as published by the Free Software Foundation: http://www.gnu.org/licenses/gpl.html.
-
   This CSS file is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 */
-	.mod_preferences_error {
-		background-color:#ffb0b0;
-		padding:5px;
-		border:dotted 1px #ff0000;
-		color:#ff0000;
-	}
-	.mod_preferences_success {
-		background-color:#b0ffb0;
-		padding:5px;
-		border:dotted 1px #303030;
-		color:#303030;
-	}
+.mod_preferences_error { background-color :#ffb0b0; padding :5px; border :dotted 1px #ff0000; color :#ff0000; }
+.mod_preferences_success { background-color :#b0ffb0; padding :5px; border :dotted 1px #303030; color :#303030; }
+div.account { width :80%; margin :1em auto; }
+div.account div.signup, 
+div.account div.details, 
+div.account div.email, 
+div.account div.password { background :transparent url(htt/blue.png) repeat-x top; width :100%; overflow :hidden; border :2px solid #cccccc; margin-bottom :1em; border-radius :10px; -khtml-border-radius :10px; -webkit-border-radius :10px; -moz-border-radius :10px; }
+div.account h3 { width :100%; color :#ffffff; padding :5px; margin-top :3px; }
+div.account table { vertical-align :0px; table-layout :fixed; width :100%; margin :10px auto; }
+div.account table td { width :30%; }
+div.account table td.button { width :100%; text-align :center; }
+div.account table td.button button { text-align :center; padding :2px; }
+div.account table td.input { width :50%; }
+.nixhier { display :none; }
+.center { text-align :center; }
+div.account table td.input input { width :90%; }
 /* ]]> */

@@ -3,51 +3,49 @@
 {MESSAGE_VALUE}
 <!-- END message_block -->
 <hr /><br />
-<div class="login-box rounded" style="overflow: hidden;width:100%;">
+<div class="account">
+<div class="login-box">
 <form class="login-box" action="{ACTION_URL}" method="post">
 	<input type="hidden" name="action" value="forgot" />
 	<input type="hidden" name="url" value="{URL}" />
-
-<table summary="">
+<h3>{MENU_FORGOT}</h3>
+<table>
 <tbody>
-<tr class="row1">
-	<td colspan="3"><h1>{MENU_FORGOT}</h1></td>
-</tr>
-<tr class="row2">
-	<td colspan="3">
+<tr>
+	<td colspan="2" class="button">
 	<strong>{THISAPP_MESSAGE_VALUE}</strong>
 	</td>
 </tr>
-<tr class="row3">
-	<td colspan="3">&nbsp;</td>
+<tr>
+	<td colspan="2">&nbsp;</td>
 </tr>
-<tr class="row4">
-	<td class="bold">{TEXT_EMAIL}:</td>
-	<td colspan="2">
+<tr>
+	<td>{TEXT_EMAIL}:</td>
+	<td class="input">
 		<input type="text" name="email" maxlength="255" style="width:98%;"/>
 	</td>
 </tr>
-<tr class="row5" >
-	<td colspan="3">&nbsp;</td>
+<tr>
+	<td colspan="2">&nbsp;</td>
 </tr>
-<tr class="submit">
-	<td>
-	<p><input type="submit" name="submit" value="{TEXT_SEND_DETAILS}"  /></p>
-	</td>
-	<td>
-	<p><input type="reset" name="reset" value="{TEXT_RESET}" /></p>
-	</td>
-	<td>
-	<p><button type="button" value="cancel" onclick="javascript:window.location='{WB_URL}/';" >{TEXT_CANCEL}</button></p>
+<tr>
+	<td colspan="2">&nbsp;</td>
+</tr>
+<tr>
+	<td colspan="2" class="button">
+		<button type="submit" name="submit" value="email">{TEXT_SEND_DETAILS}</button>
+		<button type="reset" name="reset" value="reset">{TEXT_RESET}</button>
+        <button type="button" value="cancel" onclick="javascript:window.location='{WB_URL}/';" >{TEXT_CANCEL}</button>
 	</td>
 </tr>
 <tr>
-	<td class="row6" colspan="3">
+	<td class="button" colspan="2">
 	<p class="link"><a href="{LOGIN_URL}">{TEXT_NEED_TO_LOGIN}</a></p>
 	</td>
 </tr>
 </tbody>
 </table>
 </form>
+</div>
 </div>
 <!-- END main_block -->

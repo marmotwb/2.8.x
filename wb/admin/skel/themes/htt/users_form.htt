@@ -6,6 +6,7 @@ function toggle_radio(radio_on, radio_off) {
 	document.getElementById(radio_off).checked = true;
 }
 </script>
+<div class="account">
 
 <h2 class="left" style="{DISPLAY_EXTRA}">{HEADING_MODIFY_USER}</h2>
 
@@ -13,10 +14,10 @@ function toggle_radio(radio_on, radio_off) {
 <input type="hidden" name="user_id" value="{USER_ID}" />
 <input type="hidden" name="username_fieldname" value="{USERNAME_FIELDNAME}" />
 {FTAN}
-<table summary="" cellpadding="5" cellspacing="0" border="0" width="100%">
+<table>
 <!-- BEGIN show_modify_loginname_block -->
 <tr>
-	<td width="150">{TEXT_USERNAME}:</td>
+	<td>{TEXT_USERNAME}:</td>
 	<td class="value_input">
 		<input type="hidden" name="{USERNAME_FIELDNAME}" value="{USERNAME}" />
 		<input class="button" type="button" value="{USERNAME}" disabled="disabled" readonly="readonly" />
@@ -25,7 +26,7 @@ function toggle_radio(radio_on, radio_off) {
 <!-- END show_modify_loginname_block -->
 <!-- BEGIN show_add_loginname_block -->
 <tr>
-	<td width="150">{TEXT_USERNAME}:</td>
+	<td>{TEXT_USERNAME}:</td>
 	<td class="value_input">
 		<input type="text" name="{USERNAME_FIELDNAME}" maxlength="30" value="{USERNAME}" />
 	</td>
@@ -92,15 +93,14 @@ function toggle_radio(radio_on, radio_off) {
 	</td>
 </tr>
 <tr>
-	<td>&nbsp;</td>
-	<td>
+	<td colspan="2" class="center">
 		<input type="submit" name="submit" value="{SUBMIT_TITLE}" />
 		<input type="reset" name="reset" value="{TEXT_RESET}" />
-		<input type="button" style="width: 100px; margin-top: 5px;" onclick="javascript: window.location = 'index.php';" value="{TEXT_CANCEL}" />
+		<input type="button" style="width: 100px; margin-top: 5px;" onclick="javascript:window.location='index.php';" value="{TEXT_CANCEL}" />
 	</td>
 </tr>
 </table>
 
 </form>
-
+</div>
 <!-- END main_block -->

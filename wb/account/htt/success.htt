@@ -1,5 +1,5 @@
 <!-- BEGIN main_block -->
-<div class="msg-box info">
+<div class="msg-box note center">
 <!-- BEGIN show_registration_block -->
 	<p>{MESSAGE_VALUE}</p>
 <!-- END show_registration_block -->

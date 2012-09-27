@@ -3,26 +3,27 @@
 {MESSAGE_VALUE}
 <!-- END message_block -->
 <hr /><br />
-<div class="login-box rounded" style="overflow: hidden;width:100%;">
+<div class="account">
+<div class="login-box">
 <form class="login-box" action="{ACTION_URL}" method="post">
 	<input type="hidden" name="action" value="login" />
 	<input type="hidden" name="username_fieldname" value="{USER_FIELDNAME}" />
 	<input type="hidden" name="password_fieldname" value="{PASSWORD_FIELDNAME}" />
 	<input type="hidden" name="redirect" value="{REDIRECT_URL}" />
-
-<table summary="">
+<h3>{TEXT_LOGIN}</h3>
+<table>
 <tbody>
-<tr class="row1">
-	<td colspan="3"><h1>{TEXT_LOGIN}</h1></td>
-</tr>
-<tr class="row2">
-	<td colspan="3">
+<tr>
+	<td colspan="2" class="button">
 	<strong>{THISAPP_MESSAGE_VALUE}</strong>
 	</td>
 </tr>
-<tr class="row3">
-	<td class="bold">{TEXT_USERNAME}:</td>
-	<td colspan="2">
+<tr>
+	<td colspan="2">&nbsp;</td>
+</tr>
+<tr>
+	<td>{TEXT_USERNAME}:</td>
+	<td class="input">
 		<input type="text" name="{USER_FIELDNAME}" maxlength="30"  style="width:98%;"/>
     	<script type="text/javascript">
     	// document.login.{USER_FIELDNAME}.focus();
@@ -31,34 +32,33 @@
     	</script>
 	</td>
 </tr>
-<tr class="row4">
-	<td class="bold">{TEXT_PASSWORD}:</td>
-	<td colspan="2">
+<tr>
+	<td>{TEXT_PASSWORD}:</td>
+	<td class="input">
 		<input type="password" name="{PASSWORD_FIELDNAME}" maxlength="30" style="width:98%;"/>
 	</td>
 </tr>
 <!-- BEGIN show_smart_login_block -->
 <tr>
 	<td>&nbsp;</td>
-	<td colspan="2">
+	<td class="input">
 		<input type="checkbox" name="remember" id="remember" value="true"/>
 		<label for="remember">{TEXT_REMEMBER_ME}</label>
 	</td>
 </tr>
 <!-- END show_smart_login_block -->
-<tr class="submit">
-	<td>
-	<p><input type="submit" name="submit" value="{TEXT_LOGIN}"  /></p>
-	</td>
-	<td>
-	<p><input type="reset" name="reset" value="{TEXT_RESET}" /></p>
-	</td>
-	<td>
-	<p><button type="button" value="cancel" onclick="javascript:window.location='{WB_URL}/';" >{TEXT_CANCEL}</button></p>
+<tr>
+	<td colspan="2">&nbsp;</td>
+</tr>
+<tr>
+	<td colspan="2" class="button">
+	<button type="submit" name="submit" value="submit">{TEXT_LOGIN}</button>
+	<button type="reset" name="reset" value="reset">{TEXT_RESET}</button>
+    <button type="button" value="cancel" onclick="javascript:window.location='{WB_URL}/';" >{TEXT_CANCEL}</button>
 	</td>
 </tr>
-<tr class="row6">
-	<td colspan="3">
+<tr>
+	<td colspan="2" class="button">
 	<p class="link"><a href="{FORGOT_URL}">{TEXT_FORGOTTEN_DETAILS}</a></p>
 	</td>
 </tr>
@@ -66,5 +66,5 @@
 </table>
 </form>
 </div>
-
+</div>
 <!-- END main_block -->
