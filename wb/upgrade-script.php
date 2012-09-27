@@ -161,40 +161,37 @@ function status_msg($message, $class='check', $element='div')
 	echo $msg;
 }
 
-// analyze/check database tables
-function mysqlCheckTables( $dbName )
-{
-    global $aTable;
-    $table_prefix = TABLE_PREFIX;
-    $sql = "SHOW TABLES FROM " . $dbName;
-    $result = @mysql_query( $sql );
-    $data = array();
-    $x = 0;
-
-    while( ( $row = mysql_fetch_array( $result, MYSQL_NUM ) ) == true )
-    {
-        $tmp = str_replace($table_prefix, '', $row[0]);
-
-        if( stristr( $row[0], $table_prefix )&& in_array($tmp,$aTable) )
-        {
-            $sql = "CHECK TABLE " . $dbName . '.' . $row[0];
-            $analyze = mysql_query( $sql );
-            $rowFetch = mysql_fetch_array( $analyze, MYSQL_ASSOC );
-            $data[$x]['Op'] = $rowFetch["Op"];
-            $data[$x]['Msg_type'] = $rowFetch["Msg_type"];
-            $msgColor = '<span class="error">';
-            $data[$x]['Table'] = $row[0];
-           // print  " ";
-            $msgColor = ($rowFetch["Msg_text"] == 'OK') ? '<span class="ok">' : '<span class="error">';
-            $data[$x]['Msg_text'] = $msgColor.$rowFetch["Msg_text"].'</span>';
-           // print  "<br />";
-            $x++;
-        }
+/**
+ * add_modify_field_in_database()
+ *
+ * @param mixed $sTable
+ * @param mixed $sField
+ * @param mixed $sDescription
+ * @return
+ */
+function add_modify_field_in_database($sTable,$sField,$sDescription){
+    global $database,$OK,$FAIL,$bDebugModus;
+    $aDebugMessage = array();
+	if(!$database->field_exists($sTable,$sField)) {
+		$aDebugMessage[] = "<span>Adding field $sField to $sTable table</span>";
+		$aDebugMessage[] = ($database->field_add($sTable, $sField, $sDescription) ? " $OK<br />" : " $FAIL!<br />");
+	} else {
+		$aDebugMessage[] = "<span>Modify field $sField to $sTable table</span>";
+		$aDebugMessage[] = ($database->field_modify($sTable, $sField, $sDescription) ? " $OK<br />" : " $FAIL!<br />");
+	}
+    if($bDebugModus) {
+        echo implode(PHP_EOL,$aDebugMessage);
     }
-    return $data;
+    return;
 }
 
-// check existings tables for upgrade or install
+/**
+ * check existings tables for upgrade or install
+ *
+ * check_wb_tables()
+ *
+ * @return
+ */
 function check_wb_tables()
 {
     global $database,$aPackage;
@@ -449,9 +446,7 @@ echo'<h3>Step '.(++$stepID).': Updating core tables</h3>';
     $cfg = array(
     	'sec_anchor' => defined('SEC_ANCHOR') ? SEC_ANCHOR : 'section_'
     );
-
    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
-
 
     /**********************************************************
      *  - Adding redirect timer to settings table
@@ -558,7 +553,7 @@ if($bDebugModus) {
 echo '</div>';
 
 $aDebugMessage = array();
-if(version_compare(WB_REVISION, REVISION, '<'))
+if(version_compare(WB_REVISION, REVISION, '<='))
 {
     echo '<div style="margin-left:2em;">';
 	/**********************************************************
@@ -584,13 +579,12 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$table_name = TABLE_PREFIX.'mod_menu_link';
 	$field_name = 'redirect_type';
 	$description = "INT NOT NULL DEFAULT '301' AFTER `target_page_id`";
-	if(!$database->field_exists($table_name,$field_name)) {
-		echo "<span>Adding field redirect_type to mod_menu_link table</span>";
-		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-	} else {
-		echo "<span>Modify field redirect_type to mod_menu_link table</span>";
-		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-	}
+    add_modify_field_in_database($table_name,$field_name,$description);
+
+    if($bDebugModus) {
+        echo implode(PHP_EOL,$aDebugMessage);
+        $aDebugMessage = array();
+    }
 
     echo "<h4>Adding/updating field on table pages</h4>";
 	/**********************************************************
@@ -599,8 +593,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'page_trail';
 	$description = "VARCHAR( 255 ) NOT NULL DEFAULT ''";
-	echo "<span>Modify field page_trail to pages table</span>";
-	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+    add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
      *  - Add field "page_icon" to table "pages"
@@ -608,13 +601,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'page_icon';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `page_title`";
-	if(!$database->field_exists($table_name,$field_name)) {
-		echo "<span>Adding field page_icon to pages table</span>";
-		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-	} else {
-		echo "<span>Modify field page_icon to pages table</span>";
-		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-	}
+    add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
 	 *  - Add field "page_code" to table "pages"
@@ -622,13 +609,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'page_code';
 	$description = "INT NOT NULL DEFAULT '0' AFTER `language`";
-	if(!$database->field_exists($table_name,$field_name)) {
-		echo "<span>Adding field page_code to pages table</span>";
-		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-	} else {
-		echo "<span>Modify field page_code to pages table</span>";
-		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-	}
+    add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
      *  - Add field "menu_icon_0" to table "pages"
@@ -636,13 +617,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'menu_icon_0';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `menu_title`";
-	if(!$database->field_exists($table_name,$field_name)) {
-		echo "<span>Adding field menu_icon_0 to pages table</span>";
-		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-	} else {
-		echo "<span>Modify field menu_icon_0 to pages table</span>";
-		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-	}
+    add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
 	 *  - Add field "menu_icon_1" to table "pages"
@@ -650,13 +625,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'menu_icon_1';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `menu_icon_0`";
-	if(!$database->field_exists($table_name,$field_name)) {
-		echo "<span>Adding field menu_icon_1 to pages table</span>";
-		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-	} else {
-		echo "<span>Modify field menu_icon_1 to pages table</span>";
-		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-	}
+    add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
 	 *  - Add field "tooltip" to table "pages"
@@ -664,13 +633,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'tooltip';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `menu_icon_1`";
-	if(!$database->field_exists($table_name,$field_name)) {
-		echo "<span>Adding field tooltip to pages table</span>";
-		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-	} else {
-		echo "<span>Modify field tooltip to pages table";
-		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-	}
+    add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
 	 *  - Add field "admin_groups" to table "pages"
@@ -678,8 +641,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'admin_groups';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '1'";
-	echo "<span>Modify field admin_groups to pages table";
-	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+    add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
 	 *  - Add field "admin_users" to table "pages"
@@ -687,8 +649,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'admin_users';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT ''";
-	echo "<span>Modify field admin_users to pages table</span>";
-	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+    add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
 	 *  - Add field "viewing_groups" to table "pages"
@@ -696,8 +657,9 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'viewing_groups';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '1'";
-	echo "<span>Modify field viewing_groups to pages table</span>";
-	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+//	echo "<span>Modify field viewing_groups to pages table</span>";
+//	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+    add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
 	 *  - Add field "viewing_users" to table "pages"
@@ -705,8 +667,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'viewing_users';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT ''";
-	echo "<span>Modify field viewing_users to pages table";
-	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
+    add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
      *  - Add field "custom01" to table "pages"
@@ -714,13 +675,7 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'custom01';
 	$description = "VARCHAR( 255 ) NOT NULL DEFAULT '' ";
-	if(!$database->field_exists($table_name,$field_name)) {
-		echo "<span>Adding field custom01 to pages table</span>";
-		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-	} else {
-		echo "<span>Modify field custom01 to pages table</span>";
-		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-	}
+    add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
      *  - Add field "custom02" to table "pages"
@@ -728,13 +683,12 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'custom02';
 	$description = "VARCHAR( 255 ) NOT NULL DEFAULT '' ";
-	if(!$database->field_exists($table_name,$field_name)) {
-		echo "<span>Adding field custom02 to pages table</span>";
-		echo ($database->field_add($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-	} else {
-		echo "<span>Modify field custom02 to pages table</span>";
-		echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-	}
+    add_modify_field_in_database($table_name,$field_name,$description);
+
+    if($bDebugModus) {
+        echo implode(PHP_EOL,$aDebugMessage);
+        $aDebugMessage = array();
+    }
 
     /**********************************************************
      * modify wrong strucre on table sections
@@ -743,22 +697,42 @@ if(version_compare(WB_REVISION, REVISION, '<'))
 	echo "<h4>Change field structure on table sections</h4>";
 	$table_name = TABLE_PREFIX.'sections';
 	$description = "VARCHAR( 255 ) NOT NULL DEFAULT ''";
-	echo "<span>Modify field module on sections table</span>";
-	echo ($database->field_modify($table_name, 'module', $description) ? " $OK<br />" : " $FAIL!<br />");
-	echo "<span>Modify field block on sections table</span>";
-	echo ($database->field_modify($table_name, 'block', $description) ? " $OK<br />" : " $FAIL!<br />");
-	echo "<span>Modify field publ_start on sections table</span>";
-	echo ($database->field_modify($table_name, 'publ_start', $description) ? " $OK<br />" : " $FAIL!<br />");
-	echo "<span>Modify field publ_end on sections table</span>";
-	echo ($database->field_modify($table_name, 'publ_end', $description) ? " $OK<br />" : " $FAIL!<br />");
+	$aDebugMessage[] = "<span>Modify field module on sections table</span>";
+	$aDebugMessage[] = ($database->field_modify($table_name, 'module', $description) ? " $OK<br />" : " $FAIL!<br />");
+	$aDebugMessage[] = "<span>Modify field block on sections table</span>";
+	$aDebugMessage[] = ($database->field_modify($table_name, 'block', $description) ? " $OK<br />" : " $FAIL!<br />");
+	$aDebugMessage[] = "<span>Modify field publ_start on sections table</span>";
+	$aDebugMessage[] = ($database->field_modify($table_name, 'publ_start', $description) ? " $OK<br />" : " $FAIL!<br />");
+	$aDebugMessage[] = "<span>Modify field publ_end on sections table</span>";
+	$aDebugMessage[] = ($database->field_modify($table_name, 'publ_end', $description) ? " $OK<br />" : " $FAIL!<br />");
 
+    if($bDebugModus) {
+        echo implode(PHP_EOL,$aDebugMessage);
+        $aDebugMessage = array();
+    }
+
+	/**********************************************************
+     *   `confirm_code` VARCHAR(32) NOT NULL DEFAULT '',
+     *   `confirm_timeout` INT(11) NOT NULL DEFAULT '0',
+     */
+	echo "<h4>Change field structure on table users</h4>";
+	$table_name = TABLE_PREFIX.'users';
+	$field_name = 'confirm_code';
+	$description = "VARCHAR( 32 ) NOT NULL DEFAULT '' AFTER `password` ";
+    add_modify_field_in_database($table_name,$field_name,$description);
+
+	$table_name = TABLE_PREFIX.'users';
+	$field_name = 'confirm_timeout';
+	$description = "INT(11) NOT NULL DEFAULT '0' AFTER `confirm_code` ";
+    add_modify_field_in_database($table_name,$field_name,$description);
+
+    if($bDebugModus) {
+        echo implode(PHP_EOL,$aDebugMessage);
+    }
     echo '</div>';
 
 }
 
-if($bDebugModus) {
-    echo implode(PHP_EOL,$aDebugMessage);
-}
 $aDebugMessage = array();
 /**********************************************************
  * This part with changing in mod_wysiwyg will be removed in the final version
@@ -929,7 +903,7 @@ echo '<div style="margin-left:2em;">';
      * upgrade modules if newer version is available
      * $aModuleList list of proofed modules
      */
-    $sModuleList = 'news,wysiwyg,form';
+    $sModuleList = 'news,wysiwyg,form,any';
     $aModuleList = explode(',', (defined('MODULES_UPGRADE_LIST') ? MODULES_UPGRADE_LIST : $sModuleList));
     echo '<h3>Step '.(++$stepID).': Upgrade proofed modules</h3>';
 //	$aModuleList = array('news');
