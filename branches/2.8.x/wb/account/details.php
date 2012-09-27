@@ -16,11 +16,17 @@
  *
  */
 
-// Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+if(defined('WB_PATH') == false)
+{
+	// Stop this file being access directly
+		die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
+}
+/* -------------------------------------------------------- */
 
 // Get entered values
-	$display_name = $wb->add_slashes(strip_tags($admin->get_post('display_name')));
+	$display_name = $wb->add_slashes(strip_tags($wb->get_post('display_name')));
 	$language = $wb->get_post('language');
 	$timezone = $wb->get_post('timezone')*60*60;
 	$date_format = $wb->get_post('date_format');

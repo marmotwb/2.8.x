@@ -1,0 +1,57 @@
+<!-- BEGIN main_block -->
+<!-- BEGIN message_block -->
+{MESSAGE_VALUE}
+<!-- END message_block -->
+
+<hr />
+<div class="account">
+<form class="new-signup" name="signup" action="{ACTION_URL}" method="post">
+	<input type="hidden" name="action" value="save_confirm" />
+	<input type="hidden" name="confirm_code" value="{CONFIRM_CODE}" />
+	<h3>{HEADING_SIGNUP}</h3>
+<!-- BEGIN asp_block -->
+	<p class="{DISPLAY_ASP}" id="pot">
+		<label>If you're human leave this blank:</label>
+		<input name="robotest" id="robotest" class="robotest" />
+		<label for="email-address">Leave this field email-address blank:</label>
+		<input id="email-address" name="email-address" size="60" value="" /><br />
+		<label for="name">Leave this field name blank:</label>
+		<input id="name" name="name" size="60" value="" /><br />
+		<label for="full_name">Leave this field full_name blank:</label>
+		<input id="full_name" name="full_name" size="60" value="" /><br />
+	</p>
+<!-- END asp_block -->
+	<table>
+        <tbody>
+		<tr>
+			<td colspan="2">{HEADING_MESSAGE_WELCOME}:</td>
+		</tr>
+<!-- BEGIN input_block -->
+		<tr>
+			<td colspan="2"><div class="note">{HELP_CONFIRM_PASSWORD}</div></td>
+		</tr>
+		<tr>
+			<td>{TEXT_USERNAME}:</td>
+			<td class="input">
+				<input type="text" name="new_loginname" value="{DISPLAY_USER}" />
+			</td>
+		</tr>
+		<tr>
+			<td>{TEXT_PASSWORD}:</td>
+			<td class="input">
+				<input type="password" name="new_password_1" />
+			</td>
+		</tr>
+<!-- END input_block -->
+		<tr>
+			<td colspan="2" class="button">
+        		<button type="submit" name="submit" value="{TEXT_SIGNUP}">{TEXT_SIGNUP}</button>
+        		<button type="reset" name="reset" value="reset">{TEXT_RESET}</button>
+				<button type="button" value="cancel" onclick="javascript:window.location='{HTTP_REFERER}';">{TEXT_CANCEL}</button>
+			</td>
+		</tr>
+    </tbody>
+	</table>
+</form>
+</div>
+<!-- END main_block -->

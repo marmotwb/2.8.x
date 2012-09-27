@@ -37,16 +37,18 @@ if(defined('WB_PATH') == false)
 		require_once(WB_PATH .'/account/languages/' .LANGUAGE .'.php');
 	}
 	require_once(WB_PATH.'/framework/functions-utf8.php');
-	echo '<style type="text/css">';
-	include(WB_PATH .'/account/frontend.css');
-	echo "\n</style>\n";
+
+//	echo '<style type="text/css">';
+//	include(WB_PATH .'/account/frontend.css');
+//	echo "\n</style>\n";
+
 	$user_time = true;
 	require(ADMIN_PATH.'/interface/timezones.php');
 	require(ADMIN_PATH.'/interface/date_formats.php');
 	require(ADMIN_PATH.'/interface/time_formats.php');
 	$error = array();
 	$success = array();
-	$template = new Template(WB_PATH .'/account','keep');
+	$template = new Template(WB_PATH .'/account/htt','keep');
 
 	switch($wb->get_post('action')):
 		case 'details':
@@ -67,7 +69,7 @@ if(defined('WB_PATH') == false)
 	$template->set_file('page', 'preferences.htt');
 	$template->set_block('page', 'main_block', 'main');
 // get existing values from database
-	$sql = "SELECT display_name,email FROM ".TABLE_PREFIX."users WHERE user_id = '".$wb->get_user_id()."'";
+	$sql = "SELECT `display_name`,`email` FROM ".TABLE_PREFIX."users WHERE `user_id` = '".$wb->get_user_id()."'";
 	$rowset = $database->query($sql);
 	if($database->is_error()) $error[] = $database->get_error();
 	$row = $rowset->fetchRow();
@@ -145,45 +147,43 @@ if(defined('WB_PATH') == false)
 	}
 // Insert language headings
 	$template->set_var(array(
-								'HEADING_MY_SETTINGS' => $HEADING['MY_SETTINGS'],
-								'HEADING_MY_EMAIL'    => $HEADING['MY_EMAIL'],
-								'HEADING_MY_PASSWORD' => $HEADING['MY_PASSWORD']
-								)
-						);
+			'HEADING_MY_SETTINGS' => $HEADING['MY_SETTINGS'],
+			'HEADING_MY_EMAIL'    => $HEADING['MY_EMAIL'],
+			'HEADING_MY_PASSWORD' => $HEADING['MY_PASSWORD']
+			)
+	);
 // Insert language text and messages
 	$template->set_var(array(
-								'HTTP_REFERER' => $_SESSION['HTTP_REFERER'],
-								'TEXT_SAVE'	=> $TEXT['SAVE'],
-								'TEXT_RESET' => $TEXT['RESET'],
-								'TEXT_CANCEL' => $TEXT['CANCEL'],
-								'TEXT_DISPLAY_NAME'	=> $TEXT['DISPLAY_NAME'],
-								'TEXT_EMAIL' => $TEXT['EMAIL'],
-								'TEXT_LANGUAGE' => $TEXT['LANGUAGE'],
-								'TEXT_TIMEZONE' => $TEXT['TIMEZONE'],
-								'TEXT_DATE_FORMAT' => $TEXT['DATE_FORMAT'],
-								'TEXT_TIME_FORMAT' => $TEXT['TIME_FORMAT'],
-								'TEXT_CURRENT_PASSWORD' => $TEXT['CURRENT_PASSWORD'],
-								'TEXT_NEW_PASSWORD' => $TEXT['NEW_PASSWORD'],
-								'TEXT_RETYPE_NEW_PASSWORD' => $TEXT['RETYPE_NEW_PASSWORD']
-								)
-						);
+			'HTTP_REFERER' => $_SESSION['HTTP_REFERER'],
+			'TEXT_SAVE'	=> $TEXT['SAVE'],
+			'TEXT_RESET' => $TEXT['RESET'],
+			'TEXT_CANCEL' => $TEXT['CANCEL'],
+			'TEXT_DISPLAY_NAME'	=> $TEXT['DISPLAY_NAME'],
+			'TEXT_EMAIL' => $TEXT['EMAIL'],
+			'TEXT_LANGUAGE' => $TEXT['LANGUAGE'],
+			'TEXT_TIMEZONE' => $TEXT['TIMEZONE'],
+			'TEXT_DATE_FORMAT' => $TEXT['DATE_FORMAT'],
+			'TEXT_TIME_FORMAT' => $TEXT['TIME_FORMAT'],
+			'TEXT_CURRENT_PASSWORD' => $TEXT['CURRENT_PASSWORD'],
+			'TEXT_NEW_PASSWORD' => $TEXT['NEW_PASSWORD'],
+			'TEXT_RETYPE_NEW_PASSWORD' => $TEXT['RETYPE_NEW_PASSWORD']
+			)
+	);
 
 // Insert module releated language text and messages
 	$template->set_var(array(
-								'MOD_PREFERENCE_PLEASE_SELECT'	=> $MOD_PREFERENCE['PLEASE_SELECT'],
-								'MOD_PREFERENCE_SAVE_SETTINGS'	=> $MOD_PREFERENCE['SAVE_SETTINGS'],
-								'MOD_PREFERENCE_SAVE_EMAIL'			=> $MOD_PREFERENCE['SAVE_EMAIL'],
-								'MOD_PREFERENCE_SAVE_PASSWORD'	=> $MOD_PREFERENCE['SAVE_PASSWORD'],
-								)
-						);
+			'MOD_PREFERENCE_PLEASE_SELECT'  => $MOD_PREFERENCE['PLEASE_SELECT'],
+			'MOD_PREFERENCE_SAVE_SETTINGS'  => $MOD_PREFERENCE['SAVE_SETTINGS'],
+			'MOD_PREFERENCE_SAVE_EMAIL'     => $MOD_PREFERENCE['SAVE_EMAIL'],
+			'MOD_PREFERENCE_SAVE_PASSWORD'  => $MOD_PREFERENCE['SAVE_PASSWORD'],
+			)
+	);
 // Insert error and/or success messages
 	$template->set_block('main_block', 'error_block', 'error_list');
 	$template->set_var('ERROR_VALUE', '');
 	if(sizeof($error)>0){
-		foreach($error AS $value){
-			$template->set_var('ERROR_VALUE', $value);
-			$template->parse('error_list', 'error_block', true);
-		}
+		$template->set_var('ERROR_VALUE', $wb->format_message(implode('<br />',$error),'error'));
+		$template->parse('error_list', 'error_block', true);
 	} else {
 		$template->parse('error_list', '');
 	}
@@ -191,10 +191,8 @@ if(defined('WB_PATH') == false)
 	$template->set_block('main_block', 'success_block', 'success_list');
 	$template->set_var('SUCCESS_VALUE', '');
 	if(sizeof($success)!=0){
-		foreach($success AS $value){
-			$template->set_var('SUCCESS_VALUE', $value);
+			$template->set_var('SUCCESS_VALUE', $wb->format_message(implode('<br />',$success),'ok'));
 			$template->parse('success_list', 'success_block', true);
-		}
 	} else {
 		$template->parse('success_list', '');
 	}
