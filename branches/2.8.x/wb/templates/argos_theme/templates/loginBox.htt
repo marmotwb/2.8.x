@@ -15,7 +15,7 @@
 <body>
 <div id="admin_header">
   <div id="header_top">
-    <div id="topmenu">
+    <div id="topmenu" class="hide">
 		<a class=" {LOGIN_DISPLAY_NONE}" href="{ADMIN_URL}" title="{TITLE_START}">Home</a>
 		| <a href="{URL_VIEW}" target="_blank" title="{TITLE_VIEW}">{TITLE_VIEW}</a>
 		| <a href="{LOGIN_LINK}" title="{TITLE_LOGOUT}">{TITLE_LOGOUT}</a>
@@ -26,19 +26,19 @@
       <span class="version">Admin version 1.7</span>
 	 </div>
     <a href="{ADMIN_URL}" title="{TITLE_START}" id="website_title">
-    {WEBSITE_TITLE} - {TEXT_ADMINISTRATION}
+    {WEBSITE_TITLE}
     <!-- <img src="{THEME_URL}/images/logo.png" border="0" alt="Logo" /> -->
     </a>
 	</div>
 	<div id="content_container">
-	<table summary="" cellpadding="0" cellspacing="0" border="0" width="900" align="center">
+	<table style="width: 500px;" align="center">
 	<tr>
 	  <td class="content">
 		<form name="login" action="{ACTION_URL}" method="post">
 		<input type="hidden" name="url" value="{URL}" />
 		<input type="hidden" name="username_fieldname" value="{USERNAME_FIELDNAME}" />
 		<input type="hidden" name="password_fieldname" value="{PASSWORD_FIELDNAME}" />
-			<table summary="" cellpadding="5" cellspacing="0" border="0" align="center" width="500">
+			<table style="width: 500px;">
 			<tr>
 				<td colspan="3" style="font-size: 20px; text-align: center; ">
 					<span style="color: #003366;">{SECTION_LOGIN}</span>
