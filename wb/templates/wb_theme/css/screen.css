@@ -3,8 +3,8 @@
 html{ font-family :Verdana, "Trebuchet MS", Arial, Helvetica, sans-serif; font-size :100.1%; font-weight :normal; color :#333333; overflow :auto; overflow-y :scroll; }
 body{ margin :0 auto; padding :0px; background :#a8bccb; text-align :left; font-size :0.8em; }
 /*  */
-div.main { border :0px none #666666; margin :0px auto 1em auto; min-width :60em; max-width :90em; font-size :1.0em; padding :4px; width : 85%; overflow :hidden; }
-.td { clear :both; font-size :1.0em; margin :0 auto; text-align :center; width :100%; }
+div.main { border :0px none #666666; margin :0px auto 1em auto; min-width :60em; max-width :90em; font-size :1.0em; padding :4px; width : 75%; overflow :hidden; }
+.td { clear :both; font-size :1.0em; margin :0 auto; text-align :center; width : 99%; }
 div.main .table { background :url(../images/bgtitle.png) #ffffff repeat-x; margin :0 auto; overflow :auto; width :100%; }
 .wrapper { position :relative; display :block; overflow :auto; width :inherit; }
 .content { padding :10px; text-align :left; overflow :hidden; }
@@ -313,3 +313,12 @@ div.admintools .section { width :100%; }
    div.admintools span.title { font-size :1.1em; }
 /* */
 .access h2,.access h3,.access h4,.access h6 { font-weight :bold; }
+.account { 
+   width : 100%;
+   margin : 0 auto;
+ }
+div.account form.settings_table { 
+   width : 100%;
+ }
+div.account form.settings_table table td { width : 40%; } 
+div.account form.settings_table table td.value_input { width : 80%; } 

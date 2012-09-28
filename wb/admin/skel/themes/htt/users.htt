@@ -12,6 +12,7 @@
 		</td>
      </tr>
 </table>
+<div class="account">
 <form name="users" action="users.php" method="post" class="left">
 <input type="hidden" name="userstatus" value="{USER_STATUS}" />
 {FTAN}
@@ -30,5 +31,5 @@
 
 <br />
 <h2 style="margin-top: 20px;" class="{DISPLAY_ADD} left">{HEADING_ADD_USER}</h2>
-
+</div>
 <!-- END main_block -->
