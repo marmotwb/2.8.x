@@ -9,7 +9,7 @@ img { border :0px; }
 #topmenu a { font-size :11px; color :#ffffff; text-decoration :underline; margin :0 5px; }
 #topmenu .version { font-size :11px; color :#7cacda; padding :0 10px 0 0; }
 #header_top { height :78px; }
-table { table-layout :auto; border-collapse :separate; border-spacing :0px; }
+table { table-layout :auto; border-collapse :separate; border-spacing :0px; width :100%; }
 h1 { text-align :left; font-size :15px; color :#ffffff; text-transform :uppercase; }
 h2 { text-align :left; font-size :18px; color :#000000; margin :5px 0; font-family :arial,sans-serif; letter-spacing :-1px; font-weight :normal; }
 h3 { text-align :left; font-size :14px; color :#000000; margin :5px 0; }
@@ -91,7 +91,14 @@ img.page_list_rights { border :none; float :left; margin :0; vertical-align :mid
 .spacer { line-height :1em; margin-right :0.5em; position :relative; }
 /* ************************************************************************** */
 /* DIV-mbox to show selector or simply content only ************************* */
-div.mbox { padding :10px; margin :15px auto; background-color :#ffffff; color :#330033; font-size :1em; display :block; }
+div.mbox {
+   padding : 5px 10px;
+   margin : 5px auto;
+   background-color :#ffffff;
+   color :#330033;
+   font-size :1em;
+   display :block;
+}
  	div.mbox div { }
 		div.mbox div a { font-size :1em; color :#0052a1; }
 		div.mbox div a:hover { color :#0099ff; }
@@ -99,9 +106,19 @@ div.mbox { padding :10px; margin :15px auto; background-color :#ffffff; color :#
 		div.mbox div p { margin :0; padding :0 0 0.6em 0; }
 div.mbox:hover { }
 /* extension for mbox to show additional icons on left side ***************** */
-div.mbox-icon { background-repeat :no-repeat; background-image :url(../icons/info_50.png); background-position :15px 50%; padding :15px; min-height :25px; }
-	div.mbox-icon div { margin-left :70px; border-left :0px outset; padding-left :5px; }
-div.mbox-icon16 { background-repeat :no-repeat; background-image :url(../icons/info_16.png); background-position :5px 50%; padding :5px; min-height :10px; }
+div.mbox-icon {
+   background-repeat :no-repeat;
+   background-image :url(icons/info_50.png);
+   background-position :15px 50%;
+   padding : 10px 5px;
+   min-height :25px;
+}
+	div.mbox-icon div {
+   margin-left :70px;
+   border-left :0px outset;
+   padding-left :5px;
+}
+div.mbox-icon16 { background-repeat :no-repeat; background-image :url(icons/info_16.png); background-position :5px 50%; padding :5px; min-height :10px; }
 	div.mbox-icon16 div { margin-left :30px; border-left :4px outset; padding-left :5px; }
 /* coloring of the mbox and other boxes also ******************************** */
 div.box-ok { border-color :#008000; color :#008000; }
@@ -182,9 +199,15 @@ form.settings_table { border :1px none #eeee; font-family :verdana,arial,helveti
 /* */
 div.content_box form { }
 div.sub-row { background-color :#eeeeee; margin : 1px auto; overflow :hidden; padding :0; }
-.content_box { position :relative; margin :0px auto; padding :0; overflow :visible; }
+div.col_content { margin-right :0.5em; padding :2px 0; }
+.content_box { position :relative; margin :0px auto; padding :0; }
    .content_box form { background :transparent; height :auto; }
-   .content_box li { float :left; margin :auto 0.8em; list-style-type :none; display :block; }
+   .content_box li {
+   float :left;
+   padding :0 10px;
+   list-style-type :none;
+   display :block;
+}
    .content_box ul { padding :0 0 0 15px; margin :0 auto; width :100%; }
    .content_box h5.title { color :#339bff; font-weight :bold; font-size :1.2em; margin :0 auto; text-align :left; }
    .content_box h5.title a:link  { color :#0067ca; }
@@ -216,11 +239,16 @@ div.pages_list { font-size :0.6em; width :100%; }
 table.pages_list table td, 
 table.pages_view td { font-size :1.2em; padding :0 2px; vertical-align :middle; margin :0 auto; height :30px; }
 table.pages_view { background-color :#cee1ea; border :0; border-spacing :0px; font-size :1.5em; line-height :2em; margin :0 auto; table-layout :fixed; width :100%; }
-table.pages_view a:link { display :inline; padding-top :2px; text-decoration :none; vertical-align :baseline; }
+table.pages_view a:link { display :inline; padding :2px; font-weight :bold; text-decoration :none; vertical-align :baseline; }
+table.pages_view a:link span { vertical-align :baseline; }
 table.pages_view a:hover { background :transparent; text-decoration :none; }
 table.pages_view tr:hover { background-color :#f1f8dd; }
 table a:link { display :inline; font-weight :bold; padding-top :0; text-decoration :none; vertical-align :baseline; }
 table a:hover { color :#6699ff; }
+a:link { display :inline; font-weight :bold; padding-top :0; text-decoration :none; vertical-align :baseline; }
+a:visited { color :#0066cc; }
+a:hover { color :#6699ff; text-decoration :underline; }
+/**/
 .header_list_actions { text-align :left; width :150px; }
 .header_list_block { text-align :left; width :120px; }
 .header_list_page_id { padding-right :15px; text-align :right; width :30px; }
@@ -273,7 +301,7 @@ div.page-settings { font-size :0.9em; border :none; text-align :left; }
 div.page-settings-leftcol { float :left; padding :10px 10px 10px 10px; border-right :groove 2px #a8bccb; }
 	div.page-settings-leftcol div { padding :2px 0 3px 0; vertical-align :top; }
 	div.page-settings-leftcol label { width :170px; vertical-align :top; }
-div.page-settings-righttoprow { margin-left :417px; padding :5px 20px 5px 10px; }
+div.page-settings-righttoprow { margin-left :417px; padding :10px; }
 	div.page-settings-righttoprow label { width :110px; vertical-align :top; }
 div.page-settings-centercol { float :left; padding :10px 20px 10px 20px; border-right :groove 2px #a8bccb; }
 div.page-settings-rightcol { float :left; padding :10px 20px 10px 10px; border :none; }
@@ -303,7 +331,7 @@ div.col_width33 { width :33.333%; }
 .c50, div.col_width50 { width : 47%; }
 .c60, div.col_width60 { width :60%; }
 .h65 { min-height :65px; overflow :auto; }
-.h80 { height :80px; }
+.h80 { height :80px; line-height :1.3em; }
 .min_h100 { min-height :100px; }
 .c100, div.col_width100 { width :100%; margin :0 auto; }
 .c400, .col_width400 { width :400px; }
