@@ -13,13 +13,17 @@
 */
 .mod_preferences_error { background-color :#ffb0b0; padding :5px; border :dotted 1px #ff0000; color :#ff0000; }
 .mod_preferences_success { background-color :#b0ffb0; padding :5px; border :dotted 1px #303030; color :#303030; }
+/* here you can style the account templates */
+.note { background :#eeffee; border :0.2em #448844 solid; color :#004400; margin-bottom :1em; padding :0.63em; }
+.warning { background :#ffeeee; border :1px #884444 solid; color :#440000; margin-bottom :1em; padding :1.5em; }
 div.account { width :80%; margin :1em auto; }
 div.account div.signup, 
 div.account div.details, 
 div.account div.email, 
-div.account div.password { background :transparent url(htt/blue.png) repeat-x top; width :100%; overflow :hidden; border :2px solid #cccccc; margin-bottom :1em; border-radius :10px; -khtml-border-radius :10px; -webkit-border-radius :10px; -moz-border-radius :10px; }
-div.account h3 { width :100%; color :#ffffff; padding :5px; margin-top :3px; }
-div.account table { vertical-align :0px; table-layout :fixed; width :100%; margin :10px auto; }
+div.account div.password { background : transparent none repeat-x top; width :100%; overflow :hidden; border :0px solid #cccccc; margin-bottom :1em; border-radius :10px; -khtml-border-radius :10px; -webkit-border-radius :10px; -moz-border-radius :10px; }
+div.account h3 { width :100%; color :#00016f; padding :5px; margin-top :3px; border-bottom :1px solid #000; }
+div.account table { vertical-align :0px; table-layout :auti; width :100%; margin :10px auto; }
+div.account table tr { width :100%; }
 div.account table td { width :30%; }
 div.account table td.button { width :100%; text-align :center; }
 div.account table td.button button { text-align :center; padding :2px; }
@@ -27,4 +31,17 @@ div.account table td.input { width :50%; }
 .nixhier { display :none; }
 .center { text-align :center; }
 div.account table td.input input { width :90%; }
+/* DIV-mbox to show selector or simply content only ************************* */
+div.mbox { padding :0.6em; margin :1em auto; background-color : #f3f5f8; color :#330033; font-size :1.1em; display :block; }
+/* extension for mbox to show additional icons on left side ***************** */
+div.mbox-icon { background-repeat :no-repeat; background-image :url(../images/info_50.png); background-position :15px 50%; padding :15px; min-height :25px; }
+	div.mbox-icon div { margin-left :70px; border-left :3px outset; padding-left :5px; }
+div.mbox-icon16 { background-repeat :no-repeat; background-image :url(../images/info_16.png); background-position :5px 50%; padding :5px; min-height :10px; }
+	div.mbox-icon16 div { margin-left :30px; border-left :4px outset; padding-left :5px; }
+/* coloring of the mbox and other boxes also ******************************** */
+div.box-ok { border-color :#008000; color :#008000; }
+div.box-error { border-color :#ff0000; color :#ff0000; }
+div.box-info { border-color :#bb7a00; color :#003ff2; }
+div.box-warning { border-color :#ffa500; color :#ffa500; }
+/* Border attributes for mbox and other elements also *********************** */
 /* ]]> */
