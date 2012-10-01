@@ -58,11 +58,15 @@ if(isset($_POST['server_email']))
 	}
 }
 
-if(isset($_POST['wbmailer_routine']) && ($_POST['wbmailer_routine']=='smtp')) {
+if($admin->StripCodeFromText($admin->get_post('wbmailer_routine'))=='smtp') {
 
-	$checkSmtpHost = (isset($_POST['wbmailer_smtp_host']) && ($_POST['wbmailer_smtp_host']=='') ? false : true);
-	$checkSmtpUser = (isset($_POST['wbmailer_smtp_username']) && ($_POST['wbmailer_smtp_username']=='') ? false : true);
-	$checkSmtpPassword = (isset($_POST['wbmailer_smtp_password']) && ($_POST['wbmailer_smtp_password']=='') ? false : true);
+	$checkSmtpHost = (($admin->StripCodeFromText($admin->get_post('wbmailer_smtp_host'))=='') ? false : true);
+//	$checkSmtpHost = (isset($_POST['wbmailer_smtp_host']) && ($_POST['wbmailer_smtp_host']=='') ? false : true);
+	$checkSmtpUser = (($admin->StripCodeFromText($admin->get_post('wbmailer_smtp_username'))=='') ? false : true);
+//	$checkSmtpUser = (isset($_POST['wbmailer_smtp_username']) && ($_POST['wbmailer_smtp_username']=='') ? false : true);
+	$checkSmtpPassword = (($admin->StripCodeFromText($admin->get_post('wbmailer_smtp_password'))=='') ? false : true);
+//	$checkSmtpPassword = (isset($_POST['wbmailer_smtp_password']) && ($_POST['wbmailer_smtp_password']=='') ? false : true);
+
 	if(!$checkSmtpHost || !$checkSmtpUser || !$checkSmtpPassword) {
 		$admin->print_error($TEXT['REQUIRED'].' '.$TEXT['WBMAILER_SMTP_AUTH'].
 			'<br /><strong>'.$MESSAGE['GENERIC_FILL_IN_ALL'].'</strong>', $js_back);
@@ -73,15 +77,17 @@ if(isset($_POST['wbmailer_routine']) && ($_POST['wbmailer_routine']=='smtp')) {
 // Work-out file mode
 if($advanced == '')
 {
+	$file_mode = STRING_FILE_MODE;
+	$dir_mode = STRING_DIR_MODE;
 	// Check if should be set to 777 or left alone
-	if(isset($_POST['world_writeable']) && $_POST['world_writeable'] == 'true')
-    {
-		$file_mode = '0777';
-		$dir_mode = '0777';
-	} else {
-		$file_mode = STRING_FILE_MODE;
-		$dir_mode = STRING_DIR_MODE;
-	}
+//	if(isset($_POST['world_writeable']) && $_POST['world_writeable'] == 'true')
+//    {
+//		$file_mode = '0777';
+//		$dir_mode = '0777';
+//	} else {
+//		$file_mode = STRING_FILE_MODE;
+//		$dir_mode = STRING_DIR_MODE;
+//	}
 } else {
 	$file_mode = STRING_FILE_MODE;
 	$dir_mode = STRING_DIR_MODE;
@@ -154,9 +160,46 @@ if($advanced == '')
 	}
 }
 
-$allow_tags_in_fields = array('website_header', 'website_footer','website_signature');
-$allow_empty_values = array('website_header','website_footer','pages_directory','page_spacer','website_signature,page_icon_dir','modules_upgrade_list');
-$disallow_in_fields = array('pages_directory', 'media_directory','wb_version');
+$allow_tags_in_fields = array(
+    'website_header',
+    'website_footer',
+    'website_signature'
+    );
+$allow_empty_values = array(
+    'website_header',
+    'website_footer',
+    'website_signature',
+    'wysiwyg_style',
+    'pages_directory',
+    'page_icon_dir',
+    'rename_files_on_upload',
+    'page_spacer',
+    'website_signature',
+    'page_icon_dir',
+    'modules_upgrade_list'
+    );
+$disallow_in_fields = array(
+    'pages_directory',
+    'media_directory',
+    'wb_version'
+    );
+$StripCodeFromInput = array(
+    'website_title',
+    'website_description',
+    'website_keywords',
+    'wysiwyg_style',
+    'search_module_order',
+    'search_max_excerpt',
+    'search_time_limit',
+    'pages_directory',
+    'page_icon_dir',
+    'media_directory',
+    'page_extension',
+    'rename_files_on_upload',
+    'page_spacer',
+    'page_icon_dir',
+    'modules_upgrade_list'
+    );
 
 $bRebuildAccessFiles = ( (isset( $_POST['rebuild_access_files']) && ( $_POST['rebuild_access_files'] == true )) ? true : false ) ;
 
@@ -189,10 +232,12 @@ if($res_settings = $database->query($sql)) {
 	 			$passed = true;
     			break;
 			case 'sec_anchor':
+                $value = $admin->StripCodeFromText($value);
 				$value=(($value=='') ? 'section_' : $value);
 	 			$passed = true;
 				break;
 			case 'pages_directory':
+                $value = $admin->StripCodeFromText($value);
                 $bNewPageFile = ( ( $value!= $old_settings['pages_directory'] ) ? true :  false );
 	 			$passed = $bNewPageFile;
                 $sGetId = '&amp;id='.$bNewPageFile;
@@ -208,10 +253,12 @@ if($res_settings = $database->query($sql)) {
 	 			$passed = true;
 				break;
 			default :
-			    $passed = in_array($setting_name, $allow_empty_values);
+                $passed = in_array($setting_name, $allow_empty_values);
+                if(in_array($setting_name, $StripCodeFromInput) ) {
+                    $value = $admin->StripCodeFromText($value);
+                }
 				break;
 		}
-
 
 	    if (!in_array($setting_name, $allow_tags_in_fields))
 	    {
@@ -222,7 +269,7 @@ if($res_settings = $database->query($sql)) {
 	    {
 	        $value = trim($admin->add_slashes($value));
 	        $sql = 'UPDATE `'.TABLE_PREFIX.'settings` ';
-	        $sql .= 'SET `value` = \''.$value.'\' ';
+	        $sql .= 'SET `value` = \''.($value).'\' '; // mysql_escape_string
 	        $sql .= 'WHERE `name` != \'wb_version\' ';
 	        $sql .= 'AND `name` = \''.$setting_name.'\' ';
 	        if (!$database->query($sql))
@@ -241,6 +288,11 @@ if($res_settings = $database->query($sql)) {
     }
 
 }
+$StripCodeFromISearch = array(
+    'search_module_order',
+    'search_max_excerpt',
+    'search_time_limit',
+    );
 
 // Query current search settings in the db, then loop through them and update the db with the new value
 $sql  = 'SELECT `name`, `value` FROM `'.TABLE_PREFIX.'search` ';
@@ -255,11 +307,15 @@ while($search_setting = $res_search->fetchRow())
 {
 	$old_value = $search_setting['value'];
 	$setting_name = $search_setting['name'];
-	$post_name = 'search_'.$search_setting['name'];
+	$post_name = 'search_'.$setting_name;
 
     // hold old value if post is empty
     // check search template
-    $value = ( ($admin->get_post($post_name) == '') && ($setting_name != 'template') ) ? $old_value : $admin->get_post($post_name);
+    $value = ($admin->get_post($post_name));
+    if(in_array($post_name, $StripCodeFromISearch) ) {
+        $value = $admin->StripCodeFromText($value);
+    }
+    $value = ( ($value == '') && ($setting_name != 'template') ) ? $old_value : $value;
     // $value =  ( ($admin->get_post($post_name) == '') && ($setting_name == 'template') ) ? DEFAULT_TEMPLATE : $admin->get_post($post_name);
     if(isset($value))
 	{

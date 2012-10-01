@@ -1,71 +1,74 @@
 <!-- BEGIN main_block -->
 <form name="{FORM_NAME}" class="settings_table" action="{ACTION_URL}" method="post">
 		{FTAN}
-	<fieldset style="margin-bottom: 0; padding-bottom: 0;">
+	<fieldset>
 		<legend>{HEADING_MY_SETTINGS}</legend>
-		<div class="sub-row">
-			<label class="setting_name rBold">{TEXT_USERNAME}:</label>
-			<input class="button" type="button" value="{USERNAME}" disabled="disabled" readonly="readonly" />
-		</div>
+<div>
+<div class="sub-row">
+<label class="setting_name rBold">{TEXT_USERNAME}:</label>
+<input class="button" type="button" value="{USERNAME}" disabled="disabled" readonly="readonly" />
+</div>
 
-		<div class="sub-row">
-			<label class="setting_name rBold">{TEXT_DISPLAY_NAME}:</label>
-			<input type="text" id="display_name" name="display_name" value="{DISPLAY_NAME}" />
-		</div>
+<div class="sub-row">
+<label class="setting_name rBold">{TEXT_DISPLAY_NAME}:</label>
+<input type="text" id="display_name" name="display_name" value="{DISPLAY_NAME}" />
+</div>
 
-		<div class="sub-row">
-			<label class="setting_name rBold">{TEXT_LANGUAGE}:</label>
-			<select name="language" id="language">
-				<!-- BEGIN language_list_block -->
-					<option value="{CODE}"{SELECTED} style="background: url({FLAG}.png) no-repeat center left; padding-left: 20px;">{NAME} ({CODE})</option>
-				<!-- END language_list_block -->
-			</select>
-		</div>
-		<div class="sub-row">
-			<label class="setting_name rBold">{TEXT_TIMEZONE}:</label>
-			<select name="timezone" id="timezone">
-				<!-- BEGIN timezone_list_block -->
-					<option value="{VALUE}"{SELECTED}>{NAME}</option>
-				<!-- END timezone_list_block -->
-			</select>
-		</div>
-		<div class="sub-row">
-			<label class="setting_name rBold">{TEXT_DATE_FORMAT}:</label>
-			<select name="date_format" id="date_format">
-				<!-- BEGIN date_format_list_block -->
-					<option value="{VALUE}"{SELECTED}>{NAME}</option>
-				<!-- END date_format_list_block -->
-			</select>
-		</div>
-		<div class="sub-row">
-			<label class="setting_name rBold">{TEXT_TIME_FORMAT}:</label>
-					<select name="time_format" id="time_format">
-						<!-- BEGIN time_format_list_block -->
-							<option value="{VALUE}"{SELECTED}>{NAME}</option>
-						<!-- END time_format_list_block -->
-					</select>
-				</div>
-		<div class="sub-row">
-			<label class="setting_name rBold">{TEXT_EMAIL}:</label>
-			<input type="text" id="email" name="email" value="{EMAIL}" />
-			</div>
-		<div class="sub-row">
-			<label class="setting_name rBold">{TEXT_NEW_PASSWORD}:</label>
-			<input type="password" id="new_password_1" name="new_password_1" value="{EMPTY_STRING}" />
-				</div>
-		<div class="sub-row">
-			<label class="setting_name rBold">{TEXT_RETYPE_NEW_PASSWORD}:</label>
-			<input type="password" id="new_password_2" name="new_password_2" value="{EMPTY_STRING}" />
-				</div>
-			<hr />
-		<div class="sub-row">
-			<label class="setting_name rBold">{TEXT_NEED_CURRENT_PASSWORD}:</label>
-			<input type="password" id="current_password" name="current_password" value="{EMPTY_STRING}" />
-				</div>
-		<div class="sub-row">
-					<input type="submit" id="submit" name="submit" value="{TEXT_SAVE}" />
-					<input type="reset" id="reset" name="reset" value="{TEXT_RESET}" />
-				</div>
+<div class="sub-row">
+<label class="setting_name rBold">{TEXT_LANGUAGE}:</label>
+<select name="language" id="language">
+<!-- BEGIN language_list_block -->
+<option value="{CODE}"{SELECTED} style="background: url({FLAG}.png) no-repeat center left; padding-left: 20px;">{NAME} ({CODE})</option>
+<!-- END language_list_block -->
+</select>
+</div>
+<div class="sub-row">
+<label class="setting_name rBold">{TEXT_TIMEZONE}:</label>
+<select name="timezone" id="timezone">
+<!-- BEGIN timezone_list_block -->
+<option value="{VALUE}"{SELECTED}>{NAME}</option>
+<!-- END timezone_list_block -->
+</select>
+</div>
+<div class="sub-row">
+<label class="setting_name rBold">{TEXT_DATE_FORMAT}:</label>
+<select name="date_format" id="date_format">
+<!-- BEGIN date_format_list_block -->
+<option value="{VALUE}"{SELECTED}>{NAME}</option>
+<!-- END date_format_list_block -->
+</select>
+</div>
+<div class="sub-row">
+<label class="setting_name rBold">{TEXT_TIME_FORMAT}:</label>
+<select name="time_format" id="time_format">
+<!-- BEGIN time_format_list_block -->
+	<option value="{VALUE}"{SELECTED}>{NAME}</option>
+<!-- END time_format_list_block -->
+</select>
+</div>
+<div class="sub-row">
+<label class="setting_name rBold">{TEXT_EMAIL}:</label>
+<input type="text" id="email" name="email" value="{EMAIL}" />
+</div>
+<div class="sub-row">
+<label class="setting_name rBold">{TEXT_NEW_PASSWORD}:</label>
+<input type="password" id="new_password_1" name="new_password_1" value="{EMPTY_STRING}" />
+</div>
+<div class="sub-row">
+<label class="setting_name rBold">{TEXT_RETYPE_NEW_PASSWORD}:</label>
+<input type="password" id="new_password_2" name="new_password_2" value="{EMPTY_STRING}" />
+</div>
+<hr />
+<div class="sub-row">
+<label class="setting_name rBold">{TEXT_NEED_CURRENT_PASSWORD}:</label>
+<input type="password" id="current_password" name="current_password" value="{EMPTY_STRING}" />
+</div>
+
+<div class="sub-row">
+<input type="submit" id="submit" name="submit" value="{TEXT_SAVE}" />
+<input type="reset" id="reset" name="reset" value="{TEXT_RESET}" />
+</div>
+</div>
 	</fieldset>
 </form>
 <!-- END main_block -->

@@ -128,6 +128,7 @@ $oTpl->set_var(array(
 					'WELCOME_MESSAGE' => $MESSAGE['START_WELCOME_MESSAGE'],
 					'CURRENT_USER' => $MESSAGE['START_CURRENT_USER'],
 					'DISPLAY_NAME' => $admin->get_display_name(),
+                    'DISPLAY_WARNING' => '',
 					'ADMIN_URL' => ADMIN_URL,
 					'WB_URL' => WB_URL,
 					'THEME_URL' => THEME_URL,

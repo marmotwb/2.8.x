@@ -17,17 +17,18 @@
 
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
-if(defined('WB_PATH') == false)
-{
-	die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
+if(!defined('WB_PATH')) {
+	require_once(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
 
 require_once(dirname(__FILE__).'/AccountSignup.php');
 AccountSignup::deleteOutdatedConfirmations();
-$sPassword = isset($_POST['new_password_1'])     ? mysql_escape_string($_POST['new_password_1']) : '';
-$sLoginName = isset($_POST['new_loginname'])     ? mysql_escape_string($_POST['new_loginname']) : '';
-$sConfirmationId = isset($_POST['confirm_code']) ? mysql_escape_string($_POST['confirm_code'])   : '';
+
+$sPassword = mysql_escape_string($wb->StripCodeFromText($wb->get_post('new_password_1')));
+$sLoginName = mysql_escape_string($wb->StripCodeFromText($wb->get_post('new_loginname')));
+$sConfirmationId = mysql_escape_string($wb->StripCodeFromText($wb->get_post('confirm_code')));
 
 $bSendRegistrationMailtoUser = false;
 $bSendRegistrationMailtoAdmin = false;

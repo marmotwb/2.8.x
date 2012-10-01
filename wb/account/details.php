@@ -18,19 +18,18 @@
 
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
-if(defined('WB_PATH') == false)
-{
-	// Stop this file being access directly
-		die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
+if(!defined('WB_PATH')) {
+	require_once(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
 
 // Get entered values
-	$display_name = $wb->add_slashes(strip_tags($wb->get_post('display_name')));
-	$language = $wb->get_post('language');
-	$timezone = $wb->get_post('timezone')*60*60;
-	$date_format = $wb->get_post('date_format');
-	$time_format = $wb->get_post('time_format');
+	$display_name = strip_tags($wb->StripCodeFromText($wb->get_post('display_name')));
+	$language = strip_tags($wb->StripCodeFromText($wb->get_post('language')));
+	$timezone = intval($wb->StripCodeFromText($wb->get_post('timezone')))*60*60;
+	$date_format = strip_tags($wb->StripCodeFromText($wb->get_post('date_format')));
+	$time_format = strip_tags($wb->StripCodeFromText($wb->get_post('time_format')));
 
 // Update the database
 // $database = new database();
@@ -46,8 +45,9 @@ if(defined('WB_PATH') == false)
 		$success[] = $MOD_PREFERENCE['DETAILS_SAVED'];
 		$_SESSION['DISPLAY_NAME'] = $display_name;
 		$_SESSION['LANGUAGE'] = $language;
+		$_SESSION['TIME_FORMAT'] = $time_format;
+		$_SESSION['DATE_FORMAT'] = $date_format;
 		$_SESSION['TIMEZONE'] = $timezone;
-		$_SESSION['HTTP_REFERER'] = (($_SESSION['LANGUAGE']== LANGUAGE) ? $_SESSION['HTTP_REFERER'] : WB_URL);
 // Update date format
 		if($date_format != '') {
 			$_SESSION['DATE_FORMAT'] = $date_format;
