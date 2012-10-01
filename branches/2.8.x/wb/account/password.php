@@ -17,10 +17,9 @@
 
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
-if(defined('WB_PATH') == false)
-{
-	// Stop this file being access directly
-		die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
+if(!defined('WB_PATH')) {
+	require_once(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
 

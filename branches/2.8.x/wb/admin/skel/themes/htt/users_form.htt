@@ -17,7 +17,7 @@ function toggle_radio(radio_on, radio_off) {
 <table>
 <!-- BEGIN show_modify_loginname_block -->
 <tr>
-	<td>{TEXT_USERNAME}:</td>
+	<td class="right">{TEXT_USERNAME}:</td>
 	<td class="value_input">
 		<input type="hidden" name="{USERNAME_FIELDNAME}" value="{USERNAME}" />
 		<input class="button" type="button" value="{USERNAME}" disabled="disabled" readonly="readonly" />
@@ -26,44 +26,44 @@ function toggle_radio(radio_on, radio_off) {
 <!-- END show_modify_loginname_block -->
 <!-- BEGIN show_add_loginname_block -->
 <tr>
-	<td>{TEXT_USERNAME}:</td>
+	<td class="right">{TEXT_USERNAME}:</td>
 	<td class="value_input">
 		<input type="text" name="{USERNAME_FIELDNAME}" maxlength="30" value="{USERNAME}" />
 	</td>
 </tr>
 <!-- END show_add_loginname_block -->
 <tr>
-	<td>{TEXT_PASSWORD}:</td>
+	<td class="right">{TEXT_PASSWORD}:</td>
 	<td class="value_input">
 		<input type="password" name="password" maxlength="30" />
 	</td>
 </tr>
 <tr>
-	<td>{TEXT_RETYPE_PASSWORD}:</td>
+	<td class="right">{TEXT_RETYPE_PASSWORD}:</td>
 	<td class="value_input">
 		<input type="password" name="password2" maxlength="30" />
 	</td>
 </tr>
 <tr style="{DISPLAY_EXTRA}">
-	<td>&nbsp;</td>
+	<td class="right">&nbsp;</td>
 	<td style="font-size: 10px;">
 		{CHANGING_PASSWORD}
 	</td>
 </tr>
 <tr>
-	<td>{TEXT_DISPLAY_NAME}:</td>
+	<td class="right">{TEXT_DISPLAY_NAME}:</td>
 	<td class="value_input">
 		<input type="text" name="display_name" maxlength="255" value="{DISPLAY_NAME}" />
 	</td>
 </tr>
 <tr>
-	<td>{TEXT_EMAIL}:</td>
+	<td class="right">{TEXT_EMAIL}:</td>
 	<td class="value_input">
 		<input type="text" name="email" maxlength="255" value="{EMAIL}" />
 	</td>
 </tr>
 <tr style="{DISPLAY_HOME_FOLDERS}">
-	<td>{TEXT_HOME_FOLDER}:</td>
+	<td class="right">{TEXT_HOME_FOLDER}:</td>
 	<td class="value_input">
 		<select name="home_folder">
 			<option value="">{TEXT_NONE}</option>
@@ -74,7 +74,7 @@ function toggle_radio(radio_on, radio_off) {
 	</td>
 </tr>
 <tr>
-	<td>{TEXT_GROUP}:</td>
+	<td class="rightTop">{TEXT_GROUP}:</td>
 	<td class="value_input">
 		<select name="groups[]" multiple="multiple" size="5">
 		<!-- BEGIN group_list_block -->
@@ -84,7 +84,7 @@ function toggle_radio(radio_on, radio_off) {
 	</td>
 </tr>
 <tr>
-	<td>&nbsp;</td>
+	<td class="right">&nbsp;</td>
 	<td>
 		<input type="radio" name="active[]" id="active" value="1" {ACTIVE_CHECKED} />
 		<label for="active">{TEXT_ACTIVE}</label>

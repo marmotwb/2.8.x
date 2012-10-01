@@ -18,36 +18,49 @@
 
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
-if(defined('WB_PATH') == false)
-{
-	// Stop this file being access directly
-		die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
+if(!defined('WB_PATH')) {
+	require_once(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
 
 // Get entered values
-	$password = $wb->get_post('current_password');
-	$email = $wb->get_post('email');
+	$password = $wb->StripCodeFromText($wb->get_post('current_password'));
+	$email = strip_tags($wb->StripCodeFromText($wb->get_post('email')));
 // validate password
 	$sql  = "SELECT `user_id` FROM `".TABLE_PREFIX."users` ";
-	$sql .= "WHERE `user_id` = ".$wb->get_user_id()." AND `password` = '".md5($password)."'";
+	$sql .= "WHERE `user_id` = ".(int)$wb->get_user_id()." AND `password` = '".md5($password)."'";
 	$rowset = $database->query($sql);
 // Validate values
 	if($rowset->numRows() == 0) {
-		$error[] = $MESSAGE['PREFERENCES']['CURRENT_PASSWORD_INCORRECT'];
-	}else {
-		if(!$wb->validate_email($email)) {
-			$error[] = $MESSAGE['USERS']['INVALID_EMAIL'];
-		}else {
-			$email = $wb->add_slashes($email);
-// Update the database
-			$sql = "UPDATE `".TABLE_PREFIX."users` SET `email` = '".$email."' WHERE `user_id` = ".$wb->get_user_id();
-			$database->query($sql);
-			if($database->is_error()) {
-				$error[] = $database->get_error();
-			} else {
-				$success[] = $MESSAGE['PREFERENCES']['EMAIL_UPDATED'];
-				$_SESSION['EMAIL'] = $email;
-			}
-		}
+		$error[] = $MESSAGE['PREFERENCES_CURRENT_PASSWORD_INCORRECT'];
+	} else {
+        $sSessionEmail = $wb->get_session('EMAIL');
+    	if($sSessionEmail != "") {
+    		// Check if the email already exists
+    		$sql  = 'SELECT `user_id` FROM `'.TABLE_PREFIX.'users` WHERE `email` = \''.$email.'\' ';
+            $sql .= 'AND `email` != \''.$sSessionEmail. '\' ';
+    		if($database->get_one($sql)){
+    			$error[] = ($MESSAGE['USERS_EMAIL_TAKEN']);
+    		} else {
+    			if(!$wb->validate_email($email)){
+    				$error[] = ($MESSAGE['USERS_INVALID_EMAIL']);
+    			} else {
+        			$email = mysql_escape_string($email);
+                    // Update the database
+        			$sql = "UPDATE `".TABLE_PREFIX."users` SET `email` = '".$email."' WHERE `user_id` = ".$wb->get_user_id();
+        			$database->query($sql);
+        			if($database->is_error()) {
+        				$error[] = $database->get_error();
+        			} else {
+        				$success[] = $MESSAGE['PREFERENCES_EMAIL_UPDATED'];
+        				$_SESSION['EMAIL'] = $email;
+        			}
+        		}
+
+    		}
+    	} else {
+    		$error[] = ($MESSAGE['SIGNUP_NO_EMAIL']);
+    	}
+
 	}

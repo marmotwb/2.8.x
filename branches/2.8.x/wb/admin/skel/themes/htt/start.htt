@@ -2,7 +2,7 @@
 	<div class="content_box">
 	    <h4 class="center">{WELCOME_MESSAGE}. {CURRENT_USER} {DISPLAY_NAME}</h4>
  	<!-- BEGIN show_install_block -->
-         <h4 style="{DISPLAY_WARNING}" class="warning center">{WARNING}</h4>
+         <h4 style="{DISPLAY_WARNING}" class="warning center rounded">{WARNING}</h4>
 	<!-- END show_install_block -->
 	</div>
 	<div class="content_box">

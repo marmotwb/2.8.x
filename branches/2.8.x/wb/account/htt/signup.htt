@@ -8,84 +8,84 @@
 <div class="signup">
 
 <form name="signup" action="{ACTION_URL}" method="post">
-	<input type="hidden" name="action" value="send" />
-	<input type="hidden" name="submitted_when" value="{SET_TIME}" />
+<input type="hidden" name="action" value="send" />
+<input type="hidden" name="submitted_when" value="{SET_TIME}" />
 <!-- BEGIN asp_block -->
-	<p class="{DISPLAY_ASP}" id="pot">
-		<label>If you're human leave this blank:</label>
-		<input name="robotest" id="robotest" class="robotest" />
-		<label for="email-address">Leave this field email-address blank:</label>
-		<input id="email-address" name="email-address" size="60" value="" /><br />
-		<label for="name">Leave this field name blank:</label>
-		<input id="name" name="name" size="60" value="" /><br />
-		<label for="full_name">Leave this field full_name blank:</label>
-		<input id="full_name" name="full_name" size="60" value="" /><br />
-	</p>
+<p class="{DISPLAY_ASP}" id="pot">
+<label>If you're human leave this blank:</label>
+<input name="robotest" id="robotest" class="robotest" />
+<label for="email-address">Leave this field email-address blank:</label>
+<input id="email-address" name="email-address" size="60" value="" /><br />
+<label for="name">Leave this field name blank:</label>
+<input id="name" name="name" size="60" value="" /><br />
+<label for="full_name">Leave this field full_name blank:</label>
+<input id="full_name" name="full_name" size="60" value="" /><br />
+</p>
 <!-- END asp_block -->
-	<h3>{HEADING_SIGNUP}</h3>
-	<table>
-		<tr>
-			<td>{TEXT_USERNAME}:</td>
-			<td class="input">
-				<input type="text" name="login_name" value="{DISPLAY_USER}" />
-			</td>
-		</tr>
-		<tr>
-			<td>{TEXT_DISPLAY_NAME}:</td>
-			<td class="input">
-				<input type="text" name="display_name" value="{DISPLAY_NAME}" />
-			</td>
-		</tr>
-		<tr>
-			<td>{TEXT_EMAIL}:</td>
-			<td class="input">
-				<input type="text" name="email" value="{EMAIL}" />
-			</td>
-		</tr>
-		<tr>
-			<td>{TEXT_LANGUAGE}:</td>
-			<td class="input">
-				<select name="language" id="language">
-					<!-- BEGIN language_list_block -->
-						<option value="{CODE}"{SELECTED} style="background: url({FLAG}.png) no-repeat center left; padding-left: 20px;">{NAME} ({CODE})</option>
-					<!-- END language_list_block -->
-				</select>
-			</td>
-		</tr>
+<h3>{HEADING_SIGNUP}</h3>
+<table>
+<tr>
+<td>{TEXT_USERNAME}:</td>
+<td class="input">
+<input type="text" name="login_name" value="{DISPLAY_USER}" />
+</td>
+</tr>
+<tr>
+<td>{TEXT_DISPLAY_NAME}:</td>
+<td class="input">
+<input type="text" name="display_name" value="{DISPLAY_NAME}" />
+</td>
+</tr>
+<tr>
+<td>{TEXT_EMAIL}:</td>
+<td class="input">
+<input type="text" name="email" value="{EMAIL}" />
+</td>
+</tr>
+<tr>
+<td>{TEXT_LANGUAGE}:</td>
+<td class="input">
+<select name="language" id="language">
+<!-- BEGIN language_list_block -->
+<option value="{CODE}"{SELECTED} style="background: url({FLAG}.png) no-repeat center left; padding-left: 20px;">{NAME} ({CODE})</option>
+<!-- END language_list_block -->
+</select>
+</td>
+</tr>
 <!-- BEGIN password_block -->
-		<tr>
-			<td colspan="2"><div class="note">{HELP_SIGNUP_REMEMBER_PASSWORD}</div></td>
-		</tr>
-		<tr>
-			<td>{TEXT_NEW_PASSWORD}:</td>
-			<td class="input">
-				<input type="password" name="new_password_1" />
-			</td>
-		</tr>
-		<tr>
-			<td>{TEXT_RETYPE_NEW_PASSWORD}:</td>
-			<td class="input">
-				<input type="password" name="new_password_2" />
-			</td>
-		</tr>
+<tr>
+<td colspan="2"><div class="note">{HELP_SIGNUP_REMEMBER_PASSWORD}</div></td>
+</tr>
+<tr>
+<td>{TEXT_NEW_PASSWORD}:</td>
+<td class="input">
+<input type="password" name="new_password_1" />
+</td>
+</tr>
+<tr>
+<td>{TEXT_RETYPE_NEW_PASSWORD}:</td>
+<td class="input">
+<input type="password" name="new_password_2" />
+</td>
+</tr>
 <!-- END password_block -->
 <!-- BEGIN captcha_block -->
-		<tr>
-			<td class="field_title">{TEXT_VERIFICATION}:</td>
-			<td class="input">{CAPTCHA}</td>
-		</tr>
+<tr>
+<td class="field_title">{TEXT_VERIFICATION}:</td>
+<td class="input">{CAPTCHA}</td>
+</tr>
 <!-- END captcha_block -->
-        <tr>
-        	<td colspan="2">&nbsp;</td>
-        </tr>
-		<tr>
-			<td colspan="2" class="button">
-        		<button type="submit" name="submit" value="">{TEXT_SIGNUP}</button>
-        		<button type="reset" name="reset" value="reset">{TEXT_RESET}</button>
-				<button type="button" value="cancel" onclick="javascript:window.location='{HTTP_REFERER}';">{TEXT_CANCEL}</button>
-			</td>
-		</tr>
-	</table>
+<tr>
+<td colspan="2">&nbsp;</td>
+</tr>
+<tr>
+<td colspan="2" class="button">
+<button type="submit" name="submit" value="">{TEXT_SIGNUP}</button>
+<button type="reset" name="reset" value="reset">{TEXT_RESET}</button>
+<button type="button" value="cancel" onclick="javascript:window.location='{HTTP_REFERER}';">{TEXT_CANCEL}</button>
+</td>
+</tr>
+</table>
 </form>
 </div>
 </div>

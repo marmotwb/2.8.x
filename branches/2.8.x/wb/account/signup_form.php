@@ -17,13 +17,11 @@
 
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
-if(defined('WB_PATH') == false)
-{
-		die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
+if(!defined('WB_PATH')) {
+	require_once(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
-//print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
-//print_r( $_SESSION['HTTP_REFERER'] ); print '</pre>';  die();// flush ();sleep(10);
 
 // load module language file
 $lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
@@ -45,10 +43,11 @@ if(isset($_POST['action']) && $_POST['action']=='send') {
 } else {
 	$output = '';
 	msgQueue::clear();
-	unset($_SESSION['username']);
-	unset($_SESSION['language']);
+	unset($_SESSION['USERNAME']);
+	unset($_SESSION['LANGUAGE']);
 	unset($_SESSION['DISPLAY_NAME']);
-	unset($_SESSION['email']);
+	unset($_SESSION['EMAIL']);
+	unset($_SESSION['TIMEZONE']);
 }
 
 if($_SESSION['display_form']){
@@ -111,9 +110,9 @@ if($_SESSION['display_form']){
 	$_SESSION['submitted_when'] = $iTime;
 	$oTpl->set_var(array(
 		'SET_TIME' => $iTime,
-		'DISPLAY_USER' => isset($_SESSION['username']) ? $_SESSION['username'] : '',
-		'DISPLAY_NAME' => isset($_SESSION['DISPLAY_NAME']) ? $_SESSION['DISPLAY_NAME'] : '',
-		'EMAIL' => isset($_SESSION['email']) ? $_SESSION['email'] : '',
+		'DISPLAY_USER' => $wb->get_session('USERNAME'),
+		'DISPLAY_NAME' => $wb->get_session('DISPLAY_NAME'),
+		'EMAIL' => $wb->get_session('EMAIL'),
 		)
 	);
 
@@ -125,7 +124,7 @@ if($_SESSION['display_form']){
 			$sAutoLanguage = strtoupper($matches[1]);
 		}
 	}
-	$sAutoLanguage = isset($_SESSION['language']) ? $_SESSION['language'] : $sAutoLanguage;
+	$sAutoLanguage = isset($_SESSION['LANGUAGE']) ? $_SESSION['LANGUAGE'] : $sAutoLanguage;
 	// Insert language values
 	$sql  = 'SELECT `name`, `directory` FROM `'.TABLE_PREFIX.'addons` ';
 	$sql .= 'WHERE `type` = \'language\' ';

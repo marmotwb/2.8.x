@@ -16,6 +16,7 @@
 /* here you can style the account templates */
 .note { background :#eeffee; border :0.2em #448844 solid; color :#004400; margin-bottom :1em; padding :0.63em; }
 .warning { background :#ffeeee; border :1px #884444 solid; color :#440000; margin-bottom :1em; padding :1.5em; }
+.rounded { border-radius :10px; -khtml-border-radius :10px; -webkit-border-radius :10px; -moz-border-radius :10px; }
 div.account { width :80%; margin :1em auto; }
 div.account div.signup, 
 div.account div.details, 
@@ -31,7 +32,8 @@ div.account table td.input { width :50%; }
 .nixhier { display :none; }
 .center { text-align :center; }
 div.account table td.input input { width :90%; }
-/* DIV-mbox to show selector or simply content only ************************* */
+.display_name { border :1px solid #666666; color :#000000; text-align :left; font-weight :bold; background-color :#dddddd; margin :2px auto; padding :2px 0px 2px 6px; width :71%; }
+.rbold { text-align :right; font-weight :bold; vertical-align :middle; }/* DIV-mbox to show selector or simply content only ************************* */
 div.mbox { padding :0.6em; margin :1em auto; background-color : #f3f5f8; color :#330033; font-size :1.1em; display :block; }
 /* extension for mbox to show additional icons on left side ***************** */
 div.mbox-icon { background-repeat :no-repeat; background-image :url(../images/info_50.png); background-position :15px 50%; padding :15px; min-height :25px; }

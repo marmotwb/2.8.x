@@ -267,9 +267,9 @@ class wb extends SecureForm
 	}
 
 	/**
-	 * wb::send_header()
      * replace header('Location:...  with new method
 	 * if header send failed you get a manuell redirected link, so script don't break
+	 *
 	 * @param string $location, redirected url
 	 * @return void
 	 */
@@ -528,5 +528,22 @@ class wb extends SecureForm
 			return false;
 		}
 	}
+
+	/**
+     *
+     * remove [[text]], link, script, scriptblock and styleblock from a given string
+     * and return the cleaned string
+	 *
+	 * @param string $sValue
+     * @returns
+     *    false: if @param is not a string
+     *    string: cleaned string
+	 */
+	public function StripCodeFromText($sValue){
+        if(!is_string($sValue)) { return false; }
+        $sPattern = '/\[\[.*?\]\]\s*?|<!--\s+.*?-->\s*?|<(script|link|style)[^>]*\/>\s*?|<(script|link|style)[^>]*?>.*?<\/\2>\s*?|\s*$/isU';
+        return (preg_replace ($sPattern, '', $sValue));
+	}
+
 
 }

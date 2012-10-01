@@ -24,7 +24,7 @@ $wb = new admin();
 //require_once(dirname(__FILE__).'/AccountSignup.php');
 
 // load module language file
-$sAutoLanguage = isset($_SESSION['language']) ? $_SESSION['language'] : AccountSignup::GetBowserLanguage(DEFAULT_LANGUAGE);
+$sAutoLanguage = isset($_SESSION['LANGUAGE']) ? $_SESSION['LANGUAGE'] : AccountSignup::GetBowserLanguage(DEFAULT_LANGUAGE);
 
 $mLang = ModLanguage::getInstance();
 $mLang->setLanguage(dirname(__FILE__).'/languages/', $sAutoLanguage, DEFAULT_LANGUAGE);

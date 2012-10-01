@@ -5,18 +5,14 @@
 <input type="hidden" name="wbmailer_smtp_auth" value="true"  />
 {FTAN}
 
-	<fieldset>
-		<div class="mbox sub-row">
-			<label class="setting_name">&nbsp;</label>
-			<div style="margin-top: 5px;">
-				<button title="{MODE_SWITCH_WARNING}" onclick="window.location = '{ADVANCED_LINK}'; return false;" class="cright {DISPLAY_ADVANCED_BUTTON}">{ADVANCED_BUTTON}</button>
-			</div>
-		</div>
-		<br />
-	</fieldset>
-
 	<fieldset class="tab-generell">
 		<legend>{HEADING_GENERAL_SETTINGS}</legend>
+		<div class="mbox sub-row">
+			<label class="setting_name">&nbsp;</label>
+			<div style="margin-top: 2px;">
+				<button title="{MODE_SWITCH_WARNING}" onclick="window.location = '{ADVANCED_LINK}'; return false;" class="cright {DISPLAY_ADVANCED_BUTTON}">{ADVANCED_BUTTON}</button>
+			</div>
+		</div><br />
 		<div class="mbox sub-row">
 			<label class="setting_name">{TEXT_WEBSITE_TITLE}:</label>
 			<input type="text" class="vert" name="website_title" value="{WEBSITE_TITLE}" />
@@ -46,6 +42,7 @@
 			<textarea class="vert" name="website_signature" cols="50" rows="4">{WEBSITE_SIGNATURE}</textarea>
 		</div>
 	</fieldset>
+
 	<fieldset>
 <!-- BEGIN show_page_level_limit_block -->
 		<div class="mbox sub-row">
@@ -56,8 +53,8 @@
 		<!-- END page_level_limit_list_block -->
 		</select>
 		</div>
-
 <!-- END show_page_level_limit_block -->
+
 		<div class="mbox sub-row">
 			<label class="setting_name">{TEXT_PAGE_TRASH}:</label>
 			<span>
@@ -81,6 +78,7 @@
                 <label for="page_languages_false">{TEXT_DISABLED}</label>
 			</span>
 		</div>
+
 		<div class="mbox sub-row">
 	 		<label class="setting_name">{TEXT_PAGE_EXTENDED}:</label>
 			<span>
@@ -117,8 +115,8 @@
 		<label for="home_folders_false">{TEXT_DISABLED}</label>
 			</span>
 		</div>
-<!-- BEGIN show_checkbox_2_block -->
 
+<!-- BEGIN show_checkbox_2_block -->
 		<div class="mbox sub-row">
 		<label class="setting_name">{TEXT_MANAGE_SECTIONS}:</label>
 			<span>
@@ -142,8 +140,8 @@
 		<label for="section_blocks_false">{TEXT_DISABLED}</label>
 			</span>
 		</div>
-
 <!-- END show_checkbox_2_block -->
+
 		<div class="mbox sub-row">
 			<label class="setting_name">{TEXT_INTRO_PAGE}:</label>
 			<span>
@@ -155,8 +153,8 @@
 		<label for="intro_page_false">{TEXT_DISABLED}</label>
 			</span>
 		</div>
-<!-- BEGIN show_checkbox_3_block -->
 
+<!-- BEGIN show_checkbox_3_block -->
 		<div class="mbox sub-row">
 			<label class="setting_name">{TEXT_HOMEPAGE_REDIRECTION}:</label>
 			<span>
@@ -180,8 +178,8 @@
 		<label for="smart_login_false">{TEXT_DISABLED}</label>
 			</span>
 		</div>
-
 <!-- END show_checkbox_3_block -->
+
 		<div class="mbox sub-row">
 			<label class="setting_name">{TEXT_LOGIN}:</label>
 			<span>
@@ -231,9 +229,9 @@
 			<label class="setting_name">{TEXT_PHP_ERROR_LEVEL}:</label>
 		<select name="er_level">
 			<option value="">{TEXT_PLEASE_SELECT}...</option>
-			<!-- BEGIN error_reporting_list_block -->
+			<!-- BEGIN php_error_list_block -->
 				<option value="{VALUE}"{SELECTED}>{NAME}</option>
-			<!-- END error_reporting_list_block -->
+			<!-- END php_error_list_block -->
 		</select>
 		</div>
 <!-- END show_php_error_level_block -->
@@ -255,6 +253,7 @@
 			</div>
 		</div>
 <!-- END show_wysiwyg_block -->
+
 		<div class="mbox sub-row">
 			<label class="setting_name">&nbsp;</label>
 			<div style="margin-top: 5px;">
@@ -291,8 +290,8 @@
 		</select>
 			</div>
 		</div>
-
 <!-- END show_charset_block -->
+
 		<div class="mbox sub-row">
 	 		<label class="setting_name">{TEXT_TIMEZONE}:</label>
 			<div class="input" >
@@ -385,8 +384,8 @@
 		</select>
 			</div>
 		</div>
-<!-- BEGIN show_search_block -->
 
+<!-- BEGIN show_search_block -->
 		<div class="mbox sub-row">
 	 		<label class="setting_name">{TEXT_HEADER}:</label>
 			<div class="input" >
@@ -449,6 +448,7 @@
 			</div>
 		</div>
 <!-- END show_search_block -->
+
 		<div class="mbox sub-row">
 			<label class="setting_name">&nbsp;</label>
 			<div style="margin-top: 5px;">
@@ -475,19 +475,6 @@
 			</span>
 		</div>
 
-		<div class="mbox sub-row">
-	 		<label class="setting_name none" id="{BASIC_FILE_PERMS_ID}1">&nbsp;</label>
-			<div class="input none" >
-		<div id="{BASIC_FILE_PERMS_ID}2" style="margin: 0; padding: 0;">
-				<input type="checkbox" name="world_writeable" id="world_writeable" value="true"{WORLD_WRITEABLE_SELECTED} />
-			<label for="world_writeable">
-				{TEXT_WORLD_WRITEABLE_FILE_PERMISSIONS} (777)
-			</label>
-			<span class="warning">({WORLD_WRITEABLE_WARNING})</span>
-		</div>
-		<div id="{BASIC_FILE_PERMS_ID}3" style="margin: 0; padding: 0;"></div>
-			</div>
-		</div>
 		<br class="clear none" />
 		<div class="mbox sub-row">
 	 		<label class="setting_name" id="{ADVANCED_FILE_PERMS_ID}1">{TEXT_FILESYSTEM_PERMISSIONS}:</label>

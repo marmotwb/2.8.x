@@ -13,6 +13,12 @@ Legend:
 
 
 
+01 Oct-2012 Build 1777 Dietmar Woellbrink (Luisehahne)
++ add methode StripCodeFromText in class.wb to clean injection
+! rebranding the admin/settings and security fixes
+! a few new styling in backend wb_theme
+! beginning aa lot of account changes like correction of $_SESSION indexe, security fixes
++ add head.load.min.js and head.min.js to /include/jquery/ to style HTML5 templates
 28 Sep-2012 Build 1776 Dietmar Woellbrink (Luisehahne)
 ! wb theme styling
 28 Sep-2012 Build 1775 Dietmar Woellbrink (Luisehahne)

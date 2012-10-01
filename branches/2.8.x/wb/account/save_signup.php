@@ -16,10 +16,10 @@
  */
 
 /* -------------------------------------------------------- */
-if(defined('WB_PATH') == false)
-{
-	// Stop this file being access directly
-		die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
+// Must include code to stop this file being accessed directly
+if(!defined('WB_PATH')) {
+	require_once(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
 $bDebugSignup = false;
@@ -36,11 +36,11 @@ if (!function_exists('ObfuscateIp')) {
 if (!function_exists('emailAdmin')) {
 	function emailAdmin() {
 		global $database,$admin;
-        $retval = $admin->get_email();
-        if($admin->get_user_id()!='1') {
-			$sql  = 'SELECT `email` FROM `'.TABLE_PREFIX.'users` ';
-			$sql .= 'WHERE `user_id`=\'1\' ';
-	        $retval = $database->get_one($sql);
+        $retval = false;
+		$sql  = 'SELECT `email` FROM `'.TABLE_PREFIX.'users` ';
+		$sql .= 'WHERE `user_id`=\'1\' ';
+        if(!($retval = $database->get_one($sql))){
+            $retval = false;
         }
 		return $retval;
 	}
@@ -67,12 +67,8 @@ if (!function_exists('checkPassWordConfirmCode')) {
 	}
 }
 
-//$_SESSION['username'] = '';
-//$_SESSION['DISPLAY_NAME'] = '';
-//$_SESSION['email'] = '';
-//$_SESSION['display_form'] = true;
-
-if(isset($_POST['action']) && $_POST['action']=='send')
+//if(isset($_POST['action']) && $_POST['action']=='send')
+if($wb->StripCodeFromText($wb->get_post('action'))=='send')
 {
 	$database = WbDatabase::getInstance();
 
@@ -96,26 +92,24 @@ if(isset($_POST['action']) && $_POST['action']=='send')
 		msgQueue::add($database->get_error());
 	}
 
-	$_SESSION['username'] = strtolower(strip_tags($wb->get_post_escaped('login_name')));
-	$_SESSION['DISPLAY_NAME'] = strip_tags($wb->get_post_escaped('display_name'));
-	$_SESSION['email'] = $wb->get_post('email');
-	$_SESSION['language'] = $wb->get_post('language');
-
+	$_SESSION['USERNAME'] = strtolower($wb->StripCodeFromText($wb->get_post('login_name')));
+	$_SESSION['DISPLAY_NAME'] = strip_tags($wb->StripCodeFromText($wb->get_post('display_name')));
+	$_SESSION['EMAIL'] = strip_tags($wb->StripCodeFromText($wb->get_post('email')));
+	$_SESSION['LANGUAGE'] = strip_tags($wb->StripCodeFromText($wb->get_post('language')));
 //	$aErrorMsg = array();
 
-	if($_SESSION['username'] != "")
-	{
+	if($wb->get_session('USERNAME') != "") {
 		// Check if username already exists
-		$sql = 'SELECT `user_id` FROM `'.TABLE_PREFIX.'users` WHERE `username` = \''.$_SESSION['username'].'\'';
+		$sql = 'SELECT `user_id` FROM `'.TABLE_PREFIX.'users` WHERE `username` = \''.$_SESSION['USERNAME'].'\'';
 		if($database->get_one($sql)){
 //			$aErrorMsg[] = $MESSAGE['USERS_USERNAME_TAKEN'];
 			msgQueue::add($MESSAGE['USERS_USERNAME_TAKEN']);
-			$_SESSION['username'] = '';
+			$_SESSION['USERNAME'] = '';
 		} else {
-			if(preg_match('/^[a-z]{1}[a-z0-9_-]{3,}$/i', $_SESSION['username'])==false) {
+			if(preg_match('/^[a-z]{1}[a-z0-9_-]{3,}$/i', $_SESSION['USERNAME'])==false) {
 //				$aErrorMsg[] = $MESSAGE['USERS_NAME_INVALID_CHARS'];
 				msgQueue::add($MESSAGE['USERS_NAME_INVALID_CHARS']);
-				$_SESSION['username'] = '';
+				$_SESSION['USERNAME'] = '';
 		 	}
 		}
 	} else {
@@ -123,51 +117,47 @@ if(isset($_POST['action']) && $_POST['action']=='send')
 		msgQueue::add($MESSAGE['LOGIN_USERNAME_BLANK']);
 	}
 
-	if($_SESSION['DISPLAY_NAME'] == "") {
+	if($wb->get_session('DISPLAY_NAME') != "") {
 //		$aErrorMsg[] = $MESSAGE['GENERIC_FILL_IN_ALL'];
 		msgQueue::add($MESSAGE['GENERIC_FILL_IN_ALL']);
 	}
 
-	if($_SESSION['email'] != "") {
+	if($wb->get_session('EMAIL') != "") {
 		// Check if the email already exists
-		$sql = 'SELECT `user_id` FROM `'.TABLE_PREFIX.'users` WHERE `email` = \''.mysql_escape_string($_SESSION['email']).'\'';
+		$sql = 'SELECT `user_id` FROM `'.TABLE_PREFIX.'users` WHERE `email` = \''.$_SESSION['EMAIL'].'\'';
 		if($database->get_one($sql)){
-//			$aErrorMsg[] = $MESSAGE['USERS_EMAIL_TAKEN'];
 			msgQueue::add($MESSAGE['USERS_EMAIL_TAKEN']);
-			$_SESSION['email'] = '';
+			$_SESSION['EMAIL'] = '';
 		} else {
-			if(!$wb->validate_email($_SESSION['email'])){
-//				$aErrorMsg[] = $MESSAGE['USERS_INVALID_EMAIL'];
+			if(!$wb->validate_email($_SESSION['EMAIL'])){
 				msgQueue::add($MESSAGE['USERS_INVALID_EMAIL']);
-				$_SESSION['email'] = '';
+				$_SESSION['EMAIL'] = '';
 			}
 		}
 	} else {
-//		$aErrorMsg[] = $MESSAGE['SIGNUP_NO_EMAIL'];
 		msgQueue::add($MESSAGE['SIGNUP_NO_EMAIL']);
 	}
 
 	if(CONFIRMED_REGISTRATION) {
 		$iMinPassLength = 6;
 // receive password vars and calculate needed action
-		$sNewPassword = $wb->get_post('new_password_1');
+//		$sNewPassword = $wb->get_post('new_password_1');
+    	$sNewPassword = ($wb->StripCodeFromText($wb->get_post('new_password_1')));
 		$sNewPassword = (is_null($sNewPassword) ? '' : $sNewPassword);
-		$sNewPasswordRetyped = $wb->get_post('new_password_2');
+//		$sNewPasswordRetyped = $wb->get_post('new_password_2');
+    	$sNewPasswordRetyped = ($wb->StripCodeFromText($wb->get_post('new_password_2')));
 		$sNewPasswordRetyped= (is_null($sNewPasswordRetyped) ? '' : $sNewPasswordRetyped);
 // validate new password
 		$sPwHashNew = false;
 		if($sNewPassword != '') {
 			if(strlen($sNewPassword) < $iMinPassLength) {
-//				$err_msg[] = $MESSAGE['USERS_PASSWORD_TOO_SHORT'];
 				msgQueue::add($MESSAGE['USERS_PASSWORD_TOO_SHORT']);
 			} else {
 				if($sNewPassword != $sNewPasswordRetyped) {
-//					$err_msg[] = $MESSAGE['USERS_PASSWORD_MISMATCH'];
 					msgQueue::add($MESSAGE['USERS_PASSWORD_MISMATCH']);
 				} else {
 					$pattern = '/[^'.$admin->password_chars.']/';
 					if (preg_match($pattern, $sNewPassword)) {
-//						$err_msg[] = $MESSAGE['PREFERENCES_INVALID_CHARS'];
 						msgQueue::add($MESSAGE['PREFERENCES_INVALID_CHARS']);
 					}else {
 						$sPwHashNew = md5($sNewPassword);
@@ -181,16 +171,17 @@ if(isset($_POST['action']) && $_POST['action']=='send')
 	} else {
 		// Captcha
 		if(ENABLED_CAPTCHA) {
-			if(isset($_POST['captcha']) AND $_POST['captcha'] != '')
+//			if(isset($_POST['captcha']) AND $_POST['captcha'] != '')
+			if($wb->StripCodeFromText($wb->get_post('captcha')) != '')
 			{
 				// Check for a mismatch get email user_id
 				if(!isset($_POST['captcha']) OR !isset($_SESSION['captcha']) OR $_POST['captcha'] != $_SESSION['captcha']) {
-					$replace = array('SERVER_EMAIL' => emailAdmin() );
+					$replace = array('webmaster_email' => emailAdmin() );
 	//				$aErrorMsg[] = replace_vars($MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'], $replace);
 					msgQueue::add(replace_vars($MESSAGE['INCORRECT_CAPTCHA'], $replace));
 				}
 			} else {
-				$replace = array('SERVER_EMAIL'=>emailAdmin() );
+				$replace = array('webmaster_email'=> emailAdmin() );
 	//			$aErrorMsg[] = replace_vars($MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'],$replace );
 				msgQueue::add(replace_vars($MESSAGE['INCORRECT_CAPTCHA'],$replace ));
 			}
@@ -215,7 +206,7 @@ if(isset($_POST['action']) && $_POST['action']=='send')
 	} else {
 		$get_ip = ObfuscateIp();
 		$get_ts = time();
-		$sLoginName = $_SESSION['username'];
+		$sLoginName = $_SESSION['USERNAME'];
 //		$sDisplayName = $_SESSION['DISPLAY_NAME'];
 		$sDisplayName = $wb->add_slashes($_SESSION['DISPLAY_NAME']);
 		$groups_id = FRONTEND_SIGNUP;
@@ -248,7 +239,7 @@ if(isset($_POST['action']) && $_POST['action']=='send')
 		$sql .= '`confirm_timeout` = \''.$sTimeOut.'\', ';
 		$sql .= '`display_name` = \''.$sDisplayName.'\', ';
 		$sql .= '`email` = \''.$email_to.'\', ';
-		$sql .= '`language` = \''.$_SESSION['language'].'\', ';
+		$sql .= '`language` = \''.$_SESSION['LANGUAGE'].'\', ';
 		$sql .= '`login_when` = \''.$get_ts.'\', ';
 		$sql .= '`login_ip` = \''.$get_ip.'\' ';
 
@@ -257,9 +248,11 @@ if(isset($_POST['action']) && $_POST['action']=='send')
 // cancel and break script
 			$bSaveRegistration = false;
 			$_SESSION['display_form'] = false;
-			unset($_SESSION['username']);
+			unset($_SESSION['USERNAME']);
 			unset($_SESSION['DISPLAY_NAME']);
-			unset($_SESSION['email']);
+			unset($_SESSION['EMAIL']);
+			unset($_SESSION['TIMEZONE']);
+			unset($_SESSION['LANGUAGE']);
 			unset($_POST);
 			if($database->set_error()){
 				msgQueue::add($database->get_error());

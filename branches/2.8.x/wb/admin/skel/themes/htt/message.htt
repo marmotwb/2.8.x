@@ -1,5 +1,5 @@
 <!-- BEGIN main_block -->
-<div id="{ID}" class="mbox curved mbox-icon16{BOX_STATUS} warning rounded" style="background-image: url({THEME_URL}/icons/{STATUS}_16.png)">
+<div id="{ID}" class="mbox mbox-icon16{BOX_STATUS} warning rounded " style="background-image: url({THEME_URL}/icons/{STATUS}_16.png)">
 	<div><!-- class="big"> -->
 		{MESSAGE}
 	</div>
