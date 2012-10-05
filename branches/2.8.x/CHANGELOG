@@ -13,6 +13,8 @@ Legend:
 
 
 
+05 Oct-2012 Build 1778 Dietmar Woellbrink (Luisehahne)
+# fixed empty template variable in admin/start
 01 Oct-2012 Build 1777 Dietmar Woellbrink (Luisehahne)
 + add methode StripCodeFromText in class.wb to clean injection
 ! rebranding the admin/settings and security fixes

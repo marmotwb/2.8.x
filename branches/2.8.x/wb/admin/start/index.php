@@ -58,7 +58,10 @@ if(defined('FINALIZE_SETUP')) {
 }
 // ---------------------------------------
 // check if it is neccessary to start the uograde-script
-$msg = '';
+$msg  = '';
+$msg .= (is_readable(WB_PATH.'/install/')) ?  $MESSAGE['START_INSTALL_DIR_EXISTS'].'<br />' : $msg;
+$msg .= (is_readable(WB_PATH.'/upgrade-script.php')) ?  $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'].'<br />' : '';
+//$msg .= ''.$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'].'<br />';
 
 // ---------------------------------------
 // check if it is neccessary to start the uograde-script
@@ -79,7 +82,6 @@ if(($admin->get_user_id()==1) && file_exists(WB_PATH.'/upgrade-script.php')) {
 		    exit;
 		}
 	}
-	$msg .= ''.$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'].'<br />';
 }
 // ---------------------------------------
 // workout to upgrade the groups system_permissions
@@ -129,6 +131,7 @@ $oTpl->set_var(array(
 					'CURRENT_USER' => $MESSAGE['START_CURRENT_USER'],
 					'DISPLAY_NAME' => $admin->get_display_name(),
                     'DISPLAY_WARNING' => '',
+                    'WARNING' => '',
 					'ADMIN_URL' => ADMIN_URL,
 					'WB_URL' => WB_URL,
 					'THEME_URL' => THEME_URL,
@@ -136,7 +139,6 @@ $oTpl->set_var(array(
 					'NO_CONTENT' => ''
 				)
 			);
-
 
 // Insert permission values into the template object
 $oTpl->set_block('main_block', 'show_pages_block', 'show_pages');
@@ -195,13 +197,6 @@ if($admin->get_permission('preferences') != true)
 	$oTpl->parse('show_preferences', 'show_preferences_block', true);
 }
 
-$oTpl->set_block('main_block', 'show_install_block', 'show_install');
-if($admin->ami_group_member('1') != true)
-{
-	$oTpl->set_block('show_install', '');
-} else {
-	$oTpl->parse('show_install', 'show_install_block', true);
-}
 
 /*
 if($admin->get_permission('pages') != true)
@@ -230,19 +225,27 @@ if($admin->get_permission('admintools') != true)
 }
 */
 
-$msg .= (file_exists(WB_PATH.'/install/')) ?  $MESSAGE['START_INSTALL_DIR_EXISTS'] : '';
 
-// Check if installation directory still exists
-if(file_exists(WB_PATH.'/install/') || file_exists(WB_PATH.'/upgrade-script.php') ) {
-	// Check if user is part of Adminstrators group
-	if($admin->get_user_id()==1)
-    {
-		$oTpl->set_var('WARNING', $msg );
-	} else {
-		$oTpl->set_var('DISPLAY_WARNING', 'display:none;');
-	}
+$oTpl->set_block('main_block', 'show_install_block', 'show_install');
+if($admin->get_user_id() != 1)
+{
+	$oTpl->parse('show_install', '');
 } else {
-	$oTpl->set_var('DISPLAY_WARNING', 'display:none;');
+
+    // Check if installation directory still exists
+    if(file_exists(WB_PATH.'/install/') || file_exists(WB_PATH.'/upgrade-script.php') ) {
+    	// Check if user is part of Adminstrators group
+    	if($admin->get_user_id()==1)
+        {
+    		$oTpl->set_var('WARNING', $msg );
+    	} else {
+    		$oTpl->set_var('DISPLAY_WARNING', 'display:none;');
+    	}
+    } else {
+    	$oTpl->set_var('DISPLAY_WARNING', 'display:none;');
+    }
+
+	$oTpl->parse('show_install', 'show_install_block', true);
 }
 
 // Insert "Add-ons" section overview (pretty complex compared to normal)
