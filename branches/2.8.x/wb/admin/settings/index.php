@@ -406,7 +406,7 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
 	} else {
     	$oTpl->set_var(array(
 				'PRIVATE_DISABLED' => $checked,
-				'INTRO_PAGE_ENABLED' => '',
+				'PRIVATE_ENABLED' => '',
 				));
 	}
 
