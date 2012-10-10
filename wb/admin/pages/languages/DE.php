@@ -50,7 +50,7 @@ $TEXT['SECTION_GENERAL']      = 'Allgemein';
 $TEXT['SECTION_ORGANISATION'] = 'Organisation';
 $TEXT['SECTION_CONTENT']      = 'Inhalt';
 $TEXT['SECTION_SECURITY']     = 'Sicherheit';
-$TEXT['SEO_TITLE']            = 'Seo Titel';
+$TEXT['SEO_TITLE']            = 'Dateiname';
 $TEXT['PAGE_ICON']            = 'Seitenbild';
 $TEXT['PAGE_ICON_DIR']        = 'Verzeichnis Seitenbilder';
 $TEXT['MENU_ICON_0']          = 'Menübild normal';
@@ -58,7 +58,7 @@ $TEXT['MENU_ICON_0_DIR']      = 'Verzeichnis Menübild normal';
 $TEXT['MENU_ICON_1']          = 'Menübild hover';
 $TEXT['MENU_ICON_1_DIR']      = 'Verzeichnis Menübild hover';
 $MESSAGE['PAGES_LAST_MODIFIED'] = 'Letze Änderung durch';
-$MESSAGE['PAGES_BLANK_SEO_TITLE'] = 'Bitte geben Sie einen Seo Titel ein';
+$MESSAGE['PAGES_BLANK_SEO_TITLE'] = 'Bitte geben Sie einen Dateinameen ein';
 
 $HELP['PAGE_IMAGE_DIR']  = '<p>Der aktuelle Seitenbildpfad ist<br /> <b>{{icon_dir}}</b>.</p>';
 $HELP['PAGE_IMAGE_DIR'] .='<p>Als Systemadministrator können Sie das Verzeichnis für Seiten-/Menuebilder unter <i>Optionen</i> <i>Erweiterte Optionen</i> in <i>Servereinstellung</i> ändern.</p>';
@@ -73,3 +73,8 @@ $HELP['PAGE_CODE'] .= '<p>Sie können jederzeit den Standard Seitensprachbaum du
 $HELP['PAGE_CODE'] .= '<p>Wenn sie eine Seite in einer anderen Sprache angelegt haben, bestätigen Sie aus dieser Liste den dazugehörigen Eintrag der Standardsprache.</p>';
 $HELP['PAGE_CODE'] .= '<p>Beispiel:<br />Erstellte Seite im Zweig EN: <b>Imprint</b> zuweisen an Standardsprache DE: <b>Impressum</b></p>';
 
+$HELP['SEO_TITLE']  = '<p>Verzeichnis und Dateiname dieser Zugriffsdatei <br /> <b>{{filename}}</b></p>';
+$HELP['SEO_TITLE'] .= '<p>In der WebsiteBaker Version 2.8.4 haben Sie die Möglichkeit, unabhängig vom Menutitel eine Seo freundliche Zugriffsdatei anzulegen.</p>';
+$HELP['SEO_TITLE'] .= '<p><b>Beispiel:</b><br /><br />Eingabe Menütitel: <b>Pressemitteilung</b><br />';
+$HELP['SEO_TITLE'] .= 'Eingabe Dateiname: <b>Pressemitteilung und Downloads</b><br />';
+$HELP['SEO_TITLE'] .= 'Erstellt Zugriffsdatei: <b>pressemitteilungen-und-downloads.php</b></p>';

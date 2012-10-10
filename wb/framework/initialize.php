@@ -142,9 +142,13 @@ if(!defined('WB_URL')) { throw new IllegalFileException(); }
 	if(defined('ENABLED_ASP') && ENABLED_ASP && !isset($_SESSION['session_started']))
 		$_SESSION['session_started'] = time();
 
+
+
 	// Get users language
-	if(isset($_GET['lang']) AND $_GET['lang'] != '' AND !is_numeric($_GET['lang']) AND strlen($_GET['lang']) == 2) {
-		define('LANGUAGE', strtoupper($_GET['lang']));
+	$requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
+	$language = (intval(isset(${$requestMethod}['lang'])) ? ${$requestMethod}['lang'] : null);
+	if(isset($language) AND $language != '' AND !is_numeric($language) AND strlen($language) == 2) {
+		define('LANGUAGE', strtoupper($language));
 		$_SESSION['LANGUAGE']=LANGUAGE;
 	} else {
 		if(isset($_SESSION['LANGUAGE']) AND $_SESSION['LANGUAGE'] != '') {

@@ -25,7 +25,7 @@ $admin = new admin('Pages', 'pages_settings');
 	{
 		global $admin, $database, $oTpl, $aCurrentPage, $field_set;
 		$sDisabled = ' disabled="disabled"';
-		$sSelected  = ' selected="selected"';
+		$sSelected = ' selected="selected"';
 
 		$sql = 'SELECT `page_id`, `level`, `link`, `parent`, `menu_title`, `page_title`, '
 		     .        '`language`, `admin_groups`, `admin_users`, `visibility`, '
@@ -82,8 +82,8 @@ $admin = new admin('Pages', 'pages_settings');
 	$mLang = ModLanguage::getInstance();
 	$mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
 	$sDisabled = ' disabled="disabled"';
-	$sSelected  = ' selected="selected"';
-	$sChecked   = ' checked="checked"';
+	$sSelected = ' selected="selected"';
+	$sChecked  = ' checked="checked"';
 
 // Get page id
 	$page_id = $_GET['page_id'] ? intval($_GET['page_id']) : 0;
@@ -196,11 +196,17 @@ $admin = new admin('Pages', 'pages_settings');
 //	$oTpl->set_var('ICON_DIR', WB_REL.$sIconDir);
 	$sHelp = replaceVars($mLang->HELP_PAGE_IMAGE_DIR, array('icon_dir'=>WB_REL.$sIconDir ) );
 
+	$sql = 'SELECT `link` FROM `'.TABLE_PREFIX.'pages` '
+	     . 'WHERE `page_id`='.$page_id.' ';
+	$sAccesFile = (($database->get_one($sql)));
+	$sFilename = replaceVars($mLang->HELP_SEO_TITLE, array('filename'=>PAGES_DIRECTORY.$sAccesFile.PAGE_EXTENSION ) );
+
 	$oTpl->set_var('PAGE_EXTENDED_HIDE',  $bIconDirHide);
 	$oTpl->set_var('p_page_icon_dir',  p($sHelp,$mLang->TEXT_PAGE_ICON_DIR));
 	$oTpl->set_var('p_menu_icon0_dir', p($sHelp,$mLang->TEXT_MENU_ICON_0_DIR));
 	$oTpl->set_var('p_menu_icon1_dir', p($sHelp,$mLang->TEXT_MENU_ICON_1_DIR));
 	$oTpl->set_var('p_menu_page_code', p($mLang->HELP_PAGE_CODE,$mLang->TEXT_PAGE_CODE));
+	$oTpl->set_var('p_menu_filename', p($sFilename,$mLang->TEXT_SEO_TITLE));
 
 	if(is_readable(WB_PATH.$sIconDir)) {
 		$oIterator = new DirectoryIterator(WB_PATH.$sIconDir);
@@ -596,7 +602,7 @@ $admin = new admin('Pages', 'pages_settings');
 function p($text,$lang)
 {
 	global $admin;
-	$retVal  = 'onmouseover="return overlib(';
+	$retVal  = 'onclick="return overlib(';
 	$retVal .= '\''.$text.'\',';
 	$retVal .= 'CAPTION,\''.$lang.'\',';
 	$retVal .= 'FGCOLOR,\'#ffffff\',';
