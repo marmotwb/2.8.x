@@ -161,7 +161,8 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 	if($query_fields = $database->query($sql)) {
 		if($query_fields->numRows() > 0) {
 ?>
-			<form <?php echo ( ( (strlen($form_name) > 0) AND (false == $use_xhtml_strict) ) ? "name=\"".$form_name."\"" : ""); ?> action="<?php echo htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'';?>" method="post">
+			<form <?php echo ( ( (strlen($form_name) > 0) AND (false == $use_xhtml_strict) ) ? "id=\"".$form_name.$section_id."\"" : ""); ?> action="<?php echo htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'';?>" method="post">
+            <fieldset>
 				<input type="hidden" name="submission_id" value="<?php echo $_SESSION['form_submission_id']; ?>" />
 				<?php
 				$iFormRequestId = isset($_GET['fri']) ? intval($_GET['fri']) : 0;
@@ -268,6 +269,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 		echo $out;
 // Add form end code
 ?>
+        </fieldset>
 </form>
 <?php
 		}

@@ -13,6 +13,9 @@ Legend:
 
 
 
+10 Oct-2012 Build 1781 Dietmar Woellbrink (Luisehahne)
+! fixed form modul (Tks to Ruebenwurzel)
+! Send forgotten Theme CSS in Revision 1780
 10 Oct-2012 Build 1780 Dietmar Woellbrink (Luisehahne)
 ! change help mouseover to onclick in page settings only on help icon
 + add help to input filename
