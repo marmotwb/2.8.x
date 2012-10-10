@@ -50,7 +50,7 @@ $TEXT['SECTION_GENERAL']      = 'General';
 $TEXT['SECTION_ORGANISATION'] = 'Organisation';
 $TEXT['SECTION_CONTENT']      = 'Content';
 $TEXT['SECTION_SECURITY']     = 'Security';
-$TEXT['SEO_TITLE']            = 'Seo Title';
+$TEXT['SEO_TITLE']            = 'Filename';
 $TEXT['PAGE_ICON']            = 'Page image';
 $TEXT['PAGE_ICON_DIR']        = 'Folder Page image';
 $TEXT['MENU_ICON_0']          = 'Menu image normal';
@@ -59,7 +59,7 @@ $TEXT['MENU_ICON_1']          = 'Menu image hover';
 $TEXT['MENU_ICON_1_DIR']      = 'Folder Menu image hover';
 
 $MESSAGE['PAGES_LAST_MODIFIED'] = 'Last modification by';
-$MESSAGE['PAGES_BLANK_SEO_TITLE'] = 'Please enter a Seo Title';
+$MESSAGE['PAGES_BLANK_SEO_TITLE'] = 'Please enter a Filename';
 
 
 $HELP['PAGE_IMAGE_DIR']  = '<p>The topical side picture path is<br /> <b>{{icon_dir}}</b>.</p>';
@@ -74,3 +74,9 @@ $HELP['PAGE_CODE'] .= '<p>The side linguistic tree is provided from the provided
 $HELP['PAGE_CODE'] .= '<p>They can update any time the side linguistic tree by click on the title! The assigned sides remain unchanged.</p>';
 $HELP['PAGE_CODE'] .= '<p>If you have put a side into another language, confirm from this list the matching entry of the standard language</p>';
 $HELP['PAGE_CODE'] .= '<p>Example:<br />Created page in sub DE: <b>Impressum</b> choose Default Language EN: <b>Imprint</b></p>';
+
+$HELP['SEO_TITLE']  = '<p>Folder and Filename for this Accessfile <br /> <b>{{filename}}</b></p>';
+$HELP['SEO_TITLE'] .= '<p>In WebsiteBaker version 2.8.4 you have the possibility to create a Seo friendly Accessfile independent of Menutitle..</p>';
+$HELP['SEO_TITLE'] .= '<p><b>For Example:</b><br /><br />Input Menu Title: <b>Pressemitteilung</b><br />';
+$HELP['SEO_TITLE'] .= 'Input Filename: <b>Pressemitteilung and Downloads</b><br />';
+$HELP['SEO_TITLE'] .= 'Create Accessfile: <b>pressemitteilungen-and-downloads.php</b></p>';

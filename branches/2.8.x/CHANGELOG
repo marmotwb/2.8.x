@@ -13,9 +13,13 @@ Legend:
 
 
 
+10 Oct-2012 Build 1780 Dietmar Woellbrink (Luisehahne)
+! change help mouseover to onclick in page settings only on help icon
++ add help to input filename
+! /framework/initialize.php now accept _GET and _POST to set user language
 09 Oct-2012 Build 1779 Dietmar Woellbrink (Luisehahne)
 # fixed wrong variable in admin/settings/index.php line 409
-! coreecting url to WB help in readme files module showmenu2
+! correcting url to WB help in readme files module showmenu2
 05 Oct-2012 Build 1778 Dietmar Woellbrink (Luisehahne)
 # fixed empty template variable in admin/start
 01 Oct-2012 Build 1777 Dietmar Woellbrink (Luisehahne)
