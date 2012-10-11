@@ -17,7 +17,7 @@
 
 // Include config file
 $config_file = dirname(__FILE__).'/config.php';
-if(file_exists($config_file))
+if(file_exists($config_file) && !defined('WB_URL'))
 {
 	require_once($config_file);
 }
@@ -40,9 +40,14 @@ if(!defined('TABLE_PREFIX'))
 	exit;	// make sure that subsequent code will not be executed
 }
 
-require_once(WB_PATH.'/framework/class.frontend.php');
+//require_once(WB_PATH.'/framework/class.frontend.php');
+
+if(!class_exists('frontend', false)){ include(WB_PATH.'/framework/class.frontend.php'); }
+
 // Create new frontend object
-$wb = new frontend();
+if (!isset($wb)) {
+    $wb = new frontend();
+}
 
 // Figure out which page to display
 // Stop processing if intro page was shown

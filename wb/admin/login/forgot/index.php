@@ -3,7 +3,7 @@
  *
  * @category        admin
  * @package         login
- * @author          Ryan Djurovich, WebsiteBaker Project
+ * @author          Ryan Djurovich (2004-2009), WebsiteBaker Project
  * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -21,8 +21,11 @@ if(!defined('WB_URL') && file_exists(realpath('../../../config.php'))) {
 }
 // Include the language file
 require(WB_PATH.'/languages/'.DEFAULT_LANGUAGE.'.php');
+
 // Include the database class file and initiate an object
-require(WB_PATH.'/framework/class.admin.php');
+//if(!class_exists('frontend', false)){ require_once(WB_PATH.'/framework/class.frontend.php'); }
+//$admin = new frontend();
+if(!class_exists('admin', false)){ require_once(WB_PATH.'/framework/class.admin.php'); }
 $admin = new admin('Start', 'start', false, false);
 
 // Get the website title
@@ -50,7 +53,7 @@ if(isset($_POST['email']) AND $_POST['email'] != "") {
 		if($time_diff < 2) {
 
 			// Tell the user that their password cannot be reset more than once per hour
-			$message = $MESSAGE['FORGOT_PASS']['ALREADY_RESET'];
+			$message = $MESSAGE['FORGOT_PASS_ALREADY_RESET'];
 
 		} else {
 
@@ -76,20 +79,20 @@ if(isset($_POST['email']) AND $_POST['email'] != "") {
 			} else {
 				// Setup email to send
 				$mail_to = $email;
-				$mail_subject = $MESSAGE['SIGNUP2']['SUBJECT_LOGIN_INFO'];
+				$mail_subject = $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'];
 
 				// Replace placeholders from language variable with values
 				$search = array('{LOGIN_DISPLAY_NAME}', '{LOGIN_WEBSITE_TITLE}', '{LOGIN_NAME}', '{LOGIN_PASSWORD}');
 				$replace = array($results_array['display_name'], WEBSITE_TITLE, $results_array['username'], $new_pass);
-				$mail_message = str_replace($search, $replace, $MESSAGE['SIGNUP2']['BODY_LOGIN_FORGOT']);
+				$mail_message = str_replace($search, $replace, $MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT']);
 
 				// Try sending the email
 				if($admin->mail(SERVER_EMAIL,$mail_to,$mail_subject,$mail_message)) {
-					$message = $MESSAGE['FORGOT_PASS']['PASSWORD_RESET'];
+					$message = $MESSAGE['FORGOT_PASS_PASSWORD_RESET'];
 					$display_form = false;
 				} else {
 					$database->query("UPDATE ".TABLE_PREFIX."users SET password = '".$old_pass."' WHERE user_id = '".$results_array['user_id']."'");
-					$message = $MESSAGE['FORGOT_PASS']['CANNOT_EMAIL'];
+					$message = $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'];
 				}
 			}
 
@@ -97,7 +100,7 @@ if(isset($_POST['email']) AND $_POST['email'] != "") {
 
 	} else {
 		// Email doesn't exist, so tell the user
-		$message = $MESSAGE['FORGOT_PASS']['EMAIL_NOT_FOUND'];
+		$message = $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'];
 		// and delete the wrong Email
 		$email = '';
 	}
@@ -107,7 +110,7 @@ if(isset($_POST['email']) AND $_POST['email'] != "") {
 }
 
 if(!isset($message)) {
-	$message = $MESSAGE['FORGOT_PASS']['NO_DATA'];
+	$message = $MESSAGE['FORGOT_PASS_NO_DATA'];
 	$message_color = '000000';
 } else {
 	$message_color = 'FF0000';

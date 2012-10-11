@@ -52,7 +52,7 @@ function save_preferences( &$admin, &$database)
 	$date_format = (array_key_exists($date_format_key, $DATE_FORMATS) ? $date_format : 'system_default');
 	$date_format = ($date_format == 'system_default' ? '' : $date_format);
 	unset($DATE_FORMATS);
-// time_format must be a key from /interface/time_formats	
+// time_format must be a key from /interface/time_formats
 	$time_format      = $admin->get_post('time_format');
 	$time_format_key  = str_replace(' ', '|', $time_format);
 	$user_time = true;

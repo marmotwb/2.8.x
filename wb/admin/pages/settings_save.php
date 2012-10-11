@@ -75,9 +75,9 @@ if (!in_array($visibility, array('public', 'private', 'registered', 'hidden', 'n
 $template = preg_replace('/[^a-z0-9_-]/i', "", $admin->get_post('template')); // fix secunia 2010-93-3
 $template = (($template == DEFAULT_TEMPLATE ) ? '' : $template);
 $target = preg_replace("/\W/", "", $admin->get_post('target'));
-$aAdminGroups   = (isset($_POST['admin_groups']) ? $_POST['admin_groups'] : array(1));
+$aAdminGroups   = (isset($_POST['admin_groups']) ? $_POST['admin_groups'] : array('1'));
 $aAdminUsers    = (isset($_POST['admin_users']) ? $_POST['admin_users'] : array());
-$aViewingGroups = (isset($_POST['viewing_groups']) ? $_POST['viewing_groups'] : array(1));
+$aViewingGroups = (isset($_POST['viewing_groups']) ? $_POST['viewing_groups'] : array('1'));
 $aViewingUsers  = (isset($_POST['viewing_users']) ? $_POST['viewing_users'] : array());
 $searching = intval($admin->get_post('searching'));
 $language = strtoupper($admin->get_post('language'));

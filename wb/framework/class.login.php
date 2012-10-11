@@ -3,8 +3,8 @@
  *
  * @category        framework
  * @package         backend login
- * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2012, Website Baker Org. e.V.
+ * @author          Ryan Djurovich (2004-2009), WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -24,7 +24,7 @@ if(!defined('WB_PATH')) {
 define('LOGIN_CLASS_LOADED', true);
 
 // Load the other required class files if they are not already loaded
-require_once(WB_PATH."/framework/class.admin.php");
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 // Get WB version
 require_once(ADMIN_PATH.'/interface/version.php');
 
@@ -140,7 +140,7 @@ class login extends admin {
 		$sql  = 'SELECT * FROM `'.$this->users_table.'` ';
 		$sql .= 'WHERE `username`=\''.$loginname.'\' AND `password`=\''.$this->password.'\' AND `active`=1';
 		$results = $database->query($sql);
-		$results_array = $results->fetchRow();
+		$results_array = $results->fetchRow(MYSQL_ASSOC);
 		$num_rows = $results->numRows();
 		if($num_rows == 1) {
 			$user_id = $results_array['user_id'];
@@ -188,6 +188,8 @@ class login extends admin {
 			$_SESSION['TEMPLATE_PERMISSIONS'] = array();
 			$_SESSION['GROUP_NAME'] = array();
 
+
+
 			$first_group = true;
 			foreach (explode(",", $this->get_session('GROUPS_ID')) as $cur_group_id)
             {
@@ -196,27 +198,32 @@ class login extends admin {
 				$results_array = $results->fetchRow();
 				$_SESSION['GROUP_NAME'][$cur_group_id] = $results_array['name'];
 				// Set system permissions
-				if($results_array['system_permissions'] != '') {
+				if( $results_array['system_permissions'] != '' ) {
 					$_SESSION['SYSTEM_PERMISSIONS'] = array_merge($_SESSION['SYSTEM_PERMISSIONS'], explode(',', $results_array['system_permissions']));
 				}
 				// Set module permissions
-				if($results_array['module_permissions'] != '') {
+				if( $results_array['module_permissions'] != '' ) {
 					if ($first_group) {
-          	$_SESSION['MODULE_PERMISSIONS'] = explode(',', $results_array['module_permissions']);
-          } else {
-          	$_SESSION['MODULE_PERMISSIONS'] = array_intersect($_SESSION['MODULE_PERMISSIONS'], explode(',', $results_array['module_permissions']));
+                  	$_SESSION['MODULE_PERMISSIONS'] = explode(',', $results_array['module_permissions']);
+                  } else {
+                  	$_SESSION['MODULE_PERMISSIONS'] = array_intersect($_SESSION['MODULE_PERMISSIONS'], explode(',', $results_array['module_permissions']));
 					}
 				}
 				// Set template permissions
 				if($results_array['template_permissions'] != '') {
 					if ($first_group) {
-          	$_SESSION['TEMPLATE_PERMISSIONS'] = explode(',', $results_array['template_permissions']);
-          } else {
-          	$_SESSION['TEMPLATE_PERMISSIONS'] = array_intersect($_SESSION['TEMPLATE_PERMISSIONS'], explode(',', $results_array['template_permissions']));
+                      	$_SESSION['TEMPLATE_PERMISSIONS'] = explode(',', $results_array['template_permissions']);
+                      } else {
+                      	$_SESSION['TEMPLATE_PERMISSIONS'] = array_intersect($_SESSION['TEMPLATE_PERMISSIONS'], explode(',', $results_array['template_permissions']));
 					}
 				}
 				$first_group = false;
 			}
+
+            if( $this->ami_group_member('1')) {
+    			$_SESSION['MODULE_PERMISSIONS'] = array();
+    			$_SESSION['TEMPLATE_PERMISSIONS'] = array();
+            }
 
 			// Update the users table with current ip and timestamp
 			$get_ts = time();

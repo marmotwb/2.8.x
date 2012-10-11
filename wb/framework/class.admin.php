@@ -1,9 +1,9 @@
 <?php
 /**
  *
- * @category        framewotk
- * @package         backend admin
- * @author          Ryan Djurovich, WebsiteBaker Project
+ * @category        backend
+ * @package         framework
+ * @author          Ryan Djurovich (2004-2009), WebsiteBaker Project
  * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -28,7 +28,7 @@ require_once(ADMIN_PATH.'/interface/version.php');
 
 // Include EditArea wrapper functions
 // require_once(WB_PATH . '/include/editarea/wb_wrapper_edit_area.php');
-//require_once(WB_PATH . '/framework/SecureForm.php');
+// require_once(WB_PATH . '/framework/SecureForm.php');
 
 
 /**
@@ -53,60 +53,67 @@ class admin extends wb {
 	public function __construct($section_name= '##skip##', $section_permission = 'start', $auto_header = true, $auto_auth = true)
 	{
 		parent::__construct(SecureForm::BACKEND);
-	if( $section_name != '##skip##' )
-	{
-		global $database, $MESSAGE;
-		// Specify the current applications name
-		$this->section_name = $section_name;
-		$this->section_permission = $section_permission;
-		// Authenticate the user for this application
-		if($auto_auth == true)
-		{
-			// First check if the user is logged-in
-			if($this->is_authenticated() == false)
+    	if( $section_name != '##skip##' )
+    	{
+    		global $database, $MESSAGE;
+    		// Specify the current applications name
+    		$this->section_name = $section_name;
+    		$this->section_permission = $section_permission;
+    		$maintance = ( defined('SYSTEM_LOCKED') && (SYSTEM_LOCKED==true) ? true : false );
+    		// Authenticate the user for this application
+    		if( ($auto_auth == true) )
+    		{
+    			// First check if the user is logged-in
+    			if($this->is_authenticated() == false)
+    			{
+    				header('Location: '.ADMIN_URL.'/login/index.php');
+    				exit(0);
+    			}
+    			// Now check if they are allowed in this section
+    			if($this->get_permission($section_permission) == false) {
+    				die($MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES']);
+    			}
+    		}
+
+			if( ($maintance==true) || $this->get_session('USER_ID')!= 1 )
 			{
-				header('Location: '.ADMIN_URL.'/login/index.php');
-				exit(0);
-			}
+           	//  check for show maintenance screen and terminate if needed
+        		$this->ShowMaintainScreen('locked');
+            }
 
-			// Now check if they are allowed in this section
-			if($this->get_permission($section_permission) == false) {
-				die($MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES']);
-			}
-		}
+    		// Check if the backend language is also the selected language. If not, send headers again.
+    		$sql  = 'SELECT `language` FROM `'.TABLE_PREFIX.'users` ';
+    		$sql .= 'WHERE `user_id`='.(int)$this->get_user_id();
+    		$get_user_language = @$database->query($sql);
+    		$user_language = ($get_user_language) ? $get_user_language->fetchRow() : '';
+    		// prevent infinite loop if language file is not XX.php (e.g. DE_du.php)
+    		$user_language = substr($user_language[0],0,2);
+    		// obtain the admin folder (e.g. /admin)
+    		$admin_folder = str_replace(WB_PATH, '', ADMIN_PATH);
 
-		// Check if the backend language is also the selected language. If not, send headers again.
-		$sql  = 'SELECT `language` FROM `'.TABLE_PREFIX.'users` ';
-		$sql .= 'WHERE `user_id`='.(int)$this->get_user_id();
-		$get_user_language = @$database->query($sql);
-		$user_language = ($get_user_language) ? $get_user_language->fetchRow() : '';
-		// prevent infinite loop if language file is not XX.php (e.g. DE_du.php)
-		$user_language = substr($user_language[0],0,2);
-		// obtain the admin folder (e.g. /admin)
-		$admin_folder = str_replace(WB_PATH, '', ADMIN_PATH);
-		if((LANGUAGE != $user_language) && file_exists(WB_PATH .'/languages/' .$user_language .'.php')
-			&& strpos($_SERVER['PHP_SELF'],$admin_folder.'/') !== false) {
-			// check if page_id is set
-			$page_id_url = (isset($_GET['page_id'])) ? '&page_id=' .(int) $_GET['page_id'] : '';
-			$section_id_url = (isset($_GET['section_id'])) ? '&section_id=' .(int) $_GET['section_id'] : '';
-			if(isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] != '') { // check if there is an query-string
-				header('Location: '.$_SERVER['PHP_SELF'] .'?lang='.$user_language .$page_id_url .$section_id_url.'&'.$_SERVER['QUERY_STRING']);
-			} else {
-				header('Location: '.$_SERVER['PHP_SELF'] .'?lang='.$user_language .$page_id_url .$section_id_url);
-			}
-			exit();
-		}
+    		if( (LANGUAGE != $user_language) && file_exists(WB_PATH .'/languages/' .$user_language .'.php')
+    			&& strpos($_SERVER['SCRIPT_NAME'],$admin_folder.'/') !== false) {
+    			// check if page_id is set
+    			$page_id_url = (isset($_GET['page_id'])) ? '&page_id=' .(int) $_GET['page_id'] : '';
+    			$section_id_url = (isset($_GET['section_id'])) ? '&section_id=' .(int) $_GET['section_id'] : '';
+    			 //  check if there is an query-string
+    			if(isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] != '') {
+    				header('Location: '.$_SERVER['SCRIPT_NAME'] .'?lang='.$user_language .$page_id_url .$section_id_url.'&'.$_SERVER['QUERY_STRING']);
+    			} else {
+    				header('Location: '.$_SERVER['SCRIPT_NAME'] .'?lang='.$user_language .$page_id_url .$section_id_url);
+    			}
+    			exit();
+    		}
 
-		// Auto header code
-		if($auto_header == true) {
-			$this->print_header();
-		}
-	}
+    		// Auto header code
+    		if($auto_header == true) {
+    			$this->print_header();
+    		}
+    	}
 	}
 
 	// Print the admin header
 	/**
-	 * admin::print_header()
 	 *
 	 * @param string $body_tags
 	 * @return void
@@ -143,6 +150,8 @@ class admin extends wb {
 			$row = @$result->fetchRow();
 			if($row) $view_url .= PAGES_DIRECTORY .$row['link']. PAGE_EXTENSION;
 		}
+
+        $HelpUrl = ((strtolower(LANGUAGE)!='de') ? '/en/help.php' : '/de/hilfe.php');
 		$sServerAdress = isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : '127.0.0.1';
 		$header_template->set_var(	array(
 							'SECTION_FORGOT' => $MENU['FORGOT'],
@@ -166,7 +175,7 @@ class admin extends wb {
 							'START_CLASS' => 'start',
 							'TITLE_START' => $TEXT['READ_MORE'],
 							'TITLE_VIEW' => $TEXT['WEBSITE'],
-							'TITLE_HELP' => $MENU['HELP'],
+							'TITLE_HELP' => 'WebsiteBaker '.$MENU['HELP'],
 							'URL_VIEW' => $view_url,
 							'TITLE_LOGOUT' => $MENU['LOGIN'],
 							'LOGIN_DISPLAY_HIDDEN' => !$this->is_authenticated() ? 'hidden' : '',
@@ -174,17 +183,30 @@ class admin extends wb {
 							'LOGIN_LINK' => $_SERVER['SCRIPT_NAME'],
 							'LOGIN_ICON' => 'login',
 							'START_ICON' => 'blank',
-							'URL_HELP' => 'http://www.websitebaker.org/',
+							'URL_HELP' => 'http://www.websitebaker2.org'.$HelpUrl,
 							'BACKEND_MODULE_CSS' => $this->register_backend_modfiles('css'),	// adds backend.css
 							'BACKEND_MODULE_JS'  => $this->register_backend_modfiles('js')		// adds backend.js
 						)
 					);
+		$header_template->set_block('header_block', 'maintenance_block', 'maintenance');
+		if($this->get_user_id() == 1)
+		{
+			$sys_locked = (((int)(defined('SYSTEM_LOCKED') ? SYSTEM_LOCKED : 0)) == 1);
+			$header_template->set_var('MAINTENANCE_MODE', ($sys_locked ? $TEXT['MAINTENANCE_OFF'] : $TEXT['MAINTENANCE_ON']));
+			$header_template->set_var('MAINTENANCE_ICON', THEME_URL.'/images/'.($sys_locked ? 'lock' : 'unlock').'.png');
+			$header_template->set_var('MAINTAINANCE_URL', ADMIN_URL.'/settings/locking.php');
+			$header_template->parse('maintenance', 'maintenance_block', true);
+		}else
+		{
+			$header_template->set_block('maintenance_block', '');
+		}
 
 		// Create the menu
+        $UrlLang = ((strtolower(LANGUAGE)!='de') ? 'en' : strtolower(LANGUAGE));
 		if(!$this->is_authenticated())
 		{
-		$header_template->set_var('STYLE', 'login');
-		$menu = array(
+    		$header_template->set_var('STYLE', 'login');
+    		$menu = array(
 //						array('http://www.websitebaker.org/', '_blank', 'WebsiteBaker Home', 'help', 0),
 //						array($view_url, '_blank', $TEXT['FRONTEND'], '', 0),
 //						array(ADMIN_URL.'/login/index.php', '', $MENU['LOGIN'], '', 0)
@@ -201,7 +223,8 @@ class admin extends wb {
 						'TITLE_START' => $MENU['START']
 						)
 					);
-			// @array ( $url, $target, $title, $page_permission, $ppermission_required )
+
+			// @array ( $url, $target, $title, $page_permission, $permission_required )
 			$menu = array(
 //					array(ADMIN_URL.'/index.php', '', $MENU['START'], 'start', 1 ),
 					array(ADMIN_URL.'/pages/index.php', '', $MENU['PAGES'], 'pages', 1),
@@ -212,9 +235,10 @@ class admin extends wb {
 					array(ADMIN_URL.'/settings/index.php', '', $MENU['SETTINGS'], 'settings', 1),
 					array(ADMIN_URL.'/admintools/index.php', '', $MENU['ADMINTOOLS'], 'admintools', 1),
 					array(ADMIN_URL.'/access/index.php', '', $MENU['ACCESS'], 'access', 1),
+//					array('http://addons.websitebaker2.org/', '', 'WB-Addons', 'preferences', 1),
+//					array('http://template.websitebaker2.org/', '', 'WB-Template', 'preferences', 1),
 //					array('http://www.websitebaker.org/', '_blank', 'WebsiteBaker Home', '', 0),
 //					array(ADMIN_URL.'/logout/index.php', '', $MENU['LOGOUT'], '', 0)
-
 					);
 		}
 
