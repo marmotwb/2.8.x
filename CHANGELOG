@@ -13,6 +13,8 @@ Legend:
 
 
 
+12 Oct-2012 Build 1784 Dietmar Woellbrink (Luisehahne)
+# fixed security warning if a group will be deleted
 11 Oct-2012 Build 1783 Dietmar Woellbrink (Luisehahne)
 # fixed maintenance frontend
 11 Oct-2012 Build 1782 Dietmar Woellbrink (Luisehahne)

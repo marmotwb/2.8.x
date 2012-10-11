@@ -43,7 +43,7 @@
 
 		switch($submit_action) :
 			case 'delete': // delete the group
-				$admin = new admin('Access', 'groups_delete');
+				$admin = new admin('Access', 'groups_delete', false);
 				// $group_id = $admin->checkIDKEY($_POST['group_id']);
 				msgQueue::clear();
 				include($mod_path.'/delete.inc.php');

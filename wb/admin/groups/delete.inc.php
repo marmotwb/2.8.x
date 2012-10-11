@@ -81,4 +81,6 @@ if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
 		} else {
 			msgQueue :: add($MESSAGE['GENERIC_SECURITY_OFFENSE']);
 		}
-	}
+		$admin->print_header();
+		return ;
+    }
