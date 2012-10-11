@@ -75,8 +75,8 @@ $HELP['PAGE_CODE'] .= '<p>They can update any time the side linguistic tree by c
 $HELP['PAGE_CODE'] .= '<p>If you have put a side into another language, confirm from this list the matching entry of the standard language</p>';
 $HELP['PAGE_CODE'] .= '<p>Example:<br />Created page in sub DE: <b>Impressum</b> choose Default Language EN: <b>Imprint</b></p>';
 
-$HELP['SEO_TITLE']  = '<p>Folder and Filename for this Accessfile <br /> <b>{{filename}}</b></p>';
-$HELP['SEO_TITLE'] .= '<p>In WebsiteBaker version 2.8.4 you have the possibility to create a Seo friendly Accessfile independent of Menutitle..</p>';
+$HELP['SEO_TITLE']  = '<p>Path and file name of the access file of this page. <br /> <b>{{filename}}</b></p>';
+$HELP['SEO_TITLE'] .= '<p>In this field you can define a well readable, expressive name for the access file, regardless of menu title or page title. This is also usable well to create SEO friendly links..</p>';
 $HELP['SEO_TITLE'] .= '<p><b>For Example:</b><br /><br />Input Menu Title: <b>Pressemitteilung</b><br />';
 $HELP['SEO_TITLE'] .= 'Input Filename: <b>Pressemitteilung and Downloads</b><br />';
 $HELP['SEO_TITLE'] .= 'Create Accessfile: <b>pressemitteilungen-and-downloads.php</b></p>';

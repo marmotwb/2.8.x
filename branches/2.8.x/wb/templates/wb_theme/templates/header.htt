@@ -42,11 +42,13 @@ function confirm_link(message, url) {
 	<td></td>
 	<td class="topnav {LOGIN_DISPLAY_NONE}">
 		<span><a href="{ADMIN_URL}" title="{TITLE_START}"><img src="{THEME_URL}/images/{START_ICON}.png" alt="{TITLE_START}" /></a></span>
-		&nbsp;&nbsp;<a href="{URL_VIEW}" target="_blank" title="{TITLE_VIEW}"><img src="{THEME_URL}/images/view.png" alt="{WB_URL}" /></a>
-		&nbsp; <a href="{URL_HELP}" target="_blank" title="{TITLE_HELP}"><img src="{THEME_URL}/images/help.png" alt="{TITLE_HELP}" /></a>
-		&nbsp; <a href="{LOGIN_LINK}" title="{TITLE_LOGOUT}"><img src="{THEME_URL}/images/{LOGIN_ICON}.png" alt="{TITLE_LOGOUT}" /></a>
+		<a href="{URL_VIEW}" target="_blank" title="{TITLE_VIEW}"><img src="{THEME_URL}/images/view.png" alt="{WB_URL}" /></a>
+		<a href="{URL_HELP}" target="_blank" title="{TITLE_HELP}"><img src="{THEME_URL}/images/help.png" alt="{TITLE_HELP}" /></a>
+    <!-- BEGIN maintenance_block -->
+        <a href="{MAINTAINANCE_URL}" title="{MAINTENANCE_MODE}"><img src="{MAINTENANCE_ICON}" alt="{MAINTENANCE_MODE}" title="{MAINTENANCE_MODE}" /></a>
+    <!-- END maintenance_block -->
+		&nbsp;<a href="{LOGIN_LINK}" title="{TITLE_LOGOUT}"><img src="{THEME_URL}/images/{LOGIN_ICON}.png" alt="{TITLE_LOGOUT}" /></a>
 	</td>
-	<td></td>
 	<td class="version {LOGIN_DISPLAY_NONE}">
 	Version {VERSION} {SP}<br />
     Revision {REVISION}

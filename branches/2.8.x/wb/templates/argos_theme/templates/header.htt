@@ -53,7 +53,7 @@ function confirm_link(message, url) {
       <!-- BEGIN linkBlock -->
       <li class="{CLASS}"><a href="{LINK}" target="{TARGET}"><span>{TITLE}</span></a></li>
       <!-- END linkBlock -->
-		<li>&nbsp;</li>
+		<li class="hidden">&nbsp;</li>
     </ul>
   </div>
 </div>

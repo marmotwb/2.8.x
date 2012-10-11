@@ -1,9 +1,9 @@
 <?php
 /**
  *
- * @category        framework
- * @package         frontend
- * @author          Ryan Djurovich, WebsiteBaker Project
+ * @category        frontend
+ * @package         framework
+ * @author          Ryan Djurovich (2004-2009), WebsiteBaker Project
  * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -13,7 +13,7 @@
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
  *
-*/
+ */
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
 if(!defined('WB_PATH')) {
@@ -21,8 +21,9 @@ if(!defined('WB_PATH')) {
 	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
-require_once(WB_PATH.'/framework/class.wb.php');
+//require_once(WB_PATH.'/framework/class.wb.php');
 //require_once(WB_PATH.'/framework/SecureForm.php');
+if(!class_exists('wb', false)){ require(WB_PATH.'/framework/class.wb.php'); }
 
 class frontend extends wb {
 	// defaults
@@ -47,28 +48,54 @@ class frontend extends wb {
 	// ugly database stuff
 	public $extra_where_sql, $sql_where_language;
 
-	public function __construct() {
+// do not chnage if working in frontend account
+    public $FrontendLanguage;
+
+	public function __construct($value=true) {
 		parent::__construct(SecureForm::FRONTEND);
+        $this->FrontendLanguage = isset($value) ? $value : true;
 	}
 
+    public function ChangeFrontendLanguage( $value=true ) {
+        $this->FrontendLanguage=$value;
+    }
+
 	public function page_select() {
-		global $page_id,$no_intro;
-		global $database;
+		global $database, $page_id,$no_intro;
+/*
+		// set by user statusflag and maintance enabled select in options
+		// if maintance flag is set registered user can see normal pages
+		// otherwise show show maintance message
+
+		if($maintance == true)
+		{
+			$this->print_under_construction();
+			return false;
+		}
+*/
+
+/**
+ * Store installed languages in SESSION
+ */
+
+        if( $this->get_session('session_started') ) {
+            $_SESSION['USED_LANGUAGES'] = $this->GetLanguagesInUsed();
+        }
+
+		$maintance = ( defined('SYSTEM_LOCKED') && (SYSTEM_LOCKED==true) ? true : false );
 		// We have no page id and are supposed to show the intro page
-		if((INTRO_PAGE AND !isset($no_intro)) AND (!isset($page_id) OR !is_numeric($page_id))) {
+		if((INTRO_PAGE && ($maintance != true) && !isset($no_intro)) && (!isset($page_id) || !is_numeric($page_id)))
+		{
 			// Since we have no page id check if we should go to intro page or default page
 			// Get intro page content
-			$filename = WB_PATH.PAGES_DIRECTORY.'/intro'.PAGE_EXTENSION;
-			if(file_exists($filename)) {
-				$handle = @fopen($filename, "r");
-				$content = @fread($handle, filesize($filename));
-				@fclose($handle);
-				$this->preprocess($content);
-				header("Location: ".WB_URL.PAGES_DIRECTORY."/intro".PAGE_EXTENSION."");   // send intro.php as header to allow parsing of php statements
-				echo ($content);
-				return false;
+			$sIntroFilename = PAGES_DIRECTORY.'/intro'.PAGE_EXTENSION;
+			if(file_exists(WB_PATH.$sIntroFilename)) {
+                // send intro.php as header to allow parsing of php statements
+				header("Location: ".WB_URL.$sIntroFilename."");
+				exit();
 			}
 		}
+
 		// Check if we should add page language sql code
 		if(PAGE_LANGUAGES) {
 			$this->sql_where_language = ' AND `language`=\''.LANGUAGE.'\'';
@@ -87,39 +114,51 @@ class frontend extends wb {
 			$sql .= trim($this->sql_where_language).' ';
 		}
 		$sql .= 'ORDER BY `p`.`position` ASC';
-		$get_default = $database->query($sql);
-		$default_num_rows = $get_default->numRows();
-		if(!isset($page_id) OR !is_numeric($page_id)){
-			// Go to or show default page
-			if($default_num_rows > 0) {
-				$fetch_default = $get_default->fetchRow();
-				$this->default_link = $fetch_default['link'];
-				$this->default_page_id = $fetch_default['page_id'];
-				// Check if we should redirect or include page inline
-				if(HOMEPAGE_REDIRECTION) {
-					// Redirect to page
-//					header("Location: ".$this->page_link($this->default_link));
-//					exit();
-					$this->send_header($this->page_link($this->default_link));
-				} else {
-					// Include page inline
-					$this->page_id = $this->default_page_id;
-				}
-			} else {
-		   		// No pages have been added, so print under construction page
-				$this->print_under_construction();
-				exit();
-			}
+		if($get_default = $database->query($sql)) {
+
+    		$default_num_rows = $get_default->numRows();
+    		if(!isset($page_id) OR !is_numeric($page_id)){
+    			// Go to or show default page
+    			if($default_num_rows > 0) {
+    				$fetch_default = $get_default->fetchRow(MYSQL_ASSOC);
+    				$this->default_link = $fetch_default['link'];
+    				$this->default_page_id = $fetch_default['page_id'];
+    				// Check if we should redirect or include page inline
+    				if(HOMEPAGE_REDIRECTION) {
+    					// Redirect to page
+    //					header("Location: ".$this->page_link($this->default_link));
+    //					exit();
+    					$this->send_header($this->page_link($this->default_link));
+    				} else {
+    					// Include page inline
+    					$this->page_id = $this->default_page_id;
+    				}
+    			} else {
+    		   		// No pages have been added, so print under construction page
+    //				if(trim($this->sql_where_language) == '') {
+    //					$this->ShowMaintainScreen('new');
+    //    				exit();
+    //				}
+    				$this->ShowMaintainScreen('new');
+    //				$this->print_under_construction();
+    				exit();
+    			}
+    		} else {
+    			$this->page_id=$page_id;
+    		}
+    		// Get default page link
+    		if(!isset($fetch_default)) {
+    		  	$fetch_default = $get_default->fetchRow(MYSQL_ASSOC);
+    	 		$this->default_link = $fetch_default['link'];
+    			$this->default_page_id = $fetch_default['page_id'];
+    		}
+    		return true;
+
 		} else {
-			$this->page_id=$page_id;
-		}
-		// Get default page link
-		if(!isset($fetch_default)) {
-		  	$fetch_default = $get_default->fetchRow();
-	 		$this->default_link = $fetch_default['link'];
-			$this->default_page_id = $fetch_default['page_id'];
-		}
-		return true;
+			$this->ShowMaintainScreen('new');
+			exit();
+    	}
+
 	}
 
 	public function get_page_details() {
@@ -134,16 +173,20 @@ class frontend extends wb {
 				exit("Page not found");
 			}
 			// Fetch page details
-			$this->page = $get_page->fetchRow();
-			// Check if the page language is also the selected language. If not, send headers again.
-			if ($this->page['language']!=LANGUAGE) {
-				if(isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] != '') { // check if there is an query-string
+			$this->page = $get_page->fetchRow(MYSQL_ASSOC);
+
+		//  Check if the page language is also the selected language. If not, send headers again.
+			if (($this->page['language'] != LANGUAGE) && $this->FrontendLanguage )
+            {
+            //  check if there is an query-string
+				if(isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] != '') {
 					header('Location: '.$this->page_link($this->page['link']).'?'.$_SERVER['QUERY_STRING'].'&lang='.$this->page['language']);
 				} else {
 					header('Location: '.$this->page_link($this->page['link']).'?lang='.$this->page['language']);
 				}
 				exit();
 			}
+
 			// Begin code to set details as either variables of constants
 			// Page ID
 			if(!defined('PAGE_ID')) {define('PAGE_ID', $this->page['page_id']);}
@@ -233,7 +276,6 @@ class frontend extends wb {
 					// User isnt allowed on this page so tell them
 					$this->page_access_denied=true;
 				}
-
 			}
 		}
 		// check if there is at least one active section
@@ -411,15 +453,8 @@ class frontend extends wb {
 
 	// Function to show the "Under Construction" page
 	public function print_under_construction() {
-		global $MESSAGE;
-		require_once(WB_PATH.'/languages/'.DEFAULT_LANGUAGE.'.php');
-		echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-		<head><title>'.$MESSAGE['GENERIC']['WEBSITE_UNDER_CONSTRUCTION'].'</title>
-		<style type="text/css"><!-- body{ font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 12px; background-image: url("'.THEME_URL.'/images/background.png");background-repeat: repeat-x; background-color: #A8BCCB; text-align: center; }
-		h1 { margin: 0; padding: 0; font-size: 18px; color: #000; text-transform: uppercase;
-}--></style></head><body>
-		<br /><h1>'.$MESSAGE['GENERIC']['WEBSITE_UNDER_CONSTRUCTION'].'</h1><br />
-		'.$MESSAGE['GENERIC']['PLEASE_CHECK_BACK_SOON'].'</body></html>';
+		$this->ShowMaintainScreen('new');
+		exit();
 	}
 }
 

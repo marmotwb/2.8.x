@@ -73,8 +73,8 @@ $HELP['PAGE_CODE'] .= '<p>Sie können jederzeit den Standard Seitensprachbaum du
 $HELP['PAGE_CODE'] .= '<p>Wenn sie eine Seite in einer anderen Sprache angelegt haben, bestätigen Sie aus dieser Liste den dazugehörigen Eintrag der Standardsprache.</p>';
 $HELP['PAGE_CODE'] .= '<p>Beispiel:<br />Erstellte Seite im Zweig EN: <b>Imprint</b> zuweisen an Standardsprache DE: <b>Impressum</b></p>';
 
-$HELP['SEO_TITLE']  = '<p>Verzeichnis und Dateiname dieser Zugriffsdatei <br /> <b>{{filename}}</b></p>';
-$HELP['SEO_TITLE'] .= '<p>In der WebsiteBaker Version 2.8.4 haben Sie die Möglichkeit, unabhängig vom Menutitel eine Seo freundliche Zugriffsdatei anzulegen.</p>';
+$HELP['SEO_TITLE']  = '<p>Verzeichnis und Dateiname der Zugriffsdatei dieser Seite<br /> <b>{{filename}}</b></p>';
+$HELP['SEO_TITLE'] .= '<p>In diesem Feld können Sie unabhängig von Menü- oder Seitentitel einen gut lesbaren, aussagekräftigen Dateinamen für die Zugriffsdatei festlegen. Dieser ist auch gut zur Erstellung SEO-freundlicher Links verwendbar.</p>';
 $HELP['SEO_TITLE'] .= '<p><b>Beispiel:</b><br /><br />Eingabe Menütitel: <b>Pressemitteilung</b><br />';
 $HELP['SEO_TITLE'] .= 'Eingabe Dateiname: <b>Pressemitteilung und Downloads</b><br />';
 $HELP['SEO_TITLE'] .= 'Erstellt Zugriffsdatei: <b>pressemitteilungen-und-downloads.php</b></p>';

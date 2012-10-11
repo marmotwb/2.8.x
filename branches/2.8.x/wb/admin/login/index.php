@@ -15,11 +15,14 @@
  *
  */
 
-	require('../../config.php');
 // Include the configuration file
 if(!defined('WB_URL') && file_exists(realpath('../../config.php'))) {
+    require('../../config.php');
 }
-require_once(WB_PATH."/framework/class.login.php");
+
+//require_once(WB_PATH."/framework/class.login.php");
+if(!class_exists('login', false)){ require_once(WB_PATH.'/framework/class.login.php'); }
+if(!class_exists('frontend', false)){ require_once(WB_PATH.'/framework/class.frontend.php'); }
 
 if(defined('SMART_LOGIN') AND SMART_LOGIN == 'enabled') {
 	// Generate username field name
@@ -40,7 +43,7 @@ if(defined('SMART_LOGIN') AND SMART_LOGIN == 'enabled') {
 	$password_fieldname = 'password';
 }
 
-$admin = new admin('Start', '', false, false);
+$admin = new frontend();
 
 $WarnUrl = str_replace(WB_PATH,WB_URL,$admin->correct_theme_source('warning.html'));
 

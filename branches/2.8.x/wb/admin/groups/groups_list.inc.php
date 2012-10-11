@@ -25,7 +25,7 @@ if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
  */
 	function show_grouplist($admin)
 	{
-//		global $TEXT, $MESSAGE, $MENU, $HEADING;
+		global $TEXT, $MESSAGE, $MENU, $HEADING;
 		$database = WbDatabase::getInstance();
 		$mLang = ModLanguage::getInstance();
 // Create new template object for the modify/remove section
@@ -140,7 +140,7 @@ if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
 		$tpl->set_var(array(
 				'TEXT_MODIFY'    => ($admin->get_permission('groups_modify') == true) ? $mLang->TEXT_MODIFY : $mLang->TEXT_VIEW,
 				'TEXT_DELETE'    => $mLang->TEXT_DELETE,
-				'CONFIRM_DELETE' => $mLang->MESSAGE_GROUPS_CONFIRM_DELETE
+				'CONFIRM_DELETE' => $MESSAGE['GROUPS_CONFIRM_DELETE']
 				));
 
 	// Parse template object
