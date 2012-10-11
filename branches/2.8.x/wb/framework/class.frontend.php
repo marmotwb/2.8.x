@@ -83,6 +83,12 @@ class frontend extends wb {
         }
 
 		$maintance = ( defined('SYSTEM_LOCKED') && (SYSTEM_LOCKED==true) ? true : false );
+
+		if( ($maintance==true) || $this->get_session('USER_ID')!= 1 )
+		{
+       	//  check for show maintenance screen and terminate if needed
+    		$this->ShowMaintainScreen('locked');
+        }
 		// We have no page id and are supposed to show the intro page
 		if((INTRO_PAGE && ($maintance != true) && !isset($no_intro)) && (!isset($page_id) || !is_numeric($page_id)))
 		{
