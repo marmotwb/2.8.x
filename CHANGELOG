@@ -13,6 +13,10 @@ Legend:
 
 
 
+12 Oct-2012 Build 1785 Dietmar Woellbrink (Luisehahne)
+# fixed language uninstall, change mysql to strict
+! secure fix for search update in settings, search_footer now can be empty
+! change ->fetchRow() to ->fetchRow(MYSQL_ASSOC) in frontend.functions.php
 12 Oct-2012 Build 1784 Dietmar Woellbrink (Luisehahne)
 # fixed security warning if a group will be deleted
 11 Oct-2012 Build 1783 Dietmar Woellbrink (Luisehahne)

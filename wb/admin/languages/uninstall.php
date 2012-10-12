@@ -16,9 +16,15 @@
  *
  */
 
-// Setup admin object
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
+// Include config file
+$config_file = realpath('../../config.php');
+if(file_exists($config_file) && !defined('WB_URL'))
+{
+	require($config_file);
+}
+
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+
 $admin = new admin('Addons', 'languages_uninstall', false);
 if( !$admin->checkFTAN() )
 {
@@ -51,24 +57,6 @@ if(!is_readable(WB_PATH.'/languages/'.$file)) {
 	$admin->print_error($MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES']);
 }
 
-/*
-// Check if user selected language
-if(!isset($_POST['code']) OR $_POST['code'] == "") {
-	header("Location: index.php");
-	exit(0);
-}
-
-// Extra protection
-if(trim($_POST['code']) == '') {
-	header("Location: index.php");
-	exit(0);
-}
-
-// Check if the language exists
-if(!file_exists(WB_PATH.'/languages/'.$_POST['code'].'.php')) {
-	$admin->print_error($MESSAGE['GENERIC_NOT_INSTALLED']);
-}
-*/
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 
@@ -76,8 +64,9 @@ require_once(WB_PATH.'/framework/functions.php');
 if($code == DEFAULT_LANGUAGE OR $code == LANGUAGE) {
 	$admin->print_error($MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE']);
 } else {
-	$query_users = $database->query("SELECT user_id FROM ".TABLE_PREFIX."users WHERE language = '".$admin->add_slashes($code)."' LIMIT 1");
-	if($query_users->numRows() > 0) {
+	$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` ';
+	$sql .= 'WHERE`language`=\''.mysql_real_escape_string($code).'\'';
+	if( $database->get_one($sql) ) {
 		$admin->print_error($MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE']);
 	}
 }
@@ -87,11 +76,16 @@ if(!unlink(WB_PATH.'/languages/'.$file)) {
 	$admin->print_error($MESSAGE['GENERIC_CANNOT_UNINSTALL']);
 } else {
 	// Remove entry from DB
-	$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE directory = \'".$code."\' AND type = 'language'");
+	$sql  = 'DELETE FROM `'.TABLE_PREFIX.'addons` ';
+	$sql .= 'WHERE `directory`=\''.mysql_real_escape_string($code).'\' ';
+	$sql .=   'AND `type`=`type`=\'language\' ';
+	if( $database->query($sql) ) {
+        // Print success message
+        $admin->print_success($MESSAGE['GENERIC_UNINSTALLED']);
+    } else {
+    	$admin->print_error($MESSAGE['GENERIC_CANNOT_UNINSTALL'].'<br />'.$database->get_error());
+    }
 }
-
-// Print success message
-$admin->print_success($MESSAGE['GENERIC_UNINSTALLED']);
 
 // Print admin footer
 $admin->print_footer();

@@ -37,7 +37,7 @@ if(!defined('WB_PATH')) {
 	$sql  = 'SELECT `directory` FROM `'.TABLE_PREFIX.'addons` ';
 	$sql .= 'WHERE `type`=\'module\' AND `function`=\'snippet\'';
 	if(($resSnippets = $database->query($sql))) {
-		while($recSnippet = $resSnippets->fetchRow()) {
+		while($recSnippet = $resSnippets->fetchRow(MYSQL_ASSOC)) {
 			$module_dir = $recSnippet['directory'];
 			if (is_readable(WB_PATH.'/modules/'.$module_dir.'/include.php')) {
 				include(WB_PATH.'/modules/'.$module_dir.'/include.php');
@@ -101,7 +101,7 @@ if(!function_exists('search_highlight')) {
 	 * @return string
 	 */
 	function search_highlight($foo='', $arr_string=array()) {
-		require_once(WB_PATH.'/framework/functions.php');
+		require(WB_PATH.'/framework/functions.php');
 		static $string_ul_umlaut = FALSE;
 		static $string_ul_regex = FALSE;
 		if($string_ul_umlaut === FALSE || $string_ul_regex === FALSE) {
@@ -294,7 +294,7 @@ if (!function_exists('page_content')) {
 			}
 
 			// Loop through them and include their module file
-			while($section = $oSections->fetchRow()) {
+			while($section = $oSections->fetchRow(MYSQL_ASSOC)) {
 				// skip this section if it is out of publication-date
 				$now = time();
 				if( !(($now<=$section['publ_end'] || $section['publ_end']==0) && ($now>=$section['publ_start'] || $section['publ_start']==0)) ) {
@@ -307,10 +307,11 @@ if (!function_exists('page_content')) {
 				// fetch content -- this is where to place possible output-filters (before highlighting)
 					ob_start(); // fetch original content
                     $sectionAnchor = (defined('SEC_ANCHOR') && SEC_ANCHOR!='') ? SEC_ANCHOR.$section_id : 'section_'.$section_id;
-                    echo PHP_EOL.'<div id="'.$sectionAnchor.'" class="wb_'.$module.'" >'.PHP_EOL;
+                    echo "\n".'<div id="'.$sectionAnchor.'" class="wb_'.$module.'" >'."\n";
 					require(WB_PATH.'/modules/'.$module.'/view.php');
-                    echo PHP_EOL.'</div><!-- '.$module.$section_id.' -->'.PHP_EOL;
+                    echo "\n".'</div><!-- '.$module.$section_id.' -->'."\n";
 					$content = ob_get_clean();
+					echo $content;
 				} else {
 					continue;
 				}

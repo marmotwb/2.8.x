@@ -22,8 +22,18 @@ if(!isset($_POST['default_language']) || $_POST['default_language'] == '') die(h
 $advanced = ($_POST['advanced'] == 'yes') ? '?advanced=yes' : '';
 
 // Print admin header
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
+//require('../../config.php');
+//require_once(WB_PATH.'/framework/class.admin.php');
+
+// Include config file
+$config_file = realpath('../../config.php');
+if(file_exists($config_file) && !defined('WB_URL'))
+{
+	require($config_file);
+}
+
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+
 require_once(WB_PATH.'/framework/functions.php');
 
 // suppress to print the header, so no new FTAN will be set
@@ -212,7 +222,7 @@ $sql .= 'ORDER BY `name`';
 
 if($res_settings = $database->query($sql)) {
 	$passed = false;
-	while($setting = $res_settings->fetchRow())
+	while($setting = $res_settings->fetchRow(MYSQL_ASSOC))
 	{
 		$setting_name = $setting['name'];
 		$old_settings[$setting_name] = $setting['value'];
@@ -289,9 +299,18 @@ if($res_settings = $database->query($sql)) {
 
 }
 $StripCodeFromISearch = array(
+    'search_header',
+    'search_results_header',
+    'search_results_loop',
+    'search_results_footer',
+    'search_no_results',
+    'search_footer',
     'search_module_order',
     'search_max_excerpt',
     'search_time_limit',
+    );
+$allow_empty_values = array(
+    'search_footer',
     );
 
 // Query current search settings in the db, then loop through them and update the db with the new value
@@ -303,7 +322,7 @@ if($database->is_error()) {
 	$admin->print_error($database->is_error(), $js_back );
 }
 
-while($search_setting = $res_search->fetchRow())
+while($search_setting = $res_search->fetchRow(MYSQL_ASSOC))
 {
 	$old_value = $search_setting['value'];
 	$setting_name = $search_setting['name'];
@@ -315,15 +334,19 @@ while($search_setting = $res_search->fetchRow())
     if(in_array($post_name, $StripCodeFromISearch) ) {
         $value = $admin->StripCodeFromText($value);
     }
-    $value = ( ($value == '') && ($setting_name != 'template') ) ? $old_value : $value;
+
+    $passed = in_array($post_name, $allow_empty_values);
+
+    $value = ( (!in_array($post_name, $allow_empty_values)) && ($setting_name != 'template') ) ? $old_value : $value;
+
     // $value =  ( ($admin->get_post($post_name) == '') && ($setting_name == 'template') ) ? DEFAULT_TEMPLATE : $admin->get_post($post_name);
     if(isset($value))
 	{
 		$value = $admin->add_slashes($value);
         $sql  = 'UPDATE `'.TABLE_PREFIX.'search` ';
-        $sql .= 'SET `value` = "'.$value.'" ';
-        $sql .= 'WHERE `name` = "'.$setting_name.'" ';
-        $sql .= 'AND `extra` = ""';
+        $sql .= 'SET `value` = \''.$value.'\' ';
+        $sql .= 'WHERE `name` = \''.$setting_name.'\' ';
+        $sql .= 'AND `extra` = \'\' ';
 		if($database->query($sql)) {
 		}
 		$sql_info = mysql_info($database->db_handle);
