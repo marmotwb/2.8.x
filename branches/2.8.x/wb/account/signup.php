@@ -13,21 +13,31 @@
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
  *
+ * $_SESSION['USED_LANGUAGES']="NL,EN,DE";
+ * if BROWSER_LANGUAGE is in USED_LANGUAGES then use BROWSER_LANGUAGE
+ * and provide all other USED_LANGUAGES to choose
+ * IF BROWSER_LANGUAGE is NOT in USED_LANGUAGES then use const LANGUAGE
+ * and provide all other USED_LANGUAGES to choose
+ *
+ *
  */
 
-require_once('../config.php');
+// Include config file
+$config_file = realpath('../config.php');
+if(file_exists($config_file) && !defined('WB_URL'))
+{
+	require_once($config_file);
+}
+
 ini_set('display_errors','0');
 
-require_once(WB_PATH.'/framework/class.admin.php');
+if(!class_exists('frontend', false)){ include(WB_PATH.'/framework/class.frontend.php'); }
+
+require_once(WB_PATH.'/framework/functions.php');
 
 // Create new frontend object
-$wb = new admin();
+$wb = new frontend(false);
 
-//require_once(dirname(__FILE__).'/MySignUp.php');
-//print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.$page_id.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
-//print_r( dirname(__FILE__) ); print '</pre>';
-
-//
 if( ( (intval(FRONTEND_SIGNUP)==0) &&
     (  0 == (isset($_SESSION['USER_ID']) ? intval($_SESSION['USER_ID']) : 0) )))
 {
@@ -51,27 +61,26 @@ if(ENABLED_ASP && isset($_POST['username']) && (
 	$wb->send_header(WB_URL.'/index.php');
 }
 
-// Load the language file
-//if(!file_exists(WB_PATH.'/languages/'.LANGUAGE.'.php')) {
-//	exit('Error loading language file '.LANGUAGE.', please check configuration');
-//} else {
-//	require_once(WB_PATH.'/languages/'.LANGUAGE.'.php');
-//	$load_language = false;
-//}
-
-$lang = WB_PATH . '/languages/' . LANGUAGE . '.php';
-require_once(!file_exists($lang) ? WB_PATH . '/languages/EN.php' : $lang );
+$langDir = WB_PATH . '/languages/' . LANGUAGE . '.php';
+require_once(!file_exists($langDir) ? WB_PATH . '/languages/EN.php' : $langDir );
 
 $_SESSION['display_form'] = true;
 
-$page_id = isset($_SESSION['PAGE_ID']) ? intval($_SESSION['PAGE_ID']) : 0;
+$page_id = defined('REFERRER_ID') ? REFERRER_ID : isset($_SESSION['PAGE_ID']) ? $_SESSION['PAGE_ID'] : 0;
 
+// Required page details
 $page_description = '';
 $page_keywords = '';
+// Work out level
+$level = ($page_id > 0 )? level_count($page_id): $page_id;
+// Work out root parent
+$root_parent = ($page_id > 0 )? root_parent($page_id): $page_id;
+
 define('PAGE_ID', $page_id);
-define('ROOT_PARENT', 0);
+define('ROOT_PARENT', $root_parent);
 define('PARENT', 0);
-define('LEVEL', 0);
+define('LEVEL', $level);
+
 define('PAGE_TITLE', $TEXT['SIGNUP']);
 define('MENU_TITLE', $TEXT['SIGNUP']);
 define('MODULE', '');
@@ -84,3 +93,5 @@ $auto_auth = false;
 
 // Include the index (wrapper) file
 require(WB_PATH.'/index.php');
+
+exit();
