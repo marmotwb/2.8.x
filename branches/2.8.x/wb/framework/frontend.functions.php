@@ -101,7 +101,7 @@ if(!function_exists('search_highlight')) {
 	 * @return string
 	 */
 	function search_highlight($foo='', $arr_string=array()) {
-		require(WB_PATH.'/framework/functions.php');
+		require_once(WB_PATH.'/framework/functions.php');
 		static $string_ul_umlaut = FALSE;
 		static $string_ul_regex = FALSE;
 		if($string_ul_umlaut === FALSE || $string_ul_regex === FALSE) {
@@ -311,7 +311,6 @@ if (!function_exists('page_content')) {
 					require(WB_PATH.'/modules/'.$module.'/view.php');
                     echo "\n".'</div><!-- '.$module.$section_id.' -->'."\n";
 					$content = ob_get_clean();
-					echo $content;
 				} else {
 					continue;
 				}

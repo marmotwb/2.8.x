@@ -13,6 +13,8 @@ Legend:
 
 
 
+12 Oct-2012 Build 1786 Dietmar Woellbrink (Luisehahne)
+# fixed double content
 12 Oct-2012 Build 1785 Dietmar Woellbrink (Luisehahne)
 # fixed language uninstall, change mysql to strict
 ! secure fix for search update in settings, search_footer now can be empty
