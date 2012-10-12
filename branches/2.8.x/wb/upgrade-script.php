@@ -15,10 +15,16 @@
  *
  */
 
-require_once('config.php');
+// Include config file
+$config_file = realpath('config.php');
+if(file_exists($config_file) && !defined('WB_URL'))
+{
+	require_once($config_file);
+}
 
+//require_once(WB_PATH.'/framework/class.admin.php');
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 require_once(WB_PATH.'/framework/functions.php');
-require_once(WB_PATH.'/framework/class.admin.php');
 // require_once(WB_PATH.'/framework/Database.php');
 $admin = new admin('Addons', 'modules', false, false);
 
@@ -60,7 +66,7 @@ $dirRemove = array(
 			'[ADMIN]/themes/',
 		 );
 
-if(version_compare(WB_REVISION, '1762', '<'))
+if(version_compare(WB_REVISION, '1785', '<'))
 {
     $filesRemove['0'] = array(
 
@@ -71,7 +77,7 @@ if(version_compare(WB_REVISION, '1762', '<'))
 
 			'[FRAMEWORK]/class.msg_queue.php',
 			'[FRAMEWORK]/class.logfile.php',
-//			'[FRAMEWORK]/class.database.php',
+			'[MODULES]/droplets/js/mdcr.js',
 
 		 );
 
@@ -343,7 +349,8 @@ $bDebugModus = false;
 $bDebugModus = ( (isset($_POST['debug_confirmed']) && $_POST['debug_confirmed'] == 'debug') ? true : false);
 if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confirmed')) { ?>
 <h2>Step 1: Backup your files</h2>
-<p>It is highly recommended to <strong>create a manual backup</strong> of the entire <strong><?php echo  PAGES_DIRECTORY ?>/ folder</strong> and the <strong>MySQL database</strong> before proceeding.<br /><strong class="error">Note: </strong>The upgrade script alters some settings of your existing database!!! You need to confirm the disclaimer before proceeding.</p>
+<h5 class="warning">It is highly recommended to <strong>create a manual backup</strong> of the entire <strong class="error"><?php echo  PAGES_DIRECTORY ?>/</strong> folder and the <strong>MySQL database</strong> before proceeding.</h5>
+<p><strong class="error">Note: </strong>The upgrade script alters some settings of your existing database!!! You need to confirm the disclaimer before proceeding.</p>
 
 <form name="send" action="<?php echo $_SERVER['SCRIPT_NAME'];?>" method="post">
 <textarea cols="92" rows="5">DISCLAIMER: The WebsiteBaker upgrade script is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. One needs to confirm that a manual backup of the <?php echo  PAGES_DIRECTORY ?>/ folder (including all files and subfolders contained in it) and backup of the entire WebsiteBaker MySQL database was created before you can proceed.</textarea>

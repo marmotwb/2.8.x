@@ -389,28 +389,28 @@
 		<div class="mbox sub-row">
 	 		<label class="setting_name">{TEXT_HEADER}:</label>
 			<div class="input" >
-		<textarea name="search_header" style="height: 100px;" cols="50" rows="3">{SEARCH_HEADER}</textarea>
+		<textarea class="vert" name="search_header" style="height: 100px;" cols="50" rows="3">{SEARCH_HEADER}</textarea>
 			</div>
 		</div>
 
 		<div class="mbox sub-row">
 	 		<label class="setting_name">{TEXT_RESULTS_HEADER}:</label>
 			<div class="input" >
-		<textarea name="search_results_header" cols="50" rows="3">{SEARCH_RESULTS_HEADER}</textarea>
+		<textarea class="vert" name="search_results_header" cols="50" rows="3">{SEARCH_RESULTS_HEADER}</textarea>
 			</div>
 		</div>
 
 		<div class="mbox sub-row">
 	 		<label class="setting_name">{TEXT_RESULTS_LOOP}:</label>
 			<div class="input" >
-		<textarea name="search_results_loop" cols="50" rows="3">{SEARCH_RESULTS_LOOP}</textarea>
+		<textarea class="vert" name="search_results_loop" cols="50" rows="3">{SEARCH_RESULTS_LOOP}</textarea>
 			</div>
 		</div>
 
 		<div class="mbox sub-row">
 	 		<label class="setting_name">{TEXT_RESULTS_FOOTER}:</label>
 			<div class="input" >
-		<textarea name="search_results_footer" cols="50" rows="3">{SEARCH_RESULTS_FOOTER}</textarea>
+		<textarea class="vert" name="search_results_footer" cols="50" rows="3">{SEARCH_RESULTS_FOOTER}</textarea>
 			</div>
 		</div>
 
@@ -423,7 +423,7 @@
 		<div class="mbox sub-row">
 	 		<label class="setting_name">{TEXT_FOOTER}:</label>
 			<div class="input" >
-		<textarea name="search_footer" cols="50" rows="3">{SEARCH_FOOTER}</textarea>
+		<textarea class="vert" name="search_footer" cols="50" rows="3">{SEARCH_FOOTER}</textarea>
 			</div>
 		</div>
 
