@@ -123,7 +123,7 @@ if($admin->ami_group_member('1')) {
 	// Setup admin groups
 	$aAdminGroups = (is_array($aAdminGroups) ? $aAdminGroups : array(1));
 	array_unshift($aAdminGroups, 1);
-	$sAdminGroups = implode(',', array_unique($aAdminGroups, SORT_REGULAR));
+	$sAdminGroups = implode(',', array_unique($aAdminGroups));
 	$sAdminGroups = (preg_match('/^,|[^0-9,]|,,|,$/', $sAdminGroups) ? '1' : $sAdminGroups);
 
 	$aAdminUsers = (is_array($aAdminUsers) ? $aAdminUsers : array());
@@ -133,7 +133,7 @@ if($admin->ami_group_member('1')) {
 
 $aViewingGroups = (is_array($aViewingGroups) ? $aViewingGroups : array(1));
 array_unshift($aViewingGroups, 1);
-$sViewingGroups = implode(',', array_unique($aViewingGroups, SORT_REGULAR));
+$sViewingGroups = implode(',', array_unique($aViewingGroups));
 $sViewingGroups = (preg_match('/^,|[^0-9,]|,,|,$/', $sViewingGroups) ? '1' : $sViewingGroups);
 
 $aViewingUsers = (is_array($aViewingUsers) ? $aViewingUsers : array());
@@ -249,11 +249,11 @@ if($admin->ami_group_member('1')) {
 	     . '`admin_groups`=\''.$sAdminGroups.'\', '
 	     . '`admin_users`=\''.$sAdminUsers.'\', ';
 }
-$sql .= ''
-     .     '`viewing_groups`=\''.$sViewingGroups.'\', '
-     .     '`viewing_users`=\''.$sViewingUsers.'\', '
-     .     '`page_code`='.$page_code.' '
-     . 'WHERE `page_id`='.$page_id;
+    $sql .= ''
+         . '`viewing_groups`=\''.$sViewingGroups.'\', '
+         . '`viewing_users`=\''.$sViewingUsers.'\', '
+         . '`page_code`='.$page_code.' '
+         . 'WHERE `page_id`='.$page_id;
 
 if(!$database->query($sql)) {
 	$target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;

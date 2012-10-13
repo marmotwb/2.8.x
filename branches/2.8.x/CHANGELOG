@@ -13,6 +13,8 @@ Legend:
 
 
 
+13 Oct-2012 Build 1788 Dietmar Woellbrink (Luisehahne)
+# fixed page settings for php Version less 5.2.9
 13 Oct-2012 Build 1787 Dietmar Woellbrink (Luisehahne)
 # fixed parsing error in signup 
 12 Oct-2012 Build 1786 Dietmar Woellbrink (Luisehahne)
