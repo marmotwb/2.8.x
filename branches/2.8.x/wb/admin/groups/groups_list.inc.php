@@ -76,6 +76,7 @@ if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
 		{
 			while($rec_group = $res_groups->fetchRow(MYSQL_ASSOC))
 			{
+                if( in_array($rec_group['group_id'], explode( ',', $admin->get_session('GROUPS_ID') ) ) ) { continue; }
 				// $tpl->set_var('GROUP_ID', $admin->getIDKEY($rec_group['group_id']));
 				$tpl->set_var('GROUP_ID', $rec_group['group_id']);
 				$tpl->set_var('GROUP_NAME', $rec_group['name']);

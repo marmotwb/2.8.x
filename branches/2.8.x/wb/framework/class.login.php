@@ -204,9 +204,12 @@ class login extends admin {
 				if( ($results_array['system_permissions'] != '') ) {
                     switch ($cur_group_id) :
                         case 1:
-                            if($bOnlyAdminGroup) {
-                                $_SESSION['SYSTEM_PERMISSIONS'] = array_merge($_SESSION['SYSTEM_PERMISSIONS'], explode(',', $results_array['system_permissions']));
+                            if( $this->user_id == 1) {
+               					$_SESSION['SYSTEM_PERMISSIONS'] = array_merge($_SESSION['SYSTEM_PERMISSIONS'], explode(',', $results_array['system_permissions']));
+                            } else {
+                                $_SESSION['SYSTEM_PERMISSIONS'] = explode(',', $results_array['system_permissions']);
                             }
+
                             break;
                         default:
         					$_SESSION['SYSTEM_PERMISSIONS'] = array_merge($_SESSION['SYSTEM_PERMISSIONS'], explode(',', $results_array['system_permissions']));
@@ -232,10 +235,10 @@ class login extends admin {
 				$first_group = false;
 			}
 
-            if( $$bOnlyAdminGroup ) {
-    			$_SESSION['MODULE_PERMISSIONS'] = array();
-    			$_SESSION['TEMPLATE_PERMISSIONS'] = array();
-            }
+//            if( $$bOnlyAdminGroup ) {
+//    			$_SESSION['MODULE_PERMISSIONS'] = array();
+//    			$_SESSION['TEMPLATE_PERMISSIONS'] = array();
+//            }
 
 			// Update the users table with current ip and timestamp
 			$get_ts = time();
