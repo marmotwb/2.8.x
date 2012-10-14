@@ -196,7 +196,7 @@ function getSystemDefaultPermissions ()
 		function addons(& $val, $key, $vars = '')
 		{
 			$val = rtrim($val, '_');
-            $val = ($val == 'modules') || ($val == 'templates') || ($val == 'languages') ? 'addons' : $val;
+            $val = ($val == 'modules_view') || ($val == 'templates_view') || ($val == 'languages_view') ? 'addons' : $val;
 		}
 	}
 
@@ -211,7 +211,7 @@ function getSystemDefaultPermissions ()
 	if(!function_exists('access')){
 		function access(& $val, $key, $vars = '')
 		{
-            $val = ($val == 'groups') || ($val == 'users') ? 'access' : $val;
+            $val = ($val == 'groups_view') || ($val == 'users_view') ? 'access' : $val;
 		}
 	}
 	function convertArrayToString ($val=null)

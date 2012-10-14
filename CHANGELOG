@@ -13,6 +13,9 @@ Legend:
 
 
 
+14 Oct-2012 Build 1789 Dietmar Woellbrink (Luisehahne)
+! update Group Permission, add module_advanced
+! upgrade-script will be updating Adminitrator Group
 13 Oct-2012 Build 1788 Dietmar Woellbrink (Luisehahne)
 # fixed page settings for php Version less 5.2.9
 13 Oct-2012 Build 1787 Dietmar Woellbrink (Luisehahne)

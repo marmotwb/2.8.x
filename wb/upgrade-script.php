@@ -66,7 +66,7 @@ $dirRemove = array(
 			'[ADMIN]/themes/',
 		 );
 
-if(version_compare(WB_REVISION, '1785', '<'))
+if(version_compare(WB_REVISION, '1788', '<'))
 {
     $filesRemove['0'] = array(
 
@@ -735,6 +735,32 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 
     if($bDebugModus) {
         echo implode(PHP_EOL,$aDebugMessage);
+        $aDebugMessage = array();
+    }
+
+	/**********************************************************
+     * Modify Administrator on groups table
+     */
+	echo "<h4>Update group Administrator on table groups</h4>";
+	$aDebugMessage[] = "<span>Modify Administrator on groups table</span>";
+    $sModulePermissions = '';
+    $sTemplatePermissions = '';
+	$sSystemPermissions  = 'access,addons,admintools,admintools_view,groups,groups_add,groups_delete,groups_modify,groups_view,';
+	$sSystemPermissions .= 'languages,languages_install,languages_uninstall,languages_view,media,media_create,media_delete,media_rename,media_upload,media_view,';
+	$sSystemPermissions .= 'modules,modules_advanced,modules_install,modules_uninstall,modules_view,pages,pages_add,pages_add_l0,pages_delete,pages_intro,pages_modify,pages_settings,pages_view,';
+	$sSystemPermissions .= 'preferences,preferences_view,settings,settings_advanced,settings_basic,settings_view,templates,templates_install,templates_uninstall,templates_view,users,users_add,users_delete,users_modify,users_view';
+
+	$sql  = 'UPDATE `'.TABLE_PREFIX.'groups` ';
+	$sql .= 'SET `name` = \'Administrators\', ';
+	$sql .= '`system_permissions` = \''.$sSystemPermissions.'\', ';
+	$sql .= '`module_permissions` = \''.$sModulePermissions.'\', ';
+	$sql .= '`template_permissions` = \''.$sTemplatePermissions.'\' ';
+	$sql .= 'WHERE `group_id` = \'1\' ';
+    $aDebugMessage[] = ($database->query($sql)) ? " $OK<br />" : " $FAIL!<br />";
+
+    if($bDebugModus) {
+        echo implode(PHP_EOL,$aDebugMessage);
+        $aDebugMessage = array();
     }
     echo '</div>';
 
@@ -779,10 +805,10 @@ echo '<div style="margin-left:2em;">';
     echo '<h4>Upgrade media directory '.MEDIA_DIRECTORY.'/ index.php protect files</h4>';
     $array = rebuildFolderProtectFile($dir);
     if( sizeof( $array ) ){
-    	print '<span><strong>Upgrade '.sizeof( $array ).' directory '.MEDIA_DIRECTORY.'/ protect files</strong></span>'." $OK<br />";
+    	echo '<span><strong>Upgrade '.sizeof( $array ).' directory '.MEDIA_DIRECTORY.'/ protect files</strong></span>'." $OK<br />";
     } else {
-    	print '<span><strong>Upgrade directory '.MEDIA_DIRECTORY.'/ protect files</strong></span>'." $FAIL!<br />";
-    	print implode ('<br />',$array);
+    	echo '<span><strong>Upgrade directory '.MEDIA_DIRECTORY.'/ protect files</strong></span>'." $FAIL!<br />";
+    	echo implode ('<br />',$array);
     }
 
     /**********************************************************
@@ -796,7 +822,7 @@ echo '<div style="margin-left:2em;">';
     $sPagePath = (defined('PAGES_DIRECTORY') && (PAGES_DIRECTORY != '') ? PAGES_DIRECTORY : '');
     $msg = rebuild_all_accessfiles();
 
-	print implode ('<br />',$msg);
+	echo implode ('<br />',$msg);
     echo '</div>';
     /* *****************************************************************************
      * - check for deprecated / never needed files

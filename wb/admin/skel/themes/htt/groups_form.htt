@@ -194,6 +194,10 @@
 								<input name="system_permissions[modules_uninstall]" id="modules_uninstall" type="checkbox" value="1" {modules_uninstall_checked} />
 								<label for="modules_uninstall">{TEXT_DELETE}</label>
 								</li>
+								<li class="c100">
+								<input name="system_permissions[modules_advanced]" id="modules_advanced" type="checkbox" value="1" {modules_advanced_checked} />
+								<label for="modules_advanced">{TEXT_ADVANCED}</label>
+								</li>
 							</ul>
 						</div>
 					</div>
@@ -215,6 +219,9 @@
 									<input name="system_permissions[templates_uninstall]" id="templates_uninstall" type="checkbox" value="1" {templates_uninstall_checked} />
 									<label for="templates_uninstall">{TEXT_DELETE}</label>
 								</li>
+								<li class="c100">
+									<label for="templates">&nbsp;</label>
+								</li>
 							</ul>
 						</div>
 					</div>
@@ -235,6 +242,9 @@
 								<li class="c100">
 									<input name="system_permissions[languages_uninstall]" id="languages_uninstall" type="checkbox" value="1" {languages_uninstall_checked} />
 									<label for="languages_uninstall">{TEXT_DELETE}</label>
+								</li>
+								<li class="c100">
+									<label for="languages">&nbsp;</label>
 								</li>
 							</ul>
 						</div>
