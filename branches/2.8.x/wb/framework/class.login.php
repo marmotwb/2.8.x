@@ -80,7 +80,7 @@ class login extends admin {
 			$sql  = 'SELECT * FROM `'.$this->users_table.'` ';
 			$sql .= 'WHERE `user_id`=\''.$this->get_safe_remember_key().'\'';
 			$query_details = $database->query($sql);
-			$fetch_details = $query_details->fetchRow();
+			$fetch_details = $query_details->fetchRow(MYSQL_ASSOC);
 			$this->username = $fetch_details['username'];
 			$this->password = $fetch_details['password'];
 			// Check if the user exists (authenticate them)
@@ -188,19 +188,31 @@ class login extends admin {
 			$_SESSION['TEMPLATE_PERMISSIONS'] = array();
 			$_SESSION['GROUP_NAME'] = array();
 
-
-
+            $aGroupsIds = ((explode(',', $this->get_session('GROUPS_ID'))));
+            $bOnlyAdminGroup = $this->ami_group_member('1') && (sizeof($aGroupsIds) == 1);
 			$first_group = true;
-			foreach (explode(",", $this->get_session('GROUPS_ID')) as $cur_group_id)
+
+			foreach ( $aGroupsIds  as $cur_group_id)
             {
 				$sql = 'SELECT * FROM `'.$this->groups_table.'` WHERE `group_id`=\''.$cur_group_id.'\'';
-				$results = $database->query($sql);
-				$results_array = $results->fetchRow();
-				$_SESSION['GROUP_NAME'][$cur_group_id] = $results_array['name'];
-				// Set system permissions
-				if( $results_array['system_permissions'] != '' ) {
-					$_SESSION['SYSTEM_PERMISSIONS'] = array_merge($_SESSION['SYSTEM_PERMISSIONS'], explode(',', $results_array['system_permissions']));
+				if($results = $database->query($sql)) {
+    				$results_array = $results->fetchRow(MYSQL_ASSOC);
+    				$_SESSION['GROUP_NAME'][$cur_group_id] = $results_array['name'];
 				}
+
+				// Set system permissions
+				if( ($results_array['system_permissions'] != '') ) {
+                    switch ($cur_group_id) :
+                        case 1:
+                            if($bOnlyAdminGroup) {
+                                $_SESSION['SYSTEM_PERMISSIONS'] = array_merge($_SESSION['SYSTEM_PERMISSIONS'], explode(',', $results_array['system_permissions']));
+                            }
+                            break;
+                        default:
+        					$_SESSION['SYSTEM_PERMISSIONS'] = array_merge($_SESSION['SYSTEM_PERMISSIONS'], explode(',', $results_array['system_permissions']));
+                    endswitch;
+				}
+
 				// Set module permissions
 				if( $results_array['module_permissions'] != '' ) {
 					if ($first_group) {
@@ -220,7 +232,7 @@ class login extends admin {
 				$first_group = false;
 			}
 
-            if( $this->ami_group_member('1')) {
+            if( $$bOnlyAdminGroup ) {
     			$_SESSION['MODULE_PERMISSIONS'] = array();
     			$_SESSION['TEMPLATE_PERMISSIONS'] = array();
             }

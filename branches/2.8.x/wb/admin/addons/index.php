@@ -49,9 +49,9 @@ $display_none = "style=\"display: none;\"";
 if($admin->get_permission('modules') != true) {	$template->set_var('DISPLAY_MODULES', $display_none); }
 if($admin->get_permission('templates') != true) { $template->set_var('DISPLAY_TEMPLATES', $display_none); }
 if($admin->get_permission('languages') != true) { $template->set_var('DISPLAY_LANGUAGES', $display_none); }
-if($admin->get_permission('admintools') != true) { $template->set_var('DISPLAY_ADVANCED', $display_none); }
+if($admin->get_permission('modules_advanced') != true) { $template->set_var('DISPLAY_ADVANCED', $display_none); }
 
-if(!isset($_GET['advanced']) || $admin->get_permission('admintools') != true) {
+if(!isset($_GET['advanced']) || $admin->get_permission('modules_advanced') != true) {
 	$template->set_var('DISPLAY_RELOAD', $display_none);
 }
 /**
@@ -59,6 +59,7 @@ if(!isset($_GET['advanced']) || $admin->get_permission('admintools') != true) {
  */
 $template->set_var(array(
 	'ADDONS_OVERVIEW' => $MENU['ADDONS'],
+	'FTAN'=> $admin->getFTAN(),
 	'MODULES' => $MENU['MODULES'],
 	'TEMPLATES' => $MENU['TEMPLATES'],
 	'LANGUAGES' => $MENU['LANGUAGES'],
@@ -66,14 +67,15 @@ $template->set_var(array(
 	'TEMPLATES_OVERVIEW' => $OVERVIEW['TEMPLATES'],
 	'LANGUAGES_OVERVIEW' => $OVERVIEW['LANGUAGES'],
 	'TXT_ADMIN_SETTINGS' => $TEXT['ADMIN'] . ' ' . $TEXT['SETTINGS'],
-	'MESSAGE_RELOAD_ADDONS' => $MESSAGE['ADDON']['RELOAD'],
+	'MESSAGE_RELOAD_ADDONS' => $MESSAGE['ADDON_RELOAD'],
 	'TEXT_RELOAD' => $TEXT['RELOAD'],
+
 	'RELOAD_URL' => ADMIN_URL . '/addons/reload.php',
-	'URL_ADVANCED' => $admin->get_permission('admintools')
+	'URL_ADVANCED' => $admin->get_permission('modules_advanced')
                 ? '<a href="' . ADMIN_URL . '/addons/index.php?advanced">' . $TEXT['ADVANCED'] . '</a>' : '',
-	'ADVANCED_URL' => $admin->get_permission('admintools') ? ADMIN_URL . '/addons/index.php' : '',
+	'ADVANCED_URL' => $admin->get_permission('modules_advanced') ? ADMIN_URL . '/addons/index.php' : '',
     'TEXT_ADVANCED' => $TEXT['ADVANCED'],
-	'FTAN'			=> $admin->getFTAN()
+    'TEXT_EMPTY' => '&nbsp;',
 	)
 );
 
@@ -84,7 +86,7 @@ if ( $admin->get_permission('modules') == true) { $template->parse('main_block',
 if ( $admin->get_permission('templates') == true) { $template->parse('main_block', "templates_block", true); }
 if ( $admin->get_permission('languages') == true) { $template->parse('main_block', "languages_block", true); }
 // start advanced block
-if ( isset($_GET['advanced']) AND $admin->get_permission('admintools') == true) {
+if ( isset($_GET['advanced']) AND $admin->get_permission('modules_advanced') == true) {
 	$template->set_var(array(
 		'TXT_THEME_COPY_CURRENT'  => $TEXT['THEME_COPY_CURRENT'],
 		'TXT_THEME_NEW_NAME'      => $TEXT['THEME_NEW_NAME'],

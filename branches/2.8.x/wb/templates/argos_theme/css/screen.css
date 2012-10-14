@@ -294,7 +294,7 @@ div.page-settings-leftcol label { background-repeat :no-repeat; background-posit
 div.page-settings-leftcol label a:link { text-decoration :none; color :#003366; }
 div.page-settings-leftcol label a:hover { color : #006699; text-decoration : underline; }
 div.page-settings-leftcol textarea { resize :vertical; } 
-#overDiv { max-width :450px; background-position :center; background-attachment :fixed; text-align :left; padding :1px; font-size :120%; }
+#overDiv { max-width :450px; background-position :center; background-attachment :fixed; text-align :left; line-height :1em; padding :1px; font-size :120%; }
 div.page-settings span.overlib { width :20px; margin-left :-20px; }
 /* */
 div.page_group { height: 180px;max-height: 260px; margin: 0; padding: 0; overflow: auto; }

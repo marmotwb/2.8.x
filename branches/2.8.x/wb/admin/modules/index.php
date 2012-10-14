@@ -118,7 +118,7 @@ $template->set_var(array(
 		'<a href="' . ADMIN_URL . '/templates/index.php">' . $mLang->MENU_TEMPLATES . '</a>' : '<b>'.$mLang->MENU_TEMPLATES.'</b>',
 	'URL_LANGUAGES' => $admin->get_permission('languages') ?
 		'<a href="' . ADMIN_URL . '/languages/index.php">' . $mLang->MENU_LANGUAGES . '</a>' : '<b>'.$mLang->MENU_LANGUAGES.'</b>',
-	'URL_ADVANCED' => $admin->get_permission('settings_advanced') ?
+	'URL_ADVANCED' => $admin->get_permission('modules_advanced') ?
 		'<a href="' . ADMIN_URL . '/modules/index.php?advanced">' . $mLang->TEXT_ADVANCED . '</a>' : '<b>'.$mLang->TEXT_ADVANCED.'</b>' ,
 	'HEADING_CHANGE_TEMPLATE_NOTICE' => ''
 	)
