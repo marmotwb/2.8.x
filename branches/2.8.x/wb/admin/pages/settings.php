@@ -206,7 +206,7 @@ $admin = new admin('Pages', 'pages_settings');
 	$oTpl->set_var('p_menu_icon0_dir', p($sHelp,$mLang->TEXT_MENU_ICON_0_DIR));
 	$oTpl->set_var('p_menu_icon1_dir', p($sHelp,$mLang->TEXT_MENU_ICON_1_DIR));
 	$oTpl->set_var('p_menu_page_code', p($mLang->HELP_PAGE_CODE,$mLang->TEXT_PAGE_CODE));
-	$oTpl->set_var('p_menu_filename', p($sFilename,$mLang->TEXT_SEO_TITLE));
+	$oTpl->set_var('p_menu_filename',  p($sFilename,$mLang->TEXT_SEO_TITLE));
 
 	if(is_readable(WB_PATH.$sIconDir)) {
 		$oIterator = new DirectoryIterator(WB_PATH.$sIconDir);

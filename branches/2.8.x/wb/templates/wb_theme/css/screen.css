@@ -141,7 +141,7 @@ form.settings_table { border :1px none #eeee; font-family :verdana,arial,helveti
    form.settings_table input[type="password"] { border :1px solid #666666; margin :0px auto; padding-left :5px; width :59%; }
    form.settings_table input.radio { border :1px none #666666; margin :0px auto; padding-left :0.5em; height :1em; }
    form.settings_table input[type="button"].button { border :1px solid #666666; color :#000000; text-align :left; font-weight :bold; background-color :#dddddd; margin :2px auto; padding :2px 0px 2px 6px; width :60%; }
-   form.settings_table textarea { border :1px solid #666666; margin :3px auto; padding-left :0.5em; min-height :1em; width :60%; }
+   form.settings_table textarea { border :1px solid #666666; margin :3px auto; padding-left :0.5em; min-height :1em; width :59%; }
    form.settings_table select { border :1px solid #666666; margin :3px auto; padding-left :0.5em; min-height :1em; width :60%; }
 /* */
 div.content_box form { }

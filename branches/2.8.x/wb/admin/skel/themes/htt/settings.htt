@@ -417,7 +417,7 @@
 		<div class="mbox sub-row">
 	 		<label class="setting_name">{TEXT_NO_RESULTS}:</label>
 			<div class="input" >
-		<input type="text" name="search_no_results" value="{SEARCH_NO_RESULTS}" />
+		<textarea class="vert" name="search_no_results" cols="50" rows="3">{SEARCH_NO_RESULTS}</textarea>
 			</div>
 		</div>
 		<div class="mbox sub-row">
