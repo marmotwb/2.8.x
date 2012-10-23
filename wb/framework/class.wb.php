@@ -37,63 +37,69 @@ class wb extends SecureForm
 		parent::__construct($mode);
 	}
 
-
-	/**
-	 *
-	 *
-	 * @param mixed $lang
-	 * @param mixed $level
-	 * @param mixed $parent
-	 * @return
-	 */
-	public function GetLanguagesPages ( $lang, $level, $parent ) {
-		global $database;
-        $page = array();
+/**
+ *
+ *
+ * @return array of first visible language pages with defined fields
+ *
+ */
+	public function GetLanguagesDetailsInUsed ( ) {
+        global $database;
+        $retVal = array();
         $sql =
-        'SELECT `language`,`visibility`,`viewing_groups`,`viewing_users`,`language`,`position`, '.
-        '`page_id`,`level`,`parent`,`root_parent`,`page_code`,`link` '.
-        'FROM `'.TABLE_PREFIX.'pages` '.
-        'WHERE `level`=\''.$level.'\' '.
-          'AND `language`=\''.$lang['language'].'\' '.
-          'AND `visibility`!=\'none\' '.
-          'AND `visibility`!=\'hidden\' '.
-          'AND `parent`=\''.$parent.'\' '.
-          'AND `root_parent`=`page_id` '.
-        'ORDER BY `position`';
-        if($oPage = $database->query($sql))
-        {
-            $page = $oPage->fetchRow(MYSQL_ASSOC);
-        }
-        return $page;
+            'SELECT DISTINCT `language`'.
+            ', `page_id`,`level`,`parent`,`root_parent`,`page_code`,`link`,`language`'.
+            ', `visibility`,`viewing_groups`,`viewing_users`,`position` '.
+            'FROM `'.TABLE_PREFIX.'pages` '.
+            'WHERE `level`= \'0\' '.
+              'AND `root_parent`=`page_id` '.
+              'AND `visibility`!=\'none\' '.
+              'AND `visibility`!=\'hidden\' '.
+            'GROUP BY `language` '.
+            'ORDER BY `position`';
+
+            if($oRes = $database->query($sql))
+            {
+                while($page = $oRes->fetchRow(MYSQL_ASSOC))
+                {
+                    if(!$this->page_is_visible($page)) {continue;}
+                    $retVal[$page['language']] = $page;
+                }
+            }
+        return $retVal;
 	}
 
-	/**
-	 *
-	 *
-	 * @return
-	 */
-	public function GetLanguagesInUsed (  ) {
+/**
+ *
+ *
+ * @return comma separate list of first visible languages
+ *
+ */
+	public function GetLanguagesInUsed ( ) {
 		global $database;
         $retVal = '';
         $page = array();
         $sql =
-        'SELECT DISTINCT `language` '.
-        'FROM `'.TABLE_PREFIX.'pages` '.
-        'WHERE `level`= \'0\' '.
-          'AND `visibility`!=\'none\' '.
-          'AND `visibility`!=\'hidden\' '.
-       'ORDER BY `position`';
+            'SELECT DISTINCT `language`'.
+            ', `page_id`,`level`,`parent`,`root_parent`,`page_code`,`link`,`language`'.
+            ', `visibility`,`viewing_groups`,`viewing_users`,`position` '.
+            'FROM `'.TABLE_PREFIX.'pages` '.
+            'WHERE `level`= \'0\' '.
+              'AND `root_parent`=`page_id` '.
+              'AND `visibility`!=\'none\' '.
+              'AND `visibility`!=\'hidden\' '.
+            'GROUP BY `language` '.
+            'ORDER BY `position`';
 
-        if($oRes = $database->query($sql))
-        {
-            while($lang = $oRes->fetchRow(MYSQL_ASSOC))
+            if($oRes = $database->query($sql))
             {
-                $page = $this->GetLanguagesPages ( $lang, 0, 0 );
-                if(!$this->page_is_visible($page)) {continue;}
-                $retVal .= $page['language'].',';
+                while($page = $oRes->fetchRow(MYSQL_ASSOC))
+                {
+                    if(!$this->page_is_visible($page)) {continue;}
+                    $retVal .= $page['language'].',';
+                }
             }
-        }
-        return trim($retVal,',');
+            return trim($retVal,',');
 	}
 
 
@@ -135,12 +141,12 @@ class wb extends SecureForm
 		return $this->is_group_match( $groups_list, $this->get_groups_id() );
 	}
 
-	// Check whether a page is visible or not.
-	// This will check page-visibility and user- and group-rights.
-	/* page_is_visible() returns
-		false: if page-visibility is 'none' or 'deleted', or page-vis. is 'registered' or 'private' and user isn't allowed to see the page.
-		true: if page-visibility is 'public' or 'hidden', or page-vis. is 'registered' or 'private' and user _is_ allowed to see the page.
-	*/
+// Check whether a page is visible or not.
+// This will check page-visibility and user- and group-rights.
+/* page_is_visible() returns
+	false: if page-visibility is 'none' or 'deleted', or page-vis. is 'registered' or 'private' and user isn't allowed to see the page.
+	true: if page-visibility is 'public' or 'hidden', or page-vis. is 'registered' or 'private' and user _is_ allowed to see the page.
+*/
 	public function page_is_visible($page)
     {
 		// First check if visibility is 'none', 'deleted'

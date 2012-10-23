@@ -198,9 +198,6 @@ $StripCodeFromInput = array(
     'website_description',
     'website_keywords',
     'wysiwyg_style',
-    'search_module_order',
-    'search_max_excerpt',
-    'search_time_limit',
     'pages_directory',
     'page_icon_dir',
     'media_directory',
@@ -298,56 +295,101 @@ if($res_settings = $database->query($sql)) {
     }
 
 }
+/**
+ * now save search settings
+ */
 $StripCodeFromISearch = array(
     'search_header',
     'search_results_header',
     'search_results_loop',
     'search_results_footer',
-    'search_no_results',
     'search_footer',
     'search_module_order',
     'search_max_excerpt',
+    'search_no_results',
     'search_time_limit',
+    'search_max_excerpt',
     );
 $allow_empty_values = array(
-    'search_footer',
+    'header',
+    'results_header',
+    'results_loop',
+    'results_footer',
+    'footer',
+    'module_order',
+    'no_results',
+    );
+$allow_tags_in_fields = array(
+    'header',
+    'results_header',
+    'results_loop',
+    'results_footer',
+    'no_results',
+    'footer',
     );
 
 // Query current search settings in the db, then loop through them and update the db with the new value
 $sql  = 'SELECT `name`, `value` FROM `'.TABLE_PREFIX.'search` ';
-$sql .= 'WHERE `extra` = ""';
-$res_search = $database->query($sql);
-
-if($database->is_error()) {
-	$admin->print_error($database->is_error(), $js_back );
+$sql .= 'WHERE `extra` =  \'\' ';
+if( !($oSearch = $database->query($sql)) ) {
+    if($database->is_error()) {
+    	$admin->print_error(explode(';',$database->get_error()), $js_back );
+    }
 }
 
-while($search_setting = $res_search->fetchRow(MYSQL_ASSOC))
+while($aSearch = $oSearch->fetchRow(MYSQL_ASSOC))
 {
-	$old_value = $search_setting['value'];
-	$setting_name = $search_setting['name'];
-	$post_name = 'search_'.$setting_name;
+	$passed = false;
+	$old_value = $aSearch['value'];
+	$sSearchName = $aSearch['name'];
+	$sPostName = 'search_'.$sSearchName;
 
-    // hold old value if post is empty
-    // check search template
-    $value = ($admin->get_post($post_name));
-    if(in_array($post_name, $StripCodeFromISearch) ) {
+    $value = $admin->get_post($sPostName);
+    $value = isset($value) ?  $value : $old_value;
+    if(in_array($sPostName, $StripCodeFromISearch) ) {
         $value = $admin->StripCodeFromText($value);
     }
 
-    $passed = in_array($post_name, $allow_empty_values);
+/**
+ *  hold old value if post is empty
+ *  check search template
+ */
+	switch ($sSearchName) {
+		case 'template':
+ 			$passed = true;
+            $value =  ( !($admin->get_post($sPostName)) || ($value == DEFAULT_TEMPLATE ) ) ? '' : $admin->get_post($sPostName);
+			break;
+		case 'max_excerpt':
+ 			$passed = true;
+        	if(preg_match('/[^0-9]+/i', $value)) {
+                $value = $old_value;
+        	}
+			break;
+		case 'time_limit':
+            $passed = true;
+        	if(preg_match('/[^0-9]+/i', $value)) {
+                $value = $old_value;
+        	}
+			break;
+		default :
+        	$passed = ($admin->get_post($sPostName) || in_array($sSearchName, $allow_empty_values));
 
-    $value = ( (!in_array($post_name, $allow_empty_values)) && ($setting_name != 'template') ) ? $old_value : $value;
+            if (!in_array($sSearchName, $allow_tags_in_fields))
+            {
+                $value = strip_tags($value);
+            }
+			break;
+	}
 
-    // $value =  ( ($admin->get_post($post_name) == '') && ($setting_name == 'template') ) ? DEFAULT_TEMPLATE : $admin->get_post($post_name);
-    if(isset($value))
+    if ( ($passed == true) )
 	{
 		$value = $admin->add_slashes($value);
         $sql  = 'UPDATE `'.TABLE_PREFIX.'search` ';
         $sql .= 'SET `value` = \''.$value.'\' ';
-        $sql .= 'WHERE `name` = \''.$setting_name.'\' ';
+        $sql .= 'WHERE `name` = \''.$sSearchName.'\' ';
         $sql .= 'AND `extra` = \'\' ';
 		if($database->query($sql)) {
+
 		}
 		$sql_info = mysql_info($database->db_handle);
     }

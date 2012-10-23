@@ -66,7 +66,7 @@ $dirRemove = array(
 			'[ADMIN]/themes/',
 		 );
 
-if(version_compare(WB_REVISION, '1788', '<'))
+if(version_compare(WB_REVISION, '1791', '<'))
 {
     $filesRemove['0'] = array(
 
