@@ -117,11 +117,6 @@ if($wb->StripCodeFromText($wb->get_post('action'))=='send')
 		msgQueue::add($MESSAGE['LOGIN_USERNAME_BLANK']);
 	}
 
-	if($wb->get_session('DISPLAY_NAME') != "") {
-//		$aErrorMsg[] = $MESSAGE['GENERIC_FILL_IN_ALL'];
-		msgQueue::add($MESSAGE['GENERIC_FILL_IN_ALL']);
-	}
-
 	if($wb->get_session('EMAIL') != "") {
 		// Check if the email already exists
 		$sql = 'SELECT `user_id` FROM `'.TABLE_PREFIX.'users` WHERE `email` = \''.$_SESSION['EMAIL'].'\'';
@@ -136,6 +131,11 @@ if($wb->StripCodeFromText($wb->get_post('action'))=='send')
 		}
 	} else {
 		msgQueue::add($MESSAGE['SIGNUP_NO_EMAIL']);
+	}
+
+	if($wb->get_session('DISPLAY_NAME') == "") {
+//		$aErrorMsg[] = $MESSAGE['GENERIC_FILL_IN_ALL'];
+		msgQueue::add($MESSAGE['GENERIC_FILL_IN_ALL'].' ('.$TEXT['DISPLAY_NAME'].')');
 	}
 
 	if(CONFIRMED_REGISTRATION) {
@@ -156,7 +156,7 @@ if($wb->StripCodeFromText($wb->get_post('action'))=='send')
 				if($sNewPassword != $sNewPasswordRetyped) {
 					msgQueue::add($MESSAGE['USERS_PASSWORD_MISMATCH']);
 				} else {
-					$pattern = '/[^'.$admin->password_chars.']/';
+					$pattern = '/[^'.$wb->password_chars.']/';
 					if (preg_match($pattern, $sNewPassword)) {
 						msgQueue::add($MESSAGE['PREFERENCES_INVALID_CHARS']);
 					}else {
@@ -210,7 +210,7 @@ if($wb->StripCodeFromText($wb->get_post('action'))=='send')
 //		$sDisplayName = $_SESSION['DISPLAY_NAME'];
 		$sDisplayName = $wb->add_slashes($_SESSION['DISPLAY_NAME']);
 		$groups_id = FRONTEND_SIGNUP;
-		$email_to = $_SESSION['email'];
+		$email_to = $_SESSION['EMAIL'];
 
 // Delete outdated confirmation IDs
 		deleteOutdatedConfirmations();
@@ -227,7 +227,6 @@ if($wb->StripCodeFromText($wb->get_post('action'))=='send')
 		}
 
 // Save new user
-		$bSaveRegistration = true;
 
 		$sql  = 'INSERT INTO `'.TABLE_PREFIX.'users` SET ';
 		$sql .= '`group_id` = \''.$groups_id.'\', ';
@@ -258,6 +257,7 @@ if($wb->StripCodeFromText($wb->get_post('action'))=='send')
 				msgQueue::add($database->get_error());
 			}
 		} else {
+    		$bSaveRegistration = true;
 			msgQueue::add($MESSAGE['SIGNUP_NEW_USER'],true);
 
 			include(dirname(__FILE__).'/signup_mails.php');
@@ -270,5 +270,3 @@ if($wb->StripCodeFromText($wb->get_post('action'))=='send')
 		} // end success $bSaveRegistration
 	}
 } // end $_POST['action']
-// if page_id lost
-$page_id = isset($_SESSION['PAGE_ID']) ? $_SESSION['PAGE_ID'] : 0;

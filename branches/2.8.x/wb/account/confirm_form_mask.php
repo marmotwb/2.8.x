@@ -33,6 +33,7 @@ if(defined('WB_PATH') == false)
 		'ACTION_URL' => WB_URL.'/account/confirm.php',
 		'WB_URL' => WB_URL,
 		'THEME_URL' => THEME_URL,
+        'CSS_BLOCK'	=> $sIncludeHeadLinkCss,
 		'HTTP_REFERER' => isset($_SESSION['HTTP_REFERER']) ? $_SESSION['HTTP_REFERER'] : WB_URL,
 		'CONFIRM_CODE' => $sConfirmationId,
 		'MESSAGE_VALUE' => '',

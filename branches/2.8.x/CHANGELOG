@@ -13,6 +13,9 @@ Legend:
 
 
 
+24 Oct-2012 Build 1792 Dietmar Woellbrink (Luisehahne)
+! all changes in folder account, Signup with confirmation Mail
+! frontend.css now included by account script
 24 Oct-2012 Build 1791 Dietmar Woellbrink (Luisehahne)
 # fixed save search settings
 14 Oct-2012 Build 1790 Dietmar Woellbrink (Luisehahne)

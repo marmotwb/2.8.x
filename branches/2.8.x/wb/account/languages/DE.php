@@ -32,10 +32,11 @@ $MOD_PREFERENCE = array(
 	'SAVE_SETTINGS' => 'Einstellungen speichern',
 	'SAVE_EMAIL' => 'Email speichern',
 	'SAVE_PASSWORD' => 'Passwort speichern',
+	'SAVE_LANGUAGE' => 'Zuerst die Sprache wechseln',
 );
 
 $HEADING['SIGNUP2_CONFIMED_REGISTRATION'] = 'Kontofreischaltung';
-$HEADING['MESSAGE_WELCOME'] = 'Herzlich willkomen zur Freischaltung Ihres Konto';
+$HEADING['MESSAGE_WELCOME'] = 'Herzlich willkommen zur Freischaltung Ihres Konto';
 
 $HELP['SIGNUP_REMEMBER_PASSWORD'] = '<i>Bitte merken Sie sich Ihren Loginnamen und das Kennwort! Sie ben&ouml;tigen den Loginnamen und das Kennwort um die Aktivierung abzuschliessen!</i>';
 $HELP['CONFIRM_PASSWORD'] = '<i>Geben Sie bitte Ihren Loginnamen und das Kennwort ein um die Aktivierung abzuschliessen!</i>';
@@ -59,9 +60,8 @@ Hallo {LOGIN_DISPLAY_NAME},
 
 Sie erhalten diese E-Mail, weil sie ein neues Passwort angefordert haben.
 
-Ihre neuen Logindaten für {LOGIN_WEBSITE_TITLE} lauten:
+Ihr neues Passwort für {LOGIN_WEBSITE_TITLE} lautet:
 
-Loginname: {LOGIN_NAME}
 Passwort: {LOGIN_PASSWORD}
 
 Das bisherige Passwort wurde durch das neue Passwort oben ersetzt.
@@ -72,6 +72,7 @@ Mit freundlichen Grüssen
 ----------------------------------------
 Diese E-Mail wurde automatisch erstellt!
 ';
+
 $MESSAGE['SIGNUP2_BODY_LOGIN_INFO'] = '
 Hallo {LOGIN_DISPLAY_NAME},
 

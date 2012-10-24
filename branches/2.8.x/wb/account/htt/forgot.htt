@@ -1,4 +1,6 @@
 <!-- BEGIN main_block -->
+{CSS_BLOCK}
+
 <!-- BEGIN message_block -->
 {MESSAGE_VALUE}
 <!-- END message_block -->
