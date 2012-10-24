@@ -757,6 +757,9 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 	$sql .= '`template_permissions` = \''.$sTemplatePermissions.'\' ';
 	$sql .= 'WHERE `group_id` = \'1\' ';
     $aDebugMessage[] = ($database->query($sql)) ? " $OK<br />" : " $FAIL!<br />";
+    if( ($admin->is_authenticated() == true) && ($admin->get_user_id()=='1') ) {
+        $_SESSION['SYSTEM_PERMISSIONS'] = array_merge($_SESSION['SYSTEM_PERMISSIONS'], explode(',', $sSystemPermissions));
+    }
 
     if($bDebugModus) {
         echo implode(PHP_EOL,$aDebugMessage);
