@@ -13,6 +13,8 @@ Legend:
 
 
 
+24 Oct-2012 Build 1796 Dietmar Woellbrink (Luisehahne)
+! supress frontend preferences, if user have no permission for it
 24 Oct-2012 Build 1795 Dietmar Woellbrink (Luisehahne)
 ! change setting of the $_SESSION['SYSTEM_PERMISSIONS']
   from get_user_id to ami_group_member, sp that all Users

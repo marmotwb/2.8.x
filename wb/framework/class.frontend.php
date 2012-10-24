@@ -24,6 +24,7 @@ if(!defined('WB_PATH')) {
 //require_once(WB_PATH.'/framework/class.wb.php');
 //require_once(WB_PATH.'/framework/SecureForm.php');
 if(!class_exists('wb', false)){ require(WB_PATH.'/framework/class.wb.php'); }
+if(!class_exists('admin', false)){ require(WB_PATH.'/framework/class.admin.php'); }
 
 class frontend extends wb {
 	// defaults
