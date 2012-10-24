@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>CMS WebsiteBaker | {PAGE_TITLE}</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-language" content="{LANGUAGE}" />
+    <meta name="description" content="{PAGE_TITLE}" />
+    <meta name="keywords" content="{PAGE_TITLE}" />
+    <link href="{THEME_URL}/css/warn.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<div class="main">
+    <table class="header layout">
+        <tr>
+        	<td class="logo">
+        		<a href="http://www.websitebaker2.org/" title=""><img src="../images/logo.png" alt="Logo" /></a>
+        	</td>
+        	<td></td>
+        </tr>
+    </table>
+
+    <div class="table">
+        <div class="td">
+            <div class="content">
+                <div class="login_box">
+                        <div class="topdiv">
+                        OFF-LINE
+                        </div>
+                        <div class="bottomdiv">
+        					<h3>{PAGE_TITLE}</h3>
+        					<h3>{BE_PATIENT}</h3>
+        					<img src="{PAGE_ICON}" alt="{PAGE_TITLE}" /><br />
+        					<h3>{CHECK_BACK}</h3>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="footer">
+    <tbody>
+        <tr>
+        	<td>
+              <!-- Please note: the below reference to the GNU GPL should not be removed, as it provides a link for users to read about warranty, etc. -->
+              <a href="http://www.websitebaker2.org/" title="external">WebsiteBaker</a> is released under the
+              <a href="http://www.gnu.org/licenses/gpl.html" title="WebsiteBaker is released under the GNU General Public License">GNU General Public License</a>
+              <!-- Please note: the above reference to the GNU GPL should not be removed, as it provides a link for users to read about warranty, etc. -->
+        	</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
+<!--- Icons from http://www.iconfinder.com Filter: Allowed for commercial use (No link required) -->
+<!--- Icon Designer David Vignoni - http://www.icon-king.com/ License: http://www.gnu.org/licenses/lgpl.html -->

@@ -26,15 +26,14 @@ if(!defined('WB_PATH')) {
 
 // Get entered values
 	$display_name = strip_tags($wb->StripCodeFromText($wb->get_post('display_name')));
-	$language = strip_tags($wb->StripCodeFromText($wb->get_post('language')));
+	$sUserLanguage = strip_tags($wb->StripCodeFromText($wb->get_post('language')));
 	$timezone = intval($wb->StripCodeFromText($wb->get_post('timezone')))*60*60;
 	$date_format = strip_tags($wb->StripCodeFromText($wb->get_post('date_format')));
 	$time_format = strip_tags($wb->StripCodeFromText($wb->get_post('time_format')));
 
-// Update the database
-// $database = new database();
+//  Update the database
 	$sql  = "UPDATE `".TABLE_PREFIX."users` SET ";
-	$sql .= "`display_name` = '".$display_name."', `language` = '".$language."', ";
+	$sql .= "`display_name` = '".$display_name."', `language` = '".$sUserLanguage."', ";
 	$sql .= "`timezone` = '".$timezone."', `date_format` = '".$date_format."', ";
 	$sql .= "`time_format` = '".$time_format."' ";
 	$sql .=	"WHERE `user_id` = '".$wb->get_user_id()."'";
@@ -44,7 +43,7 @@ if(!defined('WB_PATH')) {
 	} else {
 		$success[] = $MOD_PREFERENCE['DETAILS_SAVED'];
 		$_SESSION['DISPLAY_NAME'] = $display_name;
-		$_SESSION['LANGUAGE'] = $language;
+		$_SESSION['LANGUAGE'] = $sUserLanguage;
 		$_SESSION['TIME_FORMAT'] = $time_format;
 		$_SESSION['DATE_FORMAT'] = $date_format;
 		$_SESSION['TIMEZONE'] = $timezone;

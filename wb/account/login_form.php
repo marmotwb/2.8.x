@@ -17,10 +17,9 @@
 
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
-if(defined('WB_PATH') == false)
-{
-	// Stop this file being access directly
-		die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
+if(!defined('WB_PATH')) {
+require_once(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php');
+throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
 
@@ -42,8 +41,11 @@ if(defined('SMART_LOGIN') AND SMART_LOGIN == 'true') {
 
 $thisApp->redirect_url = (isset($thisApp->redirect_url) && ($thisApp->redirect_url!='')  ? $thisApp->redirect_url : $_SESSION['HTTP_REFERER'] );
 
-//print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
-//print_r( $thisApp->redirect_url ); print '</pre>';
+$sIncludeHeadLinkCss = '';
+if( is_readable(WB_PATH .'/account/frontend.css')) {
+	$sIncludeHeadLinkCss .= '<link href="'.WB_URL.'/account/frontend.css"';
+	$sIncludeHeadLinkCss .= ' rel="stylesheet" type="text/css" media="screen" />'."\n";
+}
 
 // set template file and assign module and template block
 	$oTpl = new Template(dirname(__FILE__).'/htt');
@@ -64,6 +66,7 @@ $thisApp->redirect_url = (isset($thisApp->redirect_url) && ($thisApp->redirect_u
 		'THEME_URL' => THEME_URL,
 		'TEMPLATE_URL' => TEMPLATE_DIR,
 		'HTTP_REFERER' => $_SESSION['HTTP_REFERER'],
+        'CSS_BLOCK'	=> $sIncludeHeadLinkCss,
 		'MESSAGE_VALUE' => '',
 		'ERROR_VALUE' => '',
 		'THISAPP_MESSAGE_VALUE' => $thisApp->message,

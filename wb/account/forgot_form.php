@@ -114,6 +114,12 @@ if( ($errMsg=='') && ($message != '')) {
 	$message_color = 'ff0000';
 }
 
+$sIncludeHeadLinkCss = '';
+if( is_readable(WB_PATH .'/account/frontend.css')) {
+	$sIncludeHeadLinkCss .= '<link href="'.WB_URL.'/account/frontend.css"';
+	$sIncludeHeadLinkCss .= ' rel="stylesheet" type="text/css" media="screen" />'."\n";
+}
+
 // set template file and assign module and template block
 	$oTpl = new Template(dirname(__FILE__).'/htt','keep');
 	$oTpl->set_file('page', 'forgot.htt');
@@ -133,6 +139,7 @@ if( ($errMsg=='') && ($message != '')) {
 		'WB_URL' => WB_URL,
 		'THEME_URL' => THEME_URL,
 		'TEMPLATE_URL' => TEMPLATE_DIR,
+        'CSS_BLOCK'	=> $sIncludeHeadLinkCss,
 		'HTTP_REFERER' => $_SESSION['HTTP_REFERER'],
 		'MESSAGE_VALUE' => '',
 		'ERROR_VALUE' => '',

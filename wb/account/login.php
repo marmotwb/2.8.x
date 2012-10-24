@@ -15,11 +15,23 @@
  *
  */
 
-require_once("../config.php");
+// Include config file
+$config_file = realpath('../config.php');
+if(file_exists($config_file) && !defined('WB_URL'))
+{
+	require_once($config_file);
+}
+
+if(!class_exists('login', false)){ include(WB_PATH.'/framework/class.login.php'); }
+if(!class_exists('frontend', false)){ include(WB_PATH.'/framework/class.frontend.php'); }
+
+require_once(WB_PATH.'/framework/functions.php');
+
+$wb = new frontend(false);
 
 // Make sure the login is enabled
 if(!FRONTEND_LOGIN) {
-		header('Location: '.WB_URL.'/index.php');
+		header('Location: '.WB_URL.'/');
 		exit(0);
 //	if(INTRO_PAGE) {
 //		header('Location: '.WB_URL.PAGES_DIRECTORY.'/index.php');
@@ -28,27 +40,26 @@ if(!FRONTEND_LOGIN) {
 //	}
 }
 
-$page_id = !empty($_SESSION['PAGE_ID']) ? $_SESSION['PAGE_ID'] : 0;
+$page_id = defined('REFERRER_ID') ? REFERRER_ID : isset($_SESSION['PAGE_ID']) ? $_SESSION['PAGE_ID'] : 0;
 
 // Required page details
-// $page_id = 0;
 $page_description = '';
 $page_keywords = '';
+// Work out level
+$level = ($page_id > 0 )? level_count($page_id): $page_id;
+// Work out root parent
+$root_parent = ($page_id > 0 )? root_parent($page_id): $page_id;
+
 define('PAGE_ID', $page_id);
-define('ROOT_PARENT', 0);
+define('ROOT_PARENT', $root_parent);
 define('PARENT', 0);
-define('LEVEL', 0);
+define('LEVEL', $level);
+
 define('PAGE_TITLE', $TEXT['PLEASE_LOGIN']);
 define('MENU_TITLE', $TEXT['PLEASE_LOGIN']);
 define('VISIBILITY', 'public');
 // Set the page content include file
 define('PAGE_CONTENT', WB_PATH.'/account/login_form.php');
-
-require_once(WB_PATH.'/framework/class.login.php');
-require_once(WB_PATH.'/framework/class.frontend.php');
-
-// Create new frontend object
-$wb = new frontend();
 
 // Create new login app
 $requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
@@ -58,9 +69,6 @@ $_SESSION['HTTP_REFERER'] = str_replace(WB_URL,'',$redirect);
 
 $loginUrl  = WB_URL.'/account/login.php';
 $loginUrl .= (!empty($redirect) ? '?redirect=' .$_SESSION['HTTP_REFERER'] : '');
-
-//print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
-//print_r( $redirect ); print '</pre>';
 
 $ThemeUrl  = WB_URL.$wb->correct_theme_source('warning.html');
 // Setup template object, parse vars to it, then parse it
@@ -86,7 +94,7 @@ $thisApp = new Login(
 						"USERS_TABLE" => TABLE_PREFIX."users",
 						"GROUPS_TABLE" => TABLE_PREFIX."groups",
 						"REDIRECT_URL" => $redirect
-				)
+                    )
 		);
 
 // Set extra outsider var

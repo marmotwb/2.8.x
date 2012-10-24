@@ -36,6 +36,12 @@ if(defined('WB_PATH') == false)
 			$sSubmitAction = 'cancel'; // default action
 		}
 
+        $sIncludeHeadLinkCss = '';
+        if( is_readable(WB_PATH .'/account/frontend.css')) {
+        	$sIncludeHeadLinkCss .= '<link href="'.WB_URL.'/account/frontend.css"';
+        	$sIncludeHeadLinkCss .= ' rel="stylesheet" type="text/css" media="screen" />'."\n";
+        }
+
 		$output = '';
 		msgQueue::clear();
 		switch($sSubmitAction) :

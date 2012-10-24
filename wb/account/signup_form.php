@@ -34,10 +34,6 @@ include_once (WB_PATH.'/framework/functions.php');
 $mLang = ModLanguage::getInstance();
 $mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
 
-//echo '<style type="text/css">';
-//include(WB_PATH .'/account/frontend.css');
-//echo "\n</style>\n";
-
 if(isset($_POST['action']) && $_POST['action']=='send') {
 	require(dirname(__FILE__).'/save_signup.php');
 } else {
@@ -50,7 +46,14 @@ if(isset($_POST['action']) && $_POST['action']=='send') {
 	unset($_SESSION['TIMEZONE']);
 }
 
-if($_SESSION['display_form']){
+if($_SESSION['display_form'])
+{
+
+$sIncludeHeadLinkCss = '';
+if( is_readable(WB_PATH .'/account/frontend.css')) {
+	$sIncludeHeadLinkCss .= '<link href="'.WB_URL.'/account/frontend.css"';
+	$sIncludeHeadLinkCss .= ' rel="stylesheet" type="text/css" media="screen" />'."\n";
+}
 
 // set template file and assign module and template block
 	$oTpl = new Template(dirname(__FILE__).'/htt','keep');
@@ -63,6 +66,7 @@ if($_SESSION['display_form']){
 		'ACTION_URL' => WB_URL.'/account/signup.php',
 		'WB_URL' => WB_URL,
 		'THEME_URL' => THEME_URL,
+        'CSS_BLOCK'	=> $sIncludeHeadLinkCss,
 		'HTTP_REFERER' => $_SESSION['HTTP_REFERER'],
 		'MESSAGE_VALUE' => '',
 		'ERROR_VALUE' => '',
@@ -116,35 +120,48 @@ if($_SESSION['display_form']){
 		)
 	);
 
-// detect client language
-	$oTpl->set_block('main_block', 'language_list_block', 'language_list');
-	$sAutoLanguage = DEFAULT_LANGUAGE; // default, if no information from client available
-	if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-		if(preg_match('/([a-z]{2})(?:-[a-z]{2})*/i', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']), $matches)) {
-			$sAutoLanguage = strtoupper($matches[1]);
-		}
-	}
-	$sAutoLanguage = isset($_SESSION['LANGUAGE']) ? $_SESSION['LANGUAGE'] : $sAutoLanguage;
-	// Insert language values
-	$sql  = 'SELECT `name`, `directory` FROM `'.TABLE_PREFIX.'addons` ';
-	$sql .= 'WHERE `type` = \'language\' ';
-//	$sql .= 'AND `function` != \'theme\' ';
-	$sql .= 'ORDER BY `directory`';
-	if( ($result = $database->query($sql)) && ($result->numRows() > 0) )
-//	$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'language' ORDER BY directory");
-//	if($result->numRows() > 0)
-	{
-		while($addon = $result->fetchRow())
-		{
-	        $langIcons = (empty($addon['directory'])) ? 'none' : strtolower($addon['directory']);
 
-			$oTpl->set_var('CODE',        $addon['directory']);
-			$oTpl->set_var('NAME',        $addon['name']);
-			$oTpl->set_var('FLAG',        THEME_URL.'/images/flags/'.$langIcons);
-			$oTpl->set_var('SELECTED',    ($sAutoLanguage == $addon['directory'] ? $sSelected : '') );
-			$oTpl->parse('language_list', 'language_list_block', true);
-		}
+$aLangAddons = array();
+$aLangBrowser = array();
+// read available languages from table addons
+$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';
+$sql .= 'WHERE `type` = \'language\' ORDER BY `directory`';
+if( $oLang = $database->query($sql) )
+{
+    while( $aLang = $oLang->fetchRow(MYSQL_ASSOC) )
+    {
+        $aLangAddons[$aLang['directory']] = $aLang['name'];
+    }
+}
+
+// default, if no information from client available
+$sAutoLanguage = DEFAULT_LANGUAGE;
+// detect client language
+if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+	if(preg_match('/([a-z]{2})(?:-[a-z]{2})*/i', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']), $matches)) {
+		$sAutoLanguage = strtoupper($matches[1]);
 	}
+}
+
+$sAutoLanguage=($wb->get_session('LANGUAGE')) ? $_SESSION['LANGUAGE'] : $sAutoLanguage;
+
+//$sAutoLanguage = 'NL';
+$aLangUsed = array_flip(explode(',',$wb->GetLanguagesInUsed()));
+$aLangUsed = array_intersect_key($aLangAddons, $aLangUsed);
+$sAutoLanguage = array_key_exists($sAutoLanguage,$aLangUsed) ? $sAutoLanguage : DEFAULT_LANGUAGE;
+//print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
+//print_r( $aLangUsed ); print '</pre>'; // flush ();sleep(10); die();
+//  read available languages from table addons and assign it to the template
+    $oTpl->set_block('main_block', 'language_list_block', 'language_list');
+    foreach( $aLangUsed as $sDirectory => $aName  )
+    {
+        $langIcons = ( empty($sDirectory) ? 'none' : strtolower($sDirectory));
+        $oTpl->set_var('CODE',        $sDirectory );
+        $oTpl->set_var('NAME',        $aName );
+        $oTpl->set_var('FLAG',        THEME_URL.'/images/flags/'.$langIcons );
+        $oTpl->set_var('SELECTED',    ( $sAutoLanguage == $sDirectory ? ' selected="selected"' : '') );
+        $oTpl->parse('language_list', 'language_list_block', true);
+    }
 
 // if type == confirmed_registration mail show password block, otherwise old login with captcha
 	$oTpl->set_block('main_block', 'password_block', 'password');

@@ -17,17 +17,21 @@
 
 require_once('../config.php');
 
-require_once(WB_PATH.'/framework/class.admin.php');
-// Create new frontend object
-$wb = new admin();
+if(!class_exists('frontend', false)){ include(WB_PATH.'/framework/class.frontend.php'); }
 
-//require_once(dirname(__FILE__).'/AccountSignup.php');
+require_once(WB_PATH.'/framework/functions.php');
+
+// Create new frontend object
+$wb = new frontend(false);
 
 // load module language file
-$sAutoLanguage = isset($_SESSION['LANGUAGE']) ? $_SESSION['LANGUAGE'] : AccountSignup::GetBowserLanguage(DEFAULT_LANGUAGE);
+//$sAutoLanguage = isset($_SESSION['LANGUAGE']) ? $_SESSION['LANGUAGE'] : AccountSignup::GetBowserLanguage(DEFAULT_LANGUAGE);
 
 $mLang = ModLanguage::getInstance();
-$mLang->setLanguage(dirname(__FILE__).'/languages/', $sAutoLanguage, DEFAULT_LANGUAGE);
+$mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+
+//$langDir = WB_PATH . '/languages/' . LANGUAGE . '.php';
+//require_once(!file_exists($langDir) ? WB_PATH . '/languages/EN.php' : $langDir );
 
 // form faked? Check the honeypot-fields.
 if(ENABLED_ASP && isset($_POST['username']) && (
@@ -41,18 +45,24 @@ if(ENABLED_ASP && isset($_POST['username']) && (
 	$wb->send_header(WB_URL.'/index.php');
 }
 
-$page_id = isset($_SESSION['PAGE_ID']) ? intval($_SESSION['PAGE_ID']) : 0;
+$page_id = defined('REFERRER_ID') ? REFERRER_ID : isset($_SESSION['PAGE_ID']) ? $_SESSION['PAGE_ID'] : 0;
 // needed for backlink/cancel
 $_SESSION['HTTP_REFERER'] = isset($_SESSION['HTTP_REFERER']) ? ($_SESSION['HTTP_REFERER']) : WB_URL.'/';
 // action modus
 $_POST['action'] = !isset($_POST['action']) ? 'show' : $_POST['action'];
 
+// Required page details
 $page_description = '';
 $page_keywords = '';
+// Work out level
+$level = ($page_id > 0 )? level_count($page_id): $page_id;
+// Work out root parent
+$root_parent = ($page_id > 0 )? root_parent($page_id): $page_id;
+
 define('PAGE_ID', $page_id);
-define('ROOT_PARENT', 0);
+define('ROOT_PARENT', $root_parent);
 define('PARENT', 0);
-define('LEVEL', 0);
+define('LEVEL', $level);
 define('PAGE_TITLE', $TEXT['SIGNUP']);
 define('MENU_TITLE', $TEXT['SIGNUP']);
 define('MODULE', '');
