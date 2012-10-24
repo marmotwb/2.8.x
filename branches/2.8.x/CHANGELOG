@@ -13,6 +13,10 @@ Legend:
 
 
 
+24 Oct-2012 Build 1795 Dietmar Woellbrink (Luisehahne)
+! change setting of the $_SESSION['SYSTEM_PERMISSIONS']
+  from get_user_id to ami_group_member, sp that all Users
+  with Administrators Group, don't need to login again  
 24 Oct-2012 Build 1794 Dietmar Woellbrink (Luisehahne)
 ! upgrade-script: system_permission changes for group Administrators 
   will be change in $_SESSION['SYSTEM_PERMISSIONS'], if you are logged in as user_id == 1
