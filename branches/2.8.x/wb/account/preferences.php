@@ -27,6 +27,7 @@ if(!class_exists('frontend', false)){ include(WB_PATH.'/framework/class.frontend
 require_once(WB_PATH.'/framework/functions.php');
 
 $wb = new frontend(false);
+$permission = new admin('##skip##');
 
 if(!FRONTEND_LOGIN) {
 	$wb->send_header('Location: '.WB_URL.'/');
@@ -37,6 +38,12 @@ if ($wb->is_authenticated()==false) {
 	$wb->send_header('Location: '.WB_URL.'/account/login.php');
 	exit(0);
 }
+
+if ($permission->get_permission('preferences')==false) {
+	$wb->send_header('Location: '.WB_URL.'/');
+	exit(0);
+}
+
 $page_id = defined('REFERRER_ID') ? REFERRER_ID : isset($_SESSION['PAGE_ID']) ? $_SESSION['PAGE_ID'] : 0;
 
 // Required page details

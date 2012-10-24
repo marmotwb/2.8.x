@@ -45,7 +45,7 @@ class wb extends SecureForm
  */
 	public function GetLanguagesDetailsInUsed ( ) {
         global $database;
-        $retVal = array();
+        $aRetval = array();
         $sql =
             'SELECT DISTINCT `language`'.
             ', `page_id`,`level`,`parent`,`root_parent`,`page_code`,`link`,`language`'.
@@ -63,10 +63,10 @@ class wb extends SecureForm
                 while($page = $oRes->fetchRow(MYSQL_ASSOC))
                 {
                     if(!$this->page_is_visible($page)) {continue;}
-                    $retVal[$page['language']] = $page;
+                    $aRetval[$page['language']] = $page;
                 }
             }
-        return $retVal;
+        return $aRetval;
 	}
 
 /**
@@ -76,31 +76,8 @@ class wb extends SecureForm
  *
  */
 	public function GetLanguagesInUsed ( ) {
-		global $database;
-        $retVal = '';
-        $page = array();
-        $sql =
-            'SELECT DISTINCT `language`'.
-            ', `page_id`,`level`,`parent`,`root_parent`,`page_code`,`link`,`language`'.
-            ', `visibility`,`viewing_groups`,`viewing_users`,`position` '.
-            'FROM `'.TABLE_PREFIX.'pages` '.
-            'WHERE `level`= \'0\' '.
-              'AND `root_parent`=`page_id` '.
-              'AND `visibility`!=\'none\' '.
-              'AND `visibility`!=\'hidden\' '.
-            'GROUP BY `language` '.
-            'ORDER BY `position`';
-
-            if($oRes = $database->query($sql))
-            {
-                while($page = $oRes->fetchRow(MYSQL_ASSOC))
-                {
-                    if(!$this->page_is_visible($page)) {continue;}
-                    $retVal .= $page['language'].',';
-                }
-            }
-            return trim($retVal,',');
-	}
+        return implode(',', array_keys($this->GetLanguagesDetailsInUsed()));
+  	}
 
 
 /* ****************
