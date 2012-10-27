@@ -13,6 +13,8 @@ Legend:
 
 
 
+27 Oct-2012 Build 1797 Dietmar Woellbrink (Luisehahne)
++ add new image class to admin/media for better images preview
 24 Oct-2012 Build 1796 Dietmar Woellbrink (Luisehahne)
 ! supress frontend preferences, if user have no permission for it
 24 Oct-2012 Build 1795 Dietmar Woellbrink (Luisehahne)

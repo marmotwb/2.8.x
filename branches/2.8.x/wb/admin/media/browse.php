@@ -17,7 +17,7 @@
 
 // Create admin object
 require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 $admin = new admin('Media', 'media', false);
 
 $starttime = explode(" ", microtime());
@@ -66,13 +66,45 @@ function get_filetype_icon($fname) {
 	}
 }
 
-function ShowTip($name,$detail='') {
-$parts = explode(".", $name);
-$ext = strtolower(end($parts));
-if (strpos('.gif.jpg.jpeg.png.bmp.',$ext) )
-	return 'onmouseover="overlib(\'<img src=\\\''.$name.'\\\' maxwidth=\\\'200\\\' maxheight=\\\'200\\\'>\',VAUTO, WIDTH)" onmouseout="nd()" ' ;
-else
-	return '';
+function ToolTip($name, $detail = '')
+{
+//    parse_str($name, $array);
+//    $name = $array['img'];
+    $parts = explode(".", $name);
+    $ext = strtolower( end($parts));
+    if (strpos('.gif.jpg.jpeg.png.bmp.', $ext))
+	{
+        $retVal = 'onmouseover="return overlib('.
+            '\'<img src=\\\''.($name).'\\\''.
+            'maxwidth=\\\'300\\\' '.
+            'maxheight=\\\'300\\\'>\','.
+//            '>\','.
+            'CAPTION,\''.basename($name).'\','.
+            'FGCOLOR,\'#ffffff\','.
+            'BGCOLOR,\'#557c9e\','.
+            'BORDER,1,'.
+            'FGCOLOR, \'#ffffff\','.
+            'BGCOLOR,\'#557c9e\','.
+            'CAPTIONSIZE,\'12px\','.
+            'CLOSETEXT,\'X\','.
+            'CLOSECOLOR,\'#ffffff\','.
+            'CLOSESIZE,\'14px\','.
+            'VAUTO,'.
+            'HAUTO,'.
+            ''.
+            'STICKY,'.
+            'MOUSEOFF,'.
+            'WRAP,'.
+            'CELLPAD,5'.
+            ''.
+            ''.
+            ''.
+            ')" onmouseout="return nd()"';
+        return $retVal;
+//        return ('onmouseover="return overlib(\'<img src=\\\''.($name).'\\\' maxwidth=\\\'600\\\'  maxheight=\\\'600\\\'>\',BORDER,1,FGCOLOR, \'#ffffff\',VAUTO,WIDTH)" onmouseout="return nd()" ');
+    } else {
+        return '';
+    }
 }
 
 function fsize($size) {
@@ -239,8 +271,8 @@ if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 				$info = getimagesize(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$name);
 				if ($info[0]) {
 					$imgdetail = fsize(filesize(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$name)).'<br /> '.$info[0].' x '.$info[1].' px';
-					$icon = 'thumb.php?t=1&amp;img='.$directory.'/'.$name;
-					$tooltip = ShowTip('thumb.php?t=2&amp;img='.$directory.'/'.$name);
+					$icon = 'thumbs.php?t=1&img='.$directory.'/'.$name;
+					$tooltip = ToolTip('thumbs.php?t=2&img='.$directory.'/'.$name);
 				}
 			}
 
