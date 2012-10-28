@@ -39,7 +39,7 @@ if (isset($_GET['img']) && isset($_GET['t'])) {
         $thumb->resize(30,30);
 // 		$thumb->resizePercent(40);
 	} else {
-    	$thumb->resize(500,500);
+    	$thumb->resize(250,250);
 // 		$thumb->resizePercent(50);
 //		$thumb->cropFromCenter(80,50);
 	}

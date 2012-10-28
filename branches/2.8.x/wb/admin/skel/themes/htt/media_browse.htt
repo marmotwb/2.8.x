@@ -29,11 +29,11 @@ function confirm_link(message, url) {
 
 <table summary="" cellpadding="4" cellspacing="0" border="0" width="100%" class="{DISPLAY_LIST_TABLE}">
 <!-- BEGIN list_block -->
-<tr style="background-color: #{ROW_BG_COLOR};" {MOUSEOVER} >
-	<td width="18" style="padding-left: 10px;">
+<tr style="background-color: #{ROW_BG_COLOR};" >
+	<td width="18" style="padding-left: 10px;" {MOUSEOVER} >
 		<a href="{LINK}" target="{LINK_TARGET}"><img src="{FT_ICON}" class="{DISPLAY_ICON}" border="0" alt="" /></a>
 	</td>
-	<td>
+	<td {MOUSEOVER} >
 		<a href="{LINK}" target="{LINK_TARGET}">{NAME}</a>
 	</td>
 	<td width="120">
