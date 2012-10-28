@@ -79,7 +79,7 @@ function ToolTip($name, $detail = '')
             'maxwidth=\\\'300\\\' '.
             'maxheight=\\\'300\\\'>\','.
 //            '>\','.
-            'CAPTION,\''.basename($name).'\','.
+//            'CAPTION,\''.basename($name).'\','.
             'FGCOLOR,\'#ffffff\','.
             'BGCOLOR,\'#557c9e\','.
             'BORDER,1,'.
@@ -92,7 +92,7 @@ function ToolTip($name, $detail = '')
             'VAUTO,'.
             'HAUTO,'.
             ''.
-            'STICKY,'.
+//            'STICKY,'.
             'MOUSEOFF,'.
             'WRAP,'.
             'CELLPAD,5'.
