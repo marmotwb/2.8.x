@@ -76,8 +76,9 @@ function ToolTip($name, $detail = '')
 	{
         $retVal = 'onmouseover="return overlib('.
             '\'<img src=\\\''.($name).'\\\''.
+            'alt=\\\'\\\' '.
             'maxwidth=\\\'300\\\' '.
-            'maxheight=\\\'300\\\'>\','.
+            'maxheight=\\\'300\\\' />\','.
 //            '>\','.
 //            'CAPTION,\''.basename($name).'\','.
             'FGCOLOR,\'#ffffff\','.
@@ -136,12 +137,12 @@ $dir_backlink = 'browse.php?dir='.$directory;
 // Check to see if it contains ../
 if (!check_media_path($directory)) {
 	// $admin->print_header();
-	$admin->print_error($MESSAGE['MEDIA']['DIR_DOT_DOT_SLASH']);
+	$admin->print_error($MESSAGE['MEDIA_DIR_DOT_DOT_SLASH']);
 }
 
 if(!file_exists(WB_PATH.MEDIA_DIRECTORY.$directory)) {
 	// $admin->print_header();
-	$admin->print_error($MESSAGE['MEDIA']['DIR_DOES_NOT_EXIST']);
+	$admin->print_error($MESSAGE['MEDIA_DIR_DOES_NOT_EXIST']);
 }
 
 // Check to see if the user wanted to go up a directory into the parent folder
@@ -151,7 +152,7 @@ if($admin->get_get('up') == 1) {
 	exit(0);
 }
 
-if ($_SESSION['GROUP_ID'] != 1 && $pathsettings['global']['admin_only']) { // Only show admin the settings link
+if ($_SESSION['GROUP_ID'] != 1 && $pathsettings['global_admin_only']) { // Only show admin the settings link
 	$template->set_var('DISPLAY_SETTINGS', 'hide');
 }
 
@@ -267,12 +268,12 @@ if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 			$tooltip = '';
 
 
-			if (!$pathsettings['global']['show_thumbs']) {
+			if (!$pathsettings['global_show_thumbs']) {
 				$info = getimagesize(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$name);
 				if ($info[0]) {
 					$imgdetail = fsize(filesize(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$name)).'<br /> '.$info[0].' x '.$info[1].' px';
-					$icon = 'thumbs.php?t=1&img='.$directory.'/'.$name;
-					$tooltip = ToolTip('thumbs.php?t=2&img='.$directory.'/'.$name);
+					$icon = 'thumbs.php?t=1&amp;img='.$directory.'/'.$name;
+					$tooltip = ToolTip('thumbs.php?t=2&amp;img='.$directory.'/'.$name);
 				}
 			}
 
@@ -334,9 +335,9 @@ $template->set_var(array(
 					'TEXT_NAME' => $TEXT['NAME'],
 					'TEXT_TYPE' => $TEXT['TYPE'],
 					'TEXT_UP' => $TEXT['UP'],
-					'NONE_FOUND' => $MESSAGE['MEDIA']['NONE_FOUND'],
+					'NONE_FOUND' => $MESSAGE['MEDIA_NONE_FOUND'],
 					'CHANGE_SETTINGS' => $TEXT['MODIFY_SETTINGS'],
-					'CONFIRM_DELETE' => $MESSAGE['MEDIA']['CONFIRM_DELETE']
+					'CONFIRM_DELETE' => $MESSAGE['MEDIA_CONFIRM_DELETE']
 				)
 			);
 
