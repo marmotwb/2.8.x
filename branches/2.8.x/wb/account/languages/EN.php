@@ -29,6 +29,7 @@ $MOD_PREFERENCE = array(
 	'SAVE_SETTINGS' => 'save details',
 	'SAVE_EMAIL'    => 'save email',
 	'SAVE_PASSWORD' => 'save password',
+	'SAVE_LANGUAGE' => 'Switch language first',
 );
 $TEXT['USERNAME'] = 'Loginname';
 $HEADING['SIGNUP2_CONFIMED_REGISTRATION'] = 'Unlock account';
