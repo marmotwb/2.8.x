@@ -48,7 +48,6 @@ $MOD_FORM['FROM'] = 'Absender';
 $MOD_FORM['TO'] = 'Empf&auml;nger';
 
 $MOD_FORM['EXCESS_SUBMISSIONS'] = 'Dieses Formular wurde zu oft aufgerufen. Bitte versuchen Sie es in einer Stunde noch einmal.';
-$MOD_FORM['ERROR'] = 'E-Mail konnte nicht gesendet werden!!';
 $MOD_FORM['INCORRECT_CAPTCHA'] = 'Die eingegebene Pr&uuml;fziffer stimmt nicht &uuml;berein. Wenn Sie Probleme mit dem Lesen der Pr&uuml;fziffer haben, bitte schreiben Sie eine E-Mail an den <a href="mailto:{{webmaster_email}}">Webmaster</a>';
 
 $MOD_FORM['PRINT']  = 'E-Mail Best&auml;tigung erfolgt nur an die g&uuml;ltige E-Mail Adresse eines jeweils angemeldeten Benutzers! Versand an ungepr&uuml;fte Adressen ist nicht m&ouml;glich! ';
@@ -56,6 +55,7 @@ $MOD_FORM['PRINT'] .= 'Drucken Sie bitte diese Nachricht aus!';
 
 $MOD_FORM['REQUIRED_FIELDS'] = 'Bitte folgende Angaben erg&auml;nzen';
 $MOD_FORM['RECIPIENT'] = 'E-Mail Best&auml;tigung erfolgt nur an die g&uuml;ltige E-Mail Adresse des jeweils angemeldeten Benutzers! Versand an ungepr&uuml;fte Adressen ist nicht m&ouml;glich!';
+$MOD_FORM['ERROR'] = 'E-Mail konnte nicht gesendet werden!!';
 $MOD_FORM['SPAM'] = 'ACHTUNG! Beantworten einer ungeprüften E-Mail kann als Spam abgemahnt werden! ';
 
 $TEXT['GUEST'] = 'Gast';

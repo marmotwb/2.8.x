@@ -54,6 +54,7 @@ $MOD_FORM['PRINT'] .= 'Please print this message!';
 $MOD_FORM['REQUIRED_FIELDS'] = 'You must enter details for the following fields';
 $MOD_FORM['RECIPIENT'] = 'E-mail confirmation occurs only to valid e-mail address of the user announced in each case! Dispatch to unchecked addresses is not possible!';
 $MOD_FORM['ERROR'] = 'E-Mail could not send!!';
+$MOD_FORM['SPAM'] = 'Caution! Answering an unchecked email can be perceived as spamming and entail the risk of receiving a cease-and-desist letter! ';
 
 $TEXT['GUEST'] = 'Guest';
 $TEXT['PRINT_PAGE'] = 'Print page';

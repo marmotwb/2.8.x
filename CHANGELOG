@@ -13,6 +13,10 @@ Legend:
 
 
 
+31 Oct-2012 Build 1801 Dietmar Woellbrink (Luisehahne)
+! upgrade-script: update if filesRemove or remove dirs failed
+! update methode StripCodeFromText, add remove <?php ... ?>,    
+! security fixes in form modul with StripCodeFromText
 29 Oct-2012 Build 1800 Dietmar Woellbrink (Luisehahne)
 # add missing lang var in account/languages/EN.PHP 
 29 Oct-2012 Build 1799 Dietmar Woellbrink (Luisehahne)

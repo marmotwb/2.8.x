@@ -66,7 +66,7 @@ $dirRemove = array(
 			'[ADMIN]/themes/',
 		 );
 
-if(version_compare(WB_REVISION, '1791', '<'))
+if(version_compare(WB_REVISION, VERSION, '<='))
 {
     $filesRemove['0'] = array(
 
@@ -857,11 +857,11 @@ echo '<div style="margin-left:2em;">';
 				// try to unlink file
 				if(!unlink(WB_PATH.$file)) {
 					// save in err-list, if failed
-					$msg .= $file.'<br />';
-				} else {
-					$msg .= $file.'<br />';
-    			}
+				}
 			}
+            if( is_readable(WB_PATH.'/'.$file) ) {
+                $msg .= $file.'<br />';
+            }
     	}
 
 		if($msg != '')
@@ -911,7 +911,9 @@ echo '<div style="margin-left:2em;">';
 			// try to delete dir
 				if(!is_writable( $dir ) || !rm_full_dir($dir)) {
 				// save in err-list, if failed
-					$msg .= str_replace(WB_PATH,'',$dir).'<br />';
+                    if( is_readable(WB_PATH.'/'.$file) ) {
+                    	$msg .= str_replace(WB_PATH,'',$dir).'<br />';
+                    }
 				}
 			}
 		}
@@ -939,7 +941,7 @@ echo '<div style="margin-left:2em;">';
      * upgrade modules if newer version is available
      * $aModuleList list of proofed modules
      */
-    $sModuleList = 'news,wysiwyg,form,any';
+    $sModuleList = 'news,wysiwyg,form';
     $aModuleList = explode(',', (defined('MODULES_UPGRADE_LIST') ? MODULES_UPGRADE_LIST : $sModuleList));
     echo '<h3>Step '.(++$stepID).': Upgrade proofed modules</h3>';
 //	$aModuleList = array('news');
