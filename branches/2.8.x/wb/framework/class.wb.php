@@ -664,7 +664,7 @@ class wb extends SecureForm
 
 	/**
      *
-     * remove [[text]], link, script, scriptblock and styleblock from a given string
+     * remove <?php code ?>, [[text]], link, script, scriptblock and styleblock from a given string
      * and return the cleaned string
 	 *
 	 * @param string $sValue
@@ -672,8 +672,9 @@ class wb extends SecureForm
      *    false: if @param is not a string
      *    string: cleaned string
 	 */
-	public function StripCodeFromText($sValue){
+	public function StripCodeFromText($sValue, $bPhpCode=false){
         if(!is_string($sValue)) { return false; }
+        $sValue = ( ($bPhpCode==true) ? preg_replace ('/\[\[.*?\]\]\s*?|<\?php\s+.*\?>\s*?/isU', '', $sValue ) : $sValue );
         $sPattern = '/\[\[.*?\]\]\s*?|<!--\s+.*?-->\s*?|<(script|link|style)[^>]*\/>\s*?|<(script|link|style)[^>]*?>.*?<\/\2>\s*?|\s*$/isU';
         return (preg_replace ($sPattern, '', $sValue));
 	}

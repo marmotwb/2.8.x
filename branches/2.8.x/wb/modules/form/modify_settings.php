@@ -160,7 +160,7 @@ if(function_exists('edit_module_css')) {
 	<tr>
 		<td class="frm-setting_name"><?php echo $TEXT['DISPLAY_NAME']; ?>:</td>
 		<td class="frm-setting_value">
-			<input type="text" name="email_fromname" id="email_fromname" style="width: 98%;  ?>;" maxlength="255" value="<?php  echo $setting['success_email_fromname'];  ?>" />
+			<input type="text" name="email_fromname" id="email_fromname" style="width: 98%;  ?>;" maxlength="255" value="<?php  echo $setting['email_fromname'];  ?>" />
 		</td>
 	</tr>
 	<tr>

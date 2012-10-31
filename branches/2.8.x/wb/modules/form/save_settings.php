@@ -48,68 +48,63 @@ if (!function_exists('emailAdmin')) {
 // load module language file
 $lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
 require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
-// later in upgrade.php
+// later in upgrade.php (add pagination)
 $table_name = TABLE_PREFIX.'mod_form_settings';
 $field_name = 'perpage_submissions';
 $description = "INT NOT NULL DEFAULT '10' AFTER `max_submissions`";
-if(!$database->field_exists($table_name,$field_name)) {
-	$database->field_add($table_name, $field_name, $description);
-}
-
+$database->field_add($table_name, $field_name, $description);
 
 // This code removes any <?php tags and adds slashes
 $friendly = array('&lt;', '&gt;', '?php');
 $raw = array('<', '>', '');
-$header     = $admin->add_slashes($_POST['header']);
-$field_loop = $admin->add_slashes($_POST['field_loop']);
-$footer     = $admin->add_slashes($_POST['footer']);
-$email_to   = $admin->add_slashes($_POST['email_to']);
+
+//$header     = CleanInput('header');
+$header = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('header'),true));
+//$field_loop = CleanInput('field_loop');
+$field_loop = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('field_loop'),true));
+//$footer     = CleanInput('footer');
+$footer = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('footer'),true));
+//$email_to   = CleanInput('email_to');
+$email_to = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('email_to'),true));
 $email_to   = ($email_to != '' ? $email_to : emailAdmin());
 $email_from = $admin->add_slashes(SERVER_EMAIL);
-$use_captcha = $admin->add_slashes($_POST['use_captcha']);
-/*
-if( isset($_POST['email_from_field']) && ($_POST['email_from_field'] != '')) {
-	$email_from = $admin->add_slashes($_POST['email_from_field']);
-} else {
-	$email_from = $admin->add_slashes($_POST['email_from']);
-}
-*/
+//$use_captcha =CleanInput('use_captcha');
+$use_captcha = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('use_captcha'),true));
+
 if( isset($_POST['email_fromname_field']) && ($_POST['email_fromname_field'] != '')) {
-	$email_fromname = $admin->add_slashes($_POST['email_fromname_field']);
+    $email_fromname = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('email_fromname_field'),true));
 } else {
-	$email_fromname = $admin->add_slashes($_POST['email_fromname']);
+    $email_fromname = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('email_fromname'),true));
 }
 
-$email_subject = $admin->add_slashes($_POST['email_subject']);
-$email_subject = (($email_subject  != '') ? $email_subject : '');
-$success_page = $admin->add_slashes($_POST['success_page']);
-$success_email_to = $admin->add_slashes($_POST['success_email_to']);
+$email_fromname = ($email_fromname != '' ? $email_fromname : WBMAILER_DEFAULT_SENDERNAME);
+$email_subject = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('email_subject'),true));
+$success_page = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('success_page'),true));
+$success_email_to = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('success_email_to'),true));
 $success_email_from = $admin->add_slashes(SERVER_EMAIL);
-$success_email_fromname = $admin->add_slashes($_POST['success_email_fromname']);
-$success_email_fromname = ($success_email_fromname != '' ? $success_email_fromname : WBMAILER_DEFAULT_SENDERNAME);
-$success_email_text = $admin->add_slashes($_POST['success_email_text']);
+$success_email_fromname = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('success_email_fromname'),true));
+$success_email_fromname = ($success_email_fromname != '' ? $success_email_fromname : $email_fromname);
+$success_email_text = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('success_email_text'),true));
 $success_email_text = (($success_email_text != '') ? $success_email_text : '');
-$success_email_subject = $admin->add_slashes($_POST['success_email_subject']);
+$success_email_subject = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('success_email_subject'),true));
 $success_email_subject = (($success_email_subject  != '') ? $success_email_subject : '');
-
-//print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
-//print_r( $_POST ); print '</pre>';
 
 if(!is_numeric($_POST['max_submissions'])) {
 	$max_submissions = 50;
 } else {
-	$max_submissions = $_POST['max_submissions'];
+	$max_submissions = intval($_POST['max_submissions']);
 }
 if(!is_numeric($_POST['stored_submissions'])) {
 	$stored_submissions = 100;
 } else {
-	$stored_submissions = $_POST['stored_submissions'];
+	$stored_submissions = intval($_POST['stored_submissions']);
 }
 if(!is_numeric($_POST['perpage_submissions'])) {
 	$perpage_submissions = 10;
 } else {
-	$perpage_submissions = $_POST['perpage_submissions'];
+	$perpage_submissions = intval($_POST['perpage_submissions']);
 }
+
 // Make sure max submissions is not greater than stored submissions if stored_submissions <>0
 if($max_submissions > $stored_submissions) {
 	$max_submissions = $stored_submissions;

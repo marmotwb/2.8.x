@@ -62,14 +62,14 @@ if (!function_exists('make_option')) {
 	function make_option(&$n, $k, $values) {
 		// start option group if it exists
 		if (substr($n,0,2) == '[=') {
-		 	$n = '<optgroup label="'.substr($n,2,strlen($n)).'">'.PHP_EOL;
+		 	$n = '<optgroup label="'.substr($n,2,strlen($n)).'">';
 		} elseif ($n == ']') {
-			$n = '</optgroup>'.PHP_EOL;
+			$n = '</optgroup>'."\n";
 		} else {
 			if(in_array($n, $values)) {
-				$n = '<option selected="selected" value="'.$n.'">'.$n.'</option>'.PHP_EOL;
+				$n = '<option selected="selected" value="'.$n.'">'.$n.'</option>'."\n";
 			} else {
-				$n = '<option value="'.$n.'">'.$n.'</option>'.PHP_EOL;
+				$n = '<option value="'.$n.'">'.$n.'</option>'."\n";
 			}
 		}
 	}
@@ -82,9 +82,9 @@ if (!function_exists('make_checkbox')) {
 
 		$label_id = 'wb_'.preg_replace('/[^a-z0-9]/i', '_', $key).$field_id;
 		if(in_array($key, $params[1])) {
-			$key = '<input class="frm-field_checkbox" type="checkbox" id="'.$label_id.'" name="field'.$field_id.'['.$idx.']" value="'.$key.'" />'.'<label for="'.$label_id.'" class="frm-checkbox_label">'.$key.'</lable>'.$seperator.PHP_EOL;
+			$key = '<input class="frm-field_checkbox" type="checkbox" id="'.$label_id.'" name="field'.$field_id.'['.$idx.']" value="'.$key.'" />'.'<label for="'.$label_id.'" class="frm-checkbox_label">'.$key.'</lable>'.$seperator;
 		} else {
-			$key = '<input class="frm-field_checkbox" type="checkbox" id="'.$label_id.'" name="field'.$field_id.'['.$idx.']" value="'.$key.'" />'.'<label for="'.$label_id.'" class="frm-checkbox_label">'.$key.'</label>'.$seperator.PHP_EOL;
+			$key = '<input class="frm-field_checkbox" type="checkbox" id="'.$label_id.'" name="field'.$field_id.'['.$idx.']" value="'.$key.'" />'.'<label for="'.$label_id.'" class="frm-checkbox_label">'.$key.'</label>'.$seperator;
 		}
 	}
 }
@@ -96,9 +96,9 @@ if (!function_exists('make_radio')) {
 		$seperator = $params[2];
 		$label_id = 'wb_'.preg_replace('/[^a-z0-9]/i', '_', $n).$field_id;
 		if($n == $params[3]) {
-			$n = '<input class="frm-field_checkbox" type="radio" id="'.$label_id.'" name="field'.$field_id.'" value="'.$n.'" checked="checked" />'.'<label for="'.$label_id.'" class="frm-checkbox_label">'.$n.'</label>'.$seperator.PHP_EOL;
+			$n = '<input class="frm-field_checkbox" type="radio" id="'.$label_id.'" name="field'.$field_id.'" value="'.$n.'" checked="checked" />'.'<label for="'.$label_id.'" class="frm-checkbox_label">'.$n.'</label>'.$seperator;
 		} else {
-			$n = '<input class="frm-field_checkbox" type="radio" id="'.$label_id.'" name="field'.$field_id.'" value="'.$n.'" />'.'<label for="'.$label_id.'" class="frm-checkbox_label">'.$n.'</label>'.$seperator.PHP_EOL;
+			$n = '<input class="frm-field_checkbox" type="radio" id="'.$label_id.'" name="field'.$field_id.'" value="'.$n.'" />'.'<label for="'.$label_id.'" class="frm-checkbox_label">'.$n.'</label>'.$seperator;
 		}
 	}
 }
@@ -202,28 +202,28 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 				if (($field['type'] == "radio") || ($field['type'] == "checkbox")) {
 					$field_title = $field['title'];
 				} else {
-					$field_title = '<label for="field'.$field_id.'">'.$field['title'].'</label>'.PHP_EOL;
+					$field_title = '<label for="field'.$field_id.'">'.$field['title'].'</label>';
 				}
 				$values = array($field_title);
 				if ($field['required'] == 1) {
-					$values[] = '<span class="frm-required">*</span>'."\n";
+					$values[] = '<span class="frm-required">*</span>';
 				} else {
 					$values[] = '';
 				}
 				if($field['type'] == 'textfield') {
 					$vars[] = '{FIELD}';
 					$max_lenght_para = (intval($field['extra']) ? ' maxlength="'.intval($field['extra']).'"' : '');
-					$values[] = '<input type="text" name="field'.$field_id.'" id="field'.$field_id.'"'.$max_lenght_para.' value="'.(isset($_SESSION['field'.$field_id])?$_SESSION['field'.$field_id]:$value).'" class="frm-textfield" />'.PHP_EOL;
+					$values[] = '<input type="text" name="field'.$field_id.'" id="field'.$field_id.'"'.$max_lenght_para.' value="'.(isset($_SESSION['field'.$field_id])?$_SESSION['field'.$field_id]:$value).'" class="frm-textfield" />';
 				} elseif($field['type'] == 'textarea') {
 					$vars[] = '{FIELD}';
-					$values[] = '<textarea name="field'.$field_id.'" id="field'.$field_id.'" class="frm-textarea" cols="30" rows="8">'.(isset($_SESSION['field'.$field_id])?$_SESSION['field'.$field_id]:$value).'</textarea>'.PHP_EOL;
+					$values[] = '<textarea name="field'.$field_id.'" id="field'.$field_id.'" class="frm-textarea" cols="30" rows="8">'.(isset($_SESSION['field'.$field_id])?$_SESSION['field'.$field_id]:$value).'</textarea>';
 				} elseif($field['type'] == 'select') {
 					$vars[] = '{FIELD}';
 					$options = explode(',', $value);
 					array_walk($options, 'make_option', (isset($_SESSION['field'.$field_id])?$_SESSION['field'.$field_id]:array()));
 					$field['extra'] = explode(',',$field['extra']);
 					$field['extra'][1] = ($field['extra'][1]=='multiple') ? $field['extra'][1].'="'.$field['extra'][1].'"' : '';
-					$values[] = '<select name="field'.$field_id.'[]" id="field'.$field_id.'" size="'.$field['extra'][0].'" '.$field['extra'][1].' class="frm-select">'.implode($options).'</select>'.PHP_EOL;
+					$values[] = '<select name="field'.$field_id.'[]" id="field'.$field_id.'" size="'.$field['extra'][0].'" '.$field['extra'][1].' class="frm-select">'.implode($options).'</select>'."\n";
 				} elseif($field['type'] == 'heading') {
 					$vars[] = '{FIELD}';
 					$str = '<input type="hidden" name="field'.$field_id.'" id="field'.$field_id.'" value="===['.$field['title'].']===" />';
@@ -247,7 +247,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 				} elseif($field['type'] == 'email') {
 					$vars[] = '{FIELD}';
 					$max_lenght_para = (intval($field['extra']) ? ' maxlength="'.intval($field['extra']).'"' : '');
-					$values[] = '<input type="text" name="field'.$field_id.'" id="field'.$field_id.'" value="'.(isset($_SESSION['field'.$field_id])?$_SESSION['field'.$field_id]:'').'"'.$max_lenght_para.' class="frm-email" />'.PHP_EOL;
+					$values[] = '<input type="text" name="field'.$field_id.'" id="field'.$field_id.'" value="'.(isset($_SESSION['field'.$field_id])?$_SESSION['field'.$field_id]:'').'"'.$max_lenght_para.' class="frm-email" />';
 				}
 				if(isset($_SESSION['field'.$field_id])) unset($_SESSION['field'.$field_id]);
 				if($field['type'] != '') {
@@ -381,6 +381,26 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 		}
 		if(isset($_SESSION['captcha'])) { unset($_SESSION['captcha']); }
 
+/* for StripCodeFromText test only
+[[loginbox]]
+
+<script type="text/javascript">
+var WB_URL = '{WB_URL}';
+var THEME_URL = '{THEME_URL}';
+var ADMIN_URL = '{ADMIN_URL}';
+var LANGUAGE = '{LANGUAGE}';
+</script>
+
+Hier testen wir Module und stellen Tutorials zur Verfügung
+
+<?php
+function confirm_link(message, url) {
+	if(confirm(message)) location.href = url;
+}
+?>
+*/
+//
+
 		// Loop through fields and add to message body
 		// Get list of fields
 		$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'mod_form_fields` ';
@@ -393,25 +413,33 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 					if($field['type'] != '') {
 						if(!empty($_POST['field'.$field['field_id']]))
 						{
-							// do not allow droplets in user input!
-							if (is_array($_POST['field'.$field['field_id']])) {
-								$_SESSION['field'.$field['field_id']] = str_replace(array("[[", "]]"), array("&#91;&#91;", "&#93;&#93;"), $wb->strip_slashes($_POST['field'.$field['field_id']]));
+                            $sPostVar = '';
+                            $aPostVar['field'.$field['field_id']] = array();
+                            // do not allow code in user input!
+                            if (is_array($_POST['field'.$field['field_id']])) {
+
+                                foreach ($_POST['field'.$field['field_id']] as $key=>$val) {
+                                	$aPostVar['field'.$field['field_id']][$key] =  $wb->strip_slashes($wb->StripCodeFromText($val),true);
+                                }
+                                $_SESSION['field'.$field['field_id']] = $aPostVar['field'.$field['field_id']];
 							} else {
-								$_SESSION['field'.$field['field_id']] = str_replace(array("[[", "]]"), array("&#91;&#91;", "&#93;&#93;"), htmlspecialchars($wb->strip_slashes($_POST['field'.$field['field_id']])));
+                                $sPostVar = $wb->strip_slashes($wb->StripCodeFromText($wb->get_post('field'.$field['field_id']),true));
+                                $_SESSION['field'.$field['field_id']] = $sPostVar;
 							}
 
-							if($field['type'] == 'email' AND $wb->validate_email($_POST['field'.$field['field_id']]) == false) {
+							if($field['type'] == 'email' AND $wb->validate_email($sPostVar) == false) {
 								$email_error = $MESSAGE['USERS_INVALID_EMAIL'];
 								$required[]= '';
 							}
 							if($field['type'] == 'heading') {
-								$email_body .= $_POST['field'.$field['field_id']]."\n\n";
-							} elseif (!is_array($_POST['field'.$field['field_id']])) {
-								$email_body .= $field['title'].': '.$_POST['field'.$field['field_id']]."\n\n";
-							} else {
-								$email_body .= $field['title'].": \n";
-								foreach ($_POST['field'.$field['field_id']] as $k=>$v) {
-									$email_body .= $v."\n";
+								$email_body .= $sPostVar."\n\n";
+
+							} elseif (($sPostVar!='')) {
+								$email_body .= $field['title'].": ".$sPostVar."\n\n";
+							} elseif(sizeof($aPostVar['field'.$field['field_id']] > 0) ) {
+								$email_body .= $field['title'].": ";
+								foreach ($aPostVar['field'.$field['field_id']] as $key=>$val) {
+									$email_body .= $val."\n";
 								}
 								$email_body .= "\n";
 							}
@@ -561,7 +589,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 		}  // email_error
 	} else {
 
-	echo '<p>&nbsp;</p>'.PHP_EOL.'<p><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'.PHP_EOL;
+	echo '<p>&nbsp;</p>'."\n".'<p><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'."\n";
 	}
 
 	$success_page = ( (isset($success_page) ) ? $success_page : $page_id);
@@ -647,7 +675,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 	} else {
 		if(isset($success) && $success == false) {
 			echo '<br />'.$MOD_FORM['ERROR'];
-			echo '<p>&nbsp;</p>'.PHP_EOL.'<p><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'.PHP_EOL;
+			echo '<p>&nbsp;</p>'."\n".'<p><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'."\n";
 		}
 	}
 
