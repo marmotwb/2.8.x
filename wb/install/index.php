@@ -239,7 +239,7 @@ But this solution does not guarranty a correct displaying of the content from al
 		{
 			$configFile = '/config.php.new';
 			$installFlag = false;
-			$config = '<font class="bad">Please rename</font>';
+			$config = '<font class="bad">Please rename to config.php</font>';
 		} else
 		{
 			$installFlag = false;
@@ -249,27 +249,25 @@ But this solution does not guarranty a correct displaying of the content from al
 ?>
 		<tr>
 			<td colspan="2" style="color: #666666;"><?php print $wb_root.$configFile ?></td>
-			<td><?php echo $config ?></td>
+			<td colspan="2"><?php echo $config ?></td>
+		</tr>
+		<tr>
 			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/pages/</td>
 			<td><?php if(is_writable('../pages/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../pages/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-		</tr>
-		<tr>
 			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/media/</td>
 			<td><?php if(is_writable('../media/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../media/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
+		</tr>
+		<tr>
 			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/templates/</td>
 			<td><?php if(is_writable('../templates/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../templates/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-		</tr>
-		<tr>
 			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/modules/</td>
 			<td><?php if(is_writable('../modules/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../modules/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/languages/</td>
-			<td><?php if(is_writable('../languages/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../languages/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
 		</tr>
 		<tr>
+			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/languages/</td>
+			<td><?php if(is_writable('../languages/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../languages/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
 			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/temp/</td>
 			<td><?php if(is_writable('../temp/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../temp/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-			<td colspan="2">&nbsp;</td>
-			<td>&nbsp;</td>
 		</tr>
 		</table>
 		<table summary="" cellpadding="3" cellspacing="0" >
