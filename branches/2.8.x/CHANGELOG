@@ -13,6 +13,8 @@ Legend:
 
 
 
+31 Oct-2012 Build 1802 Dietmar Woellbrink (Luisehahne)
+! change installation info "Please rename to config.php"
 31 Oct-2012 Build 1801 Dietmar Woellbrink (Luisehahne)
 ! upgrade-script: update if filesRemove or remove dirs failed
 ! update methode StripCodeFromText, add remove <?php ... ?>,    
