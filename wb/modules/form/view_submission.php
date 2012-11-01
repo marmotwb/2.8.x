@@ -19,8 +19,13 @@ require('../../config.php');
 
 // Include WB admin wrapper script
 require(WB_PATH.'/modules/admin.php');
+// load module language file
+$lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
+require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
 /* */
+
 include_once (WB_PATH.'/framework/functions.php');
+
 // Get page
 $requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
 $page = intval(isset(${$requestMethod}['page'])) ? ${$requestMethod}['page'] : 1;
@@ -49,8 +54,8 @@ if($get_user = $database->query($sql)) {
 	if($get_user->numRows() != 0) {
 		$user = $get_user->fetchRow(MYSQL_ASSOC);
 	} else {
-		$user['display_name'] = 'Unknown';
-		$user['username'] = 'unknown';
+		$user['display_name'] = $TEXT['GUEST'];
+		$user['username'] = $TEXT['UNKNOWN'];
 	}
 }
 //$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
@@ -66,7 +71,7 @@ $sec_anchor = '#submissions';
 	<td><?php echo gmdate(DATE_FORMAT .', '.TIME_FORMAT, $submission['submitted_when']+TIMEZONE); ?></td>
 </tr>
 <tr>
-	<td><?php echo $TEXT['USER']; ?>:</td>
+	<td><?php echo $TEXT['USER'].' ('.$TEXT['USERNAME'].')'; ?>:</td>
 	<td><?php echo $user['display_name'].' ('.$user['username'].')'; ?></td>
 </tr>
 <tr>

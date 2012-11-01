@@ -15,10 +15,10 @@
  * @description
  */
 
-// Must include code to stop this file being accessed directly
+// Must include code to stop this file being access directly
 if(!defined('WB_URL')) {
 	require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/framework/globalExceptionHandler.php');
-	// Stop this file being access directly
+	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
 
@@ -59,7 +59,7 @@ $MOD_FORM['ERROR'] = 'E-Mail konnte nicht gesendet werden!!';
 $MOD_FORM['SPAM'] = 'ACHTUNG! Beantworten einer ungeprüften E-Mail kann als Spam abgemahnt werden! ';
 
 $TEXT['GUEST'] = 'Gast';
+$TEXT['UNKNOWN'] = 'unbekannt';
 $TEXT['PRINT_PAGE'] = 'Seite drucken';
 $TEXT['REQUIRED_JS'] = 'Javascript erforderlich';
 $TEXT['SUBMISSIONS_PERPAGE'] = 'Anzeige gespeicherte Einträge pro Seite';
-$TEXT['UNKNOWN'] = 'Unbekannt';

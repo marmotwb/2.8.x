@@ -13,6 +13,14 @@ Legend:
 
 
 
+02 Nov-2012 Build 1804 Dietmar Woellbrink (Luisehahne)
+# fixed Illegal string offset 'time' in \framework\SecureForm.mtab.php
+! add delete Outdated Confirmations in backend
+! show waiting Activations if exists in user management
+# fixed html validaton errors in user management
+! security fixes in admin/preferences/
+! update form modul, change text "unknown#" to "Guest"
+  in view_submission and emailheader email_fromname
 01 Nov-2012 Build 1803 Dietmar Woellbrink (Luisehahne)
 ! update submission form with designer friendly css classes  
 31 Oct-2012 Build 1802 Dietmar Woellbrink (Luisehahne)

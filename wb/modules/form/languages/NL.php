@@ -58,7 +58,7 @@ $MOD_FORM['ERROR'] = 'E-Mail could not send!!';
 $MOD_FORM['SPAM'] = 'Caution! Answering an unchecked email can be perceived as spamming and entail the risk of receiving a cease-and-desist letter! ';
 
 $TEXT['GUEST'] = 'Guest';
+$TEXT['UNKNOWN'] = 'unkown';
 $TEXT['PRINT_PAGE'] = 'Print page';
 $TEXT['REQUIRED_JS'] = 'Required Javascript';
 $TEXT['SUBMISSIONS_PERPAGE'] = 'Show submissions rows per page';
-$TEXT['UNKNOWN'] = 'Unknown';

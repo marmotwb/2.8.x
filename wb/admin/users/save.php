@@ -15,9 +15,14 @@
  *
  */
 
-// Print admin header
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
+$config_file = realpath('../../config.php');
+if(file_exists($config_file) && !defined('WB_URL'))
+{
+	require_once($config_file);
+}
+
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+
 // suppress to print the header, so no new FTAN will be set
 $admin = new admin('Access', 'users_modify', false);
 
@@ -64,7 +69,7 @@ if(!preg_match('/^[a-z]{1}[a-z0-9_-]{2,}$/i', $username))
 	                  $MESSAGE['USERS_USERNAME_TOO_SHORT'], $js_back);
 }
 if($password != "") {
-	if(strlen($password) < 2) {
+	if(strlen($password) < 6 ) {
 		$admin->print_error($MESSAGE['USERS_PASSWORD_TOO_SHORT'], $js_back);
 	}
 	if($password != $password2) {

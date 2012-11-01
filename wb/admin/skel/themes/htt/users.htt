@@ -18,7 +18,7 @@
 {FTAN}
 
 <button type="button" name="status" title="{TEXT_USERS}" style="width: 30px; background: {STATUS_ICON} no-repeat center" value="{USER_STATUS}" onclick="javascript: window.location = 'index.php?status={USER_STATUS}';" class="status {DISPLAY_MODIFY}" >&nbsp;</button>
-<select name="user_id" style="width: 500px;">
+<select name="user_id" class="user-list" style="width: 500px;">
 <!-- BEGIN list_block -->
 	<option value="{VALUE}" {STATUS}>{NAME}</option>
 <!-- END list_block -->
@@ -27,9 +27,18 @@
 <input type="submit" name="modify" style="width: 100px;" value="{TEXT_MODIFY}" class="{DISPLAY_MODIFY}" />
 <input type="submit" name="delete" style="width: 100px;" value="{TEXT_DELETE}" onclick="return confirm('{CONFIRM_DELETE}');" class="{DISPLAY_DELETE}" />
 
+<!-- BEGIN show_confirmed_activation_block -->
+<h3 class="bold">{DISPLAY_WAITING_ACTIVATION}</h3>
+     <select name="user_id_activation_id" class="user-activation" style="width: 500px; margin-left: 34px;">
+    <!-- BEGIN list_confirmed_activation_block -->
+    	<option value="{VALUE}" {STATUS}>{NAME}</option>
+    <!-- END list_confirmed_activation_block -->
+    </select>
+    <input type="submit" name="delete_outdated" style="width: 100px;" value="{TEXT_DELETE}" onclick="return confirm('{CONFIRM_DELETE}');" class="{DISPLAY_DELETE}" />
+<!-- END show_confirmed_activation_block -->
+
 </form>
 
-<br />
-<h2 style="margin-top: 20px;" class="{DISPLAY_ADD} left">{HEADING_ADD_USER}</h2>
+<h3 class="bold {DISPLAY_ADD}" style="margin-top: 20px;">{HEADING_ADD_USER}</h3>
 </div>
 <!-- END main_block -->

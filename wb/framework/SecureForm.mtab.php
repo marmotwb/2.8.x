@@ -369,6 +369,7 @@ class SecureForm {
 	}
 
  	private function _timedout( $var ) {
+        if(!isset($var['time'])) { return false; }
 		if ($var['time'] < time()-$this->_timeout) return false;
 		return true;
 	}
