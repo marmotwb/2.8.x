@@ -13,10 +13,16 @@
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
  *
-*/
+ */
 
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
+$config_file = realpath('../../config.php');
+if(file_exists($config_file) && !defined('WB_URL'))
+{
+	require_once($config_file);
+}
+
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+
 $admin = new admin('Access', 'users');
 
 $iUserStatus = 1;
@@ -34,6 +40,11 @@ $template->set_block("main_block", "manage_groups_block", "groups");
 $template->set_var('ADMIN_URL', ADMIN_URL);
 $template->set_var('FTAN', $admin->getFTAN());
 $template->set_var('USER_STATUS', $iUserStatus );
+$template->set_var('DISPLAY_ADD', '');
+$template->set_var('DISPLAY_MODIFY', '');
+$template->set_var('DISABLED_CHECKED', '');
+$template->set_var('HEADING_MODIFY_USER', '');
+$template->set_var('DISPLAY_HOME_FOLDERS', '');
 
 $UserStatusActive = 'url('.THEME_URL.'/images/user.png)';
 $UserStatusInactive = 'url('.THEME_URL.'/images/user_red.png)';
@@ -105,12 +116,44 @@ $template->set_var(array(
 );
 // Insert language text and messages
 $template->set_var(array(
+		'DISPLAY_WAITING_ACTIVATION' => '',
 		'TEXT_MODIFY' => $TEXT['MODIFY'],
 		'TEXT_DELETE' => $TEXT['DELETE'],
 		'TEXT_MANAGE_GROUPS' => ( $admin->get_permission('groups') == true ) ? $TEXT['MANAGE_GROUPS'] : "**",
 		'CONFIRM_DELETE' => (($iUserStatus == 1) ? $TEXT['ARE_YOU_SURE'] : $MESSAGE['USERS_CONFIRM_DELETE'])
 		)
 );
+
+$template->set_block('main_block', 'show_confirmed_activation_block', 'show_confirmed_activation');
+if($admin->ami_group_member('1')) {
+        $template->set_block('show_confirmed_activation_block', 'list_confirmed_activation_block', 'list_confirmed_activation');
+    	$template->set_var('DISPLAY_WAITING_ACTIVATION', 'Users waiting for activation');
+		$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'users` ';
+		$sql .= 'WHERE `confirm_timeout` != 0 ';
+        $sql .=   'AND `active` = 0 ';
+        $sql .=   'AND `user_id` != 1 ';
+        if( ($oRes = $database->query($sql)) ) {
+        	$template->set_var('DISPLAY_DELETE', '');
+//        	$template->set_var('NAME', 'User waiting for activation');
+//        	$template->set_var('STATUS', '' );
+        	// Loop through users
+            if($nNumRows = $oRes->numRows()) {
+            	while($aUser = $oRes->fetchRow(MYSQL_ASSOC)) {
+            		$template->set_var('VALUE',$admin->getIDKEY($aUser['user_id']));
+               		$template->set_var('STATUS', '') ;
+            		$template->set_var('NAME', $aUser['display_name'].' ('.$aUser['username'].')');
+            		$template->parse('list_confirmed_activation', 'list_confirmed_activation_block', true);
+            	}
+            	$template->parse('show_confirmed_activation', 'show_confirmed_activation_block',true);
+            }
+        } else { $nNumRows = 0; }
+
+}
+
+if ( $nNumRows == 0){
+	$template->parse('show_confirmed_activation', '');
+}
+
 if ( $admin->get_permission('groups') == true ) $template->parse("groups", "manage_groups_block", true);
 // Parse template object
 $template->parse('main', 'main_block', false);
@@ -126,6 +169,12 @@ $template->set_block('main_block', 'show_modify_loginname_block', 'show_modify_l
 $template->set_block('main_block', 'show_add_loginname_block', 'show_add_loginname');
 $template->set_var('DISPLAY_EXTRA', 'display:none;');
 $template->set_var('ACTIVE_CHECKED', ' checked="checked"');
+
+$template->set_var('DISPLAY_ADD', '');
+$template->set_var('DISPLAY_MODIFY', '');
+$template->set_var('DISABLED_CHECKED', '');
+$template->set_var('HEADING_MODIFY_USER', '');
+$template->set_var('DISPLAY_HOME_FOLDERS', '');
 $template->set_var('ACTION_URL', ADMIN_URL.'/users/add.php');
 $template->set_var('SUBMIT_TITLE', $TEXT['ADD']);
 $template->set_var('FTAN', $admin->getFTAN());

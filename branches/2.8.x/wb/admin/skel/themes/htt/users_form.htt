@@ -45,9 +45,8 @@ function toggle_radio(radio_on, radio_off) {
 	</td>
 </tr>
 <tr style="{DISPLAY_EXTRA}">
-	<td class="right">&nbsp;</td>
-	<td style="font-size: 10px;">
-		{CHANGING_PASSWORD}
+	<td colspan="2" style="">
+		<div class="warning value_input" style="max-width:700px; margin-right: 20%; float: right;">{CHANGING_PASSWORD}</div>
 	</td>
 </tr>
 <tr>

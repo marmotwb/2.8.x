@@ -13,8 +13,8 @@
         </tr>
     </thead>
     <tbody class="frm-tbody">
-        <tr class="frm-warning">
-        	<td colspan="2"><p class="{NIX_HIER}">{SUCCESS_PRINT}</p></td>
+        <tr class="frm-warning {NIX_HIER}">
+        	<td colspan="2"><p>{SUCCESS_PRINT}</p></td>
         </tr>
 
         <tr class="frm-submission_submission_id">
@@ -26,7 +26,7 @@
         	<td>{submission_submitted_when}</td>
         </tr>
         <tr class="frm-user_display_name">
-        	<td>{TEXT_USER}:</td>
+        	<td>{TEXT_USER} ({TEXT_USERNAME}):</td>
         	<td>{user_display_name} ({user_username})</td>
         </tr>
         <tr class="frm-hr">

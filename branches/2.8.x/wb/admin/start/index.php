@@ -3,7 +3,7 @@
  *
  * @category        admin
  * @package         start
- * @author          Ryan Djurovich, WebsiteBaker Project
+ * @author          Ryan Djurovich (2004-2009), WebsiteBaker Project
  * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
@@ -19,8 +19,15 @@
 //$regex = "/(pages)+[a-z]*[_]([a-z_0-9]+)[^,]/im";
 //preg_match_all ($regex, $string, $output);
 //
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
+
+$config_file = realpath('../../config.php');
+if(file_exists($config_file) && !defined('WB_URL'))
+{
+	require_once($config_file);
+}
+
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+
 $admin = new admin('Start','start');
 // ---------------------------------------
 //	$database = WbDatabase::getInstance();
@@ -117,6 +124,12 @@ if( ($admin->get_user_id()==1) &&
 		}
 	}
 }
+
+/**
+ * delete Outdated Confirmations
+ */
+$sql = 'DELETE FROM `'.TABLE_PREFIX.'users` WHERE `confirm_timeout` BETWEEN 1 AND '.time();
+WbDatabase::getInstance()->query($sql);
 
 // ---------------------------------------
 // Setup template object, parse vars to it, then parse it

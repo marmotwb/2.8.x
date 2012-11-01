@@ -13,16 +13,23 @@
  * @filesource		$HeadURL$
  * @lastmodified    $Date$
  *
-*/
+ */
 
  // Include config file and admin class file
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
+
+$config_file = realpath('../../config.php');
+if(file_exists($config_file) && !defined('WB_URL'))
+{
+	require_once($config_file);
+}
+
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 
 $action = 'cancel';
 // Set parameter 'action' as alternative to javascript mechanism
 $action = (isset($_POST['modify']) ? 'modify' : $action );
 $action = (isset($_POST['delete']) ? 'delete' : $action );
+$action = (isset($_POST['delete_outdated']) ? 'delete_outdated' : $action );
 
 switch ($action):
 	case 'modify' :
@@ -51,22 +58,26 @@ switch ($action):
 			$template->set_block('main_block', 'show_modify_loginname_block', 'show_modify_loginname');
 			$template->set_block('main_block', 'show_add_loginname_block', 'show_add_loginname');
 			$template->set_var(	array(
-								'ACTION_URL' => ADMIN_URL.'/users/save.php',
-								'SUBMIT_TITLE' => $TEXT['SAVE'],
-								'USER_ID' => $user['user_id'],
-								'USERNAME' => $user['username'],
-								'DISPLAY_NAME' => $user['display_name'],
-								'EMAIL' => $user['email'],
-								'ADMIN_URL' => ADMIN_URL,
-								'WB_URL' => WB_URL,
-								'THEME_URL' => THEME_URL
-								)
-						);
+						'ACTION_URL' => ADMIN_URL.'/users/save.php',
+						'SUBMIT_TITLE' => $TEXT['SAVE'],
+						'USER_ID' => $user['user_id'],
+						'DISPLAY_EXTRA' => '',
+						'DISPLAY_HOME_FOLDERS' => '',
+						'USERNAME' => $user['username'],
+						'DISPLAY_NAME' => $user['display_name'],
+						'EMAIL' => $user['email'],
+						'ADMIN_URL' => ADMIN_URL,
+						'WB_URL' => WB_URL,
+						'THEME_URL' => THEME_URL
+						)
+				);
 
 			$template->set_var('FTAN', $admin->getFTAN());
 			if($user['active'] == 1) {
+                $template->set_var('DISABLED_CHECKED', '');
 				$template->set_var('ACTIVE_CHECKED', ' checked="checked"');
 			} else {
+                $template->set_var('ACTIVE_CHECKED', '');
 				$template->set_var('DISABLED_CHECKED', ' checked="checked"');
 			}
 			// Add groups to list
@@ -184,8 +195,10 @@ switch ($action):
 		case 'delete' :
 			// Print header
 			$admin = new admin('Access', 'users_delete');
+
 			$user_id = intval($admin->checkIDKEY('user_id', 0, $_SERVER['REQUEST_METHOD']));
 			// Check if user id is a valid number and doesnt equal 1
+
 			if($user_id == 0){
 			$admin->print_error($MESSAGE['GENERIC_FORGOT_OPTIONS'] );
             }
@@ -210,6 +223,30 @@ switch ($action):
 			}
 			// Print admin footer
 			$admin->print_footer();
+			break;
+		case 'delete_outdated' :
+			$admin = new admin('Access', 'users_delete');
+
+			$user_id = intval($admin->checkIDKEY('user_id_activation_id', 0, $_SERVER['REQUEST_METHOD']));
+			// Check if user id is a valid number and doesnt equal 1
+			if($user_id == 0){
+    			$admin->print_error($MESSAGE['GENERIC_FORGOT_OPTIONS'] );
+            }
+			if( ($user_id < 2 ) )
+			{
+				// if($admin_header) { $admin->print_header(); }
+				$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'] );
+			}
+			$database->query("DELETE FROM `".TABLE_PREFIX."users` WHERE `user_id` = ".$user_id);
+			if($database->is_error()) {
+				$admin->print_error($database->get_error());
+			} else {
+				$admin->print_success($MESSAGE['USERS_DELETED']);
+			}
+			// Print admin footer
+			$admin->print_footer();
+
+
 			break;
 	default:
 			break;

@@ -344,7 +344,7 @@ $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR
 						 $mail_replyto = $success_email_to = htmlspecialchars($wb->add_slashes($_POST[$success_email_to]));
 					}
 					$success_email_to = '';
-					$email_fromname = $TEXT['UNKNOWN'];
+					$email_fromname = $TEXT['GUEST'];
 //					$success_email_fromname = $TEXT['UNKNOWN'];
 //					$email_from = $TEXT['UNKNOWN'];
 				}
@@ -649,6 +649,7 @@ function confirm_link(message, url) {
 					'submission_submitted_when' => gmdate( DATE_FORMAT .', '.TIME_FORMAT, $submission['submitted_when']+TIMEZONE ),
 					'NIX_HIER' => $NixHier,
 					'TEXT_USER' => $TEXT['USER'],
+					'TEXT_USERNAME' => $TEXT['USERNAME'],
 					'TEXT_PRINT_PAGE' => $TEXT['PRINT_PAGE'],
 					'TEXT_REQUIRED_JS' => $TEXT['REQUIRED_JS'],
 					'user_display_name' => $user['display_name'],
