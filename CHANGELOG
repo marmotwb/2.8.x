@@ -13,6 +13,15 @@ Legend:
 
 
 
+04 Nov-2012 Build 1805 Dietmar Woellbrink (Luisehahne)
+# fixed Undefined variable: nNumRows in \admin\users\index.php
+# fixed Undefined variable: admin in \admin\admintools\tool.php
+! show more information in awaiting activation /admin/users
+! set input passord to autocomplete off /admin/users and /admin/prfeferences
+! add Timezone abbreviation to time format
+! change time and date formats fill with leading zeros
+! optimize REQUEST_METHOD to get page_id and section_id
+! more request vars are possible by this method
 02 Nov-2012 Build 1804 Dietmar Woellbrink (Luisehahne)
 # fixed Illegal string offset 'time' in \framework\SecureForm.mtab.php
 ! add delete Outdated Confirmations in backend

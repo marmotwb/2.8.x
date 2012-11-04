@@ -3,9 +3,8 @@
  *
  * @category        admin
  * @package         interface
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich (2004-2009),WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link            http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -19,10 +18,13 @@
  *
  */
 
-if(!defined('WB_URL')) {
-	header('Location: ../../../index.php');
-	exit(0);
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+if(!defined('WB_PATH')) {
+	require_once(dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
+/* -------------------------------------------------------- */
 
 // Define that this file is loaded
 if(!defined('DATE_FORMATS_LOADED')) {
@@ -37,12 +39,12 @@ $actual_time = time()+ ((isset($user_time) && $user_time == true) ? TIMEZONE : D
 
 // Add values to list
 $DATE_FORMATS['l,|jS|F,|Y'] = gmdate('l, jS F, Y', $actual_time);
-$DATE_FORMATS['jS|F,|Y'] = gmdate('jS F, Y', $actual_time);
-$DATE_FORMATS['d|M|Y'] = gmdate('d M Y', $actual_time);
-$DATE_FORMATS['M|d|Y'] = gmdate('M d Y', $actual_time);
-$DATE_FORMATS['D|M|d,|Y'] = gmdate('D M d, Y', $actual_time);
-$DATE_FORMATS['d-m-Y'] = gmdate('d-m-Y', $actual_time).' (D-M-Y)';
-$DATE_FORMATS['m-d-Y'] = gmdate('m-d-Y', $actual_time).' (M-D-Y)';
+$DATE_FORMATS['jS|F,|Y']    = gmdate('jS F, Y', $actual_time);
+$DATE_FORMATS['d|M|Y']      = gmdate('d M Y', $actual_time);
+$DATE_FORMATS['M|d|Y']      = gmdate('M d Y', $actual_time);
+$DATE_FORMATS['D|M|d,|Y']   = gmdate('D M d, Y', $actual_time);
+$DATE_FORMATS['d-m-Y']      = gmdate('d-m-Y', $actual_time).' (D-M-Y)';
+$DATE_FORMATS['m-d-Y']      = gmdate('m-d-Y', $actual_time).' (M-D-Y)';
 $DATE_FORMATS['d.m.Y'] = gmdate('d.m.Y', $actual_time).' (D.M.Y)';
 $DATE_FORMATS['m.d.Y'] = gmdate('m.d.Y', $actual_time).' (M.D.Y)';
 $DATE_FORMATS['d/m/Y'] = gmdate('d/m/Y', $actual_time).' (D/M/Y)';
@@ -62,5 +64,3 @@ if(isset($user_time) && $user_time == true)
 
 // Reverse array so "System Default" is at the top
 $DATE_FORMATS = array_reverse($DATE_FORMATS, true);
-
-?>

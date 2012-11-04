@@ -77,7 +77,7 @@ if($results->numRows() > 0) {
 	$template->set_var('STATUS', 'class="user-active"' );
 	$template->parse('list', 'list_block', true);
 	// Loop through users
-	while($user = $results->fetchRow()) {
+	while($user = $results->fetchRow(MYSQL_ASSOC)) {
 		$template->set_var('VALUE',$admin->getIDKEY($user['user_id']));
 		$template->set_var('STATUS', ($user['active']==false ? 'class="user-inactive"' : 'class="user-active"') );
 		$template->set_var('NAME', $user['display_name'].' ('.$user['username'].')');
@@ -141,13 +141,15 @@ if($admin->ami_group_member('1')) {
             	while($aUser = $oRes->fetchRow(MYSQL_ASSOC)) {
             		$template->set_var('VALUE',$admin->getIDKEY($aUser['user_id']));
                		$template->set_var('STATUS', '') ;
-            		$template->set_var('NAME', $aUser['display_name'].' ('.$aUser['username'].')');
+            		$template->set_var('NAME', $aUser['display_name'].' ('.$aUser['username'].')'.' ['.$aUser['email'].']');
             		$template->parse('list_confirmed_activation', 'list_confirmed_activation_block', true);
             	}
             	$template->parse('show_confirmed_activation', 'show_confirmed_activation_block',true);
             }
         } else { $nNumRows = 0; }
 
+} else {
+$nNumRows = 0;
 }
 
 if ( $nNumRows == 0){
