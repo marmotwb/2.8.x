@@ -13,6 +13,8 @@ Legend:
 
 
 
+04 Nov-2012 Build 1806 Dietmar Woellbrink (Luisehahne)
+# Bugfix show double header in admintools
 04 Nov-2012 Build 1805 Dietmar Woellbrink (Luisehahne)
 # fixed Undefined variable: nNumRows in \admin\users\index.php
 # fixed Undefined variable: admin in \admin\admintools\tool.php
