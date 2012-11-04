@@ -14,12 +14,23 @@
  * @lastmodified    $Date$
  *
  */
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
+
+$config_file = realpath('../../config.php');
+if(file_exists($config_file) && !defined('WB_URL'))
+{
+	require_once($config_file);
+}
+
+if(!class_exists('admin', false)){
+    include(WB_PATH.'/framework/class.admin.php');
+    $admin = new admin('Admintools','admintools');
+}
+
 require_once(WB_PATH.'/framework/functions.php');
 
-	$toolDir = (isset($_GET['tool']) && (trim($_GET['tool']) != '') ? trim($_GET['tool']) : '');
-	$doSave = (isset($_POST['save_settings']) || (isset($_POST['action']) && strtolower($_POST['action']) == 'save'));
+$toolDir = (isset($_GET['tool']) && (trim($_GET['tool']) != '') ? trim($_GET['tool']) : '');
+$doSave = (isset($_POST['save_settings']) || (isset($_POST['action']) && strtolower($_POST['action']) == 'save'));
+
 // test for valid tool name
 	if(preg_match('/^[a-z][a-z_\-0-9]{2,}$/i', $toolDir)) {
 	// Check if tool is installed

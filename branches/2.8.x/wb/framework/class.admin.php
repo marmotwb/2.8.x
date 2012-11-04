@@ -21,7 +21,9 @@ if(!defined('WB_PATH')) {
 	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
-require_once(WB_PATH.'/framework/class.wb.php');
+
+// Load the other required class files if they are not already loaded
+if(!class_exists('wb', false)){ include(WB_PATH.'/framework/class.wb.php'); }
 
 // Get WB version
 require_once(ADMIN_PATH.'/interface/version.php');

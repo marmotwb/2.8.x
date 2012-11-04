@@ -35,13 +35,13 @@ function toggle_radio(radio_on, radio_off) {
 <tr>
 	<td class="right">{TEXT_PASSWORD}:</td>
 	<td class="value_input">
-		<input type="password" name="password" maxlength="30" />
+		<input type="password" name="password" value="" maxlength="30" />
 	</td>
 </tr>
 <tr>
 	<td class="right">{TEXT_RETYPE_PASSWORD}:</td>
 	<td class="value_input">
-		<input type="password" name="password2" maxlength="30" />
+		<input type="password" name="password2" value="" maxlength="30" />
 	</td>
 </tr>
 <tr style="{DISPLAY_EXTRA}">
@@ -102,4 +102,15 @@ function toggle_radio(radio_on, radio_off) {
 
 </form>
 </div>
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+    var passwordField = $('input[name=password]');
+    passwordField.attr('autocomplete','off');
+    passwordField.val('');
+    var DisplayNameField = $('input[name=display_name]');
+    DisplayNameField.focus();
+});
+-->
+</script>
 <!-- END main_block -->

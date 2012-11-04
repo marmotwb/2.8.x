@@ -25,11 +25,15 @@ if(file_exists($config_file) && !defined('WB_URL'))
 
 if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 
+$requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
+$aActionRequest = (isset(${$requestMethod})) ? ${$requestMethod} : null;
+
 $action = 'cancel';
+
 // Set parameter 'action' as alternative to javascript mechanism
-$action = (isset($_POST['modify']) ? 'modify' : $action );
-$action = (isset($_POST['delete']) ? 'delete' : $action );
-$action = (isset($_POST['delete_outdated']) ? 'delete_outdated' : $action );
+$action = (isset($aActionRequest['modify']) ? 'modify' : $action );
+$action = (isset($aActionRequest['delete']) ? 'delete' : $action );
+$action = (isset($aActionRequest['delete_outdated']) ? 'delete_outdated' : $action );
 
 switch ($action):
 	case 'modify' :
@@ -189,8 +193,6 @@ switch ($action):
 			$template->parse('show_add_loginname', '', true);
 			$template->parse('main', 'main_block', false);
 			$template->pparse('output', 'page');
-			// Print admin footer
-			$admin->print_footer();
 			break;
 		case 'delete' :
 			// Print header
@@ -221,12 +223,9 @@ switch ($action):
 			} else {
 				$admin->print_success($MESSAGE['USERS_DELETED']);
 			}
-			// Print admin footer
-			$admin->print_footer();
 			break;
 		case 'delete_outdated' :
 			$admin = new admin('Access', 'users_delete');
-
 			$user_id = intval($admin->checkIDKEY('user_id_activation_id', 0, $_SERVER['REQUEST_METHOD']));
 			// Check if user id is a valid number and doesnt equal 1
 			if($user_id == 0){
@@ -243,11 +242,13 @@ switch ($action):
 			} else {
 				$admin->print_success($MESSAGE['USERS_DELETED']);
 			}
-			// Print admin footer
-			$admin->print_footer();
-
-
 			break;
 	default:
 			break;
 endswitch;
+
+
+
+// Print admin footer
+$admin->print_footer();
+

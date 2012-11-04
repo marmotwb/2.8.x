@@ -15,41 +15,35 @@
  *
  */
 
-// Stop this file being access directly
-if(defined('WB_PATH') == false)
-{
-	die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+if(!defined('WB_PATH')) {
+	require_once((dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
-
-// Get page id
-	$requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
-	$page_id = intval(isset(${$requestMethod}['page_id'])) ? ${$requestMethod}['page_id'] : (isset($page_id) ? intval($page_id) : 0);
-	if(	($page_id == 0)) {
-		header("Location: index.php");
-		exit(0);
-	}
-
-// Get section id if there is one
-	$requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
-	$section_id = intval(isset(${$requestMethod}['section_id'])) ? ${$requestMethod}['section_id'] : (isset($section_id) ? intval($section_id) : 0);
-	if(	($section_id == 0) && isset($section_required)) {
-		header("Location: $section_required");
-		exit(0);
-	}
-/*
-// be sure is is numeric
-$page_id = intval($page_id);
-$section_id = intval($section_id);
-*/
-// Create js back link
-// $js_back = 'javascript: history.go(-1);';
-$js_back = ADMIN_URL.'/pages/sections.php?page_id='.$page_id;
+/* -------------------------------------------------------- */
 // Create new admin object, you can set the next variable in your module
 // to print with or without header, default is with header
 // it is recommed to set the variable before including the /modules/admin.php
-$admin_header = (!isset($admin_header)) ? true : $admin_header;
-require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Pages', 'pages_modify',(bool)$admin_header);
+    $admin_header = (!isset($admin_header)) ? true : $admin_header;
+    if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+    $admin = new admin('Pages', 'pages_modify',(bool)$admin_header);
+
+    $requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
+    $aActionRequest = (isset(${$requestMethod})) ? ${$requestMethod} : null;
+
+    $page_id = isset($aActionRequest['page_id']) ? intval($aActionRequest['page_id']) :  (isset($page_id) ? intval($page_id) : 0);
+    $section_id = isset($aActionRequest['section_id']) ? intval($aActionRequest['section_id']) : (isset($section_id) ? intval($section_id) : 0);
+
+	if(	($page_id == 0) ||( $section_id == 0)  ) {
+		$admin->send_header("Location: index.php");
+		exit(0);
+	}
+
+// Create js back link
+// $js_back = 'javascript: history.go(-1);';
+$js_back = ADMIN_URL.'/pages/sections.php?page_id='.$page_id;
+
 // Get perms
 // unset($admin_header);
 

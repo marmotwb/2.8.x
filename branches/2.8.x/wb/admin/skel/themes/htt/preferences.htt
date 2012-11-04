@@ -71,4 +71,16 @@
 </div>
 	</fieldset>
 </form>
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+    var passwordField = $('input[name=password]');
+    passwordField.attr('autocomplete','off');
+    passwordField.val('');
+    var DisplayNameField = $('input[name=display_name]');
+    DisplayNameField.focus();
+});
+-->
+</script>
+
 <!-- END main_block -->

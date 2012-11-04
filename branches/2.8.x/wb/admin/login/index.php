@@ -16,11 +16,12 @@
  */
 
 // Include the configuration file
-if(!defined('WB_URL') && file_exists(realpath('../../config.php'))) {
-    require('../../config.php');
+$config_file = realpath('../../config.php');
+if(file_exists($config_file) && !defined('WB_URL'))
+{
+	require_once($config_file);
 }
 
-//require_once(WB_PATH."/framework/class.login.php");
 if(!class_exists('login', false)){ require_once(WB_PATH.'/framework/class.login.php'); }
 if(!class_exists('frontend', false)){ require_once(WB_PATH.'/framework/class.frontend.php'); }
 
@@ -72,4 +73,3 @@ $thisApp = new Login( array(
 					'GROUPS_TABLE' => TABLE_PREFIX."groups",
 			)
 		);
-//$admin->print_footer();

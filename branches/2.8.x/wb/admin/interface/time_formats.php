@@ -3,9 +3,8 @@
  *
  * @category        admin
  * @package         interface
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich (2004-2009),WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link            http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -19,10 +18,13 @@
  *
  */
 
-if(!defined('WB_URL')) {
-	header('Location: ../../../index.php');
-	exit(0);
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+if(!defined('WB_PATH')) {
+	require_once(dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
+/* -------------------------------------------------------- */
 
 // Define that this file is loaded
 if(!defined('TIME_FORMATS_LOADED')) {
@@ -36,10 +38,10 @@ $TIME_FORMATS = array();
 $actual_time = time()+ ((isset($user_time) AND $user_time == true) ? TIMEZONE : DEFAULT_TIMEZONE);
 
 // Add values to list
-$TIME_FORMATS['g:i|A'] = gmdate('g:i A', $actual_time);
-$TIME_FORMATS['g:i|a'] = gmdate('g:i a', $actual_time);
-$TIME_FORMATS['H:i:s'] = gmdate('H:i:s', $actual_time);
-$TIME_FORMATS['H:i'] = gmdate('H:i', $actual_time);
+$TIME_FORMATS['h:i|A|T'] = gmdate('h:i A T', $actual_time);
+$TIME_FORMATS['h:i|a|T'] = gmdate('h:i a T', $actual_time);
+$TIME_FORMATS['H:i:s|T'] = gmdate('H:i:s T', $actual_time);
+$TIME_FORMATS['H:i|T']   = gmdate('H:i T',   $actual_time);
 
 // Add "System Default" to list (if we need to)
 if(isset($user_time) AND $user_time == true) {
@@ -53,4 +55,3 @@ if(isset($user_time) AND $user_time == true) {
 // Reverse array so "System Default" is at the top
 $TIME_FORMATS = array_reverse($TIME_FORMATS, true);
 
-?>
