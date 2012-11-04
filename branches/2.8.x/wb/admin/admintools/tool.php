@@ -23,13 +23,13 @@ if(file_exists($config_file) && !defined('WB_URL'))
 
 if(!class_exists('admin', false)){
     include(WB_PATH.'/framework/class.admin.php');
-    $admin = new admin('Admintools','admintools');
+    $admin = new admin('Admintools','admintools',false);
 }
 
 require_once(WB_PATH.'/framework/functions.php');
 
 $toolDir = (isset($_GET['tool']) && (trim($_GET['tool']) != '') ? trim($_GET['tool']) : '');
-$doSave = (isset($_POST['save_settings']) || (isset($_POST['action']) && strtolower($_POST['action']) == 'save'));
+$doSave  = (isset($_POST['save_settings']) || (isset($_POST['action']) && strtolower($_POST['action']) == 'save'));
 
 // test for valid tool name
 	if(preg_match('/^[a-z][a-z_\-0-9]{2,}$/i', $toolDir)) {
