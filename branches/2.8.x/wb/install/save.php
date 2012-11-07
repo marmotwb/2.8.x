@@ -494,6 +494,8 @@ if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 	       . ' `active` INT NOT NULL DEFAULT \'0\','
 	       . ' `username` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
 	       . ' `password` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
+	       . ' `confirm_code` VARCHAR( 32 ) NOT NULL DEFAULT \'\','
+	       . ' `confirm_timeout` INT NOT NULL DEFAULT \'0\','
 	       . ' `remember_key` VARCHAR( 255 ) NOT NULL DEFAULT \'\','
 	       . ' `last_reset` INT NOT NULL DEFAULT \'0\','
 	       . ' `display_name` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'

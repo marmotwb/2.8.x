@@ -131,6 +131,12 @@ if( ($admin->get_user_id()==1) &&
 $sql = 'DELETE FROM `'.TABLE_PREFIX.'users` WHERE `confirm_timeout` BETWEEN 1 AND '.time();
 WbDatabase::getInstance()->query($sql);
 
+/**
+ * delete Outdated Confirmations
+ */
+$sql = 'UPDATE `'.TABLE_PREFIX.'users` SET `login_ip` = \'\' WHERE `login_when` < '.(time()-(60*84600));
+WbDatabase::getInstance()->query($sql);
+
 // ---------------------------------------
 // Setup template object, parse vars to it, then parse it
 // Create new template object

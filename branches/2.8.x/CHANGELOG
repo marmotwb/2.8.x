@@ -13,6 +13,9 @@ Legend:
 
 
 
+07 Nov-2012 Build 1809 Dietmar Woellbrink (Luisehahne)
+! remove login_ip after 60days set in /admin/start/index.php
+! add confirm_code and confirm_timeout fields in users table in /install/save.php
 07 Nov-2012 Build 1808 Dietmar Woellbrink (Luisehahne)
 ! add ErrorMsgException in /framework/globalExceptionHandler.php
 ! ErrorMessage "ADMIN_INSUFFICIENT_PRIVELLIGES" now can be styled 
