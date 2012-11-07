@@ -22,10 +22,9 @@ if(!defined('WB_PATH')) {
 }
 /* -------------------------------------------------------- */
 // Include PHPLIB template class
-require_once(WB_PATH."/include/phplib/template.inc");
+if(!class_exists('Template', false)){ include(WB_PATH.'/include/phplib/template.inc'); }
 // Include new wbmailer class (subclass of PHPmailer)
-require_once(WB_PATH."/framework/class.wbmailer.php");
-//require_once(WB_PATH."/framework/SecureForm.php");
+if(!class_exists('wbmailer', false)){ include(WB_PATH.'/framework/class.wbmailer.php'); }
 
 class wb extends SecureForm
 {
@@ -525,11 +524,11 @@ class wb extends SecureForm
 		}
 		if($show_screen)
 		{
-            $sMaintanceFile = $this->correct_theme_source('maintance.htt');
+            $sMaintanceFile = $this->correct_theme_source('maintenance.htt');
     		if(file_exists($sMaintanceFile))
     		{
                 $tpl = new Template(dirname( $sMaintanceFile ));
-    		    $tpl->set_file( 'page', 'maintance.htt' );
+    		    $tpl->set_file( 'page', 'maintenance.htt' );
     		    $tpl->set_block( 'page', 'main_block', 'main' );
 
     			if(defined('DEFAULT_CHARSET'))
@@ -672,9 +671,9 @@ class wb extends SecureForm
      *    false: if @param is not a string
      *    string: cleaned string
 	 */
-	public function StripCodeFromText($sValue, $bPhpCode=false){
+	public function StripCodeFromText($sValue, $bPHPCode=false){
         if(!is_string($sValue)) { return false; }
-        $sValue = ( ($bPhpCode==true) ? preg_replace ('/\[\[.*?\]\]\s*?|<\?php\s+.*\?>\s*?/isU', '', $sValue ) : $sValue );
+        $sValue = ( ($bPHPCode==true) ? preg_replace ('/\[\[.*?\]\]\s*?|<\?php\s+.*\?>\s*?/isU', '', $sValue ) : $sValue );
         $sPattern = '/\[\[.*?\]\]\s*?|<!--\s+.*?-->\s*?|<(script|link|style)[^>]*\/>\s*?|<(script|link|style)[^>]*?>.*?<\/\2>\s*?|\s*$/isU';
         return (preg_replace ($sPattern, '', $sValue));
 	}

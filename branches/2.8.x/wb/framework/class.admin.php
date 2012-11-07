@@ -57,7 +57,7 @@ class admin extends wb {
 		parent::__construct(SecureForm::BACKEND);
     	if( $section_name != '##skip##' )
     	{
-    		global $database, $MESSAGE;
+    		global $database, $MESSAGE, $TEXT;
     		// Specify the current applications name
     		$this->section_name = $section_name;
     		$this->section_permission = $section_permission;
@@ -73,8 +73,25 @@ class admin extends wb {
     			}
     			// Now check if they are allowed in this section
     			if($this->get_permission($section_permission) == false) {
-    				die($MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES']);
-    			}
+//    				die($MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES']);
+                    $sErrorMsgFile = $this->correct_theme_source('ErrorMsgFile.htt');
+            		if(file_exists($sErrorMsgFile))
+            		{
+                        $this->print_header();
+                        $oTpl = new Template(dirname( $sErrorMsgFile ));
+//                        $oTpl->debug = true;
+                        $sBackLink = (isset($_SERVER['QUERY_STRING'])&& ($_SERVER['QUERY_STRING']!='')) ? $_SERVER['HTTP_REFERER'].'?'.$_SERVER['QUERY_STRING'] :  $_SERVER['HTTP_REFERER'];
+            		    $oTpl->set_file( 'page', 'ErrorMsgFile.htt' );
+            	 	    $oTpl->set_var( 'THEME_URL', THEME_URL );
+            			$oTpl->set_var( 'PAGE_ICON', 'negative');
+            			$oTpl->set_var( 'ERROR_TITLE', $MESSAGE['MEDIA_DIR_ACCESS_DENIED']);
+            	 	    $oTpl->set_var( 'PAGE_TITLE', $MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES'] );
+            	 	    $oTpl->set_var( 'BACK_LINK', $sBackLink );
+            	 	    $oTpl->set_var( 'TEXT_BACK', $TEXT['BACK'] );
+                		$output = $oTpl->finish($oTpl->parse('output', 'page'));
+        			}
+        			throw new ErrorMsgException($output);
+                }
     		}
 
 			if( ($maintance==true) || $this->get_session('USER_ID')!= 1 )
@@ -278,7 +295,7 @@ class admin extends wb {
 		function print_footer($activateJsAdmin = false) {
 		global $database,$starttime,$iPhpDeclaredClasses;
 		// include the required file for Javascript admin
-		if($activateJsAdmin != false) {
+		if($activateJsAdmin == true) {
 			if(file_exists(WB_PATH.'/modules/jsadmin/jsadmin_backend_include.php')){
 				@include_once(WB_PATH.'/modules/jsadmin/jsadmin_backend_include.php');
 			}

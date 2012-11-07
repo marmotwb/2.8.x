@@ -262,7 +262,6 @@ div.page-settings-leftcol label a:hover { color :#006699; text-decoration :under
 div.page-settings-leftcol textarea { resize :vertical; }
 #overDiv { max-width :450px; background-position :center; background-attachment :fixed; text-align :left; line-height :1em; padding :1px; font-size :120%; }
 div.page-settings span.overlib { width :20px; margin-left :-20px; }
-
 /* */
 div.page_group { height :180px; max-height :260px; margin :0; padding :0; overflow :auto; }
 div.page_group div { overflow :hidden; }
@@ -298,3 +297,16 @@ div.admintools .section { width :100%; }
 div.account form.settings_table { width :100%; }
 div.account form.settings_table table td { width :40%; }
 div.account form.settings_table table td.value_input { width :80%; }
+/* expression msg box */
+div.acess-main div.bottomdiv { background-color :#eff2f6; background-repeat :repeat-x; border-bottom :0px solid #0099ff; border-left :0px solid #0099ff; border-right :0px solid #0099ff; color :#003366; font-weight :bold; padding :10px; text-align :center; }
+div.acess-main div.topdiv { background-color :#eff2f6; background-image :url("../images/menu.png"); background-position :left top; background-repeat :repeat-x; font-size :110%; font-weight :bold; height :34px; padding :5px 10px; color :#dddddd; }
+div.acess-main .clear { clear :both; }
+div.acess-main .invalid_message { clear :both; color :#990000; font-size :1em; height :auto; padding-top :5px; text-align :center; width :100%; }
+div.acess-main { border :0 none #666666; font-size :1em; margin :0 auto 1em; max-width :60em; min-width :50em; overflow :hidden; padding :15px; width :58.6%; }
+div.acess-main .table { background :url("../images/bgtitle.png") repeat-x scroll 0 0 #ffffff; margin :0 auto; overflow :hidden; padding :0px 0px; width :74%; }
+div.acess-main table a:link { display :inline; font-weight :bold; padding-top :0; text-decoration :none; vertical-align :baseline; }
+div.acess-main a:link { display :inline; font-weight :bold; padding-top :0; text-decoration :none; vertical-align :baseline; }
+div.acess-main a:visited { color :#0066cc; }
+div.acess-main a:hover { color :#6699ff; text-decoration :underline; }
+div.acess-main div.content { overflow :hidden; padding :1px; text-align :left; }
+div.acess-main div.bottomdiv h3 { font-weight :bold; color :#ff0000; }
