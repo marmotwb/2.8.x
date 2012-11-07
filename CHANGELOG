@@ -13,6 +13,12 @@ Legend:
 
 
 
+07 Nov-2012 Build 1808 Dietmar Woellbrink (Luisehahne)
+! add ErrorMsgException in /framework/globalExceptionHandler.php
+! ErrorMessage "ADMIN_INSUFFICIENT_PRIVELLIGES" now can be styled 
+  by the /admin/skel/themes/htt/ErrorMsgFile.htt template 
+! add css selectors to wb_theme
+! rename maintance.htt to maintenance.htt
 07 Nov-2012 Build 1807 Dietmar Woellbrink (Luisehahne)
 ! fallback remove Timezone abbreviation in time format
 04 Nov-2012 Build 1806 Dietmar Woellbrink (Luisehahne)

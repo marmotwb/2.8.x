@@ -6,8 +6,8 @@
  * @copyright       WebsiteBaker.org e.V.
  * @link            http://websitebaker2.org
  * @license         http://www.gnu.org/licenses/gpl.html
- * @version         $Id: class.order.php 1487 2011-08-10 13:20:15Z DarkViper $
- * @filesource		$HeadURL: http://svn.websitebaker2.org/branches/2.8.x/wb/framework/class.order.php $
+ * @version         $Id$
+ * @filesource		$HeadURL$
  *
  * Global exception-handler
  * This module will activate a global exception handler to catch all thrown exceptions
@@ -17,7 +17,7 @@
  * define several default exceptions directly to prevent from extra loading requests
  */
 /**
- * 
+ *
  */
 	class AppException extends Exception{
 		public function __toString() {
@@ -50,6 +50,15 @@
 			$out  = '<div style="color: #ff0000; text-align: center;"><br />';
 			$out .= '<br /><br /><h1>Illegale file access</h1>';
 			$out .= '<h2>'.$file.'</h2></div>';
+			return $out;
+		}
+	} // end of class
+/**
+ * define Exception to show error message
+ */
+	class ErrorMsgException extends Exception {
+		public function __toString() {
+            $out  = $this->getMessage();
 			return $out;
 		}
 	} // end of class
@@ -88,6 +97,8 @@
 			$sResponse  = $_SERVER['SERVER_PROTOCOL'].' 403 Forbidden';
 			header($sResponse);
 			echo $e;
+		}elseif($e instanceof ErrorMsgException) {
+			echo (string)$e;
 		}elseif($e instanceof RuntimeException) {
 			$out  = 'There was a serious runtime error:'."\n";
 			$out .= $e->getMessage()."\n";

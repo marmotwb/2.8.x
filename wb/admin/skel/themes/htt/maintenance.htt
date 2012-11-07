@@ -15,7 +15,7 @@
     <table class="header layout">
         <tr>
         	<td class="logo">
-        		<a href="http://www.websitebaker2.org/" title=""><img src="../images/logo.png" alt="Logo" /></a>
+        		<a href="http://www.websitebaker2.org/" title=""><img src="{THEME_URL}/images/logo.png" alt="Logo" /></a>
         	</td>
         	<td></td>
         </tr>
@@ -26,12 +26,11 @@
             <div class="content">
                 <div class="login_box">
                         <div class="topdiv">
-                        OFF-LINE
+                        OFF-LINE - {WB_URL}
                         </div>
                         <div class="bottomdiv">
         					<h3>{PAGE_TITLE}</h3>
-        					<h3>{BE_PATIENT}</h3>
-        					<img src="{PAGE_ICON}" alt="{PAGE_TITLE}" /><br />
+        					<img src="{THEME_URL}/images/{PAGE_ICON}.png" alt="{PAGE_TITLE}" /><br />
         					<h3>{CHECK_BACK}</h3>
                         </div>
                 </div>

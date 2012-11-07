@@ -1,0 +1,16 @@
+<div class="acess-main">
+    <div class="table rounded shadow">
+        <div class="td">
+            <div class="content">
+                <div class="topdiv">
+                 {ERROR_TITLE}
+                </div>
+                <div class="bottomdiv">
+					<h3>{PAGE_TITLE}</h3>
+					<img src="{THEME_URL}/images/{PAGE_ICON}.png" alt="{PAGE_TITLE}" /><br />
+					<a href="{BACK_LINK}" title="{PAGE_TITLE}">{TEXT_BACK}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
