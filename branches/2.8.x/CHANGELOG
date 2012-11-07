@@ -13,6 +13,8 @@ Legend:
 
 
 
+07 Nov-2012 Build 1807 Dietmar Woellbrink (Luisehahne)
+! fallback remove Timezone abbreviation in time format
 04 Nov-2012 Build 1806 Dietmar Woellbrink (Luisehahne)
 # Bugfix show double header in admintools
 04 Nov-2012 Build 1805 Dietmar Woellbrink (Luisehahne)
