@@ -13,6 +13,10 @@ Legend:
 
 
 
+09 Nov-2012 Build 1810 Dietmar Woellbrink (Luisehahne)
+! account signup check that display_name is unique in whole system
+  (prevents from User-faking)
+! add POST Request to admintools 
 07 Nov-2012 Build 1809 Dietmar Woellbrink (Luisehahne)
 ! remove login_ip after 60days set in /admin/start/index.php
 ! add confirm_code and confirm_timeout fields in users table in /install/save.php

@@ -117,6 +117,18 @@ if($wb->StripCodeFromText($wb->get_post('action'))=='send')
 		msgQueue::add($MESSAGE['LOGIN_USERNAME_BLANK']);
 	}
 
+// check that display_name is unique in whoole system (prevents from User-faking)
+    	$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` ';
+    	$sql .= 'WHERE `user_id` <> '.(int)$admin->get_user_id().' AND `display_name` LIKE "'.$wb->get_session('DISPLAY_NAME').'"';
+    	if( ($iFoundUser = intval($database->get_one($sql))) > 0 ){
+            msgQueue::add($MESSAGE['USERS_USERNAME_TAKEN'].' ('.$TEXT['DISPLAY_NAME'].')');
+            $_SESSION['DISPLAY_NAME'] = '';
+       } else {
+            if($wb->get_session('DISPLAY_NAME') == '') {
+        	   msgQueue::add($MESSAGE['GENERIC_FILL_IN_ALL'].' ('.$TEXT['DISPLAY_NAME'].')');
+            }
+       }
+
 	if($wb->get_session('EMAIL') != "") {
 		// Check if the email already exists
 		$sql = 'SELECT `user_id` FROM `'.TABLE_PREFIX.'users` WHERE `email` = \''.$_SESSION['EMAIL'].'\'';
@@ -133,10 +145,10 @@ if($wb->StripCodeFromText($wb->get_post('action'))=='send')
 		msgQueue::add($MESSAGE['SIGNUP_NO_EMAIL']);
 	}
 
-	if($wb->get_session('DISPLAY_NAME') == "") {
-//		$aErrorMsg[] = $MESSAGE['GENERIC_FILL_IN_ALL'];
-		msgQueue::add($MESSAGE['GENERIC_FILL_IN_ALL'].' ('.$TEXT['DISPLAY_NAME'].')');
-	}
+//	if($wb->get_session('DISPLAY_NAME') == "") {
+////		$aErrorMsg[] = $MESSAGE['GENERIC_FILL_IN_ALL'];
+//		msgQueue::add($MESSAGE['GENERIC_FILL_IN_ALL'].' ('.$TEXT['DISPLAY_NAME'].')');
+//	}
 
 	if(CONFIRMED_REGISTRATION) {
 		$iMinPassLength = 6;

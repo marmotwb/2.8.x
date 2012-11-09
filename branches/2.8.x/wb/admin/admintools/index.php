@@ -37,6 +37,7 @@ $template->set_var('HEADING_ADMINISTRATION_TOOLS', $HEADING['ADMINISTRATION_TOOL
 // Insert tools into tool list
 $template->set_block('main_block', 'tool_list_block', 'tool_list');
 $template->set_var('TOOL_NAME', '');
+$template->set_var('tool_list', $TEXT['NONE'].' '.$TEXT['MODULE_PERMISSIONS']);
 $template->set_var('TOOL_DIR', '');
 $template->set_var('TOOL_DESCRIPTION', '');
 $template->set_var('NO_CONTENT', '');
