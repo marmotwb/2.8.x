@@ -513,12 +513,16 @@ class admin extends wb {
 			$base_link = '<script src="'.WB_URL.'/modules/{MODULE_DIRECTORY}/backend_body.js" type="text/javascript"></script>';
 			$base_file = "backend_body.js";
 		}
+
+        $sActionRequest = isset($_POST['tool']) ? $_POST['tool'] : null;
+        $sActionRequest = isset($_GET['tool'])  ? $_GET['tool']  : $sActionRequest;
+
 		// check if backend_body.js files needs to be included to the <body></body> section of the backend
-		if(isset($_GET['tool']))
+		if(isset($sActionRequest))
 			{
 			// check if displayed page contains a installed admin tool
 			$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';
-			$sql .= 'WHERE `type`=\'module\' AND `function`=\'tool\' AND `directory`=\''.addslashes($_GET['tool']).'\'';
+			$sql .= 'WHERE `type`=\'module\' AND `function`=\'tool\' AND `directory`=\''.addslashes($sActionRequest).'\'';
 			$result = $database->query($sql);
 			if($result->numRows())
 				{
@@ -579,11 +583,14 @@ class admin extends wb {
 			$base_file = "backend.js";
 		}
 
+        $sActionRequest = isset($_POST['tool']) ? $_POST['tool'] : null;
+        $sActionRequest = isset($_GET['tool'])  ? $_GET['tool']  : $sActionRequest;
+
 		// check if backend.js or backend.css files needs to be included to the <head></head> section of the backend
-		if(isset($_GET['tool'])) {
+		if(isset($sActionRequest)) {
 			// check if displayed page contains a installed admin tool
 			$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';
-			$sql .= 'WHERE `type`=\'module\' AND `function`=\'tool\' AND `directory`=\''.addslashes($_GET['tool']).'\'';
+			$sql .= 'WHERE `type`=\'module\' AND `function`=\'tool\' AND `directory`=\''.addslashes($sActionRequest).'\'';
 			$result = $database->query($sql);
 			if($result->numRows()) {
 				// check if admin tool directory contains a backend.js or backend.css file to include

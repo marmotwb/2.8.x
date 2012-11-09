@@ -13,6 +13,8 @@ Legend:
 
 
 
+09 Nov-2012 Build 1811 Dietmar Woellbrink (Luisehahne)
+! forgot to upload class.wb.php
 09 Nov-2012 Build 1810 Dietmar Woellbrink (Luisehahne)
 ! account signup check that display_name is unique in whole system
   (prevents from User-faking)
