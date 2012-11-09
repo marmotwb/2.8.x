@@ -28,7 +28,8 @@ if(!class_exists('admin', false)){
 
 require_once(WB_PATH.'/framework/functions.php');
 
-$toolDir = (isset($_GET['tool']) && (trim($_GET['tool']) != '') ? trim($_GET['tool']) : '');
+$toolDir = (isset($_POST['tool']) && (trim($_POST['tool']) != '') ? trim($_POST['tool']) : '');
+$toolDir = (isset($_GET['tool']) && (trim($_GET['tool']) != '') ? trim($_GET['tool']) : $toolDir);
 $doSave  = (isset($_POST['save_settings']) || (isset($_POST['action']) && strtolower($_POST['action']) == 'save'));
 
 // test for valid tool name
