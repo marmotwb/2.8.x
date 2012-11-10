@@ -15,8 +15,15 @@
  *
  */
 
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
+if(!defined('WB_URL'))
+{
+    $config_file = realpath('../../config.php');
+    if(file_exists($config_file) && !defined('WB_URL'))
+    {
+    	require($config_file);
+    }
+}
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 $admin = new admin('admintools', 'admintools');
 
 // Include the WB functions file
@@ -37,21 +44,21 @@ $template->set_var('HEADING_ADMINISTRATION_TOOLS', $HEADING['ADMINISTRATION_TOOL
 // Insert tools into tool list
 $template->set_block('main_block', 'tool_list_block', 'tool_list');
 $template->set_var('TOOL_NAME', '');
-$template->set_var('tool_list', $TEXT['NONE'].' '.$TEXT['MODULE_PERMISSIONS']);
+$template->set_var('tool_list', '');
 $template->set_var('TOOL_DIR', '');
 $template->set_var('TOOL_DESCRIPTION', '');
 $template->set_var('NO_CONTENT', '');
-
 $results = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'module' AND function = 'tool' order by name");
+$bHasToolRights = false;
 if($results->numRows() > 0) {
-	while( $tool = $results->fetchRow() ) {
-
+	while( $tool = $results->fetchRow(MYSQL_ASSOC) ) {
+        $bHasToolRights = false;
 		if( $admin->get_permission($tool['directory'],'module' ) )
 		{
-			$template->set_var('TOOL_NAME', $tool['name']);
+            $bHasToolRights = true;
+		$template->set_var('TOOL_NAME', $tool['name']);
 			$template->set_var('TOOL_DIR', $tool['directory']);
-// /icons/admintools.png
-		// check if a module description exists for the displayed backend language
+	// check if a module description exists for the displayed backend language
 			$tool_description = false;
 			if(function_exists('file_get_contents') && file_exists(WB_PATH.'/modules/'.$tool['directory'].'/languages/'.LANGUAGE .'.php')) {
 				// read contents of the module language file into string
@@ -69,11 +76,11 @@ if($results->numRows() > 0) {
 		}
 	}
 
-} else {
-	$template->set_var('TOOL_LIST', $TEXT['NONE_FOUND']);
 }
 
-$template->set_var('TOOL_LIST', '<li>&nbsp;</li>');
+$template->set_var('TOOL_LIST', ($bHasToolRights==false) ? $TEXT['NONE'].' '.$TEXT['MODULE_PERMISSIONS'] : '&nbsp;');
+
+//template->set_var('TOOL_LIST', '<li>&nbsp;</li>');
 // Parse template objects output
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
