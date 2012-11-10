@@ -19,7 +19,7 @@
 $config_file = realpath('config.php');
 if(file_exists($config_file) && !defined('WB_URL'))
 {
-	require_once($config_file);
+	require($config_file);
 }
 
 //require_once(WB_PATH.'/framework/class.admin.php');
@@ -74,6 +74,7 @@ if(version_compare(WB_REVISION, VERSION, '<='))
 			'[ADMIN]/preferences/email.php',
 			'[ADMIN]/preferences/password.php',
 			'[ADMIN]/pages/settings2.php',
+			'[ADMIN]/users/users.php',
 
 			'[FRAMEWORK]/class.msg_queue.php',
 			'[FRAMEWORK]/class.logfile.php',
@@ -797,7 +798,56 @@ if($bDebugModus) {
     echo implode(PHP_EOL,$aDebugMessage);
 }
 $aDebugMessage = array();
+echo '<h3>Step '.(++$stepID).': Updating group_id in table users</h3>';
+    /**********************************************************
+    * Updating group_id in table users
+    */
 
+        echo '<div style="margin-left:2em;">';
+        $aUsers = array();
+		// Get existing values
+        $sql  = 'SELECT * FROM `'.TABLE_PREFIX.'users` ' ;
+        $sql .= 'WHERE `user_id` != 1 ';
+        if($oUser = $database->query($sql)){
+            $iTotalUsers = $oUser->numRows();
+            while($Users = $oUser->fetchRow(MYSQL_ASSOC)) {
+
+                $aUsers[$Users['user_id']]['groups_id'] = $Users['groups_id'];
+                $aUsers[$Users['user_id']]['display_name'] = $Users['display_name'];
+            }
+        } else {
+            $aDebugMessage[] = $database->is_error()==false ? " $OK<br />" : " $FAIL!<br />";
+        }
+
+        foreach($aUsers AS $user_id => $value){
+                // choose group_id from groups_id - workaround for still remaining calls to group_id (to be cleaned-up)
+                $groups_id = explode(',', $aUsers[$user_id]['groups_id']);
+                $group_id = 0;
+                //if user is in administrator-group, get this group else just get the first one
+                if($admin->is_group_match($groups_id,'1')) { $group_id = 1; } else { $group_id = intval($groups_id[0]); }
+                unset($groups_id);
+
+                $sMessage = "<span>Updating group_id ".$TEXT['DISPLAY_NAME']." " .$aUsers[$user_id]['display_name']."</span>";
+                $sql  = 'UPDATE `'.TABLE_PREFIX.'users` ';
+                $sql .= 'SET `group_id` = '.$group_id.' ';
+                $sql .= 'WHERE `user_id` = '.intval($user_id);
+
+                if($oRes = $database->query($sql)){  }
+                $aDebugMessage[] = $database->is_error()==false ? $sMessage." $OK<br />" : $sMessage." $FAIL!<br />";
+        }
+        unset($aUsers);
+
+    $aDebugMessage[] = '</div>';
+
+if($bDebugModus) {
+// $aDebugMessage[] =
+    echo implode(PHP_EOL,$aDebugMessage);
+}else {
+    echo '<span><strong>'.$iTotalUsers.' users updating the group_id</strong></span>'." $OK<br />";
+    echo '</div>';
+}
+
+$aDebugMessage = array();
 echo '<h3>Step '.(++$stepID).': Updating acess and protected files in folders</h3>';
 
 echo '<div style="margin-left:2em;">';

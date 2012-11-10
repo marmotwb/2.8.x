@@ -13,6 +13,8 @@ Legend:
 
 
 
+10 Nov-2012 Build 1813 Dietmar Woellbrink (Luisehahne)
+! upgrade-script fixed wrong users group_id, (Bug in users management)
 10 Nov-2012 Build 1812 Dietmar Woellbrink (Luisehahne)
 # fixed always show "no modul rights" in admintools
 09 Nov-2012 Build 1811 Dietmar Woellbrink (Luisehahne)
