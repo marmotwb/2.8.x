@@ -13,6 +13,8 @@ Legend:
 
 
 
+10 Nov-2012 Build 1814 Dietmar Woellbrink (Luisehahne)
+! update jQuery to jQuery 1.8.2 and jQuery UI 1.9.1
 10 Nov-2012 Build 1813 Dietmar Woellbrink (Luisehahne)
 ! upgrade-script fixed wrong users group_id, (Bug in users management)
 10 Nov-2012 Build 1812 Dietmar Woellbrink (Luisehahne)
