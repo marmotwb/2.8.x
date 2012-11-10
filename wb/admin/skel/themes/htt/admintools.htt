@@ -13,7 +13,7 @@
 				{NO_CONTENT}
 			</li>
 		<!-- END tool_list_block -->
-			{TOOL_LIST}
+			<li>{TOOL_LIST}</li>
 		</ul>
 	</div>
 <!-- END main_block -->
