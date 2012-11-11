@@ -830,7 +830,7 @@ echo '<h3>Step '.(++$stepID).': Updating group_id in table users</h3>';
                 $sMessage = "<span>Updating group_id ".$TEXT['DISPLAY_NAME']." " .$aUsers[$user_id]['display_name']."</span>";
                 $sql  = 'UPDATE `'.TABLE_PREFIX.'users` ';
                 $sql .= 'SET `group_id`  = '.$group_id.', ';
-                $sql .=     '`groups_id` = '.$groups_id.' ';
+                $sql .=     '`groups_id` = \''.$groups_id.'\' ';
                 $sql .= 'WHERE `user_id` = '.intval($user_id);
 
                 if($oRes = $database->query($sql)){  }
