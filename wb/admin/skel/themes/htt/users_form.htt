@@ -8,11 +8,12 @@ function toggle_radio(radio_on, radio_off) {
 </script>
 <div class="account">
 
-<h2 class="left" style="{DISPLAY_EXTRA}">{HEADING_MODIFY_USER}</h2>
+<h3 class="left bold" style="{DISPLAY_EXTRA}">{HEADING_MODIFY_USER}</h3>
 
-<form name="user" action="{ACTION_URL}" method="post" class="{DISPLAY_ADD} left settings_table">
+<form action="{ACTION_URL}" method="post" class="{DISPLAY_ADD} left settings_table">
 <input type="hidden" name="user_id" value="{USER_ID}" />
 <input type="hidden" name="username_fieldname" value="{USERNAME_FIELDNAME}" />
+<input type="hidden" name="BackLink" value="{BACK_LINK}" />
 {FTAN}
 <table>
 <!-- BEGIN show_modify_loginname_block -->
@@ -46,7 +47,7 @@ function toggle_radio(radio_on, radio_off) {
 </tr>
 <tr style="{DISPLAY_EXTRA}">
 	<td colspan="2" style="">
-		<div class="warning value_input" style="max-width:700px; margin-right: 20%; float: right;">{CHANGING_PASSWORD}</div>
+		<div class="warning value_input" style="max-width:650px; margin-right: 23%; float: right;">{CHANGING_PASSWORD}</div>
 	</td>
 </tr>
 <tr>
@@ -72,6 +73,15 @@ function toggle_radio(radio_on, radio_off) {
 		</select>
 	</td>
 </tr>
+
+<!-- BEGIN show_change_group_list_block -->
+<tr>
+	<td colspan="2" style="">
+		<div class="warning value_input" style="max-width:650px; margin-right: 23%; float: right;">{CHANGING_GROUPS}</div>
+	</td>
+</tr>
+<!-- END show_change_group_list_block -->
+
 <tr>
 	<td class="rightTop">{TEXT_GROUP}:</td>
 	<td class="value_input">
@@ -93,9 +103,9 @@ function toggle_radio(radio_on, radio_off) {
 </tr>
 <tr>
 	<td colspan="2" class="center">
-		<input type="submit" name="submit" value="{SUBMIT_TITLE}" />
+		<input type="submit" name="{SUB_ACTION}" value="{SUBMIT_TITLE}" />
 		<input type="reset" name="reset" value="{TEXT_RESET}" />
-		<input type="button" style="width: 100px; margin-top: 5px;" onclick="javascript:window.location='index.php';" value="{TEXT_CANCEL}" />
+		<input type="button" style="width: 100px; margin-top: 5px;" onclick="javascript:window.location='{CANCEL_URL}';" value="{TEXT_CANCEL}" />
 	</td>
 </tr>
 </table>

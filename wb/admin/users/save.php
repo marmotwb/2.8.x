@@ -15,111 +15,192 @@
  *
  */
 
-$config_file = realpath('../../config.php');
-if(file_exists($config_file) && !defined('WB_URL'))
-{
-	require_once($config_file);
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+if(!defined('WB_URL')) {
+	require_once(dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
+/* -------------------------------------------------------- */
 
-if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+	function save_user($admin, &$aActionRequest)
+	{
+		global $TEXT, $MESSAGE;
+        // Create a javascript back link
+//        $js_back = ADMIN_URL.'/users/index.php';
+        unset($aActionRequest['save']);
+        $aActionRequest['modify']= 'change';
+		$database = WbDatabase::getInstance();
+        $bRetVal = 0;
+    	$iMinPassLength = 6;
 
-// suppress to print the header, so no new FTAN will be set
-$admin = new admin('Access', 'users_modify', false);
+        if( !$admin->checkFTAN() )
+        {
+        	msgQueue::add($MESSAGE['GENERIC_SECURITY_ACCESS']);
+            return $bRetVal;
+        }
 
-// Create a javascript back link
-$js_back = ADMIN_URL.'/users/index.php';
+        // Check if user id is a valid number and doesnt equal 1
+        if(!isset($aActionRequest['user_id']) OR !is_numeric($aActionRequest['user_id']) OR $aActionRequest['user_id'] == 1) {
+        	msgQueue::add('::'.$MESSAGE['GENERIC_NOT_UPGRADED']);
+            return $bRetVal;
+        } else {
+        	$user_id = intval($aActionRequest['user_id']);
+        }
 
-if( !$admin->checkFTAN() )
-{
-	$admin->print_header();
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$js_back);
-}
-// After check print the header
-$admin->print_header();
+		if( ($user_id < 2 ) )
+		{
+			// if($admin_header) { $admin->print_header(); }
+        	msgQueue::add($MESSAGE['GENERIC_SECURITY_OFFENSE']);
+            return $bRetVal;
+		}
+		// Get existing values
+        $sql  = 'SELECT * FROM `'.TABLE_PREFIX.'users` ' ;
+        $sql .= 'WHERE user_id = '.$user_id.' ';
+        $sql .=   'AND user_id != 1 ';
 
-// Check if user id is a valid number and doesnt equal 1
-if(!isset($_POST['user_id']) OR !is_numeric($_POST['user_id']) OR $_POST['user_id'] == 1) {
-	header("Location: index.php");
-	exit(0);
-} else {
-	$user_id = intval($_POST['user_id']);
-}
+        if($oRes = $database->query($sql)){
+            $olduser = $oRes->fetchRow(MYSQL_ASSOC);
+        }
 
-// Gather details entered
-$groups_id = (isset($_POST['groups'])) ? implode(",", $admin->add_slashes($_POST['groups'])) : '';
-$active = $admin->add_slashes($_POST['active'][0]);
-$username_fieldname = $admin->get_post_escaped('username_fieldname');
-$username = strtolower($admin->get_post_escaped($username_fieldname));
-$password = $admin->get_post('password');
-$password2 = $admin->get_post('password2');
-$display_name = $admin->get_post_escaped('display_name');
-$email = $admin->get_post_escaped('email');
-$home_folder = $admin->get_post_escaped('home_folder');
+        // Gather details entered
+        if($admin->is_group_match($admin->get_groups_id(), '1' )){
+            $groups_id = (isset($aActionRequest['groups'])) ? implode(",", $admin->add_slashes($aActionRequest['groups'])) : '';
+        } else {
+            $groups_id = $olduser['group_id'];
+        }
+        // there will be an additional ',' when "Please Choose" was selected, too
+        $groups_id = trim($groups_id, ',');
+        $active = intval(strip_tags($admin->StripCodeFromText($aActionRequest['active'][0])));
+        $username_fieldname = strip_tags($admin->StripCodeFromText($aActionRequest['username_fieldname']));
+        $username = strtolower(strip_tags($admin->StripCodeFromText($aActionRequest[$username_fieldname])));
+        $password = strip_tags($admin->StripCodeFromText($aActionRequest['password']));
+        $password2 = strip_tags($admin->StripCodeFromText($aActionRequest['password2']));
+        $display_name = strip_tags($admin->StripCodeFromText($aActionRequest['display_name']));
+        $email = strip_tags($admin->StripCodeFromText($aActionRequest['email']));
+        $home_folder = strip_tags($admin->StripCodeFromText($aActionRequest['home_folder']));
 
-// Check values
-if($groups_id == "") {
-	$admin->print_error($MESSAGE['USERS_NO_GROUP'], $js_back);
-}
-if(!preg_match('/^[a-z]{1}[a-z0-9_-]{2,}$/i', $username))
-{
+        // Check values
+        if($groups_id == "") {
+        	msgQueue::add($MESSAGE['USERS_NO_GROUP']);
+        } else {
+            $aGroups_id = explode(',', $groups_id);
+            //if user is in administrator-group, get this group else just get the first one
+            if($admin->is_group_match($groups_id,'1')) { $group_id = 1; } else { $group_id = intval($aGroups_id[0]); }
+        }
 
-//	print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
-//	print_r( $_POST ); print '</pre>';
-	$admin->print_error( $MESSAGE['USERS_NAME_INVALID_CHARS'].' / '.
-	                  $MESSAGE['USERS_USERNAME_TOO_SHORT'], $js_back);
-}
-if($password != "") {
-	if(strlen($password) < 6 ) {
-		$admin->print_error($MESSAGE['USERS_PASSWORD_TOO_SHORT'], $js_back);
-	}
-	if($password != $password2) {
-		$admin->print_error($MESSAGE['USERS_PASSWORD_MISMATCH'], $js_back);
-	}
-}
+//$admin->is_group_match($admin->get_groups_id(), '1' )
+        if(!preg_match('/^[a-z]{1}[a-z0-9_-]{2,}$/i', $username))
+        {
+        	msgQueue::add( $MESSAGE['USERS_NAME_INVALID_CHARS']);
+        }
 
-if($email != "")
-{
-	if($admin->validate_email($email) == false)
-    {
-        $admin->print_error($MESSAGE['USERS_INVALID_EMAIL'], $js_back);
-	}
-} else { // e-mail must be present
-	$admin->print_error($MESSAGE['SIGNUP_NO_EMAIL'], $js_back);
-}
+        if($password != "") {
+        	if(strlen($password) < $iMinPassLength ) {
+        		msgQueue::add($MESSAGE['USERS_PASSWORD_TOO_SHORT']);
+        	}
 
-// Check if the email already exists
-$results = $database->query("SELECT user_id FROM ".TABLE_PREFIX."users WHERE email = '".$admin->add_slashes($_POST['email'])."' AND user_id <> '".$user_id."' ");
-if($results->numRows() > 0)
-{
-	if(isset($MESSAGE['USERS_EMAIL_TAKEN']))
-    {
-		$admin->print_error($MESSAGE['USERS_EMAIL_TAKEN'], $js_back);
-	} else {
-		$admin->print_error($MESSAGE['USERS_INVALID_EMAIL'], $js_back);
-	}
-}
+			$pattern = '/[^'.$admin->password_chars.']/';
+			if (preg_match($pattern, $password)) {
+				msgQueue::add($MESSAGE['PREFERENCES_INVALID_CHARS']);
+        	}
 
-// Prevent from renaming user to "admin"
-if($username != 'admin') {
-	$username_code = ", username = '$username'";
-} else {
-	$username_code = '';
-}
+        	if(($password != $password2) ) {
+        		msgQueue::add($MESSAGE['USERS_PASSWORD_MISMATCH']);
+        	}
+        }
+// check that display_name is unique in whoole system (prevents from User-faking)
+    	$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` ';
+    	$sql .= 'WHERE `user_id` <> '.(int)$user_id.' AND `display_name` LIKE "'.$display_name.'"';
+    	if( $database->get_one($sql) > 0 ){
+            msgQueue::add($MESSAGE['USERS_USERNAME_TAKEN'].' ('.$TEXT['DISPLAY_NAME'].')');
+            msgQueue::add($MESSAGE['MEDIA_CANNOT_RENAME']);
+        }
+//
+		if( ($admin->get_user_id() != '1' ) )
+		{
+            if(findStringInFileList($display_name, dirname(__FILE__).'/disallowedNames')) {
+                msgQueue::add( $TEXT['ERROR'].' '.$TEXT['DISPLAY_NAME'].' ('.$display_name.')' );
+            }
+		}
 
-// Update the database
-if($password == "") {
-	$query = "UPDATE ".TABLE_PREFIX."users SET groups_id = '$groups_id', active = '$active'$username_code, display_name = '$display_name', home_folder = '$home_folder', email = '$email' WHERE user_id = '$user_id'";
-} else {
-	// MD5 supplied password
-	$md5_password = md5($password);
-	$query = "UPDATE ".TABLE_PREFIX."users SET groups_id = '$groups_id', active = '$active'$username_code, display_name = '$display_name', home_folder = '$home_folder', email = '$email', password = '$md5_password' WHERE user_id = '$user_id'";
-}
-$database->query($query);
-if($database->is_error()) {
-	$admin->print_error($database->get_error(),$js_back);
-} else {
-	$admin->print_success($MESSAGE['USERS_SAVED']);
-}
+    	$display_name = ( $display_name == '' ? $olduser['display_name'] : $display_name );
 
-// Print admin footer
-$admin->print_footer();
+        if($email != "")
+        {
+        	if($admin->validate_email($email) == false)
+            {
+                msgQueue::add($MESSAGE['USERS_INVALID_EMAIL'].' ('.$email.')');
+        	}
+        } else { // e-mail must be present
+        	msgQueue::add($MESSAGE['SIGNUP_NO_EMAIL']);
+        }
+
+		$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` '.
+                'WHERE `email` LIKE \''.$email.'\' '.
+                  'AND `user_id` <> '.(int)$user_id;
+        // Check if the email already exists
+        if( ($iFoundUser = $database->get_one($sql)) != null ) {
+            if($iFoundUser) {
+            	if(isset($MESSAGE['USERS_EMAIL_TAKEN']))
+                {
+            		msgQueue::add($MESSAGE['USERS_EMAIL_TAKEN'].' ('.$email.')');
+            	} else {
+            		msgQueue::add($MESSAGE['USERS_INVALID_EMAIL'].' ('.$email.')');
+            	}
+            }
+        }
+
+        $bRetVal = $user_id;
+
+// no error then save
+        if( !msgQueue::getError() )
+        {
+            if($admin->is_group_match($groups_id,'1')) { $group_id = 1; $groups_id = '1'; }
+          // Prevent from renaming user to "admin"
+            if($username != 'admin') {
+            	$username_code = ", username = '$username'";
+            } else {
+            	$username_code = '';
+            }
+
+			$sql  = 'UPDATE `'.TABLE_PREFIX.'users` SET ';
+            // Update the database
+            if($password == "") {
+                $sql .= '`group_id`     = '.intval($group_id).', '.
+                        '`groups_id`    = \''.mysql_real_escape_string($groups_id).'\', '.
+                        '`username` = \''.mysql_real_escape_string($username).'\', '.
+                        '`active` = '.intval($active).', '.
+                        '`display_name` = \''.mysql_real_escape_string($display_name).'\', '.
+                        '`home_folder` = \''.mysql_real_escape_string($home_folder).'\', '.
+                        '`email` = \''.mysql_real_escape_string($email).'\' '.
+                        'WHERE `user_id` = '.intval($user_id).'';
+
+            } else {
+
+                $sql .= '`group_id`     = '.intval($group_id).', '.
+                        '`groups_id`    = \''.mysql_real_escape_string($groups_id).'\', '.
+                        '`username` = \''.mysql_real_escape_string($username).'\', '.
+                        '`password` = \''.md5($password).'\', '.
+                        '`active` = '.intval($active).', '.
+                        '`display_name` = \''.mysql_real_escape_string($display_name).'\', '.
+                        '`home_folder` = \''.mysql_real_escape_string($home_folder).'\', '.
+                        '`email` = \''.mysql_real_escape_string($email).'\' '.
+                        'WHERE `user_id` = '.intval($user_id).'';
+
+            }
+            if($database->query($sql)) {
+            	msgQueue::add($MESSAGE['USERS_SAVED'], true);
+                $bRetVal = $user_id;
+            }
+            if($database->is_error()) {
+               msgQueue::add( implode('<br />',explode(';',$database->get_error())) );
+            }
+       } else {
+            	msgQueue::add($MESSAGE['GENERIC_NOT_UPGRADED']);
+       }
+
+//        return $admin->getIDKEY($user_id);
+//if($admin_header) { $admin->print_header(); }
+        return $bRetVal;
+    }

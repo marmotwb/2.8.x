@@ -13,7 +13,7 @@
      </tr>
 </table>
 <div class="account">
-<form name="users" action="users.php" method="post" class="left">
+<form name="users" action="index.php" method="post" class="left">
 <input type="hidden" name="userstatus" value="{USER_STATUS}" />
 {FTAN}
 

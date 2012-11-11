@@ -821,15 +821,16 @@ echo '<h3>Step '.(++$stepID).': Updating group_id in table users</h3>';
 
         foreach($aUsers AS $user_id => $value){
                 // choose group_id from groups_id - workaround for still remaining calls to group_id (to be cleaned-up)
-                $groups_id = explode(',', $aUsers[$user_id]['groups_id']);
+                $aGroups_id = explode(',', $aUsers[$user_id]['groups_id']);
+                $groups_id = $aUsers[$user_id]['groups_id'];
                 $group_id = 0;
                 //if user is in administrator-group, get this group else just get the first one
-                if($admin->is_group_match($groups_id,'1')) { $group_id = 1; } else { $group_id = intval($groups_id[0]); }
-                unset($groups_id);
+                if($admin->is_group_match($aGroups_id,'1')) { $group_id = 1; $groups_id = '1'; } else { $group_id = intval($aGroups_id[0]); }
 
                 $sMessage = "<span>Updating group_id ".$TEXT['DISPLAY_NAME']." " .$aUsers[$user_id]['display_name']."</span>";
                 $sql  = 'UPDATE `'.TABLE_PREFIX.'users` ';
-                $sql .= 'SET `group_id` = '.$group_id.' ';
+                $sql .= 'SET `group_id`  = '.$group_id.', ';
+                $sql .=     '`groups_id` = '.$groups_id.' ';
                 $sql .= 'WHERE `user_id` = '.intval($user_id);
 
                 if($oRes = $database->query($sql)){  }

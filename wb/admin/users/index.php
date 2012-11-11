@@ -15,271 +15,157 @@
  *
  */
 
-$config_file = realpath('../../config.php');
-if(file_exists($config_file) && !defined('WB_URL'))
-{
-	require_once($config_file);
-}
+    /**
+     * checks if a given string is part of a line in a defined file
+     * @param string $sString
+     * @param string $sListFile
+     * @return bool TRUE if at least one match is found, otherwise FALSE
+     */
+    function findStringInFileList( $sString, $sListFile)
+    {
+     $aMatch = array();
+     if(is_readable($sListFile)) {
+      $aList = file($sListFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+      $aMatch = preg_grep('/'.preg_quote($sString, '/').'/i',$aList);
+     }
+     return (sizeof($aMatch)>0);
+    }
 
-if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+	function admin_users_index($aActionRequest)
+	{
+		global $MESSAGE;
+		$database = WbDatabase::getInstance();
 
-$admin = new admin('Access', 'users');
+        $sAdminPath = dirname(str_replace('\\', '/', __FILE__));
+        $sAdminName = basename($sAdminPath);
+        $output = '';
+        $aActionRequest['requestMethod'] = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
+        $action = 'show';
+        // Set parameter 'action' as alternative to javascript mechanism
+        $action = (isset($aActionRequest['add'])    ? 'add'    : $action );
+        $action = (isset($aActionRequest['save'])   ? 'save'   : $action );
+        $action = (isset($aActionRequest['modify']) ? 'modify' : $action );
+        $action = (isset($aActionRequest['delete']) ? 'delete' : $action );
+        $action = (isset($aActionRequest['delete_outdated']) ? 'delete_outdated' : $action );
 
-$iUserStatus = 1;
-$iUserStatus = ( ( $admin->get_get('status')==1 ) ? 0 : $iUserStatus );
-unset($_GET);
+		switch($action) :
+			case 'delete': // delete the user
+    			$admin = new admin('Access', 'users_delete',false);
 
-// Setup template object, parse vars to it, then parse it
-// Create new template object
-$template = new Template(dirname($admin->correct_theme_source('users.htt')),'keep');
-// $template->debug = true;
+				include($sAdminPath.'/delete.php');
+    			$output = delete_user($admin,$aActionRequest);
 
-$template->set_file('page', 'users.htt');
-$template->set_block('page', 'main_block', 'main');
-$template->set_block("main_block", "manage_groups_block", "groups");
-$template->set_var('ADMIN_URL', ADMIN_URL);
-$template->set_var('FTAN', $admin->getFTAN());
-$template->set_var('USER_STATUS', $iUserStatus );
-$template->set_var('DISPLAY_ADD', '');
-$template->set_var('DISPLAY_MODIFY', '');
-$template->set_var('DISABLED_CHECKED', '');
-$template->set_var('HEADING_MODIFY_USER', '');
-$template->set_var('DISPLAY_HOME_FOLDERS', '');
+        		if( ($msg = msgQueue::getError()) != '')
+        		{
+        		}
 
-$UserStatusActive = 'url('.THEME_URL.'/images/user.png)';
-$UserStatusInactive = 'url('.THEME_URL.'/images/user_red.png)';
+                $aActionRequest['cancel_url'] = ADMIN_URL.'/access/index.php';
+				$admin = new admin('Access', 'users');
+				include($sAdminPath.'/user_list.php');
+				$output .= show_userlist($admin, $aActionRequest);
+				break;
+			case 'add': // insert/update user
+                $admin = new admin('Access', 'users_add',false);
+				include($sAdminPath.'/add.php');
+    			$output = add_user($admin,$aActionRequest);
+                $aActionRequest['cancel_url'] = ADMIN_URL.'/access/index.php';
+				$admin = new admin('Access', 'users');
+				include($sAdminPath.'/user_list.php');
+				$output .= show_userlist($admin, $aActionRequest);
+				break;
+			case 'save': // insert/update user
+    			$admin = new admin('Access', 'users_modify',false);
+// hold the cancel_url if request comes outside from users
+                if(isset($aActionRequest['BackLink'])) {
+                    $sBackLink = $aActionRequest['BackLink'];
+                    $aActionRequest['cancel_url'] = $sBackLink;
+                    $aActionRequest['BackLink'] = $sBackLink;
+                }
+     			include($sAdminPath.'/save.php');
+                $user_id = save_user($admin, $aActionRequest);
+    			$admin = new admin('Access', 'users_modify');
+     			include($sAdminPath.'/user_form.php');
+                $aActionRequest['user_id'] = $user_id;
+    			$output = show_usermask($admin,$aActionRequest);
+				break;
+			case 'modify': // insert/update user
+// first check acess to auth users can change his own preferences
+    			$admin = new admin('Preferences', 'preferences_view',false);
+    			$user_id = intval($admin->checkIDKEY('user_id', 0, $_SERVER['REQUEST_METHOD']));
+// Check if user id is a valid number and doesnt equal 1
+                $aActionRequest['user_id'] = $user_id;
+    			if($user_id == 0){
+        			msgQueue::add($MESSAGE['GENERIC_FORGOT_OPTIONS'] );
+                }
 
-$sUserTitle = ($iUserStatus == 0) ? $MENU['USERS'].' '.strtolower($TEXT['ACTIVE']) : $MENU['USERS'].' '.strtolower($TEXT['DELETED']) ;
+    			if( ($user_id == $admin->get_user_id() ) )
+    			{
+                    $sQueryString = (isset($_SERVER['QUERY_STRING'])&& ($_SERVER['QUERY_STRING']!='')) ? $_SERVER['QUERY_STRING'] :  'tool=uaerat';
+                    $admin->send_header(ADMIN_URL.'/preferences/index.php?'.$sQueryString);
+    			}
 
-$template->set_var('TEXT_USERS', $sUserTitle.' '.$TEXT['SHOW'] );
-$template->set_var('STATUS_ICON', ( ($iUserStatus==0) ? $UserStatusActive : $UserStatusInactive) );
+    			$admin = new admin('Access', 'users_modify');
 
-// Get existing value from database
-$sql  = 'SELECT `user_id`, `username`, `display_name`, `active` FROM `'.TABLE_PREFIX.'users` ' ;
-$sql .= 'WHERE user_id != 1 ';
-$sql .=     'AND active = '.$iUserStatus.' ';
-$sql .= 'ORDER BY `display_name`,`username`';
+    			if( ($user_id < 2 ) )
+    			{
+    				// if($admin_header) { $admin->print_header(); }
+    				msgQueue::add($MESSAGE['GENERIC_SECURITY_ACCESS'] );
+    			}
+                $admin_header = false;
+                if(isset($aActionRequest['BackLink'])) {
+                    $sBackLink = $aActionRequest['BackLink'];
+                    $aActionRequest['cancel_url'] = $sBackLink;
+                    $aActionRequest['BackLink']   = $sBackLink;
+                } else {
+                    $sBackLink = (isset($_SERVER['QUERY_STRING'])&& ($_SERVER['QUERY_STRING']!='')) ? $_SERVER['HTTP_REFERER'].'?'.$_SERVER['QUERY_STRING'] :  $_SERVER['HTTP_REFERER'];
+                    $aActionRequest['cancel_url'] = $sBackLink;
+                    $aActionRequest['BackLink']   = $sBackLink;
+                }
+     			include($sAdminPath.'/user_form.php');
+    			$output = show_usermask($admin,$aActionRequest);
+				break;
+			default: // show userlist with empty modify mask
+				$admin = new admin('Access', 'users');
+				msgQueue::clear();
+    			$user_id = intval($admin->checkIDKEY('user_id', 0, $_SERVER['REQUEST_METHOD']));
+    			// Check if user id is a valid number and doesnt equal 1
+                $aActionRequest['user_id'] = $user_id;
+                $aActionRequest['cancel_url'] = ADMIN_URL.'/access/index.php';
 
-$query = "SELECT user_id, username, display_name, active FROM ".TABLE_PREFIX."users WHERE user_id != '1' ORDER BY display_name,username";
-$results = $database->query($sql);
-if($database->is_error()) {
-	$admin->print_error($database->get_error(), 'index.php');
-}
+				if($user_id > 1) // prevent 'admin' [ID 1] from modify
+				{
+					include($sAdminPath.'/user_form.php');
+					$output .= show_usermask($admin, $aActionRequest);
+				} elseif($user_id == 0) { // if invalid UserID is called, fall back to 'show-mode'
+					include($sAdminPath.'/user_list.php');
+					$output  = show_userlist($admin, $aActionRequest);
+				}
+		endswitch; // end of switch
+		if( ($msg = msgQueue::getSuccess()) != '')
+		{
+			$output = $admin->format_message($msg, 'ok').$output;
+		}
+		if( ($msg = msgQueue::getError()) != '')
+		{
+			$output = $admin->format_message($msg, 'error').$output;
+		}
+		print $output;
+		$admin->print_footer();
+    }
 
-$sUserList  = $TEXT['LIST_OPTIONS'].' ';
-$sUserList .= ($iUserStatus == 1) ? $MENU['USERS'].' '.strtolower($TEXT['ACTIVE']) : $MENU['USERS'].' '.strtolower($TEXT['DELETED']) ;
-// Insert values into the modify/remove menu
-$template->set_block('main_block', 'list_block', 'list');
-if($results->numRows() > 0) {
-	// Insert first value to say please select
-	$template->set_var('VALUE', '');
-	$template->set_var('NAME', $sUserList);
-	$template->set_var('STATUS', 'class="user-active"' );
-	$template->parse('list', 'list_block', true);
-	// Loop through users
-	while($user = $results->fetchRow(MYSQL_ASSOC)) {
-		$template->set_var('VALUE',$admin->getIDKEY($user['user_id']));
-		$template->set_var('STATUS', ($user['active']==false ? 'class="user-inactive"' : 'class="user-active"') );
-		$template->set_var('NAME', $user['display_name'].' ('.$user['username'].')');
-		$template->parse('list', 'list_block', true);
-	}
-} else {
-	// Insert single value to say no users were found
-	$template->set_var('NAME', $TEXT['NONE_FOUND']);
-	$template->parse('list', 'list_block', true);
-}
+	if(!defined('WB_URL'))
+	{
+        $config_file = realpath('../../config.php');
+        if(file_exists($config_file) && !defined('WB_URL'))
+        {
+        	require($config_file);
+        }
+    }
+    if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 
-// Insert permissions values
-if($admin->get_permission('users_add') != true) {
-	$template->set_var('DISPLAY_ADD', 'hide');
-}
-if($admin->get_permission('users_modify') != true) {
-	$template->set_var('DISPLAY_MODIFY', 'hide');
-}
-if($admin->get_permission('users_delete') != true) {
-	$template->set_var('DISPLAY_DELETE', 'hide');
-}
-$HeaderTitle = $HEADING['MODIFY_DELETE_USER'].' ';
-$HeaderTitle .= (($iUserStatus == 1) ? strtolower($TEXT['ACTIVE']) : strtolower($TEXT['DELETED']));
-// Insert language headings
-$template->set_var(array(
-		'HEADING_MODIFY_DELETE_USER' => $HeaderTitle,
-		'HEADING_ADD_USER' => $HEADING['ADD_USER']
-		)
-);
-// insert urls
-$template->set_var(array(
-		'ADMIN_URL' => ADMIN_URL,
-		'WB_URL' => WB_URL,
-		'THEME_URL' => THEME_URL
-		)
-);
-// Insert language text and messages
-$template->set_var(array(
-		'DISPLAY_WAITING_ACTIVATION' => '',
-		'TEXT_MODIFY' => $TEXT['MODIFY'],
-		'TEXT_DELETE' => $TEXT['DELETE'],
-		'TEXT_MANAGE_GROUPS' => ( $admin->get_permission('groups') == true ) ? $TEXT['MANAGE_GROUPS'] : "**",
-		'CONFIRM_DELETE' => (($iUserStatus == 1) ? $TEXT['ARE_YOU_SURE'] : $MESSAGE['USERS_CONFIRM_DELETE'])
-		)
-);
+    $requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
+    $aActionRequest = (isset(${$requestMethod})) ? ${$requestMethod} : null;
 
-$template->set_block('main_block', 'show_confirmed_activation_block', 'show_confirmed_activation');
-if($admin->ami_group_member('1')) {
-        $template->set_block('show_confirmed_activation_block', 'list_confirmed_activation_block', 'list_confirmed_activation');
-    	$template->set_var('DISPLAY_WAITING_ACTIVATION', 'Users waiting for activation');
-		$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'users` ';
-		$sql .= 'WHERE `confirm_timeout` != 0 ';
-        $sql .=   'AND `active` = 0 ';
-        $sql .=   'AND `user_id` != 1 ';
-        if( ($oRes = $database->query($sql)) ) {
-        	$template->set_var('DISPLAY_DELETE', '');
-//        	$template->set_var('NAME', 'User waiting for activation');
-//        	$template->set_var('STATUS', '' );
-        	// Loop through users
-            if($nNumRows = $oRes->numRows()) {
-            	while($aUser = $oRes->fetchRow(MYSQL_ASSOC)) {
-            		$template->set_var('VALUE',$admin->getIDKEY($aUser['user_id']));
-               		$template->set_var('STATUS', '') ;
-            		$template->set_var('NAME', $aUser['display_name'].' ('.$aUser['username'].')'.' ['.$aUser['email'].']');
-            		$template->parse('list_confirmed_activation', 'list_confirmed_activation_block', true);
-            	}
-            	$template->parse('show_confirmed_activation', 'show_confirmed_activation_block',true);
-            }
-        } else { $nNumRows = 0; }
-
-} else {
-$nNumRows = 0;
-}
-
-if ( $nNumRows == 0){
-	$template->parse('show_confirmed_activation', '');
-}
-
-if ( $admin->get_permission('groups') == true ) $template->parse("groups", "manage_groups_block", true);
-// Parse template object
-$template->parse('main', 'main_block', false);
-$template->pparse('output', 'page');
-
-// Setup template object, parse vars to it, then parse it
-// Create new template object
-$template = new Template(dirname($admin->correct_theme_source('users_form.htt')),'keep');
-// $template->debug = true;
-$template->set_file('page', 'users_form.htt');
-$template->set_block('page', 'main_block', 'main');
-$template->set_block('main_block', 'show_modify_loginname_block', 'show_modify_loginname');
-$template->set_block('main_block', 'show_add_loginname_block', 'show_add_loginname');
-$template->set_var('DISPLAY_EXTRA', 'display:none;');
-$template->set_var('ACTIVE_CHECKED', ' checked="checked"');
-
-$template->set_var('DISPLAY_ADD', '');
-$template->set_var('DISPLAY_MODIFY', '');
-$template->set_var('DISABLED_CHECKED', '');
-$template->set_var('HEADING_MODIFY_USER', '');
-$template->set_var('DISPLAY_HOME_FOLDERS', '');
-$template->set_var('ACTION_URL', ADMIN_URL.'/users/add.php');
-$template->set_var('SUBMIT_TITLE', $TEXT['ADD']);
-$template->set_var('FTAN', $admin->getFTAN());
-// insert urls
-$template->set_var(array(
-		'USER_ID' => '',
-		'USERNAME' => '',
-		'DISPLAY_NAME' => '',
-		'EMAIL' => '',
-		'ADMIN_URL' => ADMIN_URL,
-		'WB_URL' => WB_URL,
-		'THEME_URL' => THEME_URL
-		)
-);
-
-// Add groups to list
-$template->set_block('main_block', 'group_list_block', 'group_list');
-$results = $database->query("SELECT group_id, name FROM ".TABLE_PREFIX."groups WHERE group_id != '1'");
-if($results->numRows() > 0) {
-	$template->set_var('ID', '');
-	$template->set_var('NAME', $TEXT['PLEASE_SELECT'].'...');
-	$template->set_var('SELECTED', ' selected="selected"');
-	$template->parse('group_list', 'group_list_block', true);
-	while($group = $results->fetchRow()) {
-		$template->set_var('ID', $group['group_id']);
-		$template->set_var('NAME', $group['name']);
-		$template->set_var('SELECTED', '');
-		$template->parse('group_list', 'group_list_block', true);
-	}
-}
-// Only allow the user to add a user to the Administrators group if they belong to it
-if(in_array(1, $admin->get_groups_id())) {
-	$users_groups = $admin->get_groups_name();
-	$template->set_var('ID', '1');
-	$template->set_var('NAME', $users_groups[1]);
-	$template->set_var('SELECTED', '');
-	$template->parse('group_list', 'group_list_block', true);
-} else {
-	if($results->numRows() == 0) {
-		$template->set_var('ID', '');
-		$template->set_var('NAME', $TEXT['NONE_FOUND']);
-		$template->parse('group_list', 'group_list_block', true);
-	}
-}
-
-// Insert permissions values
-if($admin->get_permission('users_add') != true) {
-	$template->set_var('DISPLAY_ADD', 'hide');
-}
-
-// Generate username field name
-$username_fieldname = 'username_';
-$salt = "abchefghjkmnpqrstuvwxyz0123456789";
-srand((double)microtime()*1000000);
-$i = 0;
-while ($i <= 7) {
-	$num = rand() % 33;
-	$tmp = substr($salt, $num, 1);
-	$username_fieldname = $username_fieldname . $tmp;
-	$i++;
-}
-
-// Work-out if home folder should be shown
-if(!HOME_FOLDERS) {
-	$template->set_var('DISPLAY_HOME_FOLDERS', 'display:none;');
-}
-
-// Include the WB functions file
-require_once(WB_PATH.'/framework/functions.php');
-
-// Add media folders to home folder list
-$template->set_block('main_block', 'folder_list_block', 'folder_list');
-foreach(directory_list(WB_PATH.MEDIA_DIRECTORY) AS $name) {
-	$template->set_var('NAME', str_replace(WB_PATH, '', $name));
-	$template->set_var('FOLDER', str_replace(WB_PATH.MEDIA_DIRECTORY, '', $name));
-	$template->set_var('SELECTED', ' ');
-	$template->parse('folder_list', 'folder_list_block', true);
-}
-
-// Insert language text and messages
-$template->set_var(array(
-			'TEXT_CANCEL' => $TEXT['CANCEL'],
-			'TEXT_RESET' => $TEXT['RESET'],
-			'TEXT_ACTIVE' => $TEXT['ACTIVE'],
-			'TEXT_DISABLED' => $TEXT['DISABLED'],
-			'TEXT_PLEASE_SELECT' => $TEXT['PLEASE_SELECT'],
-			'TEXT_USERNAME' => $TEXT['USERNAME'],
-			'TEXT_PASSWORD' => $TEXT['PASSWORD'],
-			'TEXT_RETYPE_PASSWORD' => $TEXT['RETYPE_PASSWORD'],
-			'TEXT_DISPLAY_NAME' => $TEXT['DISPLAY_NAME'],
-			'TEXT_EMAIL' => $TEXT['EMAIL'],
-			'TEXT_GROUP' => $TEXT['GROUP'],
-			'TEXT_NONE' => $TEXT['NONE'],
-			'TEXT_HOME_FOLDER' => $TEXT['HOME_FOLDER'],
-			'USERNAME_FIELDNAME' => $username_fieldname,
-			'CHANGING_PASSWORD' => $MESSAGE['USERS_CHANGING_PASSWORD']
-			)
-	);
-
-// Parse template for add user form
-$template->parse('show_modify_loginname', '', true);
-$template->parse('show_add_loginname', 'show_add_loginname_block', true);
-$template->parse('main', 'main_block', false);
-$template->pparse('output', 'page');
-
-$admin->print_footer();
+	admin_users_index($aActionRequest);
+	exit;
+// end of file
