@@ -58,7 +58,7 @@ if(!defined('WB_URL')) {
 		$oTpl->set_block('main_block', 'show_add_loginname_block', 'show_add_loginname');
 		$oTpl->set_block('main_block', 'show_change_group_list_block', 'show_change_group_list');
 
-		if( ( $admin->get_user_id() != '1' ) )
+		if( ( !$admin->ami_group_member('1') ) )
 		{
             $oTpl->set_var('CHANGING_GROUPS', 'You are not allowed to change the groups');
     		$oTpl->parse('show_change_group_list', 'show_change_group_list_block');
