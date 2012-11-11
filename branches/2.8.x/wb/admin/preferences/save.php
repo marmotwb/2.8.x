@@ -17,7 +17,7 @@
 
 function save_preferences( &$admin, &$database)
 {
-	global $MESSAGE;
+	global $MESSAGE,$TEXT;
 	$err_msg = array();
 	$iMinPassLength = 6;
 	$bPassRequest = false;
@@ -33,7 +33,7 @@ function save_preferences( &$admin, &$database)
 // check that display_name is unique in whoole system (prevents from User-faking)
     	$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` ';
     	$sql .= 'WHERE `user_id` <> '.(int)$admin->get_user_id().' AND `display_name` LIKE "'.$display_name.'"';
-    	if( $database->get_one($sql) > 0 ){ $err_msg[] = $MESSAGE['USERS_USERNAME_TAKEN']; }
+    	if( $database->get_one($sql) > 0 ){ $err_msg[] = $MESSAGE['USERS_USERNAME_TAKEN'].' ('.$TEXT['DISPLAY_NAME'].')'; }
 // language must be 2 upercase letters only
     	$language         = strtoupper($admin->get_post('language'));
     	$language         = (preg_match('/^[A-Z]{2}$/', $language) ? $language : DEFAULT_LANGUAGE);
