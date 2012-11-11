@@ -13,6 +13,8 @@ Legend:
 
 
 
+11 Nov-2012 Build 1817 Dietmar Woellbrink (Luisehahne)
+# Bugfix upgrde-script, syntaxerror in sql strict statement
 11 Nov-2012 Build 1816 Dietmar Woellbrink (Luisehahne)
 ! fixed adminstrator rights to change groups
 11 Nov-2012 Build 1815 Dietmar Woellbrink (Luisehahne)
