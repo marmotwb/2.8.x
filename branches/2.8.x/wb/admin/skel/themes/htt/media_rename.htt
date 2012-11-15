@@ -30,7 +30,7 @@
 		</script>
 	</td>
 	<td width="50" class="{DISPlAY_EXTENSION}">
-		<input type="text" name="extension" style="width: 50px;" value="{EXTENSION}" />
+		<input type="text" name="extension" readonly="readonly" style="width: 50px;" value="{EXTENSION}" />
 	</td>
 </tr>
 <tr>

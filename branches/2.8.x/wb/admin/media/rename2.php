@@ -3,23 +3,29 @@
  *
  * @category        admin
  * @package         media
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich (2004-2009), WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date:  $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 
-// Create admin object
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Media', 'media_rename', false);
+if(!defined('WB_URL'))
+{
+    $config_file = realpath('../../config.php');
+    if(file_exists($config_file) && !defined('WB_URL'))
+    {
+    	require($config_file);
+    }
+}
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+
+$admin = new admin('Media', 'media', false);
 
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
@@ -33,9 +39,16 @@ $dirlink = 'browse.php?dir='.$directory;
 $rootlink = 'browse.php?dir=';
 // $file_id = intval($admin->get_post('id'));
 
+// Get the current dir
+$currentHome = $admin->get_home_folder();
+// check for correct directory
+if ($currentHome && stripos(WB_PATH.MEDIA_DIRECTORY.$rootlink,WB_PATH.MEDIA_DIRECTORY.$currentHome)===false) {
+	$rootlink = $currentHome;
+}
+
 // first Check to see if it contains ..
 if (!check_media_path($directory)) {
-	$admin->print_error($MESSAGE['MEDIA']['DIR_DOT_DOT_SLASH'],$rootlink, false);
+	$admin->print_error($MESSAGE['MEDIA_DIR_DOT_DOT_SLASH'],$rootlink, false);
 }
 
 // Get the temp id
@@ -93,12 +106,12 @@ if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 $file_id = $admin->getIDKEY($file_id);
 
 if(!isset($rename_file)) {
-	$admin->print_error($MESSAGE['MEDIA']['FILE_NOT_FOUND'], $dirlink, false);
+	$admin->print_error($MESSAGE['MEDIA_FILE_NOT_FOUND'], $dirlink, false);
 }
 
 // Check if they entered a new name
 if(media_filename($admin->get_post('name')) == "") {
-	$admin->print_error($MESSAGE['MEDIA']['BLANK_NAME'], "rename.php?dir=$directory&id=$file_id", false);
+	$admin->print_error($MESSAGE['MEDIA_BLANK_NAME'], "rename.php?dir=$directory&id=$file_id", false);
 } else {
 	$old_name = $admin->get_post('old_name');
 	$new_name =  media_filename($admin->get_post('name'));
@@ -107,7 +120,7 @@ if(media_filename($admin->get_post('name')) == "") {
 // Check if they entered an extension
 if($type == 'file') {
 	if(media_filename($admin->get_post('extension')) == "") {
-		$admin->print_error($MESSAGE['MEDIA']['BLANK_EXTENSION'], "rename.php?dir=$directory&id=$file_id", false);
+		$admin->print_error($MESSAGE['MEDIA_BLANK_EXTENSION'], "rename.php?dir=$directory&id=$file_id", false);
 	} else {
 		$extension = media_filename($admin->get_post('extension'));
 	}
@@ -123,22 +136,22 @@ $ext = isset($info['extension']) ? $info['extension'] : '';
 $dots = (substr($info['basename'], 0, 1) == '.') || (substr($info['basename'], -1, 1) == '.');
 
 if( preg_match('/'.$forbidden_file_types.'$/i', $ext) || $dots == '.' ) {
-	$admin->print_error($MESSAGE['MEDIA']['CANNOT_RENAME'], "rename.php?dir=$directory&id=$file_id", false);
+	$admin->print_error($MESSAGE['MEDIA_CANNOT_RENAME'], "rename.php?dir=$directory&id=$file_id", false);
 }
 
 // Check if the name contains ..
 if(strstr($name, '..')) {
-	$admin->print_error($MESSAGE['MEDIA']['NAME_DOT_DOT_SLASH'], "rename.php?dir=$directory&id=$file_id", false);
+	$admin->print_error($MESSAGE['MEDIA_NAME_DOT_DOT_SLASH'], "rename.php?dir=$directory&id=$file_id", false);
 }
 
 // Check if the name is index.php
 if($name == 'index.php') {
-	$admin->print_error($MESSAGE['MEDIA']['NAME_INDEX_PHP'], "rename.php?dir=$directory&id=$file_id", false);
+	$admin->print_error($MESSAGE['MEDIA_NAME_INDEX_PHP'], "rename.php?dir=$directory&id=$file_id", false);
 }
 
 // Check that the name still has a value
 if($name == '') {
-	$admin->print_error($MESSAGE['MEDIA']['BLANK_NAME'], "rename.php?dir=$directory&id=$file_id", false);
+	$admin->print_error($MESSAGE['MEDIA_BLANK_NAME'], "rename.php?dir=$directory&id=$file_id", false);
 }
 
 $info = pathinfo(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$rename_file);
@@ -146,15 +159,15 @@ $ext = isset($info['extension']) ? $info['extension'] : '';
 $dots = (substr($info['basename'], 0, 1) == '.') || (substr($info['basename'], -1, 1) == '.');
 
 if( preg_match('/'.$forbidden_file_types.'$/i', $ext) || $dots == '.' ) {
-	$admin->print_error($MESSAGE['MEDIA']['CANNOT_RENAME'], "rename.php?dir=$directory&id=$file_id", false);
+	$admin->print_error($MESSAGE['MEDIA_CANNOT_RENAME'], "rename.php?dir=$directory&id=$file_id", false);
 }
 
 // Check if we should overwrite or not
 if($admin->get_post('overwrite') != 'yes' AND file_exists(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$name) == true) {
 	if($type == 'folder') {
-		$admin->print_error($MESSAGE['MEDIA']['DIR_EXISTS'], "rename.php?dir=$directory&id=$file_id", false);
+		$admin->print_error($MESSAGE['MEDIA_DIR_EXISTS'], "rename.php?dir=$directory&id=$file_id", false);
 	} else {
-		$admin->print_error($MESSAGE['MEDIA']['FILE_EXISTS'], "rename.php?dir=$directory&id=$file_id", false);
+		$admin->print_error($MESSAGE['MEDIA_FILE_EXISTS'], "rename.php?dir=$directory&id=$file_id", false);
 	}
 }
 
@@ -164,7 +177,7 @@ if(rename(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$rename_file, WB_PATH.MEDIA_DIR
     // feature freeze
 	// require_once(ADMIN_PATH.'/media/dse.php');
 
-	$admin->print_success($MESSAGE['MEDIA']['RENAMED'], $dirlink);
+	$admin->print_success($MESSAGE['MEDIA_RENAMED'], $dirlink);
 } else {
-	$admin->print_error($MESSAGE['MEDIA']['CANNOT_RENAME'], "rename.php?dir=$directory&id=$file_id", false);
+	$admin->print_error($MESSAGE['MEDIA_CANNOT_RENAME'], "rename.php?dir=$directory&id=$file_id", false);
 }

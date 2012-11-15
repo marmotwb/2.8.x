@@ -141,6 +141,16 @@ if(!defined('WB_URL')) {
 		{
             //if user is in administrator-group, get this group else just get the first one
             if($admin->is_group_match($groups_id,'1')) { $group_id = 1; $groups_id = '1'; }
+
+            // Include the WB functions file
+            if(!function_exists('media_filename')) { require(WB_PATH.'/framework/functions.php'); }
+
+            // Remove bad characters
+            $sHomeFolder = WB_PATH.MEDIA_DIRECTORY.'/home/'.( media_filename($username) );
+            if ( sizeof(createFolderProtectFile( $sHomeFolder )) )
+            {
+            	msgQueue::add($MESSAGE['MEDIA_DIR_NOT_MADE'].' ('.basename($sHomeFolder).') ' );
+            }
             // Inser the user into the database
 			$sql  = 'INSERT INTO `'.TABLE_PREFIX.'users` SET '.
                     '`group_id`     = '.intval($group_id).', '.

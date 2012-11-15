@@ -427,64 +427,69 @@ if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 	$database->query($settings);
 
 	$settings_rows=	"INSERT INTO `".TABLE_PREFIX."settings` "
-	." (name, value) VALUES "
-	." ('wb_version', '".VERSION."'),"
-	." ('wb_revision', '".REVISION."'),"
- 	." ('wb_sp', '".SP."'),"
-	." ('website_title', '$website_title'),"
-	." ('website_description', ''),"
-	." ('website_keywords', ''),"
-	." ('website_header', ''),"
-	." ('website_footer', ''),"
-	." ('wysiwyg_style', 'font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;'),"
-	." ('er_level', ''),"
-	." ('default_language', '$default_language'),"
-	." ('app_name', 'wb_$session_rand'),"
-	." ('sec_anchor', 'section_'),"
-	." ('default_timezone', '$default_timezone'),"
-	." ('default_date_format', 'M d Y'),"
-	." ('default_time_format', 'g:i A'),"
-	." ('redirect_timer', '1500'),"
-	." ('home_folders', 'true'),"
-	." ('warn_page_leave', '1'),"
-	." ('default_template', 'round'),"
-	." ('default_theme', 'wb_theme'),"
-	." ('default_charset', 'utf-8'),"
-	." ('multiple_menus', 'true'),"
-	." ('page_level_limit', '4'),"
-	." ('intro_page', 'false'),"
-	." ('page_trash', 'inline'),"
-	." ('homepage_redirection', 'false'),"
-	." ('page_languages', 'true'),"
-	." ('wysiwyg_editor', 'fckeditor'),"
-	." ('manage_sections', 'true'),"
-	." ('section_blocks', 'true'),"
-	." ('smart_login', 'false'),"
-	." ('frontend_login', 'false'),"
-	." ('frontend_signup', 'false'),"
-	." ('search', 'public'),"
-	." ('page_extension', '.php'),"
-	." ('page_spacer', '-'),"
-	." ('dev_infos', 'false'),"
-	." ('pages_directory', '/pages'),"
-	." ('page_icon_dir', '/templates/*/title_images'),"
-	." ('rename_files_on_upload', 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx'),"
-	." ('media_directory', '/media'),"
-	." ('operating_system', '$operating_system'),"
-	." ('string_file_mode', '$file_mode'),"
-	." ('string_dir_mode', '$dir_mode'),"
-	." ('wbmailer_routine', 'phpmail'),"
-	." ('server_email', '$admin_email'),"		// avoid that mail provider (e.g. mail.com) reject mails like yourname@mail.com
-	." ('wbmailer_default_sendername', 'WB Mailer'),"
-	." ('wbmailer_smtp_host', ''),"
-	." ('wbmailer_smtp_auth', ''),"
-	." ('wbmailer_smtp_username', ''),"
-	." ('wbmailer_smtp_password', ''),"
-	." ('fingerprint_with_ip_octets', '2'),"
-	." ('secure_form_module', ''),"
-    ." ('groups_updated', '".time()."' ),"
-	." ('page_extended', 'true'),"
-	." ('mediasettings', '')";
+	." (setting_id, name, value) VALUES "
+	." ( 1, 'wb_version', '".VERSION."'),"
+	." ( 2, 'website_title', '$website_title'),"
+	." ( 3, 'website_description', ''),"
+	." ( 4, 'website_keywords', ''),"
+	." ( 5, 'website_header', ''),"
+	." ( 6, 'website_footer', ''),"
+	." ( 7, 'wysiwyg_style', 'font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;'),"
+	." ( 8, 'rename_files_on_upload', 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js,txt'),"
+	." ( 9, 'er_level', '0'),"
+	." (10, 'default_language', '$default_language'),"
+	." (11, 'app_name', 'wb_$session_rand'),"
+	." (12, 'sec_anchor', 'section_'),"
+	." (13, 'default_timezone', '$default_timezone'),"
+	." (14, 'default_date_format', 'M d Y'),"
+	." (15, 'default_time_format', 'h:i A'),"
+	." (16, 'redirect_timer', '1500'),"
+	." (17, 'home_folders', 'true'),"
+	." (18, 'warn_page_leave', '1'),"
+	." (19, 'default_template', 'round'),"
+	." (20, 'default_theme', 'wb_theme'),"
+	." (21, 'default_charset', 'utf-8'),"
+	." (22, 'multiple_menus', 'true'),"
+	." (23, 'page_level_limit', '6'),"
+	." (24, 'intro_page', 'false'),"
+	." (25, 'page_trash', 'inline'),"
+	." (26, 'homepage_redirection', 'false'),"
+	." (27, 'page_languages', 'true'),"
+	." (28, 'wysiwyg_editor', 'fckeditor'),"
+	." (29, 'manage_sections', 'true'),"
+	." (30, 'section_blocks', 'false'),"
+	." (31, 'smart_login', 'false'),"
+	." (32, 'frontend_login', 'false'),"
+	." (33, 'frontend_signup', 'false'),"
+	." (34, 'search', 'public'),"
+	." (35, 'page_extension', '.php'),"
+	." (36, 'page_spacer', '-'),"
+	." (37, 'pages_directory', '/pages'),"
+	." (38, 'rename_files_on_upload', 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js,txt'),"
+	." (39, 'media_directory', '/media'),"
+	." (40, 'operating_system', '$operating_system'),"
+	." (41, 'string_file_mode', '$file_mode'),"
+	." (42, 'string_dir_mode', '$dir_mode'),"
+	." (43, 'wbmailer_routine', 'phpmail'),"
+	." (44, 'server_email', '$admin_email'),"
+	." (45, 'wbmailer_default_sendername', 'WebsiteBaker Mailer'),"
+	." (46, 'wbmailer_smtp_host', ''),"
+	." (47, 'wbmailer_smtp_auth', ''),"
+	." (48, 'wbmailer_smtp_username', ''),"
+	." (49, 'wbmailer_smtp_password', ''),"
+	." (50, 'fingerprint_with_ip_octets', '2'),"
+	." (51, 'secure_form_module', ''),"
+	." (52, 'mediasettings', ''),"
+	." (53, 'wb_revision', '".REVISION."'),"
+ 	." (54, 'wb_sp', '".SP."'),"
+	." (55, 'page_icon_dir', '/templates/*/title_images'),"
+	." (56, 'dev_infos', 'false'),"
+	." (57, 'groups_updated', '".time()."'),"
+	." (58, 'website_signature', ''),"
+	." (59, 'confirmed_registration', '1'),"
+	." (60, 'page_extended', 'true'),"
+	." (61, 'modules_upgrade_list', 'news,wysiwyg,form'),"
+	." (62, 'system_locked', '0')";
 	$database->query($settings_rows);
 
 	// Users table
@@ -626,7 +631,7 @@ if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 	$insert_search_module_order = "INSERT INTO `".TABLE_PREFIX."search` VALUES ('', 'module_order', '$search_module_order', '')";
 	$database->query($insert_search_module_order);
 	// Search max lines of excerpt
-	$search_max_excerpt = addslashes('15');
+	$search_max_excerpt = addslashes('5');
 	$insert_search_max_excerpt = "INSERT INTO `".TABLE_PREFIX."search` VALUES ('', 'max_excerpt', '$search_max_excerpt', '')";
 	$database->query($insert_search_max_excerpt);
 	// max time to search per module
@@ -689,6 +694,10 @@ if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 	if($database->is_error()) {
 		set_error($database->get_error());
 	}
+
+if ( sizeof(createFolderProtectFile( WB_PATH.MEDIA_DIRECTORY )) ) {  }
+if ( sizeof(createFolderProtectFile( WB_PATH.MEDIA_DIRECTORY.'/home' )) ) {  }
+if ( sizeof(createFolderProtectFile( WB_PATH.PAGES_DIRECTORY )) ) {  }
 
 // end of if install_tables
 

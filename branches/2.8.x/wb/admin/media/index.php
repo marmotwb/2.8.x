@@ -3,21 +3,29 @@
  *
  * @category        admin
  * @package         admintools
- * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich (2004-2009), WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date:  $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 
 // Print admin header
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
+if(!defined('WB_URL'))
+{
+    $config_file = realpath('../../config.php');
+    if(file_exists($config_file) && !defined('WB_URL'))
+    {
+    	require($config_file);
+    }
+}
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+
 $admin = new admin('Media', 'media');
 
 $starttime = explode(" ", microtime());
@@ -41,17 +49,20 @@ $template->set_block('main_block', 'dir_list_block', 'dir_list');
 $dirs = directory_list(WB_PATH.MEDIA_DIRECTORY);
 $currentHome = $admin->get_home_folder();
 
-if ($currentHome){
+if ($currentHome!=''){
 	$dirs = directory_list(WB_PATH.MEDIA_DIRECTORY.$currentHome);
 }
 else
 {
 	$dirs = directory_list(WB_PATH.MEDIA_DIRECTORY);
 }
+
 $array_lowercase = array_map('strtolower', $dirs);
 array_multisort($array_lowercase, SORT_ASC, SORT_STRING, $dirs);
 foreach($dirs AS $name) {
-	if(!isset($home_folders[str_replace(WB_PATH.MEDIA_DIRECTORY, '', $name)])) {
+
+	if(!isset($home_folders[str_replace(WB_PATH.MEDIA_DIRECTORY, '', $name)]) || $currentHome =='' )
+    {
 		$template->set_var('NAME', str_replace(WB_PATH, '', $name));
 		$template->parse('dir_list', 'dir_list_block', true);
 	}
@@ -64,7 +75,8 @@ if($admin->get_permission('media_create') != true) {
 if($admin->get_permission('media_upload') != true) {
 	$template->set_var('DISPLAY_UPLOAD', 'hide');
 }
-if ($_SESSION['GROUP_ID'] != 1 && $pathsettings['global']['admin_only']) { // Only show admin the settings link
+if ($_SESSION['GROUP_ID'] != 1 && (isset($pathsettings['global']['admin_only']) && $pathsettings['global']['admin_only'])) {
+    // Only show admin the settings link
 	$template->set_var('DISPLAY_SETTINGS', 'hide');
 }
 // Workout if the up arrow should be shown
@@ -94,6 +106,7 @@ $template->set_var(array(
 // Insert language text and messages
 $template->set_var(array(
 					'MEDIA_DIRECTORY' => MEDIA_DIRECTORY,
+//					'MEDIA_DIRECTORY' => ($currentHome!='') ? MEDIA_DIRECTORY : $currentHome,
 					'TEXT_NAME' => $TEXT['TITLE'],
 					'TEXT_RELOAD' => $TEXT['RELOAD'],
 					'TEXT_TARGET_FOLDER' => $TEXT['TARGET_FOLDER'],

@@ -13,6 +13,10 @@ Legend:
 
 
 
+16 Nov-2012 Build 1818 Dietmar Woellbrink (Luisehahne)
+# bugfix Ticket 10 usergroup show homefolder in media
+! update users, create username homefolder in media/homefolders
+# add mssing values in table settings by installing WebsiteBaker
 11 Nov-2012 Build 1817 Dietmar Woellbrink (Luisehahne)
 # Bugfix upgrde-script, syntaxerror in sql strict statement
 11 Nov-2012 Build 1816 Dietmar Woellbrink (Luisehahne)
