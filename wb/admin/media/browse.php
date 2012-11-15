@@ -3,21 +3,29 @@
  *
  * @category        admin
  * @package         media
- * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich (2004-2009), WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date:  $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 
 // Create admin object
-require('../../config.php');
+if(!defined('WB_URL'))
+{
+    $config_file = realpath('../../config.php');
+    if(file_exists($config_file) && !defined('WB_URL'))
+    {
+    	require($config_file);
+    }
+}
 if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+
 $admin = new admin('Media', 'media', false);
 
 $starttime = explode(" ", microtime());
@@ -122,11 +130,17 @@ $template->set_block('page', 'main_block', 'main');
 
 // Get the current dir
 $currentHome = $admin->get_home_folder();
+// set directory if you call from menu
 $directory =	(($currentHome) AND (!array_key_exists('dir',$_GET)))
 				?
 				$currentHome
 				:
 				$admin->strip_slashes($admin->get_get('dir')) ;
+
+// check for correct directory
+if ($currentHome && stripos(WB_PATH.MEDIA_DIRECTORY.$directory,WB_PATH.MEDIA_DIRECTORY.$currentHome)===false) {
+	$directory = $currentHome;
+}
 
 if($directory == '/' OR $directory == '\\') {
 	$directory = '';
@@ -152,7 +166,7 @@ if($admin->get_get('up') == 1) {
 	exit(0);
 }
 
-if ($_SESSION['GROUP_ID'] != 1 && $pathsettings['global_admin_only']) { // Only show admin the settings link
+if ($_SESSION['GROUP_ID'] != 1 && (isset($pathsettings['global']['admin_only']) && $pathsettings['global']['admin_only']) ) { // Only show admin the settings link
 	$template->set_var('DISPLAY_SETTINGS', 'hide');
 }
 
@@ -200,7 +214,9 @@ if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 		if(substr($file, 0, 1) != '.' AND $file != '.svn' AND $file != 'index.php') {
 			if( !preg_match('/'.$forbidden_file_types.'$/i', $ext) ) {
 				if(is_dir(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$file)) {
-					if(!isset($home_folders[$directory.'/'.$file])) {
+//					if( !isset($home_folders[$directory.'/'.$file]) ) {
+                	if(!isset($home_folders[$directory.'/'.$file]) || $currentHome =='' )
+                    {
 						$DIR[] = $file;
 					}
 				} else {
@@ -267,8 +283,7 @@ if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 			$icon = '';
 			$tooltip = '';
 
-
-			if (!$pathsettings['global_show_thumbs']) {
+			if ( (isset($pathsettings['global']['show_thumbs']) && ($pathsettings['global']['show_thumbs']==false) ) ) {
 				$info = getimagesize(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$name);
 				if ($info[0]) {
 					$imgdetail = fsize(filesize(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$name)).'<br /> '.$info[0].' x '.$info[1].' px';
@@ -315,12 +330,14 @@ if($temp_id == 0) {
 	$template->set_var('DISPLAY_NONE_FOUND', 'hide');
 }
 
+if($currentHome=='') {
 // Insert permissions values
-if($admin->get_permission('media_rename') != true) {
-	$template->set_var('DISPLAY_RENAME', 'hide');
-}
-if($admin->get_permission('media_delete') != true) {
-	$template->set_var('DISPLAY_DELETE', 'hide');
+    if($admin->get_permission('media_rename') != true) {
+    	$template->set_var('DISPLAY_RENAME', 'hide');
+    }
+    if($admin->get_permission('media_delete') != true) {
+    	$template->set_var('DISPLAY_DELETE', 'hide');
+    }
 }
 
 // Insert language text and messages

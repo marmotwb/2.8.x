@@ -3,23 +3,27 @@
  *
  * @category        admin
  * @package         admintools
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich (2004-2009), WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date:  $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 
-// Print admin header
-require('../../config.php');
-
-require_once(WB_PATH.'/framework/class.admin.php');
+if(!defined('WB_URL'))
+{
+    $config_file = realpath('../../config.php');
+    if(file_exists($config_file) && !defined('WB_URL'))
+    {
+    	require($config_file);
+    }
+}
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 
@@ -33,7 +37,7 @@ $name = (isset(${$requestMethod}['name'])) ? ${$requestMethod}['name'] : '';
 // Check to see if name or target contains ../
 if(strstr($name, '..')) {
 	$admin->print_header();
-	$admin->print_error($MESSAGE['MEDIA']['NAME_DOT_DOT_SLASH']);
+	$admin->print_error($MESSAGE['MEDIA_NAME_DOT_DOT_SLASH']);
 }
 
 // Remove bad characters
@@ -52,7 +56,7 @@ if (!$admin->checkFTAN())
 $admin->print_header();
 
 if (!check_media_path($target, false)) {
-	$admin->print_error($MESSAGE['MEDIA']['TARGET_DOT_DOT_SLASH']);
+	$admin->print_error($MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH']);
 }
 
 // Create relative path of the new dir name
@@ -60,17 +64,17 @@ $directory = WB_PATH.$target.'/'.$name;
 
 // Check to see if the folder already exists
 if(file_exists($directory)) {
-	$admin->print_error($MESSAGE['MEDIA']['DIR_EXISTS']);
+	$admin->print_error($MESSAGE['MEDIA_DIR_EXISTS']);
 }
 
 if ( sizeof(createFolderProtectFile( $directory )) )
 {
-	$admin->print_error($MESSAGE['MEDIA']['DIR_NOT_MADE']);
+	$admin->print_error($MESSAGE['MEDIA_DIR_NOT_MADE']);
 } else {
 	$usedFiles = array();
     // feature freeze
 	// require_once(ADMIN_PATH.'/media/dse.php');
-	$admin->print_success($MESSAGE['MEDIA']['DIR_MADE']);
+	$admin->print_success($MESSAGE['MEDIA_DIR_MADE']);
 }
 
 // Print admin

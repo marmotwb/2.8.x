@@ -17,7 +17,11 @@ img { border :none; }
 .input_large { width :300px; }
 .input_full { width :100%; }
 /*  */
-table { border-collapse :separate; width :100%; }
+table {
+   border-collapse :separate;
+   width :100%;
+   table-layout:fixed;
+}
 table.layout { table-layout :auto; }
 table.header { margin :auto; width :100%; }
 table.header td { min-width :10%; }
@@ -115,9 +119,18 @@ div.mbox.dev-info div span { margin-bottom :1px; }
 .note { border :2px #448844 solid; padding :10px; margin :10px auto; background :#eeffee; color :#004400; }
 .important { border :2px #888844 solid; padding :10px; margin-bottom :1em; background :#ffffee; color :#444400; }
 .warning { border :2px #884444 solid; padding :10px; margin-bottom :1em; background :#ffeeee; color :#440000; }
-.section { background-color :#fdfdfd; border :1px solid #999999; font-size :0.9em; height :85px; margin :5px; padding :0; width :98%; }
 .graphic { border :4px solid #fdfdfd; height :50px; padding-left :3px; width :50px; }
 .graphic img { background-color :#ffffff; border :1px solid #d0d0d0; padding :4px; vertical-align :middle; width :50px; height :50px; }
+
+.section {
+   background-color :#fdfdfd;
+   border :1px solid #999999;
+   font-size :0.9em;
+   height :85px;
+   margin :5px;
+   padding :0;
+   width :98%;
+}
 .description { padding :4px 0 0; text-align :left; }
 .title { text-align :left; padding :4px 5px 0px 3px; font-weight :bold; font-size :1.2em; margin-bottom :5px; }
    span.title { display :block; }
@@ -128,7 +141,7 @@ div.mbox.dev-info div span { margin-bottom :1px; }
 div.settings_table { margin :0 auto; width :90%; }
 form.settings_table { border :1px none #eeee; font-family :verdana,arial,helvetica,sans-serif; margin :5px auto; padding :5px; }
    form.settings_table fieldset { border :1px none #eeeeee; display :block; line-height :1.0em; margin :1px auto; padding :3px 0px 3px 0px; }
-   form input[type="file"] { width :80%; border :1px solid #000000; background-color :#ccccff; }
+   input[type="file"] { width :100%; border :1px solid #000000; background-color :#ccccff; }
    legend.settings_table ,
    form.settings_table legend { border :none; color :#006699; font-size :140%; margin :5px; padding :0; }
    form.settings_table div.sub-row { background-color :transparent !important; background-color :#eeeeee; }
@@ -178,7 +191,7 @@ table.permission_box caption { text-align :center; line-height :30px; font-weigh
 table.permission_box thead { text-align :left; background :#d2e8e8; }
 table.permission_box tbody { text-align :left; }
 table.permission_box td label { text-align :left; vertical-align :text-top; font-size :0.8em; }
-/**/
+/* */
 div.pages_list { font-size :0.6em; width :100%; }
 table.pages_list table td, 
 table.pages_view td { font-size :1.2em; padding :0 2px; vertical-align :middle; margin :0 auto; height :30px; }
@@ -192,19 +205,34 @@ table a:hover { color :#6699ff; }
 a:link { display :inline; font-weight :bold; padding-top :0; text-decoration :none; vertical-align :baseline; }
 a:visited { color :#0066cc; }
 a:hover { color :#6699ff; text-decoration :underline; }
-/**/
+/* */
 .header_list_actions { text-align :left; width :150px; }
 .header_list_block { text-align :left; width :120px; }
 .header_list_page_id { padding-right :15px; text-align :right; width :30px; }
 .header_list_page_title, 
 .list_page_title { width :350px; }
-.list_page_title, .list_menu_title, .header_list_menu_title, .header_list_type { text-align :left; vertical-align :middle; }
+/**/
+.list_page_title, .list_menu_title, 
+.header_list_menu_title, .header_list_type { text-align :left; vertical-align :middle; }
+
 .header_list_pubdate_start, 
 .header_list_pubdate_end, 
 .list_pubdate_start, 
-.list_pubdate_end { text-align :left; white-space :nowrap; width :185px; }
-.header_list_sections_actions { text-align :left; width :30px; }
-.header_list_type { font-size :1em; padding :4px 0; text-align :left; }
+.list_pubdate_end {
+   text-align :left;
+   white-space :nowrap;
+   width :185px;
+}
+.header_list_sections_actions {
+   text-align :left;
+   width :30px;
+}
+.header_list_type {
+   font-size :1em;
+   padding :4px 0;
+   text-align :left;
+   width :30%;
+}
 .jsadmin_drag img { cursor :pointer; margin-top :0px; padding :0px 0; vertical-align :baseline; }
 .list_actions { height :20px; padding :0 1px; text-align :left; width :20px; }
 .list_page_code, 
@@ -220,18 +248,19 @@ img.page_list_rights { border :none; float :left; margin :0 auto; padding :0 2px
 .page_list_show li { display :block; }
 .pages_list 
 .icon_col td img { border-style :none; display :inline; float :left; padding-right :7px; }
-.pages_list 
+.pages_list {  } 
 .icon_col td img { border-style :none; display :inline; float :left; padding-right :7px; }
 .pages_list table { background-color :#dcdcdc; font-size :1.3em; margin :0 auto; table-layout :fixed; width :100%; }
 .pages_list ul { font-weight :normal; margin :0; padding :0px; }
 .pages_list ul li { list-style-type :none; margin :1px 0; padding :0; vertical-align :baseline; }
+
 .sectionrow { font-size :1.1em; height :30px; table-layout :fixed; }
 .sectionrow a:link { color :#003366; font-weight :bold; text-decoration :none; }
 .sectionrow a:hover { color :#6699ff; }
+.sections_list { padding :2px 0px 2px 5px; font-size :1.0em; width :100%; }
 .sections_list { background :#dddddd; font-size :1em; font-weight :bold; padding-left :10px; }
 .sections_list,
 .pages_list_header { font-weight :bold; line-height :1.5em; margin-bottom :5px; text-align :left; }
-.sections_list { padding :2px 0px 2px 5px; font-size :1.0em; }
 .pages_list_header { padding :2px 0px 2px 5px; font-size :1.3em; height :25px; }
 .header_list_menu_title { padding-left :30px; }
 .value_page_code { color :#006400; font-weight :400; width :240px; }

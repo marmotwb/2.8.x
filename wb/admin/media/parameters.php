@@ -10,8 +10,8 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date:  $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 
@@ -19,11 +19,13 @@
 if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
 function __unserialize($sObject) {  // found in php manual :-)
-	$__ret =preg_replace('!s:(\d+):"(.*?)";!e', "'s:'.strlen('$2').':\"$2\";'", $sObject );
+    if($sObject=='') { return array( 'global' => array( 'admin_only' => false,'show_thumbs' => false ) );}
+	$__ret = preg_replace('!s:(\d+):"(.*?)";!e', "'s:'.strlen('$2').':\"$2\";'", $sObject );
 	return unserialize($__ret);
 }
-$pathsettings = array();
-if(DEFAULT_THEME != ' wb_theme') {
+
+$pathsettings = array( 'global' => array( 'admin_only' => false,'show_thumbs' => false ) );
+if(DEFAULT_THEME != '') {
 	$query = $database->query ( "SELECT * FROM ".TABLE_PREFIX."settings where `name`='mediasettings'" );
 	if ($query && $query->numRows() > 0) {
 		$settings = $query->fetchRow();
