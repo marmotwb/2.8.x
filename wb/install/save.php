@@ -295,8 +295,7 @@ $config_content = "" .
 "define('WB_URL', '$wb_url');\n".
 "define('ADMIN_DIRECTORY', 'admin'); // no leading/trailing slash or backslash!! A simple directory only!!\n".
 "\n".
-"require_once(dirname(__FILE__).'/framework/initialize.php');\n".
-"\n";
+"require_once(dirname(__FILE__).'/framework/initialize.php');\n";
 
 $config_filename = '../config.php';
 // Check if the file exists and is writable first.
@@ -329,9 +328,9 @@ define('ADMIN_PATH', WB_PATH.'/'.ADMIN_DIRECTORY);
 define('ADMIN_URL', $wb_url.'/'.ADMIN_DIRECTORY);
 
 // Check if the user has entered a correct path
-if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
-	set_error('It appears the Absolute path that you entered is incorrect');
-}
+    if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
+    	set_error('It appears the Absolute path that you entered is incorrect');
+    }
 	$sSqlUrl = DB_TYPE.'://'.DB_USERNAME.':'.DB_PASSWORD.'@'.DB_HOST.'/'.DB_NAME;
 	$database = WbDatabase::getInstance();
 	$database->doConnect($sSqlUrl);
@@ -350,81 +349,12 @@ if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 			$this->error=$message;
 		}
 	}
-// Include WB functions file
-	require_once(WB_PATH.'/framework/functions.php');
-// Re-connect to the database, this time using in-build database class
-	require_once(WB_PATH.'/framework/class.login.php');
-// Check if we should install tables
 
-	$sql = 'SHOW TABLES LIKE \''.str_replace('_', '\_', TABLE_PREFIX).'%\'';
-	$aTables = array();
-	if(($oTables = $database->query($sql))) {
-		while($aTable = $oTables->fetchRow()) {
-			$aTables[] = $aTable[0];
-		}
-	}
-	$sTableList = implode(', ', $aTables);
-	if($sTableList != '') {
-		$database->query('DROP TABLE '.$sTableList);
-	}
-	// Try installing tables
-	// Pages table
-	$pages = 'CREATE TABLE `'.TABLE_PREFIX.'pages` ( `page_id` INT NOT NULL auto_increment,'
-				. ' `parent` INT NOT NULL DEFAULT \'0\','
-				. ' `root_parent` INT NOT NULL DEFAULT \'0\','
-				. ' `level` INT NOT NULL DEFAULT \'0\','
-				. ' `link` VARCHAR( 255 ) NOT NULL,'
-				. ' `target` VARCHAR( 7 ) NOT NULL DEFAULT \'\' ,'
-				. ' `page_title` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-				. ' `page_icon` VARCHAR( 512 ) NOT NULL DEFAULT \'\' ,'
-				. ' `menu_title` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-				. ' `menu_icon_0` VARCHAR( 512 ) NOT NULL DEFAULT \'\' ,'
-				. ' `menu_icon_1` VARCHAR( 512 ) NOT NULL DEFAULT \'\' ,'
-				. ' `tooltip` VARCHAR( 512 ) NOT NULL DEFAULT \'\' ,'
-				. ' `description` TEXT NOT NULL ,'
-				. ' `keywords` TEXT NOT NULL ,'
-				. ' `page_trail` VARCHAR( 255 ) NOT NULL  ,'
-				. ' `template` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-				. ' `visibility` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-				. ' `position` INT NOT NULL DEFAULT \'0\','
-				. ' `menu` INT NOT NULL DEFAULT \'1\','
-				. ' `language` VARCHAR( 5 ) NOT NULL DEFAULT \'\' ,'
-				. ' `page_code` INT NOT NULL DEFAULT \'0\','
-				. ' `searching` INT NOT NULL DEFAULT \'0\','
-				. ' `admin_groups` VARCHAR( 512 ) NOT NULL DEFAULT \'1\' ,'
-				. ' `admin_users` VARCHAR( 512 ) NOT NULL ,'
-				. ' `viewing_groups` VARCHAR( 512 ) NOT NULL DEFAULT \'1\' ,'
-				. ' `viewing_users` VARCHAR( 512 ) NOT NULL ,'
-				. ' `modified_when` INT NOT NULL DEFAULT \'0\','
-				. ' `modified_by` INT NOT NULL  DEFAULT \'0\','
-				. ' `custom01` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-				. ' `custom02` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-				. ' PRIMARY KEY ( `page_id` ) '
-				. ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
-	if(!$database->query($pages)) {
-	}
-
-	// Sections table
-	$pages = 'CREATE TABLE `'.TABLE_PREFIX.'sections` ( `section_id` INT NOT NULL auto_increment,'
-	       . ' `page_id` INT NOT NULL DEFAULT \'0\','
-	       . ' `position` INT NOT NULL DEFAULT \'0\','
-	       . ' `module` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-	       . ' `block` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-	       . ' `publ_start` VARCHAR( 255 ) NOT NULL DEFAULT \'0\' ,'
-	       . ' `publ_end` VARCHAR( 255 ) NOT NULL DEFAULT \'0\' ,'
-	       . ' PRIMARY KEY ( `section_id` ) '
-	       . ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
-	$database->query($pages);
+//  core tables structure and some default values
+    $sSqlFileName = dirname(__FILE__).'/sql/websitebaker.sql';
+    if(!$database->SqlImport($sSqlFileName,TABLE_PREFIX, false)) { set_error($database->get_error()); }
 
 	require(ADMIN_PATH.'/interface/version.php');
-
-	// Settings table
-	$settings='CREATE TABLE `'.TABLE_PREFIX.'settings` ( `setting_id` INT NOT NULL auto_increment,'
-		. ' `name` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-		. ' `value` TEXT NOT NULL ,'
-		. ' PRIMARY KEY ( `setting_id` ) '
-		. ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
-	$database->query($settings);
 
 	$settings_rows=	"INSERT INTO `".TABLE_PREFIX."settings` "
 	." (setting_id, name, value) VALUES "
@@ -490,162 +420,20 @@ if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 	." (60, 'page_extended', 'true'),"
 	." (61, 'modules_upgrade_list', 'news,wysiwyg,form'),"
 	." (62, 'system_locked', '0')";
-	$database->query($settings_rows);
+	if(!$database->query($settings_rows)) { set_error($database->get_error()); }
 
-	// Users table
-	$users = 'CREATE TABLE `'.TABLE_PREFIX.'users` ( `user_id` INT NOT NULL auto_increment,'
-	       . ' `group_id` INT NOT NULL DEFAULT \'0\','
-	       . ' `groups_id` VARCHAR( 255 ) NOT NULL DEFAULT \'0\','
-	       . ' `active` INT NOT NULL DEFAULT \'0\','
-	       . ' `username` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-	       . ' `password` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-	       . ' `confirm_code` VARCHAR( 32 ) NOT NULL DEFAULT \'\','
-	       . ' `confirm_timeout` INT NOT NULL DEFAULT \'0\','
-	       . ' `remember_key` VARCHAR( 255 ) NOT NULL DEFAULT \'\','
-	       . ' `last_reset` INT NOT NULL DEFAULT \'0\','
-	       . ' `display_name` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-	       . ' `email` TEXT NOT NULL ,'
-	       . ' `timezone` INT NOT NULL DEFAULT \'0\','
-	       . ' `date_format` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-	       . ' `time_format` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-	       . ' `language` VARCHAR( 5 ) NOT NULL DEFAULT \'' .$default_language .'\' ,'
-	       . ' `home_folder` TEXT NOT NULL ,'
-	       . ' `login_when` INT NOT NULL  DEFAULT \'0\','
-	       . ' `login_ip` VARCHAR( 15 ) NOT NULL DEFAULT \'\' ,'
-	       . ' PRIMARY KEY ( `user_id` ) '
-	       . ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
-	$database->query($users);
+// Admin user
+    $insert_admin_user = "INSERT INTO `".TABLE_PREFIX."users` VALUES (1, 1, '1', 1, '$admin_username', '".md5($admin_password)."', '', 0, '', 0, 'Administrator', '$admin_email', 0, '', '', '$default_language', '', 0, '');";
+	if(!$database->query($insert_admin_user)) { set_error($database->get_error()); }
 
-	// Groups table
-	$groups = 'CREATE TABLE `'.TABLE_PREFIX.'groups` ( `group_id` INT NOT NULL auto_increment,'
-	        . ' `name` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-	        . ' `system_permissions` TEXT NOT NULL ,'
-	        . ' `module_permissions` TEXT NOT NULL ,'
-	        . ' `template_permissions` TEXT NOT NULL ,'
-	        . ' PRIMARY KEY ( `group_id` ) '
-	        . ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
-	$database->query($groups);
+// Search settings table structure and default values
+    $sSqlFileName = dirname(__FILE__).'/sql/wb_search.sql';
+    if(!$database->SqlImport($sSqlFileName,TABLE_PREFIX, false)) { set_error($database->get_error()); }
 
-	// Search settings table
-	$search = 'CREATE TABLE `'.TABLE_PREFIX.'search` ( `search_id` INT NOT NULL auto_increment,'
-	        . ' `name` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-	        . ' `value` TEXT NOT NULL ,'
-	        . ' `extra` TEXT NOT NULL ,'
-	        . ' PRIMARY KEY ( `search_id` ) '
-	        . ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
-	$database->query($search);
-
-	// Addons table
-	$addons = 'CREATE TABLE `'.TABLE_PREFIX.'addons` ( '
-			.'`addon_id` INT NOT NULL auto_increment ,'
-			.'`type` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-			.'`directory` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-			.'`name` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-			.'`description` TEXT NOT NULL ,'
-			.'`function` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-			.'`version` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-			.'`platform` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-			.'`author` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-			.'`license` VARCHAR( 255 ) NOT NULL DEFAULT \'\' ,'
-			.' PRIMARY KEY ( `addon_id` ) '
-			.' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
-	$database->query($addons);
-
-	// Insert default data
-
-	// Admin group
-	$full_system_permissions  = 'access,addons,admintools,admintools_view,groups,groups_add,groups_delete,groups_modify,groups_view,';
-	$full_system_permissions .= 'languages,languages_install,languages_uninstall,languages_view,media,media_create,media_delete,media_rename,media_upload,media_view,';
-	$full_system_permissions .= 'modules,modules_advanced,modules_install,modules_uninstall,modules_view,pages,pages_add,pages_add_l0,pages_delete,pages_intro,pages_modify,pages_settings,pages_view,';
-	$full_system_permissions .= 'preferences,preferences_view,settings,settings_advanced,settings_basic,settings_view,templates,templates_install,templates_uninstall,templates_view,users,users_add,users_delete,users_modify,users_view';
-	$insert_admin_group = "INSERT INTO `".TABLE_PREFIX."groups` VALUES ('1', 'Administrators', '$full_system_permissions', '', '')";
-	$database->query($insert_admin_group);
-	// Admin user
-	$insert_admin_user = "INSERT INTO `".TABLE_PREFIX."users` (user_id,group_id,groups_id,active,username,password,email,display_name) VALUES ('1','1','1','1','$admin_username','".md5($admin_password)."','$admin_email','Administrator')";
-	$database->query($insert_admin_user);
-
-	// Search header
-	$search_header = addslashes('
-<h1>[TEXT_SEARCH]</h1>
-
-<form name="searchpage" action="[WB_URL]/search/index.php" method="get">
-<table cellpadding="3" cellspacing="0" border="0" width="500">
-<tr>
-<td>
-<input type="hidden" name="search_path" value="[SEARCH_PATH]" />
-<input type="text" name="string" value="[SEARCH_STRING]" style="width: 100%;" />
-</td>
-<td width="150">
-<input type="submit" value="[TEXT_SEARCH]" style="width: 100%;" />
-</td>
-</tr>
-<tr>
-<td colspan="2">
-<input type="radio" name="match" id="match_all" value="all"[ALL_CHECKED] />
-<label for="match_all">[TEXT_ALL_WORDS]</label>
-<input type="radio" name="match" id="match_any" value="any"[ANY_CHECKED] />
-<label for="match_any">[TEXT_ANY_WORDS]</label>
-<input type="radio" name="match" id="match_exact" value="exact"[EXACT_CHECKED] />
-<label for="match_exact">[TEXT_EXACT_MATCH]</label>
-</td>
-</tr>
-</table>
-
-</form>
-
-<hr />
-	');
-	$insert_search_header = "INSERT INTO `".TABLE_PREFIX."search` VALUES ('', 'header', '$search_header', '')";
-	$database->query($insert_search_header);
-	// Search footer
-	$search_footer = addslashes('');
-	$insert_search_footer = "INSERT INTO `".TABLE_PREFIX."search` VALUES ('', 'footer', '$search_footer', '')";
-	$database->query($insert_search_footer);
-	// Search results header
-	$search_results_header = addslashes(''.
-'[TEXT_RESULTS_FOR] \'<b>[SEARCH_STRING]</b>\':
-<table cellpadding="2" cellspacing="0" border="0" width="100%" style="padding-top: 10px;">');
-	$insert_search_results_header = "INSERT INTO `".TABLE_PREFIX."search` VALUES ('', 'results_header', '$search_results_header', '')";
-	$database->query($insert_search_results_header);
-	// Search results loop
-	$search_results_loop = addslashes(''.
-'<tr style="background-color: #F0F0F0;">
-<td><a href="[LINK]">[TITLE]</a></td>
-<td align="right">[TEXT_LAST_UPDATED_BY] [DISPLAY_NAME] ([USERNAME]) [TEXT_ON] [DATE]</td>
-</tr>
-<tr><td colspan="2" style="text-align: justify; padding-bottom: 5px;">[DESCRIPTION]</td></tr>
-<tr><td colspan="2" style="text-align: justify; padding-bottom: 10px;">[EXCERPT]</td></tr>');
-
-	$insert_search_results_loop = "INSERT INTO `".TABLE_PREFIX."search` VALUES ('', 'results_loop', '$search_results_loop', '')";
-	$database->query($insert_search_results_loop);
-	// Search results footer
-	$search_results_footer = addslashes("</table>");
-	$insert_search_results_footer = "INSERT INTO `".TABLE_PREFIX."search` VALUES ('', 'results_footer', '$search_results_footer', '')";
-	$database->query($insert_search_results_footer);
-	// Search no results
-	$search_no_results = addslashes('<tr><td><p>[TEXT_NO_RESULTS]</p></td></tr>');
-	$insert_search_no_results = "INSERT INTO `".TABLE_PREFIX."search` VALUES ('', 'no_results', '$search_no_results', '')";
-	$database->query($insert_search_no_results);
-	// Search module-order
-	$search_module_order = addslashes('faqbaker,manual,wysiwyg');
-	$insert_search_module_order = "INSERT INTO `".TABLE_PREFIX."search` VALUES ('', 'module_order', '$search_module_order', '')";
-	$database->query($insert_search_module_order);
-	// Search max lines of excerpt
-	$search_max_excerpt = addslashes('5');
-	$insert_search_max_excerpt = "INSERT INTO `".TABLE_PREFIX."search` VALUES ('', 'max_excerpt', '$search_max_excerpt', '')";
-	$database->query($insert_search_max_excerpt);
-	// max time to search per module
-	$search_time_limit = addslashes('0');
-	$insert_search_time_limit = "INSERT INTO `".TABLE_PREFIX."search` VALUES ('', 'time_limit', '$search_time_limit', '')";
-	$database->query($insert_search_time_limit);
-	// some config-elements
-	$database->query("INSERT INTO `".TABLE_PREFIX."search` VALUES ('', 'cfg_enable_old_search', 'true', '')");
-	$database->query("INSERT INTO `".TABLE_PREFIX."search` VALUES ('', 'cfg_search_keywords', 'true', '')");
-	$database->query("INSERT INTO `".TABLE_PREFIX."search` VALUES ('', 'cfg_search_description', 'true', '')");
-	$database->query("INSERT INTO `".TABLE_PREFIX."search` VALUES ('', 'cfg_show_description', 'true', '')");
-	$database->query("INSERT INTO `".TABLE_PREFIX."search` VALUES ('', 'cfg_enable_flush', 'false', '')");
-	// Search template
-	$database->query("INSERT INTO `".TABLE_PREFIX."search` (name) VALUES ('template')");
+// Include WB functions file
+	require_once(WB_PATH.'/framework/functions.php');
+// Re-connect to the database, this time using in-build database class
+	require_once(WB_PATH.'/framework/class.login.php');
 
 	require_once(WB_PATH.'/framework/initialize.php');
 	// Include the PclZip class file (thanks to
@@ -690,14 +478,14 @@ if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 		}
 	}
 
-	// Check if there was a database error
+// Check if there was a database error
 	if($database->is_error()) {
 		set_error($database->get_error());
 	}
 
-if ( sizeof(createFolderProtectFile( WB_PATH.MEDIA_DIRECTORY )) ) {  }
-if ( sizeof(createFolderProtectFile( WB_PATH.MEDIA_DIRECTORY.'/home' )) ) {  }
-if ( sizeof(createFolderProtectFile( WB_PATH.PAGES_DIRECTORY )) ) {  }
+    if ( sizeof(createFolderProtectFile( WB_PATH.MEDIA_DIRECTORY )) ) {  }
+    if ( sizeof(createFolderProtectFile( WB_PATH.MEDIA_DIRECTORY.'/home' )) ) {  }
+    if ( sizeof(createFolderProtectFile( WB_PATH.PAGES_DIRECTORY )) ) {  }
 
 // end of if install_tables
 
@@ -707,23 +495,23 @@ $ThemePath = realpath(WB_PATH.$admin->correct_theme_source('loginBox.htt'));
 
 // Log the user in and go to Website Baker Administration
 $thisApp = new Login(
-		array(
-				"MAX_ATTEMPS" => "50",
-				"WARNING_URL" => $ThemeUrl."/warning.html",
-				"USERNAME_FIELDNAME" => 'admin_username',
-				"PASSWORD_FIELDNAME" => 'admin_password',
-				"REMEMBER_ME_OPTION" => SMART_LOGIN,
-				"MIN_USERNAME_LEN" => "2",
-				"MIN_PASSWORD_LEN" => "3",
-				"MAX_USERNAME_LEN" => "30",
-				"MAX_PASSWORD_LEN" => "30",
-				'LOGIN_URL' => ADMIN_URL."/login/index.php",
-				'DEFAULT_URL' => ADMIN_URL."/start/index.php",
-				'TEMPLATE_DIR' => $ThemePath,
-				'TEMPLATE_FILE' => 'loginBox.htt',
-				'FRONTEND' => false,
-				'FORGOTTEN_DETAILS_APP' => ADMIN_URL."/login/forgot/index.php",
-				'USERS_TABLE' => TABLE_PREFIX."users",
-				'GROUPS_TABLE' => TABLE_PREFIX."groups",
-		)
+	array(
+			"MAX_ATTEMPS" => "50",
+			"WARNING_URL" => $ThemeUrl."/warning.html",
+			"USERNAME_FIELDNAME" => 'admin_username',
+			"PASSWORD_FIELDNAME" => 'admin_password',
+			"REMEMBER_ME_OPTION" => SMART_LOGIN,
+			"MIN_USERNAME_LEN" => "2",
+			"MIN_PASSWORD_LEN" => "3",
+			"MAX_USERNAME_LEN" => "30",
+			"MAX_PASSWORD_LEN" => "30",
+			'LOGIN_URL' => ADMIN_URL."/login/index.php",
+			'DEFAULT_URL' => ADMIN_URL."/start/index.php",
+			'TEMPLATE_DIR' => $ThemePath,
+			'TEMPLATE_FILE' => 'loginBox.htt',
+			'FRONTEND' => false,
+			'FORGOTTEN_DETAILS_APP' => ADMIN_URL."/login/forgot/index.php",
+			'USERS_TABLE' => TABLE_PREFIX."users",
+			'GROUPS_TABLE' => TABLE_PREFIX."groups",
+	)
 );
