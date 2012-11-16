@@ -13,6 +13,8 @@ Legend:
 
 
 
+16 Nov-2012 Build 1821 Dietmar Woellbrink (Luisehahne)
+! forgot to upload the /install/save.php
 16 Nov-2012 Build 1820 Dietmar Woellbrink (Luisehahne)
 + added sql folder including  websitebaker.sql, wb_search.sql
 ! update /install/save.php, will now created the tables with $database->SqlImport() 
