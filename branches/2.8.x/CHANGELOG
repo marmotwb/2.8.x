@@ -13,6 +13,9 @@ Legend:
 
 
 
+16 Nov-2012 Build 1819 Dietmar Woellbrink (Luisehahne)
+# bugfix media, Undefined index /admin/media/upload.php on line 108
+- removed obselete resize_img.php
 16 Nov-2012 Build 1818 Dietmar Woellbrink (Luisehahne)
 # bugfix Ticket 10 usergroup show homefolder in media
 ! update users, create username homefolder in media/homefolders

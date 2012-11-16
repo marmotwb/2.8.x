@@ -123,7 +123,7 @@ foreach($dirs AS $name) {
 	if (isset($pathsettings[$safepath]['height'])){ $cur_height = $pathsettings[$safepath]['height'];}
 	$cur_width = ($cur_width ? (int)$cur_width : '');
 	$cur_height = ($cur_height ? (int)$cur_height : '');
-//
+// check for user homefolder
     $bPathCanEdit = (preg_match('/'.$currentHome.'/i', $safepath)) ? true : false;
 
 //	if($row_bg_color == 'DEDEDE') $row_bg_color = 'EEEEEE';
@@ -132,12 +132,14 @@ foreach($dirs AS $name) {
 
 	$template->set_var(array(
 					'ADMIN_URL' => ADMIN_URL,
+					'THEME_URL' => THEME_URL,
 					'PATH_NAME' => $relative,
 					'WIDTH' => $TEXT['WIDTH'],
 					'HEIGHT' => $TEXT['HEIGHT'],
 					'FIELD_NAME_W' => $safepath.'-w',
 					'FIELD_NAME_H' => $safepath.'-h',
 					'CAN_EDIT_CLASS' => ($bPathCanEdit==false) ? '' : 'bold',
+					'SHOW_EDIT_CLASS' => ($bPathCanEdit==false) ? 'hide' : '',
 					'READ_ONLY_DIR' => ($bPathCanEdit==false) ? ' readonly="readonly"' : '',
 					'CUR_HEIGHT' => $cur_height,
 					'CUR_WIDTH' => $cur_width,

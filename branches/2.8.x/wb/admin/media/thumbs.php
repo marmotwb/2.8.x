@@ -15,7 +15,15 @@
  *
  */
 
-require('../../config.php');
+if(!defined('WB_URL'))
+{
+    $config_file = realpath('../../config.php');
+    if(file_exists($config_file) && !defined('WB_URL'))
+    {
+    	require($config_file);
+    }
+}
+//if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 $modulePath = dirname(__FILE__);
 
 /*
@@ -35,12 +43,13 @@ if (isset($_GET['img']) && isset($_GET['t'])) {
 	$thumb = PhpThumbFactory::create(WB_PATH.MEDIA_DIRECTORY.'/'.$image);
 
 	if ($type == 1) {
+        $thumb->adaptiveResize(20,20);
+//        $thumb->resize(30,30);
 //		$thumb->cropFromCenter(80,50);
-        $thumb->resize(30,30);
 // 		$thumb->resizePercent(40);
 	} else {
-    	$thumb->resize(250,250);
-// 		$thumb->resizePercent(50);
+//    	$thumb->adaptiveResize(250,250);
+ 		$thumb->resizePercent(30);
 //		$thumb->cropFromCenter(80,50);
 	}
 	$thumb->show();

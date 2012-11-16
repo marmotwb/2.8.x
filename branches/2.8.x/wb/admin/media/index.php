@@ -41,6 +41,14 @@ $template->set_block('page', 'main_block', 'main');
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 
+// Target location
+$requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
+$directory = (isset(${$requestMethod}['dir'])) ? ${$requestMethod}['dir'] : '';
+
+$directory = ($directory == '/') ?  '' : $directory;
+$dirlink = 'index.php?dir='.$directory;
+$rootlink = 'index.php?dir=';
+
 // Get home folder not to show
 $home_folders = get_home_folders();
 
@@ -90,6 +98,7 @@ if(($dirs == '') or ($dirs==$currentHome) or (!array_key_exists('dir', $_GET))) 
 $template->set_var(array(
 					'HEADING_BROWSE_MEDIA' => $HEADING['BROWSE_MEDIA'],
 					'HOME_DIRECTORY' => $currentHome,
+//					'HOME_DIRECTORY' => ( $currentHome!='') ? $currentHome : $directory,
 					'DISPLAY_UP_ARROW' => $display_up_arrow, // **!
 					'HEADING_CREATE_FOLDER' => $HEADING['CREATE_FOLDER'],
 					'HEADING_UPLOAD_FILES' => $HEADING['UPLOAD_FILES']
