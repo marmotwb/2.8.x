@@ -33,6 +33,7 @@ a:hover {
 .bold { color: #2C50A3; }
 .path-name { width: 65%;}
 tbody.path-option tr th  { font-weight: normal;}
+.show-img { width: 30px; text-align: center;}
 
 </style>
 </head>
@@ -63,6 +64,9 @@ tbody.path-option tr th  { font-weight: normal;}
         <input size="5" type="text" name="{FIELD_NAME_W}" value="{CUR_WIDTH}"{READ_ONLY_DIR} />
         {HEIGHT}
         <input size="5" type="text" name="{FIELD_NAME_H}" value="{CUR_HEIGHT}"{READ_ONLY_DIR} />
+        </td>
+		<td class="show-img" >
+            <img class="{SHOW_EDIT_CLASS}" height="16" width="16" alt="" src="{THEME_URL}/images/resize_16.png" />
         </td>
 	</tr>
 <!-- END list_block -->

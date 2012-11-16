@@ -15,13 +15,21 @@
  *
  */
 
-// Print admin header
-require('../../config.php');
-include_once('resize_img.php');
-include_once('parameters.php');
+if(!defined('WB_URL'))
+{
+    $config_file = realpath('../../config.php');
+    if(file_exists($config_file) && !defined('WB_URL'))
+    {
+    	require($config_file);
+    }
+}
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 
-require_once(WB_PATH.'/framework/class.admin.php');
-// require_once(WB_PATH.'/include/pclzip/pclzip.lib.php');	// Required to unzip file.
+$modulePath = dirname(__FILE__);
+
+//include_once('resize_img.php');
+include_once($modulePath.'/parameters.php');
+
 // suppress to print the header, so no new FTAN will be set
 $admin = new admin('Media', 'media_upload', false);
 
@@ -57,12 +65,14 @@ $resizepath = str_replace(array('/',' '),'_',$target);
 // Find out whether we should replace files or give an error
 $overwrite = ($admin->get_post('overwrite') != '') ? true : false;
 
+$file_extension_string = '';
 // Get list of file types to which we're supposed to append 'txt'
-$get_result=$database->query("SELECT value FROM ".TABLE_PREFIX."settings WHERE name='rename_files_on_upload' LIMIT 1");
-$file_extension_string='';
-if ($get_result->numRows()>0) {
-	$fetch_result=$get_result->fetchRow();
-	$file_extension_string=$fetch_result['value'];
+$sql = 'SELECT ´value´ FROM ´'.TABLE_PREFIX. 'settings´ '.
+       'WHERE ´name´=\'rename_files_on_upload\'';
+
+if($oRes = $database->query($sql)) {
+    $aResult = $oRes->fetchRow(MYSQL_ASSOC);
+    $file_extension_string = $aResult['value'];
 }
 
 $file_extensions=explode(",",$file_extension_string);
@@ -104,12 +114,33 @@ for($count = 1; $count <= 10; $count++)
 				}
 			}
 
+
 			if(file_exists($relative.$filename)) {
-				if ($pathsettings[$resizepath]['width'] || $pathsettings[$resizepath]['height'] ) {
-					$rimg=new RESIZEIMAGE($relative.$filename);
-					$rimg->resize_limitwh($pathsettings[$resizepath]['width'],$pathsettings[$resizepath]['height'],$relative.$filename);
-					$rimg->close();
+
+                $ImgWidth  = isset($pathsettings[$resizepath]['width'])  ? intval($pathsettings[$resizepath]['width'])  : null;
+                $ImgHeigth = isset($pathsettings[$resizepath]['height']) ? intval($pathsettings[$resizepath]['height']) : null;
+
+				if ($ImgWidth!=null || $ImgHeigth!=null ) {
+                    if(!class_exists('PhpThumbFactory', false)){ include($modulePath.'/inc/ThumbLib.inc.php'); }
+                	$oImage = PhpThumbFactory::create($relative.$filename);
+                    $aOldSize = $oImage->getCurrentDimensions();
+                    $ImgPercent = 50;
+
+    				if ($ImgWidth!=null && $ImgHeigth==null ) {
+                        $ImgPercent =  $ImgWidth*100/$aOldSize['width'];
+                        $ImgHeigth = $ImgWidth;
+                    } elseif( $ImgWidth==null && $ImgHeigth!=null ) {
+                        $ImgPercent =  $ImgHeigth*100/$aOldSize['height'];
+                        $ImgWidth = $ImgHeigth;
+                    } else {
+                        $ImgPercent = $ImgWidth*100/$aOldSize['width'];
+                    }
+                    $oImage->resize($ImgWidth,$ImgHeigth)->save($relative.$filename);
+//                    $oImage->resizePercent($ImgPercent)->save($relative.$filename);
+//                    $oImage->adaptiveResize($ImgWidth,$ImgHeigth)->save($relative.$filename);
+//                    $oImage->save($relative.$filename);
 				}
+
 			}
 
 			// store file name of first file for possible unzip action
