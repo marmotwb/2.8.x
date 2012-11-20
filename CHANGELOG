@@ -13,6 +13,8 @@ Legend:
 
 
 
+20 Nov-2012 Build 1826 Dietmar Woellbrink (Luisehahne)
+# fixed to big preview images in media
 20 Nov-2012 Build 1825 Dietmar Woellbrink (Luisehahne)
 ! update page settings, add save & back Button, add extended hide/show
   redesign the page settings for a better overview  
@@ -20,12 +22,12 @@ Legend:
 ! update media in look to the changes in user management
 20 Nov-2012 Build 1823 Dietmar Woellbrink (Luisehahne)
 ! update user management, now home folder only will be created
-  if homefolders in settings are enabledPlugin
+  if homefolders in settings are enabled
   add save & back in user modify
 20 Nov-2012 Build 1822 Dietmar Woellbrink (Luisehahne)
 ! update installer, strict difference between table structure and data 
 # fixed wrong constant for settings table
-! update redirct to upgrade-script in /admin/start(index.php
+! update redirect to upgrade-script in /admin/start/index.php
 16 Nov-2012 Build 1821 Dietmar Woellbrink (Luisehahne)
 ! forgot to upload the /install/save.php
 16 Nov-2012 Build 1820 Dietmar Woellbrink (Luisehahne)

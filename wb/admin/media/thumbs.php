@@ -48,8 +48,8 @@ if (isset($_GET['img']) && isset($_GET['t'])) {
 //		$thumb->cropFromCenter(80,50);
 // 		$thumb->resizePercent(40);
 	} else {
-//    	$thumb->adaptiveResize(250,250);
- 		$thumb->resizePercent(30);
+    	$thumb->Resize(300,300);
+// 		$thumb->resizePercent(25);
 //		$thumb->cropFromCenter(80,50);
 	}
 	$thumb->show();
