@@ -15,11 +15,18 @@
  *
  */
 // Create new admin object
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
+if(!defined('WB_URL'))
+{
+    $config_file = realpath('../../config.php');
+    if(file_exists($config_file) && !defined('WB_URL'))
+    {
+    	require($config_file);
+    }
+}
+
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+
 $admin = new admin('Pages', 'pages_settings');
-
-
 /*-- Parent page list ------------------------------------------------------------------*/
 	function parent_list($parent)
 	{
@@ -129,6 +136,12 @@ $admin = new admin('Pages', 'pages_settings');
 	$oTpl->set_file('page', 'pages_settings.htt');
 	$oTpl->set_block('page', 'main_block', 'main');
 	$oTpl->set_var('FTAN', $admin->getFTAN());
+//    $sShowIconDirText = $TEXT['EXPAND'].' ';
+	$sql = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` WHERE `name` = \'page_exented\'';
+	if($page_extend = $database->get_one($sql)) {}
+
+	$sShowIconDirText = ($page_extend=='1') ? $TEXT['HIDE_ADVANCED'] : $TEXT['SHOW_ADVANCED'];
+
 	$oTpl->set_var(array(
 			'PAGE_ID'              => $aCurrentPage['page_id'],
 			'PAGE_IDKEY'           => $admin->getIDKEY($aCurrentPage['page_id']),
@@ -141,6 +154,8 @@ $admin = new admin('Pages', 'pages_settings');
 			'MODIFIED_BY'          => $user['display_name'],
 			'MODIFIED_BY_USERNAME' => $user['username'],
 			'MODIFIED_WHEN'        => $modified_ts,
+			'TEXT_SAVE_BACK'       => $TEXT['SAVE'].' &amp; '.$TEXT['BACK'],
+			'TEXT_EXTENDED'        => $sShowIconDirText,
 			'ADMIN_URL'            => ADMIN_URL,
 			'WB_URL'               => WB_URL,
 			'THEME_URL'            => THEME_URL
@@ -176,7 +191,7 @@ $admin = new admin('Pages', 'pages_settings');
 				'SECTIONS_LINK_AFTER' => '</a>',
 				'DISPLAY_MANAGE_SECTIONS' => 'link',
 				));
-	}else {
+	} else {
 //		$oTpl->set_block('show_manage_sections', '');
 		$oTpl->set_var(array(
 				'SECTIONS_LINK_BEFORE' => '<span class="bold grey">',
@@ -192,7 +207,7 @@ $admin = new admin('Pages', 'pages_settings');
 	$sTemplate = ($aCurrentPage['template'] == '' ? DEFAULT_TEMPLATE : $aCurrentPage['template']);
 	$sIconDir = str_replace('\\', '/', ((defined('PAGE_ICON_DIR') && PAGE_ICON_DIR != '') ? PAGE_ICON_DIR : MEDIA_DIRECTORY));
 	$sIconDir = str_replace('/*', '/'.$sTemplate, $sIconDir);
-	$bIconDirHide = (defined('PAGE_EXTENDED') && PAGE_EXTENDED) ? '' : 'hide';
+	$bIconDirHide = ($page_extend=='1') ? '' : 'hide';
 //	$oTpl->set_var('ICON_DIR', WB_REL.$sIconDir);
 	$sHelp = replaceVars($mLang->HELP_PAGE_IMAGE_DIR, array('icon_dir'=>WB_REL.$sIconDir ) );
 
@@ -332,7 +347,7 @@ $admin = new admin('Pages', 'pages_settings');
 	$oTpl->set_block('admin_group_show_list_block', 'admin_user_list_block', 'admin_user_list');
 	$sAllowedAdminUsers = trim(implode(',',$aAdminUsers));
 	$sAllowedAdminUsers = $sAllowedAdminUsers ? $sAllowedAdminUsers : '-1';
-	$sql = 'SELECT `user_id`, `display_name` '
+	$sql = 'SELECT `user_id`, `display_name`,`username` '
 		 . 'FROM `'.TABLE_PREFIX.'users` '
 	     . 'WHERE `active`=1 '
 	     . 'ORDER BY (`user_id` NOT IN('.$sAllowedAdminUsers.')), `display_name`';
@@ -341,7 +356,7 @@ $admin = new admin('Pages', 'pages_settings');
 			if($aUser['user_id'] == 1) { continue; }
 			$oTpl->set_var(array(
 				'ID'        => $aUser['user_id'],
-				'NAME'      => $aUser['display_name'],
+				'NAME'      => $aUser['display_name'].' ('.$aUser['username'].')',
 			    'SELECTED'  => (in_array($aUser['user_id'], $aAdminUsers) ? $sSelected : ''),
 			));
 			$oTpl->parse('admin_user_list', 'admin_user_list_block', true);
@@ -362,7 +377,7 @@ $admin = new admin('Pages', 'pages_settings');
 	$oTpl->set_block('main_block', 'viewer_user_list_block', 'viewer_user_list');
 	$sAllowedViewingUsers = trim(implode(',',$aViewingUsers));
 	$sAllowedViewingUsers = $sAllowedViewingUsers ? $sAllowedViewingUsers : '-1';
-	$sql = 'SELECT `user_id`, `display_name` '
+	$sql = 'SELECT `user_id`, `display_name`,`username` '
 		 . 'FROM `'.TABLE_PREFIX.'users` '
 	     . 'WHERE `active`=1 '
 	     . 'ORDER BY (`user_id` NOT IN('.$sAllowedViewingUsers.')), `display_name`';
@@ -371,7 +386,7 @@ $admin = new admin('Pages', 'pages_settings');
 			if($aUser['user_id'] == 1) { continue; }
 			$oTpl->set_var(array(
 				'ID'        => $aUser['user_id'],
-				'NAME'      => $aUser['display_name'],
+				'NAME'      => $aUser['display_name'].' ('.$aUser['username'].')',
 			    'SELECTED'  => (in_array($aUser['user_id'], $aViewingUsers) ? $sSelected : ''),
 			));
 			$oTpl->parse('viewer_user_list', 'viewer_user_list_block', true);
