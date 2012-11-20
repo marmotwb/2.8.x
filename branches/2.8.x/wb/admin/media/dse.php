@@ -9,7 +9,8 @@ $DB_PASS = DB_PASSWORD;
 $link = mysql_connect($DB_HOST, $DB_USER, $DB_PASS);
 mysql_select_db ( $DB_NAME, $link );
 */
-require_once(WB_PATH.'/framework/DseTwo.php');
+
+if(!function_exists('directory_list')) { require(WB_PATH.'/framework/functions.php'); }
 
 $CachePath = WB_PATH.'/temp/mediacache';
 // $ListFile = ADMIN_PATH.'/media/MediaBlackList'; // WhiteList   BlackList

@@ -222,6 +222,39 @@ function file_list($directory, $skip = array(), $show_hidden = false)
 	return $result_list;
 }
 
+function remove_home_subs($directory = '/', $home_folders = '')
+{
+	if( ($handle = opendir(WB_PATH.MEDIA_DIRECTORY.$directory)) )
+	{
+		// Loop through the dirs to check the home folders sub-dirs are not shown
+		while(false !== ($file = readdir($handle)))
+		{
+			if($file[0] != '.' && $file != 'index.php')
+			{
+				if(is_dir(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$file))
+				{
+					if($directory != '/') {
+						$file = $directory.'/'.$file;
+					}else {
+						$file = '/'.$file;
+					}
+					foreach($home_folders AS $hf)
+					{
+						$hf_length = strlen($hf);
+						if($hf_length > 0) {
+							if(substr($file, 0, $hf_length+1) == $hf) {
+								$home_folders[$file] = $file;
+							}
+						}
+					}
+					$home_folders = remove_home_subs($file, $home_folders);
+				}
+			}
+		}
+	}
+	return $home_folders;
+}
+
 // Function to get a list of home folders not to show
 function get_home_folders()
 {
@@ -241,38 +274,6 @@ function get_home_folders()
 				$home_folders[$folder['home_folder']] = $folder['home_folder'];
 			}
 		}
-		function remove_home_subs($directory = '/', $home_folders = '')
-		{
-			if( ($handle = opendir(WB_PATH.MEDIA_DIRECTORY.$directory)) )
-			{
-				// Loop through the dirs to check the home folders sub-dirs are not shown
-				while(false !== ($file = readdir($handle)))
-				{
-					if($file[0] != '.' && $file != 'index.php')
-					{
-						if(is_dir(WB_PATH.MEDIA_DIRECTORY.$directory.'/'.$file))
-						{
-							if($directory != '/') {
-								$file = $directory.'/'.$file;
-							}else {
-								$file = '/'.$file;
-							}
-							foreach($home_folders AS $hf)
-							{
-								$hf_length = strlen($hf);
-								if($hf_length > 0) {
-									if(substr($file, 0, $hf_length+1) == $hf) {
-										$home_folders[$file] = $file;
-									}
-								}
-							}
-							$home_folders = remove_home_subs($file, $home_folders);
-						}
-					}
-				}
-			}
-			return $home_folders;
-		}
 		$home_folders = remove_home_subs('/', $home_folders);
 	}
 	return $home_folders;
@@ -289,7 +290,6 @@ function remove_path(&$path, $key, $vars = '')
 {
 	$path = str_replace($vars, '', $path);
 }
-
 /*
  * @param object &$wb: $wb from frontend or $admin from backend
  * @return array: list of ro-dirs

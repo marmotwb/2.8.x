@@ -27,7 +27,7 @@ if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php')
 
 $admin = new admin('Media', 'media', false);
 // Include the WB functions file
-require_once(WB_PATH.'/framework/functions.php');
+if(!function_exists('directory_list')) { require(WB_PATH.'/framework/functions.php'); }
 
 // check if theme language file exists for the language set by the user (e.g. DE, EN)
 if(!file_exists(THEME_PATH .'/languages/'.LANGUAGE .'.php')) {
