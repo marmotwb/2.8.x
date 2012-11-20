@@ -39,7 +39,7 @@ $template->set_file('page', 'media.htt');
 $template->set_block('page', 'main_block', 'main');
 
 // Include the WB functions file
-require_once(WB_PATH.'/framework/functions.php');
+if(!function_exists('directory_list')) { require(WB_PATH.'/framework/functions.php'); }
 
 // Target location
 $requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
@@ -50,13 +50,12 @@ $dirlink = 'index.php?dir='.$directory;
 $rootlink = 'index.php?dir=';
 
 // Get home folder not to show
-$home_folders = get_home_folders();
+$home_folders = (defined('HOME_FOLDERS') && HOME_FOLDERS) ? get_home_folders() : array();
 
 // Insert values
 $template->set_block('main_block', 'dir_list_block', 'dir_list');
 $dirs = directory_list(WB_PATH.MEDIA_DIRECTORY);
-$currentHome = $admin->get_home_folder();
-
+$currentHome = (defined('HOME_FOLDERS') && HOME_FOLDERS) ? $admin->get_home_folder() : '';
 if ($currentHome!=''){
 	$dirs = directory_list(WB_PATH.MEDIA_DIRECTORY.$currentHome);
 }

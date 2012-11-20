@@ -46,7 +46,7 @@ $requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
 $target = (isset(${$requestMethod}['target'])) ? ${$requestMethod}['target'] : '';
 
 // Include the WB functions file
-require_once(WB_PATH.'/framework/functions.php');
+if(!function_exists('directory_list')) { require(WB_PATH.'/framework/functions.php'); }
 
 $directory = ($target == '/') ?  '' : $target;
 $dirlink = 'index.php?dir='.$directory;

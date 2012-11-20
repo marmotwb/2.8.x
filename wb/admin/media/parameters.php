@@ -15,8 +15,13 @@
  *
  */
 
-// Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+if(!defined('WB_URL')) {
+	require_once(dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
+}
+/* -------------------------------------------------------- */
 
 function __unserialize($sObject) {  // found in php manual :-)
     if($sObject=='') { return array( 'global' => array( 'admin_only' => false,'show_thumbs' => false ) );}

@@ -32,7 +32,7 @@ $starttime = explode(" ", microtime());
 $starttime = $starttime[0]+$starttime[1];
 
 // Include the WB functions file
-require_once(WB_PATH.'/framework/functions.php');
+if(!function_exists('directory_list')) { require(WB_PATH.'/framework/functions.php'); }
 include ('parameters.php');
 
 // check if theme language file exists for the language set by the user (e.g. DE, EN)
@@ -129,7 +129,9 @@ $template->set_file('page', 'media_browse.htt');
 $template->set_block('page', 'main_block', 'main');
 
 // Get the current dir
-$currentHome = $admin->get_home_folder();
+//$currentHome = $admin->get_home_folder();
+$currentHome = (defined('HOME_FOLDERS') && HOME_FOLDERS) ? $admin->get_home_folder() : '';
+
 // set directory if you call from menu
 $directory =	(($currentHome) AND (!array_key_exists('dir',$_GET)))
 				?
@@ -141,9 +143,20 @@ $directory =	(($currentHome) AND (!array_key_exists('dir',$_GET)))
 if ($currentHome && stripos(WB_PATH.MEDIA_DIRECTORY.$directory,WB_PATH.MEDIA_DIRECTORY.$currentHome)===false) {
 	$directory = $currentHome;
 }
+if($directory == '/' OR $directory == '\\') {$directory = '';}
 
-if($directory == '/' OR $directory == '\\') {
-	$directory = '';
+$sBackLink = WB_PATH.MEDIA_DIRECTORY.$directory;
+if(!is_readable( $sBackLink )) {
+$directory = dirname($directory);
+// reload parent page to rebuild the dropdowns
+echo "<script type=\"text/javascript\">
+<!--
+// Get the location object
+var locationObj = document.location;
+// Set the value of the location object
+parent.document.location = 'index.php';
+-->
+</script>";
 }
 
 $dir_backlink = 'browse.php?dir='.$directory;
@@ -191,7 +204,8 @@ $template->set_var(array(
 			);
 
 // Get home folder not to show
-$home_folders = get_home_folders();
+//$home_folders = get_home_folders();
+$home_folders = (defined('HOME_FOLDERS') && HOME_FOLDERS) ? get_home_folders() : array();
 
 // Generate list
 $template->set_block('main_block', 'list_block', 'list');
@@ -330,7 +344,8 @@ if($temp_id == 0) {
 	$template->set_var('DISPLAY_NONE_FOUND', 'hide');
 }
 
-if($currentHome=='') {
+//if($currentHome=='') {
+if( !in_array($admin->get_username(), explode('/',$directory)) ) {
 // Insert permissions values
     if($admin->get_permission('media_rename') != true) {
     	$template->set_var('DISPLAY_RENAME', 'hide');
