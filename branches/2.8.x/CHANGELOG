@@ -13,6 +13,10 @@ Legend:
 
 
 
+20 Nov-2012 Build 1822 Dietmar Woellbrink (Luisehahne)
+! update installer, strict difference between table structure and data 
+# fixed wrong constant for settings table
+! update redirct to upgrade-script in /admin/start(index.php
 16 Nov-2012 Build 1821 Dietmar Woellbrink (Luisehahne)
 ! forgot to upload the /install/save.php
 16 Nov-2012 Build 1820 Dietmar Woellbrink (Luisehahne)

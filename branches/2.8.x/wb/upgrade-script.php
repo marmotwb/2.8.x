@@ -519,7 +519,7 @@ echo'<h3>Step '.(++$stepID).': Updating core tables</h3>';
      */
     $aDebugMessage[] = "<span>Adding/updating website_signature to settings table</span>";
     $cfg = array(
-    	'website_signature' => (defined('WEBSITE_SIGNATURE') && (WEBSITE_SIGNATURE=='') ? '' : WEBSITE_SIGNATURE)
+    	'website_signature' => (defined('WEBSITE_SIGNATURE') ? WEBSITE_SIGNATURE : '')
     );
 
     $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
@@ -529,7 +529,7 @@ echo'<h3>Step '.(++$stepID).': Updating core tables</h3>';
      */
     $aDebugMessage[] = "<span>Adding/updating confirmed_registration to settings table</span>";
     $cfg = array(
-    	'confirmed_registration' => (defined('CONFIRMED_REGISTRATION') && (CONFIRMED_REGISTRATION=='') ? '' : CONFIRMED_REGISTRATION)
+    	'confirmed_registration' => (defined('CONFIRMED_REGISTRATION') ? CONFIRMED_REGISTRATION : '0')
     );
 
     $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
@@ -770,12 +770,14 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 
 }
 
-$aDebugMessage = array();
-/**********************************************************
- * This part with changing in mod_wysiwyg will be removed in the final version
- * special workout for the tester
- *  - Remove/add PRIMARY KEY from/to "section_id" from table "mod_wysiwygs"
- */
+if(version_compare(WB_REVISION, '1800', '<'))
+{
+    $aDebugMessage = array();
+    /**********************************************************
+     * This part with changing in mod_wysiwyg will be removed in the final version
+     * special workout for the tester
+     *  - Remove/add PRIMARY KEY from/to "section_id" from table "mod_wysiwygs"
+     */
     $aDebugMessage[] = '<div style="margin-left:2em;">';
 
     $sTable = TABLE_PREFIX.'mod_wysiwyg';
@@ -793,16 +795,19 @@ $aDebugMessage = array();
     $aDebugMessage[] = $database->index_add($sTable, '', 'section_id', 'PRIMARY') ? " $OK<br />" : " $FAIL!<br />";
     $aDebugMessage[] = '</div>';
 
-if($bDebugModus) {
-// $aDebugMessage[] =
-    echo implode(PHP_EOL,$aDebugMessage);
+    if($bDebugModus) {
+    // $aDebugMessage[] =
+        echo implode(PHP_EOL,$aDebugMessage);
+    }
 }
-$aDebugMessage = array();
-echo '<h3>Step '.(++$stepID).': Updating group_id in table users</h3>';
+
+if(version_compare(WB_REVISION, VERSION, '<'))
+{
+    $aDebugMessage = array();
+    echo '<h3>Step '.(++$stepID).': Updating group_id in table users</h3>';
     /**********************************************************
     * Updating group_id in table users
     */
-
         echo '<div style="margin-left:2em;">';
         $aUsers = array();
 		// Get existing values
@@ -840,12 +845,13 @@ echo '<h3>Step '.(++$stepID).': Updating group_id in table users</h3>';
 
     $aDebugMessage[] = '</div>';
 
-if($bDebugModus) {
-// $aDebugMessage[] =
-    echo implode(PHP_EOL,$aDebugMessage);
-}else {
-    echo '<span><strong>'.$iTotalUsers.' users updating the group_id</strong></span>'." $OK<br />";
-    echo '</div>';
+    if($bDebugModus) {
+    // $aDebugMessage[] =
+        echo implode(PHP_EOL,$aDebugMessage);
+    }else {
+        echo '<span><strong>'.$iTotalUsers.' users updating the group_id</strong></span>'." $OK<br />";
+        echo '</div>';
+    }
 }
 
 $aDebugMessage = array();

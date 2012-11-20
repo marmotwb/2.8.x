@@ -350,7 +350,7 @@ define('ADMIN_URL', $wb_url.'/'.ADMIN_DIRECTORY);
 		}
 	}
 
-//  core tables structure and some default values
+//  core tables only structure
     $sSqlFileName = dirname(__FILE__).'/sql/websitebaker.sql';
     if(!$database->SqlImport($sSqlFileName,TABLE_PREFIX, false)) { set_error($database->get_error()); }
 
@@ -422,12 +422,20 @@ define('ADMIN_URL', $wb_url.'/'.ADMIN_DIRECTORY);
 	." (62, 'system_locked', '0')";
 	if(!$database->query($settings_rows)) { set_error($database->get_error()); }
 
+	// Admin group
+	$full_system_permissions  = 'access,addons,admintools,admintools_view,groups,groups_add,groups_delete,groups_modify,groups_view,';
+	$full_system_permissions .= 'languages,languages_install,languages_uninstall,languages_view,media,media_create,media_delete,media_rename,media_upload,media_view,';
+	$full_system_permissions .= 'modules,modules_advanced,modules_install,modules_uninstall,modules_view,pages,pages_add,pages_add_l0,pages_delete,pages_intro,pages_modify,pages_settings,pages_view,';
+	$full_system_permissions .= 'preferences,preferences_view,settings,settings_advanced,settings_basic,settings_view,templates,templates_install,templates_uninstall,templates_view,users,users_add,users_delete,users_modify,users_view';
+	$insert_admin_group = "INSERT INTO `".TABLE_PREFIX."groups` VALUES ('1', 'Administrators', '$full_system_permissions', '', '')";
+	if(!$database->query($insert_admin_group)) { set_error($database->get_error()); }
+
 // Admin user
     $insert_admin_user = "INSERT INTO `".TABLE_PREFIX."users` VALUES (1, 1, '1', 1, '$admin_username', '".md5($admin_password)."', '', 0, '', 0, 'Administrator', '$admin_email', 0, '', '', '$default_language', '', 0, '');";
 	if(!$database->query($insert_admin_user)) { set_error($database->get_error()); }
 
-// Search settings table structure and default values
-    $sSqlFileName = dirname(__FILE__).'/sql/wb_search.sql';
+// Search layout default data
+    $sSqlFileName = dirname(__FILE__).'/sql/wb_search_data.sql';
     if(!$database->SqlImport($sSqlFileName,TABLE_PREFIX, false)) { set_error($database->get_error()); }
 
 // Include WB functions file
