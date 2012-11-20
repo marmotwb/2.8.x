@@ -16,7 +16,14 @@
  */
 
 // Include config file
-require('../../config.php');
+if(!defined('WB_URL'))
+{
+    $config_file = realpath('../../config.php');
+    if(file_exists($config_file) && !defined('WB_URL'))
+    {
+    	require($config_file);
+    }
+}
 
 // Make sure people are allowed to access this page
 if(MANAGE_SECTIONS != 'enabled')
@@ -27,11 +34,12 @@ if(MANAGE_SECTIONS != 'enabled')
 /* */
 $debug = false; // to show position and section_id
 If(!defined('DEBUG')) { define('DEBUG',$debug);}
-// Include the WB functions file
-require_once(WB_PATH.'/framework/functions.php');
 // Create new admin object
-require_once(WB_PATH.'/framework/class.admin.php');
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 $admin = new admin('Pages', 'pages_view', false);
+
+// Include the WB functions file
+if(!function_exists('directory_list')) { require(WB_PATH.'/framework/functions.php'); }
 
 $action = 'show';
 // Get page id
@@ -384,7 +392,7 @@ switch ($action):
 								'LINK_MODIFY_URL_VAR_MODUL_NAME' => $edit_page,
 								'NAME' => htmlentities(strip_tags($block[1])),
 								'VALUE' => 1,
-								'SET_NONE_DISPLAY_OPTION' => ''
+								'SET_NONE_DISPLAY_OPTION' => '<option>&nbsp;</option>'
 								)
 							);
 					}

@@ -3,7 +3,7 @@
 html{ font-family :Verdana, "Trebuchet MS", Arial, Helvetica, sans-serif; font-size :100.1%; font-weight :normal; color :#333333; overflow :auto; overflow-y :scroll; }
 body{ margin :0 auto; padding :0px; background :#a8bccb; text-align :left; font-size :0.8em; }
 /*  */
-div.main { border :0px none #666666; margin :0px auto 1em auto; min-width :60em; max-width :90em; font-size :1.0em; padding :10px 15px; width :83%; overflow :hidden; }
+div.main { border :0px none #666666; margin :0px auto 1em auto; min-width :75em; max-width :90em; font-size :1.0em; padding :10px 15px; width :83%; overflow :hidden; }
 .td { clear :both; font-size :1.0em; margin :0 auto; text-align :center; width :100%; }
 div.main .table { background :url(../images/bgtitle.png) #ffffff repeat-x; margin :0 auto; overflow :auto; width :100%; }
 .wrapper { position :relative; display :block; overflow :auto; width :inherit; }
@@ -17,11 +17,7 @@ img { border :none; }
 .input_large { width :300px; }
 .input_full { width :100%; }
 /*  */
-table {
-   border-collapse :separate;
-   width :100%;
-   table-layout:fixed;
-}
+table { border-collapse :collapse; width :100%; table-layout :fixed; }
 table.layout { table-layout :auto; }
 table.header { margin :auto; width :100%; }
 table.header td { min-width :10%; }
@@ -101,9 +97,13 @@ div.mbox.dev-info div span { margin-bottom :1px; }
 .center{ text-align :center; }
 .hidden { visibility :hidden; }
 .left{ text-align :left; }
+.right{ text-align :right; }
+.middle { vertical-align :middle; }
+.top { vertical-align :top; }
+.nowrap { white-space :nowrap; }
 .hide, .none { display :none; height :0; }
 #hide1, #hide2, #hide3 { display :none; }
-.right{ text-align :right; vertical-align :middle; }
+/* */
 .rBold{ text-align :right; font-weight :bold; vertical-align :middle; }
 .rightTop{ text-align :right; vertical-align :top; }
 .bold{ font-weight :bold; }
@@ -119,19 +119,13 @@ div.mbox.dev-info div span { margin-bottom :1px; }
 .note { border :2px #448844 solid; padding :10px; margin :10px auto; background :#eeffee; color :#004400; }
 .important { border :2px #888844 solid; padding :10px; margin-bottom :1em; background :#ffffee; color :#444400; }
 .warning { border :2px #884444 solid; padding :10px; margin-bottom :1em; background :#ffeeee; color :#440000; }
-.graphic { border :4px solid #fdfdfd; height :50px; padding-left :3px; width :50px; }
-.graphic img { background-color :#ffffff; border :1px solid #d0d0d0; padding :4px; vertical-align :middle; width :50px; height :50px; }
-
-.section {
-   background-color :#fdfdfd;
-   border :1px solid #999999;
-   font-size :0.9em;
-   height :85px;
-   margin :5px;
-   padding :0;
-   width :98%;
-}
-.description { padding :4px 0 0; text-align :left; }
+.graphic { border :0px solid #fdfdfd; height :52px; padding-left :3px; width :70px; }
+.graphic img { background-color :transparent; border :1px solid #d0d0d0; padding :2px; vertical-align :middle; width :50px; height :50px; }
+.section { background-color :transparent; font-size :0.9em; margin-bottom :15px; padding :5px; height :85px; }
+table.section { border-collapse :separate; width :100%; table-layout :fixed; border-spacing :0px; border :1px solid #999999; }
+.section tr td.graphic { border-right :2px solid #cccccc; width :60px; height :50px; padding :5px; margin :0; }
+.section tbody tr { padding :5px; }
+.description { padding :4px 0 0 10px; text-align :left; }
 .title { text-align :left; padding :4px 5px 0px 3px; font-weight :bold; font-size :1.2em; margin-bottom :5px; }
    span.title { display :block; }
 .tool_table td { text-align :left; vertical-align :top; }
@@ -140,7 +134,7 @@ div.mbox.dev-info div span { margin-bottom :1px; }
 /* new tablelayout without table attribute  */
 div.settings_table { margin :0 auto; width :90%; }
 form.settings_table { border :1px none #eeee; font-family :verdana,arial,helvetica,sans-serif; margin :5px auto; padding :5px; }
-   form.settings_table fieldset { border :1px none #eeeeee; display :block; line-height :1.0em; margin :1px auto; padding :3px 0px 3px 0px; }
+   form.settings_table fieldset { border :2px none #eeeeee; display :block; line-height :1.0em; margin :1px auto; padding :3px 0px 3px 0px; }
    input[type="file"] { width :100%; border :1px solid #000000; background-color :#ccccff; }
    legend.settings_table ,
    form.settings_table legend { border :none; color :#006699; font-size :140%; margin :5px; padding :0; }
@@ -192,6 +186,10 @@ table.permission_box thead { text-align :left; background :#d2e8e8; }
 table.permission_box tbody { text-align :left; }
 table.permission_box td label { text-align :left; vertical-align :text-top; font-size :0.8em; }
 /* */
+div.page-info table { border-collapse :collapse; width :100%; table-layout :fixed; margin-bottom :10px; }
+div.page-info .id { width :80px; }
+div.page-info .description { width :30%; }
+div.page-info table tbody td { padding :5px; background :#f0f0f0; }
 div.pages_list { font-size :0.6em; width :100%; }
 table.pages_list table td, 
 table.pages_view td { font-size :1.2em; padding :0 2px; vertical-align :middle; margin :0 auto; height :30px; }
@@ -214,25 +212,12 @@ a:hover { color :#6699ff; text-decoration :underline; }
 /**/
 .list_page_title, .list_menu_title, 
 .header_list_menu_title, .header_list_type { text-align :left; vertical-align :middle; }
-
 .header_list_pubdate_start, 
 .header_list_pubdate_end, 
 .list_pubdate_start, 
-.list_pubdate_end {
-   text-align :left;
-   white-space :nowrap;
-   width :185px;
-}
-.header_list_sections_actions {
-   text-align :left;
-   width :30px;
-}
-.header_list_type {
-   font-size :1em;
-   padding :4px 0;
-   text-align :left;
-   width :30%;
-}
+.list_pubdate_end { text-align :left; white-space :nowrap; width :185px; }
+.header_list_sections_actions { text-align :left; width :30px; }
+.header_list_type { font-size :1em; padding :4px 0; text-align :left; width :34%; }
 .jsadmin_drag img { cursor :pointer; margin-top :0px; padding :0px 0; vertical-align :baseline; }
 .list_actions { height :20px; padding :0 1px; text-align :left; width :20px; }
 .list_page_code, 
@@ -248,12 +233,11 @@ img.page_list_rights { border :none; float :left; margin :0 auto; padding :0 2px
 .page_list_show li { display :block; }
 .pages_list 
 .icon_col td img { border-style :none; display :inline; float :left; padding-right :7px; }
-.pages_list {  } 
+.pages_list { }
 .icon_col td img { border-style :none; display :inline; float :left; padding-right :7px; }
 .pages_list table { background-color :#dcdcdc; font-size :1.3em; margin :0 auto; table-layout :fixed; width :100%; }
 .pages_list ul { font-weight :normal; margin :0; padding :0px; }
 .pages_list ul li { list-style-type :none; margin :1px 0; padding :0; vertical-align :baseline; }
-
 .sectionrow { font-size :1.1em; height :30px; table-layout :fixed; }
 .sectionrow a:link { color :#003366; font-weight :bold; text-decoration :none; }
 .sectionrow a:hover { color :#6699ff; }
@@ -266,8 +250,8 @@ img.page_list_rights { border :none; float :left; margin :0 auto; padding :0 2px
 .value_page_code { color :#006400; font-weight :400; width :240px; }
 .section-info { margin :1em auto; }
 /* depending styles for /admin/pages_settings */
-div.page-settings { font-size :0.9em; border :none; text-align :left; }
-	div.page-settings div.caption { font-size :1em; font-weight :bold; padding :3px 0 0px 0; margin :0; padding :0; border :none; margin-bottom :10px; border-bottom :groove 2px #a8bccb; }
+div.page-settings { font-size :0.9em; border :none; text-align :left; overflow :hidden; }
+	div.page-settings div.caption { font-size :1em; font-weight :bold; padding :3px 0 0px 0; margin :0; padding :0; border :0px none; margin-bottom :10px; border-bottom :groove 2px #a8bccb; width :100%; }
 	div.page-settings label { display :inline-block; }
 	div.page-settings input,
 	div.page-settings textarea,
@@ -275,13 +259,19 @@ div.page-settings { font-size :0.9em; border :none; text-align :left; }
 	div.page-settings select { }
 	div.page-settings textarea { height :5em; }
 	div.page-settings [type=checkbox] { width :2.5em; }
-div.page-settings-leftcol { float :left; padding :10px 10px 10px 10px; border-right :groove 2px #a8bccb; }
+   div.page-settings [type=reset],
+	div.page-settings [type=submit] { padding :2px; width :auto; }
+div.page-settings-leftcol { float :left; padding :10px 10px 10px 10px; border-right :groove 0px #a8bccb; border 0 solid 1px  #a8bccb :; }
+div.page-settings-leftcol div.page-settings-tab { border :solid 1px #a8bccb; padding :8px; margin-bottom :8px; }
 	div.page-settings-leftcol div { padding :2px 0 3px 0; vertical-align :top; }
 	div.page-settings-leftcol label { width :170px; vertical-align :top; }
-div.page-settings-righttoprow { margin-left :417px; padding :10px; }
+div.page-settings-righttoprow { margin-left :0px; padding :10px; border :solid 0px #a8bccb; }
 	div.page-settings-righttoprow label { width :110px; vertical-align :top; }
-div.page-settings-centercol { float :left; padding :10px 20px 10px 20px; border-right :groove 2px #a8bccb; }
-div.page-settings-rightcol { float :left; padding :10px 20px 10px 10px; border :none; }
+div.page-settings-centercol { float :left; padding :10px; border-right :groove 0px #a8bccb; width :40%; }
+div.page-settings-right { float :none; padding :10px 10px 10px 10px; border-right :groove 0px #a8bccb; border :solid 0px #a8bccb; margin-left :417px; min-width :40em; }
+div.page-settings-right div.content { border :solid 1px #a8bccb; min-width :10em; }
+div.page-settings-right div.page-settings-tab { border :solid 1px #a8bccb; padding :8px; margin-bottom :8px; }
+div.page-settings-rightcol { float :none; padding :0px; border :none; }
 h1, h2, h3, h4, h5, h6 { color :#003366; display :block; font-weight :normal; margin :0.5em auto; padding-bottom :5px; }
 h6 { font-size :100%; }
 /* end depending styles for /admin/pages_settings */
@@ -292,8 +282,9 @@ div.page-settings-leftcol textarea { resize :vertical; }
 #overDiv { max-width :450px; background-position :center; background-attachment :fixed; text-align :left; line-height :1em; padding :1px; font-size :120%; }
 div.page-settings span.overlib { width :20px; margin-left :-20px; }
 /* */
-div.page_group { height :180px; max-height :260px; margin :0; padding :0; overflow :auto; }
+div.page_group { height :174px; max-height :260px; margin :0; padding :0; overflow :auto; }
 div.page_group div { overflow :hidden; }
+div.page-settings select.page_user { width :100%; min-width :160px; }
 div.page-settings p.page_user,
 div.page-settings p.page_group { }
 /* */

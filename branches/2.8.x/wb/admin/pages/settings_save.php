@@ -14,11 +14,17 @@
  * @lastmodified    $Date$
  *
  */
-/* */
 
 // Create new admin object and print admin header
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
+if(!defined('WB_URL'))
+{
+    $config_file = realpath('../../config.php');
+    if(file_exists($config_file) && !defined('WB_URL'))
+    {
+    	require($config_file);
+    }
+}
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 
 $lang_dir = dirname(__FILE__).'/languages/';
 $lang = file_exists($lang_dir.LANGUAGE.'.php') ? LANGUAGE : 'EN';
@@ -26,7 +32,6 @@ require_once($lang_dir.$lang.'.php');
 
 // suppress to print the header, so no new FTAN will be set
 $admin = new admin('Pages', 'pages_settings',false);
-
 $pagetree_url = ADMIN_URL.'/pages/index.php';
 
 // Get page id
@@ -56,11 +61,46 @@ if (!$admin->checkFTAN())
 	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$target_url);
 }
+
 // After check print the header
 $admin->print_header();
 
+if(isset($_POST['extended_submit'])) {
+	$sql = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` WHERE `name` = \'page_exented\'';
+	if( ($page_exented = $database->get_one($sql)) != '' ) {
+		$sql = 'UPDATE ';
+		$sql_where = 'WHERE `name` = \'page_exented\'';
+	} else {
+		$sql = 'INSERT INTO ';
+		$sql_where = '';
+	}
+	$val = (((($page_exented=='1') ? $page_exented : 0)) + 1) % 2;
+
+	$sql .= '`'.TABLE_PREFIX.'settings` ';
+	$sql .= 'SET `name` = \'page_exented\', ';
+	$sql .= '`value` = \''.$val.'\' '.$sql_where;
+
+    if($database->query($sql)) {
+        // redirect to backend
+echo "<p style=\"text-align:center;\"> If the script</strong> could not be start automatically.\n" .
+     "Please click <a style=\"font-weight:bold;\" " .
+     "href=\"".$target_url."\">on this link</a> to start the script!</p>\n";
+echo "<script type=\"text/javascript\">
+<!--
+// Get the location object
+var locationObj = document.location;
+// Set the value of the location object
+document.location = '$target_url';
+-->
+</script>";
+
+    } else {
+    	$admin->print_error($database->get_error(), $target_url );
+    }
+}
+
 // Include the WB functions file
-require_once(WB_PATH.'/framework/functions.php');
+if(!function_exists('directory_list')) { require(WB_PATH.'/framework/functions.php'); }
 
 // Get values
 $page_title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('page_title')));
@@ -335,7 +375,10 @@ if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/'))
 
 // using standard function by core,
 function fix_page_trail($page_id) {
-    global $database,$admin,$target_url,$MESSAGE;
+    global $database,$admin,$target_url,$pagetree_url,$MESSAGE;
+
+    $target_url = (isset($_POST['back_submit'])) ? $pagetree_url : $target_url;
+
     // Work out level
     $level = level_count($page_id);
     // Work out root parent
