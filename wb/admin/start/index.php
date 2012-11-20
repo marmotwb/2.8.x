@@ -14,11 +14,6 @@
  * @lastmodified    $Date$
  *
  */
-//$string = "pages,pages_view,pages_add,pages_add_l0,pages_settings,pages_modify,pages_intro,pages_delete,media,media_view,media_upload,media_rename,media_delete,media_create,addons,modules,modules_view,modules_install,modules_uninstall,templates,templates_view,templates_install,templates_uninstall,languages,languages_view,languages_install,languages_uninstall,settings,settings_basic,settings_advanced,access,users,users_view,users_add,users_modify,users_delete,groups,groups_view,groups_add,groups_modify,groups_delete,admintools
-//media,media_create,media_upload,media_view,preferences,preferences_view,pages,pages_modify,pages_view";
-//$regex = "/(pages)+[a-z]*[_]([a-z_0-9]+)[^,]/im";
-//preg_match_all ($regex, $string, $output);
-//
 
 $config_file = realpath('../../config.php');
 if(file_exists($config_file) && !defined('WB_URL'))
@@ -79,15 +74,28 @@ if(($admin->get_user_id()==1) && file_exists(WB_PATH.'/upgrade-script.php')) {
 	if($wb_revision=$database->get_one($sql)) {
 	}
 	if (version_compare($wb_revision, REVISION ) < 0) {
-		if(!headers_sent()) {
-			header('Location: '.WB_URL.'/upgrade-script.php');
-		    exit;
-		} else {
-		    echo "<p style=\"text-align:center;\"> The <strong>upgrade script</strong> could not be start automatically.\n" .
-		         "Please click <a style=\"font-weight:bold;\" " .
-		         "href=\"".WB_URL."/upgrade-script.php\">on this link</a> to start the script!</p>\n";
-		    exit;
-		}
+echo "<p style=\"text-align:center;\"> If the <strong>upgrade script</strong> could not be start automatically.\n" .
+     "Please click <a style=\"font-weight:bold;\" " .
+     "href=\"".WB_URL."/upgrade-script.php\">on this link</a> to start the script!</p>\n";
+
+echo "<script type=\"text/javascript\">
+<!--
+// Get the location object
+var locationObj = document.location;
+// Set the value of the location object
+document.location = '".WB_URL."/upgrade-script.php';
+-->
+</script>";
+
+//		if(!headers_sent()) {
+//			header('Location: '.WB_URL.'/upgrade-script.php');
+//		    exit;
+//		} else {
+//		    echo "<p style=\"text-align:center;\"> The <strong>upgrade script</strong> could not be start automatically.\n" .
+//		         "Please click <a style=\"font-weight:bold;\" " .
+//		         "href=\"".WB_URL."/upgrade-script.php\">on this link</a> to start the script!</p>\n";
+//		    exit;
+//		}
 	}
 }
 // ---------------------------------------
