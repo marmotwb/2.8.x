@@ -173,8 +173,8 @@ if(!defined('WB_URL')) {
         $oTpl->set_file('page', 'users_form.htt');
         $oTpl->set_block('page', 'main_block', 'main');
         $oTpl->set_block('main_block', 'show_modify_loginname_block', 'show_modify_loginname');
-        $oTpl->set_block('main_block', 'show_add_loginname_block', 'show_add_loginname');
 
+        $oTpl->set_block('main_block', 'show_add_loginname_block', 'show_add_loginname');
 		$oTpl->set_block('main_block', 'show_change_group_list_block', 'show_change_group_list');
 
 		$oTpl->parse('show_change_group_list', '');
@@ -193,6 +193,7 @@ if(!defined('WB_URL')) {
     			   'HEADING_MODIFY_USER' => '',
     			   'DISPLAY_HOME_FOLDERS' => '',
     			   'SUBMIT_TITLE' => $TEXT['ADD'],
+                   'HIDE_SAVE_BACK' => 'hide',
     			   )
 			);
 
@@ -264,7 +265,7 @@ if(!defined('WB_URL')) {
         }
 
         // Include the WB functions file
-        require_once(WB_PATH.'/framework/functions.php');
+        if(!function_exists('directory_list')) { require(WB_PATH.'/framework/functions.php'); }
 
         // Add media folders to home folder list
         $oTpl->set_block('main_block', 'folder_list_block', 'folder_list');

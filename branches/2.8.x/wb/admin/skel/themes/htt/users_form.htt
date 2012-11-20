@@ -14,6 +14,7 @@ function toggle_radio(radio_on, radio_off) {
 <input type="hidden" name="user_id" value="{USER_ID}" />
 <input type="hidden" name="username_fieldname" value="{USERNAME_FIELDNAME}" />
 <input type="hidden" name="BackLink" value="{BACK_LINK}" />
+<input type="hidden" name="cancel_url" value="{{CANCEL_URL}}" />
 {FTAN}
 <table>
 <!-- BEGIN show_modify_loginname_block -->
@@ -104,6 +105,7 @@ function toggle_radio(radio_on, radio_off) {
 <tr>
 	<td colspan="2" class="center">
 		<input type="submit" name="{SUB_ACTION}" value="{SUBMIT_TITLE}" />
+		<span class="{HIDE_SAVE_BACK}"><input type="submit" name="save_back" value="{TEXT_SAVE_BACK}" /></span>
 		<input type="reset" name="reset" value="{TEXT_RESET}" />
 		<input type="button" style="width: 100px; margin-top: 5px;" onclick="javascript:window.location='{CANCEL_URL}';" value="{TEXT_CANCEL}" />
 	</td>

@@ -13,6 +13,10 @@ Legend:
 
 
 
+20 Nov-2012 Build 1823 Dietmar Woellbrink (Luisehahne)
+! update user management, now home folder only will be created
+  if homefolders in settings are enabledPlugin
+  add save & back in user modify
 20 Nov-2012 Build 1822 Dietmar Woellbrink (Luisehahne)
 ! update installer, strict difference between table structure and data 
 # fixed wrong constant for settings table

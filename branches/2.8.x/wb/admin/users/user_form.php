@@ -171,7 +171,7 @@ if(!defined('WB_URL')) {
 		}
 
 		// Include the WB functions file
-		require_once(WB_PATH.'/framework/functions.php');
+        if(!function_exists('directory_list')) { require(WB_PATH.'/framework/functions.php'); }
 
 		// Add media folders to home folder list
 		$oTpl->set_block('main_block', 'folder_list_block', 'folder_list');
@@ -202,6 +202,7 @@ if(!defined('WB_URL')) {
                     'TEXT_GROUP' => $TEXT['GROUP'],
                     'TEXT_NONE' => $TEXT['NONE'],
                     'TEXT_HOME_FOLDER' => $TEXT['HOME_FOLDER'],
+                    'TEXT_SAVE_BACK' => $TEXT['SAVE'].' &amp; '.$TEXT['BACK'],
                     'USERNAME_FIELDNAME' => $username_fieldname,
                     'CHANGING_PASSWORD' => $MESSAGE['USERS_CHANGING_PASSWORD'],
                     'HEADING_MODIFY_USER' => $HEADING['MODIFY_USER']

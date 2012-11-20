@@ -29,6 +29,7 @@ if(!defined('WB_URL')) {
         // Create a javascript back link
 //        $js_back = ADMIN_URL.'/users/index.php';
         unset($aActionRequest['save']);
+
         $aActionRequest['modify']= 'change';
 		$database = WbDatabase::getInstance();
         $bRetVal = 0;
@@ -164,14 +165,17 @@ if(!defined('WB_URL')) {
             	$username_code = '';
             }
 
-            // Include the WB functions file
-            if(!function_exists('media_filename')) { require(WB_PATH.'/framework/functions.php'); }
+            if(defined('HOME_FOLDERS') && HOME_FOLDERS) {
 
-            // Remove bad characters
-            $sHomeFolder = WB_PATH.MEDIA_DIRECTORY.'/home/'.( media_filename($username) );
-            if ( sizeof(createFolderProtectFile( $sHomeFolder )) )
-            {
-//            	msgQueue::add($MESSAGE['MEDIA_DIR_NOT_MADE']);
+                // Include the WB functions file
+                if(!function_exists('media_filename')) { require(WB_PATH.'/framework/functions.php'); }
+
+                // Remove bad characters
+                $sHomeFolder = WB_PATH.MEDIA_DIRECTORY.'/home/'.( media_filename($username) );
+                if ( sizeof(createFolderProtectFile( $sHomeFolder )) )
+                {
+    //            	msgQueue::add($MESSAGE['MEDIA_DIR_NOT_MADE']);
+                }
             }
 
 			$sql  = 'UPDATE `'.TABLE_PREFIX.'users` SET ';

@@ -44,6 +44,7 @@
         // Set parameter 'action' as alternative to javascript mechanism
         $action = (isset($aActionRequest['add'])    ? 'add'    : $action );
         $action = (isset($aActionRequest['save'])   ? 'save'   : $action );
+        $action = (isset($aActionRequest['save_back']) ? 'save'   : $action );
         $action = (isset($aActionRequest['modify']) ? 'modify' : $action );
         $action = (isset($aActionRequest['delete']) ? 'delete' : $action );
         $action = (isset($aActionRequest['delete_outdated']) ? 'delete_outdated' : $action );
@@ -141,6 +142,7 @@
 					$output  = show_userlist($admin, $aActionRequest);
 				}
 		endswitch; // end of switch
+
 		if( ($msg = msgQueue::getSuccess()) != '')
 		{
 			$output = $admin->format_message($msg, 'ok').$output;
@@ -149,8 +151,21 @@
 		{
 			$output = $admin->format_message($msg, 'error').$output;
 		}
+
 		print $output;
+        if( isset($aActionRequest['BackLink']) && isset($aActionRequest['save_back']) ) {
+            $sBackLink = $aActionRequest['BackLink'];
+echo "<script type=\"text/javascript\">
+<!--
+// Get the location object
+var locationObj = document.location;
+// Set the value of the location object
+document.location = '$sBackLink';
+-->
+</script>";
+        }
 		$admin->print_footer();
+
     }
 
 	if(!defined('WB_URL'))
