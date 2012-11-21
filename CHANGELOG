@@ -14,6 +14,8 @@ Legend:
 
 
 20 Nov-2012 Build 1826 Dietmar Woellbrink (Luisehahne)
+# force FCKeditor to work with Firefox 17
+20 Nov-2012 Build 1826 Dietmar Woellbrink (Luisehahne)
 # fixed to big preview images in media
 20 Nov-2012 Build 1825 Dietmar Woellbrink (Luisehahne)
 ! update page settings, add save & back Button, add extended hide/show
