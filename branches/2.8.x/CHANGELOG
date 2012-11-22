@@ -13,6 +13,8 @@ Legend:
 
 
 
+22 Nov-2012 Build 1830 Dietmar Woellbrink (Luisehahne)
+# deactivate caching in backend to fix display faults
 22 Nov-2012 Build 1829 Dietmar Woellbrink (Luisehahne)
 # bugfix check existing tables in upgrade-script
 22 Nov-2012 Build 1828 Dietmar Woellbrink (Luisehahne)
