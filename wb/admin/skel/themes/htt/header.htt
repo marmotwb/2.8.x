@@ -10,6 +10,9 @@
 <meta name="author" content="WebsiteBaker Org e.V." />
 <meta http-equiv="Content-Encoding" content="gzip" />
 <meta http-equiv="Accept-Encoding" content="gzip, deflate" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="pragma" content="no-cache" />
 <link href="{THEME_URL}/css/screen.css" rel="stylesheet" type="text/css" />
 <link href="{THEME_URL}/css/{STYLE}.css" rel="stylesheet" type="text/css" />
 {BACKEND_MODULE_CSS}
