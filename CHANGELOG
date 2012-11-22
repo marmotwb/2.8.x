@@ -13,6 +13,8 @@ Legend:
 
 
 
+22 Nov-2012 Build 1829 Dietmar Woellbrink (Luisehahne)
+# bugfix check existing tables in upgrade-script
 22 Nov-2012 Build 1828 Dietmar Woellbrink (Luisehahne)
 ! Update Checks if a browser's user agent string is compatible with the FCKeditor.
 ! Set WebsiteBaker Module Version to 2.9.8

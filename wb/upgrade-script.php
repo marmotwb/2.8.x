@@ -213,7 +213,7 @@ function check_wb_tables()
     if($get_result->numRows() > 0)
     {
         while ($data = $get_result->fetchRow()) {
-            $tmp = str_replace(TABLE_PREFIX, '', $data[0]);
+            $tmp = preg_replace('/^'.preg_quote(TABLE_PREFIX, '/').'/s', '', $data[0]);
             if(in_array($tmp,$aPackage)) {
                 $all_tables[] = $tmp;
             } else {
