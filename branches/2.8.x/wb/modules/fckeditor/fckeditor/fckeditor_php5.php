@@ -25,6 +25,7 @@
  * instances in PHP pages on server side.
  */
 
+
 /**
  * Check if browser is compatible with FCKeditor.
  * Return true if is compatible.
@@ -33,43 +34,47 @@
  */
 function FCKeditor_IsCompatibleBrowser()
 {
-	if ( isset( $_SERVER ) ) {
-		$sAgent = $_SERVER['HTTP_USER_AGENT'] ;
-	}
-	else {
-		global $HTTP_SERVER_VARS ;
-		if ( isset( $HTTP_SERVER_VARS ) ) {
-			$sAgent = $HTTP_SERVER_VARS['HTTP_USER_AGENT'] ;
-		}
-		else {
-			global $HTTP_USER_AGENT ;
-			$sAgent = $HTTP_USER_AGENT ;
-		}
-	}
+    $sAgent = 'sorry';
+    if ( isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
+        $sAgent = $_SERVER['HTTP_USER_AGENT'] ;
+    } else {
+        if( isset( $GLOBALS['HTTP_SERVER_VARS']['HTTP_USER_AGENT'] )) {
+            $sAgent = $GLOBALS['HTTP_SERVER_VARS']['HTTP_USER_AGENT'] ;
+        } else {
+            if( isset( $GLOBALS['HTTP_USER_AGENT'] )) {
+                $sAgent = $GLOBALS['HTTP_USER_AGENT'];
+            }
+        }
+    }
 
-	if ( strpos($sAgent, 'MSIE') !== false && strpos($sAgent, 'mac') === false && strpos($sAgent, 'Opera') === false )
-	{
-		$iVersion = (float)substr($sAgent, strpos($sAgent, 'MSIE') + 5, 3) ;
-		return ($iVersion >= 5.5) ;
-	}
-	else if ( strpos($sAgent, 'Gecko/') !== false )
-	{
-		$iVersion = (int)substr($sAgent, strpos($sAgent, 'Gecko/') + 6, 8) ;
-		return ($iVersion >= 3.5) ;
-//		return ($iVersion >= 20030210) ;
-	}
-	else if ( strpos($sAgent, 'Opera/') !== false )
-	{
-		$fVersion = (float)substr($sAgent, strpos($sAgent, 'Opera/') + 6, 4) ;
-		return ($fVersion >= 9.5) ;
-	}
-	else if ( preg_match( "|AppleWebKit/(\d+)|i", $sAgent, $matches ) )
-	{
-		$iVersion = $matches[1] ;
-		return ( $matches[1] >= 522 ) ;
-	}
-	else
-		return false ;
+    // check for client agent
+    $bRetval = false;
+    if(preg_match('/ gecko\/([0-9.]+)/si', $sAgent, $aMatches)) {
+        // [Gecko] Firefox, SeaMonkey and most Gecko based browsers
+        if(strpos($aMatches[1], '.')) {
+            // Versions from Gecko 17.0 up
+            $bRetval = version_compare($aMatches[1], '4.0', '>=');
+        } else {
+            // versions before Gecko 17.0
+            if((int)$aMatches[1] >= 20030210) { $bRetval = true; }
+        }
+    } elseif(preg_match('/ applewebkit\/([0-9.]+)/si', $sAgent, $aMatches)) {
+        // [AppleWebKit] Crome, Safari
+        $bRetval = version_compare($aMatches[1], '522', '>=');
+    } elseif(preg_match('/^opera\/([0-9.]+)/si', $sAgent, $aMatches)) {
+        // [Opera] Opera
+        $bRetval = version_compare($aMatches[1], '9.5', '>=');
+    } elseif(preg_match('/^mozilla\/[\d.]+\s\(.*?msie[^\)]*\(.*?\ msie\ ([0-9.]+);/si', $sAgent, $aMatches)) {
+        // [MSIE] Internetexplorer compatibility mode
+        $bRetval = version_compare($aMatches[1], '5.5', '>=');
+    } elseif(preg_match('/^mozilla\/[\d.]+\s\(.*?\ msie\ ([0-9.]+);/si', $sAgent, $aMatches)) {
+        // [MSIE] Internetexplorer
+        $bRetval = version_compare($aMatches[1], '5.5', '>=');
+    } else {
+        // undefined client agent
+        $bRetval = false;
+    }
+    return $bRetval;
 }
 
 class FCKeditor

@@ -13,7 +13,10 @@ Legend:
 
 
 
-20 Nov-2012 Build 1826 Dietmar Woellbrink (Luisehahne)
+22 Nov-2012 Build 1828 Dietmar Woellbrink (Luisehahne)
+! Update Checks if a browser's user agent string is compatible with the FCKeditor.
+! Set WebsiteBaker Module Version to 2.9.8
+20 Nov-2012 Build 1827 Dietmar Woellbrink (Luisehahne)
 # force FCKeditor to work with Firefox 17
 20 Nov-2012 Build 1826 Dietmar Woellbrink (Luisehahne)
 # fixed to big preview images in media
