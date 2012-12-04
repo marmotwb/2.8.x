@@ -3,8 +3,9 @@
  *
  * @category        modules
  * @package         JsAdmin
- * @author          WebsiteBaker Project, modified by Swen Uth for Website Baker 2.7
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @package         JsAdmin
+ * @author          Ryan Djurovich (2004-2009), WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -15,9 +16,13 @@
  *
 */
 
-
-// Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+if(!defined('WB_URL')) {
+	require_once(dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
+}
+/* -------------------------------------------------------- */
 
 // obtain the admin folder (e.g. /admin)
 $admin_folder = str_replace(WB_PATH, '', ADMIN_PATH);
@@ -26,7 +31,7 @@ $JSADMIN_PATH = WB_URL.'/modules/jsadmin';
 $YUI_PATH = WB_URL.'/include/yui';
 $script = $_SERVER['SCRIPT_NAME'];
 
-if(strstr($script, $admin_folder."/pages/index.php"))
+if(strstr($script, $admin_folder."/pages/index.php")) 
 	$page_type = 'pages';
 elseif(strstr($script, $admin_folder."/pages/sections.php"))
 	$page_type = 'sections';
@@ -44,6 +49,7 @@ if($page_type) {
 
 	// Default scripts
 	$js_buttonCell = 5;
+	$js_pagesCell = 7;
 	$js_scripts = Array();
 	$js_scripts[] = 'jsadmin.js';
 
@@ -53,7 +59,7 @@ if($page_type) {
   		}
 		if(get_setting('mod_jsadmin_ajax_order_pages', '1')) {
 			$js_scripts[] = 'dragdrop.js';
-			$js_buttonCell= 7; // This ist the Cell where the Button "Up" is , by Swen Uth
+			$js_buttonCell= $js_pagesCell; // This ist the Cell where the Button "Up" is , by Swen Uth
 		}
 	} elseif($page_type == 'pages') {
 		if(!get_setting('mod_jsadmin_persist_order', '1')) {   //Maybe Bug settings to negativ for persist , by Swen Uth
@@ -61,7 +67,7 @@ if($page_type) {
   		}
 		if(get_setting('mod_jsadmin_ajax_order_pages', '1')) {
 			$js_scripts[] = 'dragdrop.js';
-			$js_buttonCell= 7; // This ist the Cell where the Button "Up" is , by Swen Uth
+			$js_buttonCell= $js_pagesCell; // This ist the Cell where the Button "Up" is , by Swen Uth
 		}
 	} elseif($page_type == 'sections') {
 		if(get_setting('mod_jsadmin_ajax_order_sections', '1')) {
@@ -75,6 +81,7 @@ if($page_type) {
 	} else {
 		$admin->print_error('PageTtype '.$TEXT['ERROR'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 	}
+
 ?>
 <script  type="text/javascript">
 <!--
@@ -110,9 +117,4 @@ var JsAdminTheme = { THEME_URL : '<?php echo THEME_URL ?>' };
 	    echo "<script type='text/javascript'>alert('YUI ERROR!! File not Found!! > \\n".$YUI_PUT_MISSING_Files." so look in the include folder or switch Javascript Admin off!');</script>\n"; //, by Swen Uth
 	}
 
-} else {
-/*
-print '<pre><strong>function '.__FUNCTION__.'();</strong> line: '.__LINE__.' -> ';
-print_r( $page_type.'/'.$buttonCell ); print '</pre>'; // die();
-*/
-}
+} 

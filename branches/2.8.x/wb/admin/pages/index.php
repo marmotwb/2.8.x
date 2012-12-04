@@ -65,12 +65,16 @@ function make_list($parent = 0, $editable_pages = 0) {
     $sql .= (PAGE_TRASH != 'inline') ?  'AND `visibility` != \'deleted\' ' : ' ';
     $sql .= 'ORDER BY `position` ASC';
 	$get_pages = $database->query($sql);
+	// Work out how many pages there are for this parent
+	$num_pages = $get_pages->numRows();
 
 	// Insert values into main page list
 	if($get_pages->numRows() > 0)
 	{
 		while($page = $get_pages->fetchRow())
 		{
+
+			$row   = $row ? 0 : 1;
 			// Get user perms
 			$admin_groups = explode(',', str_replace('_', '', $page['admin_groups']));
 			$admin_users = explode(',', str_replace('_', '', $page['admin_users']));
@@ -129,39 +133,11 @@ function make_list($parent = 0, $editable_pages = 0) {
 			} else {
 				$display_plus = false;
 			}
-			// Work out how many pages there are for this parent
-			$num_pages = $get_pages->numRows();
 
-
-			$row   = $row ? 0 : 1;
-
-/*
-// look and set vars  for first run
-			$iOldLevel = !isset($iOldLevel) ? $page['level'] : $iOldLevel;
-			$iOldLevel = $iOldLevel < $page['level'] ? $iOldLevel : $page['level'];
-// look for new sub
-			if(!isset($aRowLevel[$page['level']]))
-			{
-				$row = !$row ? 0 : $aRowLevel[$iOldLevel];
-				$aRowLevel[$page['level']] = $row ? $row : 0;
-				$iOldLevel = $page['level'];
-// look level before
-			} elseif($iLevel!=$iOldLevel) {
-				$aRowLevel[$page['level']] = $aRowLevel[$iOldLevel] ? $aRowLevel[$iOldLevel] : $row ;
-				$iOldLevel = $page['level'];
-// normal change
-			} else {
-				$aRowLevel[$page['level']] = $aRowLevel[$iLevel] ? $aRowLevel[$iLevel] : $row ;
-				$iLevel = $page['level'];
-			}
-// set and save level
-			$aRowLevel[$page['level']] = $aRowLevel[$page['level']] ? 0 : 1;
-// final set $row
-			$row = $aRowLevel[$page['level']];
-*/
 			 ?>
 			<li class="p<?php echo $page['parent'];  ?>">
-			<table summary="<?php echo $TEXT['EXPAND'].'/'.$TEXT['COLLAPSE'];  ?>" class="pages_view" cellpadding="0" cellspacing="0">
+			<table class="pages_view">
+            <tbody>
 			<tr class="row_<?php echo $row  ?>">
 				<td valign="middle" width="20" style="padding-left: <?php echo $page['level']==0 ? 0 : ($page['level']*25)-pow($page['level'],2);  ?>px;">
 					<?php
@@ -321,7 +297,11 @@ function make_list($parent = 0, $editable_pages = 0) {
 				<?php
 				// end [IC] jeggers 2009/10/14: Add action to add a page as a child
 				 ?>
+				<td class="list_page_id center">
+					<?php echo $page['language'];  ?>
+				</td>
 			</tr>
+            </tbody>
 			</table>
 			<?php
 			if ( $page['parent'] == 0)
@@ -343,16 +323,19 @@ function make_list($parent = 0, $editable_pages = 0) {
 if($admin->get_permission('pages_view') == true) {
 	 ?>
 	<div class="jsadmin hide"></div>
-	<table summary="<?php echo $HEADING['MODIFY_DELETE_PAGE'];  ?>" cellpadding="0" cellspacing="0" width="100%">
+	<table>
+    <tbody>
 	<tr>
 		<td>
 			<h2 class="left"><?php echo $HEADING['MODIFY_DELETE_PAGE'];  ?></h2>
 		</td>
 		<td align="right"></td>
 	</tr>
+    </tbody>
 	</table>
 	<div class="pages_list">
-	<table summary="<?php echo $HEADING['MODIFY_DELETE_PAGE'];  ?>" cellpadding="0" cellspacing="0">
+	<table>
+    <tbody>
 	<tr class="pages_list_header">
 		<td class="header_list_menu_title">
 			<?php echo $TEXT['VISIBILITY'] .' / ' .$TEXT['MENU_TITLE'];  ?>:
@@ -366,7 +349,11 @@ if($admin->get_permission('pages_view') == true) {
 		<td class="header_list_actions">
 			<?php echo $TEXT['ACTIONS'];  ?>:
 		</td>
+		<td class="list_page_id">
+		
+		</td>
 	</tr>
+    </tbody>
 	</table>
 	<?php
 	// Work-out if we should check for existing page_code
