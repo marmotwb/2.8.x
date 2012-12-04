@@ -3,8 +3,8 @@
  *
  * @category        modules
  * @package         JsAdmin
- * @author          WebsiteBaker Project, modified by Swen Uth for Website Baker 2.7
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @author          Ryan Djurovich (2004-2009), WebsiteBaker Project
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -15,12 +15,11 @@
  *
 */
 
-// prevent this file from being accessed directly
 /* -------------------------------------------------------- */
-if(defined('WB_PATH') == false)
-{
-	// Stop this file being access directly
-	die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
+// Must include code to stop this file being accessed directly
+if(!defined('WB_URL')) {
+	require_once(dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
 
@@ -63,7 +62,7 @@ if(isset($_POST['save_settings']))  {
 		$admin->print_error($database->get_error(), $js_back);
 	} else {
 
-		$admin->print_success($MESSAGE['PAGES']['SAVED'], ADMIN_URL.'/admintools/tool.php?tool=jsadmin');
+		$admin->print_success($MESSAGE['PAGES_SAVED'], ADMIN_URL.'/admintools/tool.php?tool=jsadmin');
 	}
 
 } else {
@@ -101,28 +100,30 @@ if(isset($_POST['save_settings']))  {
 <div  id="jsadmin_form"></div>
    <form name="store_settings" style="margin-top: 1em; display: true;" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 	<?php echo $admin->getFTAN(); ?>
-   <table class="jsadmin_drag_area" summary="" cellpadding="4" cellspacing="0" border="0">
+   <table class="jsadmin_drag_area">
+<tbody>
    <tr>
 	     <td colspan="2"><?php echo $MOD_JSADMIN['TXT_HEADING_B']; ?>:</td>
    </tr>
    <tr>
-	     <td width="20"><input type="checkbox" name="persist_order" id="persist_order" value="true" <?php echo $persist_order; ?>/></td>
+	     <td style="width: 20px;"><input type="checkbox" name="persist_order" id="persist_order" value="true" <?php echo $persist_order; ?>/></td>
 	     <td><label for="persist_order"><?php echo $MOD_JSADMIN['TXT_PERSIST_ORDER_B']; ?></label></td>
    </tr>
    <tr>
-	     <td width="20"><input type="checkbox" name="ajax_order_pages" id="ajax_order_pages" value="true" <?php echo $ajax_order_pages; ?>/></td>
+	     <td  style="width: 20px;"><input type="checkbox" name="ajax_order_pages" id="ajax_order_pages" value="true" <?php echo $ajax_order_pages; ?>/></td>
 	     <td><label for="ajax_order_pages"><?php echo $MOD_JSADMIN['TXT_AJAX_ORDER_PAGES_B']; ?></label></td>
    </tr>
    <tr>
-	     <td width="20"><input type="checkbox" name="ajax_order_sections" id="ajax_order_sections" value="true" <?php echo $ajax_order_sections; ?>/></td>
+	     <td style="width: 20px;"><input type="checkbox" name="ajax_order_sections" id="ajax_order_sections" value="true" <?php echo $ajax_order_sections; ?>/></td>
 	     <td><label for="ajax_order_sections"><?php echo $MOD_JSADMIN['TXT_AJAX_ORDER_SECTIONS_B']; ?></label></td>
    </tr>
    <tr>
-	     <td>&nbsp;</td>
+	     <td style="width: 20px;">&nbsp;</td>
 	     <td>
 		   <input type="submit" name="save_settings" value="<?php echo $TEXT['SAVE']; ?>" />
 	    </td>
    </tr>
+</tbody>
    </table>
    </form>
  <?php

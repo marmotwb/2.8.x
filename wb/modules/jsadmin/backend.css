@@ -2,17 +2,25 @@
 .pages_list li {
 	margin-bottom: -2px;
 }
-
-body.jsadmin_busy td.content {
-	background: url(images/busy.gif) 4px 4px no-repeat;
+table.jsadmin_drag_area {
+    table-layout: auto;
+}
+table.jsadmin_drag_area tr {
+    line-height: 2em;
 }
 
-body.jsadmin_success td.content {
-	background: url(images/success.gif) 4px 4px no-repeat;
+body.jsadmin_busy td.content,
+body.jsadmin_busy div.td div.content {
+	background: url(images/busy.gif) 14px 8px no-repeat;
 }
 
-body.jsadmin_failure td.content {
-	background: url(images/failure.gif) 4px 4px no-repeat;
+body.jsadmin_success td.content,
+body.jsadmin_success div.td div.content {
+	background: url(images/success.gif) 14px 8px no-repeat;
+}
+body.jsadmin_failure td.content,
+body.jsadmin_failure div.td div.content {
+	background: url(images/failure.gif) 14px 8px no-repeat;
 }
 
 .jsadmin_drag {
