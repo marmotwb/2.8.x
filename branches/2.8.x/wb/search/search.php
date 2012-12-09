@@ -15,8 +15,13 @@
  *
  */
 
-// Must include code to stop this file being access directly
-if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+if(!defined('WB_PATH')) {
+	require_once(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
+}
+/* -------------------------------------------------------- */
 
 // Check if search is enabled
 if(SHOW_SEARCH != true) {
@@ -132,6 +137,10 @@ if(isset($_REQUEST['search_lang'])) {
 // use "%/en/" (or "%/en/, %/info", ...) to get the old behavior
 $search_path_SQL = '';
 $search_path = '';
+// solve $_REQUEST['search_path' to be string
+if(isset($_REQUEST['search_path']) && is_array($_REQUEST['search_path'])) {
+    $_REQUEST['search_path'] = implode(",", $_REQUEST['search_path']);
+}
 if(isset($_REQUEST['search_path'])) {
 	$search_path = addslashes(htmlspecialchars(strip_tags($wb->strip_slashes($_REQUEST['search_path'])), ENT_QUOTES));
 	if(!preg_match('~^%?[-a-zA-Z0-9_,/ ]+$~', $search_path))
@@ -269,7 +278,7 @@ $search_results_header = str_replace($vars, $values, ($fetch_results_header['val
 $search_results_footer = str_replace($vars, $values, ($fetch_results_footer['value']));
 
 // Do extra vars/values replacement
-$vars = array('[SEARCH_STRING]', '[WB_URL]', '[PAGE_EXTENSION]', '[TEXT_SEARCH]', '[TEXT_ALL_WORDS]', '[TEXT_ANY_WORDS]', '[TEXT_EXACT_MATCH]', '[TEXT_MATCH]', '[TEXT_MATCHING]', '[ALL_CHECKED]', '[ANY_CHECKED]', '[EXACT_CHECKED]', '[REFERRER_ID]', '[SEARCH_PATH]');
+$vars = array('[SEARCH_STRING]', '[WB_URL]', '[PAGE_EXTENSION]', '[TEXT_SEARCH]', '[TEXT_ALL_WORDS]', '[TEXT_ANY_WORDS]', '[TEXT_EXACT_MATCH]', '[TEXT_MATCH]', '[TEXT_MATCHING]', '[ALL_CHECKED]', '[ANY_CHECKED]', '[EXACT_CHECKED]', '[REFERRER]', '[SEARCH_PATH]');
 $values = array($search_display_string, WB_URL, PAGE_EXTENSION, $TEXT['SEARCH'], $TEXT['ALL_WORDS'], $TEXT['ANY_WORDS'], $TEXT['EXACT_MATCH'], $TEXT['MATCH'], $TEXT['MATCHING'], $all_checked, $any_checked, $exact_checked, REFERRER_ID, $search_path);
 $search_header = str_replace($vars, $values, ($fetch_header['value']));
 $vars = array('[TEXT_NO_RESULTS]');
