@@ -24,8 +24,8 @@ throw new IllegalFileException();
 /* -------------------------------------------------------- */
 
 	// Generate username field name
-$username_fieldname = 'username';
-$password_fieldname = 'password';
+$username_fieldname = 'username_';
+$password_fieldname = 'password_';
 $output = '';
 msgQueue::clear();
 
@@ -37,10 +37,13 @@ if(defined('SMART_LOGIN') AND SMART_LOGIN == 'true') {
 		$username_fieldname .= $temp[$i];
 		$password_fieldname .= $temp[$i];
 	}
+} else {
+	$username_fieldname = 'username';
+	$password_fieldname = 'password';
 }
 
 $thisApp->redirect_url = (isset($thisApp->redirect_url) && ($thisApp->redirect_url!='')  ? $thisApp->redirect_url : $_SESSION['HTTP_REFERER'] );
-
+//$thisApp->redirect_url = '';
 $sIncludeHeadLinkCss = '';
 if( is_readable(WB_PATH .'/account/frontend.css')) {
 	$sIncludeHeadLinkCss .= '<link href="'.WB_URL.'/account/frontend.css"';
@@ -65,7 +68,7 @@ if( is_readable(WB_PATH .'/account/frontend.css')) {
 		'WB_URL' => WB_URL,
 		'THEME_URL' => THEME_URL,
 		'TEMPLATE_URL' => TEMPLATE_DIR,
-		'HTTP_REFERER' => $_SESSION['HTTP_REFERER'],
+		'HTTP_REFERER' => $thisApp->redirect_url,
         'CSS_BLOCK'	=> $sIncludeHeadLinkCss,
 		'MESSAGE_VALUE' => '',
 		'ERROR_VALUE' => '',

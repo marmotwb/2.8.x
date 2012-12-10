@@ -16,8 +16,10 @@
 */
 
 // Include the configuration file
-if(!defined('WB_URL') && file_exists(realpath('../../../config.php'))) {
-	require('../../../config.php');
+$config_file = realpath('../../../config.php');
+if(file_exists($config_file) && !defined('WB_URL'))
+{
+	require_once($config_file);
 }
 // Include the language file
 require(WB_PATH.'/languages/'.DEFAULT_LANGUAGE.'.php');
@@ -34,7 +36,8 @@ $results = $results->fetchRow(MYSQL_ASSOC);
 $website_title = $results['value'];
 
 // Check if the user has already submitted the form, otherwise show it
-if(isset($_POST['email']) AND $_POST['email'] != "") {
+
+if(isset($_POST['email']) && is_string($_POST['email']) && $_POST['email'] != "") {
 
 	$email = htmlspecialchars($_POST['email'],ENT_QUOTES);
 
@@ -159,6 +162,7 @@ $template->set_var(array(
 				'LOGIN_DISPLAY_HIDDEN' => !$admin->is_authenticated() ? 'hidden' : '',
 				'LOGIN_DISPLAY_NONE' => !$admin->is_authenticated() ? 'none' : '',
 				'URL_HELP' => 'http://www.websitebaker.org/',
+				'URL' => ADMIN_URL."/start/index.php",
 				'TEXT_NEED_TO_LOGIN' => $TEXT['NEED_TO_LOGIN']
 				)
 		);

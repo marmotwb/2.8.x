@@ -46,9 +46,17 @@ class login extends admin {
 			$username_fieldname = 'username';
 			$password_fieldname = 'password';
 		}
-		$this->username = htmlspecialchars (strtolower($this->get_post($username_fieldname)), ENT_QUOTES);
 
+        if( is_array($this->get_post($username_fieldname) ) ) {
+            $_POST[$username_fieldname]=implode(',',$this->get_post($username_fieldname));            
+        }
+		$this->username = htmlspecialchars (strtolower( $this->get_post($username_fieldname) ), ENT_QUOTES);
+
+        if( is_array($this->get_post($password_fieldname) ) ) {
+            $_POST[$password_fieldname]=implode(',',$this->get_post($password_fieldname));            
+        }
 		$this->password = $this->get_post($password_fieldname);
+
 		// Figure out if the "remember me" option has been checked
 		if($this->get_post('remember') == 'true') {
 			$this->remember = $this->get_post('remember');
@@ -60,18 +68,27 @@ class login extends admin {
 			$this->username_len = strlen($this->username);
 			$this->password_len = strlen($this->password);
 		}
+
+        $sServerUrl = $_SERVER['SERVER_NAME'];        
+        $sServerScheme = $_SERVER['REQUEST_SCHEME'];        
+        $sServerPath = $_SERVER['SCRIPT_NAME'];        
 		// If the url is blank, set it to the default url
 		$this->url = $this->get_post('url');
+        $aUrl = parse_url( $this->url );
+        $this->url = isset($aRedirecthUrl['host']) &&($sServerUrl==$aUrl['host']) ? $this->url:ADMIN_URL.'/start/index.php';        
 		if ($this->redirect_url!='') {
+            $aRedirecthUrl = parse_url( $this->redirect_url );
+            $this->redirect_url = isset($aRedirecthUrl['host']) &&($sServerUrl==$aRedirecthUrl['host']) ? $this->redirect_url:$sServerScheme.'://'.$sServerUrl;        
 			$this->url = $this->redirect_url;
 		}
 		if(strlen($this->url) < 2) {
-			$this->url = $config_array['DEFAULT_URL'];
+            $aDefaultUrl = parse_url( $this->default_url );
+            $this->default_url = isset($aDefaultUrl['host']) &&($sServerUrl==$aDefaultUrl['host']) ? $this->default_url:$sServerScheme.'://'.$sServerUrl;        
+			$this->url = $this->default_url;
 		}
+
 		if($this->is_authenticated() == true) {
 			// User already logged-in, so redirect to default url
-//				header("Location: ".$this->url);
-//				exit(0);
 				$this->send_header($this->url);
 		} elseif($this->is_remembered() == true) {
 			// User has been "remembered"
@@ -86,8 +103,6 @@ class login extends admin {
 			// Check if the user exists (authenticate them)
 			if($this->authenticate()) {
 				// Authentication successful
-//				header("Location: ".$this->url);
-//				exit(0);
 				$this->send_header($this->url);
 			} else {
 				$this->message = $MESSAGE['LOGIN_AUTHENTICATION_FAILED'];
@@ -119,9 +134,6 @@ class login extends admin {
 			$this->password = md5($this->password);
 			if($this->authenticate()) {
 				// Authentication successful
-// 				echo $this->url;exit();
-// 				header("Location: ".$this->url);
-// 				exit(0);
 				$this->send_header($this->url);
 			} else {
 				$this->message = $MESSAGE['LOGIN_AUTHENTICATION_FAILED'];
@@ -298,6 +310,7 @@ class login extends admin {
 			}
 			$template->set_var(array(
 				'ACTION_URL' => $this->login_url,
+				'URL' => $this->default_url,
 				'ATTEMPS' => $this->get_session('ATTEMPS'),
 				'USERNAME' => $this->username,
 				'USERNAME_FIELDNAME' => $this->username_fieldname,

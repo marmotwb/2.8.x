@@ -11,6 +11,7 @@
 	<input type="hidden" name="action" value="login" />
 	<input type="hidden" name="username_fieldname" value="{USER_FIELDNAME}" />
 	<input type="hidden" name="password_fieldname" value="{PASSWORD_FIELDNAME}" />
+	<input class="none" type="hidden" name="remember" id="remember" value="true" />
 	<input type="hidden" name="redirect" value="{REDIRECT_URL}" />
 <h3>{TEXT_LOGIN}</h3>
 <table>
@@ -43,10 +44,7 @@
 <!-- BEGIN show_smart_login_block -->
 <tr>
 	<td>&nbsp;</td>
-	<td class="input">
-		<input type="checkbox" name="remember" id="remember" value="true"/>
-		<label for="remember">{TEXT_REMEMBER_ME}</label>
-	</td>
+	<td>&nbsp;</td>
 </tr>
 <!-- END show_smart_login_block -->
 <tr>
@@ -56,7 +54,7 @@
 	<td colspan="2" class="button">
 	<button type="submit" name="submit" value="submit">{TEXT_LOGIN}</button>
 	<button type="reset" name="reset" value="reset">{TEXT_RESET}</button>
-    <button type="button" value="cancel" onclick="javascript:window.location='{WB_URL}/';" >{TEXT_CANCEL}</button>
+    <button type="button" value="cancel" onclick="javascript:window.location='{REDIRECT_URL}/';" >{TEXT_CANCEL}</button>
 	</td>
 </tr>
 <tr>

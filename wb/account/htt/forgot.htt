@@ -37,7 +37,7 @@
 	<td colspan="2" class="button">
 		<button type="submit" name="submit" value="email">{TEXT_SEND_DETAILS}</button>
 		<button type="reset" name="reset" value="reset">{TEXT_RESET}</button>
-        <button type="button" value="cancel" onclick="javascript:window.location='{WB_URL}/';" >{TEXT_CANCEL}</button>
+        <button type="button" value="cancel" onclick="javascript:window.location='{URL}/';" >{TEXT_CANCEL}</button>
 	</td>
 </tr>
 <tr>

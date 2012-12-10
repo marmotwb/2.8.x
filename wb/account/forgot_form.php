@@ -17,10 +17,9 @@
 
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
-if(defined('WB_PATH') == false)
-{
-	// Stop this file being access directly
-		die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
+if(!defined('WB_PATH')) {
+	require_once(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
 // Check if the user has already submitted the form, otherwise show it
@@ -30,78 +29,85 @@ $errMsg ='';
 $redirect_url = (isset($redirect_url) && ($redirect_url!='')  ? $redirect_url : $_SESSION['HTTP_REFERER'] );
 $redirect = (isset($redirect_url) && ($redirect_url!='')  ? '?redirect='.$redirect_url : '' );
 
-//print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
-//print_r( $redirect_url ); print '</pre>';
-
-if(isset($_POST['email']) && $_POST['email'] != "" )
+if(isset($_POST['email']) && is_string($_POST['email']) )
 {
-	$email = strip_tags($_POST['email']);
-	if($admin->validate_email($email) == false)
+
+    if($_POST['email'] != "" )
     {
-		$errMsg = $MESSAGE['USERS_INVALID_EMAIL'];
-		$email = '';
-	} else {
-// Check if the email exists in the database
-	$sql  = 'SELECT `user_id`,`username`,`display_name`,`email`,`last_reset`,`password` '.
-	        'FROM `'.TABLE_PREFIX.'users` '.
-	        'WHERE `email`=\''.$wb->add_slashes($_POST['email']).'\'';
-	if(($results = $database->query($sql)))
-	{
-		if(($results_array = $results->fetchRow()))
-		{ // Get the id, username, email, and last_reset from the above db query
-		// Check if the password has been reset in the last 2 hours
-			if( (time() - (int)$results_array['last_reset']) < (2 * 3600) ) {
-			// Tell the user that their password cannot be reset more than once per hour
-				$errMsg = $MESSAGE['FORGOT_PASS_ALREADY_RESET'];
-			} else {
-				require_once(WB_PATH.'/framework/PasswordHash.php');
-				$pwh = new PasswordHash(0, true);
-				$old_pass = $results_array['password'];
-			// Generate a random password then update the database with it
-				$new_pass = $pwh->NewPassword();
-				$sql = 'UPDATE `'.TABLE_PREFIX.'users` '.
-				       'SET `password`=\''.$pwh->HashPassword($new_pass, true).'\', '.
-				           '`last_reset`='.time().' '.
-				       'WHERE `user_id`='.(int)$results_array['user_id'];
-				unset($pwh); // destroy $pwh-Object
-				if($database->query($sql))
-				{ // Setup email to send
-					$mail_to = $email;
-					$mail_subject = $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'];
-				// Replace placeholders from language variable with values
-					$search = array('{LOGIN_DISPLAY_NAME}', '{LOGIN_WEBSITE_TITLE}', '{LOGIN_NAME}', '{LOGIN_PASSWORD}');
-					$replace = array($results_array['display_name'], WEBSITE_TITLE, $results_array['username'], $new_pass);
-					$mail_message = str_replace($search, $replace, $MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT']);
-				// Try sending the email
-					if($wb->mail(SERVER_EMAIL,$mail_to,$mail_subject,$mail_message)) {
-						$message = $MESSAGE['FORGOT_PASS_PASSWORD_RESET'];
-						$display_form = false;
-					}else { // snd mail failed, rollback
-						$sql = 'UPDATE `'.TABLE_PREFIX.'users` '.
-						       'SET `password`=\''.$old_pass.'\' '.
-						       'WHERE `user_id`='.(int)$results_array['user_id'];
-						$database->query($sql);
-						$errMsg = $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'];
-					}
-				}else { // Error updating database
-					$errMsg = $MESSAGE['RECORD_MODIFIED_FAILED'];
-					if(DEBUG) {
-						$message .= '<br />'.$database->get_error();
-						$message .= '<br />'.$sql;
-					}
-				}
-			}
-		}else { // no record found - Email doesn't exist, so tell the user
-			$errMsg = $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'];
-		}
-	} else { // Query failed
-		$errMsg = 'SystemError:: Database query failed!';
-		if(DEBUG) {
-			$errMsg .= '<br />'.$database->get_error();
-			$errMsg .= '<br />'.$sql;
-		}
-	}
-	}
+    
+    	$email = strip_tags($_POST['email']);
+    	if($wb->validate_email($email) == false)
+        {
+    		$errMsg = $MESSAGE['USERS_INVALID_EMAIL'];
+    		$email = '';
+    	} else {
+        // Check if the email exists in the database
+        	$sql  = 'SELECT `user_id`,`username`,`display_name`,`email`,`last_reset`,`password` '.
+        	        'FROM `'.TABLE_PREFIX.'users` '.
+        	        'WHERE `email`=\''.$wb->add_slashes($email).'\'';
+
+        	if(($results = $database->query($sql)))
+        	{
+        		if(($results_array = $results->fetchRow(MYSQL_ASSOC)))
+        		{ // Get the id, username, email, and last_reset from the above db query
+        		// Check if the password has been reset in the last 2 hours
+        			if( (time() - (int)$results_array['last_reset']) < (2 * 3600) ) {
+        			// Tell the user that their password cannot be reset more than once per hour
+        				$errMsg = $MESSAGE['FORGOT_PASS_ALREADY_RESET'];
+        			} else {
+        				require_once(WB_PATH.'/framework/PasswordHash.php');
+        				$pwh = new PasswordHash(0, true);
+        				$old_pass = $results_array['password'];
+        			// Generate a random password then update the database with it
+        				$new_pass = $pwh->NewPassword();
+        				$sql = 'UPDATE `'.TABLE_PREFIX.'users` '.
+        				       'SET `password`=\''.$pwh->HashPassword($new_pass, true).'\', '.
+        				           '`last_reset`='.time().' '.
+        				       'WHERE `user_id`='.(int)$results_array['user_id'];
+        				unset($pwh); // destroy $pwh-Object
+        				if($database->query($sql))
+        				{ // Setup email to send
+        					$mail_to = $email;
+        					$mail_subject = $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'];
+        				// Replace placeholders from language variable with values
+        					$search = array('{LOGIN_DISPLAY_NAME}', '{LOGIN_WEBSITE_TITLE}', '{LOGIN_NAME}', '{LOGIN_PASSWORD}');
+        					$replace = array($results_array['display_name'], WEBSITE_TITLE, $results_array['username'], $new_pass);
+        					$mail_message = str_replace($search, $replace, $MESSAGE['SIGNUP2_BODY_LOGIN_FORGOT']);
+        				// Try sending the email
+        					if($wb->mail(SERVER_EMAIL,$mail_to,$mail_subject,$mail_message)) {
+        						$message = $MESSAGE['FORGOT_PASS_PASSWORD_RESET'];
+        						$display_form = false;
+        					}else { // snd mail failed, rollback
+        						$sql = 'UPDATE `'.TABLE_PREFIX.'users` '.
+        						       'SET `password`=\''.$old_pass.'\' '.
+        						       'WHERE `user_id`='.(int)$results_array['user_id'];
+        						$database->query($sql);
+        						$errMsg = $MESSAGE['FORGOT_PASS_CANNOT_EMAIL'];
+        					}
+        				}else { // Error updating database
+        					$errMsg = $MESSAGE['RECORD_MODIFIED_FAILED'];
+        					if(DEBUG) {
+        						$message .= '<br />'.$database->get_error();
+        						$message .= '<br />'.$sql;
+        					}
+        				}
+        			}
+        		}else { // no record found - Email doesn't exist, so tell the user
+        			$errMsg = $MESSAGE['FORGOT_PASS_EMAIL_NOT_FOUND'];
+        		}
+        	} else { // Query failed
+        		$errMsg = 'SystemError:: Database query failed!';
+//            	$errMsg = $MESSAGE['USERS_INVALID_EMAIL'];
+        		if(DEBUG) {
+        			$errMsg .= '<br />'.$database->get_error();
+        			$errMsg .= '<br />'.$sql;
+        		}
+        	}
+    	}
+    }  else {
+    	$email = '';
+    }
+    
 } else {
 	$email = '';
 }
