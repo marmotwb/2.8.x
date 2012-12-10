@@ -69,20 +69,22 @@ class login extends admin {
 			$this->password_len = strlen($this->password);
 		}
 
+		$aServerUrl = $this->mb_parse_url(WB_URL);
+
         $sServerUrl = $_SERVER['SERVER_NAME'];        
-        $sServerScheme = $_SERVER['REQUEST_SCHEME'];        
+        $sServerScheme = isset($_SERVER['REQUEST_SCHEME']) ? $_SERVER['REQUEST_SCHEME'] : isset($aServerUrl['scheme']) ? $aServerUrl['scheme'] : ' http';        
         $sServerPath = $_SERVER['SCRIPT_NAME'];        
 		// If the url is blank, set it to the default url
 		$this->url = $this->get_post('url');
-        $aUrl = parse_url( $this->url );
+        $aUrl = $this->mb_parse_url( $this->url );
         $this->url = isset($aRedirecthUrl['host']) &&($sServerUrl==$aUrl['host']) ? $this->url:ADMIN_URL.'/start/index.php';        
 		if ($this->redirect_url!='') {
-            $aRedirecthUrl = parse_url( $this->redirect_url );
+            $aRedirecthUrl = $this->mb_parse_url( $this->redirect_url );
             $this->redirect_url = isset($aRedirecthUrl['host']) &&($sServerUrl==$aRedirecthUrl['host']) ? $this->redirect_url:$sServerScheme.'://'.$sServerUrl;        
 			$this->url = $this->redirect_url;
 		}
 		if(strlen($this->url) < 2) {
-            $aDefaultUrl = parse_url( $this->default_url );
+            $aDefaultUrl = $this->mb_parse_url( $this->default_url );
             $this->default_url = isset($aDefaultUrl['host']) &&($sServerUrl==$aDefaultUrl['host']) ? $this->default_url:$sServerScheme.'://'.$sServerUrl;        
 			$this->url = $this->default_url;
 		}

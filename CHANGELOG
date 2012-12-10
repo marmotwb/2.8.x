@@ -13,6 +13,8 @@ Legend:
 
 
 
+10 Dez-2012 Build 1834 Dietmar Woellbrink (Luisehahne)
+# fixed redirect checking in class.login.php
 10 Dez-2012 Build 1833 Dietmar Woellbrink (Luisehahne)
 # security fix CRLF injection/HTTP response splitting
 09 Dez-2012 Build 1832 Dietmar Woellbrink (Luisehahne)
