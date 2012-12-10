@@ -79,6 +79,21 @@ class wb extends SecureForm
   	}
 
 
+    /**
+     * Created parse_url utf-8 compatible function
+     * 
+     * @param string $url The string to decode
+     * @return array Associative array containing the different components
+     * 
+     */
+    public function mb_parse_url($url) {
+        $encodedUrl = preg_replace('%[^:/?#&=\.]+%usDe', 'urlencode(\'$0\')', $url);
+        $components = parse_url($encodedUrl);
+        foreach ($components as &$component)
+            $component = urldecode($component);
+        return $components;
+    }
+
 /* ****************
  * check if one or more group_ids are in both group_lists
  *
