@@ -63,15 +63,15 @@ if(isset($_GET['page_id']) AND is_numeric($_GET['page_id']) AND is_numeric(@$_GE
     		$table = TABLE_PREFIX.'pages';
     	}
     }
+	$bModified = ($id_field == 'page_id') ? $bModified : false;
 
     $iPageId = intval($_GET['page_id']);
 	// Get current index
-    $sql = 'SELECT `'.$common_field.'`,`position`,`page_id` FROM `'.$table.'` WHERE `'.$id_field.'` ='.(int)$id; //.' AND page_id='.$iPageId;
+    $sql = 'SELECT `'.$common_field.'`,`position` FROM `'.$table.'` WHERE `'.$id_field.'` ='.(int)$id; //.' AND page_id='.$iPageId;
     if($oRes=$database->query($sql)) {
         if($aPage = $oRes->fetchRow(MYSQL_ASSOC)){
     		$common_id = intval($aPage[$common_field]);
     		$old_position = intval($aPage['position']);
-    		$iPageId = intval($aPage['page_id']);
         }
     }
 
@@ -90,9 +90,11 @@ EOT;
 	if($old_position == $position)
 		return;
 */
+
 // all echos with <pre> coded for looking in firebug console
 $sSqlModify =  ($bModified == true) ? ',`modified_when` = '.time().',`modified_by` = '.$admin->get_user_id().' ' : '';
 if($old_position != $position) {
+}
 	echo $output = ($bDebug == false) ? "\n" : "<pre>$sql</pre>\n";
 	// Build query to update affected rows
 	if($old_position < $position)
@@ -116,7 +118,12 @@ UPDATE `$table` SET `position` = $position$sSqlModify
 EOT;
 	echo $output = ($bDebug == false) ? "\n" : "<pre>$sql</pre>\n";
 	$database->query($sql);
-}
+    if(!class_exists('order', false)){ include(WB_PATH.'/framework/class.order.php'); }
+    $order = new order($table, 'position', $id_field, $common_field);
+    $order->clean($common_id);    
+	echo $output = ($bDebug == false) ? "\n" : "<pre>$table,'position','$id_field','$common_field'</pre>\n";
+	echo $output = ($bDebug == false) ? "\n" : "<pre>$common_id</pre>\n";
+
 } else {
 	die("Missing parameters");
 	header("Location: index.php");

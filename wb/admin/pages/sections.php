@@ -32,7 +32,7 @@ if(MANAGE_SECTIONS != 'enabled')
 	exit(0);
 }
 /* */
-$debug = false; // to show position and section_id
+$debug = true; // to show position
 If(!defined('DEBUG')) { define('DEBUG',$debug);}
 // Create new admin object
 if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
@@ -251,6 +251,7 @@ switch ($action):
 						'HEADING_MODIFY_PAGE' => $HEADING['MODIFY_PAGE'],
 						'TEXT_CHANGE_SETTINGS' => $TEXT['CHANGE_SETTINGS'],
 						'TEXT_ADD_SECTION' => $TEXT['ADD_SECTION'],
+						'TEXT_SECTION' => $TEXT['SECTION'],
 						'TEXT_ID' => 'ID',
 						'TEXT_TYPE' => $TEXT['TYPE'],
 						'TEXT_BLOCK' => $TEXT['BLOCK'],
