@@ -17,7 +17,7 @@ img { border :none; }
 .input_large { width :300px; }
 .input_full { width :100%; }
 /*  */
-table { border-collapse :collapse; width :100%; table-layout :fixed; }
+table { border-collapse :collapse; width :100%; table-layout :inherit; }
 table.layout { table-layout :auto; }
 table.header { margin :auto; width :100%; }
 table.header td { min-width :10%; }

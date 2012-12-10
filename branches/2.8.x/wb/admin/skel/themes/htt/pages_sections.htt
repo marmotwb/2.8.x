@@ -41,8 +41,8 @@
 		<td class="header_list_pubdate_start">{TEXT_PUBL_START_DATE}</td>
 		<td class="header_list_pubdate_end">{TEXT_PUBL_END_DATE}</td>
 		<td class="header_list_actions" colspan="3">{TEXT_ACTIONS}</td>
-		<td class="header_list_section_id">ID</td>
-		<td {DISPLAY_DEBUG}>{TEXT_PID}</td>
+		<td title="{TEXT_SECTION}" class="header_list_section_id">ID</td>
+		<td title="Position" class="header_list_section_id" {DISPLAY_DEBUG}>{TEXT_PID}</td>
 	</tr>
 </thead>
 <tbody>
@@ -87,7 +87,7 @@
 
         <td class="list_section_id">{VAR_SECTION_ID}</td>
 
-        <td {DISPLAY_DEBUG}>{POSITION}</td>
+        <td class="list_section_id" {DISPLAY_DEBUG}>{POSITION}</td>
     </tr>
 <!-- END section_block -->
     <tr>
