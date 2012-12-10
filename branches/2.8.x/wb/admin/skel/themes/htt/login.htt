@@ -40,10 +40,7 @@
 <!-- BEGIN show_smart_login_block -->
 <tr>
 	<td>&nbsp;</td>
-	<td colspan="2">
-		<input type="checkbox" name="remember" id="remember" value="true"/>
-		<label for="remember">{TEXT_REMEMBER_ME}</label>
-	</td>
+	<td>&nbsp;</td>
 </tr>
 <!-- END show_smart_login_block -->
 <tr class="submit">
@@ -54,7 +51,7 @@
 	<p><input type="reset" name="reset" value="{TEXT_RESET}" /></p>
 	</td>
 	<td>
-	<p><button type="button" value="cancel" onclick="javascript:window.location='{WB_URL}/';" >{TEXT_CANCEL}</button></p>
+	<p><button type="button" value="cancel" onclick="javascript:window.location='{REDIRECT_URL}/';" >{TEXT_CANCEL}</button></p>
 	</td>
 </tr>
 <tr class="row6">
