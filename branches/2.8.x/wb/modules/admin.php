@@ -35,7 +35,7 @@ if(!defined('WB_PATH')) {
     $page_id = isset($aActionRequest['page_id']) ? intval($aActionRequest['page_id']) :  (isset($page_id) ? intval($page_id) : 0);
     $section_id = isset($aActionRequest['section_id']) ? intval($aActionRequest['section_id']) : (isset($section_id) ? intval($section_id) : 0);
 
-	if(	($page_id == 0) ||( $section_id == 0)  ) {
+	if(	($page_id == 0) ) {
 		$admin->send_header("Location: index.php");
 		exit(0);
 	}
