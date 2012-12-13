@@ -18,361 +18,291 @@
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Pages', 'pages');
-
 $admin->clearIDKEY();
-
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 // eggsurplus: add child pages for a specific page
 /**/
 
- ?>
-<script type="text/javascript" src="<?php print ADMIN_URL;  ?>/pages/eggsurplus.js"></script>
-<?php
+echo '<script type="text/javascript" src="'.ADMIN_URL.'/pages/eggsurplus.js"></script>'.PHP_EOL;
 // fixes A URI contains impermissible characters or quotes around the URI are not closed.
 $MESSAGE['PAGES_DELETE_CONFIRM'] = url_encode(  $MESSAGE['PAGES_DELETE_CONFIRM'] );
 
 function set_node ($parent,& $par)
 {
     $retval = '';
-
-	if($par['num_subs'] )
-	{
-    $retval .= "\n".'<ul id="p'.$parent.'"';
-	if ($parent != 0)
-	{
-		$retval .= ' class="page_list"';
-		if (isset ($_COOKIE['p'.$parent]) && $_COOKIE['p'.$parent] == '1')
-		{
-			 $retval .= ' style="display:block"';
+	if ($par['num_subs']) {
+		$retval .= "\n".'<ul id="p'.$parent.'"';
+		if ($parent != 0) {
+			$retval .= ' class="page_list"';
+			if (isset ($_COOKIE['p'.$parent]) && $_COOKIE['p'.$parent] == '1') {
+				 $retval .= ' style="display:block"';
+			}
 		}
-	}
-	$retval .= ">\n";
+		$retval .= ">\n";
  	}
-
 	return $retval;
 }
 
 function make_list($parent = 0, $editable_pages = 0) {
 	// Get objects and vars from outside this function
-	global $admin, $template, $database, $TEXT, $MESSAGE, $HEADING, $par;
-	static $row,$iLevel,$iOldLevel;
-	static $aRowLevel = array();
-    print set_node ($parent,$par);
-
+	global $admin, $template, $TEXT, $MESSAGE, $HEADING, $par;
+	$database = WbDatabase::getInstance();
+	static $row = 0;
+//	static $iLevel = 0;
+//	static $iOldLevel = 0;
+//	static $aRowLevel = array();
+	
+    print set_node ($parent, $par);
 	// Get page list from database
-    $sql = 'SELECT * FROM `'.TABLE_PREFIX.'pages` WHERE `parent` = '.$parent.' ';
-    $sql .= (PAGE_TRASH != 'inline') ?  'AND `visibility` != \'deleted\' ' : ' ';
-    $sql .= 'ORDER BY `position` ASC';
-	$get_pages = $database->query($sql);
-	// Work out how many pages there are for this parent
-	$num_pages = $get_pages->numRows();
+ $sql = 'SELECT `module`, MAX(s.`publ_start` + s.`publ_end`) published, p.* '
+      . 'FROM `'.TABLE_PREFIX.'pages` p '
+      .     'INNER JOIN `'.TABLE_PREFIX.'sections` s ON p.`page_id` = s.`page_id` '
+      . 'WHERE `parent`='.$parent.((PAGE_TRASH != 'inline') ?  ' AND `visibility`!=\'deleted\' ' : ' ')
+      . 'GROUP BY p.`page_id` '
+      . 'ORDER BY p.`position` ASC';
 
-	// Insert values into main page list
-	if($get_pages->numRows() > 0)
-	{
-		while($page = $get_pages->fetchRow())
-		{
+    if($get_pages = $database->query($sql)) {
+    	// Work out how many pages there are for this parent
+    	$num_pages = $get_pages->numRows();
+    	// Insert values into main page list
+    	if($num_pages > 0)
+    	{
+    		while($page = $get_pages->fetchRow(MYSQL_ASSOC))
+    		{
+//echo implode('-',$page);
+    			$sLineOut = '';
+    			$row = $row++ % 2; // toggle row colors between 0<->1
+    			// Get user permissions
+    			$can_modify = false;
+    			if( $admin->ami_group_member($page['admin_users']) ||
+    			    $admin->is_group_match($admin->get_groups_id(), $page['admin_groups']))
+    			{
+    				if(($page['visibility'] == 'deleted' && PAGE_TRASH == 'inline') ||
+    				   ($page['visibility'] != 'deleted'))
+    				{
+    					$can_modify = true;
+    					$editable_pages++;
+    				}
+    			} else {
+    				if($page['visibility'] == 'private') { continue; }
+    			}
+    			// check if the page has children
+//                $sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'pages` ';
+//    			$sql .= 'WHERE `parent`='.$page['page_id'];
+//                $sql .= (PAGE_TRASH != 'inline') ? ' AND `visibility`!=\'deleted\'' : '';
+                $sql = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'pages` '
+    			     . 'WHERE `parent`='.$page['page_id'].((PAGE_TRASH != 'inline') ? ' AND `visibility`!=\'deleted\'' : '');
+    			$par['num_subs'] = intval($database->get_one($sql));
+    			$display_plus = (bool)$par['num_subs'];
+    			$sLineOut .= '<li class="p'.$page['parent'].'">';
+    // ---------------------------------------------------------------------------------------
+    			$sLineOut .= '<table class="pages_view">';
+    			$sLineOut .= "\t".'<tbody>';
+    			$sLineOut .= "\t\t".'<tr class="row_'.$row.'">';
+    // --- Tab 1 ---
+    			$sLineOut .= "\t\t\t".'<td valign="middle" width="20" style="padding-left: '.
+    				 (($page['level'] == 0) ? 0 : ($page['level']*25)-pow($page['level'],2)).'px;">';
+    			if($display_plus == true) {
+    				$sLineOut .= '<a href="javascript:toggle_visibility(\'p'.$page['page_id'].'\');" '.
+    					 'title="'.$TEXT['EXPAND'].'/'.$TEXT['COLLAPSE'].'">';
+    				$sLineOut .= '<span>';
+    				$sLineOut .= '<img src="'.THEME_URL.'/images/'.
+    					 ( ((isset($_COOKIE['p'.$page['page_id']]) && $_COOKIE['p'.$page['page_id']] == '1') ? 'minus' : 'plus').
+    					 '_16.png" onclick="toggle_plus_minus(\''.$page['page_id'].'\');" '.
+    					 'name="plus_minus_'.$page['page_id'] ).'" alt="+" />';
+    				$sLineOut .= '</span>';
+    				$sLineOut .= '</a>';
+    			}
+    			$sLineOut .= '</td>'.PHP_EOL;
+    // --- Tab 2 ---
+    			$sLineOut .= "\t\t\t".'<td class="list_menu_title">';
+                $sClassMenutitle = '';
+    			if($admin->get_permission('pages_modify') && $can_modify) {
+    				$sLineOut .= '<a href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page['page_id'].'" title="'.$TEXT['MODIFY'].'">';
+                    $sClassMenutitle = 'bold grey';
+    			}
+    			$sLineOut .= '<span>';
+    			switch($page['visibility']):
+    				case 'private':
+    					$sIcon = 'private_16.png';
+    					$sText = $TEXT['PRIVATE'];
+    					break;
+    				case 'registered':
+    					$sIcon = 'keys_16.png';
+    					$sText = $TEXT['REGISTERED'];
+    					break;
+    				case 'hidden':
+    					$sIcon = 'hidden_16.png';
+    					$sText = $TEXT['HIDDEN'];
+    					break;
+    				case 'none':
+    					$sIcon = 'none_16.png';
+    					$sText = $TEXT['NONE'];
+    					break;
+    				case 'deleted':
+    					$sIcon = 'deleted_16.png';
+    					$sText = $TEXT['DELETED'];
+    					break;
+    				default: // public
+    					$sIcon = 'visible_16.png';
+    					$sText = $TEXT['PUBLIC'];
+    					break;
+                     endswitch;
+                     $sLineOut .= '<img src="'.THEME_URL.'/images/'.$sIcon.'" ';
+                     $sLineOut .= 'alt="'.$TEXT['VISIBILITY'].': '.$sText.'" class="page_list_rights" />';
+                     if($admin->get_permission('pages_modify') && $can_modify) {
+                      $sLineOut .= '<span class="modify_link">'.$page['menu_title'].'</span></a>';
+                     }else {
+                      $sLineOut .=  '<span class="bold grey">'.$page['menu_title'].'</span>';
+                     }
+                     $sLineOut .= '</td>'.PHP_EOL;
+    // --- Tab 3 ---
+    			$sLineOut .= "\t\t\t".'<td class="list_page_title">'.$page['page_title'].'</td>'.PHP_EOL;
+    // --- Tab 4 ---
+    			$sLineOut .= "\t\t\t".'<td class="list_page_id right">'.$page['page_id'].'</td>'.PHP_EOL;
+    // --- Tab 5 ---
+    			$sLineOut .= "\t\t\t".'<td class="list_actions">';
+    			if($page['visibility'] != 'deleted' && $page['visibility'] != 'none') {
+    				$sLineOut .= '<a href="'.$admin->page_link($page['link']).'" target="_blank" '.
+    					 'title="'.$TEXT['VIEW'].'">';
+    				$sLineOut .= '<img src="'.THEME_URL.'/images/view_16.png" alt="'.$TEXT['VIEW'].'" />';
+    				$sLineOut .= '</a>';
+    			}
+    			$sLineOut .= '</td>'.PHP_EOL;
+    // --- Tab 6 ---		
+    			$sLineOut .= "\t\t\t".'<td class="list_actions">';
+    			if($page['visibility'] != 'deleted') { 
+    				if($admin->get_permission('pages_settings') && $can_modify) {
+    					$sLineOut .= '<a href="'.ADMIN_URL.'/pages/settings.php?page_id='.$page['page_id'].'" '.
+    						 'title="'.$TEXT['SETTINGS'].'">';
+    					$sLineOut .= '<img src="'.THEME_URL.'/images/modify_16.png" alt="'.$TEXT['SETTINGS'].'" />';
+    					$sLineOut .= '</a>';
+    				}
+    			}else {
+    				$sLineOut .= '<a href="'.ADMIN_URL.'/pages/restore.php?page_id='.$page['page_id'].'" '.
+    					 'title="'.$TEXT['RESTORE'].'">';
+    				$sLineOut .= '<img src="'.THEME_URL.'/images/restore_16.png" alt="'.$TEXT['RESTORE'].'" />';
+    				$sLineOut .= '</a>';
+    			}
+    			$sLineOut .= '</td>'.PHP_EOL;
+    // --- Tab 7 --- MANAGE SECTIONS AND DATES BUTTONS ---
+    			$sLineOut .= "\t\t\t".'<td class="list_actions">';
+    			// Work-out if we should show the "manage dates" link
+    			if( MANAGE_SECTIONS && $admin->get_permission('pages_add') && $can_modify ) {
+    				$sLineOut .= '<a href="'.ADMIN_URL.'/pages/sections.php?page_id='.$page['page_id'].'"'.
+    					 ' title="'.$HEADING['MANAGE_SECTIONS'].'">';
+                     $file = $admin->page_is_active($page) ? "clock_16.png" : "clock_red_16.png";
+                     $file = ($page['published'] && $page['module'] != 'menu_link') ? $file : 'noclock_16.png';
+     				$sLineOut .= '<img src="'.THEME_URL.'/images/'.$file.'" alt="'.$HEADING['MANAGE_SECTIONS'].'" />';
+    				$sLineOut .= '</a>';
+    			}
+    			$sLineOut .= '</td>'.PHP_EOL;
+    // --- Tab 8 ---
+    			$sLineOut .= "\t\t\t".'<td class="list_actions">';
+    			if($page['position'] != 1) {
+    				if($page['visibility'] != 'deleted') {
+    					if($admin->get_permission('pages_settings') && $can_modify) {
+    						$sLineOut .= '<a href="'.ADMIN_URL.'/pages/move_up.php?page_id='.$page['page_id'].'" '.
+    							 'title="'.$TEXT['MOVE_UP'].'"><img src="'.THEME_URL.
+    							 '/images/up_16.png" alt="'.$TEXT['MOVE_UP'].'" /></a>';
+    					}
+    				}
+    			}
+    			$sLineOut .= '</td>'.PHP_EOL;
+    // --- Tab 9 ---
+    			$sLineOut .= "\t\t\t".'<td class="list_actions">';
+    			if($page['position'] != $num_pages) {
+    				if($page['visibility'] != 'deleted') {
+    					if($admin->get_permission('pages_settings') && $can_modify) {
+    						$sLineOut .= '<a href="'.ADMIN_URL.'/pages/move_down.php?page_id='.$page['page_id'].'" '.
+    							 'title="'.$TEXT['MOVE_DOWN'].'"><img src="'.THEME_URL.
+    							 '/images/down_16.png" alt="'.$TEXT['MOVE_DOWN'].'" /></a>';
+    					}
+    				}
+    			}else { $sLineOut .= '&nbsp;'; }
+    			$sLineOut .= '</td>'.PHP_EOL;
+    // --- Tab 10 ---
+    			$sLineOut .= "\t\t\t".'<td class="list_actions">';
+    			if($admin->get_permission('pages_delete') && $can_modify) {
+    				$sLineOut .= '<a href="javascript:confirm_link(\''.$MESSAGE['PAGES_DELETE_CONFIRM'].
+    					 '?,'.ADMIN_URL.'/pages/delete.php?page_id='.$admin->getIDKEY($page['page_id']).'\');" '.
+    					 'title="'.$TEXT['DELETE'].'">';
+    				$sLineOut .= '<img src="'.THEME_URL.'/images/delete_16.png" alt="'.$TEXT['DELETE'].'" />';
+    				$sLineOut .= '</a>';
+    			}else { $sLineOut .= '&nbsp;'; }
+    			$sLineOut .= '</td>'.PHP_EOL;
+    // --- Tab 11 --- Add action to add a page as a child ---
+    			$sLineOut .= "\t\t\t".'<td class="list_actions">';
+    			if($admin->get_permission('pages_add') && $can_modify && ($page['visibility'] != 'deleted')) {
+    				$sLineOut .= '<a href="javascript:add_child_page(\''.$page['page_id'].'\');" '
+    					.'title="'.$HEADING['ADD_CHILD_PAGE'].'">';
+    				$sLineOut .= '<img src="'.THEME_URL.'/images/siteadd.png" name="addpage_'.$page['page_id'].'" '
+    					.'alt="Add Child Page" />';
+    				$sLineOut .= '</a>';
+    			}else { $sLineOut .= '&nbsp;'; }
+    			$sLineOut .= '</td>'.PHP_EOL;
+    // --- Tab 12 ---
+    			$sLineOut .= "\t\t\t".'<td class="list_page_id center">'.$page['language'].'</td>'.PHP_EOL;
+    // --- End TR / TBODY / TABLE		
+    			$sLineOut .= "\t\t".'</tr>'.PHP_EOL;
+    			$sLineOut .= "\t".'</tbody>'.PHP_EOL;
+    			$sLineOut .= '</table>'.PHP_EOL;
+    // ---------------------------------------------------------------------------------------
+           echo $sLineOut;
+           if ( $page['parent'] == 0) {
+            $page_tmp_id = $page['page_id'];
+           }
+           // Get subs
+           $editable_pages = make_list($page['page_id'], $editable_pages);
+                    echo '</li>'.PHP_EOL;
+          } // end of WHILE
+    	} // end of $num_pages > 0
+    }  // end of $get_pages = $database->query($sql)
 
-			$row   = $row ? 0 : 1;
-			// Get user perms
-			$admin_groups = explode(',', str_replace('_', '', $page['admin_groups']));
-			$admin_users = explode(',', str_replace('_', '', $page['admin_users']));
-			$in_group = FALSE;
-			foreach($admin->get_groups_id() as $cur_gid)
-            {
-				if (in_array($cur_gid, $admin_groups))
-                {
-					$in_group = TRUE;
-				}
-			}
-			if(($in_group) || is_numeric(array_search($admin->get_user_id(), $admin_users)))
-            {
-				if($page['visibility'] == 'deleted')
-                {
-					if(PAGE_TRASH == 'inline')
-                    {
-						$can_modify = true;
-						$editable_pages = $editable_pages+1;
-					} else {
-						$can_modify = false;
-					}
-				} elseif($page['visibility'] != 'deleted')
-                {
-					$can_modify = true;
-					$editable_pages = $editable_pages+1;
-				}
-			} else {
-				if($page['visibility'] == 'private')
-                {
-					continue;
-				}
-				else {
-					$can_modify = false;
-				}
-			}
-
-			// Work out if we should show a plus or not
-            $sql = 'SELECT `page_id`,`admin_groups`,`admin_users` FROM `'.TABLE_PREFIX.'pages` WHERE `parent` = '.$page['page_id'].' ';
-            $sql .= (PAGE_TRASH != 'inline') ?  'AND `visibility` != \'deleted\' ' : ' ';
-            // $sql .= ' ORDER BY `position` ASC';
-        	$get_page_subs = $database->query($sql);
-			$num_subs = $get_page_subs->numRows();
-			$par['num_subs'] = $num_subs;
-/*
-			if(PAGE_TRASH != 'inline')
-            {
-				$get_page_subs = $database->query("SELECT page_id,admin_groups,admin_users FROM ".TABLE_PREFIX."pages WHERE parent = '".$page['page_id']."' AND visibility!='deleted'");
-			} else {
-				$get_page_subs = $database->query("SELECT page_id,admin_groups,admin_users FROM ".TABLE_PREFIX."pages WHERE parent = '".$page['page_id']."'");
-			}
-*/
-			if($get_page_subs->numRows() > 0)
-            {
-				$display_plus = true;
-			} else {
-				$display_plus = false;
-			}
-
-			 ?>
-			<li class="p<?php echo $page['parent'];  ?>">
-			<table class="pages_view">
-            <tbody>
-			<tr class="row_<?php echo $row  ?>">
-				<td valign="middle" width="20" style="padding-left: <?php echo $page['level']==0 ? 0 : ($page['level']*25)-pow($page['level'],2);  ?>px;">
-					<?php
-					if($display_plus == true) {
-					 ?>
-					<a href="javascript:toggle_visibility('p<?php echo $page['page_id'];  ?>');" title="<?php echo $TEXT['EXPAND'].'/'.$TEXT['COLLAPSE'];  ?>">
-					<span>
-					<img src="<?php echo THEME_URL;  ?>/images/<?php echo ( isset($_COOKIE['p'.$page['page_id']]) && $_COOKIE['p'.$page['page_id']] == '1') ?'minus' : 'plus';   ?>_16.png" onclick="toggle_plus_minus('<?php echo $page['page_id'];  ?>');" name="plus_minus_<?php echo $page['page_id'];  ?>" alt="+" />
-					</span>
-
-					</a>
-					<?php
-					}
-					 ?>
-				</td>
-				<?php if($admin->get_permission('pages_modify') == true && $can_modify == true) {  ?>
-				<td class="list_menu_title">
-					<a href="<?php echo ADMIN_URL;  ?>/pages/modify.php?page_id=<?php echo  $page['page_id'];  ?>" title="<?php echo $TEXT['MODIFY'];  ?>">
-					<span>
-						<?php if($page['visibility'] == 'public') {  ?>
-							<img src="<?php echo THEME_URL;  ?>/images/visible_16.png" alt="<?php echo $TEXT['VISIBILITY'];  ?>: <?php echo $TEXT['PUBLIC'];  ?>" class="page_list_rights" />
-						<?php } elseif($page['visibility'] == 'private') {  ?>
-							<img src="<?php echo THEME_URL;  ?>/images/private_16.png" alt="<?php echo $TEXT['VISIBILITY'];  ?>: <?php echo $TEXT['PRIVATE'];  ?>" class="page_list_rights" />
-						<?php } elseif($page['visibility'] == 'registered') {  ?>
-							<img src="<?php echo THEME_URL;  ?>/images/keys_16.png" alt="<?php echo $TEXT['VISIBILITY'];  ?>: <?php echo $TEXT['REGISTERED'];  ?>" class="page_list_rights" />
-						<?php } elseif($page['visibility'] == 'hidden') {  ?>
-							<img src="<?php echo THEME_URL;  ?>/images/hidden_16.png" alt="<?php echo $TEXT['VISIBILITY'];  ?>: <?php echo $TEXT['HIDDEN'];  ?>" class="page_list_rights" />
-						<?php } elseif($page['visibility'] == 'none') {  ?>
-							<img src="<?php echo THEME_URL;  ?>/images/none_16.png" alt="<?php echo $TEXT['VISIBILITY'];  ?>: <?php echo $TEXT['NONE'];  ?>" class="page_list_rights" />
-						<?php } elseif($page['visibility'] == 'deleted') {  ?>
-							<img src="<?php echo THEME_URL;  ?>/images/deleted_16.png" alt="<?php echo $TEXT['VISIBILITY'];  ?>: <?php echo $TEXT['DELETED'];  ?>" class="page_list_rights" />
-						<?php }
-						echo '<span class="modify_link">'.($page['menu_title']).'</span>';  ?>
-					</span>
-					</a>
-				</td>
-				<?php } else {  ?>
-				<td class="list_menu_title">
-					<span>
-					<?php if($page['visibility'] == 'public') {  ?>
-						<img src="<?php echo THEME_URL;  ?>/images/visible_16.png" alt="<?php echo $TEXT['VISIBILITY'];  ?>: <?php echo $TEXT['PUBLIC'];  ?>" class="page_list_rights" />
-					<?php } elseif($page['visibility'] == 'private') {  ?>
-						<img src="<?php echo THEME_URL;  ?>/images/private_16.png" alt="<?php echo $TEXT['VISIBILITY'];  ?>: <?php echo $TEXT['PRIVATE'];  ?>" class="page_list_rights" />
-					<?php } elseif($page['visibility'] == 'registered') {  ?>
-						<img src="<?php echo THEME_URL;  ?>/images/keys_16.png" alt="<?php echo $TEXT['VISIBILITY'];  ?>: <?php echo $TEXT['REGISTERED'];  ?>" class="page_list_rights" />
-					<?php } elseif($page['visibility'] == 'hidden') {  ?>
-						<img src="<?php echo THEME_URL;  ?>/images/hidden_16.png" alt="<?php echo $TEXT['VISIBILITY'];  ?>: <?php echo $TEXT['HIDDEN'];  ?>" class="page_list_rights" />
-					<?php } elseif($page['visibility'] == 'none') {  ?>
-						<img src="<?php echo THEME_URL;  ?>/images/none_16.png" alt="<?php echo $TEXT['VISIBILITY'];  ?>: <?php echo $TEXT['NONE'];  ?>" class="page_list_rights" />
-					<?php } elseif($page['visibility'] == 'deleted') {  ?>
-						<img src="<?php echo THEME_URL;  ?>/images/deleted_16.png" alt="<?php echo $TEXT['VISIBILITY'];  ?>: <?php echo $TEXT['DELETED'];  ?>" class="page_list_rights" />
-					<?php }
-					echo '<span class="bold grey">'.($page['menu_title']).'</span>';  ?>
-					</span>
-				</td>
-				<?php }  ?>
-				<td class="list_page_title">
-					<?php echo ($page['page_title']);  ?>
-				</td>
-				<td class="list_page_id right">
-					<?php echo $page['page_id'];  ?>
-				</td>
-
-				<td class="list_actions">
-					<?php if($page['visibility'] != 'deleted' && $page['visibility'] != 'none') {  ?>
-					<a href="<?php echo $admin->page_link($page['link']);  ?>" target="_blank" title="<?php echo $TEXT['VIEW'];  ?>">
-						<img src="<?php echo THEME_URL;  ?>/images/view_16.png" alt="<?php echo $TEXT['VIEW'];  ?>" />
-					</a>
-					<?php }  ?>
-				</td>
-				<td class="list_actions">
-					<?php if($page['visibility'] != 'deleted') {  ?>
-						<?php if($admin->get_permission('pages_settings') == true && $can_modify == true) {  ?>
-						<a href="<?php echo ADMIN_URL;  ?>/pages/settings.php?page_id=<?php echo $page['page_id'];  ?>" title="<?php echo $TEXT['SETTINGS'];  ?>">
-							<img src="<?php echo THEME_URL;  ?>/images/modify_16.png" alt="<?php echo $TEXT['SETTINGS'];  ?>" />
-						</a>
-						<?php }  ?>
-					<?php } else {  ?>
-						<a href="<?php echo ADMIN_URL;  ?>/pages/restore.php?page_id=<?php echo $page['page_id'];  ?>" title="<?php echo $TEXT['RESTORE'];  ?>">
-							<img src="<?php echo THEME_URL;  ?>/images/restore_16.png" alt="<?php echo $TEXT['RESTORE'];  ?>" />
-						</a>
-					<?php }  ?>
-				</td>
-				<!-- MANAGE SECTIONS AND DATES BUTTONS -->
-				<td class="list_actions">
-				<?php
-				// Work-out if we should show the "manage dates" link
-				if( (MANAGE_SECTIONS == true) && $admin->get_permission('pages_add')==true && $can_modify==true)
-                {
-                    $sql = 'SELECT `publ_start`, `publ_end` FROM `'.TABLE_PREFIX.'sections` ';
-                    $sql .= 'WHERE `page_id` = '.$page['page_id'].' AND `module` != \'menu_link\' ';
-					// $query_sections = $database->query("SELECT publ_start, publ_end FROM ".TABLE_PREFIX."sections WHERE page_id = '{$page['page_id']}' AND module != 'menu_link'");
-					if( ($query_sections = $database->query($sql)) )
-                    {
-						$mdate_display=false;
-						while($mdate_res = $query_sections->fetchRow())
-                        {
-							if($mdate_res['publ_start']!='0' || $mdate_res['publ_end']!='0')
-                            {
-								$mdate_display=true;
-								break;
-							}
-						}
-						if($mdate_display==1)
-                        {
-							$file=$admin->page_is_active($page)?"clock_16.png":"clock_red_16.png";
-							 ?>
-							<a href="<?php echo ADMIN_URL;  ?>/pages/sections.php?page_id=<?php echo $page['page_id'];  ?>" title="<?php echo $HEADING['MANAGE_SECTIONS'];  ?>">
-							<img src="<?php echo THEME_URL."/images/$file";  ?>" alt="<?php echo $HEADING['MANAGE_SECTIONS'];  ?>" />
-							</a>
-						<?php } else {  ?>
-							<a href="<?php echo ADMIN_URL;  ?>/pages/sections.php?page_id=<?php echo $page['page_id'];  ?>" title="<?php echo $HEADING['MANAGE_SECTIONS'];  ?>">
-							<img src="<?php echo THEME_URL;  ?>/images/noclock_16.png" alt="<?php echo $HEADING['MANAGE_SECTIONS'];  ?>" /></a>
-						<?php }  ?>
-					<?php }  ?>
-				<?php }  ?>
-				</td>
-				<td class="list_actions">
-				<?php if($page['position'] != 1) {  ?>
-					<?php if($page['visibility'] != 'deleted') {  ?>
-						<?php if($admin->get_permission('pages_settings') == true && $can_modify == true) {  ?>
-						<a href="<?php echo ADMIN_URL;  ?>/pages/move_up.php?page_id=<?php echo $page['page_id'];  ?>" title="<?php echo $TEXT['MOVE_UP'];  ?>">
-							<img src="<?php echo THEME_URL;  ?>/images/up_16.png" alt="<?php echo $TEXT['MOVE_UP'];  ?>" />
-						</a>
-						<?php }  ?>
-					<?php }  ?>
-				<?php }  ?>
-				</td>
-				<td class="list_actions">
-				<?php if($page['position'] != $num_pages) {  ?>
-					<?php if($page['visibility'] != 'deleted') {  ?>
-						<?php if($admin->get_permission('pages_settings') == true && $can_modify == true) {  ?>
-						<a href="<?php echo ADMIN_URL;  ?>/pages/move_down.php?page_id=<?php echo $page['page_id'];  ?>" title="<?php echo $TEXT['MOVE_DOWN'];  ?>">
-							<img src="<?php echo THEME_URL;  ?>/images/down_16.png" alt="<?php echo $TEXT['MOVE_DOWN'];  ?>" />
-						</a>
-						<?php }  ?>
-					<?php }  ?>
-				<?php }  ?>
-				</td>
-				<td class="list_actions">
-					<?php if($admin->get_permission('pages_delete') == true && $can_modify == true) { // add IdKey  ?>
-					<a href="javascript:confirm_link('<?php echo $MESSAGE['PAGES_DELETE_CONFIRM'];  ?>?','<?php echo ADMIN_URL;  ?>/pages/delete.php?page_id=<?php echo $admin->getIDKEY($page['page_id']);  ?>');" title="<?php echo $TEXT['DELETE'];  ?>">
-						<img src="<?php echo THEME_URL;  ?>/images/delete_16.png" alt="<?php echo $TEXT['DELETE'];  ?>" />
-					</a>
-					<?php }  ?>
-				</td>
-				<?php
-				// eggsurplus: Add action to add a page as a child
-				 ?>
-				<td class="list_actions">
-					<?php if(($admin->get_permission('pages_add')) == true && ($can_modify == true) && ($page['visibility'] != 'deleted')) {  ?>
-					<a href="javascript:add_child_page('<?php echo $page['page_id'];  ?>');" title="<?php echo $HEADING['ADD_CHILD_PAGE'];  ?>">
-						<img src="<?php echo THEME_URL;  ?>/images/siteadd.png" name="addpage_<?php echo $page['page_id'];  ?>" alt="Add Child Page" />
-					</a>
-					<?php }  ?>
-				</td>
-				<?php
-				// end [IC] jeggers 2009/10/14: Add action to add a page as a child
-				 ?>
-				<td class="list_page_id center">
-					<?php echo $page['language'];  ?>
-				</td>
-			</tr>
-            </tbody>
-			</table>
-			<?php
-			if ( $page['parent'] == 0)
-            {
-				$page_tmp_id = $page['page_id'];
-			}
-			// Get subs
-			$editable_pages=make_list($page['page_id'], $editable_pages);
-            print '</li>'."\n";
-		}
-	}
-	$output = ($par['num_subs'] )? '</ul>'."\n" : '';
+	$output = ($par['num_subs'] )? '</ul>'.PHP_EOL : '';
     $par['num_subs'] = (empty($output) ) ?  1 : $par['num_subs'];
-    print $output;
+    echo $output;
 	return $editable_pages;
 }
-
 // Generate pages list
-if($admin->get_permission('pages_view') == true) {
-	 ?>
+if($admin->get_permission('pages_view') == true) 
+{
+	$sListHeader = <<<LHEAD
 	<div class="jsadmin hide"></div>
-	<table>
-    <tbody>
-	<tr>
-		<td>
-			<h2 class="left"><?php echo $HEADING['MODIFY_DELETE_PAGE'];  ?></h2>
-		</td>
-		<td align="right"></td>
-	</tr>
-    </tbody>
-	</table>
-	<div class="pages_list">
-	<table>
-    <tbody>
-	<tr class="pages_list_header">
-		<td class="header_list_menu_title">
-			<?php echo $TEXT['VISIBILITY'] .' / ' .$TEXT['MENU_TITLE'];  ?>:
-		</td>
-		<td class="header_list_page_title">
-			<?php echo $TEXT['PAGE_TITLE'];  ?>:
-		</td>
-		<td class="header_list_page_id">
-			PID
-		</td>
-		<td class="header_list_actions">
-			<?php echo $TEXT['ACTIONS'];  ?>:
-		</td>
-		<td class="list_page_id">
-		
-		</td>
-	</tr>
-    </tbody>
-	</table>
-	<?php
+		<table>
+			<tbody>
+				<tr>
+					<td><h2 class="left">{$HEADING['MODIFY_DELETE_PAGE']}</h2></td>
+					<td align="right"></td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="pages_list">
+			<table>
+				<tbody>
+					<tr class="pages_list_header">
+						<td class="header_list_menu_title">{$TEXT['VISIBILITY']} / {$TEXT['MENU_TITLE']}:</td>
+						<td class="header_list_page_title">{$TEXT['PAGE_TITLE']}:</td>
+						<td class="header_list_page_id">PID</td>
+						<td class="header_list_actions">{$TEXT['ACTIONS']}:</td>
+						<td class="list_page_id">&nbsp;</td>
+					</tr>
+				</tbody>
+			</table>
+LHEAD;
+	echo $sListHeader;
 	// Work-out if we should check for existing page_code
 	$field_set = $database->field_exists(TABLE_PREFIX.'pages', 'page_code');
-
     $par = array();
 	$par['num_subs'] = 1;
 	$editable_pages = make_list(0, 0);
-} else {
+}else {
 	$editable_pages = 0;
 }
-  ?></div><?php
-
-if(intval($editable_pages) == 0 ) {
-	 ?>
-	<div class="empty_list">
-		<?php echo $TEXT['NONE_FOUND'];  ?>
-	</div>
-	<?php
+echo "\t\t".'</div>'.PHP_EOL;
+if(!intval($editable_pages)) {
+	echo "\t\t".'<div class="empty_list">'.$TEXT['NONE_FOUND'].'</div>'.PHP_EOL;
 }
 // Setup template object, parse vars to it, then parse it
 // Create new template object
@@ -382,134 +312,116 @@ $template->set_file('page', 'pages.htt');
 $template->set_block('page', 'main_block', 'main');
 // Insert values into the add page form
 $template->set_var('FTAN', $admin->getFTAN());
-
 // Group list 1
+$query = "SELECT * FROM ".TABLE_PREFIX."groups";
+$get_groups = $database->query($query);
 
-	$query = "SELECT * FROM ".TABLE_PREFIX."groups";
-	$get_groups = $database->query($query);
-	$template->set_block('main_block', 'group_list_block', 'group_list');
-	// Insert admin group and current group first
-	$admin_group_name = $get_groups->fetchRow();
-	$template->set_var(array(
-									'ID' => 1,
-									'TOGGLE' => '1',
-									'DISABLED' => ' disabled="disabled"',
-									'LINK_COLOR' => '000000',
-									'CURSOR' => 'default',
-									'NAME' => $admin_group_name['name'],
-									'CHECKED' => ' checked="checked"'
-									)
-							);
-	$template->parse('group_list', 'group_list_block', true);
-
-	while($group = $get_groups->fetchRow()) {
-		// check if the user is a member of this group
-		$flag_disabled = '';
-		$flag_checked =  '';
-		$flag_cursor =   'pointer';
-		$flag_color =    '';
-		if (in_array($group["group_id"], $admin->get_groups_id())) {
-			$flag_disabled = ''; //' disabled';
-			$flag_checked =  ' checked="checked"';
-			$flag_cursor =   'default';
-			$flag_color =    '000000';
-		}
-
-		// Check if the group is allowed to edit pages
-		$system_permissions = explode(',', $group['system_permissions']);
-		if(is_numeric(array_search('pages_modify', $system_permissions))) {
-			$template->set_var(array(
-											'ID' => $group['group_id'],
-											'TOGGLE' => $group['group_id'],
-											'CHECKED' => $flag_checked,
-											'DISABLED' => $flag_disabled,
-											'LINK_COLOR' => $flag_color,
-											'CURSOR' => $flag_checked,
-											'NAME' => $group['name'],
-											)
-									);
-			$template->parse('group_list', 'group_list_block', true);
-		}
+$template->set_block('main_block', 'group_list_block', 'group_list');
+// Insert admin group and current group first
+$admin_group_name = $get_groups->fetchRow(MYSQL_ASSOC);
+$template->set_var(array(
+						'ID' => 1,
+						'TOGGLE' => '1',
+						'DISABLED' => ' disabled="disabled"',
+						'LINK_COLOR' => '000000',
+						'CURSOR' => 'default',
+						'NAME' => $admin_group_name['name'],
+						'CHECKED' => ' checked="checked"'
+						)
+					);
+$template->parse('group_list', 'group_list_block', true);
+while($group = $get_groups->fetchRow(MYSQL_ASSOC)) {
+	// check if the user is a member of this group
+	$flag_disabled = '';
+	$flag_checked =  '';
+	$flag_cursor =   'pointer';
+	$flag_color =    '';
+	if (in_array($group["group_id"], $admin->get_groups_id())) {
+		$flag_disabled = ''; //' disabled';
+		$flag_checked =  ' checked="checked"';
+		$flag_cursor =   'default';
+		$flag_color =    '000000';
 	}
-// Group list 2
-
-	$query = "SELECT * FROM ".TABLE_PREFIX."groups";
-
-	$get_groups = $database->query($query);
-	$template->set_block('main_block', 'group_list_block2', 'group_list2');
-	// Insert admin group and current group first
-	$admin_group_name = $get_groups->fetchRow();
-	$template->set_var(array(
-									'ID' => 1,
-									'TOGGLE' => '1',
-									'DISABLED' => ' disabled="disabled"',
-									'LINK_COLOR' => '000000',
-									'CURSOR' => 'default',
-									'NAME' => $admin_group_name['name'],
-									'CHECKED' => ' checked="checked"'
-									)
-							);
-	$template->parse('group_list2', 'group_list_block2', true);
-
-	while($group = $get_groups->fetchRow()) {
-		// check if the user is a member of this group
-		$flag_disabled = '';
-		$flag_checked =  '';
-		$flag_cursor =   'pointer';
-		$flag_color =    '';
-		if (in_array($group["group_id"], $admin->get_groups_id())) {
-			$flag_disabled = ''; //' disabled';
-			$flag_checked =  ' checked="checked"';
-			$flag_cursor =   'default';
-			$flag_color =    '000000';
-		}
-
+	// Check if the group is allowed to edit pages
+	$system_permissions = explode(',', $group['system_permissions']);
+	if(is_numeric(array_search('pages_modify', $system_permissions))) {
 		$template->set_var(array(
-										'ID' => $group['group_id'],
-										'TOGGLE' => $group['group_id'],
-										'CHECKED' => $flag_checked,
-										'DISABLED' => $flag_disabled,
-										'LINK_COLOR' => $flag_color,
-										'CURSOR' => $flag_cursor,
-										'NAME' => $group['name'],
-										)
-								);
-		$template->parse('group_list2', 'group_list_block2', true);
+								'ID' => $group['group_id'],
+								'TOGGLE' => $group['group_id'],
+								'CHECKED' => $flag_checked,
+								'DISABLED' => $flag_disabled,
+								'LINK_COLOR' => $flag_color,
+								'CURSOR' => $flag_checked,
+								'NAME' => $group['name'],
+								)
+							);
+		$template->parse('group_list', 'group_list_block', true);
 	}
-
-
+}
+// Group list 2
+$sql = 'SELECT * FROM `'.TABLE_PREFIX.'groups`';
+$get_groups = $database->query($sql);
+$template->set_block('main_block', 'group_list_block2', 'group_list2');
+// Insert admin group and current group first
+$admin_group_name = $get_groups->fetchRow(MYSQL_ASSOC);
+$template->set_var(array(
+						'ID' => 1,
+						'TOGGLE' => '1',
+						'DISABLED' => ' disabled="disabled"',
+						'LINK_COLOR' => '000000',
+						'CURSOR' => 'default',
+						'NAME' => $admin_group_name['name'],
+						'CHECKED' => ' checked="checked"'
+						)
+					);
+$template->parse('group_list2', 'group_list_block2', true);
+while($group = $get_groups->fetchRow(MYSQL_ASSOC)) {
+	// check if the user is a member of this group
+	$flag_disabled = '';
+	$flag_checked =  '';
+	$flag_cursor =   'pointer';
+	$flag_color =    '';
+	if (in_array($group["group_id"], $admin->get_groups_id())) {
+		$flag_disabled = ''; //' disabled';
+		$flag_checked =  ' checked="checked"';
+		$flag_cursor =   'default';
+		$flag_color =    '000000';
+	}
+	$template->set_var(array(
+							'ID' => $group['group_id'],
+							'TOGGLE' => $group['group_id'],
+							'CHECKED' => $flag_checked,
+							'DISABLED' => $flag_disabled,
+							'LINK_COLOR' => $flag_color,
+							'CURSOR' => $flag_cursor,
+							'NAME' => $group['name'],
+							)
+						);
+	$template->parse('group_list2', 'group_list_block2', true);
+}
 // Parent page list
 // $database = new database();
 function parent_list($parent)
 {
-	global $admin, $database, $template, $field_set;
-	$query = "SELECT * FROM ".TABLE_PREFIX."pages WHERE parent = '$parent' AND visibility!='deleted' ORDER BY position ASC";
-	$get_pages = $database->query($query);
-	while($page = $get_pages->fetchRow()) {
-		if($admin->page_is_visible($page)==false)
-			continue;
+	global $admin, $template, $field_set;
+	$database = WbDatabase::getInstance();
+	$sql = 'SELECT * FROM `'.TABLE_PREFIX.'pages` '.
+	       'WHERE `parent`='.$parent.' AND `visibility`!=\'deleted\' '.
+	       'ORDER BY `position` ASC';
+	$get_pages = $database->query($sql);
+
+	while($page = $get_pages->fetchRow(MYSQL_ASSOC)) {
+		if(!$admin->page_is_visible($page)) { continue; }
 		// if parent = 0 set flag_icon
-		$template->set_var('FLAG_ROOT_ICON',' none ');
+		$template->set_var('FLAG_ROOT_ICON', ' none ');
 		if( $page['parent'] == 0 && $field_set) {
 			$template->set_var('FLAG_ROOT_ICON','url('.THEME_URL.'/images/flags/'.strtolower($page['language']).'.png)');
 		}
 		// Stop users from adding pages with a level of more than the set page level limit
 		if($page['level']+1 < PAGE_LEVEL_LIMIT) {
-			// Get user perms
-			$admin_groups = explode(',', str_replace('_', '', $page['admin_groups']));
-			$admin_users = explode(',', str_replace('_', '', $page['admin_users']));
-
-			$in_group = FALSE;
-			foreach($admin->get_groups_id() as $cur_gid) {
-				if (in_array($cur_gid, $admin_groups)) {
-					$in_group = TRUE;
-				}
-			}
-			if(($in_group) || is_numeric(array_search($admin->get_user_id(), $admin_users))) {
-				$can_modify = true;
-			} else {
-				$can_modify = false;
-			}
+			// Get user permissions
+			$can_modify = ($admin->ami_group_member($page['admin_groups']) ||
+					       $admin->is_group_match($admin->get_groups_id(), $page['admin_users']));
 			// Title -'s prefix
 			$title_prefix = '';
 			for($i = 1; $i <= $page['level']; $i++) { $title_prefix .= ' - - &nbsp;'; }
@@ -541,14 +453,13 @@ if($admin->get_permission('pages_add_l0') == true) {
 	$template->parse('page_list2', 'page_list_block2', true);
 }
 parent_list(0);
-
 // Explode module permissions
 $module_permissions = $_SESSION['MODULE_PERMISSIONS'];
 // Modules list
 $template->set_block('main_block', 'module_list_block', 'module_list');
 $result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'module' AND function = 'page' order by name");
 if($result->numRows() > 0) {
-	while ($module = $result->fetchRow()) {
+	while ($module = $result->fetchRow(MYSQL_ASSOC)) {
 		// Check if user is allowed to use this module
 		if(!is_numeric(array_search($module['directory'], $module_permissions))) {
 			$template->set_var('VALUE', $module['directory']);
@@ -562,7 +473,6 @@ if($result->numRows() > 0) {
 		}
 	}
 }
-
 // Insert urls
 $template->set_var(array(
 								'THEME_URL' => THEME_URL,
@@ -570,7 +480,6 @@ $template->set_var(array(
 								'ADMIN_URL' => ADMIN_URL,
 								)
 						);
-
 // Insert language headings
 $template->set_var(array(
 								'HEADING_ADD_PAGE' => $HEADING['ADD_PAGE'],
@@ -597,7 +506,6 @@ $template->set_var(array(
 								'INTRO_LINK' => $MESSAGE['PAGES_INTRO_LINK'],
 								)
 						);
-
 // Insert permissions values
 if($admin->get_permission('pages_add') != true) {
 	$template->set_var('DISPLAY_ADD', 'hide');
@@ -607,17 +515,12 @@ if($admin->get_permission('pages_add') != true) {
 if($admin->get_permission('pages_intro') != true || INTRO_PAGE != 'enabled') {
 	$template->set_var('DISPLAY_INTRO', 'hide');
 }
-
-
 // Parse template object
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
-
 // include the required file for Javascript admin
-if(file_exists(WB_PATH.'/modules/jsadmin/jsadmin_backend_include.php'))
-{
+if(file_exists(WB_PATH.'/modules/jsadmin/jsadmin_backend_include.php')) {
 	include(WB_PATH.'/modules/jsadmin/jsadmin_backend_include.php');
 }
-
 // Print admin
 $admin->print_footer();
