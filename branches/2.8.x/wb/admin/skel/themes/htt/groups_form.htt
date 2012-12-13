@@ -29,43 +29,43 @@
 						<div class="mbox curved h65 floatbox">
 							<h4>{TEXT_FILESYSTEM_PERMISSIONS}</h4>
 							<span>
-								<input type="checkbox" name="system_permissions[pages_view]" id="pages_view" value="1" {pages_view_checked} />
+								<input id="pages_view" type="checkbox" value="1" name="system_permissions[pages_view]" {pages_view_checked}  />
 								<label for="pages_view">{MENU_PAGES}</label>
 							</span>
 							<span>
-								<input type="checkbox" name="system_permissions[media_view]" id="media_view" value="1" {media_view_checked} />
+								<input id="media_view" type="checkbox" value="1" name="system_permissions[media_view]"  {media_view_checked}/>
 								<label for="media_view">{MENU_MEDIA}</label>
 							</span>
 							<span>
-								<input type="checkbox" name="system_permissions[modules_view]" id="modules_view" value="1" {modules_view_checked} />
+								<input id="modules_view" type="checkbox" value="1" name="system_permissions[modules_view]" {modules_view_checked} />
 								<label for="modules_view">{MENU_MODULES}</label>
 							</span>
 							<span>
-								<input type="checkbox" name="system_permissions[templates_view]" id="templates_view" value="1" {templates_view_checked} />
+								<input id="templates_view" type="checkbox" value="1" name="system_permissions[templates_view]" {templates_view_checked} />
 								<label for="templates_view">{MENU_TEMPLATES}</label>
 							</span>
 							<span>
-								<input type="checkbox" name="system_permissions[languages_view]" id="languages_view" value="1" {languages_view_checked} />
+								<input id="languages_view" type="checkbox" value="1" name="system_permissions[languages_view]" {languages_view_checked} />
 								<label for="languages_view">{MENU_LANGUAGES}</label>
 							</span>
 							<span>
-								<input type="checkbox" name="system_permissions[settings_view]" id="settings_view" value="1" {settings_view_checked} />
+								<input id="settings_view" type="checkbox" value="1" name="system_permissions[settings_view]" {settings_view_checked} />
 								<label for="settings_view">{MENU_SETTINGS}</label>
 							</span>
 							<span>
-								<input type="checkbox" name="system_permissions[admintools_view]" id="admintools_view" value="1" {admintools_view_checked} />
+								<input id="admintools_view" type="checkbox" value="1" name="system_permissions[admintools_view]" {admintools_view_checked} />
 								<label for="admintools_view">{MENU_ADMINTOOLS}</label>
 							</span>
 							<span>
-								<input type="checkbox" name="system_permissions[users_view]" id="users_view" value="1" {users_view_checked} />
+								<input id="users_view" type="checkbox" value="1" name="system_permissions[users_view]" {users_view_checked} />
 								<label for="users_view">{MENU_USERS}</label>
 							</span>
 							<span>
-								<input type="checkbox" name="system_permissions[groups_view]" id="groups_view" value="1" {groups_view_checked} />
+								<input id="groups_view" type="checkbox" value="1" name="system_permissions[groups_view]" {groups_view_checked} />
 								<label for="groups_view">{MENU_GROUPS}</label>
 							</span>
 							<span>
-								<input type="checkbox" name="system_permissions[preferences_view]" id="preferences_view" value="1" {preferences_view_checked} />
+								<input id="preferences_view" type="checkbox" value="1" name="system_permissions[preferences_view]" {preferences_view_checked}  />
 								<label for="preferences_view">{MENU_USER_PREFERENCES}</label>
 							</span>
 						</div>
@@ -219,9 +219,7 @@
 									<input name="system_permissions[templates_uninstall]" id="templates_uninstall" type="checkbox" value="1" {templates_uninstall_checked} />
 									<label for="templates_uninstall">{TEXT_DELETE}</label>
 								</li>
-								<li class="c100">
-									<label for="templates">&nbsp;</label>
-								</li>
+								<li class="c100" style="line-height: 2em;">&nbsp;</li>
 							</ul>
 						</div>
 					</div>
@@ -243,9 +241,7 @@
 									<input name="system_permissions[languages_uninstall]" id="languages_uninstall" type="checkbox" value="1" {languages_uninstall_checked} />
 									<label for="languages_uninstall">{TEXT_DELETE}</label>
 								</li>
-								<li class="c100">
-									<label for="languages">&nbsp;</label>
-								</li>
+								<li class="c100" style="line-height: 2em;">&nbsp;</li>
 							</ul>
 						</div>
 					</div>

@@ -17,13 +17,11 @@
 
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
-if(defined('WB_PATH') == false)
-{
-	// Stop this file being access directly
-		die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
+if(!defined('WB_URL')) {
+	require_once(dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
-
 
 /**
  *
@@ -59,6 +57,7 @@ function getSystemDefaultPermissions ()
 		'modules_install' => 0,
 		'modules_uninstall' => 0,
 		'modules_view' => 0,
+        'modules_advanced' => 0,
 		'pages' => 0,
 		'pages_add' => 0,
 		'pages_add_l0' => 0,
@@ -366,6 +365,7 @@ function getSystemDefaultPermissions ()
 function setSystemCheckboxes( &$tpl, $admin, $permissions = null )
 {
 	$array = array();
+	$aSytemArray = getSystemDefaultPermissions();
 	if(!is_array($permissions))
 	{
 		$array = convertStringToKeyArray($permissions);
@@ -382,26 +382,30 @@ function setSystemCheckboxes( &$tpl, $admin, $permissions = null )
  		foreach($array AS $key => $value)
 		{
 	//		if(strpos($key,'_view')) { continue; }
-			if(array_key_exists($key, $aPermissions)) { continue; }
+		$checked='';
+			if(array_key_exists($key, $aPermissions)) { 
+			 continue; 
+             }
 			$tpl->set_var('SYS_NAME', "system_permissions[$key]" );
 			$tpl->set_var('SYS_VALUE', 1 );
 			$tpl->parse('hidden_advanced_permission_list', 'show_cmd_hidden_advanced_permission_list_block', true);
-			$checked = '';
 		}
 
 	} else {
-	// set baisc modus
+	// set basic modus
 		$tpl->set_var('SYS_NAME', "none" );
 		$tpl->set_var('SYS_VALUE', '' );
 		$tpl->parse('hidden_permission_list', 'show_cmd_hidden_permission_list_block', true);
 		$array = !is_array($array) ? array() : $array;
 		foreach($array AS $key => $value)
 		{
-			if(strpos($key,'_view')) { continue; }
+		$checked='';
+			if(strpos($key,'_view')) { 
+			 continue; 
+             }
 			$tpl->set_var('SYS_NAME', "system_permissions[$key]" );
 			$tpl->set_var('SYS_VALUE', 1 );
 			$tpl->parse('hidden_permission_list', 'show_cmd_hidden_permission_list_block', true);
-			$checked = '';
 		}
 	}
 	reset($array);
@@ -411,10 +415,18 @@ function setSystemCheckboxes( &$tpl, $admin, $permissions = null )
 		$checked='';
         if( $key != '' )
 		{
-            $checked = ' checked="checked"';
+            $checked = 'checked="checked"';
 		}
 		$tpl->set_var('VALUE', 1);
-		$tpl->set_var($key.'_checked', $checked);
+		$tpl->set_var(($key.'_checked'), $checked);
+	}
+
+// clean html
+    $result = array_diff_key($aSytemArray, $array);
+	foreach($result AS $key => $value)
+	{
+		$tpl->set_var('VALUE', 1);
+		$tpl->set_var(($key.'_checked'), '');
 	}
 
 	return $array;

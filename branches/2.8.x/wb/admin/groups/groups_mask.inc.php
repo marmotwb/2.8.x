@@ -16,10 +16,9 @@
 
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
-if(defined('WB_PATH') == false)
-{
-	// Stop this file being access directly
-		die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
+if(!defined('WB_URL')) {
+	require_once(dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
 
@@ -85,6 +84,7 @@ print_r( $_POST ); print '</pre>'; // flush ();sleep(10); die();
 						'GROUP_ID' => $rec_group['group_id'],
 						'GROUP_NAME' => $rec_group['name'],
 						'FORM_NAME_GROUPMASK' => 'frm_modify_group',
+						'GROUPNAME_DISABLED' => '',
 					));
 			} else {
 				// set changed checkboxes and prepare db data
