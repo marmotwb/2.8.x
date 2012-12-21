@@ -330,3 +330,15 @@ div.acess-main a:visited { color :#0066cc; }
 div.acess-main a:hover { color :#6699ff; text-decoration :underline; }
 div.acess-main div.content { overflow :hidden; padding :1px; text-align :left; }
 div.acess-main div.bottomdiv h3 { font-weight :bold; color :#ff0000; }
+
+.pages_list table td, table.pages_view td {
+   padding :3px;
+   font-size :150%;
+}
+select.pages-parent-list {
+	width: 240px;
+}
+	select.pages-parent-list option {
+		background: none no-repeat center left; 
+		padding-left: 20px;
+	}

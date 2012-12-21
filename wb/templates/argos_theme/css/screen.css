@@ -340,3 +340,15 @@ div.admintools .section { width :100%; }
    div.admintools span.title { font-size :1.1em; }
 /* */
 .access h2,.access h3,.access h4,.access h6 { font-weight :bold; }
+
+.pages_list table td, table.pages_view td {
+   padding :3px;
+   font-size :150%;
+}
+select.pages-parent-list {
+	width: 240px;
+}
+	select.pages-parent-list option {
+		background: none no-repeat center left; 
+		padding-left: 20px;
+	}
