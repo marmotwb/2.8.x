@@ -12,7 +12,9 @@ Legend:
 ===============================================================================
 
 
-
+21 Dez-2012 Build 1839 Werner v.d.Decken(DarkViper)
+! the second optimization of runtime by recoding /admin/pages/index.php
++ new class a_pages_PageTree() for use with /admin/pages/index.php
 13 Dez-2012 Build 1838 Dietmar Woellbrink (Luisehahne)
 ! groups management now completely html valide
 13 Dez-2012 Build 1837 Dietmar Woellbrink (Luisehahne)
