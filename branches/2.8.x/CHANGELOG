@@ -12,6 +12,8 @@ Legend:
 ===============================================================================
 
 
+23 Dez-2012 Build 1841 Dietmar Woellbrink (Luisehahne)
+# fixed index depth in access files
 23 Dez-2012 Build 1840 Dietmar Woellbrink (Luisehahne)
 ! settings move website_signature to mailer settings
 ! fix html validate error in pages sections
