@@ -184,7 +184,6 @@ $allow_empty_values = array(
     'page_icon_dir',
     'rename_files_on_upload',
     'page_spacer',
-    'website_signature',
     'page_icon_dir',
     'modules_upgrade_list'
     );
@@ -197,6 +196,7 @@ $StripCodeFromInput = array(
     'website_title',
     'website_description',
     'website_keywords',
+    'website_signature',
     'wysiwyg_style',
     'pages_directory',
     'page_icon_dir',

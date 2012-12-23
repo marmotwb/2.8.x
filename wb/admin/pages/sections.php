@@ -449,7 +449,7 @@ switch ($action):
 				}
 
 					$tpl->set_var(array(
-									'DISPLAY_DEBUG' => ' style="visibility="visible;"',
+									'DISPLAY_DEBUG' => ' style="visibility:visible;"',
 									'TEXT_SID' => 'SID',
 									'DEBUG_COLSPAN_SIZE' => 9
 									)
@@ -457,7 +457,7 @@ switch ($action):
 				if($debug)
 		        {
 					$tpl->set_var(array(
-									'DISPLAY_DEBUG' => ' style="visibility="visible;"',
+									'DISPLAY_DEBUG' => ' style="visibility:visible;"',
 									'TEXT_PID' => 'PID',
 									'TEXT_SID' => 'SID',
 									'POSITION' => $section['position']

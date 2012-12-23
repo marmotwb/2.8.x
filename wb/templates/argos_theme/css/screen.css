@@ -172,21 +172,21 @@ form.settings_table { border :1px none #eeee; font-family :verdana,arial,helveti
    form input[type="file"] { width :80%; border :1px solid #000000; background-color :#ccccff; }
    legend.settings_table ,
    form.settings_table legend { border :none; color :#006699; font-size :140%; margin :1em; padding :0; }
-   form.settings_table div.sub-row { background-color :transparent !important; background-color :#eeeeee; }
+   form.settings_table div.sub-row { background-color :transparent !important; background-color :#eeeeee; min-width: 900px; }
    form.settings_table label { text-align :right; margin :1px auto; }
    form.settings_table label.setting_name { clear :left; color :#333333; vertical-align :top; display :block; margin :3px auto; min-height :1.6em; float :left; padding-right :5px; width :30%; }
    form.settings_table fieldset div.input { padding :0; margin :0 auto; vertical-align :top; overflow :hidden; display :inline; line-height :2em; min-height :1em; list-style-type :none; width :60%; }
    form.settings_table fieldset div.input input.radio { margin :0.8em auto; border :none; padding-left :6px; }
    form.settings_table fieldset div.input label { margin :6px auto; padding-left :6px; min-height :1em; width :35%; float :none; display :inline; vertical-align :top; }
    form.settings_table input[type="text"],
-   form.settings_table input[type="password"] { border :1px solid #666666; margin :0px auto; padding-left :5px; width :72%; }
+   form.settings_table input[type="password"] { border :1px solid #666666; margin :0px auto; padding-left :5px; width :60%; }
    form.settings_table input.radio { border :1px none #666666; margin :0px auto; padding-left :0.5em; height :1em; }
    form.settings_table input[type="button"].button { border :1px solid #666666; color :#000000; text-align :left; font-weight :bold; background-color :#dddddd; margin :2px auto; padding :2px 0px 2px 6px; width :70%; }
    form.settings_table textarea { border :1px solid #666666; margin :3px auto; padding-left :0.5em; min-height :1em; width : 60%; }
-   form.settings_table select { border :1px solid #666666; margin :3px auto; padding-left :0.5em; min-height :1em; width :73%; }
+   form.settings_table select { border :1px solid #666666; margin :3px auto; padding-left :0.5em; min-height :1em; width :61%; }
 /* */
 div.content_box form { }
-div.sub-row { background-color :#eeeeee; margin :1px auto; overflow :hidden; padding :0; }
+div.sub-row { background-color :#eeeeee; margin :1px auto; overflow :hidden; padding :0; min-width: 900px; }
 div.col_content { margin-right :0.5em; padding :2px 0; }
 .content_box { position :relative; margin :0px auto; padding :0; }
    .content_box form { background :transparent; height :auto; }
@@ -212,7 +212,7 @@ textarea.noResize { resize :none; }
 #dir_mode table { width :290px; height :auto; margin-right :0.5em; font-size :1em; }
 #file_mode input, 
 #dir_mode input { width :12px; height :12px; }
-table.permission_box { width :280; border :2px solid #dddddd; }
+table.permission_box { width :280px; border :2px solid #dddddd; }
 table.permission_box caption { text-align :center; line-height :30px; font-weight :bold; }
 table.permission_box thead { text-align :left; background :#d2e8e8; }
 table.permission_box tbody { text-align :left; }
@@ -242,6 +242,7 @@ a:hover { color :#6699ff; text-decoration :underline; }
 .header_list_page_title, 
 .list_page_title { width :350px; }
 .list_page_title, .list_menu_title, .header_list_menu_title, .header_list_type { text-align :left; vertical-align :middle; }
+.header_list_menu_title { padding-left :30px; width :400px; }
 .header_list_pubdate_start, 
 .header_list_pubdate_end, 
 .list_pubdate_start, 

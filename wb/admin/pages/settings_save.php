@@ -5,12 +5,12 @@
  * @package         pages
  * @author          Ryan Djurovich, WebsiteBaker Project
  * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @link            http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -28,7 +28,8 @@ if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php')
 
 $lang_dir = dirname(__FILE__).'/languages/';
 $lang = file_exists($lang_dir.LANGUAGE.'.php') ? LANGUAGE : 'EN';
-require_once($lang_dir.$lang.'.php');
+//require_once($lang_dir.$lang.'.php');
+if( !isset($TEXT['PAGE_LANG_LOADED']) ) { require($lang_dir.$lang.'.php'); }
 
 // suppress to print the header, so no new FTAN will be set
 $admin = new admin('Pages', 'pages_settings',false);
@@ -331,7 +332,7 @@ if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/'))
         	$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
         }
 		// Move a directory for this page
-		if(file_exists(WB_PATH.PAGES_DIRECTORY.$old_link.'/') && is_dir(WB_PATH.PAGES_DIRECTORY.$old_link.'/'))
+		if(is_readable(WB_PATH.PAGES_DIRECTORY.$old_link.'/') && is_dir(WB_PATH.PAGES_DIRECTORY.$old_link.'/'))
         {
 			rename(WB_PATH.PAGES_DIRECTORY.$old_link.'/', WB_PATH.PAGES_DIRECTORY.$link.'/');
 		}

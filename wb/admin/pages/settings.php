@@ -5,12 +5,12 @@
  * @package         pages
  * @author          Ryan Djurovich, WebsiteBaker Project
  * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @link            http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -201,7 +201,7 @@ $admin = new admin('Pages', 'pages_settings');
 	}
 
 /*-- collect page-icons for select boxes -----------------------------------------------*/
-    $sAllowedImageTypes = '\.jpg|\.jpeg|\.png|\.gif';
+  $sAllowedImageTypes = '\.jpg|\.jpeg|\.png|\.gif';
 	$aPageIcons = array();
 	$aIcon = array();
 	$sTemplate = ($aCurrentPage['template'] == '' ? DEFAULT_TEMPLATE : $aCurrentPage['template']);
@@ -417,12 +417,11 @@ $admin = new admin('Pages', 'pages_settings');
 // Work-out if page languages feature is enabled
 	$oTpl->set_block('main_block', 'show_page_code_block',  'show_page_code');
 	if( (defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) &&
-		 isset($aCurrentPage['page_code']) &&
-		 file_exists(WB_PATH.'/modules/mod_multilingual/update_keys.php') )
+		 isset($aCurrentPage['page_code']) && class_exists('m_MultiLingual_Lib'))
 	{
 		// workout field is set but module missing
 		$oTpl->set_var('TEXT_PAGE_CODE',
-						   '<a href="'.WB_URL.'/modules/mod_multilingual/update_keys.php?page_id='.$page_id.'">'.$mLang->TEXT_PAGE_CODE.'</a>'
+						   '<a href="'.WB_URL.'/modules/MultiLingual/update_keys.php?page_id='.$page_id.'">'.$mLang->TEXT_PAGE_CODE.'</a>'
 		);
 	/*-- begin recursive function page_code list ---------------------------------------*/
 		function page_code_list($parent)

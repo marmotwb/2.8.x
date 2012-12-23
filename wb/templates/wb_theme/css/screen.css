@@ -7,7 +7,7 @@ div.main { border :0px none #666666; margin :0px auto 1em auto; min-width :75em;
 .td { clear :both; font-size :1.0em; margin :0 auto; text-align :center; width :100%; }
 div.main .table { background :url(../images/bgtitle.png) #ffffff repeat-x; margin :0 auto; overflow :auto; width :100%; }
 .wrapper { position :relative; display :block; overflow :auto; width :inherit; }
-.content { padding :15px; text-align :left; overflow :hidden; }
+.content { padding :25px 15px; text-align :left; overflow :hidden; }
 img { border :none; }
 .input_small { width :20px; }
 .input_narrow { width :100px; }
@@ -175,12 +175,12 @@ textarea.noResize { resize :none; }
 h1, h2, h3, h4, h5, h6 { color :#006699; display :block; font-weight :normal; margin :0.5em auto; padding-bottom :5px; }
 h6 { font-size :100%; }
 #file_mode, 
-#dir_mode { width :290px; height :auto; margin-right :0.5em; font-size :1em; }
+#dir_mode { width :280px; height :auto; margin-right :5px; font-size :1em; float: left; }
 #file_mode table, 
-#dir_mode table { width :290px; height :auto; margin-right :0.5em; font-size :1em; }
+#dir_mode table { width :280px; height :auto; margin-right :5px; font-size :1em; float: left; }
 #file_mode input, 
 #dir_mode input { width :12px; height :12px; }
-table.permission_box { width :280; border :2px solid #dddddd; }
+table.permission_box { width :280px; border :2px solid #dddddd; }
 table.permission_box caption { text-align :center; line-height :30px; font-weight :bold; }
 table.permission_box thead { text-align :left; background :#d2e8e8; }
 table.permission_box tbody { text-align :left; }
@@ -217,7 +217,7 @@ a:hover { color :#6699ff; text-decoration :underline; }
 .list_pubdate_start, 
 .list_pubdate_end { text-align :left; white-space :nowrap; width :185px; }
 .header_list_sections_actions { text-align :left; width :30px; }
-.header_list_type { font-size :1em; padding :4px 0; text-align :left; width :34%; }
+.header_list_type { font-size :1em; padding :4px 0; text-align :left; width :40%; }
 .jsadmin_drag img { cursor :pointer; margin-top :0px; padding :0px 0; vertical-align :baseline; }
 .list_actions { height :20px; padding :0 1px; text-align :left; width :20px; }
 .list_page_code, 
@@ -246,7 +246,7 @@ img.page_list_rights { border :none; float :left; margin :0 auto; padding :0 2px
 .sections_list,
 .pages_list_header { font-weight :bold; line-height :1.5em; margin-bottom :5px; text-align :left; }
 .pages_list_header { padding :2px 0px 2px 5px; font-size :1.3em; height :25px; }
-.header_list_menu_title { padding-left :30px; }
+.header_list_menu_title { padding-left :30px; width :400px; }
 .value_page_code { color :#006400; font-weight :400; width :240px; }
 .section-info { margin :1em auto; }
 /* depending styles for /admin/pages_settings */
@@ -333,7 +333,7 @@ div.acess-main div.bottomdiv h3 { font-weight :bold; color :#ff0000; }
 
 .pages_list table td, table.pages_view td {
    padding :3px;
-   font-size :150%;
+   font-size :130%;
 }
 select.pages-parent-list {
 	width: 240px;
