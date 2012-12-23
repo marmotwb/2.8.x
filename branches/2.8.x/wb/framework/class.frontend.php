@@ -36,7 +36,7 @@ class frontend extends wb {
 	// page details
 	// page database row
 	public $page;
-	public $page_id,$page_title,$menu_title,$parent,$root_parent,$level,$position,$visibility;
+	public $page_id,$page_code,$page_title,$menu_title,$parent,$root_parent,$level,$position,$visibility;
 	public $page_description,$page_keywords,$page_link, $page_icon, $menu_icon_0, $menu_icon_1, $tooltip;
 	public $page_trail=array();
 
@@ -197,6 +197,9 @@ class frontend extends wb {
 			// Begin code to set details as either variables of constants
 			// Page ID
 			if(!defined('PAGE_ID')) {define('PAGE_ID', $this->page['page_id']);}
+			// Page Code
+			if(!defined('PAGE_CODE')) {define('PAGE_CODE', $this->page['page_code']);}
+			$this->page_code = PAGE_CODE;
 			// Page Title
 			if(!defined('PAGE_TITLE')) {define('PAGE_TITLE', $this->page['page_title']);}
 			$this->page_title=PAGE_TITLE;

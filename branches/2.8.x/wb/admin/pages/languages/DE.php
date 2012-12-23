@@ -28,6 +28,7 @@ $TEXT['NEW_WINDOW']      = 'Neues Fenster';
 $TEXT['NO_SELECTION']    = 'keine Auswahl';
 $TEXT['NONE']            = 'Keine';
 $TEXT['PAGE_CODE']       = 'Seitensprachcode';
+$TEXT['PAGE_LANG_LOADED']= 'Seitensprache geladen';
 $TEXT['PAGE_TITLE']      = 'Seitentitel';
 $TEXT['PARENT']          = 'Übergeordnete Seite';
 $TEXT['PLEASE_SELECT']   = 'Bitte auswählen';

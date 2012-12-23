@@ -1,5 +1,5 @@
 <!-- BEGIN main_block -->
-<div class="jsadmin jcalendar hide"></div>
+<div class="jsadmin jcalendar hide"><!-- INSERT THIS TO LOAD xxx BY JQUERY! --></div>
 <div class="page-info">
 <table>
 <thead>

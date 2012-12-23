@@ -12,6 +12,11 @@ Legend:
 ===============================================================================
 
 
+23 Dez-2012 Build 1840 Dietmar Woellbrink (Luisehahne)
+! settings move website_signature to mailer settings
+! fix html validate error in pages sections
+! add pages field page_code to class.frontend.php
+! optimized jsadmin backend.css
 21 Dez-2012 Build 1839 Werner v.d.Decken(DarkViper)
 ! the second optimization of runtime by recoding /admin/pages/index.php
 + new class a_pages_PageTree() for use with /admin/pages/index.php

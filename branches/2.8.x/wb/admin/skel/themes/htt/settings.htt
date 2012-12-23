@@ -37,10 +37,6 @@
 			<label class="setting_name">{TEXT_WEBSITE_FOOTER}:</label>
 			<textarea class="vert" name="website_footer" cols="50" rows="4">{WEBSITE_FOOTER}</textarea>
 		</div>
-		<div class="mbox sub-row">
-			<label class="setting_name">{TEXT_WEBSITE_SIGNATURE}:</label>
-			<textarea class="vert" name="website_signature" cols="50" rows="4">{WEBSITE_SIGNATURE}</textarea>
-		</div>
 	</fieldset>
 
 	<fieldset>
@@ -684,6 +680,10 @@
 				<input type="text" name="wbmailer_default_sendername" value="{WBMAILER_DEFAULT_SENDERNAME}" />
 			</div>
 		</div>
+		<div class="mbox sub-row">
+			<label class="setting_name">{TEXT_WEBSITE_SIGNATURE}:</label>
+			<textarea class="vert" name="website_signature" cols="50" rows="4">{WEBSITE_SIGNATURE}</textarea>
+		</div>
 
 		<div class="mbox sub-row">
 	 		<label class="setting_name">{TEXT_WBMAILER_FUNCTION}:</label>
@@ -698,9 +698,7 @@
 		</div>
 
 		<div class="mbox sub-row" id="row_wbmailer_smtp_settings"{SMTP_VISIBILITY} >
-			<div >
-				<p class="msg-box" style="line-height: 1.4em; margin-top: 0;">{TEXT_WBMAILER_NOTICE}</p>
-			</div>
+				<p class="msg-box" style="line-height: 150%; margin-top: 0;">{TEXT_WBMAILER_NOTICE}</p>
 		</div>
 		<br />
 		<div class="mbox sub-row" id="row_wbmailer_smtp_host"{SMTP_VISIBILITY} >

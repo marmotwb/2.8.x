@@ -9,17 +9,15 @@ table.jsadmin_drag_area tr {
     line-height: 2em;
 }
 
-body.jsadmin_busy td.content,
-body.jsadmin_busy div.td div.content {
+body.jsadmin_busy .content {
 	background: url(images/busy.gif) 14px 8px no-repeat;
 }
 
-body.jsadmin_success td.content,
-body.jsadmin_success div.td div.content {
+body.jsadmin_success .content {
 	background: url(images/success.gif) 14px 8px no-repeat;
 }
-body.jsadmin_failure td.content,
-body.jsadmin_failure div.td div.content {
+
+body.jsadmin_failure .content {
 	background: url(images/failure.gif) 14px 8px no-repeat;
 }
 
