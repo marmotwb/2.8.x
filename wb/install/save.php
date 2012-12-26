@@ -371,7 +371,7 @@ define('ADMIN_URL', $wb_url.'/'.ADMIN_DIRECTORY);
 	." (11, 'app_name', 'wb_$session_rand'),"
 	." (12, 'sec_anchor', 'section_'),"
 	." (13, 'default_timezone', '$default_timezone'),"
-	." (14, 'default_date_format', 'M d Y'),"
+	." (14, 'default_date_format', 'Y-m-d'),"
 	." (15, 'default_time_format', 'h:i A'),"
 	." (16, 'redirect_timer', '1500'),"
 	." (17, 'home_folders', 'true'),"

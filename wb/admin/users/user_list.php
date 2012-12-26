@@ -132,7 +132,7 @@ if(!defined('WB_URL')) {
         $oTpl->set_block('main_block', 'show_confirmed_activation_block', 'show_confirmed_activation');
         if($admin->ami_group_member('1')) {
                 $oTpl->set_block('show_confirmed_activation_block', 'list_confirmed_activation_block', 'list_confirmed_activation');
-            	$oTpl->set_var('DISPLAY_WAITING_ACTIVATION', 'Users awaiting for activation');
+            	$oTpl->set_var('DISPLAY_WAITING_ACTIVATION', 'Users awaiting activation');
         		$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'users` ';
         		$sql .= 'WHERE `confirm_timeout` != 0 ';
                 $sql .=   'AND `active` = 0 ';

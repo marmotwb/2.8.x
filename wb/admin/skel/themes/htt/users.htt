@@ -29,7 +29,7 @@
 
 <!-- BEGIN show_confirmed_activation_block -->
 <h3 class="bold">{DISPLAY_WAITING_ACTIVATION}</h3>
-     <select name="user_id_activation_id" class="user-activation" style="width: 500px; margin-left: 34px;">
+     <select name="activation_user_id" class="user-activation" style="width: 500px; margin-left: 34px;">
     <!-- BEGIN list_confirmed_activation_block -->
     	<option value="{VALUE}" {STATUS}>{NAME}</option>
     <!-- END list_confirmed_activation_block -->

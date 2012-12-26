@@ -29,11 +29,23 @@ function delete_user($admin, &$aActionRequest)
 	$database = WbDatabase::getInstance();
     $aUserID = array();
     $bRetVal = false;
-    if(isset($aActionRequest['user_id']) && !is_array($aActionRequest['user_id'])) {
-        $aUserID[] = $aActionRequest['user_id'];
+    if(isset($aActionRequest['activation_user_id'])) {
+		if(!is_array($aActionRequest['activation_user_id'])) {
+	
+	        $aUserID[] = $aActionRequest['activation_user_id'];
+	    } else {
+	        $aUserID = $aActionRequest['activation_user_id'];
+	    }
     } else {
-        $aUserID = $aActionRequest['user_id'];
-    }
+	    if(isset($aActionRequest['user_id'])) {
+			if(!is_array($aActionRequest['user_id'])) {
+		
+		        $aUserID[] = $aActionRequest['user_id'];
+		    } else {
+		        $aUserID = $aActionRequest['user_id'];
+		    }
+	    } 
+    } 
 
     foreach ( $aUserID AS $key => $value)
     {

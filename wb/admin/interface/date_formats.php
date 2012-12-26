@@ -43,6 +43,7 @@ $DATE_FORMATS['jS|F,|Y']    = gmdate('jS F, Y', $actual_time);
 $DATE_FORMATS['d|M|Y']      = gmdate('d M Y', $actual_time);
 $DATE_FORMATS['M|d|Y']      = gmdate('M d Y', $actual_time);
 $DATE_FORMATS['D|M|d,|Y']   = gmdate('D M d, Y', $actual_time);
+$DATE_FORMATS['Y-m-d']      = gmdate('Y-m-d', $actual_time).' (Y-M-D)';
 $DATE_FORMATS['d-m-Y']      = gmdate('d-m-Y', $actual_time).' (D-M-Y)';
 $DATE_FORMATS['m-d-Y']      = gmdate('m-d-Y', $actual_time).' (M-D-Y)';
 $DATE_FORMATS['d.m.Y'] = gmdate('d.m.Y', $actual_time).' (D.M.Y)';
