@@ -1,9 +1,9 @@
 <!-- BEGIN main_block -->
-<div class="msg-box note center">
+<div class="msg-box center">
 <!-- BEGIN show_registration_block -->
 	<p>{MESSAGE_VALUE}</p>
 <!-- END show_registration_block -->
-	<p>{MESSAGE}</p>
+	<p class="note">{MESSAGE}</p>
 <input type="button" name="submit" value="{BACK}" onclick="javascript:window.location='{HTTP_REFERER}';" style="padding: 0 3px;" />
 </div>
 <!-- END main_block -->

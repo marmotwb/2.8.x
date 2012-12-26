@@ -51,15 +51,14 @@
 
 		switch($action) :
 			case 'delete': // delete the user
+			case 'delete_outdated': // delete Users awaiting activation
     			$admin = new admin('Access', 'users_delete',false);
-
 				include($sAdminPath.'/delete.php');
     			$output = delete_user($admin,$aActionRequest);
 
         		if( ($msg = msgQueue::getError()) != '')
         		{
         		}
-
                 $aActionRequest['cancel_url'] = ADMIN_URL.'/access/index.php';
 				$admin = new admin('Access', 'users');
 				include($sAdminPath.'/user_list.php');
