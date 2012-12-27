@@ -584,15 +584,7 @@
 		<div class="mbox sub-row">
 	 		<label class="setting_name">{TEXT_PAGES_DIRECTORY}:</label>
 			<div class="input" >
-				<input type="text" name="pages_directory" value="{PAGES_DIRECTORY}" />
-			</div>
-		</div>
-
-		<div class="mbox sub-row hide">
-	 		<label for="rebuild_access_files" class="setting_name">{TEXT_REBUILD_ACCESS_FILES}:</label>
-			<div class="input" >
-				<input type="checkbox" name="rebuild_access_files" id="rebuild_access_files" value="true" />
-                {HELP_REBUILD_ACCESS_FILES}
+				<input class="{PAGES_EDIT_TYPE}" type="{PAGES_EDIT_TYPE}" name="pages_directory"{PAGES_READONLY} value="{PAGES_DIRECTORY}" />
 			</div>
 		</div>
 

@@ -12,6 +12,9 @@ Legend:
 ===============================================================================
 
 
+27 Dez-2012 Build 1843 Dietmar Woellbrink (Luisehahne)
+! trash only will be shown in sectionmanagement if more than one section exists
+! In the server settings the renaming of the page_directory is only possible, if no page exists
 26 Dez-2012 Build 1842 Dietmar Woellbrink (Luisehahne)
 # fixed output activation conformation
 # fixed deleting Users awaiting activation

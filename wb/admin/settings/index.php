@@ -5,18 +5,26 @@
  * @package         settings
  * @author          Ryan Djurovich, WebsiteBaker Project
  * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @link            http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
 
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
+// Include config file
+if(!defined('WB_URL'))
+{
+    $config_file = realpath('../../config.php');
+    if(file_exists($config_file) && !defined('WB_URL'))
+    {
+    	require($config_file);
+    }
+}
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 
 if(isset($_GET['advanced']) && $_GET['advanced'] == 'yes') {
 	$admin = new admin('Settings', 'settings_advanced');
@@ -63,7 +71,6 @@ if($results = $database->query($query)) {
     	$setting_name = $setting['name'];
     	$setting_value = ( $setting_name != 'wbmailer_smtp_password' ) ? htmlspecialchars($setting['value']) : htmlentities($setting['value'], ENT_COMPAT, 'UTF-8');
     	$oTpl->set_var(strtoupper($setting_name),($setting_value));
-//        $oTpl->parse('main', 'main_block', true);
     }
 }
 
@@ -1013,9 +1020,17 @@ if($is_advanced)
 	{
 		$oTpl->set_var('DIR_O_E_CHECKED', $checked);
 	}
+	$sReadOnly = '';
+	$sPagesEditType = 'text';
+	if( $bPagesCanModify = ($database->get_one('SELECT COUNT(*) FROM `'.TABLE_PREFIX.'pages`'))!=0 ) {
+		$sReadOnly = ' readonly="readonly"';
+		$sPagesEditType = 'button';
+	}
 
 	$oTpl->set_var(array(
 		'PAGES_DIRECTORY' => PAGES_DIRECTORY,
+		'PAGES_READONLY' => $sReadOnly,
+		'PAGES_EDIT_TYPE' => $sPagesEditType,
 		'MODULES_DIRECTORY' => MODULES_UPGRADE_LIST,
 		'PAGE_ICON_DIR'   => PAGE_ICON_DIR,
 		'MEDIA_DIRECTORY' => MEDIA_DIRECTORY,
