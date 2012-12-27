@@ -5,12 +5,12 @@
  * @package         pages
  * @author          Ryan Djurovich, WebsiteBaker Project
  * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @link            http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -308,6 +308,10 @@ switch ($action):
 						'MODIFY_LINK' => ADMIN_URL.'/pages/modify.php?page_id='.$results_array['page_id']
 						)
 					);
+// setting trash only if more than one section exists
+		$tpl->set_block('section_block', 'delete_block', 'delete');
+		if( $bSectionCanDelete = ($database->get_one('SELECT COUNT(*) FROM `'.TABLE_PREFIX.'sections` WHERE `page_id`='.$page_id))!=1 ) {
+		}
 
 		$sql  = 'SELECT `section_id`,`module`,`position`,`block`,`publ_start`,`publ_end` ';
 		$sql .= 'FROM `'.TABLE_PREFIX.'sections` ';
@@ -444,6 +448,7 @@ switch ($action):
 									)
 								);
 					}
+
 				} else {
 				  continue;
 				}
@@ -471,8 +476,14 @@ switch ($action):
 									)
 								);
 				}
+				if($bSectionCanDelete) {
+					$tpl->parse('delete', 'delete_block', false);
+				} else {
+					$tpl->parse('delete', '', false);
+				} 
 				$tpl->parse('section_list', 'section_block', true);
 			}
+
 		}
 
 		// now add the calendars -- remember to to set the range to [1970, 2037] if the date is used as timestamp!

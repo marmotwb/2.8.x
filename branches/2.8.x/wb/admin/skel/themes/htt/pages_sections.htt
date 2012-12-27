@@ -80,15 +80,19 @@
         <td>{VAR_MOVE_DOWN_URL}</td>
 
         <td>
-            <a href="#" onclick="javascript: confirm_link('{TEXT_ARE_YOU_SURE}', '{ADMIN_URL}/pages/sections.php?page_id={PAGE_IDKEY}&amp;section_id={VAR_SECTION_IDKEY}');">
+	<!-- BEGIN delete_block -->
+            <a href="#" onclick="javascript:confirm_link('{TEXT_ARE_YOU_SURE}', '{ADMIN_URL}/pages/sections.php?page_id={PAGE_IDKEY}&amp;section_id={VAR_SECTION_IDKEY}');">
             <img src="{THEME_URL}/images/{DELETE_16_PNG}" alt="{TEXT_DELETE}" border="0" />
             </a>
+	<!-- END delete_block -->
+			&nbsp;
         </td>
 
         <td class="list_section_id">{VAR_SECTION_ID}</td>
 
         <td class="list_section_id" {DISPLAY_DEBUG}>{POSITION}</td>
     </tr>
+
 <!-- END section_block -->
     <tr>
         <td align="left" colspan="{DEBUG_COLSPAN_SIZE}">
@@ -108,6 +112,7 @@
     	<tr>
     		<td width="50%" valign="middle">
     			<select name="module" class="input_large">
+   			 <option value="">&nbsp;</option>
                 <!-- BEGIN module_block -->
     			 <option value="{VALUE}"{SELECTED}>{NAME}</option>
                  <!-- END module_block -->

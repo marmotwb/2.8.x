@@ -208,8 +208,6 @@ $StripCodeFromInput = array(
     'modules_upgrade_list'
     );
 
-$bRebuildAccessFiles = ( (isset( $_POST['rebuild_access_files']) && ( $_POST['rebuild_access_files'] == true )) ? true : false ) ;
-
 // Query current settings in the db, then loop through them and update the db with the new value
 $settings = array();
 $old_settings = array();
@@ -243,19 +241,20 @@ if($res_settings = $database->query($sql)) {
 				$value=(($value=='') ? 'section_' : $value);
 	 			$passed = true;
 				break;
+			case 'media_directory':
+				if(strpos($value,'/',0)===false) {	$value= '/'.$value;	}
+	 			$passed = true;
+				break;
 			case 'pages_directory':
-                $value = $admin->StripCodeFromText($value);
-                $bNewPageFile = ( ( $value!= $old_settings['pages_directory'] ) ? true :  false );
-	 			$passed = $bNewPageFile;
-                $sGetId = '&amp;id='.$bNewPageFile;
-//                if(!is_dir(WB_PATH.$value) && is_writable(WB_PATH)) {
-//                    $passed = make_dir(WB_PATH.$value);
-//                }
-                $value  = (($passed == true) ? $value : $old_settings['pages_directory']);
-                $sPageDirectory = $value;
+				if( ($database->get_one('SELECT COUNT(*) FROM `'.TABLE_PREFIX.'pages`'))==0 ) {
+					$value = $admin->StripCodeFromText($value);
+					$passed = true;
+				} else {
+					$value = $old_settings[$setting_name];
+				}
+				if(strpos($value,'/',0)===false) {	$value= '/'.$value;	}
 				break;
 			case 'wbmailer_smtp_auth':
-				// $value = isset($_POST[$setting_name]) ? $_POST[$setting_name] : '' ;
 				$value = true ;
 	 			$passed = true;
 				break;
@@ -287,12 +286,6 @@ if($res_settings = $database->query($sql)) {
 	        }
 		}
 	}
-
-    if(($bRebuildAccessFiles==true) && ($_POST['modules_upgrade_list']!='') && ($sPageDirectory==$old_settings['pages_directory']) ) {
-        rebuild_all_accessfiles();
-        $aModuleList = ( explode(',', $_POST['modules_upgrade_list']));
-        upgrade_modules($aModuleList);
-    }
 
 }
 /**
