@@ -12,6 +12,9 @@ Legend:
 ===============================================================================
 
 
+28 Dez-2012 Build 1845 Dietmar Woellbrink (Luisehahne)
+# bugfix redclare function in preferences_form
+! add infobox, if you have to change the language before working in preferences
 28 Dez-2012 Build 1844 Dietmar Woellbrink (Luisehahne)
 # fixed Use of undefined constant PAGE_ID in /account/forgot.php
 ! change return value to boolean in user management delete.php, add.php
