@@ -176,6 +176,7 @@ if(!defined('WB_URL')) {
                     '';
             if($database->query($sql)) {
             	msgQueue::add($MESSAGE['USERS_ADDED'], true);
+		        $bRetVal = true;
             }
             if($database->is_error()) {
                 msgQueue::add( implode('<br />',explode(';',$database->get_error())) );
@@ -183,6 +184,6 @@ if(!defined('WB_URL')) {
         } else {
         	msgQueue::add($HEADING['ADD_USER'].' '.$MESSAGE['GENERIC_NOT_COMPARE']);
 
-       }
-    }
-//
+		}
+		return $bRetVal;
+   }

@@ -584,7 +584,7 @@
 		<div class="mbox sub-row">
 	 		<label class="setting_name">{TEXT_PAGES_DIRECTORY}:</label>
 			<div class="input" >
-				<input class="{PAGES_EDIT_TYPE}" type="{PAGES_EDIT_TYPE}" name="pages_directory"{PAGES_READONLY} value="{PAGES_DIRECTORY}" />
+				<input class="{PAGES_EDIT_TYPE}" type="text" name="pages_directory"{PAGES_READONLY} value="{PAGES_DIRECTORY}" />
 			</div>
 		</div>
 
@@ -674,7 +674,7 @@
 		</div>
 		<div class="mbox sub-row">
 			<label class="setting_name">{TEXT_WEBSITE_SIGNATURE}:</label>
-			<textarea class="vert" name="website_signature" cols="50" rows="4">{WEBSITE_SIGNATURE}</textarea>
+			<textarea class="vert" name="wbmail_signature" cols="50" rows="4">{WBMAIL_SIGNATURE}</textarea>
 		</div>
 
 		<div class="mbox sub-row">

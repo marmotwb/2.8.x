@@ -34,7 +34,7 @@ if(isset($_GET['advanced']) && $_GET['advanced'] == 'yes') {
 
 // add new values, later in upgrade-script
 $cfg = array(
-	'website_signature' => defined('WEBSITE_SIGNATURE') ? WEBSITE_SIGNATURE : '',
+	'wbmail_signature' => defined('WBMAIL_SIGNATURE') ? WBMAIL_SIGNATURE : '',
 	'confirmed_registration' => (defined('CONFIRMED_REGISTRATION') ? CONFIRMED_REGISTRATION : '0'),
 	'modules_upgrade_list' => (defined('MODULES_UPGRADE_LIST') ? MODULES_UPGRADE_LIST : ''),
 	);
@@ -1024,7 +1024,7 @@ if($is_advanced)
 	$sPagesEditType = 'text';
 	if( $bPagesCanModify = ($database->get_one('SELECT COUNT(*) FROM `'.TABLE_PREFIX.'pages`'))!=0 ) {
 		$sReadOnly = ' readonly="readonly"';
-		$sPagesEditType = 'button';
+		$sPagesEditType = 'grey bold';
 	}
 
 	$oTpl->set_var(array(

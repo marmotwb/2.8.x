@@ -18,8 +18,7 @@
 // Include config file
 require('../../config.php');
 require_once(WB_PATH.'/framework/class.wb.php');
-$wb = new wb;
-
+if( !(isset($wb) && is_object($wb)) ) { $wb = new wb(); }
 // Check if there is a post id
 // $post_id = $wb->checkIDKEY('post_id', false, 'GET');
 

@@ -54,11 +54,7 @@
 			case 'delete_outdated': // delete Users awaiting activation
     			$admin = new admin('Access', 'users_delete',false);
 				include($sAdminPath.'/delete.php');
-    			$output = delete_user($admin,$aActionRequest);
-
-        		if( ($msg = msgQueue::getError()) != '')
-        		{
-        		}
+    			delete_user($admin,$aActionRequest);
                 $aActionRequest['cancel_url'] = ADMIN_URL.'/access/index.php';
 				$admin = new admin('Access', 'users');
 				include($sAdminPath.'/user_list.php');
@@ -67,7 +63,7 @@
 			case 'add': // insert/update user
                 $admin = new admin('Access', 'users_add',false);
 				include($sAdminPath.'/add.php');
-    			$output = add_user($admin,$aActionRequest);
+    			add_user($admin,$aActionRequest);
                 $aActionRequest['cancel_url'] = ADMIN_URL.'/access/index.php';
 				$admin = new admin('Access', 'users');
 				include($sAdminPath.'/user_list.php');
