@@ -68,6 +68,7 @@
             </tr>
             <tr>
                 <td colspan="2" class="button">
+				 <p class="note" style="{DISPLAY_PREFERENCES_LANGUAGE}">{MOD_PREFERENCE_SET_PREFERENCES_LANGUAGE}</p>
         <!-- BEGIN show_detail_send_block -->
                     <button class="error" type="reset" name="reset" value="reset">{TEXT_RESET}</button>
                     <button type="submit" name="action" value="details">{MOD_PREFERENCE_SAVE_SETTINGS}</button>

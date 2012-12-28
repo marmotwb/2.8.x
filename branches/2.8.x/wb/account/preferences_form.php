@@ -52,7 +52,7 @@ $sLanguageFile = ( is_readable($sLanguageFile) ?  $sLanguageFile :  $LanguageDir
 // load module default language file (EN)
 require($sLanguageFile);
 
-require(WB_PATH.'/framework/functions-utf8.php');
+if(!function_exists('utf8_check')) { require(WB_PATH.'/framework/functions-utf8.php'); }
 
 $sIncludeHeadLinkCss = '';
 if( is_readable(WB_PATH .'/account/frontend.css')) {
@@ -125,14 +125,16 @@ if(($sUserLanguage != LANGUAGE) ) {
     $template->parse('show_password_send', 'show_password_send_block');
 }
 
-// Insert language text and messages
+// Insert language text and messages visibilty="hidden"
 $template->set_var(array(
     'HTTP_REFERER' => ( $wb->get_session('HTTP_REFERER')!='' ? $_SESSION['HTTP_REFERER'] : WB_URL),
     'CSS_BLOCK'	=> $sIncludeHeadLinkCss,
     'TEXT_SAVE'	=> $TEXT['SAVE'],
     'TEXT_RESET' => $TEXT['RESET'],
     'TEXT_CANCEL' => ($sUserLanguage!=LANGUAGE) ? $MOD_PREFERENCE['SAVE_LANGUAGE']:$TEXT['CANCEL'],
-    'TEXT_DISPLAY_NAME'	=> $TEXT['DISPLAY_NAME'],
+    'MOD_PREFERENCE_SET_PREFERENCES_LANGUAGE' => ($sUserLanguage!=LANGUAGE) ? $MOD_PREFERENCE['SET_PREFERENCES_LANGUAGE']:'',
+    'DISPLAY_PREFERENCES_LANGUAGE' => ($sUserLanguage!=LANGUAGE) ? '':'display:none',
+	'TEXT_DISPLAY_NAME'	=> $TEXT['DISPLAY_NAME'],
     'TEXT_EMAIL' => $TEXT['EMAIL'],
     'TEXT_LANGUAGE' => $TEXT['LANGUAGE'],
     'TEXT_TIMEZONE' => $TEXT['TIMEZONE'],
