@@ -28,7 +28,8 @@ require_once(WB_PATH.'/framework/functions.php');
 
 $wb = new frontend(false);
 
-$page_id = defined('REFERRER_ID') ? REFERRER_ID : isset($_SESSION['PAGE_ID']) ? $_SESSION['PAGE_ID'] : PAGE_ID;
+$page_id = defined('PAGE_ID') ? PAGE_ID : 0;
+$page_id = defined('REFERRER_ID') ? REFERRER_ID : isset($_SESSION['PAGE_ID']) ? $_SESSION['PAGE_ID'] : $page_id;
 
 // Required page details
 $page_description = '';

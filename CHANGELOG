@@ -12,6 +12,10 @@ Legend:
 ===============================================================================
 
 
+28 Dez-2012 Build 1844 Dietmar Woellbrink (Luisehahne)
+# fixed Use of undefined constant PAGE_ID in /account/forgot.php
+! change return value to boolean in user management delete.php, add.php
+! change WEBSITE_SIGNATURE to WBMAIL_SIGNATURE 
 27 Dez-2012 Build 1843 Dietmar Woellbrink (Luisehahne)
 ! trash only will be shown in sectionmanagement if more than one section exists
 ! In the server settings the renaming of the page_directory is only possible, if no page exists

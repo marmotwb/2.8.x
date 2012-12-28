@@ -515,11 +515,11 @@ echo'<h3>Step '.(++$stepID).': Updating core tables</h3>';
     $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
     /**********************************************************
-     *  - Adding website_signature to settings table
+     *  - Adding wbmail_signature to settings table
      */
-    $aDebugMessage[] = "<span>Adding/updating website_signature to settings table</span>";
+    $aDebugMessage[] = "<span>Adding/updating wbmail_signature to settings table</span>";
     $cfg = array(
-    	'website_signature' => (defined('WEBSITE_SIGNATURE') ? WEBSITE_SIGNATURE : '')
+    	'wbmail_signature' => (defined('WBMAIL_SIGNATURE') ? WBMAIL_SIGNATURE : '')
     );
 
     $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");

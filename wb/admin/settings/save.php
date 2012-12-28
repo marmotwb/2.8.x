@@ -173,12 +173,12 @@ if($advanced == '')
 $allow_tags_in_fields = array(
     'website_header',
     'website_footer',
-    'website_signature'
+    'wbmail_signature'
     );
 $allow_empty_values = array(
     'website_header',
     'website_footer',
-    'website_signature',
+    'wbmail_signature',
     'wysiwyg_style',
     'pages_directory',
     'page_icon_dir',
@@ -196,7 +196,7 @@ $StripCodeFromInput = array(
     'website_title',
     'website_description',
     'website_keywords',
-    'website_signature',
+    'wbmail_signature',
     'wysiwyg_style',
     'pages_directory',
     'page_icon_dir',

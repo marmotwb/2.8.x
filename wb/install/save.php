@@ -415,7 +415,7 @@ define('ADMIN_URL', $wb_url.'/'.ADMIN_DIRECTORY);
 	." (55, 'page_icon_dir', '/templates/*/title_images'),"
 	." (56, 'dev_infos', 'false'),"
 	." (57, 'groups_updated', '".time()."'),"
-	." (58, 'website_signature', ''),"
+	." (58, 'wbmail_signature', ''),"
 	." (59, 'confirmed_registration', '1'),"
 	." (60, 'page_extended', 'true'),"
 	." (61, 'modules_upgrade_list', 'news,wysiwyg,form'),"

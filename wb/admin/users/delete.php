@@ -100,7 +100,7 @@ function delete_user($admin, &$aActionRequest)
 		}
     }
     if(isset($aActionRequest['clearmsg'])) { msgQueue::clear();  }
-    return $user_id;
+    return $bRetVal;
 }
 
 if(!isset($aActionRequest)) {
