@@ -11,7 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-
+05 Jan-2013 Build 1846 Werner v.d.Decken(DarkViper)
++ added variable root page for tree generation in class a_pages_PageTree
+# added missing CSS class jsadmin for drop/down activation
 28 Dez-2012 Build 1845 Dietmar Woellbrink (Luisehahne)
 # bugfix redclare function in preferences_form
 ! add infobox, if you have to change the language before working in preferences

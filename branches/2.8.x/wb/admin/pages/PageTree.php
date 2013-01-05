@@ -17,12 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * Description of PageTree
+ * PageTree generator
  *
  * @category     WbACP
  * @package      WbACP_Pages
- * @author       Werner v.d. Decken <wkl@isteam.de>
- * @copyright    Werner v.d. Decken <wkl@isteam.de>
+ * @author       Werner v.d.Decken <wkl@isteam.de>
+ * @copyright    Werner v.d.Decken <wkl@isteam.de>
  * @license      http://www.gnu.org/licenses/gpl.html   GPL License
  * @version      1.0.0
  * @revision     $Revision$
@@ -67,16 +67,18 @@ class a_pages_PageTree
 	}
 /**
  * parse the page tree and return
+ * @param int use page-ID as root of the generated page tree. (default: 0)
  * @return type
  */	
-	public function parseTree() {
-		return $this->_createTree();
+	public function parseTree($iTreeRoot = 0) {
+		return $this->_createTree($iTreeRoot);
 	}
 /**
  *  parse the page tree and print it out
+ * @param int use page-ID as root of the generated page tree. (default: 0)
  */	
-	public function displayTree() {
-		echo $this->parseTree();
+	public function displayTree($iTreeRoot = 0) {
+		echo $this->parseTree($iTreeRoot);
 	}
 /**
  * total number of found pages which are visible for actual user
@@ -123,14 +125,15 @@ class a_pages_PageTree
 	}
 /**
  * create a page tree as a well formatted, unordered list
+ * @param int use page-ID as root of the generated page tree. (default: 0)
  * @return string the whoole list
  */
-	private function _createTree()
+	private function _createTree($iTreeRoot = 0)
 	{
 		// compose the complete list
 		$sOutput = ''
 		// build the head
-		      . $this->_Tabs(0 , true).'<div class="pages_list">'.PHP_EOL
+		      . $this->_Tabs(0 , true).'<div class="jsadmin pages_list">'.PHP_EOL
 		      . $this->_Tabs(1).'<table>'.PHP_EOL
 		      . $this->_Tabs(1).'<tbody>'.PHP_EOL
 		      . $this->_Tabs(1).'<tr class="pages_list_header">'.PHP_EOL
@@ -146,7 +149,7 @@ class a_pages_PageTree
 		      . $this->_Tabs(-1).'</tbody>'.PHP_EOL
 		      . $this->_Tabs(-1).'</table>'.PHP_EOL
 		// generate the page lines
-		      . $this->_IterateTree()
+		      . $this->_IterateTree($iTreeRoot)
 		// build the footer
 		      . $this->_Tabs(-1).'</div>'.PHP_EOL;
 		;
@@ -201,7 +204,7 @@ class a_pages_PageTree
 	}
 /**
  * iterate through all nodes which having subnodes 
- * @param integer $iParent
+ * @param integer start iteration from this parent page ( 0 = root)
  * @return string all of the item lines 
  */	
 	private function _IterateTree($iParent = 0)
@@ -225,6 +228,9 @@ class a_pages_PageTree
 			$iMinPosition = 1;
 			while($aPage = $oPages->fetchRow(MYSQL_ASSOC))
 			{ // iterate through the current branch
+				if($this->_aReg['PAGE_LEVEL_LIMIT'] && ($aPage['level'] > $this->_aReg['PAGE_LEVEL_LIMIT'])) {
+					return '';
+				}
 				$aPage['min_position'] = ($aPage['position'] < $iMinPosition ? $aPage['position'] : $iMinPosition);
 				$this->_iLineColor = $this->_iPagesTotal++ % 2;
 				$aPage['iswriteable'] = false;
@@ -278,39 +284,17 @@ class a_pages_PageTree
 		}
 		$sOutput .= '</td>'.PHP_EOL;
 	// --- TAB 2 --- (menu title) --------------------------------------------------------
-		switch($aPage['visibility']):
-			case 'private':
-				$sIcon = 'private_16.png';
-				$sText = $this->_TEXT['PRIVATE'];
-				break;
-			case 'registered':
-				$sIcon = 'keys_16.png';
-				$sText = $this->_TEXT['REGISTERED'];
-				break;
-			case 'hidden':
-				$sIcon = 'hidden_16.png';
-				$sText = $this->_TEXT['HIDDEN'];
-				break;
-			case 'none':
-				$sIcon = 'none_16.png';
-				$sText = $this->_TEXT['NONE'];
-				break;
-			case 'deleted':
-				$sIcon = 'deleted_16.png';
-				$sText = $this->_TEXT['DELETED'];
-				break;
-			default: // public
-				$sIcon = 'visible_16.png';
-				$sText = $this->_TEXT['PUBLIC'];
-				break;
-		endswitch;
 		$sOutput .= $this->_Tabs(0).'<td class="list_menu_title">';
 		if($this->_oApp->get_permission('pages_modify') && $aPage['iswriteable']) {
 			$sOutput .= '<a href="'.$this->_aReg['ACP_REL'].'/pages/modify.php?page_id='
 			          . $aPage['page_id'].'" title="'.$this->_TEXT['MODIFY'].'">';
 		}
-		$sOutput .= '<img src="'.$this->_aReg['THEME_REL'].'/images/'.$sIcon.'" '
-		          . 'alt="'.$this->_TEXT['VISIBILITY'].': '.$sText.'" class="page_list_rights" />';
+		$sIcon = $this->_aReg['THEME_REL'].'/images/'.$aPage['visibility'].'_16.png';
+		if(!is_readable($sIcon)) {
+			$sIcon = $this->_aReg['THEME_REL'].'/images/public_16.png';
+		}
+		$sOutput .= '<img src="'.$sIcon.'" alt="'.$this->_TEXT['VISIBILITY'].': '
+		          . $sText.'" class="page_list_rights" />';
 		if($this->_oApp->get_permission('pages_modify') && $aPage['iswriteable']) {
 			$sOutput .= '<span class="modify_link">'.$aPage['menu_title'].'</span></a>';
 		}else {
