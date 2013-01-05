@@ -117,6 +117,7 @@ class a_pages_PageTree
 		$this->_aReg['PAGE_TRASH']       = PAGE_TRASH;
 		$this->_aReg['PAGE_LEVEL_LIMIT'] = PAGE_LEVEL_LIMIT;
 		$this->_aReg['MANAGE_SECTIONS']  = MANAGE_SECTIONS;
+		$this->_aReg['DOCUMENT_ROOT']    = $_SERVER['DOCUMENT_ROOT'];
 		$this->_aReg['WB_URL']           = WB_URL;
 		$this->_aReg['WB_REL']           = WB_REL;
 		$this->_aReg['ACP_REL']          = ADMIN_REL;
@@ -290,11 +291,11 @@ class a_pages_PageTree
 			          . $aPage['page_id'].'" title="'.$this->_TEXT['MODIFY'].'">';
 		}
 		$sIcon = $this->_aReg['THEME_REL'].'/images/'.$aPage['visibility'].'_16.png';
-		if(!is_readable($sIcon)) {
+		if(!is_readable($this->_aReg['DOCUMENT_ROOT'].$sIcon)) {
 			$sIcon = $this->_aReg['THEME_REL'].'/images/public_16.png';
 		}
 		$sOutput .= '<img src="'.$sIcon.'" alt="'.$this->_TEXT['VISIBILITY'].': '
-		          . $sText.'" class="page_list_rights" />';
+		          . $this->_TEXT[strtoupper($aPage['visibility'])].'" class="page_list_rights" />';
 		if($this->_oApp->get_permission('pages_modify') && $aPage['iswriteable']) {
 			$sOutput .= '<span class="modify_link">'.$aPage['menu_title'].'</span></a>';
 		}else {

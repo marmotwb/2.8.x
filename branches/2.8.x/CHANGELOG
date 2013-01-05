@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+05 Jan-2013 Build 1847 Werner v.d.Decken(DarkViper)
+# PageTree: fixed icon requests
++ added 2 icons in wb_theme and argos_theme
 05 Jan-2013 Build 1846 Werner v.d.Decken(DarkViper)
 + added variable root page for tree generation in class a_pages_PageTree
 # added missing CSS class jsadmin for drop/down activation
