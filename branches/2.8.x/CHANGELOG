@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+05 Jan-2013 Build 1848 Werner v.d.Decken(DarkViper)
+# fixed reinitialisation of class frontend in /index.php
 05 Jan-2013 Build 1847 Werner v.d.Decken(DarkViper)
 # PageTree: fixed icon requests
 + added 2 icons in wb_theme and argos_theme

@@ -1,8 +1,8 @@
 <?php
 /**
  *
- * @category        frontend
- * @package         page
+ * @category        Core
+ * @package         Core_sys
  * @author          WebsiteBaker Project
  * @copyright       2009-, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
@@ -45,7 +45,7 @@ if(!defined('TABLE_PREFIX'))
 if(!class_exists('frontend', false)){ include(WB_PATH.'/framework/class.frontend.php'); }
 
 // Create new frontend object
-if (!isset($wb)) {
+if (!isset($wb) || !($wb instanceof frontend)) {
     $wb = new frontend();
 }
 
