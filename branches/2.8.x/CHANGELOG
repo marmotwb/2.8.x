@@ -13,6 +13,8 @@ Legend:
 
 
 
+06 Jan-2013 Build 1850 Dietmar Woellbrink (Luisehahne)
+! add default_timezone in admin account by new installation 
 06 Jan-2013 Build 1849 Dietmar Woellbrink (Luisehahne)
 # typofix page_extended in admin/settings and admin/pages/
 ! Fill empty option modules dropdown in admin/pages/sections.php
