@@ -10,7 +10,7 @@
 * @platform        WebsiteBaker 2.8.x
 * @requirements    PHP 5.2.2 and higher
 * @version         $Id$
-* @filesource		$HeadURL$
+* @filesource      $HeadURL$
 * @lastmodified    $Date$
 *
 */
@@ -162,12 +162,6 @@ if( $oLang = $database->query($sql) )
 
 // default, if no information from client available
 $sAutoLanguage = DEFAULT_LANGUAGE;
-// detect client language
-//if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-//	if(preg_match('/([a-z]{2})(?:-[a-z]{2})*/i', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']), $matches)) {
-//		$sAutoLanguage = strtoupper($matches[1]);
-//	}
-//}
 
 //$sAutoLanguage = 'FR';
 $aLangUsed = array_flip(explode(',',$wb->GetLanguagesInUsed()));
@@ -222,6 +216,7 @@ foreach($DATE_FORMATS AS $format => $title)
     $template->parse('date_format_list', 'date_format_list_block', true);
 }
 
+$user_time = true;
 // Insert time format list
 $template->set_block('main_block', 'time_format_list_block', 'time_format_list');
 foreach($TIME_FORMATS AS $format => $title)

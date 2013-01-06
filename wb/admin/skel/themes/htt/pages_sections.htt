@@ -112,7 +112,7 @@
     	<tr>
     		<td width="50%" valign="middle">
     			<select name="module" class="input_large">
-   			 <option value="">&nbsp;</option>
+   			 <option value="">{TEXT_PLEASE_SELECT}</option>
                 <!-- BEGIN module_block -->
     			 <option value="{VALUE}"{SELECTED}>{NAME}</option>
                  <!-- END module_block -->

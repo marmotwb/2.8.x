@@ -212,7 +212,7 @@ $StripCodeFromInput = array(
 $settings = array();
 $old_settings = array();
 // Query current settings in the db, then loop through them to get old values
-$sql = 'SELECT `name`, `value` FROM `'.TABLE_PREFIX.'settings`';
+$sql  = 'SELECT `name`, `value` FROM `'.TABLE_PREFIX.'settings`';
 $sql .= 'ORDER BY `name`';
 
 if($res_settings = $database->query($sql)) {
@@ -225,7 +225,8 @@ if($res_settings = $database->query($sql)) {
 		$value = isset($_POST[$setting_name]) ? $value : $old_settings[$setting_name] ;
 		switch ($setting_name) {
 			case 'default_timezone':
-				$value=$value*60*60;
+		    	$value = (is_numeric($value) ? $value : 0);
+		    	$value = ( ($value >= -12 && $value <= 13) ? $value :0 ) * 3600;
 				$passed = true;
 				break;
 			case 'string_dir_mode':

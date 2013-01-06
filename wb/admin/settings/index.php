@@ -37,6 +37,7 @@ $cfg = array(
 	'wbmail_signature' => defined('WBMAIL_SIGNATURE') ? WBMAIL_SIGNATURE : '',
 	'confirmed_registration' => (defined('CONFIRMED_REGISTRATION') ? CONFIRMED_REGISTRATION : '0'),
 	'modules_upgrade_list' => (defined('MODULES_UPGRADE_LIST') ? MODULES_UPGRADE_LIST : ''),
+	'page_extendet' => (defined('PAGE_EXTENDET') ? PAGE_EXTENDET : 'true'),
 	);
 db_update_key_value( 'settings', $cfg );
 
@@ -254,16 +255,16 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
 	}
 
 //  Work-out if page extended feature is enabled
-	if(defined('PAGE_EXTENDED') && PAGE_EXTENDED == true)
+	if(defined('PAGE_EXTENDET') && PAGE_EXTENDET == true)
 	{
     	$oTpl->set_var(array(
-				'PAGE_EXTENDED_ENABLED' => $checked,
-				'PAGE_EXTENDED_DISABLED' => '',
+				'PAGE_EXTENDET_ENABLED' => $checked,
+				'PAGE_EXTENDET_DISABLED' => '',
 				));
 	} else {
     	$oTpl->set_var(array(
-				'PAGE_EXTENDED_DISABLED' => $checked,
-				'PAGE_EXTENDED_ENABLED' => '',
+				'PAGE_EXTENDET_DISABLED' => $checked,
+				'PAGE_EXTENDET_ENABLED' => '',
 				));
 	}
 

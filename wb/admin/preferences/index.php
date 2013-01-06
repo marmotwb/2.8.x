@@ -60,7 +60,6 @@ function build_page( &$admin, &$database )
 		}
 	}
 // Insert default timezone values
-	$user_time = true;
 	include_once( ADMIN_PATH.'/interface/timezones.php' );
 	$template->set_block('main_block', 'timezone_list_block', 'timezone_list');
 	foreach( $TIMEZONES AS $hour_offset => $title )
@@ -71,6 +70,7 @@ function build_page( &$admin, &$database )
 		$template->parse('timezone_list', 'timezone_list_block', true);
 	}
 // Insert date format list
+	$user_time = true;
 	include_once( ADMIN_PATH.'/interface/date_formats.php' );
 	$template->set_block('main_block', 'date_format_list_block', 'date_format_list');
 	foreach( $DATE_FORMATS AS $format => $title )

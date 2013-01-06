@@ -11,6 +11,11 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+
+
+06 Jan-2013 Build 1849 Dietmar Woellbrink (Luisehahne)
+# typofix page_extended in admin/settings and admin/pages/
+! Fill empty option modules dropdown in admin/pages/sections.php
 05 Jan-2013 Build 1848 Werner v.d.Decken(DarkViper)
 # fixed reinitialisation of class frontend in /index.php
 05 Jan-2013 Build 1847 Werner v.d.Decken(DarkViper)

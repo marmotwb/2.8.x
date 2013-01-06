@@ -41,7 +41,7 @@
 				<label for="page_title">{TEXT_PAGE_TITLE}:</label>
 				<input type="text" id="page_title" name="page_title" value="{PAGE_TITLE}" />
 			</div>
-			<div class="{PAGE_EXTENDED_HIDE}">
+			<div class="{PAGE_EXTENDET_HIDE}">
 				<label for="page_icon" >{TEXT_PAGE_ICON}:</label>
                 <span class="overlib" {p_page_icon_dir} ><img src="{THEME_URL}/icons/help_16.png" alt="TEXT_PAGE_ICON" /></span>
 				<select id="page_icon" name="page_icon">
@@ -60,7 +60,7 @@
                 <span class="overlib" {p_menu_filename} ><img src="{THEME_URL}/icons/help_16.png" alt="TEXT_SEO_TITLE" /></span>
 				<input type="text" id="seo_title" name="seo_title" value="{SEO_TITLE}" />
 			</div>
-			<div class="{PAGE_EXTENDED_HIDE}">
+			<div class="{PAGE_EXTENDET_HIDE}">
 				<label for="menu_icon_0">{TEXT_MENU_ICON_0}:</label>
                 <span class="overlib" {p_menu_icon0_dir} ><img src="{THEME_URL}/icons/help_16.png" alt="TEXT_MENU_ICON_0" /></span>
 					<select id="menu_icon_0" name="menu_icon_0">
@@ -70,7 +70,7 @@
 				<!-- END menu_icon0_list_block -->
 				</select>
 			</div>
-			<div class="{PAGE_EXTENDED_HIDE}">
+			<div class="{PAGE_EXTENDET_HIDE}">
 				<label for="menu_icon_1" >{TEXT_MENU_ICON_1}:</label>
                 <span class="overlib" {p_menu_icon1_dir} ><img src="{THEME_URL}/icons/help_16.png" alt="TEXT_MENU_ICON_1" /></span>
 					<select id="menu_icon_1" name="menu_icon_1">
@@ -244,7 +244,7 @@
 			<input type="submit" name="submit" value="{TEXT_SAVE}" />
 			<input type="submit" name="back_submit" value="{TEXT_SAVE_BACK}" />
 			<span style="padding-left: 2em;"><input type="reset" name="reset" value="{TEXT_RESET}" />
-			<input type="submit" name="extended_submit" value="{TEXT_EXTENDED}" /></span>
+			<input type="submit" name="extendet_submit" value="{TEXT_EXTENDED}" /></span>
 		</div>
 	</div>
 </form>
