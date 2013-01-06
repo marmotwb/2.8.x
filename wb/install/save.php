@@ -431,7 +431,7 @@ define('ADMIN_URL', $wb_url.'/'.ADMIN_DIRECTORY);
 	if(!$database->query($insert_admin_group)) { set_error($database->get_error()); }
 
 // Admin user
-    $insert_admin_user = "INSERT INTO `".TABLE_PREFIX."users` VALUES (1, 1, '1', 1, '$admin_username', '".md5($admin_password)."', '', 0, '', 0, 'Administrator', '$admin_email', 0, '', '', '$default_language', '', 0, '');";
+    $insert_admin_user = "INSERT INTO `".TABLE_PREFIX."users` VALUES (1, 1, '1', 1, '$admin_username', '".md5($admin_password)."', '', 0, '', 0, 'Administrator', '$admin_email', $default_timezone, '', '', '$default_language', '', 0, '');";
 	if(!$database->query($insert_admin_user)) { set_error($database->get_error()); }
 
 // Search layout default data
