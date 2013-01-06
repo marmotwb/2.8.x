@@ -78,12 +78,12 @@
 		<div class="mbox sub-row">
 	 		<label class="setting_name">{TEXT_PAGE_EXTENDED}:</label>
 			<span>
-				<input class="radio" type="radio" name="page_extended" id="page_extended_true" value="true"{PAGE_EXTENDED_ENABLED} />
-                <label for="page_extended_true">{TEXT_ENABLED}</label>
+				<input class="radio" type="radio" name="page_extendet" id="page_extendet_true" value="true"{PAGE_EXTENDET_ENABLED} />
+                <label for="page_extendet_true">{TEXT_ENABLED}</label>
 			</span>
 			<span>
-				<input class="radio" type="radio" name="page_extended" id="page_extended_false" value="false"{PAGE_EXTENDED_DISABLED} />
-                <label for="page_extended_false">{TEXT_DISABLED}</label>
+				<input class="radio" type="radio" name="page_extendet" id="page_extendet_false" value="false"{PAGE_EXTENDET_DISABLED} />
+                <label for="page_extendet_false">{TEXT_DISABLED}</label>
 			</span>
 		</div>
 

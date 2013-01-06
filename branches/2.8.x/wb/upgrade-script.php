@@ -507,9 +507,9 @@ echo'<h3>Step '.(++$stepID).': Updating core tables</h3>';
     /**********************************************************
      *  - Adding page_extended to settings table
      */
-    $aDebugMessage[] = "<span>Adding/updating page_extended to settings table</span>";
+    $aDebugMessage[] = "<span>Adding/updating page_extendet to settings table</span>";
     $cfg = array(
-    	'page_extended' => (defined('PAGE_EXTENDED') ? PAGE_EXTENDED : 'true'),
+    	'page_extendet' => (defined('PAGE_EXTENDET') ? PAGE_EXTENDET : 'true'),
     );
 
     $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");

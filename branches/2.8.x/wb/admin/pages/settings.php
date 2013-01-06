@@ -137,10 +137,10 @@ $admin = new admin('Pages', 'pages_settings');
 	$oTpl->set_block('page', 'main_block', 'main');
 	$oTpl->set_var('FTAN', $admin->getFTAN());
 //    $sShowIconDirText = $TEXT['EXPAND'].' ';
-	$sql = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` WHERE `name` = \'page_exented\'';
-	if($page_extend = $database->get_one($sql)) {}
-
-	$sShowIconDirText = ($page_extend=='1') ? $TEXT['HIDE_ADVANCED'] : $TEXT['SHOW_ADVANCED'];
+	$sql = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` WHERE `name` = \'page_extendet\'';
+//	if($page_extend = $database->get_one($sql)) {}
+	$page_extend = (defined('PAGE_EXTENDET') ? filter_var(PAGE_EXTENDET, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : false);
+	$sShowIconDirText = ($page_extend==true) ? $TEXT['HIDE_ADVANCED'] : $TEXT['SHOW_ADVANCED'];
 
 	$oTpl->set_var(array(
 			'PAGE_ID'              => $aCurrentPage['page_id'],
@@ -207,7 +207,7 @@ $admin = new admin('Pages', 'pages_settings');
 	$sTemplate = ($aCurrentPage['template'] == '' ? DEFAULT_TEMPLATE : $aCurrentPage['template']);
 	$sIconDir = str_replace('\\', '/', ((defined('PAGE_ICON_DIR') && PAGE_ICON_DIR != '') ? PAGE_ICON_DIR : MEDIA_DIRECTORY));
 	$sIconDir = str_replace('/*', '/'.$sTemplate, $sIconDir);
-	$bIconDirHide = ($page_extend=='1') ? '' : 'hide';
+	$bIconDirHide = ($page_extend==true) ? '' : 'hide';
 //	$oTpl->set_var('ICON_DIR', WB_REL.$sIconDir);
 	$sHelp = replaceVars($mLang->HELP_PAGE_IMAGE_DIR, array('icon_dir'=>WB_REL.$sIconDir ) );
 
@@ -216,7 +216,7 @@ $admin = new admin('Pages', 'pages_settings');
 	$sAccesFile = (($database->get_one($sql)));
 	$sFilename = replaceVars($mLang->HELP_SEO_TITLE, array('filename'=>PAGES_DIRECTORY.$sAccesFile.PAGE_EXTENSION ) );
 
-	$oTpl->set_var('PAGE_EXTENDED_HIDE',  $bIconDirHide);
+	$oTpl->set_var('PAGE_EXTENDET_HIDE',  $bIconDirHide);
 	$oTpl->set_var('p_page_icon_dir',  p($sHelp,$mLang->TEXT_PAGE_ICON_DIR));
 	$oTpl->set_var('p_menu_icon0_dir', p($sHelp,$mLang->TEXT_MENU_ICON_0_DIR));
 	$oTpl->set_var('p_menu_icon1_dir', p($sHelp,$mLang->TEXT_MENU_ICON_1_DIR));

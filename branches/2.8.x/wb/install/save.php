@@ -417,7 +417,7 @@ define('ADMIN_URL', $wb_url.'/'.ADMIN_DIRECTORY);
 	." (57, 'groups_updated', '".time()."'),"
 	." (58, 'wbmail_signature', ''),"
 	." (59, 'confirmed_registration', '1'),"
-	." (60, 'page_extended', 'true'),"
+	." (60, 'page_extendet', 'true'),"
 	." (61, 'modules_upgrade_list', 'news,wysiwyg,form'),"
 	." (62, 'system_locked', '0')";
 	if(!$database->query($settings_rows)) { set_error($database->get_error()); }

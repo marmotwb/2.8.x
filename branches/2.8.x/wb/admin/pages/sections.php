@@ -537,8 +537,10 @@ switch ($action):
 		$sql  = 'SELECT `section_id` FROM `'.TABLE_PREFIX.'sections` ';
 		$sql .= 'WHERE `page_id` = '.$page_id.' AND `module` = "menu_link"';
 		$query_sections = $database->query($sql);
+		$tpl->set_var('TEXT_PLEASE_SELECT', $TEXT['NONE']);
 		if($query_sections->numRows() == 0)
 		{
+			$tpl->set_var('TEXT_PLEASE_SELECT', $TEXT['PLEASE_SELECT']);
 			// Modules list
 		    $sql  = 'SELECT `name`,`directory`,`type` FROM `'.TABLE_PREFIX.'addons` ';
 		    $sql .= 'WHERE `type` = "module" AND `function` = "page" AND `directory` != "menu_link" ';

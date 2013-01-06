@@ -66,21 +66,13 @@ if (!$admin->checkFTAN())
 // After check print the header
 $admin->print_header();
 
-if(isset($_POST['extended_submit'])) {
-	$sql = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` WHERE `name` = \'page_exented\'';
-	if( ($page_exented = $database->get_one($sql)) != '' ) {
-		$sql = 'UPDATE ';
-		$sql_where = 'WHERE `name` = \'page_exented\'';
-	} else {
-		$sql = 'INSERT INTO ';
-		$sql_where = '';
-	}
-	$val = (((($page_exented=='1') ? $page_exented : 0)) + 1) % 2;
-
-	$sql .= '`'.TABLE_PREFIX.'settings` ';
-	$sql .= 'SET `name` = \'page_exented\', ';
-	$sql .= '`value` = \''.$val.'\' '.$sql_where;
-
+if(isset($_POST['extendet_submit'])) {
+//	$val = (((($page_exented=='1') ? $page_exented : 0)) + 1) % 2;
+	$val = (defined('PAGE_EXTENDET') ? filter_var(PAGE_EXTENDET, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : false);
+	$sql  = (defined('PAGE_EXTENDET') ? 'UPDATE `' : 'INSERT INTO `') . TABLE_PREFIX . 'settings` SET ';
+	$sql .= '`name`=\'page_extendet\', ';
+	$sql .= '`value`=\''.($val ? 'false' : 'true').'\' ';
+	$sql .= (defined('PAGE_EXTENDET') ? 'WHERE `name`=\'page_extendet\'' : '');
     if($database->query($sql)) {
         // redirect to backend
 echo "<p style=\"text-align:center;\"> If the script</strong> could not be start automatically.\n" .

@@ -34,7 +34,7 @@
                 <td>{TEXT_TIMEZONE}:</td>
                 <td class="input">
                     <select name="timezone" style="width: 98%;">
-                    <option value="-20">{MOD_PREFERENCE_PLEASE_SELECT}</option>
+                    <option value="0">{MOD_PREFERENCE_PLEASE_SELECT}</option>
                 <!-- BEGIN timezone_list_block -->
                     <option value="{VALUE}" {SELECTED}>{NAME}</option>
                 <!-- END timezone_list_block -->
