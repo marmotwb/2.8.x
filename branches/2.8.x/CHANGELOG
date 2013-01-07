@@ -12,7 +12,10 @@ Legend:
 ===============================================================================
 
 
-
+07 Jan-2013 Build 1852 Werner v.d.Decken(DarkViper)
+! updated Twig template engine to stable version 1.11.1 step 2
+07 Jan-2013 Build 1851 Werner v.d.Decken(DarkViper)
+! updated Twig template engine to stable version 1.11.1
 06 Jan-2013 Build 1850 Dietmar Woellbrink (Luisehahne)
 ! add default_timezone in admin account by new installation 
 06 Jan-2013 Build 1849 Dietmar Woellbrink (Luisehahne)
