@@ -12,6 +12,9 @@ Legend:
 ===============================================================================
 
 
+08 Jan-2013 Build 1853 Dietmar Woellbrink (Luisehahne)
+! update phpmailer to version 5.2.1
+! update jquery to 1.8.3 and jQuery UI to 1.9.2
 07 Jan-2013 Build 1852 Werner v.d.Decken(DarkViper)
 ! updated Twig template engine to stable version 1.11.1 step 2
 07 Jan-2013 Build 1851 Werner v.d.Decken(DarkViper)
