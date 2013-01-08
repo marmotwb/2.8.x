@@ -12,6 +12,8 @@ Legend:
 ===============================================================================
 
 
+08 Jan-2013 Build 1854 Dietmar Woellbrink (Luisehahne)
+! forgot the jQuery UI
 08 Jan-2013 Build 1853 Dietmar Woellbrink (Luisehahne)
 ! update phpmailer to version 5.2.1
 ! update jquery to 1.8.3 and jQuery UI to 1.9.2
