@@ -544,17 +544,6 @@ echo'<h3>Step '.(++$stepID).': Updating core tables</h3>';
 
     $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-    /**********************************************************
-     *  - Adding dev_infos to settings table
-     */
-    $aDebugMessage[] = "<span>Adding/updating modules_upgrade_list to settings table</span>";
-    $cfg = array(
-    	'modules_upgrade_list' => (defined('MODULES_UPGRADE_LIST') ? MODULES_UPGRADE_LIST : 'news')
-    );
-
-    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
-
-
 if($bDebugModus) {
     echo implode(PHP_EOL,$aDebugMessage);
 }
@@ -998,10 +987,8 @@ echo '<div style="margin-left:2em;">';
      * upgrade modules if newer version is available
      * $aModuleList list of proofed modules
      */
-    $sModuleList = 'news,wysiwyg,form';
-    $aModuleList = explode(',', (defined('MODULES_UPGRADE_LIST') ? MODULES_UPGRADE_LIST : $sModuleList));
+    $aModuleList = array('news','wysiwyg','form');
     echo '<h3>Step '.(++$stepID).': Upgrade proofed modules</h3>';
-//	$aModuleList = array('news');
 	foreach($aModuleList as $sModul) {
 		if(file_exists(WB_PATH.'/modules/'.$sModul.'/upgrade.php')) {
 			$currModulVersion = get_modul_version ($sModul, false);

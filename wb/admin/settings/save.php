@@ -185,7 +185,6 @@ $allow_empty_values = array(
     'rename_files_on_upload',
     'page_spacer',
     'page_icon_dir',
-    'modules_upgrade_list'
     );
 $disallow_in_fields = array(
     'pages_directory',
@@ -205,7 +204,6 @@ $StripCodeFromInput = array(
     'rename_files_on_upload',
     'page_spacer',
     'page_icon_dir',
-    'modules_upgrade_list'
     );
 
 // Query current settings in the db, then loop through them and update the db with the new value
