@@ -241,17 +241,17 @@ if($res_settings = $database->query($sql)) {
 	 			$passed = true;
 				break;
 			case 'media_directory':
-				if(strpos($value,'/',0)===false) {	$value= '/'.$value;	}
+				$value = ( (strpos($value,'/',0)===false) && ($value!= '') ) ? '/'.$value : rtrim($value,'/'); 
 	 			$passed = true;
 				break;
 			case 'pages_directory':
 				if( ($database->get_one('SELECT COUNT(*) FROM `'.TABLE_PREFIX.'pages`'))==0 ) {
-					$value = $admin->StripCodeFromText($value);
+					$value = rtrim($admin->StripCodeFromText($value));
 					$passed = true;
 				} else {
-					$value = $old_settings[$setting_name];
+					$value = rtrim($old_settings[$setting_name]);
 				}
-				if(strpos($value,'/',0)===false) {	$value= '/'.$value;	}
+				$value = ( (strpos($value,'/',0)===false) && ($value != '')  ? '/'.$value : rtrim($value,'/') ); 
 				break;
 			case 'wbmailer_smtp_auth':
 				$value = true ;
