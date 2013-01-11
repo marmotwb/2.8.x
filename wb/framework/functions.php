@@ -963,7 +963,7 @@ function extract_permission($octal_value, $who, $action)
 		$results_array = $results->fetchRow(MYSQL_ASSOC);
 		$parent     = $results_array['parent'];
 		$level      = $results_array['level'];
-		$link       = $results_array['link'];
+		$sPageLink       = $results_array['link'];
 		$page_title = $results_array['page_title'];
 		$menu_title = $results_array['menu_title'];
 		// Get the sections that belong to the page
@@ -981,12 +981,6 @@ function extract_permission($octal_value, $who, $action)
 				}
 			}
 		}
-		// Update the pages table
-		$sql = 'DELETE FROM `'.TABLE_PREFIX.'pages` WHERE `page_id`='.$page_id;
-		$database->query($sql);
-		if($database->is_error()) {
-			$admin->print_error($database->get_error());
-		}
 		// Update the sections table
 		$sql = 'DELETE FROM `'.TABLE_PREFIX.'sections` WHERE `page_id`='.$page_id;
 		$database->query($sql);
@@ -998,22 +992,26 @@ function extract_permission($octal_value, $who, $action)
 		$order = new order(TABLE_PREFIX.'pages', 'position', 'page_id', 'parent');
 		$order->clean($parent);
 		// Unlink the page access file and directory
-		$directory = WB_PATH.PAGES_DIRECTORY.$link;
+		$directory = WB_PATH.PAGES_DIRECTORY.$sPageLink;
 		$filename = $directory.PAGE_EXTENSION;
 		$directory .= '/';
-		if(file_exists($filename))
+		if(is_writable($filename))
 		{
 			if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/')) {
 				$admin->print_error($MESSAGE['PAGES_CANNOT_DELETE_ACCESS_FILE']);
-			}else {
+			} else {
 				unlink($filename);
-				if( file_exists($directory) &&
-				   (rtrim($directory,'/') != WB_PATH.PAGES_DIRECTORY) &&
-				   (substr($link, 0, 1) != '.'))
+				if( is_writable($directory) && (rtrim($directory,'/') != WB_PATH.PAGES_DIRECTORY ) && (substr($sPageLink, 0, 1) != '.') )
 				{
 					rm_full_dir($directory);
 				}
 			}
+		}
+		// Update the pages table
+		$sql = 'DELETE FROM `'.TABLE_PREFIX.'pages` WHERE `page_id`='.$page_id;
+		$database->query($sql);
+		if($database->is_error()) {
+			$admin->print_error($database->get_error());
 		}
 	}
 

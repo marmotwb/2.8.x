@@ -12,7 +12,9 @@ Legend:
 ===============================================================================
 
 
-08 Jan-2013 Build 1858 Dietmar Woellbrink (Luisehahne)
+11 Jan-2013 Build 1859 Dietmar Woellbrink (Luisehahne)
+# bugfix  mkdir(): Invalid argument if create acessfile
+11 Jan-2013 Build 1858 Dietmar Woellbrink (Luisehahne)
 - remove MODULES_UPGRADE_LIST input from saettings
 08 Jan-2013 Build 1857 Dietmar Woellbrink (Luisehahne)
 + add deleted files and images in jqauery
