@@ -36,7 +36,6 @@ if(isset($_GET['advanced']) && $_GET['advanced'] == 'yes') {
 $cfg = array(
 	'wbmail_signature' => defined('WBMAIL_SIGNATURE') ? WBMAIL_SIGNATURE : '',
 	'confirmed_registration' => (defined('CONFIRMED_REGISTRATION') ? CONFIRMED_REGISTRATION : '0'),
-	'modules_upgrade_list' => (defined('MODULES_UPGRADE_LIST') ? MODULES_UPGRADE_LIST : ''),
 	'page_extendet' => (defined('PAGE_EXTENDET') ? PAGE_EXTENDET : 'true'),
 	);
 db_update_key_value( 'settings', $cfg );
@@ -1032,7 +1031,6 @@ if($is_advanced)
 		'PAGES_DIRECTORY' => PAGES_DIRECTORY,
 		'PAGES_READONLY' => $sReadOnly,
 		'PAGES_EDIT_TYPE' => $sPagesEditType,
-		'MODULES_DIRECTORY' => MODULES_UPGRADE_LIST,
 		'PAGE_ICON_DIR'   => PAGE_ICON_DIR,
 		'MEDIA_DIRECTORY' => MEDIA_DIRECTORY,
 		'PAGE_EXTENSION' => PAGE_EXTENSION,

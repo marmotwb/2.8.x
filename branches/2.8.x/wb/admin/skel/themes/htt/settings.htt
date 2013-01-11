@@ -589,13 +589,6 @@
 		</div>
 
 		<div class="mbox sub-row">
-	 		<label class="setting_name">{TEXT_MODULES_DIRECTORY}:</label>
-			<div class="input" >
-				<input type="text" name="modules_upgrade_list" value="{MODULES_UPGRADE_LIST}" />
-			</div>
-		</div>
-
-		<div class="mbox sub-row">
 	 		<label class="setting_name">{TEXT_PAGE_ICON_DIR}:</label>
 			<div class="input" >
 			<input type="text" id="page_icon_dir" name="page_icon_dir" value="{PAGE_ICON_DIR}" />
