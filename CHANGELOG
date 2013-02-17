@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+18 Feb-2013 Build 1861 Werner v.d.Decken(DarkViper)
++ added temporary class WbAdaptor (replacement for future registry)
 04 Feb-2013 Build 1860 Werner v.d.Decken(DarkViper)
 + added new translation classes (Translate/TranslationTable/TranslateAdaptorWbOldStyle) for easy handling of language files
 ! initialize and activate class Translate in /framework/initialize.php
