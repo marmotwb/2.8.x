@@ -272,9 +272,9 @@ if($res_settings = $database->query($sql)) {
 
 	    if ( !in_array($value, $disallow_in_fields) && (isset($_POST[$setting_name]) || $passed == true) )
 	    {
-	        $value = trim($admin->add_slashes($value));
+	        $value = trim($database->escapeString($value));
 	        $sql = 'UPDATE `'.TABLE_PREFIX.'settings` ';
-	        $sql .= 'SET `value` = \''.($value).'\' '; // mysql_escape_string
+	        $sql .= 'SET `value` = \''.($value).'\' ';
 	        $sql .= 'WHERE `name` != \'wb_version\' ';
 	        $sql .= 'AND `name` = \''.$setting_name.'\' ';
 	        if (!$database->query($sql))

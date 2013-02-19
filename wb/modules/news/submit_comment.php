@@ -26,7 +26,7 @@ if(function_exists('ini_set')) {
 */
 
 require_once(WB_PATH.'/framework/class.wb.php');
-$wb = new wb;
+if( !(isset($wb) && is_object($wb)) ) { $wb = new wb(); }
 include_once (WB_PATH.'/framework/functions.php');
 /*
 $post_id = (int)$_GET['post_id'];

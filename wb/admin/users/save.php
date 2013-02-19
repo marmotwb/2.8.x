@@ -182,24 +182,24 @@ if(!defined('WB_URL')) {
             // Update the database
             if($password == "") {
                 $sql .= '`group_id`     = '.intval($group_id).', '.
-                        '`groups_id`    = \''.mysql_real_escape_string($groups_id).'\', '.
-                        '`username` = \''.mysql_real_escape_string($username).'\', '.
+                        '`groups_id`    = \''.$database->escapeString($groups_id).'\', '.
+                        '`username` = \''.$database->escapeString($username).'\', '.
                         '`active` = '.intval($active).', '.
-                        '`display_name` = \''.mysql_real_escape_string($display_name).'\', '.
-                        '`home_folder` = \''.mysql_real_escape_string($home_folder).'\', '.
-                        '`email` = \''.mysql_real_escape_string($email).'\' '.
+                        '`display_name` = \''.$database->escapeString($display_name).'\', '.
+                        '`home_folder` = \''.$database->escapeString($home_folder).'\', '.
+                        '`email` = \''.$database->escapeString($email).'\' '.
                         'WHERE `user_id` = '.intval($user_id).'';
 
             } else {
 
                 $sql .= '`group_id`     = '.intval($group_id).', '.
-                        '`groups_id`    = \''.mysql_real_escape_string($groups_id).'\', '.
-                        '`username` = \''.mysql_real_escape_string($username).'\', '.
+                        '`groups_id`    = \''.$database->escapeString($groups_id).'\', '.
+                        '`username` = \''.$database->escapeString($username).'\', '.
                         '`password` = \''.md5($password).'\', '.
                         '`active` = '.intval($active).', '.
-                        '`display_name` = \''.mysql_real_escape_string($display_name).'\', '.
-                        '`home_folder` = \''.mysql_real_escape_string($home_folder).'\', '.
-                        '`email` = \''.mysql_real_escape_string($email).'\' '.
+                        '`display_name` = \''.$database->escapeString($display_name).'\', '.
+                        '`home_folder` = \''.$database->escapeString($home_folder).'\', '.
+                        '`email` = \''.$database->escapeString($email).'\' '.
                         'WHERE `user_id` = '.intval($user_id).'';
 
             }

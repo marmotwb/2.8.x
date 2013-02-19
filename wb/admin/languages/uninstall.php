@@ -65,7 +65,7 @@ if($code == DEFAULT_LANGUAGE OR $code == LANGUAGE) {
 	$admin->print_error($MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE']);
 } else {
 	$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` ';
-	$sql .= 'WHERE`language`=\''.mysql_real_escape_string($code).'\'';
+	$sql .= 'WHERE`language`=\''.$database->escapeString($code).'\'';
 	if( $database->get_one($sql) ) {
 		$admin->print_error($MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE']);
 	}
@@ -77,7 +77,7 @@ if(!unlink(WB_PATH.'/languages/'.$file)) {
 } else {
 	// Remove entry from DB
 	$sql  = 'DELETE FROM `'.TABLE_PREFIX.'addons` ';
-	$sql .= 'WHERE `directory`=\''.mysql_real_escape_string($code).'\' ';
+	$sql .= 'WHERE `directory`=\''.$database->escapeString($code).'\' ';
 	$sql .=   'AND `type`=`type`=\'language\' ';
 	if( $database->query($sql) ) {
         // Print success message

@@ -24,7 +24,7 @@ if(defined('WB_PATH') == false)
 }
 /* -------------------------------------------------------- */
 
-$header = '<table cellpadding=\"0\" cellspacing=\"0\" class=\"loop-header\">'."\n";
+$header = '<table class=\"loop-header\">'."\n";
 $post_loop = '<tr class=\"post-top\">
 <td class=\"post-title\"><a href=\"[LINK]\">[TITLE]</a></td>
 <td class=\"post-date\">[PUBLISHED_DATE], [PUBLISHED_TIME]</td>
@@ -36,7 +36,7 @@ $post_loop = '<tr class=\"post-top\">
 </td>
 </tr>';
 $footer = '</table>
-<table cellpadding="0" cellspacing="0" class="page-header" style="display: [DISPLAY_PREVIOUS_NEXT_LINKS]">
+<table class="page-header" style="display: [DISPLAY_PREVIOUS_NEXT_LINKS]">
 <tr>
 <td class="page-left">[PREVIOUS_PAGE_LINK]</td>
 <td class="page-center">[OF]</td>
@@ -59,7 +59,7 @@ $post_footer = '<p>[TEXT_LAST_CHANGED]: [MODI_DATE] [TEXT_AT] [MODI_TIME]</p>
 <a href=\"[BACK]\">[TEXT_BACK]</a>';
 $comments_header = addslashes('<br /><br />
 <h2>[TEXT_COMMENTS]</h2>
-<table cellpadding="2" cellspacing="0" class="comment-header">');
+<table class="comment-header">');
 $comments_loop = addslashes('<tr>
 <td class="comment_title">[TITLE]</td>
 <td class="comment_info">[TEXT_BY] [DISPLAY_NAME] [TEXT_ON] [DATE] [TEXT_AT] [TIME]</td>

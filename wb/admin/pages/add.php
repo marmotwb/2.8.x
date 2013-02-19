@@ -16,8 +16,18 @@
  */
 
 // Create new admin object and print admin header
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
+//require('../../config.php');
+//require_once(WB_PATH.'/framework/class.admin.php');
+// Create new admin object and print admin header
+if(!defined('WB_URL'))
+{
+    $config_file = realpath('../../config.php');
+    if(file_exists($config_file) && !defined('WB_URL'))
+    {
+    	require($config_file);
+    }
+}
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 // suppress to print the header, so no new FTAN will be set
 $admin = new admin('Pages', 'pages_add', false);
 if (!$admin->checkFTAN())
@@ -178,12 +188,7 @@ $sql .= '`admin_groups` = "'.$admin_groups.'", ';
 $sql .= '`viewing_groups` = "'.$viewing_groups.'"';
 
 $database->query($sql);
-/*
-$query = "INSERT INTO ".TABLE_PREFIX."pages
-(page_title,menu_title,parent,template,target,position,visibility,searching,menu,language,admin_groups,viewing_groups,modified_when,modified_by) VALUES
-('$title','$title','$parent','$template','_top','$position','$visibility','1','1','$language','$admin_groups','$viewing_groups','".time()."','".$admin->get_user_id()."')";
-$database->query($query);
-*/
+
 if($database->is_error())
 {
 	$admin->print_error($database->get_error());
@@ -205,12 +210,11 @@ $sql .= '`root_parent` = '.$root_parent.', ';
 $sql .= '`level` = '.$level.', ';
 $sql .= '`link` = "'.$link.'", ';
 $sql .= '`page_trail` = "'.$page_trail.'"';
-$sql .= (defined('PAGE_LANGUAGES') && PAGE_LANGUAGES)
+$sql .= ((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES)
          && $field_set
          && ($language == DEFAULT_LANGUAGE)
-         && (file_exists(WB_PATH.'/modules/mod_multilingual/update_keys.php')
-         )
-         ? ', `page_code` = '.(int)$page_id.' ' : ' ';
+         && class_exists('m_MultiLingual_Lib')
+         ? ', `page_code` = '.(int)$page_id.' ' : ' ');
 $sql .= 'WHERE `page_id` = '.$page_id;
 $database->query($sql);
 /*
@@ -220,19 +224,11 @@ if($database->is_error())
 {
 	$admin->print_error($database->get_error());
 }
-// Create a new file in the /pages dir
-create_access_file($filename, $page_id, $level);
 
-if(!file_exists($filename)) {
-	$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
-}
-
-// add position 1 to new page
+// add position 1 to new page section
 $position = 1;
 
 // Add new record into the sections table
-//$database->query("INSERT INTO ".TABLE_PREFIX."sections (page_id,position,module,block) VALUES ('$page_id','$position', '$module','1')");
-
 // Insert module into DB
 $sql  = 'INSERT INTO `'.TABLE_PREFIX.'sections` SET ';
 $sql .= '`page_id` = '.(int)$page_id.', ';
@@ -249,6 +245,13 @@ if($database->query($sql)) {
     {
 		require(WB_PATH.'/modules/'.$module.'/add.php');
 	}
+}
+
+// Create a new file in the /pages dir
+create_access_file($filename, $page_id, $level);
+
+if(!file_exists($filename)) {
+	$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
 }
 
 // Check if there is a db error, otherwise say successful

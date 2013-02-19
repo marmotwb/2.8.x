@@ -156,23 +156,23 @@ if(!defined('WB_URL')) {
             // Inser the user into the database
 			$sql  = 'INSERT INTO `'.TABLE_PREFIX.'users` SET '.
                     '`group_id`     = '.intval($group_id).', '.
-                    '`groups_id`    = \''.mysql_real_escape_string($groups_id).'\', '.
+                    '`groups_id`    = \''.$database->escapeString($groups_id).'\', '.
                     '`active`       = '.intval($active).', '.
-                    '`username`     = \''.mysql_real_escape_string($username).'\', '.
+                    '`username`     = \''.$database->escapeString($username).'\', '.
                     '`password`     = \''.md5($password).'\', '.
-                    '`confirm_code` = \''.mysql_real_escape_string($confirm_code).'\', '.
+                    '`confirm_code` = \''.$database->escapeString($confirm_code).'\', '.
                     '`confirm_timeout` = '.intval($confirm_timeout).', '.
-                    '`remember_key` = \''.mysql_real_escape_string($remember_key).'\', '.
+                    '`remember_key` = \''.$database->escapeString($remember_key).'\', '.
                     '`last_reset`   = '.intval($last_reset).', '.
-                    '`display_name` = \''.mysql_real_escape_string($display_name).'\', '.
-                    '`email`        = \''.mysql_real_escape_string($email).'\', '.
+                    '`display_name` = \''.$database->escapeString($display_name).'\', '.
+                    '`email`        = \''.$database->escapeString($email).'\', '.
                     '`timezone`     = '.intval($timezone).', '.
-                    '`date_format`  = \''.mysql_real_escape_string($date_format).'\', '.
-                    '`time_format`  = \''.mysql_real_escape_string($time_format).'\', '.
-                    '`language`     = \''.mysql_real_escape_string($language).'\', '.
-                    '`home_folder`  = \''.mysql_real_escape_string($home_folder).'\', '.
+                    '`date_format`  = \''.$database->escapeString($date_format).'\', '.
+                    '`time_format`  = \''.$database->escapeString($time_format).'\', '.
+                    '`language`     = \''.$database->escapeString($language).'\', '.
+                    '`home_folder`  = \''.$database->escapeString($home_folder).'\', '.
                     '`login_when`   = '.intval($login_when).', '.
-                    '`login_ip`     = \''.mysql_real_escape_string($login_ip).'\' '.
+                    '`login_ip`     = \''.$database->escapeString($login_ip).'\' '.
                     '';
             if($database->query($sql)) {
             	msgQueue::add($MESSAGE['USERS_ADDED'], true);
