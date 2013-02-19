@@ -1,20 +1,39 @@
 <?php
 /**
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * @category        backend
- * @package         installation
- * @author          WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link            http://www.websitebaker2.org/
- * @license         http://www.gnu.org/licenses/gpl.html
- * @platform        WebsiteBaker 2.8.x
- * @requirements    PHP 5.2.2 and higher
- * @version         $Id$
- * @filesource		$HeadURL$
- * @lastmodified    $Date$
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * 
+ * 
+ * @category     Module
+ * @package      Module_bakery
+ * @subpackage   Name of the subpackage if needed
+ * @author       Dietmar Wöllbrink <dietmar.woellbrink@websitebaker.org>
+ * @author       Werner v.d.Decken <wkl@isteam.de>
+ * @copyright    Werner v.d.Decken <wkl@isteam.de>
+ * @license      http://www.gnu.org/licenses/gpl.html   GPL License
+ * @version      0.0.1
+ * @revision     $Revision$
+ * @link         $HeadURL$
+ * @lastmodified $Date$
+ * @since        File available since 17.01.2013
+ * @deprecated   
+ * @description  xyz
+ */
 // Include config file
 $config_file = realpath('config.php');
 if(file_exists($config_file) && !defined('WB_URL'))
@@ -44,10 +63,10 @@ if(!defined('WB_REVISION')) { define('WB_REVISION',''); }
 // database tables including in WB package
 $aPackage = array (
     'settings','groups','addons','pages','sections','search','users',
-    'mod_captcha_control','mod_code','mod_droplets','mod_form_fields',
-    'mod_form_settings','mod_form_submissions','mod_jsadmin','mod_menu_link',
-    'mod_news_comments','mod_news_groups','mod_news_posts','mod_news_settings',
-    'mod_output_filter','mod_wrapper','mod_wysiwyg'
+    'mod_captcha_control','mod_code','mod_droplets',
+    'mod_jsadmin','mod_menu_link','mod_output_filter','mod_wrapper','mod_wysiwyg',
+//    'mod_form_fields','mod_form_settings','mod_form_submissions',
+//    'mod_news_comments','mod_news_groups','mod_news_posts','mod_news_settings',
 );
 
 $OK            = ' <span class="ok">OK</span> ';
@@ -65,23 +84,26 @@ $dirRemove = array(
 */
 			'[ADMIN]/themes/',
 		 );
-
-if(version_compare(WB_REVISION, VERSION, '<='))
-{
-    $filesRemove['0'] = array(
+//
+	$filesRemove['0'] = array(
 
 			'[ADMIN]/preferences/details.php',
 			'[ADMIN]/preferences/email.php',
 			'[ADMIN]/preferences/password.php',
 			'[ADMIN]/pages/settings2.php',
 			'[ADMIN]/users/users.php',
+			'[ADMIN]/skel/themes/htt/groups.htt',
 
 			'[FRAMEWORK]/class.msg_queue.php',
 			'[FRAMEWORK]/class.logfile.php',
 			'[MODULES]/droplets/js/mdcr.js',
 
 		 );
+	$aFilesToRemove = array_merge($filesRemove['0']);
 
+// deleting files below only from less 2.8.4 stable
+if(version_compare(WB_REVISION, REVISION, '<='))
+{
 	$filesRemove['1'] = array(
 
 			'[TEMPLATE]/argos_theme/templates/access.htt',
@@ -92,10 +114,8 @@ if(version_compare(WB_REVISION, VERSION, '<='))
 			'[TEMPLATE]/argos_theme/templates/groups_form.htt',
 			'[TEMPLATE]/argos_theme/templates/languages.htt',
 			'[TEMPLATE]/argos_theme/templates/languages_details.htt',
-	/*
 			'[TEMPLATE]/argos_theme/templates/login.htt',
 			'[TEMPLATE]/argos_theme/templates/login_forgot.htt',
-	*/
 			'[TEMPLATE]/argos_theme/templates/media.htt',
 			'[TEMPLATE]/argos_theme/templates/media_browse.htt',
 			'[TEMPLATE]/argos_theme/templates/media_rename.htt',
@@ -123,12 +143,8 @@ if(version_compare(WB_REVISION, VERSION, '<='))
 			'[TEMPLATE]/wb_theme/templates/groups_form.htt',
 			'[TEMPLATE]/wb_theme/templates/languages.htt',
 			'[TEMPLATE]/wb_theme/templates/languages_details.htt',
-
-	/*
 			'[TEMPLATE]/wb_theme/templates/login.htt',
 			'[TEMPLATE]/wb_theme/templates/login_forgot.htt',
-	*/
-
 			'[TEMPLATE]/wb_theme/templates/media.htt',
 			'[TEMPLATE]/wb_theme/templates/media_browse.htt',
 			'[TEMPLATE]/wb_theme/templates/media_rename.htt',
@@ -146,13 +162,12 @@ if(version_compare(WB_REVISION, VERSION, '<='))
 			'[TEMPLATE]/wb_theme/templates/templates.htt',
 			'[TEMPLATE]/wb_theme/templates/templates_details.htt',
 			'[TEMPLATE]/wb_theme/templates/users.htt',
-			'[TEMPLATE]/wb_theme/templates/users_form.htt',
+			'[TEMPLATE]/wb_theme/templates/users_form.htt'
 		 );
 
-    $aFilesToRemove = array_merge($filesRemove['0'],$filesRemove['1']);
+	$aFilesToRemove = array_merge($aFilesToRemove,$filesRemove['1']);
 
 }
-
 /* display a status message on the screen **************************************
  * @param string $message: the message to show
  * @param string $class:   kind of message as a css-class
@@ -177,8 +192,8 @@ function status_msg($message, $class='check', $element='div')
  * @return
  */
 function add_modify_field_in_database($sTable,$sField,$sDescription){
-    global $database,$OK,$FAIL,$bDebugModus;
-    $aDebugMessage = array();
+	global $database,$OK,$FAIL,$bDebugModus;
+	$aDebugMessage = array();
 	if(!$database->field_exists($sTable,$sField)) {
 		$aDebugMessage[] = "<span>Adding field $sField to $sTable table</span>";
 		$aDebugMessage[] = ($database->field_add($sTable, $sField, $sDescription) ? " $OK<br />" : " $FAIL!<br />");
@@ -186,10 +201,10 @@ function add_modify_field_in_database($sTable,$sField,$sDescription){
 		$aDebugMessage[] = "<span>Modify field $sField to $sTable table</span>";
 		$aDebugMessage[] = ($database->field_modify($sTable, $sField, $sDescription) ? " $OK<br />" : " $FAIL!<br />");
 	}
-    if($bDebugModus) {
-        echo implode(PHP_EOL,$aDebugMessage);
-    }
-    return;
+	if($bDebugModus) {
+		echo implode(PHP_EOL,$aDebugMessage);
+	}
+return;
 }
 
 /**
@@ -201,13 +216,13 @@ function add_modify_field_in_database($sTable,$sField,$sDescription){
  */
 function check_wb_tables()
 {
-    global $database,$aPackage;
+	global $database,$aPackage;
 
 // if prefix inludes '_' or '%'
-    $search_for = addcslashes ( TABLE_PREFIX, '%_' );
-    $get_result = $database->query( 'SHOW TABLES LIKE "'.$search_for.'%"');
+	$search_for = addcslashes ( TABLE_PREFIX, '%_' );
+	$get_result = $database->query( 'SHOW TABLES LIKE "'.$search_for.'%"');
 
-    // $get_result = $database->query( "SHOW TABLES FROM ".DB_NAME);
+	// $get_result = $database->query( "SHOW TABLES FROM ".DB_NAME);
     $all_tables = array();
     $aTable = array();
     if($get_result->numRows() > 0)
@@ -250,7 +265,7 @@ body {
 #container {
 	min-width:48em;
     width: 70%;
-	background: #A8BCCB url(templates/wb_theme/images/background.png) repeat-x;
+	background: #A8BCCB url(<?php echo WB_URL; ?>/templates/wb_theme/images/background.png) repeat-x;
 	border:1px solid #000;
 	color:#000;
 	margin:2em auto;
@@ -290,10 +305,10 @@ h3 { font-size: 110%; font-weight: bold; }
 
 textarea {
 	width:100%;
-    border: 2px groove #0F1D44;
-    padding: 2px;
-    color: #000;
-    font-weight: normal;
+	border: 2px groove #0F1D44;
+	padding: 2px;
+	color: #000;
+	font-weight: normal;
 }
 .ok, .error { font-weight:bold; }
 .ok { color:green; }
@@ -323,7 +338,7 @@ span.error {
 <body>
 <div id="container">
 <div class="page">
-<img src="templates/wb_theme/images/logo.png" alt="WebsiteBaker Project" />
+<img src="<?php echo WB_URL; ?>/templates/wb_theme/images/logo.png" alt="WebsiteBaker Project" />
 <div class="content">
 <h1>WebsiteBaker Upgrade</h1>
 <?php
@@ -331,8 +346,8 @@ span.error {
 		status_msg('<strong>Warning:</strong><br />It is not possible to upgrade from WebsiteBaker Versions before 2.7.<br />For upgrading to version '.VERSION.' you must upgrade first to v.2.7 at least!!!', 'warning', 'div');
 		echo '<br /><br />';
 		echo "</div>
-        </div>
-        </div>
+		</div>
+		</div>
 		</body>
 		</html>
 		";
@@ -353,7 +368,7 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 <h5 class="warning">It is highly recommended to <strong>create a manual backup</strong> of the entire <strong class="error"><?php echo  PAGES_DIRECTORY ?>/</strong> folder and the <strong>MySQL database</strong> before proceeding.</h5>
 <p><strong class="error">Note: </strong>The upgrade script alters some settings of your existing database!!! You need to confirm the disclaimer before proceeding.</p>
 
-<form name="send" action="<?php echo $_SERVER['SCRIPT_NAME'];?>" method="post">
+<form action="<?php echo $_SERVER['SCRIPT_NAME'];?>" method="post">
 <textarea cols="92" rows="5">DISCLAIMER: The WebsiteBaker upgrade script is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. One needs to confirm that a manual backup of the <?php echo  PAGES_DIRECTORY ?>/ folder (including all files and subfolders contained in it) and backup of the entire WebsiteBaker MySQL database was created before you can proceed.</textarea>
 <br /><br /><input name="backup_confirmed" type="checkbox" value="confirmed" />&nbsp;<strong>I confirm that a manual backup of the <?php echo  PAGES_DIRECTORY ?>/ folder and the MySQL database was created.</strong>
 <br /><br /><input name="debug_confirmed" type="checkbox" value="debug" />&nbsp;<strong>Here you can get more details during running upgrade.</strong>
@@ -363,13 +378,11 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 
 <?php
 	status_msg('<strong> Notice:</strong><br />You need to confirm that you have created a manual backup of the '.PAGES_DIRECTORY.'/ directory and the MySQL database before you can proceed.', 'warning', 'div');
-	echo '<br /><br />';
-    echo "</div>
-    </div>
-    </div>
-    </body>
-    </html>
-    ";
+	echo "<br /><br /></div>
+	</div>
+	</div>
+	</body>
+	</html>";
 	exit();
 }
 
@@ -397,7 +410,8 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
         status_msg('<strong>:</strong><br />can\'t run Upgrade, missing tables', 'warning', 'div');
         echo '<h4>Missing required tables. You can install them in backend->addons->modules.<br />';
         echo 'Or if you uploaded per FTP install possible by backend->addons->modules->advanced.<br />';
-        echo 'After installing missing tables again run upgrade-script.php</h4>';
+        echo 'First rename or delete the upgrade-script.php, so the script can\'t start automatically by backend<br />';
+        echo 'After installing missing tables upload and run again upgrade-script.php</h4>';
         $result = array_diff ( $aPackage, $aTable );
 
         echo '<h4 class="warning"><br />';
@@ -414,17 +428,15 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
         	echo '</form>';
         }
         if(defined('ADMIN_URL')) {
-        	echo '<form action="'.ADMIN_URL.'/">';
-        	echo '&nbsp;<input type="submit" value="kick me to the Backend" />';
+        	echo '<form action="'.ADMIN_URL.'/index.php" method="post">';
+        	echo '&nbsp;<input name="backend_send" type="submit" value="kick me to the Backend" />';
         	echo '</form>';
         }
-
         echo "<br /><br /></div>
         </div>
         </div>
         </body>
-        </html>
-        ";
+        </html>";
 
         exit();
     }
@@ -444,7 +456,7 @@ if($bDebugModus) {
     echo implode(PHP_EOL,$aDebugMessage);
 }
 $aDebugMessage = array();
-echo'<h3>Step '.(++$stepID).': Updating core tables</h3>';
+echo'<h3>Step '.(++$stepID).': Updating tables included in package</h3>';
     /**********************************************************
      *  - Adding field sec_anchor to settings table
      */
@@ -580,9 +592,9 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 
     if($bDebugModus) {
         echo implode(PHP_EOL,$aDebugMessage);
-        $aDebugMessage = array();
     }
 
+    $aDebugMessage = array();
     echo "<h4>Adding/updating field on table pages</h4>";
 	/**********************************************************
 	 *  - Add field "page_trail" to table "pages"
@@ -684,10 +696,10 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 
     if($bDebugModus) {
         echo implode(PHP_EOL,$aDebugMessage);
-        $aDebugMessage = array();
     }
 
-    /**********************************************************
+	$aDebugMessage = array();
+	/**********************************************************
      * modify wrong strucre on table sections
      * wrong structure let crash wb
      */
@@ -705,9 +717,9 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 
     if($bDebugModus) {
         echo implode(PHP_EOL,$aDebugMessage);
-        $aDebugMessage = array();
     }
 
+	$aDebugMessage = array();
 	/**********************************************************
      *   `confirm_code` VARCHAR(32) NOT NULL DEFAULT '',
      *   `confirm_timeout` INT(11) NOT NULL DEFAULT '0',
@@ -725,16 +737,16 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 
     if($bDebugModus) {
         echo implode(PHP_EOL,$aDebugMessage);
-        $aDebugMessage = array();
     }
 
+    $aDebugMessage = array();
 	/**********************************************************
      * Modify Administrator on groups table
      */
 	echo "<h4>Update group Administrator on table groups</h4>";
 	$aDebugMessage[] = "<span>Modify Administrator on groups table</span>";
-    $sModulePermissions = '';
-    $sTemplatePermissions = '';
+	$sModulePermissions = '';
+	$sTemplatePermissions = '';
 	$sSystemPermissions  = 'access,addons,admintools,admintools_view,groups,groups_add,groups_delete,groups_modify,groups_view,';
 	$sSystemPermissions .= 'languages,languages_install,languages_uninstall,languages_view,media,media_create,media_delete,media_rename,media_upload,media_view,';
 	$sSystemPermissions .= 'modules,modules_advanced,modules_install,modules_uninstall,modules_view,pages,pages_add,pages_add_l0,pages_delete,pages_intro,pages_modify,pages_settings,pages_view,';
@@ -753,7 +765,6 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 
     if($bDebugModus) {
         echo implode(PHP_EOL,$aDebugMessage);
-        $aDebugMessage = array();
     }
     echo '</div>';
 
@@ -790,7 +801,7 @@ if(version_compare(WB_REVISION, '1800', '<'))
     }
 }
 
-if(version_compare(WB_REVISION, VERSION, '<'))
+if(version_compare(WB_REVISION, REVISION, '<='))
 {
     $aDebugMessage = array();
     echo '<h3>Step '.(++$stepID).': Updating group_id in table users</h3>';
@@ -844,7 +855,7 @@ if(version_compare(WB_REVISION, VERSION, '<'))
 }
 
 $aDebugMessage = array();
-echo '<h3>Step '.(++$stepID).': Updating acess and protected files in folders</h3>';
+echo '<h3>Step '.(++$stepID).': Updating access and protected files in folders</h3>';
 
 echo '<div style="margin-left:2em;">';
     /**********************************************************
@@ -852,14 +863,15 @@ echo '<div style="margin-left:2em;">';
     */
     $dir = (WB_PATH.MEDIA_DIRECTORY);
     echo '<h4>Upgrade media directory '.MEDIA_DIRECTORY.'/ index.php protect files</h4>';
-    $array = rebuildFolderProtectFile($dir);
-    if( sizeof( $array ) ){
-    	echo '<span><strong>Upgrade '.sizeof( $array ).' directory '.MEDIA_DIRECTORY.'/ protect files</strong></span>'." $OK<br />";
+    $aDebugMessage = rebuildFolderProtectFile($dir);
+    if( sizeof( $aDebugMessage ) ){
+    	echo '<span><strong>Upgrade '.sizeof( $aDebugMessage ).' directory '.MEDIA_DIRECTORY.'/ protect files</strong></span>'." $OK<br />";
     } else {
     	echo '<span><strong>Upgrade directory '.MEDIA_DIRECTORY.'/ protect files</strong></span>'." $FAIL!<br />";
-    	echo implode ('<br />',$array);
+    	echo implode ('<br />',$aDebugMessage);
     }
 
+    $aDebugMessage = array();
     /**********************************************************
      * upgrade pages directory index access files
      */
@@ -871,8 +883,9 @@ echo '<div style="margin-left:2em;">';
     $sPagePath = (defined('PAGES_DIRECTORY') && (PAGES_DIRECTORY != '') ? PAGES_DIRECTORY : '');
     $msg = rebuild_all_accessfiles();
 
-	echo implode ('<br />',$msg);
+	echo '<strong>'.implode ('<br />',$msg).'</strong>';
     echo '</div>';
+
     /* *****************************************************************************
      * - check for deprecated / never needed files
      */
@@ -921,12 +934,11 @@ echo '<div style="margin-left:2em;">';
 			echo '<form action="'.$_SERVER['SCRIPT_NAME'].'">';
 			echo '&nbsp;<input name="send" type="submit" value="Restart upgrade script" />';
 			echo '</form>';
-            echo "<br /><br /></div>
-            </div>
-            </div>
-            </body>
-            </html>
-            ";
+			echo "<br /><br /></div>
+			</div>
+			</div>
+			</body>
+			</html>";
 			exit;
 		}
     }
@@ -973,12 +985,11 @@ echo '<div style="margin-left:2em;">';
 			echo '<form action="'.$_SERVER['SCRIPT_NAME'].'">';
 			echo '&nbsp;<input name="send" type="submit" value="Restart upgrade script" />';
 			echo '</form>';
-            echo "<br /><br /></div>
-            </div>
-            </div>
-            </body>
-            </html>
-            ";
+			echo "<br /><br /></div>
+			</div>
+			</div>
+			</body>
+			</html>";
 			exit;
 		}
 	}
@@ -988,20 +999,49 @@ echo '<div style="margin-left:2em;">';
      * $aModuleList list of proofed modules
      */
     $aModuleList = array('news','wysiwyg','form');
-    echo '<h3>Step '.(++$stepID).': Upgrade proofed modules</h3>';
-	foreach($aModuleList as $sModul) {
-		if(file_exists(WB_PATH.'/modules/'.$sModul.'/upgrade.php')) {
-			$currModulVersion = get_modul_version ($sModul, false);
-			$newModulVersion =  get_modul_version ($sModul, true);
-			if((version_compare($currModulVersion, $newModulVersion) <= 0)) {
-                echo '<div style="margin-left:2em;">';
-				echo '<h4>'.'Upgrade module \''.$sModul.'\' version '.$newModulVersion.'</h4>';
-				require_once(WB_PATH.'/modules/'.$sModul.'/upgrade.php');
-                echo '</div>';
+	if(sizeof($aModuleList)) 
+	{
+	    echo '<h3>Step '.(++$stepID).': Upgrade proofed modules</h3>';
+		foreach($aModuleList as $sModul) {
+			if(file_exists(WB_PATH.'/modules/'.$sModul.'/upgrade.php')) {
+				$currModulVersion = get_modul_version ($sModul, false);
+				$newModulVersion =  get_modul_version ($sModul, true);
+				if((version_compare($currModulVersion, $newModulVersion) <= 0)) {
+	                echo '<div style="margin-left:2em;">';
+					echo '<h4>'.'Upgrade module \''.$sModul.'\' version '.$newModulVersion.'</h4>';
+					require(WB_PATH.'/modules/'.$sModul.'/upgrade.php');
+	                echo '</div>';
+				}
 			}
 		}
 	}
 
+    /**********************************************************
+     * Reformat/rebuild all existing moules access files
+     * $aModuleList list of modules
+     */
+    $aModuleList = array('bakery','topics','news');
+	if(sizeof($aModuleList)) 
+	{
+		echo '<h3>Step '.(++$stepID).': Create/Reorg Accessfiles from modules</h3>';
+		foreach($aModuleList as $sModul) {
+			$aReturnMsg = array();
+			$sModulReorg = 'm_'.$sModul.'_Reorg';
+			if(class_exists($sModulReorg)) {
+				$sModulVersion =  get_modul_version ($sModul, true);
+				echo '<div style="margin-left:2em;">';
+				echo '<h4>'.'Create/Reorg Accesfiles for module \''.$sModul.'\' version '.$sModulVersion.'</h4>';
+				$oReorg = new $sModulReorg();
+				$aReturnMsg = $oReorg->execute(); // show details
+				if($bDebugModus && is_array($aReturnMsg)) {
+					foreach($aReturnMsg as $title) {
+					echo '<strong>'.$title.'</strong><br />';
+					}
+				}
+				echo '</div>';
+			}
+		}
+	}
 /**********************************************************
  *  - Reload all addons
  */
@@ -1023,7 +1063,7 @@ echo '<div style="margin-left:2em;">';
 		}
 		closedir($handle);
 	}
-	echo '<span><strong>'.$iLoaded.' Modules reloaded,</span> found '.$iFound.' directories in folder /modules/</strong><br />';
+	echo '<strong><span>'.$iLoaded.' Modules reloaded,</span> found '.$iFound.' directories in folder /modules/</strong><br />';
 
     $iFound = 0;
     $iLoaded = 0;
@@ -1041,7 +1081,7 @@ echo '<div style="margin-left:2em;">';
 		}
 		closedir($handle);
 	}
-	echo '<span><strong>'.$iLoaded.' Templates reloaded,</span> found '.$iFound.' directories in folder /templates/</strong><br />';
+	echo '<strong><span>'.$iLoaded.' Templates reloaded,</span> found '.$iFound.' directories in folder /templates/</strong><br />';
 
     $iFound = 0;
     $iLoaded = 0;
@@ -1057,7 +1097,7 @@ echo '<div style="margin-left:2em;">';
 		}
 		closedir($handle);
 	}
-	echo '<span><strong>'.$iLoaded.' Languages reloaded,</span> found '.$iFound.' files in folder /languages/</strong><br />';
+	echo '<strong><span>'.$iLoaded.' Languages reloaded,</span> found '.$iFound.' files in folder /languages/</strong><br />';
     echo '</div>';
 
 /**********************************************************

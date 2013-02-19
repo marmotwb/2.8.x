@@ -83,7 +83,7 @@ class TranslationTable {
 		}else {
 			$bLanguageFound = false;
 			$oAdaptor= new $sAdaptor($this->sAddon);
-			if(!$oAdaptor instanceof TranslatorAdaptorInterface) {
+			if(!$oAdaptor instanceof TranslateAdaptorInterface) {
 				$sMsg = 'Class ['.$sAdaptor.'] does not implement the '
 				      . 'interface [TranslateAdaptorInterface]';
 				throw new TranslationException($sMsg);

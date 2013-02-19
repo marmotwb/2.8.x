@@ -13,7 +13,7 @@
  * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
-*/
+ */
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
 if(!defined('WB_PATH')) {
@@ -415,15 +415,15 @@ function media_dirs_rw ( &$wb )
 // Function to create directories
 function make_dir($dir_name, $dir_mode = OCTAL_DIR_MODE, $recursive=true)
 {
-	$retVal = is_dir($dir_name);
-	if(!is_dir($dir_name))
+	$bRetval = is_dir($dir_name);
+	if(!$bRetval)
     {
 		// To create the folder with 0777 permissions, we need to set umask to zero.
 		$oldumask = umask(0) ;
-		$retVal = mkdir($dir_name, $dir_mode, $recursive);
+		$bRetval = mkdir($dir_name, $dir_mode|0711, $recursive);
 		umask( $oldumask ) ;
 	}
-	return $retVal;
+	return $bRetval;
 }
 
 /**
@@ -433,7 +433,7 @@ function make_dir($dir_name, $dir_mode = OCTAL_DIR_MODE, $recursive=true)
  * @param int rights in dec-value. 0= use wb-defaults
  * @return bool
  */
-function change_mode($sName, $iMode = 0)
+function change_mode($sName, $iMode = 0 )
 {
 	$bRetval = true;
     $iErrorReporting = error_reporting(0);
@@ -653,6 +653,7 @@ if(!function_exists('page_link'))
 	}
 }
 
+
 // Create a new directory and/or protected file in the given directory
 function createFolderProtectFile($sAbsDir='',$make_dir=true)
 {
@@ -663,16 +664,15 @@ function createFolderProtectFile($sAbsDir='',$make_dir=true)
 
 	if ( $make_dir==true ) {
 		// Check to see if the folder already exists
-		if(file_exists($sAbsDir)) {
-			// $admin->print_error($MESSAGE['MEDIA_DIR_EXISTS']);
+		if(is_readable($sAbsDir)) {
 			$retVal[] = basename($sAbsDir).'::'.$MESSAGE['MEDIA_DIR_EXISTS'];
 		}
 		if (!is_dir($sAbsDir) && !make_dir($sAbsDir) ) {
-			// $admin->print_error($MESSAGE['MEDIA_DIR_NOT_MADE']);
 			$retVal[] = basename($sAbsDir).'::'.$MESSAGE['MEDIA_DIR_NOT_MADE'];
 		} else {
 			change_mode($sAbsDir);
 		}
+		return $retVal;
 	}
 
 	if( is_writable($sAbsDir) )
@@ -698,8 +698,7 @@ function createFolderProtectFile($sAbsDir='',$make_dir=true)
 		// write content into file
 		  if(is_writable($filename) || !file_exists($filename)) {
 		      if(file_put_contents($filename, $content)) {
-		//    print 'create => '.str_replace( $wb_path,'',$filename).'<br />';
-		          change_mode($filename, 'file');
+		          $retVal[] = change_mode($filename);
 		      } else {
 		    $retVal[] = $MESSAGE['GENERIC_BAD_PERMISSIONS'].' :: '.$filename;
 		   }
@@ -714,6 +713,7 @@ function rebuildFolderProtectFile($dir='')
 {
 	global $MESSAGE;
 	$retVal = array();
+	$tmpVal = array();
 	$dir = rtrim(str_replace('\/\\', '/', $dir), '/');
 	try {
 		$files = array();
@@ -724,8 +724,9 @@ function rebuildFolderProtectFile($dir='')
 		$files = array_unique($files);
 		foreach( $files as $file) {
 			$protect_file = rtrim(str_replace('\/\\', '/', $file), '/');
-			$retVal[] = createFolderProtectFile($protect_file,false);
+			$tmpVal['file'][] = createFolderProtectFile($protect_file,false);
 		}
+		$retVal = $tmpVal['file'];
 	} catch ( Exception $e ) {
 		$retVal[] = $MESSAGE['MEDIA_DIR_ACCESS_DENIED'];
 	}
@@ -733,56 +734,94 @@ function rebuildFolderProtectFile($dir='')
 }
 
 // Create a new file in the pages directory
-function create_access_file($filename,$page_id,$level)
+/**
+ * createAccessFile()
+ * 
+ * @param string The full path and filename to the new accessfile
+ * @param int    Id of the page for which the file should created
+ * @param mixed  an array with one or more additional statements to include in accessfile.
+ * @return bool|string true or error message
+ * @deprecated this function will be replaced by a core method in next version
+ * @description: Create a new access file in the pages directory and subdirectory also if needed.<br />
+ * Example: $aOptionalCommands = array(
+ *                     '$section_id = '.$section_id,
+ *                     '$mod_var_int = '.$mod_var_int,
+ *                     'define(\'MOD_CONSTANT\'', '.$mod_var_int.')'
+ *          );
+ * forbidden commands: include|require[_once]
+ * @deprecated   2013/02/19
+ */
+  
+function create_access_file($sFileName, $iPageId, $iLevel = 0, array $aOptionalCommands = array() )
 {
-	global $admin, $MESSAGE;
-	$retVal = array();
-	// First make sure parent folder exists
-	$parent_folders = explode('/',str_replace(WB_PATH.PAGES_DIRECTORY, '', dirname($filename)));
-	$parents = '';
-	foreach($parent_folders AS $parent_folder)
-	{
-		if($parent_folder != '/' AND $parent_folder != '')
+	global $MESSAGE;
+	$sError = '';
+// sanitize pathnames for the standard 'trailing slash' scheme
+	$sAppPath  = rtrim(str_replace('\\', '/', WB_PATH), '/').'/';
+	$sFileName = str_replace('\\', '/', $sFileName);
+// try to create the whoole path to the accessfile
+	$sAccessPath = dirname($sFileName).'/';
+	if(!($bRetval = is_dir($sAccessPath))) {
+		$iOldUmask = umask(0) ;
+		// sanitize directory mode to 'o+rwx/g+x/u+x' and create path
+		$bRetval = mkdir($sAccessPath, (OCTAL_DIR_MODE |0711), true); 
+		umask($iOldUmask);
+	}
+	if($bRetval) {
+	// check if accessfile is writeable
+		if(is_writable($sAccessPath) ||
+		   (file_exists($sFileName) && is_writable($sFileName)) )
 		{
-			$parents .= '/'.$parent_folder;
-			$acces_file = WB_PATH.PAGES_DIRECTORY.$parents;
-			// can only be dirs
-			if(!is_readable($acces_file)) {
-				if(!make_dir($acces_file)) {
-					$retVal[] = $MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE_FOLDER'];
-                    $retVal[] = $MESSAGE['MEDIA_DIR_ACCESS_DENIED'];
+		// build content for accessfile
+			$sContent  = '<?php'."\n"
+			           . '// *** This file is generated by WebsiteBaker Ver.'.VERSION."\n"
+			           . '// *** Creation date: '.date('c')."\n"
+			           . '// *** Do not modify this file manually'."\n"
+			           . '// *** WB will rebuild this file from time to time!!'."\n"
+			           . '// *************************************************'."\n"
+			           . "\t".'$page_id = '.$iPageId.';'."\n";
+		// analyse OptionalCommands and add it to the accessfile
+			foreach($aOptionalCommands as $sCommand) {
+			// loop through all available entries
+			// remove all leading whitespaces and chars less then \x41(A) except \x24 ($)
+			// also all trailing whitespaces and \x3B(;) too.
+				$sNewCmd  = rtrim(ltrim($sCommand, "\x00..\x23\x25..\x40"), ';');
+				if(preg_match('/^include|^require/i', $sNewCmd)) {
+				// insert forbidden include|require[_once] command and comment it out
+					$sContent .= "\t".'// *not allowed command >> * '.$sNewCmd.';'."\n";
+				}elseif(preg_match('/^define/i', $sNewCmd)) {
+				// insert active define command and comment it as set deprecated
+					$sContent .= "\t".$sNewCmd.'; // *deprecated command*'."\n";
+				}else {
+				// insert allowed active command
+					$sContent .= "\t".$sNewCmd.';'."\n";
 				}
 			}
+		// calculate the needed backsteps and create the relative link to index.php
+			$iBackSteps = substr_count(str_replace($sAppPath, '', $sFileName), '/');
+			$sIndexFile = str_repeat('../', $iBackSteps).'index.php';
+		// insert needed require command for index.php
+			$sContent .= "\t".'require(\''.$sIndexFile.'\');'."\n"
+			           . '// *************************************************'."\n"
+			           . '// end of file'."\n";
+		// write new file out. If the file already exists overwrite its content.
+			if(file_put_contents($sFileName, $sContent) !== false ) {
+			// if OS is not windows then chmod the new file 
+				if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
+				// sanitize filemode to 'o-x/g-x/u-x/o+rw' and chmod the new file
+					$bRetval = chmod($sName, ((OCTAL_FILE_MODE & ~0111)|0600));
+				}
+			}else {
+		        $sError = $MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE'];
+			}
+		}else {
+			$sError = $MESSAGE['UPLOAD_ERR_CANT_WRITE'];
 		}
+	}else {
+		$sError = $MESSAGE['UPLOAD_ERR_CANT_WRITE'];
 	}
-
-	// The depth of the page directory in the directory hierarchy
-	// '/pages' is at depth 2
-	$bPagesDirectorySet = (sizeof(explode('/',PAGES_DIRECTORY))==1);
-	// Work-out how many ../'s we need to get to the index page
-	$pages_dir_depth = sizeof($parent_folders)-intval($bPagesDirectorySet);
-	$index_location = str_repeat ( '../' , $pages_dir_depth );
-	$content =
-		'<?php'."\n".
-		'// *** This file is generated by WebsiteBaker Ver.'.VERSION."\n".
-		'// *** Creation date: '.date('c')."\n".
-		'// *** Do not modify this file manually'."\n".
-		'// *** WB will rebuild this file from time to time!!'."\n".
-		'// *************************************************'."\n".
-		"\t".'$page_id    = '.$page_id.';'."\n".
-		"\t".'require(\''.$index_location.'index.php\');'."\n".
-		'// *************************************************'."\n";
-
-	if( ($handle = fopen($filename, 'w')) ) {
-		fwrite($handle, $content);
-		fclose($handle);
-		// Chmod the file
-		change_mode($filename);
-	} else {
-//		$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
-        $retVal[] = $MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE'];
-	}
-	return $retVal;
+	// return boolean true if ok, on error return a message
+	return ($sError == '' ? true : $sError);
  }
 
 // Function for working out a file mime type (if the in-built PHP one is not enabled)
@@ -1348,16 +1387,19 @@ if(!function_exists('rebuild_all_accessfiles')){
     	 * try to remove access files and build new folder protect files
     	 */
     	$sTempDir = (defined('PAGES_DIRECTORY') && (PAGES_DIRECTORY != '') ? PAGES_DIRECTORY : '');
-    	if(($sTempDir!='') && is_writeable(WB_PATH.$sTempDir)==true) {
-    	 	if(rm_full_dir (WB_PATH.$sTempDir, true )==false) {
-    			$retVal[] = '<span><strong>Could not delete existing access files</strong></span>';
-    	 	}
-    	}
-		$retVal[] = createFolderProtectFile(rtrim( WB_PATH.PAGES_DIRECTORY,'/') );
+//    	if(($sTempDir!='') && is_writeable(WB_PATH.$sTempDir)==true) {
+//    	 	if(rm_full_dir (WB_PATH.$sTempDir, true )==false) {
+//    			$retVal[] = 'Could not delete existing access files';
+//    	 	}
+//    	}
+		$retVal = createFolderProtectFile(rtrim( WB_PATH.PAGES_DIRECTORY,'/') );
     	/**
     	 * Reformat/rebuild all existing access files
     	 */
-        $sql = 'SELECT `page_id`,`root_parent`,`link`, `level` FROM `'.TABLE_PREFIX.'pages` ORDER BY `link`';
+//        $sql = 'SELECT `page_id`,`root_parent`,`link`, `level` FROM `'.TABLE_PREFIX.'pages` ORDER BY `link`';
+		$sql  = 'SELECT `page_id`,`root_parent`,`link`, `level` ';
+		$sql .= 'FROM `'.TABLE_PREFIX.'pages` ';
+		$sql .= 'WHERE `link` != \'\' ORDER BY `link` ';
         if (($oPage = $database->query($sql)))
         {
             $x = 0;
@@ -1378,10 +1420,10 @@ if(!function_exists('rebuild_all_accessfiles')){
 
                 if(!$database->query($sql)) {}
                 $filename = WB_PATH.PAGES_DIRECTORY.$page['link'].PAGE_EXTENSION;
-                $retVal = create_access_file($filename, $page['page_id'], $page['level']);
+                create_access_file($filename, $page['page_id'], $page['level']);
                 $x++;
             }
-            $retVal[] = '<span><strong>Number of new formated access files: '.$x.'</strong></span>';
+            $retVal[] = 'Number of new formated access files: '.$x.'';
         }
     return $retVal;
 	}
@@ -1395,7 +1437,7 @@ if(!function_exists('upgrade_modules')){
     			$currModulVersion = get_modul_version ($sModul, false);
     			$newModulVersion =  get_modul_version ($sModul, true);
     			if((version_compare($currModulVersion, $newModulVersion) <= 0)) {
-    				require_once(WB_PATH.'/modules/'.$sModul.'/upgrade.php');
+    				require(WB_PATH.'/modules/'.$sModul.'/upgrade.php');
     			}
     		}
     	}
