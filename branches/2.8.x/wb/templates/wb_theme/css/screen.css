@@ -204,20 +204,20 @@ a:link { display :inline; font-weight :bold; padding-top :0; text-decoration :no
 a:visited { color :#0066cc; }
 a:hover { color :#6699ff; text-decoration :underline; }
 /* */
-.header_list_actions { text-align :left; width :150px; }
+.header_list_actions { text-align :left; padding :3px; width :180px; }
 .header_list_block { text-align :left; width :120px; }
-.header_list_page_id { padding-right :15px; text-align :right; width :30px; }
-.header_list_page_title, 
-.list_page_title { width :350px; }
+.header_list_page_id { padding :3px; text-align :right; width :30px; }
+.header_list_menu_title { padding : 3px; }
+.header_list_page_title { width :350px; }
 /**/
 .list_page_title, .list_menu_title, 
-.header_list_menu_title, .header_list_type { text-align :left; vertical-align :middle; }
+.header_list_menu_title, .header_list_type { text-align :left; vertical-align :middle; padding : 3px; }
 .header_list_pubdate_start, 
 .header_list_pubdate_end, 
 .list_pubdate_start, 
 .list_pubdate_end { text-align :left; white-space :nowrap; width :185px; }
 .header_list_sections_actions { text-align :left; width :30px; }
-.header_list_type { font-size :1em; padding :4px 0; text-align :left; width :40%; }
+.header_list_type { font-size :1em; padding :4px 0; text-align :left; width :34%; }
 .jsadmin_drag img { cursor :pointer; margin-top :0px; padding :0px 0; vertical-align :baseline; }
 .list_actions { height :20px; padding :0 1px; text-align :left; width :20px; }
 .list_page_code, 
@@ -226,7 +226,7 @@ a:hover { color :#6699ff; text-decoration :underline; }
 .list_pubdate_end input[type="text"] { width :120px; }
 .list_section_id, 
 .list_page_id, 
-.header_list_section_id { padding :0 3px; text-align :right; vertical-align :baseline; width :2em; }
+.header_list_section_id { padding :0 3px; text-align :right; vertical-align :middle; width :2em; }
 .modify_link { display :inline; padding :0 2px; vertical-align :baseline; }
 .page_list { display :none; }
 img.page_list_rights { border :none; float :left; margin :0 auto; padding :0 2px; }
@@ -234,6 +234,7 @@ img.page_list_rights { border :none; float :left; margin :0 auto; padding :0 2px
 .pages_list 
 .icon_col td img { border-style :none; display :inline; float :left; padding-right :7px; }
 .pages_list { }
+.list_page_title { width :350px; }
 .icon_col td img { border-style :none; display :inline; float :left; padding-right :7px; }
 .pages_list table { background-color :#dcdcdc; font-size :1.3em; margin :0 auto; table-layout :fixed; width :100%; }
 .pages_list ul { font-weight :normal; margin :0; padding :0px; }
@@ -246,7 +247,6 @@ img.page_list_rights { border :none; float :left; margin :0 auto; padding :0 2px
 .sections_list,
 .pages_list_header { font-weight :bold; line-height :1.5em; margin-bottom :5px; text-align :left; }
 .pages_list_header { padding :2px 0px 2px 5px; font-size :1.3em; height :25px; }
-.header_list_menu_title { padding-left :30px; width :400px; }
 .value_page_code { color :#006400; font-weight :400; width :240px; }
 .section-info { margin :1em auto; }
 /* depending styles for /admin/pages_settings */
@@ -259,9 +259,9 @@ div.page-settings { font-size :0.9em; border :none; text-align :left; overflow :
 	div.page-settings select { }
 	div.page-settings textarea { height :5em; }
 	div.page-settings [type=checkbox] { width :2.5em; }
-   div.page-settings [type=reset],
+	div.page-settings [type=reset],
 	div.page-settings [type=submit] { padding :2px; width :auto; }
-div.page-settings-leftcol { float :left; padding :10px 10px 10px 10px; border-right :groove 0px #a8bccb; border 0 solid 1px  #a8bccb :; }
+div.page-settings-leftcol { float :left; padding :10px 10px 10px 10px; border-right :groove 0px #a8bccb; border: 0 solid 1px  #a8bccb :; }
 div.page-settings-leftcol div.page-settings-tab { border :solid 1px #a8bccb; padding :8px; margin-bottom :8px; }
 	div.page-settings-leftcol div { padding :2px 0 3px 0; vertical-align :top; }
 	div.page-settings-leftcol label { width :170px; vertical-align :top; }
