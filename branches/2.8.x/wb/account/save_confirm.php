@@ -26,9 +26,9 @@ if(!defined('WB_PATH')) {
 require_once(dirname(__FILE__).'/AccountSignup.php');
 AccountSignup::deleteOutdatedConfirmations();
 
-$sPassword = mysql_escape_string($wb->StripCodeFromText($wb->get_post('new_password_1')));
-$sLoginName = mysql_escape_string($wb->StripCodeFromText($wb->get_post('new_loginname')));
-$sConfirmationId = mysql_escape_string($wb->StripCodeFromText($wb->get_post('confirm_code')));
+$sPassword = $database->escapeString($wb->StripCodeFromText($wb->get_post('new_password_1')));
+$sLoginName = $database->escapeString($wb->StripCodeFromText($wb->get_post('new_loginname')));
+$sConfirmationId = $database->escapeString($wb->StripCodeFromText($wb->get_post('confirm_code')));
 
 $bSendRegistrationMailtoUser = false;
 $bSendRegistrationMailtoAdmin = false;

@@ -97,7 +97,7 @@ class CopyTheme{
 	private function _SanitizeNewName($sName)
 	{
 		$sName = (trim($sName) == '' ? 'MyNewTheme' : $sName);
-		$sName = mysql_real_escape_string($sName);
+		$sName = $this->_oDb->escapeString($sName);
 		$iCount = '';
 		do {
 			$sSearch = $sName.($iCount ? ' '.$iCount : '');
@@ -260,11 +260,11 @@ class CopyTheme{
 		     .     '`function`=\'theme\', '
 		     .     '`directory`=\''.$aVariables['directory'].'\', '
 		     .     '`name`=\''.$aVariables['name'].'\', '
-		     .     '`description`=\''.mysql_real_escape_string($aVariables['description']).'\', '
+		     .     '`description`=\''.$this->_oDb->escapeString($aVariables['description']).'\', '
 		     .     '`version`=\''.$aVariables['version'].'\', '
 		     .     '`platform`=\''.$aVariables['platform'].'\', '
-		     .     '`author`=\''.mysql_real_escape_string($aVariables['author']).'\', '
-		     .     '`license`=\''.mysql_real_escape_string($aVariables['license']).'\'';
+		     .     '`author`=\''.$this->_oDb->escapeString($aVariables['author']).'\', '
+		     .     '`license`=\''.$this->_oDb->escapeString($aVariables['license']).'\'';
 		if(!$this->_oDb->query($sql)) {
 
 			$sMsg = $this->_aLang['GENERIC_NOT_UPGRADED'].' ['.$this->_sNewThemeDir.'/info.php]';

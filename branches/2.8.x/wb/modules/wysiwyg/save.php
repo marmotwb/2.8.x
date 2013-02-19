@@ -45,7 +45,7 @@ if(isset($_POST['content'.$section_id])) {
 	$searchfor = '@(<[^>]*=\s*")('.preg_quote($sMediaUrl).')([^">]*".*>)@siU';
     $content = preg_replace($searchfor, '$1{SYSVAR:MEDIA_REL}$3', $content);
 	// searching in $text will be much easier this way
-    $content = mysql_real_escape_string ($content);
+    $content = WbDatabase::getInstance()->escapeString ($content);
 	$text = umlauts_to_entities(strip_tags($content), strtoupper(DEFAULT_CHARSET), 0);
 	$sql  = 'UPDATE `'.TABLE_PREFIX.'mod_wysiwyg` ';
 	$sql .= 'SET `content`=\''.$content.'\', `text`=\''.$text.'\' ';

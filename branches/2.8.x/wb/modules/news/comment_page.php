@@ -61,7 +61,7 @@ else
 	$values = array(POST_TITLE, $MOD_NEWS['TEXT_COMMENT']);
 	echo str_replace($vars, $values, ($settings['comments_page']));
 	?>
-	<form name="comment" action="<?php echo WB_URL.'/modules/news/submit_comment.php?page_id='.PAGE_ID.'&amp;section_id='.SECTION_ID.'&amp;post_id='.POST_ID; ?>" method="post">
+	<form action="<?php echo WB_URL.'/modules/news/submit_comment.php?page_id='.PAGE_ID.'&amp;section_id='.SECTION_ID.'&amp;post_id='.POST_ID; ?>" method="post">
 	<?php if(ENABLED_ASP) { // add some honeypot-fields
 	?>
 	<input type="hidden" name="submitted_when" value="<?php $t=time(); echo $t; $_SESSION['submitted_when']=$t; ?>" />

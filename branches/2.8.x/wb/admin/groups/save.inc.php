@@ -56,7 +56,7 @@ if(defined('WB_PATH') == false)
 			$template_permissions = implode (',', $template_permissions);
 
 			// prepare empty record to add new group
-			$group_name = mysql_real_escape_string(strip_tags(trim($admin->get_post('name'))));
+			$group_name = $database->escapeString(strip_tags(trim($admin->get_post('name'))));
 //	print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
 //	print_r( $_POST ); print '</pre>';
 

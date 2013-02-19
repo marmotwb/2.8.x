@@ -260,10 +260,10 @@ $sql = 'UPDATE `'.TABLE_PREFIX.'pages` '
      . 'SET `parent`='.$parent.', '
      .     '`page_title`=\''.$page_title.'\', '
      .     '`tooltip`=\''.$page_title.'\', '
-     .     '`page_icon` =\''.mysql_real_escape_string($sPageIcon).'\', '
+     .     '`page_icon` =\''.$database->escapeString($sPageIcon).'\', '
      .     '`menu_title`=\''.$menu_title.'\', '
-     .     '`menu_icon_0` =\''.mysql_real_escape_string($sMenuIcon0).'\', '
-     .     '`menu_icon_1` =\''.mysql_real_escape_string($sMenuIcon1).'\', '
+     .     '`menu_icon_0` =\''.$database->escapeString($sMenuIcon0).'\', '
+     .     '`menu_icon_1` =\''.$database->escapeString($sMenuIcon1).'\', '
      .     '`menu`='.$menu.', '
      .     '`level`='.$level.', '
      .     '`page_trail`=\''.$page_trail.'\', '
@@ -299,13 +299,51 @@ if($parent != $old_parent)
 	$order->clean($old_parent);
 }
 
-/* BEGIN page "access file" code */
+// using standard function by core,
+function fix_page_trail($page_id) {
+    global $database,$admin,$target_url,$pagetree_url,$MESSAGE;
 
-// Create a new file in the /pages dir if title changed
-if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/'))
+    $target_url = (isset($_POST['back_submit'])) ? $pagetree_url : $target_url;
+
+    // Work out level
+    $level = level_count($page_id);
+    // Work out root parent
+    $root_parent = root_parent($page_id);
+    // Work out page trail
+    $page_trail = get_page_trail($page_id);
+    // Update page with new level and link
+    $sql  = 'UPDATE `'.TABLE_PREFIX.'pages` SET ';
+    $sql .= '`root_parent` = '.$root_parent.', ';
+    $sql .= '`level` = '.$level.', ';
+    $sql .= '`page_trail` = "'.$page_trail.'" ';
+    $sql .= 'WHERE `page_id` = '.$page_id;
+
+    if($database->query($sql)) {
+    	$admin->print_success($MESSAGE['PAGES_SAVED_SETTINGS'], $target_url );
+    } else {
+    	$admin->print_error($database->get_error(), $target_url );
+    }
+}
+
+// Fix sub-pages page trail
+fix_page_trail($page_id);
+
+/**
+ * 
+ * BEGIN page "access file" code
+ * first check for existing pages directory
+ * if not exists try to create
+ * otherwise acess denied
+ * 
+ */
+$bCanCreateAcessFiles = is_writeable(WB_PATH);
+$bCanCreateAcessFiles = ( ( $bCanCreateAcessFiles==true ) ? make_dir(WB_PATH.PAGES_DIRECTORY) : false );
+if( !$bCanCreateAcessFiles )
 {
 	$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE'], $target_url);
 } else {
+// Create a new file in the /pages dir if title changed
+
     $old_filename = WB_PATH.PAGES_DIRECTORY.$old_link.PAGE_EXTENSION;
 
 	// First check if we need to create a new file
@@ -365,34 +403,5 @@ if(!is_writable(WB_PATH.PAGES_DIRECTORY.'/'))
 		}
 	}
 }
-
-// using standard function by core,
-function fix_page_trail($page_id) {
-    global $database,$admin,$target_url,$pagetree_url,$MESSAGE;
-
-    $target_url = (isset($_POST['back_submit'])) ? $pagetree_url : $target_url;
-
-    // Work out level
-    $level = level_count($page_id);
-    // Work out root parent
-    $root_parent = root_parent($page_id);
-    // Work out page trail
-    $page_trail = get_page_trail($page_id);
-    // Update page with new level and link
-    $sql  = 'UPDATE `'.TABLE_PREFIX.'pages` SET ';
-    $sql .= '`root_parent` = '.$root_parent.', ';
-    $sql .= '`level` = '.$level.', ';
-    $sql .= '`page_trail` = "'.$page_trail.'" ';
-    $sql .= 'WHERE `page_id` = '.$page_id;
-
-    if($database->query($sql)) {
-    	$admin->print_success($MESSAGE['PAGES_SAVED_SETTINGS'], $target_url );
-    } else {
-    	$admin->print_error($database->get_error(), $target_url );
-    }
-}
-
-// Fix sub-pages page trail
-fix_page_trail($page_id);
 
 $admin->print_footer();

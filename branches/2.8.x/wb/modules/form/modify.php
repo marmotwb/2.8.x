@@ -203,7 +203,7 @@ $limit = $database->get_one($sql);
 $page = 1;
 if(isset($_GET['page']) && is_numeric(trim($_GET['page'])))
 {
-	$page = intval(mysql_real_escape_string($_GET['page']));
+	$page = intval($database->escapeString($_GET['page']));
 }
 
 // How many adjacent pages should be shown on each side?

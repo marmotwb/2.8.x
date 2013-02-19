@@ -48,8 +48,8 @@ if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 					  '`email_filter`='.$data['email_filter'].', '.
 					  '`sys_rel`='.$data['sys_rel'].', '.
 					  '`mailto_filter`='.$data['mailto_filter'].', '.
-					  '`at_replacement`=\''.mysql_real_escape_string($data['at_replacement']).'\', '.
-					  '`dot_replacement`=\''.mysql_real_escape_string($data['dot_replacement']).'\'';
+					  '`at_replacement`=\''.$database->escapeString($data['at_replacement']).'\', '.
+					  '`dot_replacement`=\''.$database->escapeString($data['dot_replacement']).'\'';
 			if($database->query($sql)) {
 			//anything ok
 				$msgOk = $MESSAGE['RECORD_MODIFIED_SAVED'];
