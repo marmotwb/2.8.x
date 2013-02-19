@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+19 Feb-2013 Build 1862 Werner v.d.Decken(DarkViper)
+! updated Twig template engine to stable version 1.12.2
 18 Feb-2013 Build 1861 Werner v.d.Decken(DarkViper)
 + added temporary class WbAdaptor (replacement for future registry)
 04 Feb-2013 Build 1860 Werner v.d.Decken(DarkViper)
