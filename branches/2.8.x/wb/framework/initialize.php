@@ -142,24 +142,6 @@
 			@ini_set('magic_quotes_runtime', 0);
 		}
 	}
-// define constant systemenvironment settings ---
-	SetInstallPathConstants();
-	date_default_timezone_set('UTC');
-	if(!defined('MAX_TIME')) { define('MAX_TIME', (pow(2, 31)-1)); } // 32-Bit Timestamp of 19 Jan 2038 03:14:07 GMT
-	if(!defined('DO_NOT_TRACK')) { define('DO_NOT_TRACK', (isset($_SERVER['HTTP_DNT']))); }
-// register WB basic autoloader ---
-	$sTmp = dirname(__FILE__).'/WbAutoloader.php';
-	if(!class_exists('WbAutoloader', false)){ include($sTmp); }
-	WbAutoloader::doRegister(array(ADMIN_DIRECTORY=>'a', 'modules'=>'m'));
-// register TWIG autoloader ---
-//	$sTmp = dirname(dirname(__FILE__)).'/include/Sensio/Twig/lib/Twig/Autoloader.php';
-	$sTmp = dirname(dirname(__FILE__)).'/include/Twig/Autoloader.php';
-	if(!class_exists('Twig_Autoloader', false)){ include($sTmp); }
-	Twig_Autoloader::register();
-// aktivate exceptionhandler ---
-	if(!function_exists('globalExceptionHandler')) {
-		include(dirname(__FILE__).'/globalExceptionHandler.php');
-	}
 // load db configuration ---
 	if(defined('DB_TYPE')) {
 		$aSqlData = array( 0 => DB_TYPE.'://'.DB_USERNAME.':'.DB_PASSWORD.'@'.DB_HOST.'/'.DB_NAME);
@@ -168,6 +150,23 @@
 	}
 // sanitize $_SERVER['HTTP_REFERER'] ---
 	SanitizeHttpReferer(WB_URL); 
+	SetInstallPathConstants();
+// define constant systemenvironment settings ---
+	date_default_timezone_set('UTC');
+	if(!defined('MAX_TIME')) { define('MAX_TIME', (pow(2, 31)-1)); } // 32-Bit Timestamp of 19 Jan 2038 03:14:07 GMT
+	if(!defined('DO_NOT_TRACK')) { define('DO_NOT_TRACK', (isset($_SERVER['HTTP_DNT']))); }
+// register WB basic autoloader ---
+	$sTmp = dirname(__FILE__).'/WbAutoloader.php';
+	if(!class_exists('WbAutoloader', false)){ include($sTmp); }
+	WbAutoloader::doRegister(array(ADMIN_DIRECTORY=>'a', 'modules'=>'m'));
+// register TWIG autoloader ---
+	$sTmp = dirname(dirname(__FILE__)).'/include/Sensio/Twig/lib/Twig/Autoloader.php';
+	if(!class_exists('Twig_Autoloader', false)){ include($sTmp); }
+	Twig_Autoloader::register();
+// aktivate exceptionhandler ---
+	if(!function_exists('globalExceptionHandler')) {
+		include(dirname(__FILE__).'/globalExceptionHandler.php');
+	}
 // ---------------------------
 // Create global database instance ---
 	$database = WbDatabase::getInstance();
@@ -283,6 +282,7 @@
 	Translate::getInstance()->initialize('en',
 	                                     (defined('DEFAULT_LANGUAGE') ? DEFAULT_LANGUAGE : ''), 
 	                                     (defined('LANGUAGE') ? LANGUAGE : ''), 
-	                                     'WbOldStyle');
+	                                     'WbOldStyle',
+	                                     Translate::CACHE_ENABLED);
 // *** END OF FILE ***********************************************************************
 	
