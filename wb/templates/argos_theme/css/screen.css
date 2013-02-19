@@ -236,7 +236,7 @@ a:link { display :inline; font-weight :bold; padding-top :0; text-decoration :no
 a:visited { color :#0066cc; }
 a:hover { color :#6699ff; text-decoration :underline; }
 /**/
-.header_list_actions { text-align :left; width :150px; }
+.header_list_actions { text-align :left; width :190px; }
 .header_list_block { text-align :left; width :120px; }
 .header_list_page_id { padding-right :15px; text-align :right; width :30px; }
 .header_list_page_title, 

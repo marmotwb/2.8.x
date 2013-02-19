@@ -11,6 +11,16 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+
+19 Feb-2013 Build 1867 Dietmar Woellbrink (Luisehahne)
+! fixed pagetree header
+19 Feb-2013 Build 1866 Dietmar Woellbrink (Luisehahne)
+# typofix in class TranslateTable
+! framework/functions.php set function create_access_file to deprecated
+! set ModLanguage.php to deprecated
+! add methode escapeString  to class WbDatabase
+! update upgrade-script.php
+! add getter property LastInsertId to class WbDatabase
 19 Feb-2013 Build 1865 Werner v.d.Decken(DarkViper)
 ! update initialize.php for changed Twig-dir and activated cache in Translate
 ! initialize can handle now the new setup.ini format also.

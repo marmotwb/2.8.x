@@ -138,11 +138,12 @@ class a_pages_PageTree
 		      . $this->_Tabs(1).'<table>'.PHP_EOL
 		      . $this->_Tabs(1).'<tbody>'.PHP_EOL
 		      . $this->_Tabs(1).'<tr class="pages_list_header">'.PHP_EOL
-		      . $this->_Tabs(1).'<th class="header_list_menu_title">'.$this->_TEXT['VISIBILITY'].
+		      . $this->_Tabs(1).'<th style="width:20px;">'.PHP_EOL.'</th>'.PHP_EOL
+		      . $this->_Tabs(1).'<th class="list_menu_title">'.$this->_TEXT['VISIBILITY'].
 		                        ' / '.$this->_TEXT['MENU_TITLE'].':</th>'.PHP_EOL
-		      . $this->_Tabs(0).'<th class="header_list_page_title">'.$this->_TEXT['PAGE_TITLE'].
+		      . $this->_Tabs(0).'<th class="list_page_title">'.$this->_TEXT['PAGE_TITLE'].
 		                        '</th>'.PHP_EOL
-		      . $this->_Tabs(0).'<th class="header_list_page_id">PID</th>'.PHP_EOL
+		      . $this->_Tabs(0).'<th class="list_page_id">PID</th>'.PHP_EOL
 		      . $this->_Tabs(0).'<th class="header_list_actions">'.$this->_TEXT['ACTIONS'].
 		                        ':</th>'.PHP_EOL
 		      . $this->_Tabs(0).'<th class="list_page_id">&nbsp;</th>'.PHP_EOL

@@ -215,7 +215,7 @@ if(isset($print_info_banner) && $print_info_banner == true) {
 		//print '<div class="section-info" ><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
 		print '<div class="section-info" '.$sec_anchor.' ><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
 		print '<b>  Modul: </b>' . $section['module']." ";
-		print '<b>  ID: </b><a' . $section_id."></a></div>\n";
+		print '<b>  ID: </b>' . $section_id."</div>\n";
 	}
 
 } //
