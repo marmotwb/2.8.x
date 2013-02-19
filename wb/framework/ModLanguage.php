@@ -9,6 +9,7 @@
  * @filesource   $HeadURL$
  * @since        Datei vorhanden seit Release 2.8.4
  * @lastmodified $Date$
+ * @deprecated   2013/02/19
  */
 class ModLanguage {
 
@@ -203,4 +204,4 @@ class ModLanguage {
 /**
  *  Exception class for Translation
  */
-class TranslationException extends AppException {}
+//class TranslationException extends AppException {}

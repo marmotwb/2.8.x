@@ -1,45 +1,44 @@
 <?php
 /**
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * @category        framework
- * @package         database
- * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
- * @link            http://www.websitebaker2.org/
- * @license         http://www.gnu.org/licenses/gpl.html
- * @platform        WebsiteBaker 2.8.x
- * @requirements    PHP 5.2.2 and higher
- * @version         $Id$
- * @filesource      $HeadURL$
- * @lastmodified    $Date$
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
-Database class
-This class will be used to interface between the database
-and the Website Baker code
-*/
-/* -------------------------------------------------------- */
-// Must include code to stop this file being accessed directly
-if(!defined('WB_PATH')) {
-	require_once(dirname(__FILE__).'/globalExceptionHandler.php');
-	throw new IllegalFileException();
-}
+/**
+ * WbDatabase.php
+ *
+ * @category     Core
+ * @package      Core_database
+ * @author       Werner v.d.Decken <wkl@isteam.de>
+ * @author       Dietmar W. <dietmar.woellbrink@websitebaker.org>
+ * @copyright    Werner v.d.Decken <wkl@isteam.de>
+ * @license      http://www.gnu.org/licenses/gpl.html   GPL License
+ * @version      0.0.9
+ * @revision     $Revision$
+ * @lastmodified $Date$
+ * @deprecated   from WB version number 2.9
+ * @description  Mysql database wrapper for use with websitebaker up to version 2.8.4
+ */
+
 /* -------------------------------------------------------- */
 define('DATABASE_CLASS_LOADED', true);
-
 
 class WbDatabase {
 
 	private static $_oInstances = array();
 
 	private $_db_handle = null; // readonly from outside
-	private $_scheme    = 'mysql';
-	private $_hostname  = 'localhost';
-	private $_username  = '';
-	private $_password  = '';
-	private $_hostport  = '3306';
 	private $_db_name   = '';
 	private $connected  = false;
 	private $error      = '';
@@ -84,27 +83,29 @@ class WbDatabase {
 	public function doConnect($url = '') {
 		if($url != '') {
 			$aIni = parse_url($url);
-			$this->_scheme   = isset($aIni['scheme']) ? $aIni['scheme'] : 'mysql';
-			$this->_hostname = isset($aIni['host']) ? $aIni['host'] : '';
-			$this->_username = isset($aIni['user']) ? $aIni['user'] : '';
-			$this->_password = isset($aIni['pass']) ? $aIni['pass'] : '';
-			$this->_hostport = isset($aIni['port']) ? $aIni['port'] : '3306';
-			$this->_hostport = $this->_hostport == '3306' ? '' : ':'.$this->_hostport;
-			$this->_db_name  = ltrim(isset($aIni['path']) ? $aIni['path'] : '', '/\\');
+			
+			$scheme   = isset($aIni['scheme']) ? $aIni['scheme'] : 'mysql';
+			$hostname = isset($aIni['host']) ? $aIni['host'] : '';
+			$username = isset($aIni['user']) ? $aIni['user'] : '';
+			$password = isset($aIni['pass']) ? $aIni['pass'] : '';
+			$hostport = isset($aIni['port']) ? $aIni['port'] : '3306';
+			$hostport = $hostport == '3306' ? '' : ':'.$hostport;
+			$db_name  = ltrim(isset($aIni['path']) ? $aIni['path'] : '', '/\\');
+			$this->_db_name = $db_name;
 		}else {
 			throw new RuntimeException('Missing parameter: unable to connect database');
 		}
-		$this->_db_handle = mysql_connect($this->_hostname.$this->_hostport,
-		                                  $this->_username,
-		                                  $this->_password);
+		$this->_db_handle = mysql_connect($hostname.$hostport,
+		                                  $username,
+		                                  $password);
 		if(!$this->_db_handle) {
-			throw new RuntimeException('unable to connect \''.$this->_scheme.'://'.
-			                           $this->_hostname.$this->_hostport.'\'');
+			throw new RuntimeException('unable to connect \''.$scheme.'://'.
+			                           $hostname.$hostport.'\'');
 		} else {
-			if(!mysql_select_db($this->_db_name)) {
-				throw new RuntimeException('unable to select database \''.$this->_db_name.
-				                           '\' on \''.$this->_scheme.'://'.
-				                           $this->_hostname.$this->_hostport.'\'');
+			if(!mysql_select_db($db_name)) {
+				throw new RuntimeException('unable to select database \''.$db_name.
+				                           '\' on \''.$scheme.'://'.
+				                           $hostname.$hostport.'\'');
 			} else {
 				$this->connected = true;
 			}
@@ -170,9 +171,19 @@ class WbDatabase {
 		return $this->error;
 	}
 
+	// Return escape_string
+/**
+ * escape a string for use in DB
+ * @param string 
+ * @return string
+ */	
+	public function escapeString($string) {
+		return mysql_real_escape_string($string, $this->_db_handle);
+	}
+
 /**
  * default Getter for some properties
- * @param string $sPropertyName
+ * @param string name of the Property
  * @return mixed NULL on error or missing property
  */
 	public function __get($sPropertyName)
@@ -182,6 +193,9 @@ class WbDatabase {
 			case 'DbHandle':
 			case 'getDbHandle':
 				$retval = $this->_db_handle;
+				break;
+			case 'LastInsertId':
+				$retval = mysql_insert_id($this->_db_handle);
 				break;
 			case 'db_name':
 			case 'DbName':
@@ -199,9 +213,9 @@ class WbDatabase {
 	} // __get()
 
 /*
- * @param string $table_name: full name of the table (incl. TABLE_PREFIX)
- * @param string $field_name: name of the field to seek for
- * @return bool: true if field exists
+ * @param string full name of the table (incl. TABLE_PREFIX)
+ * @param string name of the field to seek for
+ * @return bool true if field exists
  */
 	public function field_exists($table_name, $field_name)
 	{
@@ -211,9 +225,9 @@ class WbDatabase {
 	}
 
 /*
- * @param string $table_name: full name of the table (incl. TABLE_PREFIX)
- * @param string $index_name: name of the index to seek for
- * @return bool: true if field exists
+ * @param string full name of the table (incl. TABLE_PREFIX)
+ * @param string name of the index to seek for
+ * @return bool true if field exists
  */
 	public function index_exists($table_name, $index_name, $number_fields = 0)
 	{
@@ -241,10 +255,10 @@ class WbDatabase {
 	}
 
 /*
- * @param string $table_name: full name of the table (incl. TABLE_PREFIX)
- * @param string $field_name: name of the field to add
- * @param string $description: describes the new field like ( INT NOT NULL DEFAULT '0')
- * @return bool: true if successful, otherwise false and error will be set
+ * @param string full name of the table (incl. TABLE_PREFIX)
+ * @param string name of the field to add
+ * @param string describes the new field like ( INT NOT NULL DEFAULT '0')
+ * @return bool true if successful, otherwise false and error will be set
  */
 	public function field_add($table_name, $field_name, $description)
 	{
