@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+19 Feb-2013 Build 1865 Werner v.d.Decken(DarkViper)
+! update initialize.php for changed Twig-dir and activated cache in Translate
+! initialize can handle now the new setup.ini format also.
 19 Feb-2013 Build 1864 Werner v.d.Decken(DarkViper)
 ! update classes Translate, TranslateTable, TranslateAdaptorWbOldStyle
 + added interface TranslateAdaptorInterface
