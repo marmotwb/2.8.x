@@ -33,11 +33,9 @@
  * @description  Loads translation table from old languagefiles before WB-2.9.0.
  *               Can handle Languagecodes like 'de_DE_BAY' (2ALPHA_2ALPHA_2-4ALNUM)
  */
-class TranslateAdaptorWbOldStyle {
+class TranslateAdaptorWbOldStyle implements TranslateAdaptorInterface {
 
-	protected $sAppPath   = '';
 	protected $sAddon     = '';
-	protected $aLangTable = array();
 	protected $sFilePath  = '';
 /**
  * Constructor
@@ -46,9 +44,8 @@ class TranslateAdaptorWbOldStyle {
 	public function __construct($sAddon = '')
 	{
 		$this->sAddon = $sAddon;
-		$this->sAppPath = dirname(dirname(__FILE__)).'/';
-		$this->sFilePath = $this->sAppPath
-		                 . trim(str_replace('\\', '/', $sAddon), '/').'/languages/';
+		$this->sFilePath = str_replace('\\', '/', dirname(dirname(__FILE__))).'/'.$sAddon;
+		$this->sFilePath = rtrim(str_replace('\\', '/', $this->sFilePath), '/').'/languages/';
 	}
 /**
  * Load languagefile
@@ -58,28 +55,17 @@ class TranslateAdaptorWbOldStyle {
 	public function loadLanguage($sLangCode)
 	{
 		$aTranslations = array();
-		// sanitize the language code
-		$aLangCode = explode('_', preg_replace('/[^a-z0-9]/i', '_', strtolower($sLangCode)));
-		$sConcatedLang = '';
-		foreach($aLangCode as $sLang)
-		{ // iterate all segments of the language code
-			$sLangFile = '';
-			$sLang = strtolower($sLang);
-			// seek lowerchars file
-			if(is_readable($this->sFilePath.$sConcatedLang.$sLang.'.php')) {
-				$sLangFile = $this->sFilePath.$sConcatedLang.$sLang.'.php';
-			}else {
-				// seek upperchars file
-				$sLang = strtoupper($sLang);
-				if(is_readable($this->sFilePath.$sConcatedLang.$sLang.'.php')) {
-					$sLangFile = $this->sFilePath.$sConcatedLang.$sLang.'.php';
+		$sLangFile = strtolower($sLangCode.'.php');
+		if( ($aDirContent = scandir($this->sFilePath)) !== false) {
+			foreach($aDirContent as $sFile) {
+				if($sLangFile === strtolower($sFile)) {
+					$sLangFile = $this->sFilePath.$sFile;
+					if(is_readable($sLangFile)) {
+						$aTmp = $this->_importArrays($sLangFile);
+						$aTranslations = array_merge($aTranslations, $aTmp);
+						break;
+					}
 				}
-			}
-			if($sLangFile) {
-			// import the fond file
-				$sConcatedLang .= $sLangFile.'_';
-				$aTmp = $this->_importArrays($sLangFile);
-				$aTranslations = array_merge($aTranslations, $aTmp);
 			}
 		}
 		return (sizeof($aTranslations) > 0 ? $aTranslations : false);
@@ -128,7 +114,10 @@ class TranslateAdaptorWbOldStyle {
 		// walk through all arrays
 			foreach(${$sSection} as $key => $value) {
 			// and import all found translations
-				$aLanguageTable[$sSection.'_'.$key] = $value;
+				if(!is_array($value)) {
+				// skip all multiarray definitions from compatibility mode
+					$aLanguageTable[$sSection.'_'.$key] = $value;
+				}
 			}
 		}
 		return $aLanguageTable;

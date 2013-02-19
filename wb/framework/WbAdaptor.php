@@ -41,7 +41,7 @@ class WbAdaptor {
 /** constructor */
 	protected function __construct() 
 	{
-		$this->_aSys = array('Sys' => array(), 'Req' => array());
+		$this->_aSys = array('System' => array(), 'Request' => array());
 	}
 /**
  * Get active instance 
@@ -49,7 +49,7 @@ class WbAdaptor {
  */
 	public static function getInstance()
 	{
-		if(self::$_oInstance === null) {
+		if(self::$_oInstance == null) {
 			$c = __CLASS__;
 			self::$_oInstance = new $c();
 			
@@ -90,7 +90,7 @@ class WbAdaptor {
  */	
 	public function getWbConstants()
 	{
-		$this->_aSys = array('Sys' => array(), 'Req' => array());
+		$this->_aSys = array('System' => array(), 'Request' => array());
 		$aConsts = get_defined_constants(true);
 		foreach($aConsts['user'] as $sKey=>$sVal)
 		{

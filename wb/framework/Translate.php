@@ -35,13 +35,20 @@
 class Translate {
 	
 //  @object hold the Singleton instance 
-	private static $_oInstance   = null;
+	private static $_oInstance     = null;
 	
-	protected $_sAdaptor         = 'WbOldStyle';
-	protected $_sDefaultLanguage = 'en';
-	protected $_sUserLanguage    = 'en';
-	protected $_aAddons          = array();
-	protected $_aTranslations    = array();
+	protected $sAdaptor            = 'WbOldStyle';
+	protected $sSystemLanguage     = 'en';
+	protected $sDefaultLanguage    = 'en';
+	protected $sUserLanguage       = 'en';
+	protected $bUseCache           = true;
+/** TranslationTable objects of all loaded addons */
+	protected $aLoadedAddons       = array();
+/** TranslationTable object of the core and additional one activated addon */	
+	protected $aActiveTranslations = array();
+	
+	const CACHE_ENABLED = true;
+	const CACHE_DISABLED = false;
 
 /** prevent class from public instancing and get an object to hold extensions */
 	protected function  __construct() {}
@@ -64,31 +71,46 @@ class Translate {
  * @param string UserLanguage code ('de' || 'de_CH' || 'de_CH_uri')
  * @throws TranslationException
  */
-	public function initialize($sDefaultLanguage, $sUserLanguage = '', $sAdaptor = 'WbOldStyle') 
+	public function initialize($sSystemLanguage, $sDefaultLanguage, $sUserLanguage = '', 
+	                           $sAdaptor = 'WbOldStyle', $bUseCache = self::CACHE_ENABLED) 
 	{
 		if(!class_exists('TranslateAdaptor'.$sAdaptor)) {
 			throw new TranslationException('unable to load adaptor: '.$sAdaptor);
 		}
-		$this->_sAdaptor = $sAdaptor;
-		$this->_sDefaultLanguage = $sDefaultLanguage;
+		$this->bUseCache = $bUseCache;
+		$this->sAdaptor = 'TranslateAdaptor'.$sAdaptor;
+		// if no system language is set then use language 'en'
+		$this->sSystemLanguage = (trim($sSystemLanguage) == '' ? 'en' : $sSystemLanguage);
+		// if no default language is set then use system language
+		$this->sDefaultLanguage = (trim($sDefaultLanguage) == '' 
+		                            ? $this->sSystemLanguage 
+		                            : $sDefaultLanguage);
 		// if no user language is set then use default language
-		$this->_sUserLanguage = ($sUserLanguage == '' ? $sDefaultLanguage : $sUserLanguage);
+		$this->sUserLanguage = (trim($sUserLanguage) == '' 
+		                         ? $this->sDefaultLanguage 
+		                         : $sUserLanguage);
 		$sPattern = '/^[a-z]{2,3}(?:(?:\_[a-z]{2})?(?:\_[a-z0-9]{2,4})?)$/siU';
 		// validate language codes
-		if(preg_match($sPattern, $this->_sDefaultLanguage) &&
-		   preg_match($sPattern, $this->_sUserLanguage))
+		if(preg_match($sPattern, $this->sSystemLanguage) &&
+		   preg_match($sPattern, $this->sDefaultLanguage) &&
+		   preg_match($sPattern, $this->sUserLanguage))
 		{
 		// load core translations and activate it
-			$oTmp = new TranslationTable('', $this->_sDefaultLanguage, $this->_sUserLanguage);
-			$this->_aAddons['core'] = $oTmp->load($this->_sAdaptor);
-			$this->_aTranslations[0] = $this->_aAddons['core'];
-			if(sizeof($this->_aAddons['core']) == 0) {
+			$oTmp = new TranslationTable('', 
+			                             $this->sSystemLanguage, 
+			                             $this->sDefaultLanguage, 
+			                             $this->sUserLanguage,
+			                             $this->bUseCache);
+			$this->aLoadedAddons['core'] = $oTmp->load($this->sAdaptor);
+			$this->aActiveTranslations[0] = $this->aLoadedAddons['core'];
+			if(sizeof($this->aLoadedAddons['core']) == 0) {
 			// throw an exception for missing translations
 				throw new TranslationException('missing core translations');
 			}
 		}else {
 		// throw an exception for invalid or missing language codes
-			$sMsg = 'Invalid language codes: ['.$this->_sDefaultLanguage.'] ['.$this->_sUserLanguage.']';
+			$sMsg = 'Invalid language codes: ['.$this->sSystemLanguage.'] or ['
+			      . $this->sDefaultLanguage.'] or ['.$this->sUserLanguage.']';
 			throw new TranslationException($sMsg);
 		}
 	}
@@ -99,10 +121,14 @@ class Translate {
  */	
 	public function addAddon($sAddon)
 	{
-		if(!(strtolower($sAddon) == 'core' || $sAddon == '' || isset($this->_aAddons[$sAddon]))) {
+		if(!(strtolower($sAddon) == 'core' || $sAddon == '' || isset($this->aLoadedAddons[$sAddon]))) {
 		// load requested addon translations if needed and possible
-			$oTmp = new TranslationTable($sAddon, $this->_sDefaultLanguage, $this->_sUserLanguage);
-			$this->_aAddons[$sAddon] = $oTmp->load($this->_sAdaptor);
+			$oTmp = new TranslationTable($sAddon, 
+			                             $this->sSystemLanguage, 
+			                             $this->sDefaultLanguage, 
+			                             $this->sUserLanguage,
+			                             $this->bUseCache);
+			$this->aLoadedAddons[$sAddon] = $oTmp->load($this->sAdaptor);
 		}
 	}
 /**
@@ -112,18 +138,20 @@ class Translate {
 	public function enableAddon($sAddon)
 	{
 		if(!(strtolower($sAddon) == 'core' || $sAddon == '')) {
-			if(!isset($this->_aAddons[$sAddon])) {
+			if(!isset($this->aLoadedAddons[$sAddon])) {
 				$this->addAddon($sAddon);
 			}
-			$this->_aTranslations[1] = $this->_aAddons[$sAddon];
+			$this->aActiveTranslations[1] = $this->aLoadedAddons[$sAddon];
 		}
 		
 	}
-	
+/**
+ * Dissable active addon
+ */	
 	public function disableAddon()
 	{
-		if(isset($this->_aTranslations[1])) {
-			unset($this->_aTranslations[1]);
+		if(isset($this->aActiveTranslations[1])) {
+			unset($this->aActiveTranslations[1]);
 		}
 	}
 	
@@ -134,7 +162,7 @@ class Translate {
  */
 	public function __isset($sKey)
 	{
-		foreach($this->_aTranslations as $oAddon) {
+		foreach($this->aActiveTranslations as $oAddon) {
 			if(isset($oAddon->$sKey)) {
 			// is true if at least one translation is found
 				return true;
@@ -150,7 +178,7 @@ class Translate {
 	public function __get($sKey)
 	{
 		$sRetval = '';
-		foreach($this->_aTranslations as $oAddon) {
+		foreach($this->aActiveTranslations as $oAddon) {
 			if(isset($oAddon->$sKey)) {
 			// search the last matching translation (Core -> Addon)
 				$sRetval = $oAddon->$sKey;
@@ -165,11 +193,13 @@ class Translate {
  */	
 	public function getLangArray()
 	{
-		$aTranslations = array();
-		foreach($this->_aTranslations as $aTranslation) {
-			$aTranslations = array_merge($aTranslations, $aTranslation);
+		$aSumTranslations = array();
+		foreach($this->aActiveTranslations as $oTranslationTable) {
+			if(get_class($oTranslationTable) == 'TranslationTable') {
+				$aSumTranslations = array_merge($aSumTranslations, $oTranslationTable->getArray());
+			}
 		}
-		return $aTranslations;
+		return $aSumTranslations;
 	}
 	
 } // end of class Translate
