@@ -12,6 +12,8 @@ Legend:
 ===============================================================================
 
 
+20 Feb-2013 Build 1869 Dietmar Woellbrink (Luisehahne)
+# solved renaming access files by page settings if php as apachehandler
 19 Feb-2013 Build 1868 Dietmar Woellbrink (Luisehahne)
 ! change mysql_esc_string to WbDatabase::getInstance()->escapeStrinng() 
 19 Feb-2013 Build 1867 Dietmar Woellbrink (Luisehahne)

@@ -18,11 +18,11 @@
 // Create new admin object and print admin header
 if(!defined('WB_URL'))
 {
-    $config_file = realpath('../../config.php');
-    if(file_exists($config_file) && !defined('WB_URL'))
-    {
-    	require($config_file);
-    }
+	$config_file = realpath('../../config.php');
+	if(file_exists($config_file) && !defined('WB_URL'))
+	{
+		require($config_file);
+	}
 }
 if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 
@@ -133,7 +133,7 @@ if($menu_title == '' || substr($menu_title,0,1)=='.')
 }
 if($seo_title == '' || substr($seo_title,0,1)=='.')
 {
-    $seo_title = $menu_title;
+	$seo_title = $menu_title;
 }
 
 // Get existing perms
@@ -210,14 +210,14 @@ $link = '/'.page_filename($seo_title);
 
 // Work-out what the link should be
 if($parent == '0') {
-    if($link == '/index' || $link == '/intro')
-    {
-    	$link .= '_' .$page_id;
-    	$filename = WB_PATH.PAGES_DIRECTORY.$link .PAGE_EXTENSION;
-
-    } else {
-        $filename = WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION;
-    }
+	if($link == '/index' || $link == '/intro')
+	{
+		$link .= '_' .$page_id;
+		$filename = WB_PATH.PAGES_DIRECTORY.$link .PAGE_EXTENSION;
+	
+	} else {
+	    $filename = WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION;
+	}
 } else {
 	$parent_section = '';
 	$parent_titles = array_reverse(get_parent_titles($parent));
@@ -233,7 +233,7 @@ if($parent == '0') {
     }
 
 	$link = $parent_section.$link;
-    $filename = WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION;
+	$filename = WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION;
 }
 
 // Check if a page with same page filename exists
@@ -257,36 +257,36 @@ $page_trail = get_page_trail($page_id);
 
 // Update page settings in the pages table
 $sql = 'UPDATE `'.TABLE_PREFIX.'pages` '
-     . 'SET `parent`='.$parent.', '
-     .     '`page_title`=\''.$page_title.'\', '
-     .     '`tooltip`=\''.$page_title.'\', '
-     .     '`page_icon` =\''.$database->escapeString($sPageIcon).'\', '
-     .     '`menu_title`=\''.$menu_title.'\', '
-     .     '`menu_icon_0` =\''.$database->escapeString($sMenuIcon0).'\', '
-     .     '`menu_icon_1` =\''.$database->escapeString($sMenuIcon1).'\', '
-     .     '`menu`='.$menu.', '
-     .     '`level`='.$level.', '
-     .     '`page_trail`=\''.$page_trail.'\', '
-     .     '`root_parent`='.$root_parent.', '
-     .     '`link`=\''.$link.'\', '
-     .     '`template`=\''.$template.'\', '
-     .     '`target`=\''.$target.'\', '
-     .     '`description`=\''.$description.'\', '
-     .     '`keywords`=\''.$keywords.'\', '
-     .     '`position`='.$position.', '
-     .     '`visibility`=\''.$visibility.'\', '
-     .     '`searching`='.$searching.', '
-     .     '`language`=\''.$language.'\', ';
+	 . 'SET `parent`='.$parent.', '
+	 .     '`page_title`=\''.$page_title.'\', '
+	 .     '`tooltip`=\''.$page_title.'\', '
+	 .     '`page_icon` =\''.$database->escapeString($sPageIcon).'\', '
+	 .     '`menu_title`=\''.$menu_title.'\', '
+	 .     '`menu_icon_0` =\''.$database->escapeString($sMenuIcon0).'\', '
+	 .     '`menu_icon_1` =\''.$database->escapeString($sMenuIcon1).'\', '
+	 .     '`menu`='.$menu.', '
+	 .     '`level`='.$level.', '
+	 .     '`page_trail`=\''.$page_trail.'\', '
+	 .     '`root_parent`='.$root_parent.', '
+	 .     '`link`=\''.$link.'\', '
+	 .     '`template`=\''.$template.'\', '
+	 .     '`target`=\''.$target.'\', '
+	 .     '`description`=\''.$description.'\', '
+	 .     '`keywords`=\''.$keywords.'\', '
+	 .     '`position`='.$position.', '
+	 .     '`visibility`=\''.$visibility.'\', '
+	 .     '`searching`='.$searching.', '
+	 .     '`language`=\''.$language.'\', ';
 if($admin->ami_group_member('1')) {
 	$sql .= ''
 	     . '`admin_groups`=\''.$sAdminGroups.'\', '
 	     . '`admin_users`=\''.$sAdminUsers.'\', ';
 }
-    $sql .= ''
-         . '`viewing_groups`=\''.$sViewingGroups.'\', '
-         . '`viewing_users`=\''.$sViewingUsers.'\', '
-         . '`page_code`='.$page_code.' '
-         . 'WHERE `page_id`='.$page_id;
+	$sql .= ''
+	 . '`viewing_groups`=\''.$sViewingGroups.'\', '
+	 . '`viewing_users`=\''.$sViewingUsers.'\', '
+	 . '`page_code`='.$page_code.' '
+	 . 'WHERE `page_id`='.$page_id;
 
 if(!$database->query($sql)) {
 	$target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
@@ -301,28 +301,28 @@ if($parent != $old_parent)
 
 // using standard function by core,
 function fix_page_trail($page_id) {
-    global $database,$admin,$target_url,$pagetree_url,$MESSAGE;
+	global $database,$admin,$target_url,$pagetree_url,$MESSAGE;
 
-    $target_url = (isset($_POST['back_submit'])) ? $pagetree_url : $target_url;
+	$target_url = (isset($_POST['back_submit'])) ? $pagetree_url : $target_url;
+	
+	// Work out level
+	$level = level_count($page_id);
+	// Work out root parent
+	$root_parent = root_parent($page_id);
+	// Work out page trail
+	$page_trail = get_page_trail($page_id);
+	// Update page with new level and link
+	$sql  = 'UPDATE `'.TABLE_PREFIX.'pages` SET ';
+	$sql .= '`root_parent` = '.$root_parent.', ';
+	$sql .= '`level` = '.$level.', ';
+	$sql .= '`page_trail` = "'.$page_trail.'" ';
+	$sql .= 'WHERE `page_id` = '.$page_id;
 
-    // Work out level
-    $level = level_count($page_id);
-    // Work out root parent
-    $root_parent = root_parent($page_id);
-    // Work out page trail
-    $page_trail = get_page_trail($page_id);
-    // Update page with new level and link
-    $sql  = 'UPDATE `'.TABLE_PREFIX.'pages` SET ';
-    $sql .= '`root_parent` = '.$root_parent.', ';
-    $sql .= '`level` = '.$level.', ';
-    $sql .= '`page_trail` = "'.$page_trail.'" ';
-    $sql .= 'WHERE `page_id` = '.$page_id;
-
-    if($database->query($sql)) {
-    	$admin->print_success($MESSAGE['PAGES_SAVED_SETTINGS'], $target_url );
-    } else {
-    	$admin->print_error($database->get_error(), $target_url );
-    }
+	if($database->query($sql)) {
+		$admin->print_success($MESSAGE['PAGES_SAVED_SETTINGS'], $target_url );
+	} else {
+		$admin->print_error($database->get_error(), $target_url );
+	}
 }
 
 // Fix sub-pages page trail
@@ -336,48 +336,48 @@ fix_page_trail($page_id);
  * otherwise acess denied
  * 
  */
-$bCanCreateAcessFiles = is_writeable(WB_PATH);
-$bCanCreateAcessFiles = ( ( $bCanCreateAcessFiles==true ) ? make_dir(WB_PATH.PAGES_DIRECTORY) : false );
+
+$bCanCreateAcessFiles = make_dir(WB_PATH.PAGES_DIRECTORY);
+$bCanCreateAcessFiles = (($bCanCreateAcessFiles==true) ? file_exists(WB_PATH) && is_writable(WB_PATH.PAGES_DIRECTORY) : false );
 if( !$bCanCreateAcessFiles )
 {
 	$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE'], $target_url);
 } else {
 // Create a new file in the /pages dir if title changed
 
-    $old_filename = WB_PATH.PAGES_DIRECTORY.$old_link.PAGE_EXTENSION;
+	$old_filename = WB_PATH.PAGES_DIRECTORY.$old_link.PAGE_EXTENSION;
 
 	// First check if we need to create a new file
 	if(($old_link != $link) || (!file_exists($old_filename)))
-    {
+	{
 		// Delete old file
 		$old_filename = WB_PATH.PAGES_DIRECTORY.$old_link.PAGE_EXTENSION;
 		if(file_exists($old_filename))
-        {
+		{
 			unlink($old_filename);
 		}
 
 		// Create access file
 		create_access_file($filename,$page_id,$level);
-        if(!file_exists($filename)) {
-        	$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
-        }
+		if(!file_exists($filename)) {
+			$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
+		}
 		// Move a directory for this page
 		if(is_readable(WB_PATH.PAGES_DIRECTORY.$old_link.'/') && is_dir(WB_PATH.PAGES_DIRECTORY.$old_link.'/'))
-        {
+		{
 			rename(WB_PATH.PAGES_DIRECTORY.$old_link.'/', WB_PATH.PAGES_DIRECTORY.$link.'/');
 		}
 		// Update any pages that had the old link with the new one
 		$old_link_len = strlen($old_link);
-        $sql = '';
+		$sql = '';
 		$query_subs = $database->query("SELECT page_id,link,level FROM ".TABLE_PREFIX."pages WHERE link LIKE '%$old_link/%' ORDER BY LEVEL ASC");
 
 		if($query_subs->numRows() > 0)
-        {
+		{
 			while($sub = $query_subs->fetchRow())
-            {
+			{
 				// Double-check to see if it contains old link
-				if(substr($sub['link'], 0, $old_link_len) == $old_link)
-                {
+				if(substr($sub['link'], 0, $old_link_len) == $old_link) {
 					// Get new link
 					$replace_this = $old_link;
 					$old_sub_link_len =strlen($sub['link']);
@@ -388,15 +388,14 @@ if( !$bCanCreateAcessFiles )
 					$database->query("UPDATE ".TABLE_PREFIX."pages SET link = '$new_sub_link', level = '$new_sub_level' WHERE page_id = '".$sub['page_id']."' LIMIT 1");
 					// Re-write the access file for this page
 					$old_subpage_file = WB_PATH.PAGES_DIRECTORY.$new_sub_link.PAGE_EXTENSION;
-					if(file_exists($old_subpage_file))
-                    {
+					if(file_exists($old_subpage_file)) {
 						unlink($old_subpage_file);
 					}
-                    $sAccessFile = WB_PATH.PAGES_DIRECTORY.$new_sub_link.PAGE_EXTENSION;
+					$sAccessFile = WB_PATH.PAGES_DIRECTORY.$new_sub_link.PAGE_EXTENSION;
 					create_access_file($sAccessFile, $sub['page_id'], $new_sub_level);
-                    if(!file_exists($sAccessFile)) {
-                    	$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
-                    }
+					if(!file_exists($sAccessFile)) {
+						$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
+					}
 
 				}
 			}
