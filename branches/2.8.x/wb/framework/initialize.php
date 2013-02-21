@@ -188,8 +188,19 @@
 									 ? false 
 									 : $aSetting['value'])
 								 );
+			$aSetting['name'] = strtoupper($aSetting['name']);
+			if($aSetting['name'] == 'STRING_FILE_MODE') {
+				$iTmp = ((intval(octdec($aSetting['value'])) & ~0111)|0600);
+				define('OCTAL_FILE_MODE', $iTmp);
+				define('STRING_FILE_MODE', sprintf('0%03o', $iTmp));
+			}elseif($aSetting['name'] == 'STRING_DIR_MODE') {
+				$iTmp = (intval(octdec($aSetting['value'])) |0711);
+				define('OCTAL_DIR_MODE', $iTmp);
+				define('STRING_DIR_MODE', sprintf('0%03o', $iTmp));
+			}else {
 			// make global const from setting
-			@define(strtoupper($aSetting['name']), $aSetting['value']);
+				@define($aSetting['name'], $aSetting['value']);
+			}
 		}
 	}else { throw new AppException($database->get_error()); }
 // get/set users timezone ---
@@ -203,11 +214,6 @@
 // extended wb editor settings
 	define('EDIT_ONE_SECTION', false);
 	define('EDITOR_WIDTH', 0);
-// define numeric, octal values for chmod operations ---	
-	$string_file_mode = STRING_FILE_MODE; // STRING_FILE_MODE is set deprecated
-	define('OCTAL_FILE_MODE',(int) octdec($string_file_mode));
-	$string_dir_mode = STRING_DIR_MODE; // STRING_DIR_MODE is set deprecated
-	define('OCTAL_DIR_MODE',(int) octdec($string_dir_mode));
 // define form security class and preload it ---
 	$sSecMod = (defined('SECURE_FORM_MODULE') && SECURE_FORM_MODULE != '') ? '.'.SECURE_FORM_MODULE : '';
 	$sSecMod = WB_PATH.'/framework/SecureForm'.$sSecMod.'.php';
