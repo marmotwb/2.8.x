@@ -12,6 +12,9 @@ Legend:
 ===============================================================================
 
 
+21 Feb-2013 Build 1870 Dietmar Woellbrink (Luisehahne)
+# solved installation issues
+! upgrade-script sanitize pages_directory before creating access files
 20 Feb-2013 Build 1869 Dietmar Woellbrink (Luisehahne)
 # solved renaming access files by page settings if php as apachehandler
 19 Feb-2013 Build 1868 Dietmar Woellbrink (Luisehahne)

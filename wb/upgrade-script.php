@@ -39,8 +39,20 @@ $config_file = realpath('config.php');
 if(file_exists($config_file) && !defined('WB_URL'))
 {
 	require($config_file);
-}
 
+}
+// solved wrong pages_directory value before creating access files
+$sql  = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` ';
+$sql .= 'WHERE `name`=\'pages_directory\' ';
+$sTmpDir = WbDatabase::getInstance()->get_one($sql);
+$sTmpDir = ( (strpos($sTmpDir,'/',0)===false) && (strlen($sTmpDir)>1)  ? '/'.$sTmpDir : rtrim($sTmpDir,'/') );
+$sPagesDir = defined('PAGES_DIRECTORY') ? PAGES_DIRECTORY : '';
+if(($sTmpDir != $sPagesDir)) {
+	$sql = 'UPDATE `'.TABLE_PREFIX.'settings` SET '
+		.  '`value` = \''.$sTmpDir.'\' '
+		.  'WHERE `name`=\'pages_directory\' ';
+	if(!WbDatabase::getInstance()->query($sql) ) {}
+}
 //require_once(WB_PATH.'/framework/class.admin.php');
 if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 require_once(WB_PATH.'/framework/functions.php');
@@ -59,7 +71,6 @@ $bDebugModus = false;
 // set addition settings if not exists, otherwise upgrade will be breaks
 if(!defined('WB_SP')) { define('WB_SP',''); }
 if(!defined('WB_REVISION')) { define('WB_REVISION',''); }
-
 // database tables including in WB package
 $aPackage = array (
     'settings','groups','addons','pages','sections','search','users',
@@ -358,6 +369,7 @@ span.error {
 <p class="info">This script upgrades an existing WebsiteBaker <strong> <?php echo $oldRevision; ?></strong> installation to the <strong> <?php echo $newRevision ?> </strong>.<br />The upgrade script alters the existing WB database to reflect the changes introduced with WB 2.8.x</p>
 
 <?php
+
 /**
  * Check if disclaimer was accepted
  */

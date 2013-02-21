@@ -17,6 +17,10 @@
 
 $debug = true;
 
+include(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php'); 
+include(dirname(dirname(__FILE__)).'/framework/WbAutoloader.php');
+WbAutoloader::doRegister(array('admin'=>'a', 'modules'=>'m'));
+
 if (true === $debug) {
 	ini_set('display_errors', 1);
 	error_reporting(E_ALL);
@@ -31,10 +35,6 @@ if(!defined('SESSION_STARTED')) {
 list($usec,$sec) = explode(' ',microtime());
 srand((float)$sec+((float)$usec*100000));
 $session_rand = rand(1000,9999);
-if(!class_exists('WbAutoloader', false)) {
-	include(dirname(dirname(__FILE__)).'/framework/WbAutoloader.php');
-}
-WbAutoloader::doRegister(array('admin'=>'a', 'modules'=>'m'));
 
 // Function to set error
 function set_error($message, $field_name = '') {
@@ -98,7 +98,7 @@ function default_file_mode($temp_dir) {
 		$default_file_mode = '0'.substr(sprintf('%o', fileperms($filename)), -3);
 		unlink($filename);
 	} else {
-		$default_file_mode = '0777';
+		$default_file_mode = '0666';
 	}
 	return $default_file_mode;
 }
@@ -328,9 +328,9 @@ define('ADMIN_PATH', WB_PATH.'/'.ADMIN_DIRECTORY);
 define('ADMIN_URL', $wb_url.'/'.ADMIN_DIRECTORY);
 
 // Check if the user has entered a correct path
-    if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
-    	set_error('It appears the Absolute path that you entered is incorrect');
-    }
+	if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
+		set_error('It appears the Absolute path that you entered is incorrect');
+	}
 	$sSqlUrl = DB_TYPE.'://'.DB_USERNAME.':'.DB_PASSWORD.'@'.DB_HOST.'/'.DB_NAME;
 	$database = WbDatabase::getInstance();
 	$database->doConnect($sSqlUrl);
@@ -351,8 +351,8 @@ define('ADMIN_URL', $wb_url.'/'.ADMIN_DIRECTORY);
 	}
 
 //  core tables only structure
-    $sSqlFileName = dirname(__FILE__).'/sql/websitebaker.sql';
-    if(!$database->SqlImport($sSqlFileName,TABLE_PREFIX, false)) { set_error($database->get_error()); }
+	$sSqlFileName = dirname(__FILE__).'/sql/websitebaker.sql';
+	if(!$database->SqlImport($sSqlFileName,TABLE_PREFIX, false)) { set_error($database->get_error()); }
 
 	require(ADMIN_PATH.'/interface/version.php');
 
@@ -430,19 +430,18 @@ define('ADMIN_URL', $wb_url.'/'.ADMIN_DIRECTORY);
 	if(!$database->query($insert_admin_group)) { set_error($database->get_error()); }
 
 // Admin user
-    $insert_admin_user = "INSERT INTO `".TABLE_PREFIX."users` VALUES (1, 1, '1', 1, '$admin_username', '".md5($admin_password)."', '', 0, '', 0, 'Administrator', '$admin_email', $default_timezone, '', '', '$default_language', '', 0, '');";
+	$insert_admin_user = "INSERT INTO `".TABLE_PREFIX."users` VALUES (1, 1, '1', 1, '$admin_username', '".md5($admin_password)."', '', 0, '', 0, 'Administrator', '$admin_email', $default_timezone, '', '', '$default_language', '', 0, '');";
 	if(!$database->query($insert_admin_user)) { set_error($database->get_error()); }
 
 // Search layout default data
-    $sSqlFileName = dirname(__FILE__).'/sql/wb_search_data.sql';
-    if(!$database->SqlImport($sSqlFileName,TABLE_PREFIX, false)) { set_error($database->get_error()); }
+	$sSqlFileName = dirname(__FILE__).'/sql/wb_search_data.sql';
+	if(!$database->SqlImport($sSqlFileName,TABLE_PREFIX, false)) { set_error($database->get_error()); }
 
+	require_once(WB_PATH.'/framework/initialize.php');
 // Include WB functions file
 	require_once(WB_PATH.'/framework/functions.php');
 // Re-connect to the database, this time using in-build database class
 	require_once(WB_PATH.'/framework/class.login.php');
-
-	require_once(WB_PATH.'/framework/initialize.php');
 	// Include the PclZip class file (thanks to
 	require_once(WB_PATH.'/include/pclzip/pclzip.lib.php');
 	// Install add-ons
@@ -490,9 +489,9 @@ define('ADMIN_URL', $wb_url.'/'.ADMIN_DIRECTORY);
 		set_error($database->get_error());
 	}
 
-    if ( sizeof(createFolderProtectFile( WB_PATH.MEDIA_DIRECTORY )) ) {  }
-    if ( sizeof(createFolderProtectFile( WB_PATH.MEDIA_DIRECTORY.'/home' )) ) {  }
-    if ( sizeof(createFolderProtectFile( WB_PATH.PAGES_DIRECTORY )) ) {  }
+	if ( sizeof(createFolderProtectFile( WB_PATH.MEDIA_DIRECTORY )) ) {  }
+	if ( sizeof(createFolderProtectFile( WB_PATH.MEDIA_DIRECTORY.'/home' )) ) {  }
+	if ( sizeof(createFolderProtectFile( WB_PATH.PAGES_DIRECTORY )) ) {  }
 
 // end of if install_tables
 
