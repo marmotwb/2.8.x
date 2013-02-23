@@ -809,7 +809,7 @@ function create_access_file($sFileName, $iPageId, $iLevel = 0, array $aOptionalC
 			// if OS is not windows then chmod the new file 
 				if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
 				// sanitize filemode to 'o-x/g-x/u-x/o+rw' and chmod the new file
-					$bRetval = chmod($sName, ((OCTAL_FILE_MODE & ~0111)|0600));
+					$bRetval = chmod($sFileName, ((OCTAL_FILE_MODE & ~0111)|0600));
 				}
 			}else {
 		        $sError = $MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE'];

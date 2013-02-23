@@ -12,6 +12,9 @@ Legend:
 ===============================================================================
 
 
+23 Feb-2013 Build 1871 Dietmar Woellbrink (Luisehahne)
+# bugfix Undefined variable: sName in .../framework/functions.php
+# bugfix droplet ShowWysiwyg Undefined variable: module 
 21 Feb-2013 Build 1870 Dietmar Woellbrink (Luisehahne)
 # solved installation issues
 ! upgrade-script sanitize pages_directory before creating access files

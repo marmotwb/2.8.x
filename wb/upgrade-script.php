@@ -42,16 +42,16 @@ if(file_exists($config_file) && !defined('WB_URL'))
 
 }
 // solved wrong pages_directory value before creating access files
-$sql  = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` ';
-$sql .= 'WHERE `name`=\'pages_directory\' ';
-$sTmpDir = WbDatabase::getInstance()->get_one($sql);
-$sTmpDir = ( (strpos($sTmpDir,'/',0)===false) && (strlen($sTmpDir)>1)  ? '/'.$sTmpDir : rtrim($sTmpDir,'/') );
-$sPagesDir = defined('PAGES_DIRECTORY') ? PAGES_DIRECTORY : '';
-if(($sTmpDir != $sPagesDir)) {
-	$sql = 'UPDATE `'.TABLE_PREFIX.'settings` SET '
-		.  '`value` = \''.$sTmpDir.'\' '
-		.  'WHERE `name`=\'pages_directory\' ';
-	if(!WbDatabase::getInstance()->query($sql) ) {}
+$sql  = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` '
+      . 'WHERE `name`=\'pages_directory\'';
+$sPagesDirectory = WbDatabase::getInstance()->get_one($sql);
+$sTmp = trim($sPagesDirectory, '/');
+$sTmp = ($sTmp == '' ? '' : '/'.$sTmp);
+if($sTmp != $sPagesDirectory) {
+ $sql = 'UPDATE `'.TABLE_PREFIX.'settings` '
+      . 'SET `value` = \''.$sTmpDir.'\' '
+      . 'WHERE `name`=\'pages_directory\' ';
+ WbDatabase::getInstance()->query($sql);
 }
 //require_once(WB_PATH.'/framework/class.admin.php');
 if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
