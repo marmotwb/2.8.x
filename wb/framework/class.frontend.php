@@ -170,7 +170,13 @@ class frontend extends wb {
 
 	public function get_page_details() {
 		global $database;
-	    if($this->page_id != 0) {
+
+		$bCanRedirect = false;
+// set defaults 
+		$aLanguagesDetailsInUsed = $this->GetLanguagesDetailsInUsed();
+		$_SESSION['HTTP_REFERER'] = WB_URL;
+		$_SESSION['PAGE_ID'] = $this->page_id;
+		if($this->page_id != 0) {
 			// Query page details
 			$sql = 'SELECT * FROM `'.TABLE_PREFIX.'pages` WHERE `page_id`='.(int)$this->page_id;
 			$get_page = $database->query($sql);
@@ -244,14 +250,13 @@ class frontend extends wb {
 			$this->page_keywords=$this->page['keywords'];
 			// Page link
 
-            $bCanRedirect = ($this->visibility == 'registered' || $this->visibility == 'privat');
+			$bCanRedirect = ($this->visibility == 'registered' || $this->visibility == 'privat');
 
 			$this->link=$this->page_link($this->page['link']);
 
 			$_SESSION['PAGE_ID'] = $this->page_id;
-
 			$_SESSION['HTTP_REFERER'] = $bCanRedirect != true ? $this->link : WB_URL;
-            $_SESSION['HTTP_REFERER'] = !$this->is_authenticated() ? $this->link : $_SESSION['HTTP_REFERER'];
+			$_SESSION['HTTP_REFERER'] = !$this->is_authenticated() ? $this->link : $_SESSION['HTTP_REFERER'];
 
 		// End code to set details as either variables of constants
 		}

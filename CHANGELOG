@@ -12,6 +12,8 @@ Legend:
 ===============================================================================
 
 
+25 Feb-2013 Build 1872 Dietmar Woellbrink (Luisehahne)
+# bugfix preferences timezone, date_format, time_format settings, backend and frontend
 23 Feb-2013 Build 1871 Dietmar Woellbrink (Luisehahne)
 # bugfix Undefined variable: sName in .../framework/functions.php
 # bugfix droplet ShowWysiwyg Undefined variable: module 

@@ -305,7 +305,8 @@ class wb extends SecureForm
 
 	// Get the current users timezone
 	function get_timezone() {
-		return (isset($_SESSION['USE_DEFAULT_TIMEZONE']) ? '-72000' : $_SESSION['TIMEZONE']);
+		
+		return (isset($_SESSION['USE_DEFAULT_TIMEZONE']) ? '-72000' : $this->get_session('TIMEZONE'));
 	}
 
 	// Validate supplied email address

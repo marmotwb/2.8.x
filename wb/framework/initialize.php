@@ -203,6 +203,19 @@
 			}
 		}
 	}else { throw new AppException($database->get_error()); }
+// set error-reporting from loaded settings ---
+	if(intval(ER_LEVEL) > 0 ) {
+		error_reporting(ER_LEVEL);
+		if( intval(ini_get ( 'display_errors' )) == 0 ) {
+			ini_set('display_errors', 1);
+		}
+	}
+// Start a session ---
+	if(!defined('SESSION_STARTED')) {
+		session_name(APP_NAME.'_session_id');
+		@session_start();
+		define('SESSION_STARTED', true);
+	}
 // get/set users timezone ---
 	define('TIMEZONE',    (isset($_SESSION['TIMEZONE'])    ? $_SESSION['TIMEZONE']    : DEFAULT_TIMEZONE));
 	define('DATE_FORMAT', (isset($_SESSION['DATE_FORMAT']) ? $_SESSION['DATE_FORMAT'] : DEFAULT_DATE_FORMAT));
@@ -218,19 +231,6 @@
 	$sSecMod = (defined('SECURE_FORM_MODULE') && SECURE_FORM_MODULE != '') ? '.'.SECURE_FORM_MODULE : '';
 	$sSecMod = WB_PATH.'/framework/SecureForm'.$sSecMod.'.php';
 	require_once($sSecMod);
-// set error-reporting from loaded settings ---
-	if(intval(ER_LEVEL) > 0 ) {
-		error_reporting(ER_LEVEL);
-		if( intval(ini_get ( 'display_errors' )) == 0 ) {
-			ini_set('display_errors', 1);
-		}
-	}
-// Start a session ---
-	if(!defined('SESSION_STARTED')) {
-		session_name(APP_NAME.'_session_id');
-		@session_start();
-		define('SESSION_STARTED', true);
-	}
 // *** begin deprecated part *************************************************************
 // load settings for use in Captch and ASP module
 	if (!defined("WB_INSTALL_PROCESS")) {

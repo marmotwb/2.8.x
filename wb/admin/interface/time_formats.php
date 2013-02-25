@@ -35,8 +35,9 @@ if(!defined('TIME_FORMATS_LOADED')) {
 $TIME_FORMATS = array();
 
 // Get the current time (in the users timezone if required)
-$actual_time = time()+ ((isset($user_time) AND $user_time == true) ? TIMEZONE : DEFAULT_TIMEZONE);
-
+$iTimeZone = TIMEZONE!=0 ? TIMEZONE/3600 : 0;
+$iTimeZone = ( ($iTimeZone >= -12 && $iTimeZone <= 13) ? TIMEZONE : $iTimeZone );
+$actual_time = time()+ ((isset($user_time) AND $user_time == true) ? $iTimeZone : DEFAULT_TIMEZONE);
 // Add values to list
 $TIME_FORMATS['h:i|A'] = gmdate('h:i A', $actual_time);
 $TIME_FORMATS['h:i|a'] = gmdate('h:i a', $actual_time);
