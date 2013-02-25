@@ -60,10 +60,6 @@ if( is_readable(WB_PATH .'/account/frontend.css')) {
 	$sIncludeHeadLinkCss .= ' rel="stylesheet" type="text/css" media="screen" />'."\n";
 }
 
-$user_time = true;
-require(ADMIN_PATH.'/interface/timezones.php');
-require(ADMIN_PATH.'/interface/date_formats.php');
-require(ADMIN_PATH.'/interface/time_formats.php');
 $error = array();
 $success = array();
 
@@ -172,70 +168,70 @@ $aLangUsed = array_intersect_key($aLangAddons, $aLangUsed);
 $template->set_block('main_block', 'language_list_block', 'language_list');
 foreach( $aLangUsed as $sDirectory => $sName  )
 {
-    $langIcons = ( empty($sDirectory) ? 'none' : strtolower($sDirectory));
+	$langIcons = ( empty($sDirectory) ? 'none' : strtolower($sDirectory));
 
-    $template->set_var('CODE',        $sDirectory);
-    $template->set_var('NAME',        $sName);
-    $template->set_var('FLAG',        THEME_URL.'/images/flags/'.$langIcons);
-    $template->set_var('SELECTED',    ( $_SESSION['LANGUAGE'] == $sDirectory ? ' selected="selected"' : '') );
+	$template->set_var('CODE',        $sDirectory);
+	$template->set_var('NAME',        $sName);
+	$template->set_var('FLAG',        THEME_URL.'/images/flags/'.$langIcons);
+	$template->set_var('SELECTED',    ( $_SESSION['LANGUAGE'] == $sDirectory ? ' selected="selected"' : '') );
 
-    $template->parse('language_list', 'language_list_block', true);
+	$template->parse('language_list', 'language_list_block', true);
 }
 
 // Insert default timezone values
+$user_time = true;
+require(ADMIN_PATH.'/interface/timezones.php');
 $template->set_block('main_block', 'timezone_list_block', 'timezone_list');
 foreach($TIMEZONES AS $hour_offset => $title) {
-    $template->set_var('VALUE', $hour_offset);
-    $template->set_var('NAME', $title);
-    if($wb->get_timezone() == $hour_offset*3600) {
-        $template->set_var('SELECTED', 'selected="selected"');
-    } else {
-        $template->set_var('SELECTED', '');
-    }
-    $template->parse('timezone_list', 'timezone_list_block', true);
+	$template->set_var('VALUE',    $hour_offset);
+	$template->set_var('NAME',     $title);
+	$template->set_var('SELECTED', ($wb->get_timezone() == ($hour_offset * 3600) ? ' selected="selected"' : '') );
+	$template->parse('timezone_list', 'timezone_list_block', true);
 }
-
 // Insert date format list
+$user_time = true;
+require(ADMIN_PATH.'/interface/date_formats.php');
 $template->set_block('main_block', 'date_format_list_block', 'date_format_list');
 foreach($DATE_FORMATS AS $format => $title)
 {
-    $format = str_replace('|', ' ', $format); // Add's white-spaces (not able to be stored in array key)
-    if($format != 'system_default') {
-        $template->set_var('VALUE', $format);
-    } else {
-        $template->set_var('VALUE', '');
-    }
-    $template->set_var('NAME', $title);
-    if($wb->get_session('DATE_FORMAT') == $format AND !isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) {
-        $template->set_var('SELECTED', 'selected="selected"');
-    } elseif($format == 'system_default' AND isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) {
-        $template->set_var('SELECTED', 'selected="selected"');
-    } else {
-        $template->set_var('SELECTED', '');
-    }
-    $template->parse('date_format_list', 'date_format_list_block', true);
+	$format = str_replace('|', ' ', $format); // Add's white-spaces (not able to be stored in array key)
+	if($format != 'system_default') {
+	    $template->set_var('VALUE', $format);
+	} else {
+	    $template->set_var('VALUE', '');
+	}
+	$template->set_var('NAME', $title);
+	if($wb->get_session('DATE_FORMAT') == $format AND !isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) {
+	    $template->set_var('SELECTED', 'selected="selected"');
+	} elseif($format == 'system_default' AND isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) {
+	    $template->set_var('SELECTED', 'selected="selected"');
+	} else {
+	    $template->set_var('SELECTED', '');
+	}
+	$template->parse('date_format_list', 'date_format_list_block', true);
 }
 
-$user_time = true;
 // Insert time format list
+$user_time = true;
+require(ADMIN_PATH.'/interface/time_formats.php');
 $template->set_block('main_block', 'time_format_list_block', 'time_format_list');
 foreach($TIME_FORMATS AS $format => $title)
 {
-    $format = str_replace('|', ' ', $format); // Add's white-spaces (not able to be stored in array key)
-    if($format != 'system_default') {
-        $template->set_var('VALUE', $format);
-    } else {
-        $template->set_var('VALUE', '');
-    }
-    $template->set_var('NAME', $title);
-    if($wb->get_session('TIME_FORMAT') == $format AND !isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) {
-        $template->set_var('SELECTED', 'selected="selected"');
-    } elseif($format == 'system_default' AND isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) {
-        $template->set_var('SELECTED', 'selected="selected"');
-    } else {
-    $template->set_var('SELECTED', '');
-    }
-    $template->parse('time_format_list', 'time_format_list_block', true);
+	$format = str_replace('|', ' ', $format); // Add's white-spaces (not able to be stored in array key)
+	if($format != 'system_default') {
+	    $template->set_var('VALUE', $format);
+	} else {
+	    $template->set_var('VALUE', '');
+	}
+	$template->set_var('NAME', $title);
+	if($wb->get_session('TIME_FORMAT') == $format AND !isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) {
+	    $template->set_var('SELECTED', 'selected="selected"');
+	} elseif($format == 'system_default' AND isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) {
+	    $template->set_var('SELECTED', 'selected="selected"');
+	} else {
+	$template->set_var('SELECTED',  '');
+	}
+	$template->parse('time_format_list', 'time_format_list_block', true);
 }
 // Insert language headings
 $template->set_var(array(

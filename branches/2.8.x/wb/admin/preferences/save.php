@@ -38,25 +38,27 @@ function save_preferences( &$admin, &$database)
     	$language         = strtoupper($admin->get_post('language'));
     	$language         = (preg_match('/^[A-Z]{2}$/', $language) ? $language : DEFAULT_LANGUAGE);
 // timezone must be between -12 and +13  or -20 as system_default
-    	$timezone         = $admin->get_post('timezone');
-    	$timezone         = (is_numeric($timezone) ? $timezone : -20);
-    	$timezone         = ( ($timezone >= -12 && $timezone <= 13) ? $timezone : -20 ) * 3600;
+		$timezone         = ($admin->get_post('timezone'));
+		$timezone         = ( (is_numeric($timezone) && ($timezone!=0)) ? $timezone : -20);
+		$timezone         = ( ($timezone >= -12 && $timezone <= 13) ? $timezone : -20 ) * 3600;
 // date_format must be a key from /interface/date_formats
-    	$date_format      = $admin->get_post('date_format');
-    	$date_format_key  = str_replace(' ', '|', $date_format);
-    	$user_time = true;
-    	include( ADMIN_PATH.'/interface/date_formats.php' );
-    	$date_format = (array_key_exists($date_format_key, $DATE_FORMATS) ? $date_format : 'system_default');
-    	$date_format = ($date_format == 'system_default' ? '' : $date_format);
-    	unset($DATE_FORMATS);
+		$date_format      = $admin->get_post('date_format');
+		$date_format = (($date_format==DEFAULT_DATE_FORMAT) ? '' : $date_format);
+		$date_format_key  = str_replace(' ', '|', $date_format);
+		$user_time = true;
+		include( ADMIN_PATH.'/interface/date_formats.php' );
+		$date_format = (array_key_exists($date_format_key, $DATE_FORMATS) ? $date_format : 'system_default');
+		$date_format = ($date_format == 'system_default' ? '' : $date_format);
+		unset($DATE_FORMATS);
 // time_format must be a key from /interface/time_formats
-    	$time_format      = $admin->get_post('time_format');
-    	$time_format_key  = str_replace(' ', '|', $time_format);
-    	$user_time = true;
-    	include( ADMIN_PATH.'/interface/time_formats.php' );
-    	$time_format = (array_key_exists($time_format_key, $TIME_FORMATS) ? $time_format : 'system_default');
-    	$time_format = ($time_format == 'system_default' ? '' : $time_format);
-    	unset($TIME_FORMATS);
+		$time_format = $admin->get_post('time_format');
+		$time_format = (($time_format==DEFAULT_TIME_FORMAT) ? '' : $time_format);
+		$time_format_key  = str_replace(' ', '|', $time_format);
+		$user_time = true;
+		include( ADMIN_PATH.'/interface/time_formats.php' );
+		$time_format = (array_key_exists($time_format_key, $TIME_FORMATS) ? $time_format : 'system_default');
+		$time_format = ($time_format == 'system_default' ? '' : $time_format);
+		unset($TIME_FORMATS);
 // email should be validatet by core
 
 //    	$email = trim( $admin->get_post('email') == null ? '' : $admin->get_post('email') );
@@ -83,89 +85,90 @@ function save_preferences( &$admin, &$database)
     	}
 
 // receive password vars and calculate needed action
-        $sCurrentPassword = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('current_password'),true));
-        $sNewPassword = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('new_password_1'),true));
-        $sNewPasswordRetyped = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('new_password_2'),true));
+	    $sCurrentPassword = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('current_password'),true));
+	    $sNewPassword = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('new_password_1'),true));
+	    $sNewPasswordRetyped = $admin->add_slashes($admin->StripCodeFromText($admin->get_post('new_password_2'),true));
 
-        if($bMailHasChanged == true)
-        {
-            $bPassRequest = $bMailHasChanged;
-        } else {
-            $bPassRequest = ( ( $sCurrentPassword != '') || ($sNewPassword != '') || ($sNewPasswordRetyped != '') ) ? true : false;
-        }
-        // Check existing password
-    	$sql  = 'SELECT `password` ';
-    	$sql .= 'FROM `'.TABLE_PREFIX.'users` ';
-    	$sql .= 'WHERE `user_id` = '.$admin->get_user_id();
-    	if ( $bPassRequest && md5($sCurrentPassword) != $database->get_one($sql) ) {
-    // access denied
-    		$err_msg[] = $MESSAGE['PREFERENCES_CURRENT_PASSWORD_INCORRECT'];
-    	} else {
-    // validate new password
-    		$sPwHashNew = false;
-    		if( ($sNewPassword != '') || ($sNewPasswordRetyped != '') ) {
-    			if(strlen($sNewPassword) < $iMinPassLength) {
-    				$err_msg[] = $MESSAGE['USERS_PASSWORD_TOO_SHORT'];
-    			} else {
-    				if($sNewPassword != $sNewPasswordRetyped) {
-    					$err_msg[] =  $MESSAGE['USERS_PASSWORD_MISMATCH'];
-    				} else {
-    					$pattern = '/[^'.$admin->password_chars.']/';
-    					if (preg_match($pattern, $sNewPassword)) {
-    						$err_msg[] = $MESSAGE['PREFERENCES_INVALID_CHARS'];
-    					} else {
-    						$sPwHashNew = md5($sNewPassword);
-    					}
-    				}
-    			}
-    		}
+	    if($bMailHasChanged == true)
+	    {
+	        $bPassRequest = $bMailHasChanged;
+	    } else {
+	        $bPassRequest = ( ( $sCurrentPassword != '') || ($sNewPassword != '') || ($sNewPasswordRetyped != '') ) ? true : false;
+	    }
+	    // Check existing password
+		$sql  = 'SELECT `password` ';
+		$sql .= 'FROM `'.TABLE_PREFIX.'users` ';
+		$sql .= 'WHERE `user_id` = '.$admin->get_user_id();
+		if ( $bPassRequest && md5($sCurrentPassword) != $database->get_one($sql) ) {
+	// access denied
+			$err_msg[] = $MESSAGE['PREFERENCES_CURRENT_PASSWORD_INCORRECT'];
+	} else {
+	// validate new password
+			$sPwHashNew = false;
+			if( ($sNewPassword != '') || ($sNewPasswordRetyped != '') ) {
+				if(strlen($sNewPassword) < $iMinPassLength) {
+					$err_msg[] = $MESSAGE['USERS_PASSWORD_TOO_SHORT'];
+				} else {
+					if($sNewPassword != $sNewPasswordRetyped) {
+						$err_msg[] =  $MESSAGE['USERS_PASSWORD_MISMATCH'];
+					} else {
+						$pattern = '/[^'.$admin->password_chars.']/';
+						if (preg_match($pattern, $sNewPassword)) {
+							$err_msg[] = $MESSAGE['PREFERENCES_INVALID_CHARS'];
+						} else {
+							$sPwHashNew = md5($sNewPassword);
+						}
+					}
+				}
+			}
 
-    // if no validation errors, try to update the database, otherwise return errormessages
-    		if(sizeof($err_msg) == 0)
-    		{
-    			$sql  = 'UPDATE `'.TABLE_PREFIX.'users` ';
-    			$sql .= 'SET `display_name`=\''.$display_name.'\', ';
-    			if($sPwHashNew) {
-    				$sql .=     '`password`=\''.$sPwHashNew.'\', ';
-    			}
-    			if($email != '') {
-    				$sql .=     '`email`=\''.$email.'\', ';
-    			}
-    			$sql .=     '`language`=\''.$language.'\', ';
-    			$sql .=     '`timezone`=\''.$timezone.'\', ';
-    			$sql .=     '`date_format`=\''.$date_format.'\', ';
-    			$sql .=     '`time_format`=\''.$time_format.'\' ';
-    			$sql .= 'WHERE `user_id`='.(int)$admin->get_user_id();
-    			if( $database->query($sql) )
-    			{
-    				// update successfull, takeover values into the session
-    				$_SESSION['DISPLAY_NAME'] = $display_name;
-    				$_SESSION['LANGUAGE'] = $language;
-    				$_SESSION['TIMEZONE'] = $timezone;
-    				$_SESSION['EMAIL'] = $email;
-    				// Update date format
-    				if($date_format != '') {
-    					$_SESSION['DATE_FORMAT'] = $date_format;
-    					if(isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) { unset($_SESSION['USE_DEFAULT_DATE_FORMAT']); }
-    				} else {
-    					$_SESSION['USE_DEFAULT_DATE_FORMAT'] = true;
-    					if(isset($_SESSION['DATE_FORMAT'])) { unset($_SESSION['DATE_FORMAT']); }
-    				}
-    				// Update time format
-    				if($time_format != '') {
-    					$_SESSION['TIME_FORMAT'] = $time_format;
-    					if(isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) { unset($_SESSION['USE_DEFAULT_TIME_FORMAT']); }
-    				} else {
-    					$_SESSION['USE_DEFAULT_TIME_FORMAT'] = true;
-    					if(isset($_SESSION['TIME_FORMAT'])) { unset($_SESSION['TIME_FORMAT']); }
-    				}
-    			} else {
-    				$err_msg[] = 'invalid database UPDATE call in '.__FILE__.'::'.__FUNCTION__.'before line '.__LINE__;
-    			}
-    		}
-    	}
+	// if no validation errors, try to update the database, otherwise return errormessages
+			if(sizeof($err_msg) == 0)
+			{
+				$sql  = 'UPDATE `'.TABLE_PREFIX.'users` ';
+				$sql .= 'SET `display_name`=\''.$display_name.'\', ';
+				if($sPwHashNew) {
+					$sql .=     '`password`=\''.$sPwHashNew.'\', ';
+				}
+				if($email != '') {
+					$sql .=     '`email`=\''.$email.'\', ';
+				}
+				$sql .=     '`language`=\''.$language.'\', ';
+				$sql .=     '`timezone`=\''.$timezone.'\', ';
+				$sql .=     '`date_format`=\''.$date_format.'\', ';
+				$sql .=     '`time_format`=\''.$time_format.'\' ';
+				$sql .= 'WHERE `user_id`='.(int)$admin->get_user_id();
+				if( $database->query($sql) )
+				{
+					// update successfull, takeover values into the session
+					$_SESSION['DISPLAY_NAME'] = $display_name;
+					$_SESSION['LANGUAGE'] = $language;
+					$_SESSION['EMAIL'] = $email;
+					$_SESSION['TIMEZONE'] = $timezone;
+					if(isset($_SESSION['USE_DEFAULT_TIMEZONE'])) { unset($_SESSION['USE_DEFAULT_TIMEZONE']); }
+					// Update date format
+					if($date_format != '') {
+						$_SESSION['DATE_FORMAT'] = $date_format;
+						if(isset($_SESSION['USE_DEFAULT_DATE_FORMAT'])) { unset($_SESSION['USE_DEFAULT_DATE_FORMAT']); }
+					} else {
+						$_SESSION['USE_DEFAULT_DATE_FORMAT'] = true;
+						if(isset($_SESSION['DATE_FORMAT'])) { unset($_SESSION['DATE_FORMAT']); }
+					}
+					// Update time format
+					if($time_format != '') {
+						$_SESSION['TIME_FORMAT'] = $time_format;
+						if(isset($_SESSION['USE_DEFAULT_TIME_FORMAT'])) { unset($_SESSION['USE_DEFAULT_TIME_FORMAT']); }
+					} else {
+						$_SESSION['USE_DEFAULT_TIME_FORMAT'] = true;
+						if(isset($_SESSION['TIME_FORMAT'])) { unset($_SESSION['TIME_FORMAT']); }
+					}
+				} else {
+					$err_msg[] = 'invalid database UPDATE call in '.__FILE__.'::'.__FUNCTION__.'before line '.__LINE__;
+				}
+			}
+		}
 
-    }
+	}
 
 	return ( (sizeof($err_msg) > 0) ? implode('<br />', $err_msg) : '' );
 }
