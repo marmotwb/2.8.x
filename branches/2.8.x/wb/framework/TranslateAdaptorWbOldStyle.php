@@ -22,8 +22,8 @@
  *
  * @category     Core
  * @package      Core_Translation
- * @author       Werner v.d.Decken <wkl@isteam.de>
  * @copyright    Werner v.d.Decken <wkl@isteam.de>
+ * @author       Werner v.d.Decken <wkl@isteam.de>
  * @license      http://www.gnu.org/licenses/gpl.html   GPL License
  * @version      0.0.1
  * @revision     $Revision$
@@ -44,8 +44,8 @@ class TranslateAdaptorWbOldStyle implements TranslateAdaptorInterface {
 	public function __construct($sAddon = '')
 	{
 		$this->sAddon = $sAddon;
-		$this->sFilePath = str_replace('\\', '/', dirname(dirname(__FILE__))).'/'.$sAddon;
-		$this->sFilePath = rtrim(str_replace('\\', '/', $this->sFilePath), '/').'/languages/';
+		$this->sFilePath = str_replace('\\', '/', dirname(dirname(__FILE__)).'/'.$sAddon);
+		$this->sFilePath = rtrim($this->sFilePath, '/').'/languages/';
 	}
 /**
  * Load languagefile
@@ -72,7 +72,7 @@ class TranslateAdaptorWbOldStyle implements TranslateAdaptorInterface {
 	}
 /**
  * Find first existing language
- * @return string Code of first found language
+ * @return string Code of first found basic language
  */
 	public function findFirstLanguage()
 	{
@@ -81,7 +81,7 @@ class TranslateAdaptorWbOldStyle implements TranslateAdaptorInterface {
 		if(is_readable($this->sFilePath)) {
 			$iterator = new DirectoryIterator($this->sFilePath);
 			foreach ($iterator as $oFileInfo) {
-				$sPattern = '/^[a-z0-9]{2}(?:(?:\_[a-z0-9]{2})?(?:\_[a-z0-9]{2,4})?)\.php/siU';
+				$sPattern = '/^[a-z]{2,3}\.php/siU';
 				if(!preg_match($sPattern, $oFileInfo->getBasename())) { continue; }
 				if($oFileInfo->isReadable()) {
 					$sRetval = $oFileInfo->getBasename('.php');

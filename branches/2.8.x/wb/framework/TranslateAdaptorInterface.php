@@ -22,8 +22,8 @@
  *
  * @category     Core
  * @package      Core_Translation
- * @author       Werner v.d.Decken <wkl@isteam.de>
  * @copyright    Werner v.d.Decken <wkl@isteam.de>
+ * @author       Werner v.d.Decken <wkl@isteam.de>
  * @license      http://www.gnu.org/licenses/gpl.html   GPL License
  * @version      0.0.1
  * @revision     $Revision$

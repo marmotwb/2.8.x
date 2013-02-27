@@ -22,8 +22,8 @@
  *
  * @category     Core
  * @package      Core_Translation
- * @author       Werner v.d.Decken <wkl@isteam.de>
  * @copyright    Werner v.d.Decken <wkl@isteam.de>
+ * @author       Werner v.d.Decken <wkl@isteam.de>
  * @license      http://www.gnu.org/licenses/gpl.html   GPL License
  * @version      0.0.1
  * @revision     $Revision$
@@ -42,16 +42,21 @@ class TranslationTable {
 	protected $oReg          = null;
 	protected $sTempPath     = '';
 	protected $iDirMode      = 0777;
-/**
+	protected $bUseCache     = true;
+
+	/**
  * Constructor
  * @param string relative pathname of the Addon (i.e. '' || 'modules/myAddon/')
  * @param string System language code ( 2*3ALPHA[[_2ALPHA]_2*4ALNUM] )
  * @param string Default language code ( 2*3ALPHA[[_2ALPHA]_2*4ALNUM] )
  * @param string User language code ( 2*3ALPHA[[_2ALPHA]_2*4ALNUM] )
+ * @param boolean true if caching is enabled
  */	
 	public function __construct($sAddon, 
-	                            $sSystemLanguage, $sDefaultLanguage, $sUserLanguage,
-	                            $bUseCache = Translate::CACHE_ENABLED)
+	                            $sSystemLanguage, 
+	                            $sDefaultLanguage, 
+	                            $sUserLanguage,
+	                            $bUseCache = true)
 	{
 		$this->bUseCache             = $bUseCache;
 		$this->sSystemLang           = $sSystemLanguage;
@@ -195,7 +200,8 @@ class TranslationTable {
 		$sConcatedLang = '';
 		foreach($aLangCode as $sLang)
 		{ // iterate all segments of the language code
-			if( ($aResult = $oAdaptor->loadLanguage($sConcatedLang.$sLang)) !== false ) {
+			$sConcatedLang .= ($sConcatedLang == '' ? '' :  '_').$sLang;
+			if( ($aResult = $oAdaptor->loadLanguage($sConcatedLang)) !== false ) {
 				$aTranslations = array_merge($aTranslations, $aResult);
 			}
 		}
