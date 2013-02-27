@@ -11,7 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-
+27 Feb-2013 Build 1873 Werner v.d.Decken(DarkViper)
+# some small fixes in packet Translate
 25 Feb-2013 Build 1872 Dietmar Woellbrink (Luisehahne)
 # bugfix preferences timezone, date_format, time_format settings, backend and frontend
 23 Feb-2013 Build 1871 Dietmar Woellbrink (Luisehahne)

@@ -154,14 +154,19 @@
 // define constant systemenvironment settings ---
 	date_default_timezone_set('UTC');
 	if(!defined('MAX_TIME')) { define('MAX_TIME', (pow(2, 31)-1)); } // 32-Bit Timestamp of 19 Jan 2038 03:14:07 GMT
-	if(!defined('DO_NOT_TRACK')) { define('DO_NOT_TRACK', (isset($_SERVER['HTTP_DNT']))); }
+	$sTmp = (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] != '') ? $_SERVER['HTTP_DNT'] : '0';
+	if(!defined('DO_NOT_TRACK')) { define('DO_NOT_TRACK', ($sTmp[0] == '1')); }
 // register WB basic autoloader ---
 	$sTmp = dirname(__FILE__).'/WbAutoloader.php';
-	if(!class_exists('WbAutoloader', false)){ include($sTmp); }
+	if(!class_exists('WbAutoloader')){ 
+		include($sTmp);
+	}
 	WbAutoloader::doRegister(array(ADMIN_DIRECTORY=>'a', 'modules'=>'m'));
 // register TWIG autoloader ---
 	$sTmp = dirname(dirname(__FILE__)).'/include/Sensio/Twig/lib/Twig/Autoloader.php';
-	if(!class_exists('Twig_Autoloader', false)){ include($sTmp); }
+	if(!class_exists('Twig_Autoloader')) { 
+		include($sTmp); 
+	}
 	Twig_Autoloader::register();
 // aktivate exceptionhandler ---
 	if(!function_exists('globalExceptionHandler')) {
@@ -188,19 +193,27 @@
 									 ? false 
 									 : $aSetting['value'])
 								 );
-			$aSetting['name'] = strtoupper($aSetting['name']);
-			if($aSetting['name'] == 'STRING_FILE_MODE') {
-				$iTmp = ((intval(octdec($aSetting['value'])) & ~0111)|0600);
-				define('OCTAL_FILE_MODE', $iTmp);
-				define('STRING_FILE_MODE', sprintf('0%03o', $iTmp));
-			}elseif($aSetting['name'] == 'STRING_DIR_MODE') {
-				$iTmp = (intval(octdec($aSetting['value'])) |0711);
-				define('OCTAL_DIR_MODE', $iTmp);
-				define('STRING_DIR_MODE', sprintf('0%03o', $iTmp));
-			}else {
-			// make global const from setting
-				@define($aSetting['name'], $aSetting['value']);
-			}
+			$sSettingName = strtoupper($aSetting['name']);
+			switch($sSettingName):
+				case 'STRING_FILE_MODE':
+					$iTmp = ((intval(octdec($aSetting['value'])) & ~0111)|0600);
+					define('OCTAL_FILE_MODE', $iTmp);
+					define('STRING_FILE_MODE', sprintf('0%03o', $iTmp));
+					break;
+				case 'STRING_DIR_MODE':
+					$iTmp = (intval(octdec($aSetting['value'])) |0711);
+					define('OCTAL_DIR_MODE', $iTmp);
+					define('STRING_DIR_MODE', sprintf('0%03o', $iTmp));
+				case 'PAGES_DIRECTORY':
+					// sanitize pages_directory
+					$sTmp = trim($aSetting['value'], '/');
+					$sTmp = ($sTmp == '' ? '' : '/'.$sTmp);
+					define('PAGES_DIRECTORY', $sTmp);
+					break;
+				default: // make global const from setting
+					@define($aSetting['name'], $aSetting['value']);
+					break;
+			endswitch;
 		}
 	}else { throw new AppException($database->get_error()); }
 // set error-reporting from loaded settings ---
@@ -286,9 +299,8 @@
 	}
 // load and activate new global translation table
 	Translate::getInstance()->initialize('en',
-	                                     (defined('DEFAULT_LANGUAGE') ? DEFAULT_LANGUAGE : ''), 
-	                                     (defined('LANGUAGE') ? LANGUAGE : ''), 
-	                                     'WbOldStyle',
-	                                     Translate::CACHE_ENABLED);
+										 (defined('DEFAULT_LANGUAGE') ? DEFAULT_LANGUAGE : ''), 
+										 (defined('LANGUAGE') ? LANGUAGE : '') 
+										);
 // *** END OF FILE ***********************************************************************
 	

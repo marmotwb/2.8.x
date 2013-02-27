@@ -22,34 +22,42 @@
  *
  * @category     Core
  * @package      Core_Translation
- * @author       Werner v.d.Decken <wkl@isteam.de>
  * @copyright    Werner v.d.Decken <wkl@isteam.de>
+ * @author       Werner v.d.Decken <wkl@isteam.de>
  * @license      http://www.gnu.org/licenses/gpl.html   GPL License
  * @version      0.0.1
  * @revision     $Revision$
  * @link         $HeadURL$
  * @lastmodified $Date$
  * @since        File available since 12.01.2013
- * @description
+ * @description  basic class of the Translate package
  */
 class Translate {
 	
-//  @object hold the Singleton instance 
+/** holds the active singleton instance */
 	private static $_oInstance     = null;
-	
+/** name of the default adaptor */	
 	protected $sAdaptor            = 'WbOldStyle';
+/** setting for the system language (default: en) */
 	protected $sSystemLanguage     = 'en';
+/** setting for the default runtime language (default: en) */
 	protected $sDefaultLanguage    = 'en';
+/** setting for the user defined language (default: en) */
 	protected $sUserLanguage       = 'en';
+/** switch cache on/off */
 	protected $bUseCache           = true;
-/** TranslationTable objects of all loaded addons */
+/** defines if the keys of undefines translation should be preserved */
+	protected $bRemoveMissing      = false;
+/** can hold up to 31 boolean option settings */
+	protected $iOptions            = 0;
+/** List of loaded translation tables */
 	protected $aLoadedAddons       = array();
 /** TranslationTable object of the core and additional one activated addon */	
 	protected $aActiveTranslations = array();
+/** possible option flags */	
+	const CACHE_DISABLED = 1; // ( 2^0 )
+	const KEEP_MISSING   = 2; // ( 2^1 )
 	
-	const CACHE_ENABLED = true;
-	const CACHE_DISABLED = false;
-
 /** prevent class from public instancing and get an object to hold extensions */
 	protected function  __construct() {}
 /** prevent from cloning existing instance */
@@ -67,18 +75,25 @@ class Translate {
 	}
 /**
  * Initialize the Translations
+ * @param string SystemLanguage code ('de' || 'de_CH' || 'de_CH_uri')
  * @param string DefaultLanguage code ('de' || 'de_CH' || 'de_CH_uri')
  * @param string UserLanguage code ('de' || 'de_CH' || 'de_CH_uri')
+ * @param string Name of the adaptor to use
+ * @param integer possible options (DISABLE_CACHE | KEEP_MISSING)
  * @throws TranslationException
  */
-	public function initialize($sSystemLanguage, $sDefaultLanguage, $sUserLanguage = '', 
-	                           $sAdaptor = 'WbOldStyle', $bUseCache = self::CACHE_ENABLED) 
+	public function initialize($sSystemLanguage, 
+	                           $sDefaultLanguage, 
+	                           $sUserLanguage = '', 
+	                           $sAdaptor = 'WbOldStyle', 
+	                           $iOptions = 0)
 	{
 		if(!class_exists('TranslateAdaptor'.$sAdaptor)) {
 			throw new TranslationException('unable to load adaptor: '.$sAdaptor);
 		}
-		$this->bUseCache = $bUseCache;
-		$this->sAdaptor = 'TranslateAdaptor'.$sAdaptor;
+		$this->sAdaptor       = 'TranslateAdaptor'.$sAdaptor;
+		$this->bUseCache      = (($iOptions & self::CACHE_DISABLED) == 0);
+		$this->bRemoveMissing = (($iOptions & self::KEEP_MISSING) == 0);
 		// if no system language is set then use language 'en'
 		$this->sSystemLanguage = (trim($sSystemLanguage) == '' ? 'en' : $sSystemLanguage);
 		// if no default language is set then use system language
@@ -87,9 +102,9 @@ class Translate {
 		                            : $sDefaultLanguage);
 		// if no user language is set then use default language
 		$this->sUserLanguage = (trim($sUserLanguage) == '' 
-		                         ? $this->sDefaultLanguage 
+		                         ? $this->sDefaultLanguage
 		                         : $sUserLanguage);
-		$sPattern = '/^[a-z]{2,3}(?:(?:\_[a-z]{2})?(?:\_[a-z0-9]{2,4})?)$/siU';
+		$sPattern = '/^[a-z]{2,3}(?:(?:[_-][a-z]{2})?(?:[_-][a-z0-9]{2,4})?)$/siU';
 		// validate language codes
 		if(preg_match($sPattern, $this->sSystemLanguage) &&
 		   preg_match($sPattern, $this->sDefaultLanguage) &&
@@ -177,7 +192,7 @@ class Translate {
  */	
 	public function __get($sKey)
 	{
-		$sRetval = '';
+		$sRetval = ($this->bRemoveMissing ? '' : '#'.$sKey.'#');
 		foreach($this->aActiveTranslations as $oAddon) {
 			if(isset($oAddon->$sKey)) {
 			// search the last matching translation (Core -> Addon)
