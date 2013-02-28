@@ -272,7 +272,7 @@ div.page-settings-right { float :none; padding :10px 10px 10px 10px; border-righ
 div.page-settings-right div.content { border :solid 1px #a8bccb; min-width :10em; }
 div.page-settings-right div.page-settings-tab { border :solid 1px #a8bccb; padding :8px; margin-bottom :8px; }
 div.page-settings-rightcol { float :none; padding :0px; border :none; }
-h1, h2, h3, h4, h5, h6 { color :#003366; display :block; font-weight :normal; margin :0.5em auto; padding-bottom :5px; }
+h1, h2, h3, h4, h5, h6 { color :#003366; display :block; font-weight :normal; margin :0.4em auto; padding-bottom :5px; }
 h6 { font-size :100%; }
 /* end depending styles for /admin/pages_settings */
 div.page-settings-leftcol label { background-repeat :no-repeat; background-position :right; text-align :right; padding-right :17px; font-weight :bold; width :156px; }
