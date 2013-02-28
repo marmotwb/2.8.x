@@ -37,21 +37,21 @@ $aErrors = array();
 $sMediaUrl = WB_URL.MEDIA_DIRECTORY;
 // Update the mod_wysiwygs table with the contents
 if(isset($_POST['content'.$section_id])) {
-    $content = $_POST['content'.$section_id];
+	$content = $_POST['content'.$section_id];
 	if(ini_get('magic_quotes_gpc')==true)
 	{
 		$content = $admin->strip_slashes($_POST['content'.$section_id]);
-	}
+	};
 	$searchfor = '@(<[^>]*=\s*")('.preg_quote($sMediaUrl).')([^">]*".*>)@siU';
-    $content = preg_replace($searchfor, '$1{SYSVAR:MEDIA_REL}$3', $content);
+	$content = preg_replace($searchfor, '$1{SYSVAR:MEDIA_REL}$3', $content);
 	// searching in $text will be much easier this way
-    $content = WbDatabase::getInstance()->escapeString ($content);
+	$content = WbDatabase::getInstance()->escapeString ($content);
 	$text = umlauts_to_entities(strip_tags($content), strtoupper(DEFAULT_CHARSET), 0);
 	$sql  = 'UPDATE `'.TABLE_PREFIX.'mod_wysiwyg` ';
 	$sql .= 'SET `content`=\''.$content.'\', `text`=\''.$text.'\' ';
 	$sql .= 'WHERE `section_id`='.(int)$section_id;
-	if(!$database->query($sql)){
-		$aErrors[] = $MESSAGE['GENERIC_NOT_UPGRADED'].((defined('DEBUG') && DEBUG) ? '<br />'.$database->get_error() : '');
+	if(!WbDatabase::getInstance()->query($sql)){
+		$aErrors[] = $MESSAGE['GENERIC_NOT_UPGRADED'].((defined('DEBUG') && DEBUG) ? '<br />'.WbDatabase::getInstance()->get_error() : '');
 	}
 } else {
 	$aErrors[] = $MESSAGE['GENERIC_NOT_UPGRADED'].((defined('DEBUG') && DEBUG) ? '<br />'.$MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] : '');
@@ -59,9 +59,9 @@ if(isset($_POST['content'.$section_id])) {
 
 $sec_anchor = '#'.(defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? SEC_ANCHOR.$section_id : 'section_'.$section_id );
 if(defined('EDIT_ONE_SECTION') and EDIT_ONE_SECTION){
-    $edit_page = ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'&wysiwyg='.$section_id;
+	$edit_page = ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'&wysiwyg='.$section_id;
 } else {
-    $edit_page = ADMIN_URL.'/pages/modify.php?page_id='.$page_id.$sec_anchor;
+	$edit_page = ADMIN_URL.'/pages/modify.php?page_id='.$page_id.$sec_anchor;
 }
 
 // Check if there is a database error, otherwise say successful

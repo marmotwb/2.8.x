@@ -19,10 +19,10 @@
 /**
  * 
  * 
- * @category     Module
- * @package      Module_bakery
- * @subpackage   Name of the subpackage if needed
- * @author       Dietmar Wöllbrink <dietmar.woellbrink@websitebaker.org>
+ * @category     Core
+ * @package      Core_package
+ * @subpackage   upgrade-script
+ * @author       Dietmar WÃ¶llbrink <dietmar.woellbrink@websitebaker.org>
  * @author       Werner v.d.Decken <wkl@isteam.de>
  * @copyright    Werner v.d.Decken <wkl@isteam.de>
  * @license      http://www.gnu.org/licenses/gpl.html   GPL License
@@ -234,21 +234,21 @@ function check_wb_tables()
 	$get_result = $database->query( 'SHOW TABLES LIKE "'.$search_for.'%"');
 
 	// $get_result = $database->query( "SHOW TABLES FROM ".DB_NAME);
-    $all_tables = array();
-    $aTable = array();
-    if($get_result->numRows() > 0)
-    {
-        while ($data = $get_result->fetchRow()) {
-            $tmp = preg_replace('/^'.preg_quote(TABLE_PREFIX, '/').'/s', '', $data[0]);
-            if(in_array($tmp,$aPackage)) {
-                $all_tables[] = $tmp;
-            } else {
-                $aTable[] = $tmp;
-            }
-        }
-    }
+	$all_tables = array();
+	$aTable = array();
+	if($get_result->numRows() > 0)
+	{
+		while ($data = $get_result->fetchRow()) {
+		    $tmp = preg_replace('/^'.preg_quote(TABLE_PREFIX, '/').'/s', '', $data[0]);
+		    if(in_array($tmp,$aPackage)) {
+		        $all_tables[] = $tmp;
+		    } else {
+		        $aTable[] = $tmp;
+		    }
+		}
+	}
 
-    return array_merge ( $all_tables, $aTable );
+	return array_merge ( $all_tables, $aTable );
 }
 
 // check existing tables
@@ -415,7 +415,7 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 
     if( (sizeof($all_tables) >= sizeof($aPackage)) && (sizeof($aTable) == sizeof($aPackage)) )
     {
-        echo '<h4 style="margin-left:0;">NOTICE: Your database '.DB_NAME.' has '.sizeof($all_tables).' '.$check_text.' tables from '.sizeof($aPackage).' included in package '.$OK.'</h4>';
+        echo '<h4 style="margin-left:0;">NOTICE: Your database '.$database->DbName.' has '.sizeof($all_tables).' '.$check_text.' tables from '.sizeof($aPackage).' included in package '.$OK.'</h4>';
     }
     else
     {

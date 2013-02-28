@@ -26,14 +26,14 @@ if(!defined('WB_PATH')) {
 $sMediaUrl = WB_URL.MEDIA_DIRECTORY;
 // Get page content
 $sql = 'SELECT `content` FROM `'.TABLE_PREFIX.'mod_wysiwyg` WHERE `section_id`='.(int)$section_id;
-if ( ($content = $database->get_one($sql)) ) {
+if ( ($content = $database->get_one($sql)) !== null  ) {
 	$content = htmlspecialchars(str_replace('{SYSVAR:MEDIA_REL}', $sMediaUrl, $content));
-}else {
-	$content = '';
+} else {
+	throw new AppException('Database: missing entry in table \''.TABLE_PREFIX.'mod_wysiwyg\' for section_id='.$section_id);
 }
 
 if(!isset($wysiwyg_editor_loaded)) {
-    $wysiwyg_editor_loaded=true;
+	$wysiwyg_editor_loaded=true;
 	if(!function_exists('show_wysiwyg_editor'))
 	{
 		if (!defined('WYSIWYG_EDITOR') OR WYSIWYG_EDITOR=="none" OR !file_exists(WB_PATH.'/modules/'.WYSIWYG_EDITOR.'/include.php'))

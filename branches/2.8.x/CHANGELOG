@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+28 Feb-2013 Build 1875 Dietmar Woellbrink (Luisehahne)
+! wysgwyg, now check exitings table entries, otherwise script stop loading content in editor
+! typofix in groups
+! change constant DB_NAME to $database->DbName
 27 Feb-2013 Build 1874 Werner v.d.Decken(DarkViper)
 # some little typo fixes in initialize.php
 # readConfiguration() fixed in initialize.php
