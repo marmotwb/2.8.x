@@ -92,8 +92,23 @@
  * 
  */
 	function readConfiguration($sRetvalType = 'url') {
+		// check for valid file request. Becomes more stronger in next version
 		$x = debug_backtrace();
-		if(sizeof($x) != 0) { throw new RuntimeException('illegal function request!'); }
+		$bValidRequest = false;
+		if(sizeof($x) != 0) {
+			foreach($x as $aStep) {
+				// define the scripts which can read the configuration
+				if(preg_match('/(index.php|config.php|upgrade-script.php)$/si', $aStep['file'])) {
+					$bValidRequest = true;
+					break;
+				}
+			}
+		}else {
+			$bValidRequest = true;
+		}
+		if(!$bValidRequest) {
+			throw new RuntimeException('illegal function request!'); 
+		}
 		$aRetval = array();
 		$sSetupFile = dirname(dirname(__FILE__)).'/setup.ini.php';
 		if(is_readable($sSetupFile)) {
@@ -123,7 +138,7 @@
 				            . $db['host'].($db['port'] != '' ? ':'.$db['port'] : '').'/'.$db['name'];
 			}
 			unset($db, $aCfg);
-			return $sRetval;
+			return $aRetval;
 		}
 		throw new RuntimeException('unable to read setup.ini.php');
 	}
@@ -176,9 +191,9 @@
 // Create global database instance ---
 	$database = WbDatabase::getInstance();
 	if($sDbConnectType == 'dsn') {
-		$database->doConnect($aSqlData[0], $aSqlData[1]['user'], $aSqlData[1]['pass'], $aSqlData[2]);
+		$bTmp = $database->doConnect($aSqlData[0], $aSqlData[1]['user'], $aSqlData[1]['pass'], $aSqlData[2]);
 	}else {
-		$database->doConnect($aSqlData[0], TABLE_PREFIX);
+		$bTmp = $database->doConnect($aSqlData[0], TABLE_PREFIX);
 	}
 	unset($aSqlData);
 // load global settings from database and define global consts from ---
@@ -204,6 +219,7 @@
 					$iTmp = (intval(octdec($aSetting['value'])) |0711);
 					define('OCTAL_DIR_MODE', $iTmp);
 					define('STRING_DIR_MODE', sprintf('0%03o', $iTmp));
+					break;
 				case 'PAGES_DIRECTORY':
 					// sanitize pages_directory
 					$sTmp = trim($aSetting['value'], '/');
@@ -211,7 +227,7 @@
 					define('PAGES_DIRECTORY', $sTmp);
 					break;
 				default: // make global const from setting
-					@define($aSetting['name'], $aSetting['value']);
+					@define($sSettingName, $aSetting['value']);
 					break;
 			endswitch;
 		}
@@ -303,4 +319,4 @@
 										 (defined('LANGUAGE') ? LANGUAGE : '') 
 										);
 // *** END OF FILE ***********************************************************************
-	
+ 

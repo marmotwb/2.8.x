@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+27 Feb-2013 Build 1874 Werner v.d.Decken(DarkViper)
+# some little typo fixes in initialize.php
+# readConfiguration() fixed in initialize.php
 27 Feb-2013 Build 1873 Werner v.d.Decken(DarkViper)
 # some small fixes in packet Translate
 25 Feb-2013 Build 1872 Dietmar Woellbrink (Luisehahne)
