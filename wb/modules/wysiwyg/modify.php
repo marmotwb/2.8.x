@@ -27,11 +27,20 @@ $sMediaUrl = WB_URL.MEDIA_DIRECTORY;
 // Get page content
 $sql = 'SELECT `content` FROM `'.TABLE_PREFIX.'mod_wysiwyg` WHERE `section_id`='.(int)$section_id;
 if ( ($content = $database->get_one($sql)) !== null  ) {
-	$content = htmlspecialchars(str_replace('{SYSVAR:MEDIA_REL}', $sMediaUrl, $content));
+ $content = htmlspecialchars(str_replace('{SYSVAR:MEDIA_REL}', $sMediaUrl, $content));
 } else {
-	throw new AppException('Database: missing entry in table \''.TABLE_PREFIX.'mod_wysiwyg\' for section_id='.$section_id);
+ $content = 'There is an relation error in the database.';
+ $sql = 'INSERT INTO `'.TABLE_PREFIX.'mod_wysiwyg` SET '
+      .     '`section_id`='.$section_id.', '
+      .     '`page_id`='.$page_id.', '
+      .     '`content`=\''.$content.'\', '
+      .     '`text`=\''.$content.'\'';
+ if($database->query($sql)) {
+  $content .= ' WebsiteBaker has solved this problem successful.';
+ }else {
+  throw new AppException('Database: missing entry in table \''.TABLE_PREFIX.'mod_wysiwyg\' for section_id='.$section_id);
+ }
 }
-
 if(!isset($wysiwyg_editor_loaded)) {
 	$wysiwyg_editor_loaded=true;
 	if(!function_exists('show_wysiwyg_editor'))
