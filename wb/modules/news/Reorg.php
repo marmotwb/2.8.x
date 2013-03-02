@@ -34,7 +34,7 @@
 
 class m_news_Reorg {
 
-	private $_aSys = array();
+	private $_oReg = array();
 /**
  * Execute reorganisation
  * @return string all occured messages 
@@ -43,10 +43,10 @@ class m_news_Reorg {
 	{
 		$sOutput = null;
 		if(class_exists('WbAdaptor')) {
-			$this->_aSys['TablePrefix'] = WbAdaptor::getInstance()->TablePrefix;
-			$this->_aSys['AppPath'] = WbAdaptor::getInstance()->AppPath;
-			$this->_aSys['PagesDir'] = WbAdaptor::getInstance()->PagesDir;
-			$this->_aSys['PageExtension'] = WbAdaptor::getInstance()->PageExtension;
+			$this->_oReg = WbAdaptor::getInstance();
+			$sTmp = trim($this->_oReg->PagesDir, '/');
+			$sTmp = ($sTmp == '' ? '' : '/'.$sTmp);
+			$this->_oReg->PagesDir =$sTmp;
 			$sOutput = $this->createAccessFiles();
 		}
 		// add here the requests for additional reorg methods
@@ -61,14 +61,14 @@ class m_news_Reorg {
 		$count = 0;
 		$aReturnMsg = array();
 		$sql  = 'SELECT `page_id`,`post_id`,`section_id`,`link` ';
-		$sql .= 'FROM `'.$this->_aSys['TablePrefix'].'mod_news_posts`';
+		$sql .= 'FROM `'.$this->_oReg->TablePrefix.'mod_news_posts`';
 		$sql .= 'WHERE `link` != \'\'';
 		if(($oPosts = WbDatabase::getInstance()->query($sql))) {
 			while($aPost = $oPosts->fetchRow(MYSQL_ASSOC))
 			{
-				$sAccessFile = $this->_aSys['AppPath'].$this->_aSys['PagesDir']
+				$sAccessFile = $this->_oReg->AppPath.$this->_oReg->PagesDir
 				               . trim(str_replace('\\', '/', $aPost['link']), '/')
-				               . $this->_aSys['PageExtension'];
+				               . $this->_oReg->PageExtension;
 				$aOptionalCommand = array(
 					'$section_id   = '.$aPost['section_id'].';',
 					'$post_section = '.$aPost['section_id'].';',
