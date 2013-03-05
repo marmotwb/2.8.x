@@ -48,7 +48,7 @@ class m_news_Reorg {
 		if(class_exists('WbAdaptor')) {
 			$this->_oReg = WbAdaptor::getInstance();
 			$sTmp = trim($this->_oReg->PagesDir, '/');
-			$sTmp = ($sTmp == '' ? '' : $sTmp);
+			$sTmp = ($sTmp == '' ? '' : $sTmp.'/');
 			$this->_sPagesDir = $sTmp;
 			$sOutput = $this->createAccessFiles();
 		}
@@ -70,7 +70,7 @@ class m_news_Reorg {
 			while($aPost = $oPosts->fetchRow(MYSQL_ASSOC))
 			{
 				$sAccessFile = $this->_oReg->AppPath.$this->_sPagesDir
-				               . rtrim(str_replace('\\', '/', $aPost['link']), '/')
+				               . trim(str_replace('\\', '/', $aPost['link']), '/')
 				               . $this->_oReg->PageExtension;
 				$aOptionalCommand = array(
 					'$section_id   = '.$aPost['section_id'].';',

@@ -12,6 +12,9 @@ Legend:
 ===============================================================================
 
 
+05 Mar-2013 Build 1881 Dietmar Woellbrink (Luisehahne)
+# bugfix setting slash in class m_news_Reorg ( access files in root)
+! upgrade-script shows count of created module access files
 05 Mar-2013 Build 1880 Dietmar Woellbrink (Luisehahne)
 # bugfix missing slash in class m_news_Reorg
 05 Mar-2013 Build 1879 Werner v.d.Decken(DarkViper)
