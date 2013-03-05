@@ -1045,7 +1045,7 @@ echo '<div style="margin-left:2em;">';
 				echo '<h4>'.'Create/Reorg Accesfiles for module \''.$sModul.'\' version '.$sModulVersion.'</h4>';
 				$oReorg = new $sModulReorg();
 				$aReturnMsg = $oReorg->execute(); // show details
-				if($bDebugModus && is_array($aReturnMsg)) {
+				if(is_array($aReturnMsg)) {
 					foreach($aReturnMsg as $title) {
 					echo '<strong>'.$title.'</strong><br />';
 					}
