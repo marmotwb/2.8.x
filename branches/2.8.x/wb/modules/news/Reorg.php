@@ -34,7 +34,9 @@
 
 class m_news_Reorg {
 
-	private $_oReg = array();
+	protected $_oReg = null;
+	protected $_sPagesDir = '';
+
 /**
  * Execute reorganisation
  * @return string all occured messages 
@@ -42,11 +44,12 @@ class m_news_Reorg {
 	public function execute() 
 	{
 		$sOutput = null;
+		$this->_oReg = null;
 		if(class_exists('WbAdaptor')) {
 			$this->_oReg = WbAdaptor::getInstance();
 			$sTmp = trim($this->_oReg->PagesDir, '/');
-			$sTmp = ($sTmp == '' ? '' : '/'.$sTmp);
-			$this->_oReg->PagesDir =$sTmp;
+			$sTmp = ($sTmp == '' ? '' : $sTmp);
+			$this->_sPagesDir = $sTmp;
 			$sOutput = $this->createAccessFiles();
 		}
 		// add here the requests for additional reorg methods
@@ -66,14 +69,15 @@ class m_news_Reorg {
 		if(($oPosts = WbDatabase::getInstance()->query($sql))) {
 			while($aPost = $oPosts->fetchRow(MYSQL_ASSOC))
 			{
-				$sAccessFile = $this->_oReg->AppPath.$this->_oReg->PagesDir
-				               . trim(str_replace('\\', '/', $aPost['link']), '/')
+				$sAccessFile = $this->_oReg->AppPath.$this->_sPagesDir
+				               . rtrim(str_replace('\\', '/', $aPost['link']), '/')
 				               . $this->_oReg->PageExtension;
 				$aOptionalCommand = array(
 					'$section_id   = '.$aPost['section_id'].';',
 					'$post_section = '.$aPost['section_id'].';',
 					'$post_id      = '.$aPost['post_id'].';'
 				);
+
 				if(create_access_file($sAccessFile, $aPost['page_id'], 0, $aOptionalCommand)){
 					$count++;	
 				} else {
