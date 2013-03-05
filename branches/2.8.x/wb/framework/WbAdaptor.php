@@ -158,6 +158,7 @@ class WbAdaptor {
 					break;
 				case 'PAGES_DIRECTORY':
 					$sVal = trim(str_replace('\\', '/', $sVal), '/').'/';
+					$sVal = $sVal=='/' ? '' : $sVal;
 					$sKey = 'PagesDir';
 					$this->_aSys['System'][$sKey] = $sVal; 
 					break;

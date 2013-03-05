@@ -11,9 +11,11 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-02 Mae-2013 Build 1877 Dietmar Woellbrink (Luisehahne)
+05 Mar-2013 Build 1878 Werner v.d.Decken(DarkViper)
+# fixed PagesDir in WbAdaptor
+02 Mar-2013 Build 1877 Dietmar Woellbrink (Luisehahne)
 ! fix news reorg.php to be backward compatible slash settings  
-01 Mae-2013 Build 1876 Dietmar Woellbrink (Luisehahne)
+01 Mar-2013 Build 1876 Dietmar Woellbrink (Luisehahne)
 ! wysgwyg, first try to repair missing table entries
 ! page sections typofix in header
 28 Feb-2013 Build 1875 Dietmar Woellbrink (Luisehahne)
