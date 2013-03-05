@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+05 Mar-2013 Build 1879 Werner v.d.Decken(DarkViper)
+# protect magic setter to fix security issue in WbAdapter
 05 Mar-2013 Build 1878 Werner v.d.Decken(DarkViper)
 # fixed PagesDir in WbAdaptor
 02 Mar-2013 Build 1877 Dietmar Woellbrink (Luisehahne)

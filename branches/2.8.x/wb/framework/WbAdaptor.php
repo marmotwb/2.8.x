@@ -57,6 +57,16 @@ class WbAdaptor {
 		return self::$_oInstance;
 	}
 /**
+ * handle unknown properties
+ * @param string name of the property
+ * @param mixed value to set
+ * @throws InvalidArgumentException
+ */	
+	public function __set($name, $value) 
+	{
+		throw new InvalidArgumentException('tried to set readonly or nonexisting property [ '.$name.' }!! ');
+	}
+/**
  * Get value of a variable
  * @param string name of the variable
  * @return mixed
