@@ -11,7 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-
+06 Mar-2013 Build 1882 Werner v.d.Decken(DarkViper)
+# protect magic setter to fix security issue in WbAdapter
 05 Mar-2013 Build 1881 Dietmar Woellbrink (Luisehahne)
 # bugfix setting slash in class m_news_Reorg ( access files in root)
 ! upgrade-script shows count of created module access files
