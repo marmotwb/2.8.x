@@ -136,6 +136,7 @@ class Translate {
  */	
 	public function addAddon($sAddon)
 	{
+		$sAddon = str_replace('/', '\\', $sAddon);
 		if(!(strtolower($sAddon) == 'core' || $sAddon == '' || isset($this->aLoadedAddons[$sAddon]))) {
 		// load requested addon translations if needed and possible
 			$oTmp = new TranslationTable($sAddon, 
@@ -152,6 +153,7 @@ class Translate {
  */	
 	public function enableAddon($sAddon)
 	{
+		$sAddon = str_replace('/', '\\', $sAddon);
 		if(!(strtolower($sAddon) == 'core' || $sAddon == '')) {
 			if(!isset($this->aLoadedAddons[$sAddon])) {
 				$this->addAddon($sAddon);
@@ -200,6 +202,15 @@ class Translate {
 			}
 		}
 		return $sRetval;
+	}
+/**
+ * Protect class from property injections
+ * @param string name of property
+ * @param mixed value
+ * @throws TranslationException
+ */	
+	public function __set($name, $value) {
+		throw new TranslationException('tried to set a readonly or nonexisting property ['.$name.']!! ');
 	}
 /**
  * Return complete table of translations
