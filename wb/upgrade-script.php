@@ -85,6 +85,7 @@ $FAIL          = ' <span class="error">FAILED</span> ';
 $DEFAULT_THEME = 'wb_theme';
 
 $stepID = 0;
+$filesRemove = array();
 $aFilesToRemove = array();
 $dirRemove = array(
 /*
@@ -103,6 +104,9 @@ $dirRemove = array(
 			'[ADMIN]/preferences/password.php',
 			'[ADMIN]/pages/settings2.php',
 			'[ADMIN]/users/users.php',
+			'[ADMIN]/groups/add.php',
+			'[ADMIN]/groups/groups.php',
+			'[ADMIN]/groups/save.php',
 			'[ADMIN]/skel/themes/htt/groups.htt',
 
 			'[FRAMEWORK]/class.msg_queue.php',
@@ -113,7 +117,7 @@ $dirRemove = array(
 	$aFilesToRemove = array_merge($filesRemove['0']);
 
 // deleting files below only from less 2.8.4 stable
-if(version_compare(WB_REVISION, REVISION, '<='))
+if(version_compare(WB_VERSION, '2.8.4', '<'))
 {
 	$filesRemove['1'] = array(
 
@@ -898,42 +902,53 @@ echo '<div style="margin-left:2em;">';
 	echo '<strong>'.implode ('<br />',$msg).'</strong>';
     echo '</div>';
 
-    /* *****************************************************************************
-     * - check for deprecated / never needed files
-     */
-    if(sizeof($aFilesToRemove)) {
-    	echo '<h3>Step '.(++$stepID).': Remove deprecated and old files</h3>';
-    	$searches = array(
-    		'[ADMIN]',
-    		'[MEDIA]',
-    		'[PAGES]',
-    		'[FRAMEWORK]',
-    		'[MODULES]',
-    		'[TEMPLATE]'
-    	);
-    	$replacements = array(
-    		'/'.substr(ADMIN_PATH, strlen(WB_PATH)+1),
-    		MEDIA_DIRECTORY,
-    		PAGES_DIRECTORY,
-    		'/framework',
-    		'/modules',
-    		'/templates'
-    	);
+	/* *****************************************************************************
+	 * - check for deprecated / never needed files
+	 */
+	$iLoaded = sizeof($aFilesToRemove);
+	if($iLoaded) {
+		echo '<h3>Step '.(++$stepID).': Remove deprecated and outdated files</h3>';
+		$iFailed = 0;
+		$iFound = 0;
+		$searches = array(
+			'[ADMIN]',
+			'[MEDIA]',
+			'[PAGES]',
+			'[FRAMEWORK]',
+			'[MODULES]',
+			'[TEMPLATE]'
+		);
+		$replacements = array(
+			'/'.substr(ADMIN_PATH, strlen(WB_PATH)+1),
+			MEDIA_DIRECTORY,
+			PAGES_DIRECTORY,
+			'/framework',
+			'/modules',
+			'/templates'
+		);
 
 		$msg = '';
-    	foreach( $aFilesToRemove as $file )
-    	{
+		echo '<div style="margin-left:2em;">';
+		echo '<h4>Search '.$iLoaded.' deprecated and outdated files</h4>';
+		foreach( $aFilesToRemove as $file )
+		{
 			$file = str_replace($searches, $replacements, $file);
 			if( is_writable(WB_PATH.'/'.$file) ) {
+				$iFound++;
 				// try to unlink file
 				if(!unlink(WB_PATH.$file)) {
-					// save in err-list, if failed
+					$iFailed++;
 				}
 			}
-            if( is_readable(WB_PATH.'/'.$file) ) {
-                $msg .= $file.'<br />';
-            }
-    	}
+			if( is_readable(WB_PATH.'/'.$file) ) {
+				// save in err-list, if failed
+				$msg .= $file.'<br />';
+			}
+		}
+		$iRemove = $iFound-$iFailed;
+		echo '<strong>Remove '.$iRemove.' from '.$iFound.' founded</strong> ';
+		echo ($iFailed == 0) ? $OK : $FAIL;
+		echo '</div>';
 
 		if($msg != '')
 		{
@@ -956,11 +971,14 @@ echo '<div style="margin-left:2em;">';
     }
 
 
-/**********************************************************
- * - check for deprecated / never needed files
- */
-	if(sizeof($dirRemove)) {
-		echo '<h3>Step  '.(++$stepID).': Remove deprecated and old folders</h3>';
+	/**********************************************************
+	 * - check for deprecated / never needed files
+	 */
+	$iLoaded = sizeof($dirRemove);
+	if($iLoaded) {
+		echo '<h3>Step  '.(++$stepID).': Remove deprecated and outdated folders</h3>';
+		$iFailed = 0;
+		$iFound = 0;
 		$searches = array(
 			'[ADMIN]',
 			'[MEDIA]',
@@ -974,19 +992,28 @@ echo '<div style="margin-left:2em;">';
 			'/templates',
 		);
 		$msg = '';
+		echo '<div style="margin-left:2em;">';
+		echo '<h4>Search '.$iLoaded.' deprecated and outdated folders</h4>';
 		foreach( $dirRemove as $dir ) {
 			$dir = str_replace($searches, $replacements, $dir);
 			$dir = WB_PATH.'/'.$dir;
 			if( is_dir( $dir )) {
+				$iFound++;
 			// try to delete dir
 				if(!is_writable( $dir ) || !rm_full_dir($dir)) {
 				// save in err-list, if failed
-                    if( is_readable(WB_PATH.'/'.$file) ) {
-                    	$msg .= str_replace(WB_PATH,'',$dir).'<br />';
-                    }
+					$iFailed++;
 				}
 			}
+			if( is_readable(WB_PATH.'/'.$dir) ) {
+				$msg .= str_replace(WB_PATH,'',$dir).'<br />';
+			}
 		}
+		
+		$iRemove = $iFound-$iFailed;
+		echo '<strong>Remove '.$iRemove.' from '.$iFound.' founded</strong> ';
+		echo ($iFailed == 0) ? $OK : $FAIL;
+		echo '</div>';
 
 		if($msg != '') {
 			$msg = '<br /><br />Following directories are deprecated, outdated or a security risk and
@@ -1004,13 +1031,15 @@ echo '<div style="margin-left:2em;">';
 			</html>";
 			exit;
 		}
+
+
 	}
 
-    /**********************************************************
-     * upgrade modules if newer version is available
-     * $aModuleList list of proofed modules
-     */
-    $aModuleList = array('news','wysiwyg','form');
+	/**********************************************************
+	 * upgrade modules if newer version is available
+	 * $aModuleList list of proofed modules
+	 */
+	$aModuleList = array('news','wysiwyg','form');
 	if(sizeof($aModuleList)) 
 	{
 	    echo '<h3>Step '.(++$stepID).': Upgrade proofed modules</h3>';
@@ -1019,20 +1048,20 @@ echo '<div style="margin-left:2em;">';
 				$currModulVersion = get_modul_version ($sModul, false);
 				$newModulVersion =  get_modul_version ($sModul, true);
 				if((version_compare($currModulVersion, $newModulVersion) <= 0)) {
-	                echo '<div style="margin-left:2em;">';
+					echo '<div style="margin-left:2em;">';
 					echo '<h4>'.'Upgrade module \''.$sModul.'\' version '.$newModulVersion.'</h4>';
 					require(WB_PATH.'/modules/'.$sModul.'/upgrade.php');
-	                echo '</div>';
+					echo '</div>';
 				}
 			}
 		}
 	}
 
-    /**********************************************************
-     * Reformat/rebuild all existing moules access files
-     * $aModuleList list of modules
-     */
-    $aModuleList = array('bakery','topics','news');
+	/**********************************************************
+	 * Reformat/rebuild all existing moules access files
+	 * $aModuleList list of modules
+	 */
+	$aModuleList = array('bakery','topics','news');
 	if(sizeof($aModuleList)) 
 	{
 		echo '<h3>Step '.(++$stepID).': Create/Reorg Accessfiles from modules</h3>';
@@ -1059,9 +1088,9 @@ echo '<div style="margin-left:2em;">';
  */
 
 	echo '<h3>Step '.(++$stepID).' : Reload all addons database entry (no upgrade)</h3><br />';
-    echo '<div style="margin-left:2em;">';
-    $iFound = 0;
-    $iLoaded = 0;
+	echo '<div style="margin-left:2em;">';
+	$iFound = 0;
+	$iLoaded = 0;
 	////delete modules
 	//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'module'");
 	// Load all modules
@@ -1136,7 +1165,7 @@ $cfg = array(
 	'wb_revision' => REVISION,
 	'wb_sp' => SP
 );
-echo '<br /><span><strong>Set database version number to '.VERSION.' '.SP.' '.' Revision ['.REVISION.'] : </strong></span>';
+echo '<br /><span><strong>Set WebsiteBaker version number to '.VERSION.' '.SP.' '.' Revision ['.REVISION.'] : </strong></span>';
 echo (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 echo '</div>';
 

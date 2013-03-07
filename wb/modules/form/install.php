@@ -20,9 +20,6 @@ if(!defined('WB_PATH')) {
 	require_once(dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
 	throw new IllegalFileException();
 } else {
-	// Create tables
-
+// Create tables
 $database->SqlImport(dirname(__FILE__).'/sql/form284db.sql',TABLE_PREFIX,false);
-
-// remove old version of search (deprecated)
 }

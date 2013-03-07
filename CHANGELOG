@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+07 Mar-2013 Build 1883 Dietmar Woellbrink (Luisehahne)
+! groups change languages class to translate class
+! prepare upgrade-script for WB Version 2.8.4 (versioncompare)
+! update Form modul to version 2.9.1
 06 Mar-2013 Build 1882 Werner v.d.Decken(DarkViper)
 # protect magic setter to fix security issue in WbAdapter
 05 Mar-2013 Build 1881 Dietmar Woellbrink (Luisehahne)
