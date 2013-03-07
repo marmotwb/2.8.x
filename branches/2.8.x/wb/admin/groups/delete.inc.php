@@ -27,8 +27,9 @@ if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
  */
 	function delete_group($admin, $group_id = 0)
 	{
-		global $MESSAGE;
+//		global $MESSAGE;
 		$database = WbDatabase::getInstance();
+		$mLang = Translate::getInstance();
 	// first check form-tan
 		if($admin->checkFTAN())
 		{
@@ -42,7 +43,7 @@ if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
 				if($database->query($sql) != false)
 				{
 	// remove group from users groups_id
-					msgQueue :: add($MESSAGE['GROUPS_DELETED'],true);
+					msgQueue :: add($mLang->MESSAGE_GROUPS_DELETED,true);
 					$sql = 'SELECT `user_id`, `groups_id`, `home_folder` FROM `'.TABLE_PREFIX.'users` WHERE user_id != 1';
 					if(($res_users = $database->query($sql)) && ($res_users->numRows() > 0) )
 					{
@@ -64,7 +65,7 @@ if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
 				                    $sql_info = mysql_info($database->db_handle);
 									if(preg_match('/matched: *([1-9][0-9]*)/i', $sql_info) != 1)
 									{
-										msgQueue :: add($MESSAGE['RECORD_MODIFIED_FAILED']);
+										msgQueue :: add($mLang->MESSAGE_RECORD_MODIFIED_FAILED );
 									}
 								} else {
 
@@ -75,11 +76,11 @@ if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
                     }
 					// $admin->print_success($msg);
 				} else {
-					msgQueue :: add($MESSAGE['RECORD_MODIFIED_FAILED']);
+					msgQueue :: add($mLang->MESSAGE_RECORD_MODIFIED_FAILED );
 				}
 			}
 		} else {
-			msgQueue :: add($MESSAGE['GENERIC_SECURITY_OFFENSE']);
+			msgQueue :: add($mLang->MESSAGE_GENERIC_SECURITY_OFFENSE );
 		}
 		$admin->print_header();
 		return ;

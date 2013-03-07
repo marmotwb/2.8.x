@@ -39,7 +39,7 @@ print_r( $_POST ); print '</pre>'; // flush ();sleep(10); die();
 //		global $TEXT, $MESSAGE, $HEADING, $MENU;
 
 		$database = WbDatabase::getInstance();
-		$mLang = ModLanguage::getInstance();
+		$mLang = Translate::getInstance();
 //		$mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
 		include_once('upgradePermissions.php');
 		include_once(WB_PATH.'/framework/functions.php');

@@ -20,8 +20,10 @@
 	function admin_groups_index()
 	{
 		$database = WbDatabase::getInstance();
-		$mLang = ModLanguage::getInstance();
-		$mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+//		$mLang = ModLanguage::getInstance();
+//		$mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+		$mLang = Translate::getinstance();
+		$mLang->enableAddon('admin\groups');
 
 		$mod_path = dirname(str_replace('\\', '/', __FILE__));
 		$mod_name = basename($mod_path);
@@ -125,13 +127,18 @@
 		}
 		print $output;
 		$admin->print_footer();
+		$mLang->disableAddon();
 	}
 	// start dispatcher maintenance
 	if(!defined('WB_PATH'))
 	{
-		require('../../config.php');
-		require_once(WB_PATH.'/framework/class.admin.php');
+		$config_file = realpath('../../config.php');
+		if(file_exists($config_file) && !defined('WB_URL'))
+		{
+			require($config_file);
+		}
 	}
+	if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 	admin_groups_index();
 	exit;
 // end of file

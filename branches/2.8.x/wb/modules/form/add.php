@@ -24,10 +24,6 @@ if(defined('WB_PATH') == false)
 }
 /* -------------------------------------------------------- */
 
-// load module language file
-//$lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
-//require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
-
 // ------------------------------------
 $table_name = TABLE_PREFIX.'mod_form_settings';
 $field_name = 'perpage_submissions';
@@ -38,7 +34,7 @@ if(!$database->field_exists($table_name,$field_name)) {
 // ------------------------------------
 
 // Insert an extra rows into the database
-$header = '<table class="frm-field_table" cellpadding=\"2\" cellspacing=\"0\" border=\"0\" summary=\"form\">';
+$header = '<table class="frm-field_table">';
 $field_loop = '<tr>'.PHP_EOL.'<td class=\"frm-field_title\">{TITLE}{REQUIRED}:</td>'.PHP_EOL.'<td>{FIELD}</td>'.PHP_EOL.'</tr>';
 $footer = '<tr>'.PHP_EOL.'<td>&nbsp;</td>'.PHP_EOL.'
 <td>'.PHP_EOL.'
