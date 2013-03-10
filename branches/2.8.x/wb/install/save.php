@@ -1,18 +1,36 @@
 <?php
 /**
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * @category        backend
- * @package         install
- * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link			http://www.websitebaker2.org/
- * @license         http://www.gnu.org/licenses/gpl.html
- * @platform        WebsiteBaker 2.8.x
- * @requirements    PHP 5.2.2 and higher
- * @version      	$Id$
- * @filesource		$HeadURL:  $
- * @lastmodified    $Date: $
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ * save.php
+ * 
+ * @category     Core
+ * @package      Core_Environment
+ * @subpackage   Installer
+ * @author       Dietmar Wöllbrink <dietmar.woellbrink@websitebaker.org>
+ * @copyright    Werner v.d.Decken <wkl@isteam.de>
+ * @license      http://www.gnu.org/licenses/gpl.html   GPL License
+ * @version      0.0.2
+ * @revision     $Revision$
+ * @link         $HeadURL$
+ * @lastmodified $Date$
+ * @since        File available since 2012-04-01
+ * @description  xyz
  */
 
 $debug = true;
@@ -20,6 +38,89 @@ $debug = true;
 include(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php'); 
 include(dirname(dirname(__FILE__)).'/framework/WbAutoloader.php');
 WbAutoloader::doRegister(array('admin'=>'a', 'modules'=>'m'));
+
+/**
+ * Set constants for system/install values
+ * @throws RuntimeException
+ */
+	function _SetInstallPathConstants() {
+		if(!defined('DEBUG')){ define('DEBUG', false); } // normaly set in config file
+		if(!defined('ADMIN_DIRECTORY')){ define('ADMIN_DIRECTORY', 'admin'); }
+		if(!preg_match('/xx[a-z0-9_][a-z0-9_\-\.]+/i', 'xx'.ADMIN_DIRECTORY)) {
+			throw new RuntimeException('Invalid admin-directory: ' . ADMIN_DIRECTORY);
+		}
+		if(!defined('WB_PATH')){ define('WB_PATH', dirname(dirname(__FILE__))); }
+		if(!defined('ADMIN_URL')){ define('ADMIN_URL', WB_URL.'/'.ADMIN_DIRECTORY); }
+		if(!defined('ADMIN_PATH')){ define('ADMIN_PATH', WB_PATH.'/'.ADMIN_DIRECTORY); }
+		if(!defined('WB_REL')){
+			$x1 = parse_url(WB_URL);
+			define('WB_REL', (isset($x1['path']) ? $x1['path'] : ''));
+		}
+		define('ADMIN_REL', WB_REL.'/'.ADMIN_DIRECTORY);
+		if(!defined('DOCUMENT_ROOT')) {
+			
+			define('DOCUMENT_ROOT', preg_replace('/'.preg_quote(WB_REL, '/').'$/', '', WB_PATH));
+		}
+		define('TMP_PATH', WB_PATH.'/temp');
+	}
+
+/**
+ * Read DB settings from configuration file
+ * @return string
+ * @throws RuntimeException
+ * 
+ */
+	function _readConfiguration($sRetvalType = 'url') {
+		// check for valid file request. Becomes more stronger in next version
+		$x = debug_backtrace();
+		$bValidRequest = false;
+		if(sizeof($x) != 0) {
+			foreach($x as $aStep) {
+				// define the scripts which can read the configuration
+				if(preg_match('/(save.php|index.php|config.php|upgrade-script.php)$/si', $aStep['file'])) {
+					$bValidRequest = true;
+					break;
+				}
+			}
+		}else {
+			$bValidRequest = true;
+		}
+		if(!$bValidRequest) {
+			throw new RuntimeException('illegal function request!'); 
+		}
+		$aRetval = array();
+		$sSetupFile = dirname(dirname(__FILE__)).'/setup.ini.php';
+		if(is_readable($sSetupFile)) {
+			$aCfg = parse_ini_file($sSetupFile, true);
+			foreach($aCfg['Constants'] as $key=>$value) {
+				if($key == 'debug') { $value = filter_var($value, FILTER_VALIDATE_BOOLEAN); }
+				if(!defined(strtoupper($key))) { define(strtoupper($key), $value); }
+			}
+			$db = $aCfg['DataBase'];
+			$db['type'] = isset($db['type']) ? $db['type'] : 'mysql';
+			$db['user'] = isset($db['user']) ? $db['user'] : 'foo';
+			$db['pass'] = isset($db['pass']) ? $db['pass'] : 'bar';
+			$db['host'] = isset($db['host']) ? $db['host'] : 'localhost';
+			$db['port'] = isset($db['port']) ? $db['port'] : '3306';
+			$db['port'] = ($db['port'] != '3306') ? $db['port'] : '';
+			$db['name'] = isset($db['name']) ? $db['name'] : 'dummy';
+			$db['charset'] = isset($db['charset']) ? $db['charset'] : 'utf8';
+			$db['table_prefix'] = (isset($db['table_prefix']) ? $db['table_prefix'] : '');
+			define('TABLE_PREFIX', $db['table_prefix']);
+			if($sRetvalType == 'dsn') {
+				$aRetval[0] = $db['type'].':dbname='.$db['name'].';host='.$db['host'].';'
+				            . ($db['port'] != '' ? 'port='.(int)$db['port'].';' : '');
+				$aRetval[1] = array('CHARSET' => $db['charset'], 'TABLE_PREFIX' => $db['table_prefix']);
+				$aRetval[2] = array( 'user' => $db['user'], 'pass' => $db['pass']);
+			}else { // $sRetvalType == 'url'
+				$aRetval[0] = $db['type'].'://'.$db['user'].':'.$db['pass'].'@'
+				            . $db['host'].($db['port'] != '' ? ':'.$db['port'] : '').'/'.$db['name'];
+			}
+			unset($db, $aCfg);
+			return $aRetval;
+		}
+		throw new RuntimeException('unable to read setup.ini.php');
+	}
 
 if (true === $debug) {
 	ini_set('display_errors', 1);
@@ -142,18 +243,7 @@ if(!isset($_POST['wb_url']) OR $_POST['wb_url'] == '') {
 	$wb_url = $_POST['wb_url'];
 }
 // Remove any slashes at the end of the URL
-if(substr($wb_url, strlen($wb_url)-1, 1) == "/") {
-	$wb_url = substr($wb_url, 0, strlen($wb_url)-1);
-}
-if(substr($wb_url, strlen($wb_url)-1, 1) == "\\") {
-	$wb_url = substr($wb_url, 0, strlen($wb_url)-1);
-}
-if(substr($wb_url, strlen($wb_url)-1, 1) == "/") {
-	$wb_url = substr($wb_url, 0, strlen($wb_url)-1);
-}
-if(substr($wb_url, strlen($wb_url)-1, 1) == "\\") {
-	$wb_url = substr($wb_url, 0, strlen($wb_url)-1);
-}
+$wb_url = rtrim($wb_url,'/\\');
 // Get the default time zone
 if(!isset($_POST['default_timezone']) OR !is_numeric($_POST['default_timezone'])) {
 	set_error('Please select a valid default timezone', 'default_timezone');
@@ -228,7 +318,7 @@ if(!isset($_POST['database_username']) OR $_POST['database_username'] == '') {
 	$database_username = $_POST['database_username'];
 }
 // Check if user has entered a database password
-if(!isset($_POST['database_password'])) {
+if(!isset($_POST['database_password'])&& ($_POST['database_password']==='') ) {
 	set_error('Please enter a database password', 'database_password');
 } else {
 	$database_password = $_POST['database_password'];
@@ -281,64 +371,82 @@ if($admin_password != $admin_repassword) {
 // End admin user details code
 
 // Try and write settings to config file
-$config_content = "" .
-"<?php\n".
-"\n".
-"define('DEBUG', false);\n".
-"define('DB_TYPE', 'mysql');\n".
-"define('DB_HOST', '$database_host');\n".
-"define('DB_NAME', '$database_name');\n".
-"define('DB_USERNAME', '$database_username');\n".
-"define('DB_PASSWORD', '$database_password');\n".
-"define('TABLE_PREFIX', '$table_prefix');\n".
-"\n".
-"define('WB_URL', '$wb_url');\n".
-"define('ADMIN_DIRECTORY', 'admin'); // no leading/trailing slash or backslash!! A simple directory only!!\n".
-"\n".
-"require_once(dirname(__FILE__).'/framework/initialize.php');\n";
-
-$config_filename = '../config.php';
+$sConfigContent = 
+ ";<?php die('sorry, illegal file access'); ?>#####\n"
+.";################################################\n"
+."; WebsiteBaker configuration file\n"
+."; auto generated ".date('Y-m-d h:i:s A e ')."\n"
+.";################################################\n"
+."[Constants]\n"
+."debug     = false\n"
+."wb_url    = ".$wb_url."\n"
+."admin_directory = admin\n"
+.";##########\n"
+."[DataBase]\n"
+."type    = \"mysql\"\n"
+."user    = \"".$database_username."\"\n"
+."pass    = \"".$database_password."\"\n"
+."host    = \"".$database_host."\"\n"
+."port    = \"3306\"\n"
+."name    = \"".$database_name."\"\n"
+."charset = \"utf8\"\n"
+."table_prefix = \"".$table_prefix."\"\n"
+.";\n"
+.";################################################\n";
+$sConfigFile = realpath('../setup.ini.php');
+$sConfigName = basename($sConfigFile);
 // Check if the file exists and is writable first.
-if(file_exists($config_filename) AND is_writable($config_filename)) {
-	if(!$handle = fopen($config_filename, 'w')) {
-		set_error("Cannot open the configuration file ($config_filename)");
+if(file_exists($sConfigFile) && is_writable($sConfigFile)) {
+	if(!$handle = fopen($sConfigFile, 'w')) {
+		set_error("Cannot open the configuration file ($sConfigName)");
 	} else {
-		if (fwrite($handle, $config_content) === FALSE) {
-			set_error("Cannot write to the configuration file ($config_filename)");
+		if (fwrite($handle, $sConfigContent) === FALSE) {
+			set_error("Cannot write to the configuration file ($sConfigName)");
 		}
 		// Close file
 		fclose($handle);
 	}
 } else {
-	set_error("The configuration file $config_filename is not writable. Change its permissions so it is, then re-run step 4.");
+	set_error("The configuration file $sConfigName is not writable. Change its permissions so it is, then re-run step 4.");
 }
 
-// Define configuration vars
-define('DEBUG', false);
-define('DB_TYPE', 'mysql');
-define('DB_HOST', $database_host);
-define('DB_NAME', $database_name);
-define('DB_USERNAME', $database_username);
-define('DB_PASSWORD', $database_password);
-define('TABLE_PREFIX', $table_prefix);
-define('WB_PATH', dirname(dirname(__FILE__)));
-define('WB_URL', $wb_url);
-define('ADMIN_DIRECTORY', 'admin');
-define('ADMIN_PATH', WB_PATH.'/'.ADMIN_DIRECTORY);
-define('ADMIN_URL', $wb_url.'/'.ADMIN_DIRECTORY);
+// load db configuration ---
+$sDbConnectType = 'url'; // depending from class WbDatabase it can be 'url' or 'dsn'
+$aSqlData = _readConfiguration($sDbConnectType);
 
-// Check if the user has entered a correct path
-	if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
-		set_error('It appears the Absolute path that you entered is incorrect');
+_SetInstallPathConstants();
+
+if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
+	set_error('It appears the Absolute path that you entered is incorrect');
+}
+
+$database = WbDatabase::getInstance();
+try{
+	if($sDbConnectType == 'dsn') {
+		$bTmp = @$database->doConnect($aSqlData[0], $aSqlData[1]['user'], $aSqlData[1]['pass'], $aSqlData[2]);
+	}else {
+		$bTmp = @$database->doConnect($aSqlData[0], TABLE_PREFIX);
 	}
-	$sSqlUrl = DB_TYPE.'://'.DB_USERNAME.':'.DB_PASSWORD.'@'.DB_HOST.'/'.DB_NAME;
-	$database = WbDatabase::getInstance();
-	$database->doConnect($sSqlUrl);
+} catch (RuntimeException $e) {
+	if(!file_put_contents($sConfigFile,"<?php\n")) {
+		set_error("Cannot write to the configuration file ($sSetupFile)");
+	}
+	set_error($e->getMessage()); 
+}
 
-	$sSecMod = (defined('SECURE_FORM_MODULE') && SECURE_FORM_MODULE != '') ? '.'.SECURE_FORM_MODULE : '';
-	$sSecMod = WB_PATH.'/framework/SecureForm'.$sSecMod.'.php';
-	require_once($sSecMod);
-	require_once(WB_PATH.'/framework/class.admin.php');
+unset($aSqlData);
+// write the config.php
+$sConfigContent = "<?php\n"
+    ."/* this file is for backward compatibility only */\n"
+    ."include_once(dirname(__FILE__).'/framework/initialize.php');\n";
+$sSetupFile = WB_PATH.'/config.php';
+if(!file_put_contents($sSetupFile,$sConfigContent)) {
+	set_error("Cannot write to the configuration file ($sSetupFile)");
+}
+$sSecMod = (defined('SECURE_FORM_MODULE') && SECURE_FORM_MODULE != '') ? '.'.SECURE_FORM_MODULE : '';
+$sSecMod = WB_PATH.'/framework/SecureForm'.$sSecMod.'.php';
+require_once($sSecMod);
+require_once(WB_PATH.'/framework/class.admin.php');
 
 // Dummy class to allow modules' install scripts to call $admin->print_error
 	class admin_dummy extends admin

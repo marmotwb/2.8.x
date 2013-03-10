@@ -98,12 +98,12 @@
 		if(sizeof($x) != 0) {
 			foreach($x as $aStep) {
 				// define the scripts which can read the configuration
-				if(preg_match('/(index.php|config.php|upgrade-script.php)$/si', $aStep['file'])) {
+				if(preg_match('/(save.php|index.php|config.php|upgrade-script.php)$/si', $aStep['file'])) {
 					$bValidRequest = true;
 					break;
 				}
 			}
-		}else {
+		} else {
 			$bValidRequest = true;
 		}
 		if(!$bValidRequest) {

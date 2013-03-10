@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+10 Mar-2013 Build 1884 Dietmar Woellbrink (Luisehahne)
+! from security reasons the new installation has changed 
+  from the old config.php into new setup.ini.php without 
+  using global constants for critical values like username & password and so on.
 07 Mar-2013 Build 1883 Dietmar Woellbrink (Luisehahne)
 ! groups change languages class to translate class
 ! prepare upgrade-script for WB Version 2.8.4 (versioncompare)
