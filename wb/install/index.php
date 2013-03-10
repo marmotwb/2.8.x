@@ -1,18 +1,36 @@
 <?php
 /**
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * @category        backend
- * @package         install
- * @author          WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link			http://www.websitebaker.org/
- * @license         http://www.gnu.org/licenses/gpl.html
- * @platform        WebsiteBaker 2.8.x
- * @requirements    PHP 5.2.2 and higher
- * @version      	$Id$
- * @filesource		$HeadURL$
- * @lastmodified    $Date$
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ * index.php
+ * 
+ * @category     Core
+ * @package      Core_Environment
+ * @subpackage   Installer
+ * @author       Dietmar Wöllbrink <dietmar.woellbrink@websitebaker.org>
+ * @copyright    Werner v.d.Decken <wkl@isteam.de>
+ * @license      http://www.gnu.org/licenses/gpl.html   GPL License
+ * @version      0.0.2
+ * @revision     $Revision$
+ * @link         $HeadURL$
+ * @lastmodified $Date$
+ * @since        File available since 2012-04-01
+ * @description  xyz
  */
 
 // Start a session
@@ -22,11 +40,9 @@ if(!defined('SESSION_STARTED')) {
 	define('SESSION_STARTED', true);
 }
 
-$mod_path = dirname(str_replace('\\', '/', __FILE__));
-$doc_root = rtrim(realpath($_SERVER['DOCUMENT_ROOT']),'/');
-$mod_name = basename($mod_path);
-$wb_path = dirname(dirname(realpath( __FILE__)));
-$wb_root = str_replace(realpath($doc_root),'',$wb_path);
+$doc_root = str_replace('\\','/',rtrim(realpath($_SERVER['DOCUMENT_ROOT']),'/').'/');
+$wb_path = str_replace('\\','/',rtrim(dirname(dirname(realpath( __FILE__))),'/')).'/';
+$wb_root = str_replace(($doc_root),'',$wb_path);
 
 // Function to highlight input fields which contain wrong/missing data
 function field_error($field_name='') {
@@ -68,13 +84,56 @@ if(strpos($sapi, 'apache')!==FALSE || strpos($sapi, 'nsapi')!==FALSE) {
 	}
 }
 
-$sapi_type = php_sapi_name();
-
+//$sapi_type = php_sapi_name();
 if(!isset($_SESSION['operating_system'])) {
-    $operating_system = ((strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 'windows' : 'linux');
+	$operating_system = ((strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 'windows' : 'linux');
 } else {
-    $operating_system = $_SESSION['operating_system'];
+	$operating_system = $_SESSION['operating_system'];
 }
+
+function checkConfigFile ($sWbPath,$sType ) {
+	$config = '';
+	$sConfigContent	= "<?php\n";
+	$sConfigFile = $sWbPath.$sType.'.php';
+
+// config.php or config.php.new
+		if( (file_exists($sConfigFile)==true))
+		{
+// next operation only if file is writeable
+			if(is_writeable($sConfigFile))
+			{
+// already installed? it's not empty
+				if ( filesize($sConfigFile) > 128)
+				{
+					$config = '<font class="bad">Already installed? Check!</font>';
+// try to open and to write
+				} elseif( !$handle = fopen($sConfigFile, 'w') )
+				{
+					$config = '<font class="bad">Not Writeable</font>';
+				} else {
+					if (fwrite($handle, $sConfigContent) === FALSE) {
+						$config = '<font class="bad">Not Writeable</font>';
+					} else {
+						$config = '';
+						$_SESSION[$sType.'_rename'] = true;
+					}
+					// Close file
+					fclose($handle);
+					}
+			} else {
+				$config = '<font class="bad">Not Writeable</font>';
+			}
+// it's config.php.new
+		} elseif((file_exists($sConfigFile.'.new')==true))
+		{
+			$config = '<font class="bad">Please rename to '.$sType.'.php</font>';
+		} else {
+			$config = '<font class="bad">Missing!!?</font>';
+		}
+	return $config;
+}
+
+
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -152,6 +211,15 @@ function change_os(type) {
 			<td><?php echo $session_support; ?></td>
 		</tr>
 	<tr>
+		<td style="color: #666666;">PHP Interface</td>
+			<td colspan="2">
+				<?php
+						?><font class="good">
+						<?php echo $sapi ?>
+						</font>
+			</td>
+		</tr>
+
 		<td style="color: #666666;">Server DefaultCharset</td>
 			<td>
 				<?php
@@ -192,82 +260,66 @@ But this solution does not guarranty a correct displaying of the content from al
 </td>
 </tr>
 <?php } ?>
+<tr>
+	<td style="line-height: 0.4em;" colspan="4">&nbsp;</td>
+</tr>
 </table>
 <table summary="" cellpadding="3" cellspacing="0">
 <tr>
 	<td colspan="6" class="step-row"><h1 class="step-row">Step 2</h1>&nbsp;Please check the following files/folders are writeable before continuing...</td>
 </tr>
 <?php
-	$config = '<font class="good">Writeable</font>';
-	$config_content = "<?php\n";
-	$configFile = '/config.php';
-	if(!isset($_SESSION['config_rename']) )
-	{
-// cnfig.php or config.php.new
-		if( (file_exists($wb_path.$configFile)==true))
-		{
-// next operation only if file is writeable
-			if(is_writeable($wb_path.$configFile))
-			{
-// already installed? it's not empty
-				if ( filesize($wb_path.$configFile) > 128)
-				{
-					$installFlag = false;
-					$config = '<font class="bad">Already installed? Check!</font>';
-// try to open and to write
-				} elseif( !$handle = fopen($wb_path.$configFile, 'w') )
-				{
-					$installFlag = false;
-	                $config = '<font class="bad">Not Writeable</font>';
-				} else {
-					if (fwrite($handle, $config_content) === FALSE) {
-						$installFlag = false;
-		                $config = '<font class="bad">Not Writeable</font>';
-					} else {
-						$config = '<font class="good">Writeable</font>';
-						$_SESSION['config_rename'] = true;
-					}
-					// Close file
-					fclose($handle);
-					}
-			} else {
-				$installFlag = false;
-                $config = '<font class="bad">Not Writeable</font>';
-			}
-// it's config.php.new
-		} elseif((file_exists($wb_path.'/config.php.new')==true))
-		{
-			$configFile = '/config.php.new';
-			$installFlag = false;
-			$config = '<font class="bad">Please rename to config.php</font>';
-		} else
-		{
-			$installFlag = false;
-			$config = '<font class="bad">Missing!!?</font>';
-		}
+	$sTmp = '';
+	$config = '';
+	$sConfigFile = 'config.php.new';
+	if( ($sTmp = checkConfigFile($wb_path,'config')) === '' ) {
+		$config = '<font class="good">Writeable</font>';
+	} else {
+		$config = $sTmp;
 	}
+	$sConfigFile = preg_match('/(?:rename)/i',$config) ? $sConfigFile : 'setup.ini.php';
+	$installFlag = $installFlag && ($sTmp == '');
 ?>
 		<tr>
-			<td colspan="2" style="color: #666666;"><?php print $wb_root.$configFile ?></td>
+			<td colspan="2" style="color: #666666;"><?php print $wb_root.$sConfigFile ?></td>
+			<td colspan="2"><?php echo $config ?></td>
+		</tr>
+<?php
+	$sTmp = '';
+	$config = '';
+	$sSetupIniFile = 'setup.ini.php.new';
+	if( ($sTmp = checkConfigFile($wb_path,'setup.ini')) === '' ) {
+		$config = '<font class="good">Writeable</font>';
+	} else {
+		$config = $sTmp;
+	}
+	$sSetupIniFile = preg_match('/(?:rename)/i',$config) ? $sSetupIniFile : 'setup.ini.php';
+	$installFlag = $installFlag && ($sTmp == '');
+?>
+		<tr>
+			<td colspan="2" style="color: #666666;"><?php print $wb_root.$sSetupIniFile ?></td>
 			<td colspan="2"><?php echo $config ?></td>
 		</tr>
 		<tr>
-			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/pages/</td>
+			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>pages/</td>
 			<td><?php if(is_writable('../pages/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../pages/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/media/</td>
+			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>media/</td>
 			<td><?php if(is_writable('../media/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../media/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
 		</tr>
 		<tr>
-			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/templates/</td>
+			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>templates/</td>
 			<td><?php if(is_writable('../templates/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../templates/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/modules/</td>
+			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>modules/</td>
 			<td><?php if(is_writable('../modules/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../modules/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
 		</tr>
 		<tr>
-			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/languages/</td>
+			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>languages/</td>
 			<td><?php if(is_writable('../languages/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../languages/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
-			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>/temp/</td>
+			<td colspan="2" style="color: #666666;"><?php print $wb_root ?>temp/</td>
 			<td><?php if(is_writable('../temp/')) { echo '<font class="good">Writeable</font>'; } elseif(!file_exists('../temp/')) {$installFlag = false; echo '<font class="bad">Directory Not Found</font>'; } else { echo '<font class="bad">Unwriteable</font>'; } ?></td>
+		</tr>
+		<tr>
+			<td style="line-height: 0.4em;" colspan="4">&nbsp;</td>
 		</tr>
 		</table>
 		<table summary="" cellpadding="3" cellspacing="0" >
@@ -364,6 +416,9 @@ But this solution does not guarranty a correct displaying of the content from al
 				</select>
 			</td>
 		</tr>
+		<tr>
+			<td style="line-height: 0.4em;" colspan="2">&nbsp;</td>
+		</tr>
 		</table>
 		<table border="0" summary="" cellpadding="0" cellspacing="0">
 		<tr>
@@ -393,6 +448,9 @@ But this solution does not guarranty a correct displaying of the content from al
 					<p class="warning">(Please note: only recommended for testing environments)</p>
 				</div>
 			</td>
+		</tr>
+		<tr>
+			<td style="line-height: 0.4em;" colspan="2">&nbsp;</td>
 		</tr>
 		</table>
 		<table summary="" cellpadding="0" cellspacing="0">
@@ -437,6 +495,9 @@ But this solution does not guarranty a correct displaying of the content from al
 				<span style="font-size: 1px; color: #666666;">(Please note: May remove existing tables and data)</span>
 			</td>
 		</tr>
+		<tr>
+			<td style="line-height: 0.4em;" colspan="2">&nbsp;</td>
+		</tr>
 		</table>
 		<table summary="" cellpadding="0" cellspacing="0" >
 		<tbody>
@@ -448,6 +509,9 @@ But this solution does not guarranty a correct displaying of the content from al
 			<td class="value">
 				<input <?php echo field_error('website_title');?> type="text" tabindex="13" name="website_title" value="<?php if(isset($_SESSION['website_title'])) { echo $_SESSION['website_title']; } else { echo 'Enter your website title'; } ?>" />
 			</td>
+		</tr>
+		<tr>
+			<td style="line-height: 0.4em;" colspan="2">&nbsp;</td>
 		</tr>
 		</tbody>
 		</table>
@@ -478,6 +542,9 @@ But this solution does not guarranty a correct displaying of the content from al
 			<td class="value">
 				<input <?php echo field_error('admin_repassword');?> type="password" tabindex="17" name="admin_repassword" value=""  />
 			</td>
+		</tr>
+		<tr>
+			<td style="line-height: 0.4em;" colspan="2">&nbsp;</td>
 		</tr>
 		</table>
 		<table summary="" cellpadding="0" cellspacing="0">
