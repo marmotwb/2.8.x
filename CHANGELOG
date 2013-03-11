@@ -11,6 +11,13 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+11 Mar-2013 Build 1885 Dietmar Woellbrink (Luisehahne)
+# protect magic setter to fix security issue in WbDatabase
++ additional arguments for Charset and TablePrefix in WbDatabase::doConnect
++ WbDatabase now can activate SET NAMES by doConnect argument
++ WbDatabase now provide TablePrefix property also (WbDatabase::TablePrefix)
++ initialize.php now also support Charset and TablePrefix settings from setup.ini.php
+! in setup.ini.php some keys are renamed (WB_URL => AppUrl and ADMIN_DIRECTORY => AcpDir)
 10 Mar-2013 Build 1884 Dietmar Woellbrink (Luisehahne)
 ! from security reasons the new installation has changed 
   from the old config.php into new setup.ini.php without 

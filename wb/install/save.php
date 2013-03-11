@@ -93,8 +93,24 @@ WbAutoloader::doRegister(array('admin'=>'a', 'modules'=>'m'));
 		if(is_readable($sSetupFile)) {
 			$aCfg = parse_ini_file($sSetupFile, true);
 			foreach($aCfg['Constants'] as $key=>$value) {
-				if($key == 'debug') { $value = filter_var($value, FILTER_VALIDATE_BOOLEAN); }
-				if(!defined(strtoupper($key))) { define(strtoupper($key), $value); }
+				switch($key):
+					case 'DEBUG':
+						$value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+						break;
+					case 'WB_URL':
+					case 'AppUrl':
+						$value = trim(str_replace('\\', '/', $value), '/'); 
+						if(!defined('WB_URL')) { define('WB_URL', $value); }
+						break;
+					case 'ADMIN_DIRECTORY':
+					case 'AcpDir':
+						$value = trim(str_replace('\\', '/', $value), '/'); 
+						if(!defined('ADMIN_DIRECTORY')) { define('ADMIN_DIRECTORY', $value); }
+						break;
+					default:
+						if(!defined($key)) { define($key, $value); }
+						break;
+				endswitch;
 			}
 			$db = $aCfg['DataBase'];
 			$db['type'] = isset($db['type']) ? $db['type'] : 'mysql';
@@ -114,7 +130,8 @@ WbAutoloader::doRegister(array('admin'=>'a', 'modules'=>'m'));
 				$aRetval[2] = array( 'user' => $db['user'], 'pass' => $db['pass']);
 			}else { // $sRetvalType == 'url'
 				$aRetval[0] = $db['type'].'://'.$db['user'].':'.$db['pass'].'@'
-				            . $db['host'].($db['port'] != '' ? ':'.$db['port'] : '').'/'.$db['name'];
+				            . $db['host'].($db['port'] != '' ? ':'.$db['port'] : '').'/'.$db['name']
+				            . '?Charset='.$db['charset'].'&TablePrefix='.$db['table_prefix'];
 			}
 			unset($db, $aCfg);
 			return $aRetval;
@@ -243,7 +260,7 @@ if(!isset($_POST['wb_url']) OR $_POST['wb_url'] == '') {
 	$wb_url = $_POST['wb_url'];
 }
 // Remove any slashes at the end of the URL
-$wb_url = rtrim($wb_url,'/\\');
+$wb_url = trim(str_replace('\\', '/', $wb_url), '/').'/';
 // Get the default time zone
 if(!isset($_POST['default_timezone']) OR !is_numeric($_POST['default_timezone'])) {
 	set_error('Please select a valid default timezone', 'default_timezone');
@@ -378,9 +395,9 @@ $sConfigContent =
 ."; auto generated ".date('Y-m-d h:i:s A e ')."\n"
 .";################################################\n"
 ."[Constants]\n"
-."debug     = false\n"
-."wb_url    = ".$wb_url."\n"
-."admin_directory = admin\n"
+."DEBUG   = false\n"
+."AppUrl  = ".$wb_url."\n"
+."AcpDir  = admin/\n"
 .";##########\n"
 ."[DataBase]\n"
 ."type    = \"mysql\"\n"
@@ -427,7 +444,7 @@ try{
 	}else {
 		$bTmp = @$database->doConnect($aSqlData[0], TABLE_PREFIX);
 	}
-} catch (RuntimeException $e) {
+} catch (WbDatabaseException $e) {
 	if(!file_put_contents($sConfigFile,"<?php\n")) {
 		set_error("Cannot write to the configuration file ($sSetupFile)");
 	}

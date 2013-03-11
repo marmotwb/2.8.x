@@ -103,7 +103,7 @@ function checkConfigFile ($sWbPath,$sType ) {
 			if(is_writeable($sConfigFile))
 			{
 // already installed? it's not empty
-				if ( filesize($sConfigFile) > 128)
+				if ( filesize($sConfigFile) > 100)
 				{
 					$config = '<font class="bad">Already installed? Check!</font>';
 // try to open and to write
@@ -277,7 +277,7 @@ But this solution does not guarranty a correct displaying of the content from al
 	} else {
 		$config = $sTmp;
 	}
-	$sConfigFile = preg_match('/(?:rename)/i',$config) ? $sConfigFile : 'setup.ini.php';
+	$sConfigFile = preg_match('/(?:rename)/i',$config) ? $sConfigFile : 'config.php';
 	$installFlag = $installFlag && ($sTmp == '');
 ?>
 		<tr>
