@@ -32,18 +32,20 @@
  */
 
 /* -------------------------------------------------------- */
-define('DATABASE_CLASS_LOADED', true);
+@define('DATABASE_CLASS_LOADED', true);
 
 class WbDatabase {
 
 	private static $_oInstances = array();
 
-	private $_db_handle = null; // readonly from outside
-	private $_db_name   = '';
-	private $connected  = false;
-	private $error      = '';
-	private $error_type = '';
-	private $iQueryCount= 0;
+	private $_db_handle  = null; // readonly from outside
+	private $_db_name    = '';
+	protected $sTablePrefix = '';
+	protected $sCharset     = 'utf8';
+	protected $connected    = false;
+	protected $error        = '';
+	protected $error_type   = '';
+	protected $iQueryCount  = 0;
 
 /* prevent from public instancing */
 	protected function  __construct() {}
@@ -81,6 +83,7 @@ class WbDatabase {
  * Example for SQL-Url:  'mysql://user:password@demo.de[:3306]/datenbank'
  */
 	public function doConnect($url = '') {
+		$this->connected = false;
 		if($url != '') {
 			$aIni = parse_url($url);
 			
@@ -91,22 +94,40 @@ class WbDatabase {
 			$hostport = isset($aIni['port']) ? $aIni['port'] : '3306';
 			$hostport = $hostport == '3306' ? '' : ':'.$hostport;
 			$db_name  = ltrim(isset($aIni['path']) ? $aIni['path'] : '', '/\\');
+			$sTmp = isset($aIni['query']) ? $aIni['query'] : '';
+			$aQuery = explode('&', $sTmp);
+			foreach($aQuery as $sArgument) {
+				$aArg = explode('=', $sArgument);
+				switch(strtolower($aArg[0])) {
+					case 'charset':
+						$this->sCharset = strtolower(preg_replace('/[^a-z0-9]/i', '', $aArg[1]));
+						break;
+					case 'tableprefix':
+						$this->sTablePrefix = $aArg[1];
+						break;
+					default:
+						break;
+				}
+			}
 			$this->_db_name = $db_name;
 		}else {
-			throw new RuntimeException('Missing parameter: unable to connect database');
+			throw new WbDatabaseException('Missing parameter: unable to connect database');
 		}
-		$this->_db_handle = mysql_connect($hostname.$hostport,
+		$this->_db_handle = @mysql_connect($hostname.$hostport,
 		                                  $username,
 		                                  $password);
 		if(!$this->_db_handle) {
-			throw new RuntimeException('unable to connect \''.$scheme.'://'.
+			throw new WbDatabaseException('unable to connect \''.$scheme.'://'.
 			                           $hostname.$hostport.'\'');
 		} else {
-			if(!mysql_select_db($db_name)) {
-				throw new RuntimeException('unable to select database \''.$db_name.
+			if(!@mysql_select_db($db_name)) {
+				throw new WbDatabaseException('unable to select database \''.$db_name.
 				                           '\' on \''.$scheme.'://'.
 				                           $hostname.$hostport.'\'');
 			} else {
+				if($this->sCharset) {
+					@mysql_query('SET NAMES \''.$this->sCharset.'\'');
+				}
 				$this->connected = true;
 			}
 		}
@@ -170,17 +191,15 @@ class WbDatabase {
 	public function get_error() {
 		return $this->error;
 	}
-
-	// Return escape_string
 /**
- * escape a string for use in DB
- * @param string 
- * @return string
+ * Protect class from property injections
+ * @param string name of property
+ * @param mixed value
+ * @throws WbDatabaseException
  */	
-	public function escapeString($string) {
-		return mysql_real_escape_string($string, $this->_db_handle);
+	public function __set($name, $value) {
+		throw new WbDatabaseException('tried to set a readonly or nonexisting property ['.$name.']!! ');
 	}
-
 /**
  * default Getter for some properties
  * @param string name of the Property
@@ -195,12 +214,17 @@ class WbDatabase {
 				$retval = $this->_db_handle;
 				break;
 			case 'LastInsertId':
+			case 'getLastInsertId':
 				$retval = mysql_insert_id($this->_db_handle);
 				break;
 			case 'db_name':
 			case 'DbName':
 			case 'getDbName':
 				$retval = $this->_db_name;
+				break;
+			case 'TablePrefix':
+			case 'getTablePrefix':
+				$retval = $this->sTablePrefix;			
 				break;
 			case 'getQueryCount':
 				$retval = $this->iQueryCount;
@@ -211,7 +235,23 @@ class WbDatabase {
 		endswitch;
 		return $retval;
 	} // __get()
-
+/**
+ * Escapes special characters in a string for use in an SQL statement
+ * @param string $unescaped_string
+ * @return string
+ */
+	public function escapeString($unescaped_string)
+	{
+		return mysql_real_escape_string($unescaped_string, $this->_db_handle);
+	}
+/**
+ * Last inserted Id
+ * @return bool|int false on error, 0 if no record inserted
+ */	
+	public function getLastInsertId()
+	{
+		return mysql_insert_id($this->_db_handle);
+	}
 /*
  * @param string full name of the table (incl. TABLE_PREFIX)
  * @param string name of the field to seek for
@@ -223,7 +263,6 @@ class WbDatabase {
 		$query = $this->query($sql, $this->_db_handle);
 		return ($query->numRows() != 0);
 	}
-
 /*
  * @param string full name of the table (incl. TABLE_PREFIX)
  * @param string name of the index to seek for
@@ -322,8 +361,7 @@ class WbDatabase {
      public function index_add($table_name, $index_name, $field_list, $index_type = 'KEY')
      {
         $retval = false;
-        $field_list = str_replace(' ', '', $field_list);
-        $field_list = explode(',', $field_list);
+        $field_list = explode(',', (str_replace(' ', '', $field_list)));
         $number_fields = sizeof($field_list);
         $field_list = '`'.implode('`,`', $field_list).'`';
         $index_name = $index_type == 'PRIMARY' ? $index_type : $index_name;
@@ -421,6 +459,21 @@ class WbDatabase {
 
 
 } /// end of class database
+// //////////////////////////////////////////////////////////////////////////////////// //
+/**
+ * WbDatabaseException
+ *
+ * @category     Core
+ * @package      Core_database
+ * @author       Werner v.d.Decken <wkl@isteam.de>
+ * @copyright    Werner v.d.Decken <wkl@isteam.de>
+ * @license      http://www.gnu.org/licenses/gpl.html   GPL License
+ * @version      2.9.0
+ * @revision     $Revision$
+ * @lastmodified $Date$
+ * @description  Exceptionhandler for the WbDatabase and depending classes
+ */
+class WbDatabaseException extends AppException {}
 
 define('MYSQL_SEEK_FIRST', 0);
 define('MYSQL_SEEK_LAST', -1);
@@ -469,7 +522,7 @@ class mysql {
 	}
 
 }
-
+// //////////////////////////////////////////////////////////////////////////////////// //
 /* this function is placed inside this file temporarely until a better place is found */
 /*  function to update a var/value-pair(s) in table ****************************
  *  nonexisting keys are inserted

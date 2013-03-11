@@ -114,8 +114,24 @@
 		if(is_readable($sSetupFile)) {
 			$aCfg = parse_ini_file($sSetupFile, true);
 			foreach($aCfg['Constants'] as $key=>$value) {
-				if($key == 'debug') { $value = filter_var($value, FILTER_VALIDATE_BOOLEAN); }
-				if(!defined(strtoupper($key))) { define(strtoupper($key), $value); }
+				switch($key):
+					case 'DEBUG':
+						$value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+						break;
+					case 'WB_URL':
+					case 'AppUrl':
+						$value = trim(str_replace('\\', '/', $value), '/'); 
+						if(!defined('WB_URL')) { define('WB_URL', $value); }
+						break;
+					case 'ADMIN_DIRECTORY':
+					case 'AcpDir':
+						$value = trim(str_replace('\\', '/', $value), '/'); 
+						if(!defined('ADMIN_DIRECTORY')) { define('ADMIN_DIRECTORY', $value); }
+						break;
+					default:
+						if(!defined($key)) { define($key, $value); }
+						break;
+				endswitch;
 			}
 			$db = $aCfg['DataBase'];
 			$db['type'] = isset($db['type']) ? $db['type'] : 'mysql';
@@ -135,7 +151,8 @@
 				$aRetval[2] = array( 'user' => $db['user'], 'pass' => $db['pass']);
 			}else { // $sRetvalType == 'url'
 				$aRetval[0] = $db['type'].'://'.$db['user'].':'.$db['pass'].'@'
-				            . $db['host'].($db['port'] != '' ? ':'.$db['port'] : '').'/'.$db['name'];
+				            . $db['host'].($db['port'] != '' ? ':'.$db['port'] : '').'/'.$db['name']
+				            . '?Charset='.$db['charset'].'&TablePrefix='.$db['table_prefix'];
 			}
 			unset($db, $aCfg);
 			return $aRetval;
@@ -159,7 +176,10 @@
 	}
 // load db configuration ---
 	if(defined('DB_TYPE')) {
-		$aSqlData = array( 0 => DB_TYPE.'://'.DB_USERNAME.':'.DB_PASSWORD.'@'.DB_HOST.'/'.DB_NAME);
+		$sTmp = ($sTmp=((defined('DB_PORT') && DB_PORT !='') ? DB_PORT : '')) ? ':'.$sTmp : '';
+		$sTmp = DB_TYPE.'://'.DB_USERNAME.':'.DB_PASSWORD.'@'.DB_HOST.$sTmp.'/'.DB_NAME.'?Charset=';
+		$sTmp .= (defined('DB_CHARSET') ? DB_CHARSET : '').'&TablePrefix='.TABLE_PREFIX;
+		$aSqlData = array( 0 => $sTmp);
 	}else {
 		$aSqlData = readConfiguration($sDbConnectType);
 	}
@@ -193,7 +213,7 @@
 	if($sDbConnectType == 'dsn') {
 		$bTmp = $database->doConnect($aSqlData[0], $aSqlData[1]['user'], $aSqlData[1]['pass'], $aSqlData[2]);
 	}else {
-		$bTmp = $database->doConnect($aSqlData[0], TABLE_PREFIX);
+		$bTmp = $database->doConnect($aSqlData[0]);
 	}
 	unset($aSqlData);
 // load global settings from database and define global consts from ---
@@ -316,7 +336,9 @@
 // load and activate new global translation table
 	Translate::getInstance()->initialize('en',
 										 (defined('DEFAULT_LANGUAGE') ? DEFAULT_LANGUAGE : ''), 
-										 (defined('LANGUAGE') ? LANGUAGE : '') 
+										 (defined('LANGUAGE') ? LANGUAGE : ''),
+										 'WbOldStyle',
+										 (DEBUG ? Translate::CACHE_DISABLED|Translate::KEEP_MISSING : 0)
 										);
 // *** END OF FILE ***********************************************************************
  
