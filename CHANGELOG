@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+12 Mar-2013 Build 1885 Dietmar Woellbrink (Luisehahne)
+! Install update, Split Step1+2 from the inputs Steps
+# Languages Typofix
+! check tables remove not needed tables 
 11 Mar-2013 Build 1885 Dietmar Woellbrink (Luisehahne)
 # protect magic setter to fix security issue in WbDatabase
 + additional arguments for Charset and TablePrefix in WbDatabase::doConnect

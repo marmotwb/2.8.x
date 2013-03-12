@@ -59,7 +59,7 @@ $TEXT['MENU_ICON_0_DIR']      = 'Verzeichnis Menübild normal';
 $TEXT['MENU_ICON_1']          = 'Menübild hover';
 $TEXT['MENU_ICON_1_DIR']      = 'Verzeichnis Menübild hover';
 $MESSAGE['PAGES_LAST_MODIFIED'] = 'Letze Änderung durch';
-$MESSAGE['PAGES_BLANK_SEO_TITLE'] = 'Bitte geben Sie einen Dateinameen ein';
+$MESSAGE['PAGES_BLANK_SEO_TITLE'] = 'Bitte geben Sie einen Dateinamen ein';
 
 $HELP['PAGE_IMAGE_DIR']  = '<p>Der aktuelle Seitenbildpfad ist<br /> <b>{{icon_dir}}</b>.</p>';
 $HELP['PAGE_IMAGE_DIR'] .='<p>Als Systemadministrator können Sie das Verzeichnis für Seiten-/Menuebilder unter <i>Optionen</i> <i>Erweiterte Optionen</i> in <i>Servereinstellung</i> ändern.</p>';

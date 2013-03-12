@@ -322,6 +322,8 @@ But this solution does not guarranty a correct displaying of the content from al
 			<td style="line-height: 0.4em;" colspan="4">&nbsp;</td>
 		</tr>
 		</table>
+<?php if($installFlag==true) { ?>
+	
 		<table summary="" cellpadding="3" cellspacing="0" >
 		<tr>
 			<td colspan="2" class="step-row"><h1 class="step-row">Step 3</h1>&nbsp;Please check URL settings, and select a default timezone and a default backend language...</td>
@@ -547,6 +549,8 @@ But this solution does not guarranty a correct displaying of the content from al
 			<td style="line-height: 0.4em;" colspan="2">&nbsp;</td>
 		</tr>
 		</table>
+<?php } ?>
+
 		<table summary="" cellpadding="0" cellspacing="0">
 				<tr valign="top">
 					<td><strong>Please note: &nbsp;</strong></td>

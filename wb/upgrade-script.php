@@ -74,8 +74,8 @@ if(!defined('WB_REVISION')) { define('WB_REVISION',''); }
 // database tables including in WB package
 $aPackage = array (
     'settings','groups','addons','pages','sections','search','users',
-    'mod_captcha_control','mod_code','mod_droplets',
-    'mod_jsadmin','mod_menu_link','mod_output_filter','mod_wrapper','mod_wysiwyg',
+    'mod_captcha_control','mod_jsadmin','mod_menu_link','mod_output_filter','mod_wrapper','mod_wysiwyg',
+//    'mod_code','mod_droplets',
 //    'mod_form_fields','mod_form_settings','mod_form_submissions',
 //    'mod_news_comments','mod_news_groups','mod_news_posts','mod_news_settings',
 );
