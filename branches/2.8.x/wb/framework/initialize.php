@@ -78,12 +78,12 @@
 			$x1 = parse_url(WB_URL);
 			define('WB_REL', (isset($x1['path']) ? $x1['path'] : ''));
 		}
-		define('ADMIN_REL', WB_REL.'/'.ADMIN_DIRECTORY);
+		if(!defined('ADMIN_REL')){ define('ADMIN_REL', WB_REL.'/'.ADMIN_DIRECTORY); }
 		if(!defined('DOCUMENT_ROOT')) {
 			
 			define('DOCUMENT_ROOT', preg_replace('/'.preg_quote(WB_REL, '/').'$/', '', WB_PATH));
 		}
-		define('TMP_PATH', WB_PATH.'/temp');
+		if(!defined('TMP_PATH')){ define('TMP_PATH', WB_PATH.'/temp'); }
 	}
 /**
  * Read DB settings from configuration file
@@ -117,6 +117,7 @@
 				switch($key):
 					case 'DEBUG':
 						$value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+						if(!defined('DEBUG')) { define('DEBUG', $value); }
 						break;
 					case 'WB_URL':
 					case 'AppUrl':
@@ -143,7 +144,7 @@
 			$db['name'] = isset($db['name']) ? $db['name'] : 'dummy';
 			$db['charset'] = isset($db['charset']) ? $db['charset'] : 'utf8';
 			$db['table_prefix'] = (isset($db['table_prefix']) ? $db['table_prefix'] : '');
-			define('TABLE_PREFIX', $db['table_prefix']);
+			if(!defined('TABLE_PREFIX')) { define('TABLE_PREFIX', $db['table_prefix']); }
 			if($sRetvalType == 'dsn') {
 				$aRetval[0] = $db['type'].':dbname='.$db['name'].';host='.$db['host'].';'
 				            . ($db['port'] != '' ? 'port='.(int)$db['port'].';' : '');
@@ -232,22 +233,22 @@
 			switch($sSettingName):
 				case 'STRING_FILE_MODE':
 					$iTmp = ((intval(octdec($aSetting['value'])) & ~0111)|0600);
-					define('OCTAL_FILE_MODE', $iTmp);
-					define('STRING_FILE_MODE', sprintf('0%03o', $iTmp));
+					if(!defined('OCTAL_FILE_MODE')) { define('OCTAL_FILE_MODE', $iTmp); }
+					if(!defined('STRING_FILE_MODE')) { define('STRING_FILE_MODE', sprintf('0%03o', $iTmp)); }
 					break;
 				case 'STRING_DIR_MODE':
 					$iTmp = (intval(octdec($aSetting['value'])) |0711);
-					define('OCTAL_DIR_MODE', $iTmp);
-					define('STRING_DIR_MODE', sprintf('0%03o', $iTmp));
+					if(!defined('OCTAL_DIR_MODE')) { define('OCTAL_DIR_MODE', $iTmp); }
+					if(!defined('STRING_DIR_MODE')) { define('STRING_DIR_MODE', sprintf('0%03o', $iTmp)); }
 					break;
 				case 'PAGES_DIRECTORY':
 					// sanitize pages_directory
 					$sTmp = trim($aSetting['value'], '/');
 					$sTmp = ($sTmp == '' ? '' : '/'.$sTmp);
-					define('PAGES_DIRECTORY', $sTmp);
+					if(!defined('PAGES_DIRECTORY')) { define('PAGES_DIRECTORY', $sTmp); }
 					break;
 				default: // make global const from setting
-					@define($sSettingName, $aSetting['value']);
+					if(!defined($sSettingName)) { define($sSettingName, $aSetting['value']); }
 					break;
 			endswitch;
 		}
@@ -266,23 +267,23 @@
 		define('SESSION_STARTED', true);
 	}
 // get/set users timezone ---
-	define('TIMEZONE',    (isset($_SESSION['TIMEZONE'])    ? $_SESSION['TIMEZONE']    : DEFAULT_TIMEZONE));
-	define('DATE_FORMAT', (isset($_SESSION['DATE_FORMAT']) ? $_SESSION['DATE_FORMAT'] : DEFAULT_DATE_FORMAT));
-	define('TIME_FORMAT', (isset($_SESSION['TIME_FORMAT']) ? $_SESSION['TIME_FORMAT'] : DEFAULT_TIME_FORMAT));
+	if(!defined('TIMEZONE')) { define('TIMEZONE', (isset($_SESSION['TIMEZONE']) ? $_SESSION['TIMEZONE'] : DEFAULT_TIMEZONE)); }
+	if(!defined('DATE_FORMAT')) { define('DATE_FORMAT', (isset($_SESSION['DATE_FORMAT']) ? $_SESSION['DATE_FORMAT'] : DEFAULT_DATE_FORMAT)); }
+	if(!defined('TIME_FORMAT')) { define('TIME_FORMAT', (isset($_SESSION['TIME_FORMAT']) ? $_SESSION['TIME_FORMAT'] : DEFAULT_TIME_FORMAT)); }
 // set Theme directory --- 
-	define('THEME_URL',  WB_URL.'/templates/'.DEFAULT_THEME);
-	define('THEME_PATH', WB_PATH.'/templates/'.DEFAULT_THEME);
-	define('THEME_REL',  WB_REL.'/templates/'.DEFAULT_THEME);
+	if(!defined('THEMA_URL')) { define('THEME_URL',  WB_URL.'/templates/'.DEFAULT_THEME); }
+	if(!defined('THEME_PATH')) { define('THEME_PATH', WB_PATH.'/templates/'.DEFAULT_THEME); }
+	if(!defined('THEME_REL')) { define('THEME_REL',  WB_REL.'/templates/'.DEFAULT_THEME); }
 // extended wb editor settings
-	define('EDIT_ONE_SECTION', false);
-	define('EDITOR_WIDTH', 0);
+	if(!defined('EDIT_ONE_SECTION')) { define('EDIT_ONE_SECTION', false); }
+	if(!defined('EDITOR_WIDTH')) { define('EDITOR_WIDTH', 0); }
 // define form security class and preload it ---
 	$sSecMod = (defined('SECURE_FORM_MODULE') && SECURE_FORM_MODULE != '') ? '.'.SECURE_FORM_MODULE : '';
 	$sSecMod = WB_PATH.'/framework/SecureForm'.$sSecMod.'.php';
 	require_once($sSecMod);
 // *** begin deprecated part *************************************************************
 // load settings for use in Captch and ASP module
-	if (!defined("WB_INSTALL_PROCESS")) {
+	if (!defined('WB_INSTALL_PROCESS') && !defined('ENABLED_CAPTCHA')) {
 		$sql = 'SELECT * FROM `'.TABLE_PREFIX.'mod_captcha_control`';
 		// request settings from database
 		if(($oSettings = $database->query($sql))) {
