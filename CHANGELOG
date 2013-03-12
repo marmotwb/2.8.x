@@ -11,7 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-12 Mar-2013 Build 1885 Dietmar Woellbrink (Luisehahne)
+12 Mar-2013 Build 1887 Dietmar Woellbrink (Luisehahne)
+# bugfix Notice: Constant messages during new WB installation
+! update WbDatabase SqlImport parameter, 
+12 Mar-2013 Build 1886 Dietmar Woellbrink (Luisehahne)
 ! Install update, Split Step1+2 from the inputs Steps
 # Languages Typofix
 ! check tables remove not needed tables 

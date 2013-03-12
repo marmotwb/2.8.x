@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}pages` (
   `custom01` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
   `custom02` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
   PRIMARY KEY (`page_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) {TABLE_ENGINE};
 --
 -- Structure of table  '{TABLE_PREFIX}sections'
 --
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}sections` (
   `publ_start` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '0',
   `publ_end` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '0',
   PRIMARY KEY (`section_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) {TABLE_ENGINE};
 --
 -- Structure of table  '{TABLE_PREFIX}users'
 --

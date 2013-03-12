@@ -43,26 +43,6 @@ WbAutoloader::doRegister(array('admin'=>'a', 'modules'=>'m'));
  * Set constants for system/install values
  * @throws RuntimeException
  */
-	function _SetInstallPathConstants() {
-		if(!defined('DEBUG')){ define('DEBUG', false); } // normaly set in config file
-		if(!defined('ADMIN_DIRECTORY')){ define('ADMIN_DIRECTORY', 'admin'); }
-		if(!preg_match('/xx[a-z0-9_][a-z0-9_\-\.]+/i', 'xx'.ADMIN_DIRECTORY)) {
-			throw new RuntimeException('Invalid admin-directory: ' . ADMIN_DIRECTORY);
-		}
-		if(!defined('WB_PATH')){ define('WB_PATH', dirname(dirname(__FILE__))); }
-		if(!defined('ADMIN_URL')){ define('ADMIN_URL', WB_URL.'/'.ADMIN_DIRECTORY); }
-		if(!defined('ADMIN_PATH')){ define('ADMIN_PATH', WB_PATH.'/'.ADMIN_DIRECTORY); }
-		if(!defined('WB_REL')){
-			$x1 = parse_url(WB_URL);
-			define('WB_REL', (isset($x1['path']) ? $x1['path'] : ''));
-		}
-		define('ADMIN_REL', WB_REL.'/'.ADMIN_DIRECTORY);
-		if(!defined('DOCUMENT_ROOT')) {
-			
-			define('DOCUMENT_ROOT', preg_replace('/'.preg_quote(WB_REL, '/').'$/', '', WB_PATH));
-		}
-		define('TMP_PATH', WB_PATH.'/temp');
-	}
 
 /**
  * Read DB settings from configuration file
@@ -122,7 +102,7 @@ WbAutoloader::doRegister(array('admin'=>'a', 'modules'=>'m'));
 			$db['name'] = isset($db['name']) ? $db['name'] : 'dummy';
 			$db['charset'] = isset($db['charset']) ? $db['charset'] : 'utf8';
 			$db['table_prefix'] = (isset($db['table_prefix']) ? $db['table_prefix'] : '');
-			define('TABLE_PREFIX', $db['table_prefix']);
+			if(!defined('TABLE_PREFIX')) {define('TABLE_PREFIX', $db['table_prefix']);}
 			if($sRetvalType == 'dsn') {
 				$aRetval[0] = $db['type'].':dbname='.$db['name'].';host='.$db['host'].';'
 				            . ($db['port'] != '' ? 'port='.(int)$db['port'].';' : '');
@@ -431,7 +411,13 @@ if(file_exists($sConfigFile) && is_writable($sConfigFile)) {
 $sDbConnectType = 'url'; // depending from class WbDatabase it can be 'url' or 'dsn'
 $aSqlData = _readConfiguration($sDbConnectType);
 
-_SetInstallPathConstants();
+//_SetInstallPathConstants();
+//$TABLE_PREFIX = $table_prefix;
+//$WB_PATH = (dirname(dirname(__FILE__)));
+//$ADMIN_PATH = $WB_PATH.'/admin';
+if(!defined('WB_PATH')){ define('WB_PATH', dirname(dirname(__FILE__))); }
+if(!defined('ADMIN_URL')){ define('ADMIN_URL', WB_URL.'/admin'); }
+if(!defined('ADMIN_PATH')){ define('ADMIN_PATH', WB_PATH.'/admin'); }
 
 if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 	set_error('It appears the Absolute path that you entered is incorrect');
@@ -563,6 +549,7 @@ require_once(WB_PATH.'/framework/class.admin.php');
 	if(!$database->SqlImport($sSqlFileName,TABLE_PREFIX, false)) { set_error($database->get_error()); }
 
 	require_once(WB_PATH.'/framework/initialize.php');
+// 
 // Include WB functions file
 	require_once(WB_PATH.'/framework/functions.php');
 // Re-connect to the database, this time using in-build database class

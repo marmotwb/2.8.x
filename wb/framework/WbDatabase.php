@@ -114,8 +114,8 @@ class WbDatabase {
 			throw new WbDatabaseException('Missing parameter: unable to connect database');
 		}
 		$this->_db_handle = @mysql_connect($hostname.$hostport,
-		                                  $username,
-		                                  $password);
+		                                   $username,
+		                                   $password);
 		if(!$this->_db_handle) {
 			throw new WbDatabaseException('unable to connect \''.$scheme.'://'.
 			                           $hostname.$hostport.'\'');
@@ -400,21 +400,25 @@ class WbDatabase {
  * Import a standard *.sql dump file
  * @param string $sSqlDump link to the sql-dumpfile
  * @param string $sTablePrefix
- * @param bool $bPreserve set to true will ignore all DROP TABLE statements
- * @param string $sTblEngine
- * @param string $sTblCollation
+ * @param bool     $bPreserve   set to true will ignore all DROP TABLE statements
+ * @param string   $sEngine     can be 'MyISAM' or 'InnoDB'
+ * @param string   $sCollation  one of the list of available collations
  * @return boolean true if import successful
  */
 	public function SqlImport($sSqlDump,
 	                          $sTablePrefix = '',
-	                          $bPreserve = true,
-	                          $sTblEngine = 'ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci',
-	                          $sTblCollation = ' collate utf8_unicode_ci')
+	                          $bPreserve    = true,
+	                          $sEngine      = 'MyISAM',
+	                          $sCollation   = 'utf8_unicode_ci')
 	{
+		$sCollation = ($sCollation != '' ? $sCollation : 'utf8_unicode_ci');
+		$aCharset = preg_split('/_/', $sCollation, null, PREG_SPLIT_NO_EMPTY);
+		$sEngine = 'ENGINE='.$sEngine.' DEFAULT CHARSET='.$aCharset[0].' COLLATE='.$sCollation;
+		$sCollation = ' collate '.$sCollation;
 		$retval = true;
 		$this->error = '';
 		$aSearch  = array('{TABLE_PREFIX}','{TABLE_ENGINE}', '{TABLE_COLLATION}');
-		$aReplace = array($sTablePrefix, $sTblEngine, $sTblCollation);
+		$aReplace = array($this->sTablePrefix, $sEngine, $sCollation);
 		$sql = '';
 		$aSql = file($sSqlDump);
 		while ( sizeof($aSql) > 0 ) {
