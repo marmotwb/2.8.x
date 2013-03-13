@@ -206,18 +206,20 @@ class SM2_Formatter
     // find and replace all keywords
     function format2(&$aCurrItem) {
         if (!is_string($aCurrItem)) return '';
-        return preg_replace(
+        return preg_replace_callback(
             '@\[('.
                 'a|ac|/a|li|/li|ul|/ul|menu_title|menu_icon_0|menu_icon_1|'.
-				'page_title|page_icon|url|target|page_id|tooltip|'.
+		        'page_title|page_icon|url|target|page_id|tooltip|'.
                 'parent|level|sib|sibCount|class|description|keywords|'.
                 SM2_CONDITIONAL.
-            ')\]@e', 
-            '$this->replace("\1")', $aCurrItem);
+            ')\]@',
+            array($this, 'replace'),
+            $aCurrItem);
     }
     
     // replace the keywords
-    function replace($aMatch) {
+    function replace($aMatches) {
+        $aMatch = $aMatches[1];
         $retval = '['.$aMatch.'=UNKNOWN]';
         switch ($aMatch) {
         case 'a':
@@ -847,4 +849,3 @@ function sm2_recurse(
         $aFormatter->finishList();
     }
 }
-
