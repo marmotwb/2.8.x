@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+12 Mar-2013 Build 1888 Dietmar Woellbrink (Luisehahne)
+# fixed Deprecated: preg_replace(): modules\show_menu2\include.php
+  The /e modifier is deprecated, replaced with preg_replace_callback 
 12 Mar-2013 Build 1887 Dietmar Woellbrink (Luisehahne)
 # bugfix Notice: Constant messages during new WB installation
 ! update WbDatabase SqlImport parameter, 
