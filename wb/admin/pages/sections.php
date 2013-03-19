@@ -213,13 +213,21 @@ switch ($action):
 		{
 			require($template_location);
 		}
-		// Check if $menu is set
-		if(!isset($block[1]) || $block[1] == '')
-		{
-			// Make our own menu list
-			$block[1] = $TEXT['MAIN'];
+ // check block settings from template/info.php
+	if(isset($block) && is_array($block) && sizeof($block) > 0) {
+		if(isset($block[0])) {
+		throw new AppException('Invalid index 0 for $block[] in '.str_replace(WB_PATH,'',$template_location).'. '
+		                     . 'The list must start with $block[1]. Please correct it!');
 		}
-
+		foreach($block as $iIndex=>$sBlockTitle) {
+			if(trim($sBlockTitle) == '' ) {
+			 $block[$iIndex] = $TEXT['BLOCK'].'_'.$iIndex;
+			}
+		}
+	}else {
+		// Make our own menu list
+		$block = array(1, $TEXT['MAIN']);
+	}
 		/*-- load css files with jquery --*/
 		// include jscalendar-setup
 		$jscal_use_time = true; // whether to use a clock, too

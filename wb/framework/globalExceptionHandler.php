@@ -36,7 +36,7 @@
 				$result .= print_r($trace, true)."\n";
 				$result .= '</pre>'."\n";
 			}else {
-				$result = 'Exception: "'.$this->getMessage().'" in ['.$file.']<br />'."\n";
+				$result = 'Exception: "'.$this->getMessage().'" >> Exception detected in: ['.$file.']<br />'."\n";
 			}
 			return $result;
 		}
