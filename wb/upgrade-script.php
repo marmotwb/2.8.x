@@ -763,14 +763,12 @@ if(version_compare(WB_REVISION, REVISION, '<='))
         if($oUser = $database->query($sql)){
             $iTotalUsers = $oUser->numRows();
             while($Users = $oUser->fetchRow(MYSQL_ASSOC)) {
-
                 $aUsers[$Users['user_id']]['groups_id'] = $Users['groups_id'];
                 $aUsers[$Users['user_id']]['display_name'] = $Users['display_name'];
             }
         } else {
             $aDebugMessage[] = $database->is_error()==false ? " $OK<br />" : " $FAIL!<br />";
         }
-
         foreach($aUsers AS $user_id => $value){
                 // choose group_id from groups_id - workaround for still remaining calls to group_id (to be cleaned-up)
                 $aGroups_id = explode(',', $aUsers[$user_id]['groups_id']);
@@ -778,13 +776,11 @@ if(version_compare(WB_REVISION, REVISION, '<='))
                 $group_id = 0;
                 //if user is in administrator-group, get this group else just get the first one
                 if($admin->is_group_match($aGroups_id,'1')) { $group_id = 1; $groups_id = '1'; } else { $group_id = intval($aGroups_id[0]); }
-
                 $sMessage = "<span>Updating group_id ".$TEXT['DISPLAY_NAME']." " .$aUsers[$user_id]['display_name']."</span>";
                 $sql  = 'UPDATE `'.TABLE_PREFIX.'users` ';
                 $sql .= 'SET `group_id`  = '.$group_id.', ';
                 $sql .=     '`groups_id` = \''.$groups_id.'\' ';
                 $sql .= 'WHERE `user_id` = '.intval($user_id);
-
                 if($oRes = $database->query($sql)){  }
                 $aDebugMessage[] = $database->is_error()==false ? $sMessage." $OK<br />" : $sMessage." $FAIL!<br />";
         }
@@ -969,8 +965,7 @@ echo '<div style="margin-left:2em;">';
 	 * upgrade modules if newer version is available
 	 * $aModuleList list of proofed modules
 	 */
-//	$aModuleList = array('wysiwyg','news','form','captcha_control','output_filter');
-	$aModuleList = array('wysiwyg','form','code');
+	$aModuleList = array('wysiwyg','form','code','captcha_control');
 	if(sizeof($aModuleList)) 
 	{
 		echo '<h3>Step '.(++$stepID).': Upgrade proofed modules</h3>';

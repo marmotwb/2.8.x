@@ -4,7 +4,7 @@
  * @category        modules
  * @package         captcha_control
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link            http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -59,9 +59,8 @@ if(isset($_POST['save_settings'])) {
 	}
 
 
-	// update database settings
-
-    $sql  = 'UPDATE '.$table.' ';
+// update/insert database settings
+	$sql  = 'UPDATE `'.$table.'` ';
     $sql .= 'SET `enabled_captcha` = \''.$enabled_captcha.'\', ';
     $sql .=     '`enabled_asp` = \''.$enabled_asp.'\', ';
     $sql .=     '`captcha_type` = \''.$captcha_type.'\', ';
@@ -71,8 +70,6 @@ if(isset($_POST['save_settings'])) {
     $sql .=     '`ct_text` =\''.$ct_text.'\' ';
 
     if(!$database->query($sql)) {
-    //    print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
-    //    print_r( explode(',',$sql) ); print '</pre>'; // flush ();sleep(10); die();
     }
 
 	// check if there is a database error, otherwise say successful
