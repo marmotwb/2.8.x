@@ -369,7 +369,7 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
  */
 	$aMissingTables = UpgradeHelper::existsAllTables($aPackage);
 	if( sizeof($aMissingTables) == 0){
-        echo '<h4 style="margin-left:0;">NOTICE: '.sizeof($aPackage).' total tables included in package are successful installed your database `'.$database->DbName.'` '.$OK.'</h4>';
+        echo '<h4 style="margin-left:0;">NOTICE: '.sizeof($aPackage).' total tables included in package are successfully installed into your database `'.$database->DbName.'` '.$OK.'</h4>';
     } else {
         status_msg('<strong>:</strong><br />can\'t run Upgrade, missing tables', 'warning', 'div');
         echo '<h4>Missing required tables. You can install them in backend->addons->modules.<br />';
@@ -397,133 +397,138 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
         </body>
         </html>";
 
-        exit();
-    }
+		exit();
+	}
 
 echo '<h3>Step '.(++$stepID).': Setting default_theme</h3>';
 $aDebugMessage = array();
-    /**********************************************************
-     *  - Adding field default_theme to settings table
-     */
-    $aDebugMessage[] = '<div style="margin-left:2em;">';
-    $aDebugMessage[] = "<br /><span><strong>Adding default_theme to settings table</strong></span>";
-    // db_update_key_value('settings', 'default_theme', $DEFAULT_THEME);
-    $cfg = array(
-    	'default_theme' => defined('DEFAULT_THEME')&& (DEFAULT_THEME!='') ? DEFAULT_THEME : $DEFAULT_THEME
-    );
-    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
-    $aDebugMessage[] = '</div>';
+	/**********************************************************
+	 *  - Adding field default_theme to settings table
+	 */
+	$aDebugMessage[] = '<div style="margin-left:2em;">';
+	$aDebugMessage[] = "<br /><span><strong>Adding default_theme to settings table</strong></span>";
+	// db_update_key_value('settings', 'default_theme', $DEFAULT_THEME);
+	$cfg = array(
+		'default_theme' => defined('DEFAULT_THEME')&& (DEFAULT_THEME!='') ? DEFAULT_THEME : $DEFAULT_THEME
+	);
+	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$aDebugMessage[] = '</div>';
 
 if($bDebugModus) {
-    echo implode(PHP_EOL,$aDebugMessage);
+	echo implode(PHP_EOL,$aDebugMessage);
 }
 $aDebugMessage = array();
 echo'<h3>Step '.(++$stepID).': Updating core table included in package</h3>';
-    /**********************************************************
-     *  - Adding field sec_anchor to settings table
-     */
-    echo '<div style="margin-left:2em;">';
-    echo "<h4>Adding/updating entries on table settings</h4>";
-    $aDebugMessage[] = "<span>Adding/updating sec_anchor to settings table</span>";
-    $cfg = array(
-    	'sec_anchor' => defined('SEC_ANCHOR')&& (SEC_ANCHOR!='') ? SEC_ANCHOR : 'section_'
-    );
-   $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	/**********************************************************
+	 *  - Adding field sec_anchor to settings table
+	 */
+	echo '<div style="margin-left:2em;">';
+	echo "<h4>Adding/updating entries on table settings</h4>";
+	$aDebugMessage[] = "<span>Adding/updating sec_anchor to settings table</span>";
+	$cfg = array(
+		'sec_anchor' => defined('SEC_ANCHOR')&& (SEC_ANCHOR!='') ? SEC_ANCHOR : 'section_'
+	);
+	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-    /**********************************************************
-     *  - Adding redirect timer to settings table
-     */
-    $aDebugMessage[] = "<span>Adding/updating redirect timer to settings table</span>";
-    $cfg = array(
-    	'redirect_timer' => defined('REDIRECT_TIMER')&& (REDIRECT_TIMER!='') ? REDIRECT_TIMER : '1500'
-    );
-    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	/**********************************************************
+	 *  - Adding redirect timer to settings table
+	 */
+	$aDebugMessage[] = "<span>Adding/updating redirect timer to settings table</span>";
+	$cfg = array(
+		'redirect_timer' => defined('REDIRECT_TIMER')&& (REDIRECT_TIMER!='') ? REDIRECT_TIMER : '1500'
+	);
+	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-    /**********************************************************
-     *  - Adding default_time_formatr to settings table
-     */
-    $aDebugMessage[] = "<span>Adding/updating default_time_format to settings table</span>";
-    $cfg = array(
-    	'default_time_format' => defined('DEFAULT_TIME_FORMAT')&& (DEFAULT_TIME_FORMAT!='') ? DEFAULT_TIME_FORMAT : 'h:i A'
-    );
-    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	/**********************************************************
+	 *  - Adding default_time_formatr to settings table
+	 */
+	$aDebugMessage[] = "<span>Adding/updating default_time_format to settings table</span>";
+	$cfg = array(
+		'default_time_format' => defined('DEFAULT_TIME_FORMAT')&& (DEFAULT_TIME_FORMAT!='') ? DEFAULT_TIME_FORMAT : 'h:i A'
+	);
+	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-    /**********************************************************
-     *  - Adding rename_files_on_upload to settings table
-     */
-    $aDebugMessage[] = "<span>Adding/Updating rename_files_on_upload to settings table</span>";
-    $cfg = array(
-        'rename_files_on_upload' => (defined('RENAME_FILES_ON_UPLOAD')&& (RENAME_FILES_ON_UPLOAD!='') ? RENAME_FILES_ON_UPLOAD : 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js')
-    );
-    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	/**********************************************************
+	 *  - Adding rename_files_on_upload to settings table
+	 */
+	$aDebugMessage[] = "<span>Adding/Updating rename_files_on_upload to settings table</span>";
+	$cfg = array(
+	    'rename_files_on_upload' => (defined('RENAME_FILES_ON_UPLOAD')&& (RENAME_FILES_ON_UPLOAD!='') ? RENAME_FILES_ON_UPLOAD : 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js')
+	);
+	if( version_compare( WB_VERSION, '2.8.2', '<' )) {
+		$cfg = array(
+		    'rename_files_on_upload' => 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js'
+		);
+	}
+	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-    /**********************************************************
-     *  - Adding mediasettings to settings table
-     */
-    $aDebugMessage[] = "<span>Adding/updating mediasettings to settings table</span>";
-    $cfg = array(
-    	'mediasettings' => (defined('MEDIASETTINGS')&& (MEDIASETTINGS!='') ? MEDIASETTINGS : ''),
-    );
+	/**********************************************************
+	 *  - Adding mediasettings to settings table
+	 */
+	$aDebugMessage[] = "<span>Adding/updating mediasettings to settings table</span>";
+	$cfg = array(
+		'mediasettings' => (defined('MEDIASETTINGS')&& (MEDIASETTINGS!='') ? MEDIASETTINGS : ''),
+	);
 
-    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-    /**********************************************************
-     *  - Adding fingerprint_with_ip_octets to settings table
-     */
-    $aDebugMessage[] = "<span>Adding/updating fingerprint_with_ip_octets to settings table</span>";
-    $cfg = array(
-    	'fingerprint_with_ip_octets' => (defined('FINGERPRINT_WITH_IP_OCTETS') ? FINGERPRINT_WITH_IP_OCTETS : '2'),
-    	'secure_form_module' => (defined('SECURE_FORM_MODULE') ? SECURE_FORM_MODULE : '')
-    );
+	/**********************************************************
+	 *  - Adding fingerprint_with_ip_octets to settings table
+	 */
+	$aDebugMessage[] = "<span>Adding/updating fingerprint_with_ip_octets to settings table</span>";
+	$cfg = array(
+		'fingerprint_with_ip_octets' => (defined('FINGERPRINT_WITH_IP_OCTETS') ? FINGERPRINT_WITH_IP_OCTETS : '2'),
+		'secure_form_module' => (defined('SECURE_FORM_MODULE') ? SECURE_FORM_MODULE : '')
+	);
 
-    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-    /**********************************************************
-     *  - Adding page_icon_dir to settings table
-     */
-    $aDebugMessage[] = "<span>Adding/updating page_icon_dir to settings table</span>";
-    $cfg = array(
-    	'page_icon_dir' => (defined('PAGE_ICON_DIR')&& (PAGE_ICON_DIR!='') ? PAGE_ICON_DIR : '/templates/*/title_images'),
-    );
+	/**********************************************************
+	 *  - Adding page_icon_dir to settings table
+	 */
+	$aDebugMessage[] = "<span>Adding/updating page_icon_dir to settings table</span>";
+	$cfg = array(
+		'page_icon_dir' => (defined('PAGE_ICON_DIR')&& (PAGE_ICON_DIR!='') ? PAGE_ICON_DIR : '/templates/*/title_images'),
+	);
 
-    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
-    /**********************************************************
-     *  - Adding page_extended to settings table
-     */
-    $aDebugMessage[] = "<span>Adding/updating page_extendet to settings table</span>";
-    $cfg = array(
-    	'page_extendet' => (defined('PAGE_EXTENDET') ? PAGE_EXTENDET : 'true'),
-    );
+	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	/**********************************************************
+	 *  - Adding page_extended to settings table
+	 */
+	$aDebugMessage[] = "<span>Adding/updating page_extendet to settings table</span>";
+	$cfg = array(
+		'page_extendet' => (defined('PAGE_EXTENDET') ? PAGE_EXTENDET : 'true'),
+	);
 
-    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-    /**********************************************************
-     *  - Adding wbmail_signature to settings table
-     */
-    $aDebugMessage[] = "<span>Adding/updating wbmail_signature to settings table</span>";
-    $cfg = array(
-    	'wbmail_signature' => (defined('WBMAIL_SIGNATURE')&& (WBMAIL_SIGNATURE!='') ? WBMAIL_SIGNATURE : '')
-    );
+	/**********************************************************
+	 *  - Adding wbmail_signature to settings table
+	 */
+	$aDebugMessage[] = "<span>Adding/updating wbmail_signature to settings table</span>";
+	$cfg = array(
+		'wbmail_signature' => (defined('WBMAIL_SIGNATURE')&& (WBMAIL_SIGNATURE!='') ? WBMAIL_SIGNATURE : '')
+	);
 
-    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-    /**********************************************************
-     *  - Adding confirmed_registration to settings table
-     */
-    $aDebugMessage[] = "<span>Adding/updating confirmed_registration to settings table</span>";
-    $cfg = array(
-    	'confirmed_registration' => (defined('CONFIRMED_REGISTRATION') ? CONFIRMED_REGISTRATION : '0')
-    );
+	/**********************************************************
+	 *  - Adding confirmed_registration to settings table
+	 */
+	$aDebugMessage[] = "<span>Adding/updating confirmed_registration to settings table</span>";
+	$cfg = array(
+		'confirmed_registration' => (defined('CONFIRMED_REGISTRATION') ? CONFIRMED_REGISTRATION : '0')
+	);
 
-    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
-    /**********************************************************
-     *  - Adding dev_infos to settings table
-     */
-    $aDebugMessage[] = "<span>Adding/updating dev_infos to settings table</span>";
-    $cfg = array(
-    	'dev_infos' => (defined('DEV_INFOS') ? DEV_INFOS : 'false')
-    );
+	/**********************************************************
+	 *  - Adding dev_infos to settings table
+	 */
+	$aDebugMessage[] = "<span>Adding/updating dev_infos to settings table</span>";
+	$cfg = array(
+		'dev_infos' => (defined('DEV_INFOS') ? DEV_INFOS : 'false')
+	);
 
     $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
@@ -535,38 +540,24 @@ echo '</div>';
 $aDebugMessage = array();
 if(version_compare(WB_REVISION, REVISION, '<='))
 {
-    echo '<div style="margin-left:2em;">';
+	echo '<div style="margin-left:2em;">';
 	/**********************************************************
 	 *  - Update search no results database filed to create
 	 *  valid XHTML if search is empty
 	 */
 	if (version_compare(WB_VERSION, '2.8', '<'))
 	{
-        echo "<h4>Adding/updating fields on table search</h4>";
-	    echo "Updating database field `no_results` on search table: ";
-	    $search_no_results = addslashes('<tr><td><p>[TEXT_NO_RESULTS]</p></td></tr>');
-	    $sql  = 'UPDATE `'.TABLE_PREFIX.'search` ';
+		echo "<h4>Adding/updating fields on table search</h4>";
+		echo "Updating database field `no_results` on search table: ";
+		$search_no_results = addslashes('<tr><td><p>[TEXT_NO_RESULTS]</p></td></tr>');
+		$sql  = 'UPDATE `'.TABLE_PREFIX.'search` ';
 		$sql .= 'SET `value`=\''.$search_no_results.'\' ';
 		$sql .= 'WHERE `name`=\'no_results\'';
-	    echo ($database->query($sql)) ? " $OK<br />" : " $FAIL!<br />";
+		echo ($database->query($sql)) ? " $OK<br />" : " $FAIL!<br />";
 	}
 
-	echo "<h4>Adding/updating field on table mod_menu_link</h4>";
-	/**********************************************************
-     *  - Add field "redirect_type" to table "mod_menu_link"
-     *  has to be moved later to upgrade.php in modul menu_link, because modul can be removed
-     */
-	$table_name = TABLE_PREFIX.'mod_menu_link';
-	$field_name = 'redirect_type';
-	$description = "INT NOT NULL DEFAULT '301' AFTER `target_page_id`";
-	add_modify_field_in_database($table_name,$field_name,$description);
-
-    if($bDebugModus) {
-        echo implode(PHP_EOL,$aDebugMessage);
-    }
-
-    $aDebugMessage = array();
-    echo "<h4>Adding/updating field on table pages</h4>";
+	$aDebugMessage = array();
+	echo "<h4>Adding/updating field on table pages</h4>";
 	/**********************************************************
 	 *  - Add field "page_trail" to table "pages"
 	 */
@@ -576,12 +567,12 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 	add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
-     *  - Add field "page_icon" to table "pages"
-     */
+	 *  - Add field "page_icon" to table "pages"
+	 */
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'page_icon';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `page_title`";
-    add_modify_field_in_database($table_name,$field_name,$description);
+	add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
 	 *  - Add field "page_code" to table "pages"
@@ -589,39 +580,39 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'page_code';
 	$description = "INT NOT NULL DEFAULT '0' AFTER `language`";
-    add_modify_field_in_database($table_name,$field_name,$description);
+	add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
-     *  - Add field "menu_icon_0" to table "pages"
-     */
+	 *  - Add field "menu_icon_0" to table "pages"
+	 */
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'menu_icon_0';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `menu_title`";
-    add_modify_field_in_database($table_name,$field_name,$description);
+	add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
 	 *  - Add field "menu_icon_1" to table "pages"
-     */
+	 */
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'menu_icon_1';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `menu_icon_0`";
-    add_modify_field_in_database($table_name,$field_name,$description);
+	add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
 	 *  - Add field "tooltip" to table "pages"
-     */
+	 */
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'tooltip';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '' AFTER `menu_icon_1`";
-    add_modify_field_in_database($table_name,$field_name,$description);
+	add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
 	 *  - Add field "admin_groups" to table "pages"
-     */
+	 */
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'admin_groups';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '1'";
-    add_modify_field_in_database($table_name,$field_name,$description);
+	add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
 	 *  - Add field "admin_users" to table "pages"
@@ -629,7 +620,7 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'admin_users';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT ''";
-    add_modify_field_in_database($table_name,$field_name,$description);
+	add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
 	 *  - Add field "viewing_groups" to table "pages"
@@ -637,9 +628,7 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'viewing_groups';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT '1'";
-//	echo "<span>Modify field viewing_groups to pages table</span>";
-//	echo ($database->field_modify($table_name, $field_name, $description) ? " $OK<br />" : " $FAIL!<br />");
-    add_modify_field_in_database($table_name,$field_name,$description);
+	 add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
 	 *  - Add field "viewing_users" to table "pages"
@@ -647,33 +636,33 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'viewing_users';
 	$description = "VARCHAR( 512 ) NOT NULL DEFAULT ''";
-    add_modify_field_in_database($table_name,$field_name,$description);
+	add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
-     *  - Add field "custom01" to table "pages"
-     */
+	 *  - Add field "custom01" to table "pages"
+	 */
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'custom01';
 	$description = "VARCHAR( 255 ) NOT NULL DEFAULT '' ";
-    add_modify_field_in_database($table_name,$field_name,$description);
+	add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
-     *  - Add field "custom02" to table "pages"
-     */
+	 *  - Add field "custom02" to table "pages"
+	 */
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'custom02';
 	$description = "VARCHAR( 255 ) NOT NULL DEFAULT '' ";
-    add_modify_field_in_database($table_name,$field_name,$description);
+	add_modify_field_in_database($table_name,$field_name,$description);
 
-    if($bDebugModus) {
-        echo implode(PHP_EOL,$aDebugMessage);
-    }
+	if($bDebugModus) {
+		echo implode(PHP_EOL,$aDebugMessage);
+	}
 
 	$aDebugMessage = array();
 	/**********************************************************
-     * modify wrong strucre on table sections
-     * wrong structure let crash wb
-     */
+	 * modify wrong strucre on table sections
+	 * wrong structure let crash wb
+	 */
 	echo "<h4>Change field structure on table sections</h4>";
 	$table_name = TABLE_PREFIX.'sections';
 	$description = "VARCHAR( 255 ) NOT NULL DEFAULT ''";
@@ -688,16 +677,16 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 	$aDebugMessage[] = "<span>Modify field publ_end on sections table</span>";
 	$aDebugMessage[] = ($database->field_modify($table_name, 'publ_end', $description) ? " $OK<br />" : " $FAIL!<br />");
 
-    if($bDebugModus) {
-        echo implode(PHP_EOL,$aDebugMessage);
-    }
-    echo '</div>';
+	if($bDebugModus) {
+		echo implode(PHP_EOL,$aDebugMessage);
+	}
+	echo '</div>';
 }
 
 if(version_compare(WB_REVISION, REVISION, '<='))
 {
-    $aDebugMessage = array();
-    echo '<h3>Step '.(++$stepID).': Updating structure in table users/groups</h3>';
+	$aDebugMessage = array();
+	echo '<h3>Step '.(++$stepID).': Updating structure in table users/groups</h3>';
 	/**********************************************************
 	 * Modify Administrator on groups table
 	 */
@@ -717,46 +706,44 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 	$sql .= '`module_permissions` = \''.$sModulePermissions.'\', ';
 	$sql .= '`template_permissions` = \''.$sTemplatePermissions.'\' ';
 	$sql .= 'WHERE `group_id` = \'1\' ';
-    $aDebugMessage[] = ($database->query($sql)) ? " $OK<br />" : " $FAIL!<br />";
-    if( ($admin->is_authenticated() == true) && ($admin->ami_group_member('1') ) ) {
-        $_SESSION['SYSTEM_PERMISSIONS'] = array_merge($_SESSION['SYSTEM_PERMISSIONS'], explode(',', $sSystemPermissions));
-    }
+	$aDebugMessage[] = ($database->query($sql)) ? " $OK<br />" : " $FAIL!<br />";
+	if( ($admin->is_authenticated() == true) && ($admin->ami_group_member('1') ) ) {
+	    $_SESSION['SYSTEM_PERMISSIONS'] = array_merge($_SESSION['SYSTEM_PERMISSIONS'], explode(',', $sSystemPermissions));
+	}
 
-    if($bDebugModus) {
-        echo implode(PHP_EOL,$aDebugMessage);
-    }
-    echo '</div>';
-    $aDebugMessage = array();
-    /**********************************************************
+	if($bDebugModus) {
+		echo implode(PHP_EOL,$aDebugMessage);
+	}
+	echo '</div>';
 	$aDebugMessage = array();
 	/**********************************************************
- *   `confirm_code` VARCHAR(32) NOT NULL DEFAULT '',
- *   `confirm_timeout` INT(11) NOT NULL DEFAULT '0',
- */
+	 *   `confirm_code` VARCHAR(32) NOT NULL DEFAULT '',
+	 *   `confirm_timeout` INT(11) NOT NULL DEFAULT '0',
+	 */
 	echo '<div style="margin-left:2em;">';
 	echo "<h4>Change field structure on table users</h4>";
 	$table_name = TABLE_PREFIX.'users';
 	$field_name = 'confirm_code';
 	$description = "VARCHAR( 32 ) NOT NULL DEFAULT '' AFTER `password` ";
-    add_modify_field_in_database($table_name,$field_name,$description);
+	add_modify_field_in_database($table_name,$field_name,$description);
 
 	$table_name = TABLE_PREFIX.'users';
 	$field_name = 'confirm_timeout';
 	$description = "INT(11) NOT NULL DEFAULT '0' AFTER `confirm_code` ";
-    add_modify_field_in_database($table_name,$field_name,$description);
+	add_modify_field_in_database($table_name,$field_name,$description);
 
-    if($bDebugModus) {
-        echo implode(PHP_EOL,$aDebugMessage);
-    }
-    echo '</div>';
+	if($bDebugModus) {
+	    echo implode(PHP_EOL,$aDebugMessage);
+	}
+	echo '</div>';
 
-    $aDebugMessage = array();
-   /**********************************************************
-    * Updating group_id in table users
-    */
+	$aDebugMessage = array();
+	/**********************************************************
+	* Updating group_id in table users
+	*/
 	echo '<div style="margin-left:2em;">';
 	echo "<h4>Updating users groups permissions on table groups</h4>";
-        $aUsers = array();
+	    $aUsers = array();
 		// Get existing values
         $sql  = 'SELECT * FROM `'.TABLE_PREFIX.'users` ' ;
         $sql .= 'WHERE `user_id` != 1 ';
@@ -785,33 +772,33 @@ if(version_compare(WB_REVISION, REVISION, '<='))
                 $aDebugMessage[] = $database->is_error()==false ? $sMessage." $OK<br />" : $sMessage." $FAIL!<br />";
         }
         unset($aUsers);
-    $aDebugMessage[] = '</div>';
+	$aDebugMessage[] = '</div>';
 
-    if($bDebugModus) {
-    // $aDebugMessage[] =
-        echo implode(PHP_EOL,$aDebugMessage);
-    }else {
-        echo '<span><strong>'.$iTotalUsers.' users updating the groups</strong></span>'." $OK<br />";
-        echo '</div>';
-    }
+	if($bDebugModus) {
+	// $aDebugMessage[] =
+	    echo implode(PHP_EOL,$aDebugMessage);
+	}else {
+	    echo '<span><strong>'.$iTotalUsers.' users updating the groups</strong></span>'." $OK<br />";
+	    echo '</div>';
+	}
 }
 
 $aDebugMessage = array();
 echo '<h3>Step '.(++$stepID).': Updating access and protected files in folders</h3>';
 
 echo '<div style="margin-left:2em;">';
-    /**********************************************************
-    * upgrade media directory index protect files
-    */
-    $dir = (WB_PATH.MEDIA_DIRECTORY);
-    echo '<h4>Upgrade media directory '.MEDIA_DIRECTORY.'/ index.php protect files</h4>';
-    $aDebugMessage = rebuildFolderProtectFile($dir);
-    if( sizeof( $aDebugMessage ) ){
-    	echo '<span><strong>Upgrade '.sizeof( $aDebugMessage ).' directory '.MEDIA_DIRECTORY.'/ protect files</strong></span>'." $OK<br />";
-    } else {
-    	echo '<span><strong>Upgrade directory '.MEDIA_DIRECTORY.'/ protect files</strong></span>'." $FAIL!<br />";
-    	echo implode ('<br />',$aDebugMessage);
-    }
+	/**********************************************************
+	* upgrade media directory index protect files
+	*/
+	$dir = (WB_PATH.MEDIA_DIRECTORY);
+	echo '<h4>Upgrade media directory '.MEDIA_DIRECTORY.'/ index.php protect files</h4>';
+	$aDebugMessage = rebuildFolderProtectFile($dir);
+	if( sizeof( $aDebugMessage ) ){
+		echo '<span><strong>Upgrade '.sizeof( $aDebugMessage ).' directory '.MEDIA_DIRECTORY.'/ protect files</strong></span>'." $OK<br />";
+	} else {
+		echo '<span><strong>Upgrade directory '.MEDIA_DIRECTORY.'/ protect files</strong></span>'." $FAIL!<br />";
+		echo implode ('<br />',$aDebugMessage);
+	}
 
     $aDebugMessage = array();
     /**********************************************************
@@ -965,7 +952,9 @@ echo '<div style="margin-left:2em;">';
 	 * upgrade modules if newer version is available
 	 * $aModuleList list of proofed modules
 	 */
-	$aModuleList = array('wysiwyg','form','code','captcha_control','output_filter');
+	$aModuleList = array(
+	              'captcha_control','code','form','menu_link',
+	              'output_filter','wysiwyg');
 	if(sizeof($aModuleList)) 
 	{
 		echo '<h3>Step '.(++$stepID).': Upgrade proofed modules</h3>';
