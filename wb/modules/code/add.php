@@ -15,13 +15,12 @@
  *
  */
 
-// Must include code to stop this file being access directly
 /* -------------------------------------------------------- */
-if(defined('WB_PATH') == false)
-{
-	// Stop this file being access directly
-		die('<head><title>Access denied</title></head><body><h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2></body></html>');
-}
-/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+if(!defined('WB_PATH')) {
+	require_once(dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
+} else {
 // Insert an extra row into the database
 $database->query("INSERT INTO ".TABLE_PREFIX."mod_code (page_id,section_id) VALUES ('$page_id','$section_id')");
+}

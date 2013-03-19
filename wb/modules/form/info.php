@@ -24,7 +24,7 @@ if(!defined('WB_URL')) {
 $module_directory = 'form';
 $module_name = 'Form';
 $module_function = 'page';
-$module_version = '2.9.1';
+$module_version = '2.9.2';
 $module_platform = '2.8.4';
 $module_author = 'Ryan Djurovich & Rudolph Lartey - additions John Maats - PCWacht, dev-team';
 $module_license = 'GNU General Public License';

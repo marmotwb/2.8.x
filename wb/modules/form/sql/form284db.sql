@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}mod_form_settings` (
   `footer` text{TABLE_COLLATION} NOT NULL,
   `email_to` text{TABLE_COLLATION} NOT NULL,
   `email_from` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `email_fromname` varchar(255{TABLE_COLLATION}) NOT NULL DEFAULT '',
+  `email_fromname` varchar(255){TABLE_COLLATION}) NOT NULL DEFAULT '',
   `email_subject` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
   `success_page` text{TABLE_COLLATION} NOT NULL,
   `success_email_to` text{TABLE_COLLATION} NOT NULL,

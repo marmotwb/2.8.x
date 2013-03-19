@@ -22,7 +22,7 @@ if(!defined('WB_PATH')) {
 } else {
 	// Create table
 
-$database->SqlImport(dirname(__FILE__).'/sql/mod_wysiwyg.sql',TABLE_PREFIX,false);
+$database->SqlImport(dirname(__FILE__).'/sql/mod_wysiwyg.sql','',false);
 
 // remove old version of search (deprecated)
 

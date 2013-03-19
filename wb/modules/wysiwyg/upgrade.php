@@ -5,12 +5,12 @@
  * @package         wysiwyg
  * @author          WebsiteBaker Project
  * @copyright       2009-2012, Website Baker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @link            http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.3
  * @requirements    PHP 5.2.2 and higher
- * @version      	$Id$
- * @filesource		$HeadURL$
+ * @version         $Id$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -22,67 +22,92 @@ if(!defined('WB_PATH')) {
 }
 /* -------------------------------------------------------- */
 
-if(!function_exists('mod_wysiwyg_upgrade'))
-{
-	function mod_wysiwyg_upgrade () {
-		global $database,$bDebugModus;
+	function mod_wysiwyg_upgrade ($bDebug=false) {
+		global $OK ,$FAIL;
+		$database=WbDatabase::getInstance();
+		$msg = array();
 		$callingScript = $_SERVER["SCRIPT_NAME"];
 		// check if upgrade startet by upgrade-script to echo a message
 		$tmp = 'upgrade-script.php';
 		$globalStarted = substr_compare($callingScript, $tmp,(0-strlen($tmp)),strlen($tmp)) === 0;
-
-		$msg = array();
+// check for missing tables, if true stop the upgrade
 		$aTable = array('mod_wysiwyg');
-		for($x=0; $x<sizeof($aTable);$x++) {
-			if(($sOldType = $database->getTableEngine(TABLE_PREFIX.$aTable[$x]))) {
-				if(('myisam' != strtolower($sOldType))) {
-					if(!$database->query('ALTER TABLE `'.TABLE_PREFIX.$aTable[$x].'` Engine = \'MyISAM\' ')) {
-						$msg[] = $database->get_error();
-					} else{
-						$msg[] = 'TABLE `'.TABLE_PREFIX.$aTable[$x].'` changed to Engine = \'MyISAM\'';
+		$aPackage = UpgradeHelper::existsAllTables($aTable);
+		if( sizeof($aPackage) > 0){
+			$msg[] =  'TABLE '.implode(' missing! '.$FAIL.'<br />TABLE ',$aPackage).' missing! '.$FAIL;
+			$msg[] = 'WYSIWYG upgrade failed '." $FAIL";
+			if($globalStarted) {
+				echo '<strong>'.implode('<br />',$msg).'</strong><br />';
+			}
+			return ( ($globalStarted==true ) ? $globalStarted : $msg);
+		} else {
+			for($x=0; $x<sizeof($aTable);$x++) {
+				if(($sOldType = $database->getTableEngine($database->TablePrefix.$aTable[$x]))) {
+					if(('myisam' != strtolower($sOldType))) {
+						if(!$database->query('ALTER TABLE `'.$database->TablePrefix.$aTable[$x].'` Engine = \'MyISAM\' ')) {
+							$msg[] = $database->get_error();
+						} else{
+							$msg[] = 'TABLE `'.$database->TablePrefix.$aTable[$x].'` changed to Engine = \'MyISAM\''." $OK";
+						}
+					} else {
+						 $msg[] = 'TABLE `'.$database->TablePrefix.$aTable[$x].'` has Engine = \'MyISAM\''." $OK";
 					}
 				} else {
-					 $msg[] = 'TABLE `'.TABLE_PREFIX.$aTable[$x].'` has Engine = \'MyISAM\'';
+					$msg[] = $database->get_error();
 				}
+			}
+// add change or missing index
+			$sTable = $database->TablePrefix.'mod_wysiwyg';
+			if($database->index_exists($sTable, 'PRIMARY')) {
+				$sql = 'ALTER TABLE `'.$database->DbName.'`.`'.$sTable.'` DROP PRIMARY KEY';
+				if(!$database->query($sql)) {
+					$msg[] = ''.$database->get_error();
+				}
+			}
+			if(!$database->index_add($sTable, '', 'section_id', 'PRIMARY')) {
+				$msg[] = ''.$database->get_error();
 			} else {
-				$msg[] = $database->get_error();
+				$msg[] = 'Create PRIMARY KEY ( `section_id` )'." $OK";
 			}
-		}
-
-		$sTable = TABLE_PREFIX.'mod_wysiwyg';
-		if($database->index_exists($sTable, 'PRIMARY')) {
-			$sql = 'ALTER TABLE `'.$database->DbName.'`.`'.$sTable.'` DROP PRIMARY KEY';
-			if(!$database->query($sql)) {
-			    $msg[] = ''.$database->get_error().'';
+// change table structure
+			$sTable = $database->TablePrefix.'mod_wysiwyg';
+			$sDescription = 'LONGTEXT NOT NULL';
+			$sFieldName = 'text';
+			if(!$database->field_modify($sTable,$sFieldName,$sDescription)) {
+				$msg[] = ''.$database->get_error();
+			} else {
+				$msg[] = 'Field ( `text` ) description has been changed successfully'." $OK";
 			}
-		}
-
-		if(!$database->index_add($sTable, '', 'section_id', 'PRIMARY')) {
-			$msg[] = ''.$database->get_error().'';
-		} else {
-		    $msg[] = 'Create PRIMARY KEY ( `section_id` )';
-		}
-
-		// change internal absolute links into relative links
-		$sTable = TABLE_PREFIX.'mod_wysiwyg';
-		$sql  = 'UPDATE `'.$sTable.'` ';
-		$sql .= 'SET `content` = REPLACE(`content`, \'"'.WB_URL.MEDIA_DIRECTORY.'\', \'"{SYSVAR:MEDIA_REL}\')';
-		if (!$database->query($sql)) {
-			$msg[] = ''.$database->get_error().'';
-		} else {
-		    $msg[] = 'Change internal absolute links into relative links';
-		}
-		// only for $callingScript upgrade-script.php
-		if($globalStarted) {
-			if($bDebugModus) {
-				foreach($msg as $title) {
-				    echo '<strong>'.$title.'</strong><br />';
+			$sFieldName = 'content';
+			if(!$database->field_modify($sTable,$sFieldName,$sDescription)) {
+				$msg[] = ''.$database->get_error();
+			} else {
+				$msg[] = 'Field ( `content` ) description has been changed successfully'." $OK";
+			}
+// change internal absolute links into relative links
+			$sTable = $database->TablePrefix.'mod_wysiwyg';
+			$sql  = 'UPDATE `'.$sTable.'` ';
+			$sql .= 'SET `content` = REPLACE(`content`, \'"'.WB_URL.MEDIA_DIRECTORY.'\', \'"{SYSVAR:MEDIA_REL}\')';
+			if (!$database->query($sql)) {
+				$msg[] = ''.$database->get_error();
+			} else {
+				$msg[] = 'Change internal absolute links into relative links'." $OK";
+			}
+// only for $callingScript upgrade-script.php
+			if($globalStarted) {
+				if($bDebug) {
+					echo '<strong>'.implode('<br />',$msg).'</strong><br />';
 				}
 			}
 		}
-		return $msg;
+		$msg[] = 'WYSIWYG upgrade successfull finished'." $OK";
+		if($globalStarted) {
+			echo "<strong>WYSIWYG upgrade successfull finished $OK</strong><br />";
+		}
+		return ( ($globalStarted==true ) ? $globalStarted : $msg);
 	}
-}
 // ------------------------------------
-
-$msg = mod_wysiwyg_upgrade();
+$bDebugModus = ((isset($bDebugModus)) ? $bDebugModus : false);
+if( is_array($msg = mod_wysiwyg_upgrade($bDebugModus)) ) {
+	echo '<strong>'.implode('<br />',$msg).'</strong><br />';
+}
