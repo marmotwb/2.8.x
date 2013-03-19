@@ -4,13 +4,13 @@
  * @category        modules
  * @package         form
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, Website Baker Org. e.V.
+ * @link            http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
- * @version      	$Id$
- * @filesource		$HeadURL$
+ * @version         $Id$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -21,9 +21,9 @@ if(!defined('WB_PATH')) {
 	throw new IllegalFileException();
 } else {
 // Create tables
-	$sError = array();
+	$aError = array();
 	// Create table
 	if(!$database->SqlImport(dirname(__FILE__).'/sql/form284db.sql','',false)){
-		$sError[] = $database->get_error();
+		$aError[] = $database->get_error();
 	}
 }

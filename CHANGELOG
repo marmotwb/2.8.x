@@ -13,8 +13,13 @@ Legend:
 
 
 
+19 Mar-2013 Build 1894 Dietmar Woellbrink (Luisehahne)
+# bugfix form intall form284db.sql
+# bugfix wb_search_data.sql layout for table settings 
+! update menu_link module and set Version to 2.8.1
 19 Mar-2013 Build 1893 Dietmar Woellbrink (Luisehahne)
-
+# little issue on handing the cache in TranslationTable
+# fix missing block or block[0] issue in /admin/pages/section.php
 19 Mar-2013 Build 1892 Dietmar Woellbrink (Luisehahne)
 ! update output_filter module set version to 0.4.1 
 19 Mar-2013 Build 1891 Dietmar Woellbrink (Luisehahne)
