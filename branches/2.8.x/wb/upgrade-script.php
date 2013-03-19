@@ -702,7 +702,7 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 	 * Modify Administrator on groups table
 	 */
 	echo '<div style="margin-left:2em;">';
-	echo "<h4>Update group Administrator on table groups</h4>";
+	echo "<h4>Updating Administrator group permissions on table groups</h4>";
 	$aDebugMessage[] = "<span>Modify Administrator on groups table</span>";
 	$sModulePermissions = '';
 	$sTemplatePermissions = '';
@@ -726,7 +726,7 @@ if(version_compare(WB_REVISION, REVISION, '<='))
         echo implode(PHP_EOL,$aDebugMessage);
     }
     echo '</div>';
-
+    $aDebugMessage = array();
     /**********************************************************
 	$aDebugMessage = array();
 	/**********************************************************
@@ -749,13 +749,13 @@ if(version_compare(WB_REVISION, REVISION, '<='))
         echo implode(PHP_EOL,$aDebugMessage);
     }
     echo '</div>';
-    $aDebugMessage = array();
 
+    $aDebugMessage = array();
    /**********************************************************
     * Updating group_id in table users
     */
 	echo '<div style="margin-left:2em;">';
-	echo "<h4>Change field structure on table users</h4>";
+	echo "<h4>Updating users groups permissions on table groups</h4>";
         $aUsers = array();
 		// Get existing values
         $sql  = 'SELECT * FROM `'.TABLE_PREFIX.'users` ' ;
@@ -791,7 +791,7 @@ if(version_compare(WB_REVISION, REVISION, '<='))
     // $aDebugMessage[] =
         echo implode(PHP_EOL,$aDebugMessage);
     }else {
-        echo '<span><strong>'.$iTotalUsers.' users updating the group_id</strong></span>'." $OK<br />";
+        echo '<span><strong>'.$iTotalUsers.' users updating the groups</strong></span>'." $OK<br />";
         echo '</div>';
     }
 }

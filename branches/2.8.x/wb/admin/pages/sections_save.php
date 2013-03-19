@@ -102,11 +102,9 @@ while($section = $oSection->fetchRow(MYSQL_ASSOC))
 	$section_id  = $section['section_id'];
 	$sid = 'wb'.$section_id;
 	$dst = date('I') ? ' UTC' : ''; // daylight saving time? date('P')
-	$iBlock      = $admin->get_post_escaped('block'.$section_id);
-// be sure it's numeric, can failed if block is disabled
-	$iBlock      = (is_numeric($iBlock) ? $iBlock : $section['block']);
-//workout set block to default if you add a section
-	$iBlock      = ( ( $iBlock!==0 ) ? $iBlock : '1');
+	$iBlock      = intval($admin->get_post('block'.$section_id));
+	$iBlock      = ($iBlock==0) ? $section['block'] : $iBlock;
+
 	$sStartDate  = $admin->get_post_escaped('start_date'.$section_id);
 	$sStartDate  = ($sStartDate==null)||($sStartDate=='') ? 0 : jscalendar_to_timestamp($sStartDate)-TIMEZONE;
 	$sEndDate    = $admin->get_post_escaped('end_date'.$section_id);
