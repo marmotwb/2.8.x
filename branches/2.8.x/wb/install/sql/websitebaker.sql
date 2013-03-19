@@ -83,9 +83,9 @@ CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}sections` (
   `page_id` int(11) NOT NULL DEFAULT '0',
   `position` int(11) NOT NULL DEFAULT '0',
   `module` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `block` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `publ_start` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '0',
-  `publ_end` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '0',
+  `block` int(11) NOT NULL DEFAULT '1',
+  `publ_start` int(11) NOT NULL DEFAULT '0',
+  `publ_end` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`section_id`)
 ) {TABLE_ENGINE};
 --

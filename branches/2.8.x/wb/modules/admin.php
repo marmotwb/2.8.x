@@ -199,9 +199,8 @@ if(isset($print_info_banner) && $print_info_banner == true) {
 	// unset($print_info_banner);
 	unset($template);
 
-	if (SECTION_BLOCKS) {
-		if (isset($block[$section['block']]) && trim(strip_tags(($block[$section['block']]))) != '')
-                 {
+//	if (SECTION_BLOCKS) {
+		if (isset($block[$section['block']]) && trim(strip_tags(($block[$section['block']]))) != '') {
 			$block_name = htmlentities(strip_tags($block[$section['block']]));
 		} else {
 			if ($section['block'] == 1) {
@@ -210,14 +209,12 @@ if(isset($print_info_banner) && $print_info_banner == true) {
 				$block_name = '#' . (int) $section['block'];
 			}
 		}
-
-        $sec_anchor = '#'.(defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? SEC_ANCHOR.$section_id : 'section_'.$section_id );
+		$sec_anchor = '#'.(defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? SEC_ANCHOR.$section_id : 'section_'.$section_id );
 		//print '<div class="section-info" ><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
 		print '<div class="section-info" '.$sec_anchor.' ><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
 		print '<b>  Modul: </b>' . $section['module']." ";
 		print '<b>  ID: </b>' . $section_id."</div>\n";
-	}
-
+//	}
 } //
 
 // Work-out if the developer wants us to update the timestamp for when the page was last modified

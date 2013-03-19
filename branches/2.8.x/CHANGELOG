@@ -11,6 +11,12 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+
+
+19 Mar-2013 Build 1889 Dietmar Woellbrink (Luisehahne)
+# bugfix solved sections block update
+! update sections table change some varchar to int(11)
++ upgradeHelper class for better module upgrade
 12 Mar-2013 Build 1888 Dietmar Woellbrink (Luisehahne)
 # fixed Deprecated: preg_replace(): modules\show_menu2\include.php
   The /e modifier is deprecated, replaced with preg_replace_callback 

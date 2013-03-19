@@ -142,7 +142,7 @@
 			$db['port'] = isset($db['port']) ? $db['port'] : '3306';
 			$db['port'] = ($db['port'] != '3306') ? $db['port'] : '';
 			$db['name'] = isset($db['name']) ? $db['name'] : 'dummy';
-			$db['charset'] = isset($db['charset']) ? $db['charset'] : 'utf8';
+			$db['charset'] = isset($db['charset']) ? trim($db['charset']) : '';
 			$db['table_prefix'] = (isset($db['table_prefix']) ? $db['table_prefix'] : '');
 			if(!defined('TABLE_PREFIX')) { define('TABLE_PREFIX', $db['table_prefix']); }
 			if($sRetvalType == 'dsn') {

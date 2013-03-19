@@ -86,12 +86,15 @@ class wb extends SecureForm
      * @return array Associative array containing the different components
      * 
      */
-    public function mb_parse_url($url) {
-        $encodedUrl = preg_replace('%[^:/?#&=\.]+%usDe', 'urlencode(\'$0\')', $url);
-        $components = parse_url($encodedUrl);
-        foreach ($components as &$component)
-            $component = urldecode($component);
-        return $components;
+		public function mb_parse_url($url) {
+		$encodedUrl = preg_replace_callback('%[^:/?#&=\.]+%usD',
+		              create_function('$aMatches', ';return urlencode($aMatches[0]);'),
+/*		                           'urlencode(\'$0\')', */
+		                           $url);
+		$components = parse_url($encodedUrl);
+		foreach ($components as &$component)
+			$component = urldecode($component);
+return $components;
     }
 
 /* ****************
@@ -107,12 +110,10 @@ class wb extends SecureForm
 	{
 		if( $groups_list1 == '' ) { return false; }
 		if( $groups_list2 == '' ) { return false; }
-		if( !is_array($groups_list1) )
-		{
+		if( !is_array($groups_list1) ) {
 			$groups_list1 = explode(',', $groups_list1);
 		}
-		if( !is_array($groups_list2) )
-		{
+		if( !is_array($groups_list2) ) {
 			$groups_list2 = explode(',', $groups_list2);
 		}
 		$matches = array_intersect( $groups_list1, $groups_list2);
