@@ -965,7 +965,7 @@ echo '<div style="margin-left:2em;">';
 	 * upgrade modules if newer version is available
 	 * $aModuleList list of proofed modules
 	 */
-	$aModuleList = array('wysiwyg','form','code','captcha_control');
+	$aModuleList = array('wysiwyg','form','code','captcha_control','output_filter');
 	if(sizeof($aModuleList)) 
 	{
 		echo '<h3>Step '.(++$stepID).': Upgrade proofed modules</h3>';
