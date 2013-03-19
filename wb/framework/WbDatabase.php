@@ -41,7 +41,7 @@ class WbDatabase {
 	private $_db_handle  = null; // readonly from outside
 	private $_db_name    = '';
 	protected $sTablePrefix = '';
-	protected $sCharset     = 'utf8';
+	protected $sCharset     = '';
 	protected $connected    = false;
 	protected $error        = '';
 	protected $error_type   = '';
@@ -489,7 +489,14 @@ class mysql {
 	// Run a query
 	function query($statement, $dbHandle) {
 		$this->_db_handle = $dbHandle;
-		$this->result = mysql_query($statement, $this->_db_handle);
+		$this->result = @mysql_query($statement, $this->_db_handle);
+		if($this->result === false) {
+			if(DEBUG) {
+				throw new WbDatabaseException(mysql_error($this->_db_handle));
+			}else{
+				throw new WbDatabaseException('Error in SQL-Statement');
+			}
+		}
 		$this->error = mysql_error($this->_db_handle);
 		return $this->result;
 	}

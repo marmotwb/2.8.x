@@ -74,10 +74,7 @@ if(!defined('WB_REVISION')) { define('WB_REVISION',''); }
 // database tables including in WB package
 $aPackage = array (
     'settings','groups','addons','pages','sections','search','users',
-    'mod_captcha_control','mod_jsadmin','mod_menu_link','mod_output_filter','mod_wrapper','mod_wysiwyg',
-//    'mod_code','mod_droplets',
-//    'mod_form_fields','mod_form_settings','mod_form_submissions',
-//    'mod_news_comments','mod_news_groups','mod_news_posts','mod_news_settings',
+    'mod_captcha_control','mod_jsadmin','mod_menu_link','mod_output_filter','mod_wrapper','mod_wysiwyg'
 );
 
 $OK            = ' <span class="ok">OK</span> ';
@@ -207,7 +204,8 @@ function status_msg($message, $class='check', $element='div')
  * @return
  */
 function add_modify_field_in_database($sTable,$sField,$sDescription){
-	global $database,$OK,$FAIL,$bDebugModus;
+	global $OK,$FAIL,$bDebugModus;
+	$database=WbDatabase::getInstance();
 	$aDebugMessage = array();
 	if(!$database->field_exists($sTable,$sField)) {
 		$aDebugMessage[] = "<span>Adding field $sField to $sTable table</span>";
@@ -221,42 +219,6 @@ function add_modify_field_in_database($sTable,$sField,$sDescription){
 	}
 return;
 }
-
-/**
- * check existings tables for upgrade or install
- *
- * check_wb_tables()
- *
- * @return
- */
-function check_wb_tables()
-{
-	global $database,$aPackage;
-
-// if prefix inludes '_' or '%'
-	$search_for = addcslashes ( TABLE_PREFIX, '%_' );
-	$get_result = $database->query( 'SHOW TABLES LIKE "'.$search_for.'%"');
-
-	// $get_result = $database->query( "SHOW TABLES FROM ".DB_NAME);
-	$all_tables = array();
-	$aTable = array();
-	if($get_result->numRows() > 0)
-	{
-		while ($data = $get_result->fetchRow()) {
-		    $tmp = preg_replace('/^'.preg_quote(TABLE_PREFIX, '/').'/s', '', $data[0]);
-		    if(in_array($tmp,$aPackage)) {
-		        $all_tables[] = $tmp;
-		    } else {
-		        $aTable[] = $tmp;
-		    }
-		}
-	}
-
-	return array_merge ( $all_tables, $aTable );
-}
-
-// check existing tables
-$all_tables = check_wb_tables();
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -402,41 +364,22 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 	exit();
 }
 
-// check again all tables, to get a new array
-// if(sizeof($all_tables) < sizeof($aTable)) { $all_tables = check_wb_tables(); }
 /**********************************************************
  *  - check tables coming with WebsiteBaker
  */
-    $check_text = 'total ';
-    // $check_tables = mysqlCheckTables( DB_NAME ) ;
-    $aTable = array();
-    foreach ($all_tables as $data) {
-        $tmp = str_replace(TABLE_PREFIX, '', $data);
-        if(in_array($tmp,$aPackage)) {
-            $aTable[] = $tmp;
-        }
-    }
-
-    if( (sizeof($all_tables) >= sizeof($aPackage)) && (sizeof($aTable) == sizeof($aPackage)) )
-    {
-        echo '<h4 style="margin-left:0;">NOTICE: Your database '.$database->DbName.' has '.sizeof($all_tables).' '.$check_text.' tables from '.sizeof($aPackage).' included in package '.$OK.'</h4>';
-    }
-    else
-    {
+	$aMissingTables = UpgradeHelper::existsAllTables($aPackage);
+	if( sizeof($aMissingTables) == 0){
+        echo '<h4 style="margin-left:0;">NOTICE: '.sizeof($aPackage).' total tables included in package are successful installed your database `'.$database->DbName.'` '.$OK.'</h4>';
+    } else {
         status_msg('<strong>:</strong><br />can\'t run Upgrade, missing tables', 'warning', 'div');
         echo '<h4>Missing required tables. You can install them in backend->addons->modules.<br />';
         echo 'Or if you uploaded per FTP install possible by backend->addons->modules->advanced.<br />';
         echo 'First rename or delete the upgrade-script.php, so the script can\'t start automatically by backend<br />';
-        echo 'After installing missing tables upload and run again upgrade-script.php</h4>';
-        $result = array_diff ( $aPackage, $aTable );
-
-        echo '<h4 class="warning"><br />';
-        while ( list ( $key, $val ) = each ( $result ) )
-        {
-            echo 'TABLE ´'.TABLE_PREFIX.$val.'´ '.$FAIL.'<br>';
-        }
-
-        echo '<br /></h4>';
+        echo 'After installing missing tables upload and run again upgrade-script.php<br /><br /></h4>';
+        echo '<h4 class="warning">';
+        echo 'Missing required tables.<br /><br />';
+        echo 'TABLE `'.implode('` missing! '.$FAIL.'<br />TABLE `',$aMissingTables).'` missing! '.$FAIL;
+        echo '<br /><br /></h4>';
         echo '<br /><br />';
         if(isset($_SERVER['SCRIPT_NAME'])) {
         	echo '<form action="'.$_SERVER['SCRIPT_NAME'].'/">';
@@ -465,14 +408,17 @@ $aDebugMessage = array();
     $aDebugMessage[] = '<div style="margin-left:2em;">';
     $aDebugMessage[] = "<br /><span><strong>Adding default_theme to settings table</strong></span>";
     // db_update_key_value('settings', 'default_theme', $DEFAULT_THEME);
-    $aDebugMessage[] = (db_update_key_value( 'settings', 'default_theme', $DEFAULT_THEME ) ? " $OK<br />" : " $FAIL!<br />");
+    $cfg = array(
+    	'default_theme' => defined('DEFAULT_THEME')&& (DEFAULT_THEME!='') ? DEFAULT_THEME : $DEFAULT_THEME
+    );
+    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
     $aDebugMessage[] = '</div>';
 
 if($bDebugModus) {
     echo implode(PHP_EOL,$aDebugMessage);
 }
 $aDebugMessage = array();
-echo'<h3>Step '.(++$stepID).': Updating tables included in package</h3>';
+echo'<h3>Step '.(++$stepID).': Updating core table included in package</h3>';
     /**********************************************************
      *  - Adding field sec_anchor to settings table
      */
@@ -480,7 +426,7 @@ echo'<h3>Step '.(++$stepID).': Updating tables included in package</h3>';
     echo "<h4>Adding/updating entries on table settings</h4>";
     $aDebugMessage[] = "<span>Adding/updating sec_anchor to settings table</span>";
     $cfg = array(
-    	'sec_anchor' => defined('SEC_ANCHOR') ? SEC_ANCHOR : 'section_'
+    	'sec_anchor' => defined('SEC_ANCHOR')&& (SEC_ANCHOR!='') ? SEC_ANCHOR : 'section_'
     );
    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
@@ -489,7 +435,16 @@ echo'<h3>Step '.(++$stepID).': Updating tables included in package</h3>';
      */
     $aDebugMessage[] = "<span>Adding/updating redirect timer to settings table</span>";
     $cfg = array(
-    	'redirect_timer' => defined('REDIRECT_TIMER') ? REDIRECT_TIMER : '1500'
+    	'redirect_timer' => defined('REDIRECT_TIMER')&& (REDIRECT_TIMER!='') ? REDIRECT_TIMER : '1500'
+    );
+    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+
+    /**********************************************************
+     *  - Adding default_time_formatr to settings table
+     */
+    $aDebugMessage[] = "<span>Adding/updating default_time_format to settings table</span>";
+    $cfg = array(
+    	'default_time_format' => defined('DEFAULT_TIME_FORMAT')&& (DEFAULT_TIME_FORMAT!='') ? DEFAULT_TIME_FORMAT : 'h:i A'
     );
     $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
@@ -498,7 +453,7 @@ echo'<h3>Step '.(++$stepID).': Updating tables included in package</h3>';
      */
     $aDebugMessage[] = "<span>Adding/Updating rename_files_on_upload to settings table</span>";
     $cfg = array(
-    	'rename_files_on_upload' => (defined('RENAME_FILES_ON_UPLOAD') ? RENAME_FILES_ON_UPLOAD : 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js')
+        'rename_files_on_upload' => (defined('RENAME_FILES_ON_UPLOAD')&& (RENAME_FILES_ON_UPLOAD!='') ? RENAME_FILES_ON_UPLOAD : 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js')
     );
     $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
@@ -507,7 +462,7 @@ echo'<h3>Step '.(++$stepID).': Updating tables included in package</h3>';
      */
     $aDebugMessage[] = "<span>Adding/updating mediasettings to settings table</span>";
     $cfg = array(
-    	'mediasettings' => (defined('MEDIASETTINGS') ? MEDIASETTINGS : ''),
+    	'mediasettings' => (defined('MEDIASETTINGS')&& (MEDIASETTINGS!='') ? MEDIASETTINGS : ''),
     );
 
     $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
@@ -528,7 +483,7 @@ echo'<h3>Step '.(++$stepID).': Updating tables included in package</h3>';
      */
     $aDebugMessage[] = "<span>Adding/updating page_icon_dir to settings table</span>";
     $cfg = array(
-    	'page_icon_dir' => (defined('PAGE_ICON_DIR') ? PAGE_ICON_DIR : '/templates/*/title_images'),
+    	'page_icon_dir' => (defined('PAGE_ICON_DIR')&& (PAGE_ICON_DIR!='') ? PAGE_ICON_DIR : '/templates/*/title_images'),
     );
 
     $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
@@ -547,7 +502,7 @@ echo'<h3>Step '.(++$stepID).': Updating tables included in package</h3>';
      */
     $aDebugMessage[] = "<span>Adding/updating wbmail_signature to settings table</span>";
     $cfg = array(
-    	'wbmail_signature' => (defined('WBMAIL_SIGNATURE') ? WBMAIL_SIGNATURE : '')
+    	'wbmail_signature' => (defined('WBMAIL_SIGNATURE')&& (WBMAIL_SIGNATURE!='') ? WBMAIL_SIGNATURE : '')
     );
 
     $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
@@ -596,7 +551,7 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 	    echo ($database->query($sql)) ? " $OK<br />" : " $FAIL!<br />";
 	}
 
-    echo "<h4>Adding/updating field on table mod_menu_link</h4>";
+	echo "<h4>Adding/updating field on table mod_menu_link</h4>";
 	/**********************************************************
      *  - Add field "redirect_type" to table "mod_menu_link"
      *  has to be moved later to upgrade.php in modul menu_link, because modul can be removed
@@ -604,7 +559,7 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 	$table_name = TABLE_PREFIX.'mod_menu_link';
 	$field_name = 'redirect_type';
 	$description = "INT NOT NULL DEFAULT '301' AFTER `target_page_id`";
-    add_modify_field_in_database($table_name,$field_name,$description);
+	add_modify_field_in_database($table_name,$field_name,$description);
 
     if($bDebugModus) {
         echo implode(PHP_EOL,$aDebugMessage);
@@ -618,7 +573,7 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 	$table_name = TABLE_PREFIX.'pages';
 	$field_name = 'page_trail';
 	$description = "VARCHAR( 255 ) NOT NULL DEFAULT ''";
-    add_modify_field_in_database($table_name,$field_name,$description);
+	add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
      *  - Add field "page_icon" to table "pages"
@@ -725,7 +680,9 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 	$aDebugMessage[] = "<span>Modify field module on sections table</span>";
 	$aDebugMessage[] = ($database->field_modify($table_name, 'module', $description) ? " $OK<br />" : " $FAIL!<br />");
 	$aDebugMessage[] = "<span>Modify field block on sections table</span>";
+	$description = "int(11) NOT NULL DEFAULT '1'";
 	$aDebugMessage[] = ($database->field_modify($table_name, 'block', $description) ? " $OK<br />" : " $FAIL!<br />");
+	$description = "int(11) NOT NULL DEFAULT '0'";
 	$aDebugMessage[] = "<span>Modify field publ_start on sections table</span>";
 	$aDebugMessage[] = ($database->field_modify($table_name, 'publ_start', $description) ? " $OK<br />" : " $FAIL!<br />");
 	$aDebugMessage[] = "<span>Modify field publ_end on sections table</span>";
@@ -786,38 +743,7 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 
 }
 
-if(version_compare(WB_REVISION, '1800', '<'))
-{
-    $aDebugMessage = array();
-    /**********************************************************
-     * This part with changing in mod_wysiwyg will be removed in the final version
-     * special workout for the tester
-     *  - Remove/add PRIMARY KEY from/to "section_id" from table "mod_wysiwygs"
-     */
-    $aDebugMessage[] = '<div style="margin-left:2em;">';
-
-    $sTable = TABLE_PREFIX.'mod_wysiwyg';
-    $field_name = 'wysiwyg_id';
-    if($database->field_exists($sTable, 'wysiwyg_id')) {
-        if($database->index_exists($sTable, 'PRIMARY')) {
-            $aDebugMessage[] = "<span>Remove PRIMARY KEY from table mod_wysiwyg.wysiwyg_id</span>";
-            $aDebugMessage[] = $database->index_remove($sTable, 'PRIMARY') ? " $OK<br />" : " $FAIL!<br />";
-        }
-        $aDebugMessage[] = "<span>Remove field 'wysiwyg_id' from table mod_wysiwyg</span>";
-        $aDebugMessage[] = $database->field_remove($sTable, 'wysiwyg_id') ? " $OK<br />" : " $FAIL!<br />";
-    }
-
-    $aDebugMessage[] = "<br /><span>Create PRIMARY KEY ( `section_id` ) on table mod_wysiwygs.</span>";
-    $aDebugMessage[] = $database->index_add($sTable, '', 'section_id', 'PRIMARY') ? " $OK<br />" : " $FAIL!<br />";
-    $aDebugMessage[] = '</div>';
-
-    if($bDebugModus) {
-    // $aDebugMessage[] =
-        echo implode(PHP_EOL,$aDebugMessage);
-    }
-}
-
-if(version_compare(WB_REVISION, REVISION, '<='))
+if(version_compare(WB_REVISION, REVISION, '<'))
 {
     $aDebugMessage = array();
     echo '<h3>Step '.(++$stepID).': Updating group_id in table users</h3>';
@@ -955,7 +881,7 @@ echo '<div style="margin-left:2em;">';
 			$msg = '<br /><br />Following files are deprecated, outdated or a security risk and
 				    can not be removed automatically.<br /><br />Please delete them
 					using FTP and restart upgrade-script!<br /><br />'.$msg.'<br />';
-	        status_msg($msg, 'error warning', 'div');
+			status_msg($msg, 'error warning', 'div');
 			echo '<p style="font-size:120%;"><strong>WARNING: The upgrade script failed ...</strong></p>';
 
 			echo '<form action="'.$_SERVER['SCRIPT_NAME'].'">';
@@ -968,7 +894,7 @@ echo '<div style="margin-left:2em;">';
 			</html>";
 			exit;
 		}
-    }
+	}
 
 
 	/**********************************************************
@@ -1039,7 +965,8 @@ echo '<div style="margin-left:2em;">';
 	 * upgrade modules if newer version is available
 	 * $aModuleList list of proofed modules
 	 */
-	$aModuleList = array('news','wysiwyg','form');
+//	$aModuleList = array('wysiwyg','news','form','captcha_control','output_filter');
+	$aModuleList = array('wysiwyg','form');
 	if(sizeof($aModuleList)) 
 	{
 	    echo '<h3>Step '.(++$stepID).': Upgrade proofed modules</h3>';
@@ -1097,17 +1024,17 @@ echo '<div style="margin-left:2em;">';
 	if( ($handle = opendir(WB_PATH.'/modules/')) ) {
 		while(false !== ($file = readdir($handle))) {
 			if($file != '' && substr($file, 0, 1) != '.' && is_dir(WB_PATH.'/modules/'.$file) ) {
-                $iFound++;
+				$iFound++;
 				$iLoaded = load_module(WB_PATH.'/modules/'.$file ) ? $iLoaded+1 : $iLoaded;
-			   // 	upgrade_module($file, true);
+// 	upgrade_module($file, true);
 			}
 		}
 		closedir($handle);
 	}
 	echo '<strong><span>'.$iLoaded.' Modules reloaded,</span> found '.$iFound.' directories in folder /modules/</strong><br />';
 
-    $iFound = 0;
-    $iLoaded = 0;
+	$iFound = 0;
+	$iLoaded = 0;
 	////delete templates
 	//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'template'");
 	// Load all templates
@@ -1115,7 +1042,7 @@ echo '<div style="margin-left:2em;">';
 		while(false !== ($file = readdir($handle))) {
 			if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'index.php') {
 
-                $iFound++;
+				$iFound++;
 				$iLoaded = (load_template(WB_PATH.'/templates/'.$file)==true) ? $iLoaded+1 : $iLoaded;
 
 			}
@@ -1124,22 +1051,22 @@ echo '<div style="margin-left:2em;">';
 	}
 	echo '<strong><span>'.$iLoaded.' Templates reloaded,</span> found '.$iFound.' directories in folder /templates/</strong><br />';
 
-    $iFound = 0;
-    $iLoaded = 0;
+	$iFound = 0;
+	$iLoaded = 0;
 	////delete languages
 	//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'language'");
 	// Load all languages
 	if( ($handle = opendir(WB_PATH.'/languages/')) ) {
 		while(false !== ($file = readdir($handle))) {
 			if($file != '' AND (preg_match('#^([A-Z]{2}.php)#', basename($file)))) {
-                $iFound++;
+				$iFound++;
 				$iLoaded = load_language(WB_PATH.'/languages/'.$file) ? $iLoaded+1 : $iLoaded;
 			}
 		}
 		closedir($handle);
 	}
 	echo '<strong><span>'.$iLoaded.' Languages reloaded,</span> found '.$iFound.' files in folder /languages/</strong><br />';
-    echo '</div>';
+	echo '</div>';
 
 /**********************************************************
  *  - install new droplets

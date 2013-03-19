@@ -210,32 +210,26 @@ if($query_sections->numRows() > 0)
 		$section_id = $section['section_id'];
 		$module = $section['module'];
 		//Have permission?
-		if(!is_numeric(array_search($module, $module_permissions)))
-        {
+		if(!is_numeric(array_search($module, $module_permissions))) {
 			// Include the modules editing script if it exists
-			if(file_exists(WB_PATH.'/modules/'.$module.'/modify.php'))
-            {
+			if(file_exists(WB_PATH.'/modules/'.$module.'/modify.php')) {
 				print /* '<a name="'.$section_id.'"></a>'. */"\n";
 				// output block name if blocks are enabled
-				if (SECTION_BLOCKS) {
-					if (isset($block[$section['block']]) && trim(strip_tags(($block[$section['block']]))) != '')
-                    {
+//				if (SECTION_BLOCKS) {
+					if (isset($block[$section['block']]) && trim(strip_tags(($block[$section['block']]))) != '') {
 						$block_name = htmlentities(strip_tags($block[$section['block']]));
 					} else {
-						if ($section['block'] == 1)
-                        {
+						if ($section['block'] == 1) {
 							$block_name = $TEXT['MAIN'];
 						} else {
 							$block_name = '#' . (int) $section['block'];
 						}
 					}
-
-                    $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? 'id="'.SEC_ANCHOR.$section['section_id'].'"' : 'section_'.$section_id);
+					$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? 'id="'.SEC_ANCHOR.$section['section_id'].'"' : 'section_'.$section_id);
 					print '<div class="section-info" '.$sec_anchor.' ><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
 					print '<b>  Modul: </b>' . $section['module']." ";
 					print '<b>  ID: </b>' . $section_id."</div>\n";
-
-				}
+//				}
 				require(WB_PATH.'/modules/'.$module.'/modify.php');
 			}
 		}
