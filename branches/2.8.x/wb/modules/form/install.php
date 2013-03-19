@@ -21,5 +21,9 @@ if(!defined('WB_PATH')) {
 	throw new IllegalFileException();
 } else {
 // Create tables
-$database->SqlImport(dirname(__FILE__).'/sql/form284db.sql',TABLE_PREFIX,false);
+	$sError = array();
+	// Create table
+	if(!$database->SqlImport(dirname(__FILE__).'/sql/form284db.sql','',false)){
+		$sError[] = $database->get_error();
+	}
 }

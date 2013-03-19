@@ -4,7 +4,7 @@
  * @category        modules
  * @package         code
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
+ * @copyright       2009-2012, WebsiteBaker Org. e.V.
  * @link			http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
@@ -24,12 +24,11 @@ if(defined('WB_PATH') == false)
 }
 /* -------------------------------------------------------- */
 
-$module_directory	= 'code';
-$module_name		= 'Code';
-$module_function	= 'page';
-$module_version		= '2.8.3';
-$module_platform	= '2.7 | 2.8.x';
-$module_author		= 'Ryan Djurovich';
-$module_license		= 'GNU General Public License';
-$module_description	= 'This module allows you to execute PHP commands (limit access to users you trust!!)';
-
+$module_directory   = 'code';
+$module_name        = 'Code';
+$module_function    = 'page';
+$module_version     = '2.8.4';
+$module_platform    = '2.8.4';
+$module_author      = 'Ryan Djurovich';
+$module_license     = 'GNU General Public License';
+$module_description = 'This module allows you to execute PHP commands (limit access to users you trust!!)';

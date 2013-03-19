@@ -691,31 +691,17 @@ if(version_compare(WB_REVISION, REVISION, '<='))
     if($bDebugModus) {
         echo implode(PHP_EOL,$aDebugMessage);
     }
+    echo '</div>';
+}
 
-	$aDebugMessage = array();
-	/**********************************************************
-     *   `confirm_code` VARCHAR(32) NOT NULL DEFAULT '',
-     *   `confirm_timeout` INT(11) NOT NULL DEFAULT '0',
-     */
-	echo "<h4>Change field structure on table users</h4>";
-	$table_name = TABLE_PREFIX.'users';
-	$field_name = 'confirm_code';
-	$description = "VARCHAR( 32 ) NOT NULL DEFAULT '' AFTER `password` ";
-    add_modify_field_in_database($table_name,$field_name,$description);
-
-	$table_name = TABLE_PREFIX.'users';
-	$field_name = 'confirm_timeout';
-	$description = "INT(11) NOT NULL DEFAULT '0' AFTER `confirm_code` ";
-    add_modify_field_in_database($table_name,$field_name,$description);
-
-    if($bDebugModus) {
-        echo implode(PHP_EOL,$aDebugMessage);
-    }
-
+if(version_compare(WB_REVISION, REVISION, '<='))
+{
     $aDebugMessage = array();
+    echo '<h3>Step '.(++$stepID).': Updating structure in table users/groups</h3>';
 	/**********************************************************
-     * Modify Administrator on groups table
-     */
+	 * Modify Administrator on groups table
+	 */
+	echo '<div style="margin-left:2em;">';
 	echo "<h4>Update group Administrator on table groups</h4>";
 	$aDebugMessage[] = "<span>Modify Administrator on groups table</span>";
 	$sModulePermissions = '';
@@ -741,16 +727,35 @@ if(version_compare(WB_REVISION, REVISION, '<='))
     }
     echo '</div>';
 
-}
-
-if(version_compare(WB_REVISION, REVISION, '<'))
-{
-    $aDebugMessage = array();
-    echo '<h3>Step '.(++$stepID).': Updating group_id in table users</h3>';
     /**********************************************************
+	$aDebugMessage = array();
+	/**********************************************************
+ *   `confirm_code` VARCHAR(32) NOT NULL DEFAULT '',
+ *   `confirm_timeout` INT(11) NOT NULL DEFAULT '0',
+ */
+	echo '<div style="margin-left:2em;">';
+	echo "<h4>Change field structure on table users</h4>";
+	$table_name = TABLE_PREFIX.'users';
+	$field_name = 'confirm_code';
+	$description = "VARCHAR( 32 ) NOT NULL DEFAULT '' AFTER `password` ";
+    add_modify_field_in_database($table_name,$field_name,$description);
+
+	$table_name = TABLE_PREFIX.'users';
+	$field_name = 'confirm_timeout';
+	$description = "INT(11) NOT NULL DEFAULT '0' AFTER `confirm_code` ";
+    add_modify_field_in_database($table_name,$field_name,$description);
+
+    if($bDebugModus) {
+        echo implode(PHP_EOL,$aDebugMessage);
+    }
+    echo '</div>';
+    $aDebugMessage = array();
+
+   /**********************************************************
     * Updating group_id in table users
     */
-        echo '<div style="margin-left:2em;">';
+	echo '<div style="margin-left:2em;">';
+	echo "<h4>Change field structure on table users</h4>";
         $aUsers = array();
 		// Get existing values
         $sql  = 'SELECT * FROM `'.TABLE_PREFIX.'users` ' ;
@@ -784,7 +789,6 @@ if(version_compare(WB_REVISION, REVISION, '<'))
                 $aDebugMessage[] = $database->is_error()==false ? $sMessage." $OK<br />" : $sMessage." $FAIL!<br />";
         }
         unset($aUsers);
-
     $aDebugMessage[] = '</div>';
 
     if($bDebugModus) {
@@ -966,10 +970,10 @@ echo '<div style="margin-left:2em;">';
 	 * $aModuleList list of proofed modules
 	 */
 //	$aModuleList = array('wysiwyg','news','form','captcha_control','output_filter');
-	$aModuleList = array('wysiwyg','form');
+	$aModuleList = array('wysiwyg','form','code');
 	if(sizeof($aModuleList)) 
 	{
-	    echo '<h3>Step '.(++$stepID).': Upgrade proofed modules</h3>';
+		echo '<h3>Step '.(++$stepID).': Upgrade proofed modules</h3>';
 		foreach($aModuleList as $sModul) {
 			if(file_exists(WB_PATH.'/modules/'.$sModul.'/upgrade.php')) {
 				$currModulVersion = get_modul_version ($sModul, false);
