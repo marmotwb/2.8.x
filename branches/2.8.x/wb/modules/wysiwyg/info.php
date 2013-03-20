@@ -4,7 +4,7 @@
  * @category        modules
  * @package         wysiwyg
  * @author          WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
  * @link            http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.3

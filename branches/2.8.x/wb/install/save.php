@@ -39,10 +39,16 @@ include(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php');
 include(dirname(dirname(__FILE__)).'/framework/WbAutoloader.php');
 WbAutoloader::doRegister(array('admin'=>'a', 'modules'=>'m'));
 
-/**
- * Set constants for system/install values
- * @throws RuntimeException
- */
+function errorLogs($error_str)
+{
+	$log_error = true;
+	if ( ! function_exists('error_log') ) { $log_error = false; }
+	$log_file = @ini_get('error_log');
+	if ( !empty($log_file) && ('syslog' != $log_file) && !@is_writable($log_file) ) {
+		$log_error = false;
+	}
+	if ( $log_error ) {@error_log($error_str, 0);}
+}
 
 /**
  * Read DB settings from configuration file
@@ -407,17 +413,15 @@ if(file_exists($sConfigFile) && is_writable($sConfigFile)) {
 	set_error("The configuration file $sConfigName is not writable. Change its permissions so it is, then re-run step 4.");
 }
 
-// load db configuration ---
-$sDbConnectType = 'url'; // depending from class WbDatabase it can be 'url' or 'dsn'
-$aSqlData = _readConfiguration($sDbConnectType);
-
 //_SetInstallPathConstants();
-//$TABLE_PREFIX = $table_prefix;
-//$WB_PATH = (dirname(dirname(__FILE__)));
-//$ADMIN_PATH = $WB_PATH.'/admin';
+if(!defined('WB_INSTALL_PROCESS')){ define('WB_INSTALL_PROCESS', true ); }
+if(!defined('WB_URL')){ define('WB_URL', trim( $wb_url,'/' )); }
 if(!defined('WB_PATH')){ define('WB_PATH', dirname(dirname(__FILE__))); }
 if(!defined('ADMIN_URL')){ define('ADMIN_URL', WB_URL.'/admin'); }
 if(!defined('ADMIN_PATH')){ define('ADMIN_PATH', WB_PATH.'/admin'); }
+// load db configuration ---
+$sDbConnectType = 'url'; // depending from class WbDatabase it can be 'url' or 'dsn'
+$aSqlData = _readConfiguration($sDbConnectType);
 
 if(!file_exists(WB_PATH.'/framework/class.admin.php')) {
 	set_error('It appears the Absolute path that you entered is incorrect');

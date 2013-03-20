@@ -954,7 +954,7 @@ echo '<div style="margin-left:2em;">';
 	 */
 	$aModuleList = array(
 	              'captcha_control','code','form','jsadmin',
-	              'menu_link','news','output_filter','wysiwyg');
+	              'menu_link','news','output_filter','wrapper','wysiwyg');
 	if(sizeof($aModuleList)) 
 	{
 		echo '<h3>Step '.(++$stepID).': Upgrade proofed modules</h3>';
