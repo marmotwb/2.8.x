@@ -13,6 +13,9 @@ Legend:
 
 
 
+20 Mar-2013 Build 1895 Dietmar Woellbrink (Luisehahne)
+! update jsadmin module and set Version to 1.4.1
+! update news module and set Version to 3.8.7
 19 Mar-2013 Build 1894 Dietmar Woellbrink (Luisehahne)
 # bugfix form intall form284db.sql
 # bugfix wb_search_data.sql layout for table settings 

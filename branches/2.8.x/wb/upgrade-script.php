@@ -953,8 +953,8 @@ echo '<div style="margin-left:2em;">';
 	 * $aModuleList list of proofed modules
 	 */
 	$aModuleList = array(
-	              'captcha_control','code','form','menu_link',
-	              'output_filter','wysiwyg');
+	              'captcha_control','code','form','jsadmin',
+	              'menu_link','news','output_filter','wysiwyg');
 	if(sizeof($aModuleList)) 
 	{
 		echo '<h3>Step '.(++$stepID).': Upgrade proofed modules</h3>';
