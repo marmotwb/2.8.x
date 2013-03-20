@@ -19,10 +19,10 @@
 require_once( dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
 if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 /* -------------------------------------------------------- */
-	$sDefaultSql = dirname(__FILE__).'/install.sql';
+	$sDefaultSql = dirname(__FILE__).'/sql/mod_news.sql';
 	if (is_readable($sDefaultSql)) {
 // create needet database tables and set default records
-		if ($database->SqlImport($sDefaultSql, TABLE_PREFIX)) {
+		if ($database->SqlImport($sDefaultSql, '',false)) {
 // Make news post access files dir
 			require_once(WB_PATH.'/framework/functions.php');
 			if(make_dir(WB_PATH.PAGES_DIRECTORY.'/posts')) {
