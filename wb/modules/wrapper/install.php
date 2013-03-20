@@ -4,27 +4,26 @@
  * @category        modules
  * @package         wrapper
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker2.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
- * @version      	$Id$
- * @filesource		$HeadURL$
+ * @version         $Id$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
-
-if(defined('WB_URL')) {
-	
+/* -------------------------------------------------------- */
+// Must include code to stop this file being accessed directly
+if(!defined('WB_PATH')) {
+	require_once(dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
+} else {
+// Create tables
+	$aError = array();
 	// Create table
-	// $database->query("DROP TABLE IF EXISTS `".TABLE_PREFIX."mod_wrapper`");
-	$mod_wrapper = 'CREATE TABLE IF NOT EXISTS `'.TABLE_PREFIX.'mod_wrapper` ('
-		. ' `section_id` INT NOT NULL DEFAULT \'0\','
-		. ' `page_id` INT NOT NULL DEFAULT \'0\','
-		. ' `url` TEXT NOT NULL,'
-		. ' `height` INT NOT NULL DEFAULT \'0\','
-		. ' PRIMARY KEY ( `section_id` ) '
-		. ' ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
-	$database->query($mod_wrapper);
+	if(!$database->SqlImport(dirname(__FILE__).'/sql/mod_wrapper.sql','',false)){
+		$aError[] = $database->get_error();
+	}
 }

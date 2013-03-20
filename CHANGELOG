@@ -13,6 +13,10 @@ Legend:
 
 
 
+20 Mar-2013 Build 1896 Dietmar Woellbrink (Luisehahne)
+# solved install exeption
+! update wrapper module and set version to 2.8.4
+! update wysiwyg install.php, info.php
 20 Mar-2013 Build 1895 Dietmar Woellbrink (Luisehahne)
 ! update jsadmin module and set Version to 1.4.1
 ! update news module and set Version to 3.8.7
