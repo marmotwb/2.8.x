@@ -421,6 +421,8 @@ class WbDatabase {
 		$aReplace = array($this->sTablePrefix, $sEngine, $sCollation);
 		$sql = '';
 		$aSql = file($sSqlDump);
+//		$aSql[0] = preg_replace('/^\xEF\xBB\xBF/', '', $aSql[0]);
+		$aSql[0] = preg_replace('/^[\xAA-\xFF]{3}/', '', $aSql[0]);
 		while ( sizeof($aSql) > 0 ) {
 			$sSqlLine = trim(array_shift($aSql));
 			if (!preg_match('/^[-\/]+.*/', $sSqlLine)) {

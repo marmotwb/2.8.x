@@ -13,6 +13,9 @@ Legend:
 
 
 
+21 Mar-2013 Build 1897 Dietmar Woellbrink (Luisehahne)
+# SqlImport removes BOM in sql files in a Windows Environment
+  otherwise you have an error in your SQL syntax;
 20 Mar-2013 Build 1896 Dietmar Woellbrink (Luisehahne)
 # solved install exeption
 ! update wrapper module and set version to 2.8.4
