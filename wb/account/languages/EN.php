@@ -156,3 +156,4 @@ $TEXT['PASSWORD'] = 'Password';
 $TEXT['ACTIVATION'] = 'Activate';
 $TEXT['SEND'] = 'Request';
 $TEXT['USERNAME'] = 'Login name';
+$TEXT['INFO'] = '';

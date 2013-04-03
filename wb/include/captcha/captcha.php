@@ -5,8 +5,8 @@
  * @package         include
  * @subpackage
  * @author          Ryan Djurovich,WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link            http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
@@ -112,20 +112,20 @@ if(!function_exists('call_captcha')) {
 		// get width and height of captcha image for use in <iframe>
 		switch(CAPTCHA_TYPE) {
 		case 'calc_image':
-			$captcha_width = 142;
-			$captcha_height = 30;
+			$captcha_width = 160;
+			$captcha_height = 55;
 			break;
 		case 'calc_ttf_image':
-			$captcha_width = 162;
-			$captcha_height = 40;
+			$captcha_width = 175;
+			$captcha_height = 55;
 			break;
 		case 'ttf_image':
-			$captcha_width = 162;
-			$captcha_height = 40;
+			$captcha_width = 175;
+			$captcha_height = 55;
 			break;
 		case 'old_image':
-			$captcha_width = 142;
-			$captcha_height = 30;
+			$captcha_width = 160;
+			$captcha_height = 55;
 			break;
 		default:
 			$captcha_width = 250;
@@ -150,20 +150,20 @@ if(!function_exists('call_captcha')) {
 						<?php include(WB_PATH.'/include/captcha/captchas/'.CAPTCHA_TYPE.'.php'); ?>
 					</td>
 					<td>&nbsp;=&nbsp;</td>
-					<td><input type="text" name="captcha" maxlength="10"  style="width:20px;" /></td>
+					<td><input type="text" name="captcha" maxlength="10"  style="width:30px;" /></td>
 					<td class="captcha_expl"><?php echo $MOD_CAPTCHA['VERIFICATION_INFO_RES']; ?></td>
 					</tr></table><?php
 					break;
 				case 'calc_image': // calculation with image (old captcha)
 				case 'calc_ttf_image': // calculation with varying background and ttf-font
-				  ?><table class="captcha_table"><tr>
+				  ?><table class="captcha_table" style="font-size: 100%;"><tr>
 					<td class="image_captcha">
-						<?php echo "<iframe class=\"captcha_iframe\" width=\"$captcha_width\" height=\"$captcha_height\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" frameborder=\"0\" name=\"captcha_iframe_$sec_id\" src=\"". WB_URL ."/include/captcha/captcha.php?display_captcha_X986E21=1&amp;s=$sec_id"; ?>">
-						<img src="<?php echo WB_URL.'/include/captcha/captchas/'.CAPTCHA_TYPE.".php?t=$t&amp;s=$sec_id"; ?>" alt="Captcha" />
+						<?php echo "<iframe class=\"captcha_iframe\" width=\"$captcha_width\" height=\"$captcha_height\" style=\"overflow:hidden;border: 1px solid #999;\" name=\"captcha_iframe_$sec_id\" src=\"". WB_URL ."/include/captcha/captcha.php?display_captcha_X986E21=1&amp;s=$sec_id"; ?>">
+						<img src="<?php echo WB_URL.'/include/captcha/captchas/'.CAPTCHA_TYPE.".php?t=$t&amp;s=$sec_id"; ?>" alt="Captcha" style="margin: 0;padding:  0;" />
 						</iframe>
 					</td>
 					<td>&nbsp;=&nbsp;</td>
-					<td><input type="text" name="captcha" maxlength="10" style="width:20px;" /></td>
+					<td><input type="text" name="captcha" maxlength="10" style="width:30px;" /></td>
 					<td class="captcha_expl"><?php echo $MOD_CAPTCHA['VERIFICATION_INFO_RES']; ?></td>
 					</tr></table><?php
 					break;
@@ -172,8 +172,8 @@ if(!function_exists('call_captcha')) {
 				case 'old_image': // old captcha
 					?><table class="captcha_table"><tr>
 					<td class="image_captcha">
-						<?php echo "<iframe class=\"captcha_iframe\" width=\"$captcha_width\" height=\"$captcha_height\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" frameborder=\"0\" name=\"captcha_iframe_$sec_id\" src=\"". WB_URL ."/include/captcha/captcha.php?display_captcha_X986E21=1&amp;s=$sec_id"; ?>">
-						<img src="<?php echo WB_URL.'/include/captcha/captchas/'.CAPTCHA_TYPE.".php?t=$t&amp;s=$sec_id"; ?>" alt="Captcha" />
+						<?php echo "<iframe class=\"captcha_iframe\" width=\"$captcha_width\" height=\"$captcha_height\"  style=\"overflow:hidden;border: 1px solid #999;\" name=\"captcha_iframe_$sec_id\" src=\"". WB_URL ."/include/captcha/captcha.php?display_captcha_X986E21=1&amp;s=$sec_id"; ?> " >
+						<img src="<?php echo WB_URL.'/include/captcha/captchas/'.CAPTCHA_TYPE.".php?t=$t&amp;s=$sec_id"; ?>" alt="Captcha" style="margin: 0;padding:  0;" />
 						</iframe>
 					</td>
 					<td></td>
@@ -253,4 +253,3 @@ if(!function_exists('call_captcha')) {
 		}
 	}
 }
-

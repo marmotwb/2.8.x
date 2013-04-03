@@ -163,3 +163,4 @@ $TEXT['PASSWORD'] = 'Kennwort';
 $TEXT['ACTIVATION'] = 'Freischalten';
 $TEXT['SEND'] = 'Anfordern';
 $TEXT['USERNAME'] = 'Loginname';
+$TEXT['INFO'] = '';

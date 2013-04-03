@@ -4,13 +4,13 @@
  * @category        module
  * @package         Form
  * @author          WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  * @description
  */
@@ -162,7 +162,7 @@ if($_POST == array())
 		if($query_fields->numRows() > 0) {
 ?>
 			<form <?php echo ( ( (strlen($form_name) > 0) AND (false == $use_xhtml_strict) ) ? "id=\"".$form_name.$section_id."\"" : ""); ?> action="<?php echo htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'';?>" method="post">
-            <fieldset>
+            <fieldset class="frm-fieldset">
 				<input type="hidden" name="submission_id" value="<?php echo $_SESSION['form_submission_id']; ?>" />
 				<?php
 				$iFormRequestId = isset($_GET['fri']) ? intval($_GET['fri']) : 0;
@@ -456,44 +456,46 @@ function confirm_link(message, url) {
 
 // Check if the user forgot to enter values into all the required fields
 		if(sizeof($required )) {
-
+			echo "<div class=\"frm-warning\">\n";
 			if(!isset($MESSAGE['MOD_FORM_REQUIRED_FIELDS'])) {
 				echo '<h3>You must enter details for the following fields</h3>';
 			} else {
 				echo '<h3>'.$MESSAGE['MOD_FORM_REQUIRED_FIELDS'].'</h3>';
 			}
-			echo "<ol class=\"warning\">\n";
+			echo "<ol>\n";
 			foreach($required AS $field_title) {
 				if($field_title!=''){
 					echo '<li>'.$field_title."</li>\n";
 				}
 			}
-
 			if(isset($email_error)) {
 				echo '<li>'.$email_error."</li>\n";
 			}
-
 			if(isset($captcha_error)) {
 				echo '<li>'.$captcha_error."</li>\n";
 			}
 			// Create blank "required" array
 			$required = array();
 			echo "</ol>\n";
-
-			echo '<p>&nbsp;</p>'."\n".'<p><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'."\n";
+			echo "</div>\n";
+			echo '<p class="frm-warning"><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'."\n";
 		} else {
 			if(isset($email_error)) {
-				echo '<br /><ol class=\"warning\">'."\n";
+			echo "<div class=\"frm-warning\">\n";
+				echo '<br /><ol>'."\n";
 				echo '<li>'.$email_error.'</li>'."\n";
 				echo '</ol>'."\n";
-				echo '<a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a>';
+			echo "</div>\n";
+				echo '<p class="frm-warning"><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'."\n";
 			} elseif(isset($captcha_error)) {
-				echo '<br /><ol class=\"warning\">'."\n";
+			echo "<div class=\"frm-warning\">\n";
+				echo '<br /><ol>'."\n";
 				echo '<li>'.$captcha_error.'</li>'."\n";
 				echo '</ol>'."\n";
-				echo '<p>&nbsp;</p>'."\n".'<p><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'."\n";
+			echo "</div>\n";
+				echo '<p class="frm-warning"><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'."\n";
 			} else {
-				// Check how many times form has been submitted in last hour
+// Check how many times form has been submitted in last hour
 				$last_hour = time()-3600;
 				$sql  = 'SELECT `submission_id` FROM `'.TABLE_PREFIX.'mod_form_submissions` ';
 				$sql .= 'WHERE `submitted_when` >= '.$last_hour.'';
@@ -502,7 +504,7 @@ function confirm_link(message, url) {
 				{
 					if($query_submissions->numRows() > $max_submissions)
 					{
-						// Too many submissions so far this hour
+// Too many submissions so far this hour
 						echo $MESSAGE['MOD_FORM_EXCESS_SUBMISSIONS'];
 						$success = false;
 					} else {

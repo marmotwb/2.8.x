@@ -13,6 +13,12 @@ Legend:
 
 
 
+03 Apr-2013 Build 1898 Dietmar Woellbrink (Luisehahne)
+# bugfix missing trailing backtick in output_filter/input.php
+# bugfix wrong backticks in 'admin/media/upload.php
+# bugfix add missing language variable in account
+! update form module, add class frm-fieldset to fieldset, restyle error box
+! update captcha iframe attribute settings
 21 Mar-2013 Build 1897 Dietmar Woellbrink (Luisehahne)
 # SqlImport removes BOM in sql files in a Windows Environment
   otherwise you have an error in your SQL syntax;
