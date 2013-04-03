@@ -13,6 +13,8 @@ Legend:
 
 
 
+04 Apr-2013 Build 1899 Dietmar Woellbrink (Luisehahne)
+# bugfix missing td in form layout
 03 Apr-2013 Build 1898 Dietmar Woellbrink (Luisehahne)
 # bugfix missing trailing backtick in output_filter/input.php
 # bugfix wrong backticks in 'admin/media/upload.php
