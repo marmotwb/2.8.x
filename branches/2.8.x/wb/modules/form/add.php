@@ -26,15 +26,22 @@ if(!defined('WB_PATH')) {
 		$database->field_add($table_name, $field_name, $description);
 	}
 
-	// Insert an extra rows into the database
-	$header = '<table class="frm-field_table">';
-	$field_loop = '<tr>'.PHP_EOL.'<td class=\"frm-field_title\">{TITLE}{REQUIRED}:</td>'.PHP_EOL.'<td>{FIELD}</td>'.PHP_EOL.'</tr>';
-	$footer = '<tr>'.PHP_EOL.'
-<td>'.PHP_EOL.'
-<input type=\"submit\" name=\"submit\" value=\"{SUBMIT_FORM}\" />'.PHP_EOL.'
-</td>'.PHP_EOL.'
-</tr>'.PHP_EOL.'
-</table>'.PHP_EOL;
+// Insert an extra rows into the database
+	$header     = '<table class="frm-field_table">'.PHP_EOL
+	            . '    <tbody>'.PHP_EOL;
+	$field_loop = '        <tr>'.PHP_EOL
+	            . '            <td class="frm-field_title">{TITLE}{REQUIRED}:</td>'.PHP_EOL
+	            . '            <td>{FIELD}</td>'.PHP_EOL
+	            . '        </tr>';
+	$footer     = '        <tr>'.PHP_EOL
+	            . '            <td>&#32;</td>'.PHP_EOL
+	            . '            <td>'.PHP_EOL
+	            . '                <input type="submit" name="submit" value="{SUBMIT_FORM}" />'.PHP_EOL
+	            . '            </td>'.PHP_EOL
+	            . '        </tr>'.PHP_EOL
+	            . '    </tbody>'.PHP_EOL
+	            . '</table>'.PHP_EOL;
+
 	$email_to = '';
 	$email_from = '';
 	$email_fromname = '';
