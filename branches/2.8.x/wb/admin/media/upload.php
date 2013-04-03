@@ -4,13 +4,13 @@
  * @category        admin
  * @package         media
  * @author          Ryan Djurovich,WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -67,8 +67,8 @@ $overwrite = ($admin->get_post('overwrite') != '') ? true : false;
 
 $file_extension_string = '';
 // Get list of file types to which we're supposed to append 'txt'
-$sql = 'SELECT ´value´ FROM ´'.TABLE_PREFIX. 'settings´ '.
-       'WHERE ´name´=\'rename_files_on_upload\'';
+$sql = 'SELECT `value` FROM  `'.TABLE_PREFIX. 'settings` '.
+       'WHERE `name`=\'rename_files_on_upload\'';
 
 if($oRes = $database->query($sql)) {
     $aResult = $oRes->fetchRow(MYSQL_ASSOC);

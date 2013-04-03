@@ -4,13 +4,13 @@
  * @category        modules
  * @package         output_filter
  * @author          Christian Sommer, WB-Project, Werner v.d. Decken
- * @copyright       2011, Website Baker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2011, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.2
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -90,7 +90,7 @@ if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 	// be sure field 'sys_rel' is in table
 		$database->field_add( TABLE_PREFIX.'mod_output_filter', 'sys_rel', 'INT NOT NULL DEFAULT \'0\' FIRST');
 	// request settings from database
-		$sql = 'SELECT * FROM `'.TABLE_PREFIX.'mod_output_filter';
+		$sql = 'SELECT * FROM `'.TABLE_PREFIX.'mod_output_filter` ';
 		if(($res = $database->query($sql))) {
 			if(($rec = $res->fetchRow())) {
 				$settings = $rec;
