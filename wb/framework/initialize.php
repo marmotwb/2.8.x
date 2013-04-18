@@ -208,6 +208,10 @@
 	if(!function_exists('globalExceptionHandler')) {
 		include(dirname(__FILE__).'/globalExceptionHandler.php');
 	}
+// activate secure PasswordHashes
+	if(!class_exists('PasswordHash')) {
+		include(dirname(dirname(__FILE__)).'/include/phpass/PasswordHash.php'); 
+	}
 // ---------------------------
 // Create global database instance ---
 	$database = WbDatabase::getInstance();
