@@ -36,13 +36,17 @@
  */
 
 // use \vendors\phpass\PasswordHash;
+if(!class_exists('PasswordHash')) {
+	include(dirname(dirname(__FILE__)).'/include/phpass/PasswordHash.php'); 
+}
+
 
 class Password extends PasswordHash
 //class Password extends v_phpass_PasswordHash
 {
 
 	const MIN_CRYPT_LOOPS     =  6;  // minimum numbers of loops is 2^6 (64) very, very quick
-	const MAX_CRYPT_LOOPS     = 32;  // maximum numbers of loops is 2^32 (4,294,967,296) extremely slow
+	const MAX_CRYPT_LOOPS     = 31;  // maximum numbers of loops is 2^31 (2,147,483,648) extremely slow
 	const DEFAULT_CRYPT_LOOPS = 12;  // default numbers of loopf is 2^12 (4096) a good average
 
 	const HASH_TYPE_PORTABLE  = true;  // use MD5 only
@@ -59,6 +63,7 @@ class Password extends PasswordHash
 	const PW_USE_ALL          = 0xFFFF; // use all possibilities
 
 /**
+ * 
  * @param int number of iterations as exponent of 2 (must be between 4 and 31)
  * @param bool TRUE = use MD5 only | FALSE = automatic
  */
@@ -70,7 +75,7 @@ class Password extends PasswordHash
  * @param string password to hash
  * @return string generated hash. Null if failed.
  */
-	public function HashPassword($sPassword)
+	public function hashPassword($sPassword)
 	{
 		$sNewHash = parent::HashPassword($sPassword);
 		return ($sNewHash == '*') ? null : $sNewHash;
@@ -80,7 +85,7 @@ class Password extends PasswordHash
  * @param string existing stored hash
  * @return bool true if PW matches the stored hash
  */
-	public function CheckPassword($sPassword, $sStoredHash)
+	public function checkPassword($sPassword, $sStoredHash)
 	{
 		// compatibility layer for deprecated, simple and old MD5 hashes
 		if(preg_match('/^[0-9a-f]{32}$/si', $sStoredHash)) {

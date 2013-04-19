@@ -11,7 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-
+19 Apr-2013 Build 1901 Werner v.d.Decken(DarkViper)
+# little corrections in class Password
 18 Apr-2013 Build 1900 Werner v.d.Decken(DarkViper)
 + Classes Password / PasswordHash Added for an essential strengthening of the password security
 04 Apr-2013 Build 1899 Dietmar Woellbrink (Luisehahne)
