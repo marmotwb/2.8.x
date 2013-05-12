@@ -90,6 +90,9 @@ class TranslationTable {
 				$this->aTranslations = $this->loadCacheFile($sCacheFile);
 		}else {
 			$bLanguageFound = false;
+			if(!class_exists($sAdaptor)) {
+				throw new TranslationException('unable to load adaptor: '.$sAdaptor);
+			}
 			$oAdaptor= new $sAdaptor($this->sAddon);
 			if(!$oAdaptor instanceof TranslateAdaptorInterface) {
 				$sMsg = 'Class ['.$sAdaptor.'] does not implement the '
