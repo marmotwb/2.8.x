@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+12 May-2013 Build 1902 Werner v.d.Decken(DarkViper)
++ added posssibility to use different adaptors for each module
++ added new adaptor to access language definitions in a MySQL database
 19 Apr-2013 Build 1901 Werner v.d.Decken(DarkViper)
 # little corrections in class Password
 18 Apr-2013 Build 1900 Werner v.d.Decken(DarkViper)

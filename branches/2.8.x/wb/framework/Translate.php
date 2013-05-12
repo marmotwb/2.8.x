@@ -92,8 +92,8 @@ class Translate {
 			throw new TranslationException('unable to load adaptor: '.$sAdaptor);
 		}
 		$this->sAdaptor       = 'TranslateAdaptor'.$sAdaptor;
-		$this->bUseCache      = (($iOptions & self::CACHE_DISABLED) == 0);
-		$this->bRemoveMissing = (($iOptions & self::KEEP_MISSING) == 0);
+		$this->bUseCache      = (!($iOptions & self::CACHE_DISABLED));
+		$this->bRemoveMissing = (!($iOptions & self::KEEP_MISSING));
 		// if no system language is set then use language 'en'
 		$this->sSystemLanguage = (trim($sSystemLanguage) == '' ? 'en' : $sSystemLanguage);
 		// if no default language is set then use system language
@@ -132,10 +132,19 @@ class Translate {
 /**
  * Add new addon
  * @param string Addon descriptor (i.e. 'modules\myAddon')
+ * @param string (optional)Adaptor name (default: $this->sAdaptor)
  * @return bool 
  */	
-	public function addAddon($sAddon)
+	public function addAddon($sAddon, $sAdaptor = null)
 	{
+		if($sAdaptor) {
+			if(!class_exists('TranslateAdaptor'.$sAdaptor)) {
+				throw new TranslationException('unable to load adaptor: '.$sAdaptor);
+			}
+			$sAdaptor = 'TranslateAdaptor'.$sAdaptor;
+		}else {
+			$sAdaptor = $this->sAdaptor;
+		}
 		$sAddon = str_replace('/', '\\', $sAddon);
 		if(!(strtolower($sAddon) == 'core' || $sAddon == '' || isset($this->aLoadedAddons[$sAddon]))) {
 		// load requested addon translations if needed and possible
@@ -144,19 +153,20 @@ class Translate {
 			                             $this->sDefaultLanguage, 
 			                             $this->sUserLanguage,
 			                             $this->bUseCache);
-			$this->aLoadedAddons[$sAddon] = $oTmp->load($this->sAdaptor);
+			$this->aLoadedAddons[$sAddon] = $oTmp->load($sAdaptor);
 		}
 	}
 /**
  * Activate Addon
  * @param string Addon descriptor (i.e. 'modules\myAddon')
+ * @param string (optional)Adaptor name (default: $this->sAdaptor)
  */	
-	public function enableAddon($sAddon)
+	public function enableAddon($sAddon, $sAdaptor = null)
 	{
 		$sAddon = str_replace('/', '\\', $sAddon);
 		if(!(strtolower($sAddon) == 'core' || $sAddon == '')) {
 			if(!isset($this->aLoadedAddons[$sAddon])) {
-				$this->addAddon($sAddon);
+				$this->addAddon($sAddon, $sAdaptor);
 			}
 			$this->aActiveTranslations[1] = $this->aLoadedAddons[$sAddon];
 		}
