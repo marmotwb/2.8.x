@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+13 May-2013 Build 1903 Werner v.d.Decken(DarkViper)
+! some typofixes in class PassWord
+- class /framework/PasswordHash never needed(replaced by /include/phpass/PasswordHash
 12 May-2013 Build 1902 Werner v.d.Decken(DarkViper)
 + added posssibility to use different adaptors for each module
 + added new adaptor to access language definitions in a MySQL database

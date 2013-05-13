@@ -16,13 +16,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * Description of Password
- * *****************************************************************************
- * This class is interfacing the Portable PHP password hashing framework.
- * Version 0.4 / ISTeam Rev. 0.1
- * ISTeam changes: added SHA-256, SHA-512 (2012/10/27 Werner v.d. Decken)
- * *****************************************************************************
- *
  * @category     WBCore
  * @package      WBCore_Security
  * @author       Werner v.d. Decken <wkl@isteam.de>
@@ -33,28 +26,31 @@
  * @link         $HeadURL$
  * @lastmodified $Date$
  * @since        Datei vorhanden seit Release 1.2.0
+ * @description  This class is interfacing the Portable PHP password hashing framework.<br />
+ *               Version 0.4 / ISTeam Rev. 0.1<br />
+ *               ISTeam changes: added SHA-256, SHA-512 (2012/10/27 Werner v.d. Decken)
  */
 
-// use \vendors\phpass\PasswordHash;
+// backwardcompatibility for PHP 5.2.2 + WB2.8.x
 if(!class_exists('PasswordHash')) {
 	include(dirname(dirname(__FILE__)).'/include/phpass/PasswordHash.php'); 
 }
 
 
 class Password extends PasswordHash
-//class Password extends v_phpass_PasswordHash
+//class Password extends vendors\phpass\PasswordHash
 {
 
-	const MIN_CRYPT_LOOPS     =  6;  // minimum numbers of loops is 2^6 (64) very, very quick
-	const MAX_CRYPT_LOOPS     = 31;  // maximum numbers of loops is 2^31 (2,147,483,648) extremely slow
-	const DEFAULT_CRYPT_LOOPS = 12;  // default numbers of loopf is 2^12 (4096) a good average
+	const CRYPT_LOOPS_MIN     =  6;  // minimum numbers of loops is 2^6 (64) very, very quick
+	const CRYPT_LOOPS_MAX     = 31;  // maximum numbers of loops is 2^31 (2,147,483,648) extremely slow
+	const CRYPT_LOOPS_DEFAULT = 12;  // default numbers of loopf is 2^12 (4096) a good average
 
 	const HASH_TYPE_PORTABLE  = true;  // use MD5 only
 	const HASH_TYPE_AUTO      = false; // select highest available crypting methode
 
-	const MIN_PW_LENGTH       =   6;
-	const MAX_PW_LENGTH       = 100;
-	const DEFAULT_PW_LENGTH   =  10;
+	const PW_LENGTH_MIN       =   6;
+	const PW_LENGTH_MAX       = 100;
+	const PW_LENGTH_DEFAULT   =  10;
 
 	const PW_USE_LOWERCHAR    = 0x0001; // use lower chars
 	const PW_USE_UPPERCHAR    = 0x0002; // use upper chars
@@ -67,7 +63,7 @@ class Password extends PasswordHash
  * @param int number of iterations as exponent of 2 (must be between 4 and 31)
  * @param bool TRUE = use MD5 only | FALSE = automatic
  */
-	public function __construct($iIterationCountLog2 = self::DEFAULT_CRYPT_LOOPS, $bPortableHashes = self::HASH_TYPE_AUTO)
+	public function __construct($iIterationCountLog2 = self::CRYPT_LOOPS_DEFAULT, $bPortableHashes = self::HASH_TYPE_AUTO)
 	{
 		parent::__construct($iIterationCountLog2, $bPortableHashes);
 	}
@@ -96,11 +92,11 @@ class Password extends PasswordHash
 /**
  * generate a case sensitive mnemonic password including numbers and special chars
  * makes no use of confusing characters like 'O' and '0' and so on.
- * @param int length of the generated password. default = DEFAULT_PW_LENGTH
+ * @param int length of the generated password. default = PW_LENGTH_DEFAULT
  * @param int defines which elemets are used to generate a password. Default = PW_USE_ALL
  * @return string
  */
-	public static function createNew($iLength = self::DEFAULT_PW_LENGTH, $iElements = self::PW_USE_ALL)
+	public static function createNew($iLength = self::PW_LENGTH_DEFAULT, $iElements = self::PW_USE_ALL)
 	{
 		$aChars = array(
 			array('b','c','d','f','g','h','j','k','m','n','p','q','r','s','t','v','w','x','y','z'),
@@ -110,8 +106,8 @@ class Password extends PasswordHash
 			array('!','-','@','_',':','.','+','%','/','*')
 		);
 		$iElements = ($iElements & self::PW_USE_ALL) == 0 ? self::PW_USE_ALL : $iElements;
-		if(($iLength < self::MIN_PW_LENGTH) || ($iLength > self::MAX_PW_LENGTH)) {
-			$iLength = self::DEFAULT_PW_LENGTH;
+		if(($iLength < self::PW_LENGTH_MIN) || ($iLength > self::PW_LENGTH_MAX)) {
+			$iLength = self::PW_LENGTH_DEFAULT;
 		}
 	// at first create random arrays of lowerchars and uperchars
 	// alternating between vowels and consonants
@@ -119,15 +115,15 @@ class Password extends PasswordHash
 		$aLowerCase = array();
 		for($x = 0; $x < ceil($iLength / 2); $x++) {
 			// consonants
-			$y = rand(1000, 10000) % sizeof($aChars[0]);
-			$aLowerCase[] = $aChars[0][$y];
-			$y = rand(1000, 10000) % sizeof($aChars[1]);
-			$aUpperCase[] = $aChars[1][$y];
+			$i1 = rand(1000, 10000) % sizeof($aChars[0]);
+			$aLowerCase[] = $aChars[0][$i1];
+			$i2 = rand(1000, 10000) % sizeof($aChars[1]);
+			$aUpperCase[] = $aChars[1][$i2];
 			// vowels
-			$y = rand(1000, 10000) % sizeof($aChars[2]);
-			$aLowerCase[] = $aChars[2][$y];
-			$y = rand(1000, 10000) % sizeof($aChars[3]);
-			$aUpperCase[] = $aChars[3][$y];
+			$i3 = rand(1000, 10000) % sizeof($aChars[2]);
+			$aLowerCase[] = $aChars[2][$i3];
+			$i4 = rand(1000, 10000) % sizeof($aChars[3]);
+			$aUpperCase[] = $aChars[3][$i4];
 		}
 	// create random arrays of numeric digits 2-9 and  special chars
 		$aDigits       = array();
@@ -154,8 +150,8 @@ class Password extends PasswordHash
 		}
 		if($iElements & self::PW_USE_DIGITS) {
 			if($bMerge) {
-				$iNumberOfDigits = (rand(1000, 10000) % ceil($iLength / 2.5));
-				$iNumberOfDigits = $iNumberOfDigits ? $iNumberOfDigits : 1;
+				$x = (rand(1000, 10000) % ceil($iLength / 2.5));
+				$iNumberOfDigits = $x ? $x : 1;
 				$aPassword = self::_mergeIntoPassword($aPassword, $aDigits, $iNumberOfDigits);
 			}else {
 				$aPassword = $aDigits;
@@ -164,8 +160,8 @@ class Password extends PasswordHash
 		}
 		if($iElements & self::PW_USE_SPECIAL) {
 			if($bMerge) {
-				$iNumberOfSpecialChars = rand(1000, 10000) % ceil($iLength / 5);
-				$iNumberOfSpecialChars = $iNumberOfSpecialChars ? $iNumberOfSpecialChars : 1;
+				$x = rand(1000, 10000) % ceil($iLength / 5);
+				$iNumberOfSpecialChars = $x ? $x : 1;
 				$aPassword = self::_mergeIntoPassword($aPassword, $aSpecialChars, $iNumberOfSpecialChars);
 			}else {
 				$aPassword = $aSpecialChars;
