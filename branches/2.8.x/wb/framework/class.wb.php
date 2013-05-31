@@ -388,7 +388,8 @@ return $components;
 
 	// Print a success message which then automatically redirects the user to another page
 	function print_success( $message, $redirect = 'index.php' ) {
-	    global $TEXT;
+		$oTrans = Translate::getInstance();
+		$oTrans->disableAddon();
         if(is_array($message)) {
            $message = implode ('<br />',$message);
         }
@@ -403,8 +404,8 @@ return $components;
 	    $tpl->set_var( 'MESSAGE', $message );
 	    $tpl->set_var( 'REDIRECT', $redirect );
 	    $tpl->set_var( 'REDIRECT_TIMER', $redirect_timer );
-	    $tpl->set_var( 'NEXT', $TEXT['NEXT'] );
-	    $tpl->set_var( 'BACK', $TEXT['BACK'] );
+	    $tpl->set_var( 'NEXT', $oTrans->TEXT_NEXT);
+	    $tpl->set_var( 'BACK', $oTrans->TEXT_BACK);
 	    if ($redirect_timer == -1) {
 	        $tpl->set_block( 'show_redirect', '' );
 	    }
@@ -417,7 +418,8 @@ return $components;
 
 	// Print an error message
 	function print_error($message, $link = 'index.php', $auto_footer = true) {
-		global $TEXT;
+		$oTrans = Translate::getInstance();
+		$oTrans->disableAddon();
         if(is_array($message)) {
            $message = implode ('<br />',$message);
         }
@@ -427,7 +429,7 @@ return $components;
 		$success_template->set_block('page', 'main_block', 'main');
 		$success_template->set_var('MESSAGE', $message);
 		$success_template->set_var('LINK', $link);
-		$success_template->set_var('BACK', $TEXT['BACK']);
+		$success_template->set_var('BACK', $oTrans->TEXT_BACK);
 		$success_template->parse('main', 'main_block', false);
 		$success_template->pparse('output', 'page');
 		if ( $auto_footer == true ) {
@@ -622,13 +624,13 @@ return $components;
 		}
 	}
 
-	 /**
-	  * checks if there is an alternative Theme template
-	  *
-	  * @param string $sThemeFile set the template.htt
-	  * @return string the relative theme path
-	  *
-	  */
+/**
+ * checks if there is an alternative Theme template
+ *
+ * @param string $sThemeFile set the template.htt
+ * @return string the relative theme path
+ *
+ */
         function correct_theme_source($sThemeFile = 'start.htt') {
 		$sRetval = $sThemeFile;
 		if (file_exists(THEME_PATH.'/templates/'.$sThemeFile )) {
@@ -643,24 +645,24 @@ return $components;
 		return $sRetval;
         }
 
-	/**
-	 * Check if a foldername doesn't have invalid characters
-	 *
-	 * @param String $str to check
-	 * @return Bool
-	 */
+/**
+ * Check if a foldername doesn't have invalid characters
+ *
+ * @param String $str to check
+ * @return Bool
+ */
 	function checkFolderName($str){
 		return !( preg_match('#\^|\\\|\/|\.|\?|\*|"|\'|\<|\>|\:|\|#i', $str) ? TRUE : FALSE );
 	}
 
-	/**
-	 * Check the given path to make sure current path is within given basedir
-	 * normally document root
-	 *
-	 * @param String $sCurrentPath
-	 * @param String $sBaseDir
-	 * @return $sCurrentPath or FALSE
-	 */
+/**
+ * Check the given path to make sure current path is within given basedir
+ * normally document root
+ *
+ * @param String $sCurrentPath
+ * @param String $sBaseDir
+ * @return $sCurrentPath or FALSE
+ */
 	function checkpath($sCurrentPath, $sBaseDir = WB_PATH){
 		// Clean the cuurent path
         $sCurrentPath = rawurldecode($sCurrentPath);
@@ -678,16 +680,15 @@ return $components;
 		}
 	}
 
-	/**
-     *
-     * remove <?php code ?>, [[text]], link, script, scriptblock and styleblock from a given string
-     * and return the cleaned string
-	 *
-	 * @param string $sValue
-     * @returns
-     *    false: if @param is not a string
-     *    string: cleaned string
-	 */
+/**
+ * remove <?php code ?>, [[text]], link, script, scriptblock and styleblock from a given string
+ * and return the cleaned string
+ *
+ * @param string $sValue
+ * @returns
+ *    false: if @param is not a string
+ *    string: cleaned string
+ */
 	public function StripCodeFromText($sValue, $bPHPCode=false){
         if(!is_string($sValue)) { return false; }
         $sValue = ( ($bPHPCode==true) ? preg_replace ('/\[\[.*?\]\]\s*?|<\?php\s+.*\?>\s*?/isU', '', $sValue ) : $sValue );
@@ -695,5 +696,25 @@ return $components;
         return (preg_replace ($sPattern, '', $sValue));
 	}
 
+/**
+ * ReplaceAbsoluteMediaUrl
+ * @param string $sContent
+ * @return string
+ * @description Replace URLs witch are pointing into MEDIA_DIRECTORY with an URL 
+ *              independend placeholder
+ */
+	public function ReplaceAbsoluteMediaUrl($sContent){
+		if(ini_get('magic_quotes_gpc')==true){
+			$sContent = $this->strip_slashes($sContent);
+		}
+		if(is_string($sContent)) {
+			$sMediaUrl = WB_URL.MEDIA_DIRECTORY;
+			$searchfor = '@(<[^>]*=\s*")('.preg_quote($sMediaUrl).')([^">]*".*>)@siU';
+			$sContent = preg_replace($searchfor, '$1{SYSVAR:MEDIA_REL}$3', $sContent );
+		}
+		return $sContent;
+	}
 
+	
+	
 }

@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+01 Jun-2013 Build 1904 Werner v.d.Decken(DarkViper)
++ new method wb::ReplaceAbsoluteMediaUrl()
++ class wb: Translate::disableAddon() in print_error() and print_success()
 13 May-2013 Build 1903 Werner v.d.Decken(DarkViper)
 ! some typofixes in class PassWord
 - class /framework/PasswordHash never needed(replaced by /include/phpass/PasswordHash
