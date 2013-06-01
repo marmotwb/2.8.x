@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+01 Jun-2013 Build 1905 Werner v.d.Decken(DarkViper)
++ new OutputFilter plugin 'FilterMediaRel'
 01 Jun-2013 Build 1904 Werner v.d.Decken(DarkViper)
 + new method wb::ReplaceAbsoluteMediaUrl()
 + class wb: Translate::disableAddon() in print_error() and print_success()
