@@ -36,33 +36,48 @@ if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 		define('OUTPUT_FILTER_AT_REPLACEMENT', $filter_settings['at_replacement']);
 		define('OUTPUT_FILTER_DOT_REPLACEMENT', $filter_settings['dot_replacement']);
 
+/* ### filter type: replace MediaRel placeholder ############################ */
+		if (file_exists($sFilterDirectory.'filterMediaRel.php')) {
+			require_once($sFilterDirectory.'filterMediaRel.php');
+			$content = doFilterMediaRel($content);
+		}
+/* ### filter type: change [wblinkxx] into real URLs ######################## */
+		if (file_exists($sFilterDirectory.'filterWbLink.php')) {
+			require_once($sFilterDirectory.'filterWbLink.php');
+			$content = doFilterWbLink($content);
+		}
 /* ### filter type: execute droplets filter ################################# */
 		if (file_exists($sFilterDirectory.'filterDroplets.php')) {
-			require($sFilterDirectory.'filterDroplets.php');
+			require_once($sFilterDirectory.'filterDroplets.php');
 			$content = doFilterDroplets($content);
 		}
 /* ### filter type: protect email addresses ################################# */
 		if( ($output_filter_mode & pow(2, 0)) || ($output_filter_mode & pow(2, 1)) ) {
 			if (file_exists($sFilterDirectory.'filterEmail.php')) {
-				require($sFilterDirectory.'filterEmail.php');
+				require_once($sFilterDirectory.'filterEmail.php');
 				$content = doFilterEmail($content, $output_filter_mode);
 			}
 		}
+/* ### filter type: replace MediaRel placeholder ############################ */
+		if (file_exists($sFilterDirectory.'filterMediaRel.php')) {
+			require_once($sFilterDirectory.'filterMediaRel.php');
+			$content = doFilterMediaRel($content);
+		}
 /* ### filter type: change [wblinkxx] into real URLs ######################## */
 		if (file_exists($sFilterDirectory.'filterWbLink.php')) {
-			require($sFilterDirectory.'filterWbLink.php');
+			require_once($sFilterDirectory.'filterWbLink.php');
 			$content = doFilterWbLink($content);
 		}
 /* ### filter type: full qualified URLs to relative URLs##################### */
         if($filter_settings['sys_rel'] == 1){
 			if (file_exists($sFilterDirectory.'filterRelUrl.php')) {
-				require($sFilterDirectory.'filterRelUrl.php');
+				require_once($sFilterDirectory.'filterRelUrl.php');
 				$content = doFilterRelUrl($content);
 			}
 		}
 /* ### filter type: moves css definitions from <body> into <head> ########### */
 		if (file_exists($sFilterDirectory.'filterCssToHead.php')) {
-			require($sFilterDirectory.'filterCssToHead.php');
+			require_once($sFilterDirectory.'filterCssToHead.php');
 			$content = doFilterCssToHead($content);
 		}
 
