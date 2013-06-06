@@ -68,10 +68,11 @@ class Password extends PasswordHash
 		parent::__construct($iIterationCountLog2, $bPortableHashes);
 	}
 /**
+ * make hash from password
  * @param string password to hash
  * @return string generated hash. Null if failed.
  */
-	public function hashPassword($sPassword)
+	public function makeHash($sPassword)
 	{
 		$sNewHash = parent::HashPassword($sPassword);
 		return ($sNewHash == '*') ? null : $sNewHash;
@@ -81,13 +82,25 @@ class Password extends PasswordHash
  * @param string existing stored hash
  * @return bool true if PW matches the stored hash
  */
-	public function checkPassword($sPassword, $sStoredHash)
+	public function checkIt($sPassword, $sStoredHash)
 	{
 		// compatibility layer for deprecated, simple and old MD5 hashes
 		if(preg_match('/^[0-9a-f]{32}$/si', $sStoredHash)) {
 			return (md5($sPassword) === $sStoredHash);
 		}
 		return parent::CheckPassword($sPassword, $sStoredHash);
+	}
+/**
+ * Check password for forbidden characters
+ * @param string password to test
+ * @return bool
+ */
+	public static function isValid($sPassword)
+	{
+		$sBlackList = '\"\'\,\;\<\>\?\\\{\|\}\~ '
+		            . '\x00-\x20\x22\x27\x2c\x3b\x3c\x3e\x3f\x5c\x7b-\x7f\xff';
+		$bRetval = !preg_match('/['.$sBlackList.']/si', $sPassword);
+		return $bRetval;
 	}
 /**
  * generate a case sensitive mnemonic password including numbers and special chars
@@ -103,7 +116,7 @@ class Password extends PasswordHash
 			array('B','C','D','F','G','H','J','K','M','N','P','Q','R','S','T','V','W','X','Y','Z'),
 			array('a','e','i','o','u'),
 			array('A','E','U'),
-			array('!','-','@','_',':','.','+','%','/','*')
+			array('!','-','@','_',':','.','+','%','/','*','=')
 		);
 		$iElements = ($iElements & self::PW_USE_ALL) == 0 ? self::PW_USE_ALL : $iElements;
 		if(($iLength < self::PW_LENGTH_MIN) || ($iLength > self::PW_LENGTH_MAX)) {
