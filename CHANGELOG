@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+06 Jun-2013 Build 1906 Werner v.d.Decken(DarkViper)
++ new Method Password::isValid() checks a new password for invalid characters
 01 Jun-2013 Build 1905 Werner v.d.Decken(DarkViper)
 + new OutputFilter plugin 'FilterMediaRel'
 01 Jun-2013 Build 1904 Werner v.d.Decken(DarkViper)
