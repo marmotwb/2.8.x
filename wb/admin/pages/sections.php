@@ -4,8 +4,8 @@
  * @category        admin
  * @package         pages
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link            http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
@@ -40,6 +40,8 @@ $admin = new admin('Pages', 'pages_view', false);
 
 // Include the WB functions file
 if(!function_exists('directory_list')) { require(WB_PATH.'/framework/functions.php'); }
+$mLang = Translate::getinstance();
+$mLang->enableAddon('admin\pages');
 
 $action = 'show';
 // Get page id
@@ -89,8 +91,8 @@ switch ($action):
 				require_once(WB_PATH.'/framework/class.order.php');
 				$order = new order(TABLE_PREFIX.'sections', 'position', 'section_id', 'page_id');
 				$order->clean($page_id);
-				$format = $TEXT['SECTION'].' %d  %s %s '.strtolower( $TEXT['DELETED']);
-				$message = sprintf ($format,$section_id,strtoupper($modulname),strtolower($TEXT['SUCCESS']));
+				$format = $mLang->TEXT_SECTION.' %d  %s %s '.strtolower( $mLang->TEXT_DELETED);
+				$message = sprintf ($format,$section_id,strtoupper($modulname),strtolower($mLang->TEXT_SUCCESS));
 				if($admin_header) { $admin->print_header(); }
 				$admin_header = false;
 				unset($_POST);
@@ -98,7 +100,7 @@ switch ($action):
 			}
         } else {
 			if($admin_header) { $admin->print_header(); }
-			$admin->print_error($module.' '.strtolower($TEXT['NOT_FOUND']),$backlink);
+			$admin->print_error($module.' '.strtolower($mLang->TEXT_NOT_FOUND),$backlink);
         }
 
 		break;
@@ -221,12 +223,12 @@ switch ($action):
 		}
 		foreach($block as $iIndex=>$sBlockTitle) {
 			if(trim($sBlockTitle) == '' ) {
-			 $block[$iIndex] = $TEXT['BLOCK'].'_'.$iIndex;
+			 $block[$iIndex] = $mLang->TEXT_BLOCK.'_'.$iIndex;
 			}
 		}
 	}else {
 		// Make our own menu list
-		$block = array(1, $TEXT['MAIN']);
+		$block = array(1, $mLang->TEXT_MAIN);
 	}
 		/*-- load css files with jquery --*/
 		// include jscalendar-setup
@@ -250,22 +252,22 @@ switch ($action):
 						'PAGE_ID' => $results_array['page_id'],
 						// 'PAGE_IDKEY' => $admin->getIDKEY($results_array['page_id']),
 						'PAGE_IDKEY' => $results_array['page_id'],
-						'TEXT_PAGE' => $TEXT['PAGE'],
+						'TEXT_PAGE' => $mLang->TEXT_PAGE,
 						'PAGE_TITLE' => ($results_array['page_title']),
 						'MENU_TITLE' => ($results_array['menu_title']),
-						'TEXT_CURRENT_PAGE' => $TEXT['CURRENT_PAGE'],
-						'TEXT_LAST_MODIFIED' => $TEXT['LAST_UPDATED_BY'],
+						'TEXT_CURRENT_PAGE' => $mLang->TEXT_CURRENT_PAGE,
+						'TEXT_LAST_MODIFIED' => $mLang->TEXT_LAST_UPDATED_BY,
 						'HEADING_MANAGE_SECTIONS' => $HEADING['MANAGE_SECTIONS'],
 						'HEADING_MODIFY_PAGE' => $HEADING['MODIFY_PAGE'],
-						'TEXT_CHANGE_SETTINGS' => $TEXT['CHANGE_SETTINGS'],
-						'TEXT_ADD_SECTION' => $TEXT['ADD_SECTION'],
-						'TEXT_SECTION' => $TEXT['SECTION'],
+						'TEXT_CHANGE_SETTINGS' => $mLang->TEXT_CHANGE_SETTINGS,
+						'TEXT_ADD_SECTION' => $mLang->TEXT_ADD_SECTION,
+						'TEXT_SECTION' => $mLang->TEXT_SECTION,
 						'TEXT_ID' => 'ID',
-						'TEXT_TYPE' => $TEXT['TYPE'],
-						'TEXT_BLOCK' => $TEXT['BLOCK'],
+						'TEXT_TYPE' => $mLang->TEXT_TYPE,
+						'TEXT_BLOCK' => $mLang->TEXT_BLOCK,
 						'TEXT_PUBL_START_DATE' => $TEXT{'PUBL_START_DATE'},
-						'TEXT_PUBL_END_DATE' => $TEXT['PUBL_END_DATE'],
-						'TEXT_ACTIONS' => $TEXT['ACTIONS'],
+						'TEXT_PUBL_END_DATE' => $mLang->TEXT_PUBL_END_DATE,
+						'TEXT_ACTIONS' => $mLang->TEXT_ACTIONS,
 						'MODIFIED_BY'          => $user['display_name'],
 						'MODIFIED_BY_USERNAME' => $user['username'],
 						'MODIFIED_WHEN'        => $modified_ts,
@@ -330,7 +332,7 @@ switch ($action):
 		if($query_sections->numRows() > 0)
 		{
 			$num_sections = $query_sections->numRows();
-			while($section = $query_sections->fetchRow())
+			while($section = $query_sections->fetchRow(MYSQL_ASSOC))
 		    {
 				if(!is_numeric(array_search($section['module'], $module_permissions)))
 		        {
@@ -344,9 +346,9 @@ switch ($action):
 					{
 						$edit_page = '';
 					}
-					$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? SEC_ANCHOR : 'section_');
+					$sSectionIdPrefix = ( defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? SEC_ANCHOR : 'Sec');
 					$edit_page_0 = '<a id="sid'.$section['section_id'].'" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$results_array['page_id'];
-					$edit_page_1  = ($sec_anchor!='') ? '#'.$sec_anchor.$section['section_id'].'">' : '">';
+					$edit_page_1  = ($sSectionIdPrefix!='') ? '#'.$sSectionIdPrefix.$section['section_id'].'">' : '">';
 					$edit_page_1 .= $section['module'].'</a>';
 					if(SECTION_BLOCKS)
 		            {
@@ -421,14 +423,14 @@ switch ($action):
 		            {
 						$tpl->set_var('VALUE_PUBL_START', '');
 					} else {
-						$tpl->set_var('VALUE_PUBL_START', date($jscal_format, $section['publ_start']));
+						$tpl->set_var('VALUE_PUBL_START', date($jscal_format, $section['publ_start']+TIMEZONE));
 					}
 					// set calendar start values
 					if($section['publ_end']==0)
 		            {
 						$tpl->set_var('VALUE_PUBL_END', '');
 					} else {
-						$tpl->set_var('VALUE_PUBL_END', date($jscal_format, $section['publ_end']));
+						$tpl->set_var('VALUE_PUBL_END', date($jscal_format, $section['publ_end']+TIMEZONE));
 					}
 					// Insert icons up and down
 					if($section['position'] != 1 )
@@ -545,10 +547,10 @@ switch ($action):
 		$sql  = 'SELECT `section_id` FROM `'.TABLE_PREFIX.'sections` ';
 		$sql .= 'WHERE `page_id` = '.$page_id.' AND `module` = "menu_link"';
 		$query_sections = $database->query($sql);
-		$tpl->set_var('TEXT_PLEASE_SELECT', $TEXT['NONE']);
+		$tpl->set_var('TEXT_PLEASE_SELECT', $mLang->TEXT_NONE);
 		if($query_sections->numRows() == 0)
 		{
-			$tpl->set_var('TEXT_PLEASE_SELECT', $TEXT['PLEASE_SELECT']);
+			$tpl->set_var('TEXT_PLEASE_SELECT', $mLang->TEXT_PLEASE_SELECT);
 			// Modules list
 		    $sql  = 'SELECT `name`,`directory`,`type` FROM `'.TABLE_PREFIX.'addons` ';
 		    $sql .= 'WHERE `type` = "module" AND `function` = "page" AND `directory` != "menu_link" ';
@@ -581,16 +583,16 @@ switch ($action):
 		// Insert language text and messages
 		$tpl->set_var(array(
 							'TEXT_MANAGE_SECTIONS' => $HEADING['MANAGE_SECTIONS'],
-							'TEXT_ARE_YOU_SURE' => $TEXT['ARE_YOU_SURE'],
-							'TEXT_TYPE' => $TEXT['TYPE'],
-							'TEXT_ADD' => $TEXT['ADD'],
-							'TEXT_SAVE' =>  $TEXT['SAVE'],
+							'TEXT_ARE_YOU_SURE' => $mLang->TEXT_ARE_YOU_SURE,
+							'TEXT_TYPE' => $mLang->TEXT_TYPE,
+							'TEXT_ADD' => $mLang->TEXT_ADD,
+							'TEXT_SAVE' =>  $mLang->TEXT_SAVE,
 							'TEXTLINK_MODIFY_PAGE' => $HEADING['MODIFY_PAGE'],
-							'TEXT_CALENDAR' => $TEXT['CALENDAR'],
-							'TEXT_DELETE_DATE' => $TEXT['DELETE_DATE'],
-							'TEXT_ADD_SECTION' => $TEXT['ADD_SECTION'],
-							'TEXT_MOVE_UP' => $TEXT['MOVE_UP'],
-							'TEXT_MOVE_DOWN' => $TEXT['MOVE_DOWN']
+							'TEXT_CALENDAR' => $mLang->TEXT_CALENDAR,
+							'TEXT_DELETE_DATE' => $mLang->TEXT_DELETE_DATE,
+							'TEXT_ADD_SECTION' => $mLang->TEXT_ADD_SECTION,
+							'TEXT_MOVE_UP' => $mLang->TEXT_MOVE_UP,
+							'TEXT_MOVE_DOWN' => $mLang->TEXT_MOVE_DOWN
 							)
 						);
 		$tpl->parse('main', 'main_block', false);
