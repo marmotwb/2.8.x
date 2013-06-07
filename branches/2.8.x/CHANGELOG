@@ -12,6 +12,8 @@ Legend:
 ===============================================================================
 
 
+07 Jun-2013 Build 1909 Dietmar Woellbrink (Luisehahne)
+! install/save.php,search_modext.php set $sSectionIdPrefix (SEC_ANCHOR) to the right value
 07 Jun-2013 Build 1908 Dietmar Woellbrink (Luisehahne)
 ! class.admin.php corrected url_help, 
   add Translat::disableAddon() in methode print_footer
