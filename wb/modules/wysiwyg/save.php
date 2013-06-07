@@ -4,13 +4,13 @@
  * @category        backend
  * @package         wysiwyg
  * @author          WebsiteBaker Project
- * @copyright       2009-2012, Website Baker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
- * @platform        WebsiteBaker 2.8.x
+ * @platform        WebsiteBaker 2.8.4
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
 */
@@ -34,16 +34,11 @@ $admin->print_header();
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 $aErrors = array();
-$sMediaUrl = WB_URL.MEDIA_DIRECTORY;
+//$sMediaUrl = WB_URL.MEDIA_DIRECTORY;
 // Update the mod_wysiwygs table with the contents
 if(isset($_POST['content'.$section_id])) {
 	$content = $_POST['content'.$section_id];
-	if(ini_get('magic_quotes_gpc')==true)
-	{
-		$content = $admin->strip_slashes($_POST['content'.$section_id]);
-	};
-	$searchfor = '@(<[^>]*=\s*")('.preg_quote($sMediaUrl).')([^">]*".*>)@siU';
-	$content = preg_replace($searchfor, '$1{SYSVAR:MEDIA_REL}$3', $content);
+	$content = $admin->ReplaceAbsoluteMediaUrl($content);
 	// searching in $text will be much easier this way
 	$content = WbDatabase::getInstance()->escapeString ($content);
 	$text = umlauts_to_entities(strip_tags($content), strtoupper(DEFAULT_CHARSET), 0);
@@ -57,11 +52,11 @@ if(isset($_POST['content'.$section_id])) {
 	$aErrors[] = $MESSAGE['GENERIC_NOT_UPGRADED'].((defined('DEBUG') && DEBUG) ? '<br />'.$MESSAGE['FRONTEND_SORRY_NO_ACTIVE_SECTIONS'] : '');
 }
 
-$sec_anchor = '#'.(defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? SEC_ANCHOR.$section_id : 'section_'.$section_id );
+$sSectionIdPrefix = ( defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? SEC_ANCHOR : 'Sec' );
 if(defined('EDIT_ONE_SECTION') and EDIT_ONE_SECTION){
 	$edit_page = ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'&wysiwyg='.$section_id;
 } else {
-	$edit_page = ADMIN_URL.'/pages/modify.php?page_id='.$page_id.$sec_anchor;
+	$edit_page = ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'#'.$sSectionIdPrefix.$section_id;
 }
 
 // Check if there is a database error, otherwise say successful
