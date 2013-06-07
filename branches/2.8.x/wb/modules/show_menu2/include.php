@@ -4,14 +4,14 @@
  * @category        module
  * @package         show_menu2
  * @author          WebsiteBaker Project
- * @copyright       2004-2009, Ryan Djurovich
- * @copyright       2009-2011, Website Baker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       Brodie Thiesfield
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.7.0 | 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -444,7 +444,8 @@ function show_menu2(
     )
 {
     global $wb;
-
+    $database = WbDatabase::getInstance();
+	$iQueryStart = $database->getQueryCount;
     // extract the flags and set $aOptions to an array
     $flags = 0;
     if (is_int($aOptions)) {
@@ -722,7 +723,10 @@ function show_menu2(
     if (($flags & SM2_NOCACHE) != 0) {
         unset($GLOBALS['show_menu2_data'][$aMenu]);
     }
-    
+	if(defined('DEBUG') && (DEBUG)) {
+	    $iQueriesDone = $database->getQueryCount - $iQueryStart;
+	    return $retval."\n".'<!-- Queries: '.$iQueriesDone.' -->'."\n";
+	}
     return $retval;
 }
 
