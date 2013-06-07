@@ -98,8 +98,10 @@ if(!$show_block || count($module_files) == 0 || !isset($_GET['advanced']) || $ad
 	$template->set_var('DISPLAY_MANUAL_INSTALL', 'hide');
 }
 
-$mLang = ModLanguage::getInstance();
-$mLang->setLanguage(ADMIN_PATH.'/addons/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+//$mLang = ModLanguage::getInstance();
+//$mLang->setLanguage(ADMIN_PATH.'/addons/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+$mLang = Translate::getinstance();
+$mLang->enableAddon('admin\addons');
 
 /*-- insert all needed vars from language files ----------------------------------------*/
 $template->set_var($mLang->getLangArray());
