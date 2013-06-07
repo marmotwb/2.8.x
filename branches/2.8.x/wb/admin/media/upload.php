@@ -69,10 +69,10 @@ $file_extension_string = '';
 // Get list of file types to which we're supposed to append 'txt'
 $sql = 'SELECT `value` FROM  `'.TABLE_PREFIX. 'settings` '.
        'WHERE `name`=\'rename_files_on_upload\'';
+if( ($file_extension_string = $database->get_one($sql))=='' ) {
+//    $aResult = $oRes->fetchRow(MYSQL_ASSOC);
+//    $file_extension_string = $aResult['value'];
 
-if($oRes = $database->query($sql)) {
-    $aResult = $oRes->fetchRow(MYSQL_ASSOC);
-    $file_extension_string = $aResult['value'];
 }
 
 $file_extensions=explode(",",$file_extension_string);

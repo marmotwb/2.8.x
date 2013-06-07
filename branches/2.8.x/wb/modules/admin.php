@@ -4,13 +4,13 @@
  * @category        backend
  * @package         modules
  * @author          WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -209,9 +209,8 @@ if(isset($print_info_banner) && $print_info_banner == true) {
 				$block_name = '#' . (int) $section['block'];
 			}
 		}
-		$sec_anchor = '#'.(defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? SEC_ANCHOR.$section_id : 'section_'.$section_id );
-		//print '<div class="section-info" ><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
-		print '<div class="section-info" '.$sec_anchor.' ><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
+		$sSectionIdPrefix = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? SEC_ANCHOR : 'Sec' );
+		print '<div class="section-info" id="'.$sSectionIdPrefix.$section_id.'" ><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
 		print '<b>  Modul: </b>' . $section['module']." ";
 		print '<b>  ID: </b>' . $section_id."</div>\n";
 //	}
