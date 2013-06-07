@@ -4,13 +4,13 @@
  * @category        backend
  * @package         framework
  * @author          Ryan Djurovich (2004-2009), WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -202,7 +202,7 @@ class admin extends wb {
 							'LOGIN_LINK' => $_SERVER['SCRIPT_NAME'],
 							'LOGIN_ICON' => 'login',
 							'START_ICON' => 'blank',
-							'URL_HELP' => 'http://www.websitebaker2.org'.$HelpUrl,
+							'URL_HELP' => 'http://www.websitebaker.org'.$HelpUrl,
 							'BACKEND_MODULE_CSS' => $this->register_backend_modfiles('css'),	// adds backend.css
 							'BACKEND_MODULE_JS'  => $this->register_backend_modfiles('js')		// adds backend.js
 						)
@@ -294,6 +294,8 @@ class admin extends wb {
 	// Print the admin footer
 		function print_footer($activateJsAdmin = false) {
 		global $database,$starttime,$iPhpDeclaredClasses;
+		$oTrans = Translate::getInstance();
+		$oTrans->disableAddon();
 		// include the required file for Javascript admin
 		if($activateJsAdmin == true) {
 			if(file_exists(WB_PATH.'/modules/jsadmin/jsadmin_backend_include.php')){

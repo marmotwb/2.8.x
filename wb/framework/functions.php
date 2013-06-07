@@ -4,10 +4,10 @@
  * @category        frontend
  * @package         framework
  * @author          Ryan Djurovich,WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link            http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
- * @platform        WebsiteBaker 2.8.x
+ * @platform        WebsiteBaker 2.8.4
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
  * @filesource      $HeadURL$
@@ -525,11 +525,22 @@ function get_menu_title($id)
 	$menu_title = $database->get_one($sql);
 	return $menu_title;
 }
+// Function to get a pages filename in sub
+function get_sub_filename($id)
+{
+	$database = WbDatabase::getInstance();
+	// Get title
+	$sql = 'SELECT `link` FROM `'.TABLE_PREFIX.'pages` '
+	      .'WHERE `page_id` = '.$id.' '
+	      .  'AND `level`>=0';
+	$sRetval = basename($database->get_one($sql));
+	return $sRetval;
+}
 
 // Function to get all parent page titles
 function get_parent_titles($parent_id)
 {
-	$titles[] = get_menu_title($parent_id);
+	$titles[] = get_sub_filename($parent_id);
 	if(is_parent($parent_id) != false) {
 		$parent_titles = get_parent_titles(is_parent($parent_id));
 		$titles = array_merge($titles, $parent_titles);
@@ -660,7 +671,7 @@ function createFolderProtectFile($sAbsDir='',$make_dir=true)
 	global $admin, $MESSAGE;
 	$retVal = array();
 	$wb_path = rtrim(str_replace('\/\\', '/', WB_PATH), '/');
-    if( ($sAbsDir=='') || ($sAbsDir == $wb_path) ) { return $retVal;}
+	if( ($sAbsDir=='') || ($sAbsDir == $wb_path) ) { return $retVal;}
 
 	if ( $make_dir==true ) {
 		// Check to see if the folder already exists
@@ -675,13 +686,15 @@ function createFolderProtectFile($sAbsDir='',$make_dir=true)
 		return $retVal;
 	}
 
+//$retVal[] = $sAbsDir;
+//return $retVal;
+
 	if( is_writable($sAbsDir) )
 	{
         // if(file_exists($sAbsDir.'/index.php')) { unlink($sAbsDir.'/index.php'); }
 	    // Create default "index.php" file
 		$rel_pages_dir = str_replace($wb_path, '', dirname($sAbsDir) );
 		$step_back = str_repeat( '../', substr_count($rel_pages_dir, '/')+1 );
-
 		$sResponse  = $_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently';
 		$content =
 			'<?php'."\n".
@@ -1387,11 +1400,11 @@ if(!function_exists('rebuild_all_accessfiles')){
     	 * try to remove access files and build new folder protect files
     	 */
     	$sTempDir = (defined('PAGES_DIRECTORY') && (PAGES_DIRECTORY != '') ? PAGES_DIRECTORY : '');
-//    	if(($sTempDir!='') && is_writeable(WB_PATH.$sTempDir)==true) {
-//    	 	if(rm_full_dir (WB_PATH.$sTempDir, true )==false) {
-//    			$retVal[] = 'Could not delete existing access files';
-//    	 	}
-//    	}
+    	if(($sTempDir!='') && is_writeable(WB_PATH.$sTempDir)==true) {
+    	 	if(rm_full_dir (WB_PATH.$sTempDir, true )==false) {
+    			$retVal[] = 'Could not delete existing access files';
+    	 	}
+    	}
 		$retVal = createFolderProtectFile(rtrim( WB_PATH.PAGES_DIRECTORY,'/') );
     	/**
     	 * Reformat/rebuild all existing access files
