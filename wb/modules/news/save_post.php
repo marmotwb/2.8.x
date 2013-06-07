@@ -4,13 +4,13 @@
  * @category        modules
  * @package         news
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -65,20 +65,33 @@
 	}
 	$admin->print_header();
 
+//	$sMediaUrl = WB_URL.MEDIA_DIRECTORY;
+//	$searchfor = '@(<[^>]*=\s*")('.preg_quote($sMediaUrl).')([^">]*".*>)@siU';
 // Validate all fields
+	$title      = $admin->StripCodeFromText($admin->get_post('title'));
+	$commenting = $admin->StripCodeFromText($admin->get_post('commenting'));
+	$active     = intval($admin->get_post('active'));
+	$old_link   = $admin->StripCodeFromText($admin->get_post('link'));
+	$group_id   = intval($admin->get_post('group'));
+
 	if($admin->get_post('title') == '' AND $admin->get_post('url') == '') {
-        $recallUrl = WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.
+		$recallUrl = WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.
 		             '&section_id='.$section_id.'&post_id='.$admin->getIDKEY($post_id);
 		$admin->print_error($MESSAGE['GENERIC_FILL_IN_ALL'], $recallUrl);
-	}else {
-		$title      = $admin->get_post_escaped('title');
-		$short      = $admin->get_post_escaped('short');
-		$long       = $admin->get_post_escaped('long');
-		$commenting = $admin->get_post_escaped('commenting');
-		$active     = $admin->get_post_escaped('active');
-		$old_link   = $admin->get_post_escaped('link');
-		$group_id   = $admin->get_post_escaped('group');
+	} else {
+		$short      = $admin->get_post('short');
+		$long       = $admin->get_post('long');
+//		if(ini_get('magic_quotes_gpc')==true)
+//		{
+//			$short = $admin->strip_slashes($short);
+//			$long = $admin->strip_slashes($long);
+//		}
+//		$short = preg_replace($searchfor, '$1{SYSVAR:MEDIA_REL}$3', $short );
+//		$long = preg_replace($searchfor, '$1{SYSVAR:MEDIA_REL}$3', $long );
+		$short = $admin->ReplaceAbsoluteMediaUrl($short);
+		$long = $admin->ReplaceAbsoluteMediaUrl($long);
 	}
+
 // Get page link URL
 	$sql = 'SELECT `link` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id`='.(int)$page_id;
 	$oldLink = $database->get_one($sql);

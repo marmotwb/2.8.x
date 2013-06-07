@@ -4,13 +4,13 @@
  * @category        modules
  * @package         news
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -30,11 +30,37 @@ $post_id = intval($admin->checkIDKEY('post_id', false, 'GET'));
 if (!$post_id) {
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $backlink);
 }
-
+$aPostRec = array(
+'post_id' => 0,
+'section_id' => 0,
+'page_id' => 0,
+'group_id' => 0,
+'active' => 0,
+'position' => 0,
+'title' => '',
+'link' => '',
+'content_short' => '',
+'content_long' => '',
+'commenting' => '',
+'created_when' => 0,
+'created_by' => 0,
+'published_when' => 0,
+'published_until' => 0,
+'posted_when' => 0,
+'posted_by' => 0
+);
+$sMediaUrl = WB_URL.MEDIA_DIRECTORY;
 // Get header and footer
-$query_content = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_news_posts WHERE post_id = '$post_id'");
-$fetch_content = $query_content->fetchRow();
+$sql = 'SELECT * FROM `'.TABLE_PREFIX.'mod_news_posts` WHERE `post_id`='.(int)$post_id;
+if($oPostRes = $database->query($sql)){
+	$aPostRec = $oPostRes->fetchRow(MYSQL_ASSOC);
+	$aPostRec['content_short'] = str_replace('{SYSVAR:MEDIA_REL}', $sMediaUrl,$aPostRec['content_short']);
+	$aPostRec['content_long']  = str_replace('{SYSVAR:MEDIA_REL}', $sMediaUrl,$aPostRec['content_long']);
+}
+//$query_content = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_news_posts WHERE post_id = '$post_id'");
 
+//print '<pre style="text-align:left;color:#000;padding:1em;"><strong>function '.__FUNCTION__.'( '.$post_id.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />'; 
+//print_r( $fetch_content['content_short'] ); print '</pre>'; // flush ();sleep(10); die();
 if(!isset($wysiwyg_editor_loaded)) {
     $wysiwyg_editor_loaded=true;
 	if (!defined('WYSIWYG_EDITOR') OR WYSIWYG_EDITOR=="none" OR !file_exists(WB_PATH.'/modules/'.WYSIWYG_EDITOR.'/include.php')) {
@@ -58,14 +84,14 @@ require_once(WB_PATH."/include/jscalendar/wb-setup.php");
 <input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
 <input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
 <input type="hidden" name="post_id" value="<?php echo $post_id; ?>" />
-<input type="hidden" name="link" value="<?php echo $fetch_content['link']; ?>" />
+<input type="hidden" name="link" value="<?php echo $aPostRec['link']; ?>" />
 <?php echo $admin->getFTAN(); ?>
 
 <table class="row_a" cellpadding="2" cellspacing="0" width="100%">
 <tr>
 	<td><?php echo $TEXT['TITLE']; ?>:</td>
 	<td width="80%">
-		<input type="text" name="title" value="<?php echo (htmlspecialchars($fetch_content['title'])); ?>" style="width: 98%;" maxlength="255" />
+		<input type="text" name="title" value="<?php echo (htmlspecialchars($aPostRec['title'])); ?>" style="width: 98%;" maxlength="255" />
 	</td>
 </tr>
 <tr>
@@ -77,9 +103,9 @@ require_once(WB_PATH."/include/jscalendar/wb-setup.php");
 			$query = $database->query("SELECT group_id,title FROM ".TABLE_PREFIX."mod_news_groups WHERE section_id = '$section_id' ORDER BY position ASC");
 			if($query->numRows() > 0) {
 				// Loop through groups
-				while($group = $query->fetchRow()) {
+				while($group = $query->fetchRow(MYSQL_ASSOC)) {
 					?>
-					<option value="<?php echo $group['group_id']; ?>"<?php if($fetch_content['group_id'] == $group['group_id']) { echo ' selected="selected"'; } ?>><?php echo $group['title']; ?></option>
+					<option value="<?php echo $group['group_id']; ?>"<?php if($aPostRec['group_id'] == $group['group_id']) { echo ' selected="selected"'; } ?>><?php echo $group['title']; ?></option>
 					<?php
 				}
 			}
@@ -92,20 +118,20 @@ require_once(WB_PATH."/include/jscalendar/wb-setup.php");
 	<td>
 		<select name="commenting" style="width: 100%;">
 			<option value="none"><?php echo $TEXT['DISABLED']; ?></option>
-			<option value="public" <?php if($fetch_content['commenting'] == 'public') { echo ' selected="selected"'; } ?>><?php echo $TEXT['PUBLIC']; ?></option>
-			<option value="private" <?php if($fetch_content['commenting'] == 'private') { echo ' selected="selected"'; } ?>><?php echo $TEXT['PRIVATE']; ?></option>
+			<option value="public" <?php if($aPostRec['commenting'] == 'public') { echo ' selected="selected"'; } ?>><?php echo $TEXT['PUBLIC']; ?></option>
+			<option value="private" <?php if($aPostRec['commenting'] == 'private') { echo ' selected="selected"'; } ?>><?php echo $TEXT['PRIVATE']; ?></option>
 		</select>
 	</td>
 </tr>
 <tr>
 	<td><?php echo $TEXT['ACTIVE']; ?>:</td>
 	<td>
-		<input type="radio" name="active" id="active_true" value="1" <?php if($fetch_content['active'] == 1) { echo ' checked="checked"'; } ?> />
+		<input type="radio" name="active" id="active_true" value="1" <?php if($aPostRec['active'] == 1) { echo ' checked="checked"'; } ?> />
 		<a href="#" onclick="javascript: document.getElementById('active_true').checked = true;">
 		<?php echo $TEXT['YES']; ?>
 		</a>
 		&nbsp;
-		<input type="radio" name="active" id="active_false" value="0" <?php if($fetch_content['active'] == 0) { echo ' checked="checked"'; } ?> />
+		<input type="radio" name="active" id="active_false" value="0" <?php if($aPostRec['active'] == 0) { echo ' checked="checked"'; } ?> />
 		<a href="#" onclick="javascript: document.getElementById('active_false').checked = true;">
 		<?php echo $TEXT['NO']; ?>
 		</a>
@@ -114,7 +140,7 @@ require_once(WB_PATH."/include/jscalendar/wb-setup.php");
 <tr>
 	<td><?php echo $TEXT['PUBL_START_DATE']; ?>:</td>
 	<td>
-	<input type="text" id="publishdate" name="publishdate" value="<?php if($fetch_content['published_when']==0) print date($jscal_format, strtotime((date('Y-m-d H:i')))); else print date($jscal_format, $fetch_content['published_when']);?>" style="width: 120px;" />
+	<input type="text" id="publishdate" name="publishdate" value="<?php if($aPostRec['published_when']==0) print date($jscal_format, strtotime((date('Y-m-d H:i')))); else print date($jscal_format, $aPostRec['published_when']);?>" style="width: 120px;" />
 	<img src="<?php echo THEME_URL ?>/images/clock_16.png" id="publishdate_trigger" style="cursor: pointer;" title="<?php echo $TEXT['CALENDAR']; ?>" alt="<?php echo $TEXT['CALENDAR']; ?>" onmouseover="this.style.background='lightgrey';" onmouseout="this.style.background=''" />
 	<img src="<?php echo THEME_URL ?>/images/clock_del_16.png" style="cursor: pointer;" title="<?php echo $TEXT['DELETE_DATE']; ?>" alt="<?php echo $TEXT['DELETE_DATE']; ?>" onmouseover="this.style.background='lightgrey';" onmouseout="this.style.background=''" onclick="document.modify.publishdate.value=''" />
 	</td>
@@ -122,7 +148,7 @@ require_once(WB_PATH."/include/jscalendar/wb-setup.php");
 <tr>
 	<td><?php echo $TEXT['PUBL_END_DATE']; ?>:</td>
 	<td>
-	<input type="text" id="enddate" name="enddate" value="<?php if($fetch_content['published_until']==0) print ""; else print date($jscal_format, $fetch_content['published_until'])?>" style="width: 120px;" />
+	<input type="text" id="enddate" name="enddate" value="<?php if($aPostRec['published_until']==0) print ""; else print date($jscal_format, $aPostRec['published_until'])?>" style="width: 120px;" />
 	<img src="<?php echo THEME_URL ?>/images/clock_16.png" id="enddate_trigger" style="cursor: pointer;" title="<?php echo $TEXT['CALENDAR']; ?>" alt="<?php echo $TEXT['CALENDAR']; ?>" onmouseover="this.style.background='lightgrey';" onmouseout="this.style.background=''" />
 	<img src="<?php echo THEME_URL ?>/images/clock_del_16.png" style="cursor: pointer;" title="<?php echo $TEXT['DELETE_DATE']; ?>" alt="<?php echo $TEXT['DELETE_DATE']; ?>" onmouseover="this.style.background='lightgrey';" onmouseout="this.style.background=''" onclick="document.modify.enddate.value=''" />
 	</td>
@@ -136,7 +162,7 @@ require_once(WB_PATH."/include/jscalendar/wb-setup.php");
 <tr>
 	<td>
 	<?php
-	show_wysiwyg_editor("short","short",htmlspecialchars($fetch_content['content_short']),"100%","200px");
+	show_wysiwyg_editor("short","short",htmlspecialchars($aPostRec['content_short']),"100%","200px");
 	?>
 	</td>
 </tr>
@@ -146,7 +172,7 @@ require_once(WB_PATH."/include/jscalendar/wb-setup.php");
 <tr>
 	<td>
 	<?php
-	show_wysiwyg_editor("long","long",htmlspecialchars($fetch_content['content_long']),"100%","650px");
+	show_wysiwyg_editor("long","long",htmlspecialchars($aPostRec['content_long']),"100%","650px");
 	?>
 	</td>
 </tr>
@@ -215,7 +241,7 @@ if($query_comments->numRows() > 0) {
 	?>
 	<table cellpadding="2" cellspacing="0" border="0" width="100%">
 	<?php
-	while($comment = $query_comments->fetchRow()) {
+	while($comment = $query_comments->fetchRow(MYSQL_ASSOC)) {
 		$cid = $admin->getIDKEY($comment['comment_id']);
 		?>
 		<tr class="row_<?php echo $row; ?>" >

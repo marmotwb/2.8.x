@@ -4,13 +4,13 @@
  * @category        modules
  * @package         news
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -25,24 +25,31 @@ require(WB_PATH.'/framework/class.order.php');
 // Get new order
 $order = new order(TABLE_PREFIX.'mod_news_posts', 'position', 'post_id', 'section_id');
 $position = $order->get_new($section_id);
+$post_id = 0;
 
+try {
 // Get default commenting
-$query_settings = $database->query("SELECT commenting FROM ".TABLE_PREFIX."mod_news_settings WHERE section_id = '$section_id'");
-$fetch_settings = $query_settings->fetchRow();
-$commenting = $fetch_settings['commenting'];
-
+	$sql = 'SELECT `commenting` FROM `'.TABLE_PREFIX.'mod_news_settings` '
+	     . 'WHERE `section_id`='.(int)$section_id;
+	$query_settings = $database->query($sql);
+	$fetch_settings = $query_settings->fetchRow(MYSQL_ASSOC);
+	$commenting = $fetch_settings['commenting'];
 // Insert new row into database
-$database->query("INSERT INTO ".TABLE_PREFIX."mod_news_posts (section_id,page_id,position,commenting,active) VALUES ('$section_id','$page_id','$position','$commenting','1')");
-
-// Get the id
-$post_id = $admin->getIDKEY($database->get_one("SELECT LAST_INSERT_ID()"));
-
-// Say that a new record has been added, then redirect to modify page
-if($database->is_error()) {
-	$admin->print_error($database->get_error(), WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.'&section_id='.$section_id.'&post_id='.$post_id);
-} else {
-	$admin->print_success($TEXT['SUCCESS'], WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.'&section_id='.$section_id.'&post_id='.$post_id);
+	$sql = 'INSERT INTO `'.TABLE_PREFIX.'mod_news_posts` '
+	     . 'SET `section_id`='.$section_id.', '
+	     .     '`page_id`='.$page_id.', '
+	     .     '`position`='.$position.', '
+	     .     '`commenting`=\''.$commenting.'\', '
+	     .     '`created_when`='.time().', '
+	     .     '`created_by`='.(int)$admin->get_user_id().', '
+	     .     '`posted_when`='.time().', '
+	     .     '`posted_by`='.(int)$admin->get_user_id().', '
+	     .     '`active`=1';
+	$database->query($sql);
+	$post_id = $admin->getIDKEY($database->LastInsertId);
+} catch(WbDatabaseException $e) {
+	$sSectionIdPrefix = ( defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? SEC_ANCHOR : 'Sec' );
+	$admin->print_error($database->get_error(), WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.'#'.$sSectionIdPrefix.$section_id );
 }
-
-// Print admin footer
+$admin->print_success($TEXT['SUCCESS'], WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.'&section_id='.$section_id.'&post_id='.$post_id );
 $admin->print_footer();

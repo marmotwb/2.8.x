@@ -23,6 +23,7 @@ if(!defined('WB_URL')) {
 }
 /* -------------------------------------------------------- */
 global $post_id, $post_section,$TEXT,$MESSAGE;
+$sMediaUrl = WB_URL.MEDIA_DIRECTORY;
 
 // load module language file
 $lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
@@ -54,8 +55,7 @@ $groups[0]['active'] = true;
 $groups[0]['image'] = '';
 
 $query_users = $database->query("SELECT group_id,title,active FROM ".TABLE_PREFIX."mod_news_groups WHERE section_id = '$section_id' ORDER BY position ASC");
-if($query_users->numRows() > 0)
-{
+if($query_users->numRows() > 0){
 
 	while( false != ($group = $query_users->fetchRow()) )
 	{
@@ -73,8 +73,7 @@ if($query_users->numRows() > 0)
 
 // Check if we should show the main page or a post itself
 // if(!defined('POST_ID') OR !is_numeric(POST_ID))
-if(!isset($post_id) || !is_numeric($post_id))
-{
+if(!isset($post_id) || !is_numeric($post_id)){
 
 	// Check if we should only list posts from a certain group
 	if(isset($_GET['g']) AND is_numeric($_GET['g'])) {
@@ -192,7 +191,7 @@ if(!isset($post_id) || !is_numeric($post_id))
 			</div>
 			<?php
 		}
-		while( false != ($post = $query_posts->fetchRow()) )
+		while( false != ($post = $query_posts->fetchRow(MYSQL_ASSOC)) )
 		{
 			if(isset($groups[$post['group_id']]['active']) AND $groups[$post['group_id']]['active'] != false)
 			{ // Make sure parent group is active
@@ -224,7 +223,6 @@ if(!isset($post_id) || !is_numeric($post_id))
 					$post_link .= 'g='.$_GET['g'];
 					}
 				}
-
 				// Get group id, title, and image
 				$group_id = $post['group_id'];
 				$group_title = $groups[$group_id]['title'];
@@ -266,12 +264,10 @@ if(!isset($post_id) || !is_numeric($post_id))
 
 }
 //elseif(defined('POST_ID') AND is_numeric(POST_ID))
-elseif(isset($post_id) && is_numeric($post_id))
-{
+elseif(isset($post_id) && is_numeric($post_id)){
 // print '<h2>'.POST_ID.'/'.PAGE_ID.'/'.POST_SECTION.'</h2>';
 //  if(defined('POST_SECTION') AND POST_SECTION == $section_id)
-	if(isset($post_section) && ($post_section == $section_id))
-	{
+	if(isset($post_section) && ($post_section == $section_id)){
 		// Get settings
 		$setting_post_header = $setting_post_footer = $setting_comments_header
 		                     = $setting_comments_loop = $setting_comments_footer = '';
@@ -301,7 +297,7 @@ elseif(isset($post_id) && is_numeric($post_id))
 			exit($MESSAGE['PAGES_NOT_FOUND']);
 		}
 
-		// Get post info
+// Get post info
 		$t = time();
 		$query_post = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_news_posts
 			WHERE post_id = '".$post_id."' AND active = '1'
@@ -332,7 +328,7 @@ elseif(isset($post_id) && is_numeric($post_id))
 				$post_link_path = str_replace(WB_URL, WB_PATH,$post_link);
 				$create_date = date(DATE_FORMAT, $post['created_when']+TIMEZONE);
 				$create_time = date(TIME_FORMAT, $post['created_when']+TIMEZONE);
-				// Get group id, title, and image
+// Get group id, title, and image
 				$group_id = $post['group_id'];
 				$group_title = $groups[$group_id]['title'];
 				$group_image = $groups[$group_id]['image'];
@@ -372,7 +368,7 @@ elseif(isset($post_id) && is_numeric($post_id))
 			$values = array(WB_URL.'/modules/news/comment.php?post_id='.$post_id.'&amp;section_id='.$section_id, $MOD_NEWS['TEXT_COMMENTS']);
 			print str_replace($vars, $values, $setting_comments_header);
 
-			// Query for comments
+// Query for comments
 			$query_comments = $database->query("SELECT title,comment,commented_when,commented_by FROM ".TABLE_PREFIX."mod_news_comments WHERE post_id = '".$post_id."' ORDER BY commented_when ASC");
 			if($query_comments->numRows() > 0)
 			{
