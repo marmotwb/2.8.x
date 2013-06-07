@@ -12,6 +12,10 @@ Legend:
 ===============================================================================
 
 
+07 Jun-2013 Build 1916 Dietmar Woellbrink (Luisehahne)
+! /modules/droplets/ set to version 1.3.0
+  installing module with sql import
+  make upgrade.php compatible with upgrade-scrip.php
 07 Jun-2013 Build 1915 Dietmar Woellbrink (Luisehahne)
 ! recoding /modules/code/add.php with exception
 07 Jun-2013 Build 1914 Dietmar Woellbrink (Luisehahne)
