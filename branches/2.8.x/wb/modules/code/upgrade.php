@@ -4,10 +4,10 @@
  * @category        modules
  * @package         code
  * @author          WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link            http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
- * @platform        WebsiteBaker 2.8.x
+ * @platform        WebsiteBaker 2.8.4
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id: upgrade.php 1428 2011-02-07 04:55:31Z Luisehahne $
  * @filesource      $HeadURL: http://svn.websitebaker2.org/branches/2.8.x/wb/modules/code/upgrade.php $

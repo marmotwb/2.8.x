@@ -12,6 +12,8 @@ Legend:
 ===============================================================================
 
 
+07 Jun-2013 Build 1915 Dietmar Woellbrink (Luisehahne)
+! recoding /modules/code/add.php with exception
 07 Jun-2013 Build 1914 Dietmar Woellbrink (Luisehahne)
 ! /admin/pages/  add/change to new Translate class
   add a default.ini with a list of protected basenames, 
