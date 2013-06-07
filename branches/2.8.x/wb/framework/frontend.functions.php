@@ -4,13 +4,13 @@
  * @category        framework
  * @package         frontend.functions
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
- * @platform        WebsiteBaker 2.8.x
+ * @platform        WebsiteBaker 2.8.4
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
 */
@@ -305,11 +305,11 @@ if (!function_exists('page_content')) {
                 // check if module exists - feature: write in errorlog
 				if(file_exists(WB_PATH.'/modules/'.$module.'/view.php')) {
 				// fetch content -- this is where to place possible output-filters (before highlighting)
-					ob_start(); // fetch original content
-                    $sectionAnchor = (defined('SEC_ANCHOR') && SEC_ANCHOR!='') ? SEC_ANCHOR.$section_id : 'section_'.$section_id;
-                    echo "\n".'<div id="'.$sectionAnchor.'" class="wb_'.$module.'" >'."\n";
+					ob_start(); // fetch original content<div id="Sec103" class="section  m_modulename user-defined-class" >
+					$sSectionIdPrefix = (defined( 'SEC_ANCHOR' ) && SEC_ANCHOR!='') ? SEC_ANCHOR : 'Sec';
+					echo ($sSectionIdPrefix =='none') ? '' : "\n".'<div id="'.$sSectionIdPrefix.$section_id.'" class="section m_'.$module.'" >'."\n";
 					require(WB_PATH.'/modules/'.$module.'/view.php');
-                    echo "\n".'</div><!-- '.$module.$section_id.' -->'."\n";
+					echo ($sSectionIdPrefix =='none') ? '' : "\n".'</div><!-- '.$module.$section_id.' -->'."\n";
 					$content = ob_get_clean();
 				} else {
 					continue;
@@ -330,7 +330,7 @@ if (!function_exists('page_content')) {
 		} else {
 			require(PAGE_CONTENT);
 		}
-    return $retVal;
+	return $retVal;
 
 	}
 }
@@ -386,7 +386,6 @@ if (!function_exists('show_breadcrumbs'))
                             print $show_crumb;
 		                    break;
                     }
-
                     if ( ( $counter <> $total_crumbs-1 ) )
                     {
                         print '<span class="separator">'.$sep.'</span>';
@@ -626,12 +625,7 @@ if(!function_exists('register_frontend_modfiles'))
 	    		}
 			}
        		// include the Javascript email protection function
-       		if( $file_id != 'css' && file_exists(WB_PATH .'/modules/droplets/js/mdcr.js'))
-               {
-       			$head_links .= '<script src="'.WB_URL.'/modules/droplets/js/mdcr.js" type="text/javascript"></script>'."\n";
-       		}
-               elseif( $file_id != 'css' && file_exists(WB_PATH .'/modules/output_filter/js/mdcr.js'))
-               {
+       		if( $file_id != 'css' && file_exists(WB_PATH .'/modules/output_filter/js/mdcr.js')) {
        			$head_links .= '<script src="'.WB_URL.'/modules/output_filter/js/mdcr.js" type="text/javascript"></script>'."\n";
        		}
         }
