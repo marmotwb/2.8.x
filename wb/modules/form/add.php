@@ -81,6 +81,6 @@ if(!defined('WB_PATH')) {
 	$sql .= '`use_captcha` = \''.$use_captcha.'\' ';
 	$sql .= '';
 	if($database->query($sql)) {
-		// $admin->print_success($TEXT['SUCCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id.$sec_anchor);
+
 	}
 }

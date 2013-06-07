@@ -2,7 +2,7 @@
 
 <div class="previewPrintTop">
 <a title="{TEXT_PRINT_PAGE} ({TEXT_REQUIRED_JS})" href="javascript:window.print()">
-{TEXT_PRINT_PAGE}<img width="16px" height="14px" alt="" src="{MODULE_URL}/htt/print.gif" />
+<span>{TEXT_PRINT_PAGE}</span><img width="16" height="14" alt="" src="{MODULE_URL}/htt/print.gif" />
 </a>
 </div>
 
@@ -13,8 +13,8 @@
         </tr>
     </thead>
     <tbody class="frm-tbody">
-        <tr class="frm-warning {NIX_HIER}">
-        	<td colspan="2"><p>{SUCCESS_PRINT}</p></td>
+        <tr class="frm-warning frm-warning-success-email {NIX_HIER}">
+           <td colspan="2"><p>{SUCCESS_PRINT}</p></td>
         </tr>
 
         <tr class="frm-submission_submission_id">
