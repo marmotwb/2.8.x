@@ -12,6 +12,10 @@ Legend:
 ===============================================================================
 
 
+07 Jun-2013 Build 1914 Dietmar Woellbrink (Luisehahne)
+! /admin/pages/  add/change to new Translate class
+  add a default.ini with a list of protected basenames, 
+  and a PagesEnvironment to force writing the accessfile forever
 07 Jun-2013 Build 1913 Dietmar Woellbrink (Luisehahne)
 ! /admin/addons/  change to new Translate class
 07 Jun-2013 Build 1912 Dietmar Woellbrink (Luisehahne)

@@ -4,13 +4,13 @@
  * @category        admin
  * @package         pages
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
- * @platform        WebsiteBaker 2.8.x
+ * @platform        WebsiteBaker 2.8.4
  * @requirements    PHP 5.2.2 and higher and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -205,7 +205,7 @@ $sql .= ' ORDER BY position ASC';
 $query_sections = $database->query($sql);
 if($query_sections->numRows() > 0)
 {
-	while($section = $query_sections->fetchRow())
+	while($section = $query_sections->fetchRow(MYSQL_ASSOC))
     {
 		$section_id = $section['section_id'];
 		$module = $section['module'];
@@ -225,8 +225,8 @@ if($query_sections->numRows() > 0)
 							$block_name = '#' . (int) $section['block'];
 						}
 					}
-					$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? 'id="'.SEC_ANCHOR.$section['section_id'].'"' : 'section_'.$section_id);
-					print '<div class="section-info" '.$sec_anchor.' ><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
+					$sSectionIdPrefix = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? SEC_ANCHOR : 'Sec');
+					print '<div class="section-info" id="'.$sSectionIdPrefix.$section['section_id'].'" ><b>' . $TEXT['BLOCK'] . ': </b>' . $block_name;
 					print '<b>  Modul: </b>' . $section['module']." ";
 					print '<b>  ID: </b>' . $section_id."</div>\n";
 //				}

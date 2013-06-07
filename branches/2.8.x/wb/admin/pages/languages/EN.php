@@ -61,6 +61,8 @@ $TEXT['MENU_ICON_1_DIR']      = 'Folder Menu image hover';
 
 $MESSAGE['PAGES_LAST_MODIFIED'] = 'Last modification by';
 $MESSAGE['PAGES_BLANK_SEO_TITLE'] = 'Please enter a Filename';
+$MESSAGE['PAGES_CANNOT_CREATE_PROTECTED_FILE'] = 'Protected File, Page cannot be add!';
+$MESSAGE['PAGES_CANNOT_MODIFY_PROTECTED_FILE'] = 'Geschützter Name, Page cannot be modified!';
 
 
 $HELP['PAGE_IMAGE_DIR']  = '<p>The topical side picture path is<br /> <b>{{icon_dir}}</b>.</p>';
@@ -70,7 +72,7 @@ $HELP['PAGE_IMAGE_DIR'] .='<p>&nbsp;</p>';
 
 $HELP['PAGE_CODE']  = '<p>If you see this field, you have registered the module for the multilingual facility.</p>';
 $HELP['PAGE_CODE'] .= '<p>The first step is to be provided a side tree like in the help described</p>';
-$HELP['PAGE_CODE'] .= '<p><a href=\\\'http:\/\/www.websitebaker2.org/en/help/designer-guide/multilingual-websites.php\\\' target=\\\'_blank\\\'>Multilingual Websites</a></p>';
+$HELP['PAGE_CODE'] .= '<p><a href=\\\'http:\/\/www.websitebaker.org/en/help/designer-guide/multilingual-websites.php\\\' target=\\\'_blank\\\'>Multilingual Websites</a></p>';
 $HELP['PAGE_CODE'] .= '<p>The side linguistic tree is provided from the provided sides of the standard language (<i>Options</i>).</p>';
 $HELP['PAGE_CODE'] .= '<p>They can update any time the side linguistic tree by click on the title! The assigned sides remain unchanged.</p>';
 $HELP['PAGE_CODE'] .= '<p>If you have put a side into another language, confirm from this list the matching entry of the standard language</p>';

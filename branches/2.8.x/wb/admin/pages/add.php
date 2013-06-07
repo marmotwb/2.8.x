@@ -4,21 +4,17 @@
  * @category        admin
  * @package         pages
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
 
-// Create new admin object and print admin header
-//require('../../config.php');
-//require_once(WB_PATH.'/framework/class.admin.php');
-// Create new admin object and print admin header
 if(!defined('WB_URL'))
 {
     $config_file = realpath('../../config.php');
@@ -27,22 +23,25 @@ if(!defined('WB_URL'))
     	require($config_file);
     }
 }
+// Create new admin object and print admin header
 if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+$mLang = Translate::getinstance();
+$mLang->enableAddon('admin\pages');
+
 // suppress to print the header, so no new FTAN will be set
 $admin = new admin('Pages', 'pages_add', false);
 if (!$admin->checkFTAN())
 {
 	$admin->print_header();
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+	$admin->print_error($mLang->MESSAGE_GENERIC_SECURITY_ACCESS);
 }
 
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
 
 // Get values
-//$title = $admin->get_post_escaped('title');
-//$title = htmlspecialchars($title);
-$title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('title')));
+//$title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('title')));
+$title = ($admin->StripCodeFromText($admin->get_post('title')));
 $module = preg_replace('/[^a-z0-9_-]/i', "", $admin->get_post('type')); // fix secunia 2010-93-4
 $parent = intval($admin->get_post('parent')); // fix secunia 2010-91-2
 $visibility = $admin->get_post('visibility');
@@ -63,24 +62,24 @@ $admin->print_header();
 if ($parent!=0) {
 	if (!$admin->get_page_permission($parent,'admin'))
     {
-        $admin->print_error($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']);
+        $admin->print_error($mLang->MESSAGE_PAGES_INSUFFICIENT_PERMISSIONS);
     }
 
 } elseif (!$admin->get_permission('pages_add_l0','system'))
 {
-	$admin->print_error($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']);
+	$admin->print_error($mLang->MESSAGE_PAGES_INSUFFICIENT_PERMISSIONS);
 }
 
 // check module permissions:
 if (!$admin->get_permission($module, 'module'))
 {
-	$admin->print_error($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']);
+	$admin->print_error($mLang->MESSAGE_PAGES_INSUFFICIENT_PERMISSIONS);
 }
 
 // Validate data
 if($title == '' || substr($title,0,1)=='.')
 {
-	$admin->print_error($title.'::'.$MESSAGE['PAGES_BLANK_PAGE_TITLE']);
+	$admin->print_error($title.'::'.$mLang->MESSAGE_PAGES_BLANK_PAGE_TITLE);
 }
 
 // Check to see if page created has needed permissions
@@ -96,7 +95,7 @@ if(!in_array(1, $admin->get_groups_id()))
 	}
 	if ($admin_perm_ok == false)
     {
-		$admin->print_error($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']);
+		$admin->print_error($mLang->MESSAGE_PAGES_INSUFFICIENT_PERMISSIONS);
 	}
 	$admin_perm_ok = false;
 	foreach ($viewing_groups as $view_group)
@@ -108,26 +107,39 @@ if(!in_array(1, $admin->get_groups_id()))
 	}
 	if ($admin_perm_ok == false)
     {
-		$admin->print_error($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']);
+		$admin->print_error($mLang->MESSAGE_PAGES_INSUFFICIENT_PERMISSIONS);
 	}
 }
 
 $admin_groups = implode(',', $admin_groups);
 $viewing_groups = implode(',', $viewing_groups);
 
+// preparing root_check to protect system directories and important files from being overwritten if PAGES_DIR = '/'
+$denied = false;
+$forbidden  = array();
+$aTempIniList  = array();
+$aTempIniList = parse_ini_file(dirname(__FILE__).'/default.ini',true);
+$bAccessFileOverwrite = $aTempIniList['PagesEnvironment']['AccessFileOverwrite'];
+$aTempIniList['ProtectedNames']['List'][] = (defined('ADMIN_DIRECTORY') ? trim(ADMIN_DIRECTORY,'/') : 'admin');
+$aTempIniList['ProtectedNames']['List'][] = (defined('MEDIA_DIRECTORY') ? trim(MEDIA_DIRECTORY,'/') : 'media');
+$aTempIniList['ProtectedNames']['List'][] = (defined('PAGES_DIRECTORY') ? trim(PAGES_DIRECTORY,'/') : 'pages');
+$forbidden = $aTempIniList['ProtectedNames'];
+
+$link = '/'.page_filename($title);
 // Work-out what the link and page filename should be
 if($parent == '0')
 {
-	$link = '/'.page_filename($title);
 	// rename menu titles: index && intro to prevent clashes with intro page feature and WB core file /pages/index.php
-	if($link == '/index' || $link == '/intro')
-    {
-		$sTmpFile = WB_PATH .PAGES_DIRECTORY .$link.PAGE_EXTENSION;
-		$link .= (file_exists($sTmpFile)) ? '_0' : '';
-		$filename = WB_PATH .PAGES_DIRECTORY .$link .PAGE_EXTENSION;
-	} else {
-		$filename = WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION;
+	if( defined('PAGES_DIRECTORY') && trim(PAGES_DIRECTORY,'/')=='' ) {
+// Work-out what the link should be
+		$denied = in_array(trim($link,'/'), $forbidden['List']);
+		if( $denied )
+		{
+//			$link .= '_'.$iNextPageId;
+			$admin->print_error($mLang->MESSAGE_PAGES_CANNOT_CREATE_PROTECTED_FILE);
+		}
 	}
+	$filename = WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION;
 
 } else {
 	$parent_section = '';
@@ -143,9 +155,17 @@ if($parent == '0')
 }
 
 // Check if a page with same page filename exists
-$get_same_page = $database->query("SELECT page_id FROM ".TABLE_PREFIX."pages WHERE link = '$link'");
-if($get_same_page->numRows() > 0 OR file_exists(WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION) OR file_exists(WB_PATH.PAGES_DIRECTORY.$link.'/'))
-{
+//$get_same_page = $database->query("SELECT page_id FROM ".TABLE_PREFIX."pages WHERE link = '$link'");
+//if($get_same_page->numRows() > 0 OR file_exists(WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION) OR file_exists(WB_PATH.PAGES_DIRECTORY.$link.'/'))
+//{
+//	$admin->print_error($MESSAGE['PAGES_PAGE_EXISTS']);
+//}
+$bLinkExists = file_exists(WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION) || file_exists(WB_PATH.PAGES_DIRECTORY.$link);
+
+// UNLOCK TABLES
+$sql = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'pages` '
+     . 'WHERE `link` = \''.$link.'\' ';
+if( (($iSamePages = intval($database->get_one($sql))) > 0) || $bLinkExists ){
 	$admin->print_error($MESSAGE['PAGES_PAGE_EXISTS']);
 }
 
@@ -170,8 +190,8 @@ if($query_parent->numRows() > 0)
 }
 
 // Insert page into pages table
-$sql  = 'INSERT INTO `'.TABLE_PREFIX.'pages` SET ';
-$sql .= '`parent` = '.$parent.', ';
+$sql  = 'INSERT INTO `'.TABLE_PREFIX.'pages` ';
+$sql .= 'SET `parent` = '.$parent.', ';
 $sql .= '`target` = "_top", ';
 $sql .= '`page_title` = "'.$title.'", ';
 $sql .= '`menu_title` = "'.$title.'", ';
@@ -187,16 +207,16 @@ $sql .= '`modified_by` = '.$admin->get_user_id().', ';
 $sql .= '`admin_groups` = "'.$admin_groups.'", ';
 $sql .= '`viewing_groups` = "'.$viewing_groups.'"';
 
-$database->query($sql);
-
-if($database->is_error())
-{
-	$admin->print_error($database->get_error());
+if(!$database->query($sql)) {
+	if($database->is_error())
+	{
+		$admin->print_error($database->get_error());
+	}
 }
 
 // Get the page id
-$page_id = $database->get_one("SELECT LAST_INSERT_ID()");
-
+//$page_id = $database->get_one("SELECT LAST_INSERT_ID()");
+$page_id = $database->LastInsertId;
 // Work out level
 $level = level_count($page_id);
 // Work out root parent
@@ -204,22 +224,19 @@ $root_parent = root_parent($page_id);
 // Work out page trail
 $page_trail = get_page_trail($page_id);
 
+/*
+$database->query("UPDATE ".TABLE_PREFIX."pages SET link = '$link', level = '$level', root_parent = '$root_parent', page_trail = '$page_trail' WHERE page_id = '$page_id'");
+*/
 // Update page with new level and link
 $sql  = 'UPDATE `'.TABLE_PREFIX.'pages` SET ';
 $sql .= '`root_parent` = '.$root_parent.', ';
 $sql .= '`level` = '.$level.', ';
-$sql .= '`link` = "'.$link.'", ';
-$sql .= '`page_trail` = "'.$page_trail.'"';
-$sql .= ((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES)
-         && $field_set
-         && ($language == DEFAULT_LANGUAGE)
-         && class_exists('m_MultiLingual_Lib')
-         ? ', `page_code` = '.(int)$page_id.' ' : ' ');
+$sql .= '`link` = \''.$link.'\', ';
+$sql .= '`page_trail` = \''.$page_trail.'\'';
+$sql .= ((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set && ($language == DEFAULT_LANGUAGE)
+                                    && class_exists('m_MultiLingual_Lib') ? ', `page_code` = '.(int)$page_id.' ' : ' ');
 $sql .= 'WHERE `page_id` = '.$page_id;
 $database->query($sql);
-/*
-$database->query("UPDATE ".TABLE_PREFIX."pages SET link = '$link', level = '$level', root_parent = '$root_parent', page_trail = '$page_trail' WHERE page_id = '$page_id'");
-*/
 if($database->is_error())
 {
 	$admin->print_error($database->get_error());
@@ -230,8 +247,8 @@ $position = 1;
 
 // Add new record into the sections table
 // Insert module into DB
-$sql  = 'INSERT INTO `'.TABLE_PREFIX.'sections` SET ';
-$sql .= '`page_id` = '.(int)$page_id.', ';
+$sql  = 'INSERT INTO `'.TABLE_PREFIX.'sections` ';
+$sql .= 'SET `page_id` = '.(int)$page_id.', ';
 $sql .= '`module` = \''.$module.'\', ';
 $sql .= '`position` = '.(int)$position.', ';
 $sql .= '`block` = \'1\', ';
@@ -251,15 +268,16 @@ if($database->query($sql)) {
 create_access_file($filename, $page_id, $level);
 
 if(!file_exists($filename)) {
-	$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
+	$admin->print_error($mLang->MESSAGE_PAGES_CANNOT_CREATE_ACCESS_FILE);
 }
 
 // Check if there is a db error, otherwise say successful
 if($database->is_error()) {
 	$admin->print_error($database->get_error().' (sections)');
 } else {
-	$admin->print_success($MESSAGE['PAGES_ADDED'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+	$admin->print_success($mLang->MESSAGE_PAGES_ADDED, ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 }
 
+$mLang->disableAddon();
 // Print admin footer
 $admin->print_footer();

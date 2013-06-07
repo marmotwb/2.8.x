@@ -114,7 +114,7 @@
 
 <!-- BEGIN show_checkbox_2_block -->
 		<div class="mbox sub-row">
-		<label class="setting_name">{TEXT_MANAGE_SECTIONS}:</label>
+		<label class="setting_name">{HEADING_MANAGE_SECTIONS}:</label>
 			<span>
 			<input class="radio"  type="radio" name="manage_sections" id="manage_sections_true" value="true"{MANAGE_SECTIONS_ENABLED} />
 		<label for="manage_sections_true">{TEXT_ENABLED}</label>

@@ -60,6 +60,10 @@ $TEXT['MENU_ICON_1']          = 'Menübild hover';
 $TEXT['MENU_ICON_1_DIR']      = 'Verzeichnis Menübild hover';
 $MESSAGE['PAGES_LAST_MODIFIED'] = 'Letze Änderung durch';
 $MESSAGE['PAGES_BLANK_SEO_TITLE'] = 'Bitte geben Sie einen Dateinamen ein';
+$MESSAGE['PAGES_ADDED'] = 'Seite wurde erfolgreich hinzugefügt';
+$MESSAGE['PAGES_SAVED_SETTINGS'] = 'Seite wurde erfolgreich geändert!';
+$MESSAGE['PAGES_CANNOT_CREATE_PROTECTED_FILE'] = 'Geschützter Name, Seite kann nicht hinzugefügt werden!';
+$MESSAGE['PAGES_CANNOT_MODIFY_PROTECTED_FILE'] = 'Geschützter Name, Seite kann nicht geändert werden!';
 
 $HELP['PAGE_IMAGE_DIR']  = '<p>Der aktuelle Seitenbildpfad ist<br /> <b>{{icon_dir}}</b>.</p>';
 $HELP['PAGE_IMAGE_DIR'] .='<p>Als Systemadministrator können Sie das Verzeichnis für Seiten-/Menuebilder unter <i>Optionen</i> <i>Erweiterte Optionen</i> in <i>Servereinstellung</i> ändern.</p>';
@@ -68,7 +72,7 @@ $HELP['PAGE_IMAGE_DIR'] .='<p>&nbsp;</p>';
 
 $HELP['PAGE_CODE']  = '<p>Wenn Sie dieses Feld sehen, haben Sie das Modul für die Mehrsprachigkeit registriert.</p>';
 $HELP['PAGE_CODE'] .= '<p>Der erste Schritt ist einen Seitenbaum, wie in der WebsiteBaker Hilfe beschrieben, zu erstellen</p>';
-$HELP['PAGE_CODE'] .= '<p>Link: <a href=\\\'http:\/\/www.websitebaker2.org/de/hilfe/designerhandbuch/mehrsprachige-webseiten.php\\\' target=\\\'_blank\\\'>Mehrsprachige Webseiten</a></p>';
+$HELP['PAGE_CODE'] .= '<p>Link: <a href=\\\'http:\/\/www.websitebaker.org/de/hilfe/designerhandbuch/mehrsprachige-webseiten.php\\\' target=\\\'_blank\\\'>Mehrsprachige Webseiten</a></p>';
 $HELP['PAGE_CODE'] .= '<p>Der Seitensprachbaum wird aus den erstellten Seiten der Standardsprache (Standardeinstellungen in <i>Optionen</i>) erstellt.</p>';
 $HELP['PAGE_CODE'] .= '<p>Sie können jederzeit den Standard Seitensprachbaum durch Klick auf den Titeltext aktualisieren! Die zugewiesenen Seiten bleiben unverändert.</p>';
 $HELP['PAGE_CODE'] .= '<p>Wenn sie eine Seite in einer anderen Sprache angelegt haben, bestätigen Sie aus dieser Liste den dazugehörigen Eintrag der Standardsprache.</p>';

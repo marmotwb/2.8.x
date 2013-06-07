@@ -4,8 +4,8 @@
  * @category        admin
  * @package         pages
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link            http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
@@ -86,8 +86,10 @@ $admin = new admin('Pages', 'pages_settings');
 		}
 	} // end of function parent_list
 /* -------------------------------------------------------------------------------------*/
-	$mLang = ModLanguage::getInstance();
-	$mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+//	$mLang = ModLanguage::getInstance();
+//	$mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+	$mLang = Translate::getinstance();
+	$mLang->enableAddon('admin\pages');
 	$sDisabled = ' disabled="disabled"';
 	$sSelected = ' selected="selected"';
 	$sChecked  = ' checked="checked"';
@@ -103,7 +105,7 @@ $admin = new admin('Pages', 'pages_settings');
 	if( ($oPages = $database->query($sql)) ) {
 		$aCurrentPage = $oPages->fetchRow(MYSQL_ASSOC);
 		// Work-out if we should set seo_title
-        $aCurrentPage['seo_title'] = basename($aCurrentPage['link']);
+		$aCurrentPage['seo_title'] = basename($aCurrentPage['link']);
 		// Work-out if we should check for existing page_code
 		$field_set = isset($aCurrentPage['page_code']);
 		if( !$admin->ami_group_member($aCurrentPage['admin_groups']) &&
@@ -136,11 +138,11 @@ $admin = new admin('Pages', 'pages_settings');
 	$oTpl->set_file('page', 'pages_settings.htt');
 	$oTpl->set_block('page', 'main_block', 'main');
 	$oTpl->set_var('FTAN', $admin->getFTAN());
-//    $sShowIconDirText = $TEXT['EXPAND'].' ';
+//    $sShowIconDirText = $mLang->TEXT_EXPAND'].' ';
 	$sql = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` WHERE `name` = \'page_extendet\'';
 //	if($page_extend = $database->get_one($sql)) {}
 	$page_extend = (defined('PAGE_EXTENDET') ? filter_var(PAGE_EXTENDET, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : false);
-	$sShowIconDirText = ($page_extend==true) ? $TEXT['HIDE_ADVANCED'] : $TEXT['SHOW_ADVANCED'];
+	$sShowIconDirText = ($page_extend==true) ? $mLang->TEXT_HIDE_ADVANCED : $mLang->TEXT_SHOW_ADVANCED;
 
 	$oTpl->set_var(array(
 			'PAGE_ID'              => $aCurrentPage['page_id'],
@@ -154,8 +156,9 @@ $admin = new admin('Pages', 'pages_settings');
 			'MODIFIED_BY'          => $user['display_name'],
 			'MODIFIED_BY_USERNAME' => $user['username'],
 			'MODIFIED_WHEN'        => $modified_ts,
-			'TEXT_SAVE_BACK'       => $TEXT['SAVE'].' &amp; '.$TEXT['BACK'],
+			'TEXT_SAVE_BACK'       => $mLang->TEXT_SAVE.' &amp; '.$mLang->TEXT_BACK,
 			'TEXT_EXTENDED'        => $sShowIconDirText,
+			'VISIBILITY'           => 'visibility',
 			'ADMIN_URL'            => ADMIN_URL,
 			'WB_URL'               => WB_URL,
 			'THEME_URL'            => THEME_URL
@@ -207,7 +210,8 @@ $admin = new admin('Pages', 'pages_settings');
 	$sTemplate = ($aCurrentPage['template'] == '' ? DEFAULT_TEMPLATE : $aCurrentPage['template']);
 	$sIconDir = str_replace('\\', '/', ((defined('PAGE_ICON_DIR') && PAGE_ICON_DIR != '') ? PAGE_ICON_DIR : MEDIA_DIRECTORY));
 	$sIconDir = str_replace('/*', '/'.$sTemplate, $sIconDir);
-	$bIconDirHide = ($page_extend==true) ? '' : 'hide';
+	$bIconDirHide = ($page_extend==true) ? 'display:block;' : 'display:none;';
+
 //	$oTpl->set_var('ICON_DIR', WB_REL.$sIconDir);
 	$sHelp = replaceVars($mLang->HELP_PAGE_IMAGE_DIR, array('icon_dir'=>WB_REL.$sIconDir ) );
 
@@ -551,7 +555,7 @@ $admin = new admin('Pages', 'pages_settings');
 		}
 		$aMenu = getTemplateInfo($aCurrentPage['template']);
 		// set menu[1] as default if there's no entry in info.php
-		$aMenu[1] = (!isset($aMenu[1]) OR ($aMenu[1] == '')) ? $TEXT['MAIN'] : $aMenu[1];
+		$aMenu[1] = (!isset($aMenu[1]) OR ($aMenu[1] == '')) ? $mLang->TEXT_MAIN : $aMenu[1];
 		$oTpl->set_block('show_menu_list_block', 'menu_list_block', 'menu_list');
 		foreach($aMenu as $iIndex => $sMenuName) {
 			$aVars = array();

@@ -4,10 +4,10 @@
  * @category        admin
  * @package         pages
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link            http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
- * @platform        WebsiteBaker 2.8.x
+ * @platform        WebsiteBaker 2.8.4
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
  * @filesource      $HeadURL$
@@ -26,14 +26,17 @@ if(!defined('WB_URL'))
 }
 if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 
-$lang_dir = dirname(__FILE__).'/languages/';
-$lang = file_exists($lang_dir.LANGUAGE.'.php') ? LANGUAGE : 'EN';
+//$lang_dir = dirname(__FILE__).'/languages/';
+//$lang = file_exists($lang_dir.LANGUAGE.'.php') ? LANGUAGE : 'EN';
 //require_once($lang_dir.$lang.'.php');
-if( !isset($TEXT['PAGE_LANG_LOADED']) ) { require($lang_dir.$lang.'.php'); }
+//if( !isset($mLang->TEXT_PAGE_LANG_LOADED) ) { require($lang_dir.$lang.'.php'); }
 
 // suppress to print the header, so no new FTAN will be set
 $admin = new admin('Pages', 'pages_settings',false);
 $pagetree_url = ADMIN_URL.'/pages/index.php';
+
+$mLang = Translate::getinstance();
+$mLang->enableAddon('admin\pages');
 
 // Get page id
 if(!isset($_POST['page_id']) || (isset($_POST['page_id']) && preg_match('/[^0-9a-z]/i',$_POST['page_id'])) )
@@ -45,7 +48,7 @@ if(!isset($_POST['page_id']) || (isset($_POST['page_id']) && preg_match('/[^0-9a
 //	$page_id = (int)$_POST['page_id']; || preg_match('/[^0-9a-f]/i',$_POST['page_id'])
 	if((!($page_id = $admin->checkIDKEY('page_id')))) {
 		$admin->print_header();
-		$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $pagetree_url);
+		$admin->print_error($mLang->MESSAGE_GENERIC_SECURITY_ACCESS, $pagetree_url);
 	}
 }
 
@@ -60,7 +63,7 @@ $target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
 if (!$admin->checkFTAN())
 {
 	$admin->print_header();
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$target_url);
+	$admin->print_error($mLang->MESSAGE_GENERIC_SECURITY_ACCESS,$target_url);
 }
 
 // After check print the header
@@ -74,7 +77,7 @@ if(isset($_POST['extendet_submit'])) {
 	$sql .= '`value`=\''.($val ? 'false' : 'true').'\' ';
 	$sql .= (defined('PAGE_EXTENDET') ? 'WHERE `name`=\'page_extendet\'' : '');
     if($database->query($sql)) {
-        // redirect to backend
+// redirect to backend
 echo "<p style=\"text-align:center;\"> If the script</strong> could not be start automatically.\n" .
      "Please click <a style=\"font-weight:bold;\" " .
      "href=\"".$target_url."\">on this link</a> to start the script!</p>\n";
@@ -96,14 +99,21 @@ document.location = '$target_url';
 if(!function_exists('directory_list')) { require(WB_PATH.'/framework/functions.php'); }
 
 // Get values
-$page_title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('page_title')));
-$menu_title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('menu_title')));
-$seo_title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('seo_title')));
+//$page_title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('page_title')));
+//$menu_title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('menu_title')));
+//$seo_title = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->get_post_escaped('seo_title')));
+//$description = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->add_slashes($admin->get_post('description'))));
+//$keywords = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->add_slashes($admin->get_post('keywords'))));
+
+$page_title = ($admin->StripCodeFromText($admin->get_post('page_title')));
+$menu_title = ($admin->StripCodeFromText($admin->get_post('menu_title')));
+$seo_title = ($admin->StripCodeFromText($admin->get_post('seo_title')));
+$description = ($admin->StripCodeFromText($admin->get_post('description')));
+$keywords = ($admin->StripCodeFromText($admin->get_post('keywords')));
+
 $page_code = intval($admin->get_post('page_code')) ;
-$description = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->add_slashes($admin->get_post('description'))));
-$keywords = str_replace(array("[[", "]]"), '', htmlspecialchars($admin->add_slashes($admin->get_post('keywords'))));
 $parent = intval($admin->get_post('parent')); // fix secunia 2010-91-3
-$visibility = $admin->get_post_escaped('visibility');
+$visibility = $admin->StripCodeFromText($admin->get_post('visibility'));
 if (!in_array($visibility, array('public', 'private', 'registered', 'hidden', 'none'))) {$visibility = 'public';} // fix secunia 2010-93-3
 $template = preg_replace('/[^a-z0-9_-]/i', "", $admin->get_post('template')); // fix secunia 2010-93-3
 $template = (($template == DEFAULT_TEMPLATE ) ? '' : $template);
@@ -129,7 +139,7 @@ if($page_title == '' || substr($page_title,0,1)=='.')
 }
 if($menu_title == '' || substr($menu_title,0,1)=='.')
 {
-	$admin->print_error($MESSAGE['PAGES_BLANK_MENU_TITLE'],$target_url);
+	$admin->print_error($mLang->MESSAGE_PAGES_BLANK_MENU_TITLE,$target_url);
 }
 if($seo_title == '' || substr($seo_title,0,1)=='.')
 {
@@ -139,7 +149,6 @@ if($seo_title == '' || substr($seo_title,0,1)=='.')
 // Get existing perms
 $sql  = 'SELECT `parent`,`link`,`position`,`admin_groups`,`admin_users`,`menu_title` ';
 $sql .= 'FROM `'.TABLE_PREFIX.'pages` WHERE `page_id`='.$page_id;
-
 $results = $database->query($sql);
 
 $results_array = $results->fetchRow(MYSQL_ASSOC);
@@ -151,7 +160,7 @@ if($admin->ami_group_member('1')) {
 	if(!$admin->ami_group_member($results_array['admin_groups']) &&
 	   !$admin->is_group_match($admin->get_user_id(), $results_array['admin_users']))
 	{
-		$admin->print_error($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']);
+		$admin->print_error($mLang->MESSAGE_PAGES_INSUFFICIENT_PERMISSIONS);
 	}
 	// Setup admin groups
 	$aAdminGroups = (is_array($aAdminGroups) ? $aAdminGroups : array(1));
@@ -201,56 +210,67 @@ if ($parent!='0')
 	$root_parent = root_parent($parent);
 } else {
 // Work out level
-    $level = level_count($page_id);
+	$level = level_count($page_id);
 // Work out root parent
-    $root_parent = root_parent($page_id);
+	$root_parent = root_parent($page_id);
 }
+// preparing root_check to protect system directories and important files from being overwritten if PAGES_DIR = '/'
+	$denied = false;
+	$forbidden  = array();
+	$aTempIniList  = array();
+	$aTempIniList = parse_ini_file(dirname(__FILE__).'/default.ini',true);
+	$bAccessFileOverwrite = $aTempIniList['PagesEnvironment']['AccessFileOverwrite'];
+	$aTempIniList['ProtectedNames']['List'][] = (defined('ADMIN_DIRECTORY') ? trim(ADMIN_DIRECTORY,'/') : 'admin');
+	$aTempIniList['ProtectedNames']['List'][] = (defined('MEDIA_DIRECTORY') ? trim(MEDIA_DIRECTORY,'/') : 'media');
+	$aTempIniList['ProtectedNames']['List'][] = (defined('PAGES_DIRECTORY') ? trim(PAGES_DIRECTORY,'/') : 'pages');
+	$forbidden = $aTempIniList['ProtectedNames'];
 
 $link = '/'.page_filename($seo_title);
-
+if( ($parent == '0') ) {
+	if( defined('PAGES_DIRECTORY') && trim(PAGES_DIRECTORY,'/')=='' ) {
 // Work-out what the link should be
-if($parent == '0') {
-	if($link == '/index' || $link == '/intro')
-	{
-		$link .= '_' .$page_id;
-		$filename = WB_PATH.PAGES_DIRECTORY.$link .PAGE_EXTENSION;
-	
-	} else {
-	    $filename = WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION;
+		$denied = in_array(trim($link,'/'), $forbidden['List']);
+		if( $denied )
+		{
+//			$link .= '_' .$page_id;
+			$admin->print_error($mLang->MESSAGE_PAGES_CANNOT_MODIFY_PROTECTED_FILE);
+		}
 	}
+	$filename = WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION;
 } else {
 	$parent_section = '';
 	$parent_titles = array_reverse(get_parent_titles($parent));
 
-	foreach($parent_titles AS $parent_title)
-    {
+	foreach($parent_titles AS $parent_title) {
 		$parent_section .= '/'.page_filename($parent_title);
 	}
 
-	if($parent_section == '/')
-    {
-      $parent_section = '';
-    }
-
+	if($parent_section == '/') {
+		$parent_section = '';
+	}
 	$link = $parent_section.$link;
 	$filename = WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION;
 }
 
-// Check if a page with same page filename exists
 // $database = new database();
-$sql = 'SELECT `page_id`,`page_title` FROM `'.TABLE_PREFIX.'pages` WHERE `link` = "'.$link.'" AND `page_id` != '.$page_id;
-
-$get_same_page = $database->query($sql);
-
-if($get_same_page->numRows() > 0)
-{
-	$admin->print_error($MESSAGE['PAGES_PAGE_EXISTS'], $target_url);
+// Check if a page with same page filename exists
+$sql = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'pages` '
+     . 'WHERE `link` = \''.$link.'\' '
+     .   'AND `page_id` != '.$page_id;
+if( ($iSamePages = intval($database->get_one($sql))) > 0 ){
+	$admin->print_error($mLang->MESSAGE_PAGES_PAGE_EXISTS, $target_url);
 }
 
+//if($get_same_page = $database->query($sql)){
+//	if($get_same_page->numRows() > 0)
+//	{
+//		$admin->print_error($mLang->MESSAGE_PAGES_PAGE_EXISTS, $target_url);
+//	}
+//}
+
 // Update page with new order
-$sql = 'UPDATE `'.TABLE_PREFIX.'pages` SET `parent`='.$parent.', `position`='.$position.' WHERE `page_id`='.$page_id.'';
-// $database = new database();
-$database->query($sql);
+//$sql = 'UPDATE `'.TABLE_PREFIX.'pages` SET `parent`='.$parent.', `position`='.$position.' WHERE `page_id`='.$page_id.'';
+//$database->query($sql);
 
 // Get page trail
 $page_trail = get_page_trail($page_id);
@@ -261,18 +281,18 @@ $sql = 'UPDATE `'.TABLE_PREFIX.'pages` '
 	 .     '`page_title`=\''.$page_title.'\', '
 	 .     '`tooltip`=\''.$page_title.'\', '
 	 .     '`page_icon` =\''.$database->escapeString($sPageIcon).'\', '
-	 .     '`menu_title`=\''.$menu_title.'\', '
+	 .     '`menu_title`=\''.$database->escapeString($menu_title).'\', '
 	 .     '`menu_icon_0` =\''.$database->escapeString($sMenuIcon0).'\', '
 	 .     '`menu_icon_1` =\''.$database->escapeString($sMenuIcon1).'\', '
 	 .     '`menu`='.$menu.', '
 	 .     '`level`='.$level.', '
 	 .     '`page_trail`=\''.$page_trail.'\', '
 	 .     '`root_parent`='.$root_parent.', '
-	 .     '`link`=\''.$link.'\', '
+	 .     '`link`=\''.$database->escapeString($link).'\', '
 	 .     '`template`=\''.$template.'\', '
 	 .     '`target`=\''.$target.'\', '
-	 .     '`description`=\''.$description.'\', '
-	 .     '`keywords`=\''.$keywords.'\', '
+	 .     '`description`=\''.$database->escapeString($description).'\', '
+	 .     '`keywords`=\''.$database->escapeString($keywords).'\', '
 	 .     '`position`='.$position.', '
 	 .     '`visibility`=\''.$visibility.'\', '
 	 .     '`searching`='.$searching.', '
@@ -301,25 +321,26 @@ if($parent != $old_parent)
 
 // using standard function by core,
 function fix_page_trail($page_id) {
-	global $database,$admin,$target_url,$pagetree_url,$MESSAGE;
+	global $database,$admin,$target_url,$pagetree_url,$mLang;
 
 	$target_url = (isset($_POST['back_submit'])) ? $pagetree_url : $target_url;
 	
-	// Work out level
+// Work out level
 	$level = level_count($page_id);
-	// Work out root parent
+// Work out root parent
 	$root_parent = root_parent($page_id);
-	// Work out page trail
+// Work out page trail
 	$page_trail = get_page_trail($page_id);
-	// Update page with new level and link
-	$sql  = 'UPDATE `'.TABLE_PREFIX.'pages` SET ';
-	$sql .= '`root_parent` = '.$root_parent.', ';
-	$sql .= '`level` = '.$level.', ';
-	$sql .= '`page_trail` = "'.$page_trail.'" ';
-	$sql .= 'WHERE `page_id` = '.$page_id;
+
+// Update page with new level and link
+	$sql  = 'UPDATE `'.TABLE_PREFIX.'pages` '
+	      . 'SET `root_parent` = '.$root_parent.', '
+	      .     '`level` = '.$level.', '
+	      .     '`page_trail` = \''.$page_trail.'\' '
+	      .'WHERE `page_id` = '.$page_id;
 
 	if($database->query($sql)) {
-		$admin->print_success($MESSAGE['PAGES_SAVED_SETTINGS'], $target_url );
+		$admin->print_success($mLang->MESSAGE_PAGES_SAVED_SETTINGS, $target_url );
 	} else {
 		$admin->print_error($database->get_error(), $target_url );
 	}
@@ -339,68 +360,81 @@ fix_page_trail($page_id);
 
 $bCanCreateAcessFiles = make_dir(WB_PATH.PAGES_DIRECTORY);
 $bCanCreateAcessFiles = (($bCanCreateAcessFiles==true) ? file_exists(WB_PATH) && is_writable(WB_PATH.PAGES_DIRECTORY) : false );
+
 if( !$bCanCreateAcessFiles )
 {
-	$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE'], $target_url);
+	$admin->print_error($mLang->MESSAGE_PAGES_CANNOT_CREATE_ACCESS_FILE, $target_url);
 } else {
 // Create a new file in the /pages dir if title changed
-
 	$old_filename = WB_PATH.PAGES_DIRECTORY.$old_link.PAGE_EXTENSION;
+	$sub_pages = get_subs($page_id, array());
+//	$sub_pages = get_subs($sub_pages['0'], array());
 
-	// First check if we need to create a new file
-	if(($old_link != $link) || (!file_exists($old_filename)))
-	{
-		// Delete old file
+// First check if we need or force to create a new file
+	if( ($old_link != $link) || (!file_exists($filename)) || ( $bAccessFileOverwrite==true ) ) {
+// Delete old file
 		$old_filename = WB_PATH.PAGES_DIRECTORY.$old_link.PAGE_EXTENSION;
 		if(file_exists($old_filename))
 		{
 			unlink($old_filename);
 		}
-
-		// Create access file
+// Create access file
 		create_access_file($filename,$page_id,$level);
 		if(!file_exists($filename)) {
-			$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
+			$admin->print_error($mLang->MESSAGE_PAGES_CANNOT_CREATE_ACCESS_FILE);
 		}
-		// Move a directory for this page
-		if(is_readable(WB_PATH.PAGES_DIRECTORY.$old_link.'/') && is_dir(WB_PATH.PAGES_DIRECTORY.$old_link.'/'))
+// Move a directory for this page
+		if(is_writeable(WB_PATH.PAGES_DIRECTORY.$old_link.'/') && !is_dir(WB_PATH.PAGES_DIRECTORY.$link.'/'))
 		{
 			rename(WB_PATH.PAGES_DIRECTORY.$old_link.'/', WB_PATH.PAGES_DIRECTORY.$link.'/');
 		}
-		// Update any pages that had the old link with the new one
+// Update any pages that had the old link with the new one
 		$old_link_len = strlen($old_link);
-		$sql = '';
-		$query_subs = $database->query("SELECT page_id,link,level FROM ".TABLE_PREFIX."pages WHERE link LIKE '%$old_link/%' ORDER BY LEVEL ASC");
-
-		if($query_subs->numRows() > 0)
-		{
-			while($sub = $query_subs->fetchRow())
+// $query_subs = $database->query("SELECT page_id,link,level FROM ".TABLE_PREFIX."pages WHERE link LIKE '%$old_link/%' ORDER BY LEVEL ASC");
+		$sql = 'SELECT `page_id`,`link`,`level` FROM `'.TABLE_PREFIX.'pages` '
+		      .'WHERE `link` LIKE \'%'.$old_link.'/%\' '
+		      .'ORDER BY `level` ASC ';
+		if ($oResSubs = $database->query($sql) ) {
+			if($oResSubs->numRows() > 0)
 			{
-				// Double-check to see if it contains old link
-				if(substr($sub['link'], 0, $old_link_len) == $old_link) {
-					// Get new link
-					$replace_this = $old_link;
-					$old_sub_link_len =strlen($sub['link']);
-					$new_sub_link = $link.'/'.substr($sub['link'],$old_link_len+1,$old_sub_link_len);
-					// Work out level
-					$new_sub_level = level_count($sub['page_id']);
-					// Update level and link
-					$database->query("UPDATE ".TABLE_PREFIX."pages SET link = '$new_sub_link', level = '$new_sub_level' WHERE page_id = '".$sub['page_id']."' LIMIT 1");
-					// Re-write the access file for this page
-					$old_subpage_file = WB_PATH.PAGES_DIRECTORY.$new_sub_link.PAGE_EXTENSION;
-					if(file_exists($old_subpage_file)) {
-						unlink($old_subpage_file);
+				while($sub = $oResSubs->fetchRow(MYSQL_ASSOC))
+				{
+					// Double-check to see if it contains old link
+					if(substr($sub['link'], 0, $old_link_len) == $old_link) {
+						// Get new link
+						$replace_this = $old_link;
+						$old_sub_link_len =strlen($sub['link']);
+						$new_sub_link = $link.'/'.substr($sub['link'],$old_link_len+1,$old_sub_link_len);
+						// Work out level
+						$new_sub_level = level_count($sub['page_id']);
+						// Update level and link
+// $database->query("UPDATE ".TABLE_PREFIX."pages SET link = '$new_sub_link', level = '$new_sub_level' WHERE page_id = '".$sub['page_id']."' LIMIT 1");
+						$sql = 'UPDATE `'.TABLE_PREFIX.'pages` SET '
+						      .'`link` = \''.$new_sub_link.'\', '
+						      .'`level` = '.(int)$new_sub_level.' '
+						      .'WHERE `page_id` = '.$sub['page_id'];
+						if( $database->query($sql) ) {
+							// Re-write the access file for this page
+							$old_subpage_file = WB_PATH.PAGES_DIRECTORY.$new_sub_link.PAGE_EXTENSION;
+							if(file_exists($old_subpage_file)) {
+								unlink($old_subpage_file);
+							}
+							$sAccessFile = WB_PATH.PAGES_DIRECTORY.$new_sub_link.PAGE_EXTENSION;
+							create_access_file($sAccessFile, $sub['page_id'], $new_sub_level);
+							if(!file_exists($sAccessFile)) {
+								$admin->print_error($mLang->MESSAGE_PAGES_CANNOT_CREATE_ACCESS_FILE);
+							} else {
+							}
+						}
 					}
-					$sAccessFile = WB_PATH.PAGES_DIRECTORY.$new_sub_link.PAGE_EXTENSION;
-					create_access_file($sAccessFile, $sub['page_id'], $new_sub_level);
-					if(!file_exists($sAccessFile)) {
-						$admin->print_error($MESSAGE['PAGES_CANNOT_CREATE_ACCESS_FILE']);
-					}
-
 				}
 			}
 		}
 	}
 }
+$dir = (WB_PATH.PAGES_DIRECTORY);
+//$aDebugMessage = rebuildFolderProtectFile($dir);
+//print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
+//print_r( $aDebugMessage ); print '</pre>';
 
 $admin->print_footer();
