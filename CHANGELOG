@@ -12,6 +12,11 @@ Legend:
 ===============================================================================
 
 
+07 Jun-2013 Build 1920 Dietmar Woellbrink (Luisehahne)
+! /modules/admin.php $sSectionIdPrefix
+! /admin/media/upload.php change $database->query($sql) to $database->get_one($sql)
+! /upgrade-script.php only systemadministartor can call the script
+  upgrade all dev-module inclding in package
 07 Jun-2013 Build 1919 Dietmar Woellbrink (Luisehahne)
 ! /modules/form/ beginning recoding
 07 Jun-2013 Build 1918 Dietmar Woellbrink (Luisehahne)

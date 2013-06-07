@@ -41,6 +41,10 @@ if(file_exists($config_file) && !defined('WB_URL'))
 	require($config_file);
 
 }
+//require_once(WB_PATH.'/framework/class.admin.php');
+if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+$admin = new admin('Addons', 'modules', false, false);
+
 // solved wrong pages_directory value before creating access files
 $sql  = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` '
       . 'WHERE `name`=\'pages_directory\'';
@@ -53,11 +57,8 @@ if($sTmp != $sPagesDirectory) {
       . 'WHERE `name`=\'pages_directory\' ';
  WbDatabase::getInstance()->query($sql);
 }
-//require_once(WB_PATH.'/framework/class.admin.php');
-if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 require_once(WB_PATH.'/framework/functions.php');
 // require_once(WB_PATH.'/framework/Database.php');
-$admin = new admin('Addons', 'modules', false, false);
 
 $oldVersion  = 'Version '.WB_VERSION;
 $oldVersion .= (defined('WB_SP') ? WB_SP : '');
@@ -320,8 +321,7 @@ span.error {
 <h1>WebsiteBaker Upgrade</h1>
 <?php
 	if( version_compare( WB_VERSION, '2.7', '<' )) {
-		status_msg('<strong>Warning:</strong><br />It is not possible to upgrade from WebsiteBaker Versions before 2.7.<br />For upgrading to version '.VERSION.' you must upgrade first to v.2.7 at least!!!', 'warning', 'div');
-		echo '<br /><br />';
+		status_msg('<br />It is not possible to upgrade from WebsiteBaker Versions before 2.7.<br />For upgrading to version '.VERSION.' you must upgrade first to v.2.7 at least!!!', 'warning', 'div');
 		echo "</div>
 		</div>
 		</div>
@@ -330,6 +330,51 @@ span.error {
 		";
 		exit();
 	}
+if($admin->get_user_id()!=1){
+	status_msg('<br /><h3>WebsiteBaker upgrading is not possible!<br />Before upgrading to Revision '.REVISION.' you have to login as System-Administrator!</h3>', 'warning', 'div');
+        echo '<br /><br />';
+// delete remember key of current user from database
+//if (isset($_SESSION['USER_ID']) && isset($database)) {
+//	$table = TABLE_PREFIX . 'users';
+//	$sql = "UPDATE `$table` SET `remember_key` = '' WHERE `user_id` = '" . (int) $_SESSION['USER_ID'] . "'";
+//	$database->query($sql);
+//}
+
+// delete remember key cookie if set
+if (isset($_COOKIE['REMEMBER_KEY'])) {
+	setcookie('REMEMBER_KEY', '', time() - 3600, '/');
+}
+
+// delete most critical session variables manually
+$_SESSION['USER_ID'] = null;
+$_SESSION['GROUP_ID'] = null;
+$_SESSION['GROUPS_ID'] = null;
+$_SESSION['USERNAME'] = null;
+$_SESSION['PAGE_PERMISSIONS'] = null;
+$_SESSION['SYSTEM_PERMISSIONS'] = null;
+// overwrite session array
+$_SESSION = array();
+// delete session cookie if set
+if (isset($_COOKIE[session_name()])) {
+    setcookie(session_name(), '', time() - 42000, '/');
+}
+// delete the session itself
+session_destroy();
+status_msg('<br /><h3>After login as System-Adminstrator you have to start upgrade-script.php again!</h3>', 'info', 'div');
+        echo '<br /><br />';
+        if(defined('ADMIN_URL')) {
+        	echo '<form action="'.ADMIN_URL.'/index.php" method="post">';
+        	echo '&nbsp;<input name="backend_send" type="submit" value="Kick me to the Login" />';
+        	echo '</form>';
+        }
+echo "<br /><br /></div>
+	</div>
+	</div>
+	</body>
+	</html>
+	";
+	exit();
+}
 
 ?>
 <p class="info">This script upgrades an existing WebsiteBaker <strong> <?php echo $oldRevision; ?></strong> installation to the <strong> <?php echo $newRevision ?> </strong>.<br />The upgrade script alters the existing WB database to reflect the changes introduced with WB 2.8.x</p>
@@ -409,7 +454,7 @@ $aDebugMessage = array();
 	$aDebugMessage[] = "<br /><span><strong>Adding default_theme to settings table</strong></span>";
 	// db_update_key_value('settings', 'default_theme', $DEFAULT_THEME);
 	$cfg = array(
-		'default_theme' => defined('DEFAULT_THEME')&& (DEFAULT_THEME!='') ? DEFAULT_THEME : $DEFAULT_THEME
+		'default_theme' => $DEFAULT_THEME
 	);
 	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 	$aDebugMessage[] = '</div>';
@@ -426,7 +471,7 @@ echo'<h3>Step '.(++$stepID).': Updating core table included in package</h3>';
 	echo "<h4>Adding/updating entries on table settings</h4>";
 	$aDebugMessage[] = "<span>Adding/updating sec_anchor to settings table</span>";
 	$cfg = array(
-		'sec_anchor' => defined('SEC_ANCHOR')&& (SEC_ANCHOR!='') ? SEC_ANCHOR : 'section_'
+		'sec_anchor' => defined( 'SEC_ANCHOR' )&& (SEC_ANCHOR!='') ? SEC_ANCHOR : 'Sec'
 	);
 	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
@@ -811,7 +856,8 @@ echo '<div style="margin-left:2em;">';
      */
     $sPagePath = (defined('PAGES_DIRECTORY') && (PAGES_DIRECTORY != '') ? PAGES_DIRECTORY : '');
     $msg = rebuild_all_accessfiles();
-
+	$dir = (WB_PATH.PAGES_DIRECTORY);
+//	$aDebugMessage = rebuildFolderProtectFile($dir);
 	echo '<strong>'.implode ('<br />',$msg).'</strong>';
     echo '</div>';
 
@@ -953,8 +999,8 @@ echo '<div style="margin-left:2em;">';
 	 * $aModuleList list of proofed modules
 	 */
 	$aModuleList = array(
-	              'captcha_control','code','form','jsadmin',
-	              'menu_link','news','output_filter','wrapper','wysiwyg');
+	              'captcha_control','code','droplets','form','jsadmin',
+	              'menu_link','news','output_filter','wrapper','wysiwyg','MultiLingual');
 	if(sizeof($aModuleList)) 
 	{
 		echo '<h3>Step '.(++$stepID).': Upgrade proofed modules</h3>';
