@@ -12,4 +12,4 @@ $TEXT['REBUILD_ACCESS_FILES'] = 'Rebuild Accessfiles';
 $TEXT['MODULES_DIRECTORY'] = 'Modules for upgrade';
 $HELP['ACTIVATION_MAIL'] = 'Registration per Activation-Mail (Enabled) or Directregistration (Disabled)';
 $HELP['REBUILD_ACCESS_FILES'] = '- Modules listet in the next field, will be upgraded too, (Comma separate list)';
-//
+$TEXT['SECTION_ID_PREFIX'] = 'Section-ID prefix';

@@ -4,13 +4,13 @@
  * @category        admin
  * @package         preferences
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
- * @platform        WebsiteBaker 2.8.x
+ * @platform        WebsiteBaker 2.8.4
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -22,7 +22,7 @@
 // put all inside a function to prevent global vars
 function build_page( &$admin, &$database )
 {
-	global $HEADING, $TEXT;
+//	global $HEADING, $TEXT;
 	include_once(WB_PATH.'/framework/functions-utf8.php');
 	// Setup template object, parse vars to it, then parse it
 	// Setup template object, parse vars to it, then parse it
@@ -30,6 +30,10 @@ function build_page( &$admin, &$database )
 	$template = new Template(dirname($admin->correct_theme_source('preferences.htt')));
 	$template->set_file( 'page', 'preferences.htt' );
 	$template->set_block( 'page', 'main_block', 'main' );
+	$mLang = Translate::getinstance();
+	$mLang->enableAddon('admin\preferences');
+	$template->set_var($mLang->getLangArray());
+
 // read user-info from table users and assign it to template
 	$sql  = 'SELECT `display_name`, `username`, `email` FROM `'.TABLE_PREFIX.'users` ';
 	$sql .= 'WHERE `user_id` = '.(int)$admin->get_user_id();
@@ -44,21 +48,54 @@ function build_page( &$admin, &$database )
 		}
 	}
 // read available languages from table addons and assign it to the template
-	$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';
-	$sql .= 'WHERE `type` = \'language\' ORDER BY `directory`';
-	if( $res_lang = $database->query($sql) )
-	{
-		$template->set_block('main_block', 'language_list_block', 'language_list');
-		while( $rec_lang = $res_lang->fetchRow() )
-		{
-	        $langIcons = (empty($rec_lang['directory'])) ? 'none' : strtolower($rec_lang['directory']);
-			$template->set_var('CODE',        $rec_lang['directory']);
-			$template->set_var('NAME',        $rec_lang['name']);
-			$template->set_var('FLAG',        THEME_URL.'/images/flags/'.$langIcons);
-			$template->set_var('SELECTED',    (LANGUAGE == $rec_lang['directory'] ? ' selected="selected"' : '') );
-			$template->parse('language_list', 'language_list_block', true);
-		}
-	}
+//	$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';
+//	$sql .= 'WHERE `type` = \'language\' ORDER BY `directory`';
+//	if( $res_lang = $database->query($sql) )
+//	{
+//		$template->set_block('main_block', 'language_list_block', 'language_list');
+//		while( $rec_lang = $res_lang->fetchRow(MYSQL_ASSOC) )
+//		{
+//	        $langIcons = (empty($rec_lang['directory'])) ? 'none' : strtolower($rec_lang['directory']);
+//			$template->set_var('CODE',        $rec_lang['directory']);
+//			$template->set_var('NAME',        $rec_lang['name']);
+//			$template->set_var('FLAG',        THEME_URL.'/images/flags/'.$langIcons);
+//			$template->set_var('SELECTED',    (LANGUAGE == $rec_lang['directory'] ? ' selected="selected"' : '') );
+//			$template->parse('language_list', 'language_list_block', true);
+//		}
+//	}
+
+$aLangAddons = array();
+$aLangBrowser = array();
+
+// read available languages from table addons
+$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';
+$sql .= 'WHERE `type` = \'language\' ORDER BY `directory`';
+if( $oLang = $database->query($sql) )
+{
+    while( $aLang = $oLang->fetchRow(MYSQL_ASSOC) )
+    {
+        $aLangAddons[$aLang['directory']] = $aLang['name'];
+    }
+}
+
+// default, if no information from client available
+$sAutoLanguage = DEFAULT_LANGUAGE;
+
+$aLangUsed = array_flip(explode(',',$admin->GetLanguagesInUsed()));
+$aLangUsed = array_intersect_key($aLangAddons, $aLangUsed);
+$template->set_block('main_block', 'language_list_block', 'language_list');
+foreach( $aLangUsed as $sDirectory => $sName  )
+{
+	$langIcons = ( empty($sDirectory) ? 'none' : strtolower($sDirectory));
+
+	$template->set_var('CODE',        $sDirectory);
+	$template->set_var('NAME',        $sName);
+	$template->set_var('FLAG',        THEME_URL.'/images/flags/'.$langIcons);
+	$template->set_var('SELECTED',    ( $_SESSION['LANGUAGE'] == $sDirectory ? ' selected="selected"' : '') );
+
+	$template->parse('language_list', 'language_list_block', true);
+}
+
 // Insert default timezone values
 	$user_time = true;
 	include_once( ADMIN_PATH.'/interface/timezones.php' );
@@ -118,30 +155,15 @@ function build_page( &$admin, &$database )
 	$template->set_var('FTAN', $admin->getFTAN());
 	$template->set_var('FORM_NAME', 'preferences_save');
 // assign language vars
-	$template->set_var(array( 'HEADING_MY_SETTINGS'      => $HEADING['MY_SETTINGS'],
-                              'HEADING_MY_EMAIL'         => $HEADING['MY_EMAIL'],
-                              'HEADING_MY_PASSWORD'      => $HEADING['MY_PASSWORD'],
-                              'TEXT_SAVE'                => $TEXT['SAVE'],
-                              'TEXT_RESET'               => $TEXT['RESET'],
-                              'TEXT_DISPLAY_NAME'        => $TEXT['DISPLAY_NAME'],
-                              'TEXT_USERNAME'            => $TEXT['USERNAME'],
-                              'TEXT_EMAIL'               => $TEXT['EMAIL'],
-                              'TEXT_LANGUAGE'            => $TEXT['LANGUAGE'],
-                              'TEXT_TIMEZONE'            => $TEXT['TIMEZONE'],
-                              'TEXT_DATE_FORMAT'         => $TEXT['DATE_FORMAT'],
-                              'TEXT_TIME_FORMAT'         => $TEXT['TIME_FORMAT'],
-                              'TEXT_CURRENT_PASSWORD'    => $TEXT['CURRENT_PASSWORD'],
-                              'TEXT_NEW_PASSWORD'        => $TEXT['NEW_PASSWORD'],
-                              'TEXT_RETYPE_NEW_PASSWORD' => $TEXT['RETYPE_NEW_PASSWORD'],
-							  'TEXT_NEW_PASSWORD'        => $TEXT['NEW_PASSWORD'],
-                              'TEXT_RETYPE_NEW_PASSWORD' => $TEXT['RETYPE_NEW_PASSWORD'],
-							  'TEXT_NEED_CURRENT_PASSWORD' => $TEXT['NEED_CURRENT_PASSWORD'],
-	                          'EMPTY_STRING'             => ''
+	$template->set_var(array( 
+                              'EMPTY_STRING'             => ''
                             )
                       );
 // Parse template for preferences form
 	$template->parse('main', 'main_block', false);
 	$output = $template->finish($template->parse('output', 'page'));
+	$mLang->disableAddon();
+
 	return $output;
 }
 // test if valid $admin-object already exists (bit complicated about PHP4 Compatibility)
@@ -153,5 +175,3 @@ if( !(isset($admin) && is_object($admin) && (get_class($admin) == 'admin')) )
 }
 echo build_page($admin, $database);
 $admin->print_footer();
-
-?>

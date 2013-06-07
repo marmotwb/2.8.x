@@ -4,13 +4,13 @@
  * @category        admin
  * @package         settings
  * @author          WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -186,9 +186,10 @@ $allow_empty_values = array(
     'page_spacer',
     'page_icon_dir',
     );
-$disallow_in_fields = array(
-    'pages_directory',
-    'media_directory',
+$aPreventFromUpdate = array(
+    'sp',
+    'version',
+//    'page_extension',
     'wb_version'
     );
 $StripCodeFromInput = array(
@@ -207,61 +208,71 @@ $StripCodeFromInput = array(
     );
 
 // Query current settings in the db, then loop through them and update the db with the new value
-$settings = array();
-$old_settings = array();
+//$settings = array();
+//$old_settings = array();
 // Query current settings in the db, then loop through them to get old values
 $sql  = 'SELECT `name`, `value` FROM `'.TABLE_PREFIX.'settings`';
 $sql .= 'ORDER BY `name`';
 
 if($res_settings = $database->query($sql)) {
-	$passed = false;
+	$iQueryStart = $database->getQueryCount;
 	while($setting = $res_settings->fetchRow(MYSQL_ASSOC))
 	{
+		$passed = false;
 		$setting_name = $setting['name'];
-		$old_settings[$setting_name] = $setting['value'];
-		$value = $admin->get_post($setting_name);
-		$value = isset($_POST[$setting_name]) ? $value : $old_settings[$setting_name] ;
+//		$old_settings = $setting['value'];
+//		$value = $admin->get_post($setting_name);
+		if(($value = $admin->get_post($setting_name)) === null) { continue; }
+//		$value = isset($_POST[$setting_name]) ? $value : $old_settings ;
 		switch ($setting_name) {
 			case 'default_timezone':
-		    	$value = (is_numeric($value) ? $value : 0);
-		    	$value = ( ($value >= -12 && $value <= 13) ? $value :0 ) * 3600;
-				$passed = true;
+				$value = intval($value);
+				$value = ( ($value >= -12 && $value <= 13) ? $value :0 ) * 3600;
+				$passed = ($value != $setting['value']);
 				break;
 			case 'string_dir_mode':
 				$value=$dir_mode;
-				$passed = true;
+				$passed = ($value != $setting['value']);
 				break;
 			case 'string_file_mode':
 				$value=$file_mode;
-	 			$passed = true;
-    			break;
+	 			$passed = ($value != $setting['value']);
+				break;
+			case 'page_extension':
+				$value = $admin->StripCodeFromText($value);
+				if(!preg_match('/^\.[a-z][a-z0-9]+$/siu', $value)) {
+					$value = '.php';
+				}
+				$passed = ($value != $setting['value']);
+				break;
 			case 'sec_anchor':
-                $value = $admin->StripCodeFromText($value);
-				$value=(($value=='') ? 'section_' : $value);
-	 			$passed = true;
+				$value = $admin->StripCodeFromText($value);
+				$value=(($value=='') ? 'Sec' : $value);
+	 			$passed = ($value != $setting['value']);
 				break;
 			case 'media_directory':
-				$value = ( (strpos($value,'/',0)===false) && ($value!= '') ) ? '/'.$value : rtrim($value,'/'); 
-	 			$passed = true;
+				$value = trim($value,'/');
+				$value = ( ($value != '')  ? '/'.$value : '/media' ); 
+	 			$passed = ($value != $setting['value']);
 				break;
-			case 'pages_directory':
-				if( ($database->get_one('SELECT COUNT(*) FROM `'.TABLE_PREFIX.'pages`'))==0 ) {
-					$value = rtrim($admin->StripCodeFromText($value));
-					$passed = true;
-				} else {
-					$value = rtrim($old_settings[$setting_name]);
-				}
-				$value = ( (strpos($value,'/',0)===false) && ($value != '')  ? '/'.$value : rtrim($value,'/') ); 
-				break;
-			case 'wbmailer_smtp_auth':
-				$value = true ;
-	 			$passed = true;
-				break;
+			 case 'pages_directory':
+			 $sql = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'pages`';
+			  if( !($database->get_one($sql)) ) {
+			   $value = rtrim($admin->StripCodeFromText($value));
+			   $passed = ($value != $setting['value']);
+			  }
+			  $value = trim($value,'/');
+			  $value = ( ($value != '')  ? '/'.$value : '' ); 
+			  break;
 			default :
-                $passed = in_array($setting_name, $allow_empty_values);
-                if(in_array($setting_name, $StripCodeFromInput) ) {
-                    $value = $admin->StripCodeFromText($value);
-                }
+				 if($value == '')  {
+					$passed = ((in_array($setting_name, $allow_empty_values)) && ($value != $setting['value']));
+				} else {
+					if(in_array($setting_name, $StripCodeFromInput) ) {
+						$value = trim($admin->StripCodeFromText($value));
+					}
+					$passed = (($value != '') && ($value != $setting['value']));
+				}
 				break;
 		}
 
@@ -269,8 +280,8 @@ if($res_settings = $database->query($sql)) {
 	    {
 	        $value = strip_tags($value);
 	    }
-
-	    if ( !in_array($value, $disallow_in_fields) && (isset($_POST[$setting_name]) || $passed == true) )
+		if( !in_array($setting_name, $aPreventFromUpdate) && $passed )
+//	    if ( !in_array($setting_name, $aPreventFromUpdate) && (isset($_POST[$setting_name]) || $passed == true) )
 	    {
 	        $value = trim($database->escapeString($value));
 	        $sql = 'UPDATE `'.TABLE_PREFIX.'settings` ';
@@ -282,11 +293,12 @@ if($res_settings = $database->query($sql)) {
 				if($database->is_error()) {
 					$admin->print_error($database->get_error, $js_back );
 				}
-	        }
+	        } 
 		}
 	}
-
+	$iQueriesDone = $database->getQueryCount - $iQueryStart;
 }
+
 /**
  * now save search settings
  */
@@ -391,6 +403,7 @@ while($aSearch = $oSearch->fetchRow(MYSQL_ASSOC))
 if($database->is_error()) {
 	$admin->print_error($database->get_error, $js_back );
 } else {
+//	$admin->print_success($iQueriesDone.' Queries '.$MESSAGE['SETTINGS_SAVED'], $js_back );
 	$admin->print_success($MESSAGE['SETTINGS_SAVED'], $js_back );
 }
 $admin->print_footer();

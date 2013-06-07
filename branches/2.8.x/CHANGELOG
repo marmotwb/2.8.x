@@ -12,6 +12,10 @@ Legend:
 ===============================================================================
 
 
+07 Jun-2013 Build 1912 Dietmar Woellbrink (Luisehahne)
+! /admin/preferences/index.php change to new Translate class
+  languages only given for existing page languages
+!  /admin/settings/ change to new Translate class
 07 Jun-2013 Build 1911 Dietmar Woellbrink (Luisehahne)
 ! modules/menu_link/save.php coding new sql logic to replace adding an empty table row in add.php
 07 Jun-2013 Build 1910 Dietmar Woellbrink (Luisehahne)

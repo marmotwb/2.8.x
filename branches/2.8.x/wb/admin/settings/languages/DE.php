@@ -13,4 +13,4 @@ $TEXT['REBUILD_ACCESS_FILES'] = 'Zugriffsdateien aktualiseren';
 $TEXT['MODULES_DIRECTORY'] = 'Module für Aktualisierung';
 $HELP['ACTIVATION_MAIL'] = 'Registrierung per Aktivierungs-Mail (Eingeschaltet) oder Direktregistrierung (Ausgeschaltet)';
 $HELP['REBUILD_ACCESS_FILES'] = '- Aktualisiert auch nachfolgend eingetragene geprüfte Module, (Komma getrennte Liste)';
-//
+$TEXT['SECTION_ID_PREFIX'] = 'AbschnittsID Präfix';
