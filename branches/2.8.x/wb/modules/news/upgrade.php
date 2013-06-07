@@ -20,7 +20,7 @@
  * upgrade.php
  * 
  * @category     Module
- * @package      Module_news
+ * @package      news
  * @subpackage   upgrade
  * @author       Dietmar Wöllbrink <dietmar.woellbrink@websitebaker.org>
  * @author       Werner v.d.Decken <wkl@isteam.de>
@@ -92,7 +92,7 @@ if(!defined('WB_URL')) {
 
 			$sPagesPath = WB_PATH.PAGES_DIRECTORY;
 			$sPostsPath = $sPagesPath.'/posts';
-	// create /posts/ - directory if not exists
+// create /posts/ - directory if not exists
 			if(is_writable($sPagesPath)) {
 				if(!($bRetval = is_dir($sPostsPath))) {
 					$iOldUmask = umask(0) ;
@@ -133,13 +133,13 @@ if(!defined('WB_URL')) {
 				$msg[] = 'TABLE `'.$database->TablePrefix.'mod_news_posts` Datafield `created_by` already exists.'." $OK";
 				$doImportDate = false; 
 			}
- 	// preset new fields `created_by` and `created_by` from existing values
+// preset new fields `created_by` and `created_by` from existing values
 			if($doImportDate) {
 				$sql  = 'UPDATE `'.$database->TablePrefix.'mod_news_posts` ';
 				$sql .= 'SET `created_by`=`posted_by`, `created_when`=`posted_when`';
 				$database->query($sql);
 			}
-
+	if($doImportDate) {
 	/**
 	 * rebuild news post folder
 	 */
@@ -176,8 +176,9 @@ if(!defined('WB_URL')) {
 			if($count > 0) {
 				$msg[] = 'Save date of creation from '.$count.' old accessfiles and delete these files.'." $OK";
 			}
+	}
 // ************************************************
-		// Check the validity of 'create-file-timestamp' and balance against 'posted-timestamp'
+// Check the validity of 'create-file-timestamp' and balance against 'posted-timestamp'
 			$sql  = 'UPDATE `'.$database->TablePrefix.'mod_news_posts` ';
 			$sql .= 'SET `created_when`=`published_when` ';
 			$sql .= 'WHERE `published_when`<`created_when`';
