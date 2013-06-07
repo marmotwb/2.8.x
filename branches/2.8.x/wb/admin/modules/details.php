@@ -4,13 +4,13 @@
  * @category        admin
  * @package         modules
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -29,8 +29,10 @@ if( !$admin->checkFTAN() )
 // After check print the header
 $admin->print_header();
 
-$mLang = ModLanguage::getInstance();
-$mLang->setLanguage(ADMIN_PATH.'/addons/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+//$mLang = ModLanguage::getInstance();
+//$mLang->setLanguage(ADMIN_PATH.'/addons/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+$mLang = Translate::getinstance();
+$mLang->enableAddon('admin\addons');
 
 if(!isset($_POST['file']) OR $_POST['file'] == "") {
 	$admin->print_error($MESSAGE['GENERIC_FORGOT_OPTIONS']);
@@ -116,48 +118,32 @@ $template->set_var(array(
 
 switch ($module['function']) {
 	case NULL:
-		$type_name = $TEXT['UNKNOWN'];
+		$type_name = $mLang->TEXT_UNKNOWN;
 		break;
 	case 'page':
-		$type_name = $TEXT['PAGE'];
+		$type_name = $mLang->TEXT_PAGE;
 		break;
 	case 'wysiwyg':
-		$type_name = $TEXT['WYSIWYG_EDITOR'];
+		$type_name = $mLang->TEXT_WYSIWYG_EDITOR;
 		break;
 	case 'tool':
-		$type_name = $TEXT['ADMINISTRATION_TOOL'];
+		$type_name = $mLang->TEXT_ADMINISTRATION_TOOL;
 		break;
 	case 'admin':
-		$type_name = $TEXT['ADMIN'];
+		$type_name = $mLang->TEXT_ADMIN;
 		break;
 	case 'administration':
-		$type_name = $TEXT['ADMINISTRATION'];
+		$type_name = $mLang->TEXT_ADMINISTRATION;
 		break;
 	case 'snippet':
-		$type_name = $TEXT['CODE_SNIPPET'];
+		$type_name = $mLang->TEXT_CODE_SNIPPET;
 		break;
 	default:
-		$type_name = $TEXT['UNKNOWN'];
+		$type_name = $mLang->TEXT_UNKNOWN;
 }
 $template->set_var('TYPE', $type_name);
 
-//// Insert language headings
-//$template->set_var(array(
-//								'HEADING_MODULE_DETAILS' => $HEADING['MODULE_DETAILS']
-//								)
-//						);
-//// Insert language text and messages
-//$template->set_var(array(
-//								'TEXT_NAME' => $TEXT['NAME'],
-//								'TEXT_TYPE' => $TEXT['TYPE'],
-//								'TEXT_AUTHOR' => $TEXT['AUTHOR'],
-//								'TEXT_VERSION' => $TEXT['VERSION'],
-//								'TEXT_DESIGNED_FOR' => $TEXT['DESIGNED_FOR'],
-//								'TEXT_DESCRIPTION' => $TEXT['DESCRIPTION'],
-//								'TEXT_BACK' => $TEXT['BACK']
-//								)
-//						);
-//
+
 // Parse module object
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');

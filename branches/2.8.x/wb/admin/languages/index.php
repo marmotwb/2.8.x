@@ -50,8 +50,10 @@ if($admin->get_permission('languages_view') != true) {
 	$template->set_var('DISPLAY_LIST', 'hide');
 }
 
-$mLang = ModLanguage::getInstance();
-$mLang->setLanguage(ADMIN_PATH.'/addons/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+//$mLang = ModLanguage::getInstance();
+//$mLang->setLanguage(ADMIN_PATH.'/addons/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+$mLang = Translate::getinstance();
+$mLang->enableAddon('admin\addons');
 
 /*-- insert all needed vars from language files ----------------------------------------*/
 $template->set_var($mLang->getLangArray());
@@ -65,7 +67,7 @@ $template->set_var(array(
 		);
 // Insert language text and messages
 $template->set_var(array(
-	'URL_ADVANCED' => '<b>'.$TEXT['ADVANCED'].'</b>' ,
+	'URL_ADVANCED' => '<b>'.$mLang->TEXT_ADVANCED.'</b>' ,
 	'URL_MODULES' => $admin->get_permission('modules') ?
 		'<a href="' . ADMIN_URL . '/modules/index.php">' . $mLang->MENU_MODULES . '</a>' : '<b>'.$mLang->MENU_MODULES.'</b>',
 	'URL_TEMPLATES' => $admin->get_permission('templates') ?

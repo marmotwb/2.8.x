@@ -110,8 +110,10 @@ $template->set_var(array(
     )
 );
 
-$mLang = ModLanguage::getInstance();
-$mLang->setLanguage(ADMIN_PATH.'/addons/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+//$mLang = ModLanguage::getInstance();
+//$mLang->setLanguage(ADMIN_PATH.'/addons/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+$mLang = Translate::getinstance();
+$mLang->enableAddon('admin\addons');
 
 /*-- insert all needed vars from language files ----------------------------------------*/
 $template->set_var($mLang->getLangArray());
