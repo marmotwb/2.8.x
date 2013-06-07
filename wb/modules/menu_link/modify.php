@@ -4,13 +4,13 @@
  * @category        modules
  * @package         menu_link
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
 */
@@ -85,9 +85,9 @@ $table_mw = TABLE_PREFIX."mod_wysiwyg";
 $table_s = TABLE_PREFIX."sections";
 foreach($links as $pid=>$l) {
 	if($query_section = $database->query("SELECT section_id, module FROM $table_s WHERE page_id = '$pid' ORDER BY position")) {
-		while($section = $query_section->fetchRow()) {
+		while($section = $query_section->fetchRow(MYSQL_ASSOC)) {
 			// get section-anchor
-			if(defined('SEC_ANCHOR') && SEC_ANCHOR!='') {
+			if(defined('SEC_ANCHOR') && SEC_ANCHOR!='none') {
 				$targets[$pid][] = SEC_ANCHOR.$section['section_id'];
 			} else {
 				$targets[$pid] = array();

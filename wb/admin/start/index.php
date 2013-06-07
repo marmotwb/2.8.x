@@ -4,13 +4,13 @@
  * @category        admin
  * @package         start
  * @author          Ryan Djurovich (2004-2009), WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  *
  */
@@ -60,6 +60,7 @@ if(defined('FINALIZE_SETUP')) {
 }
 // ---------------------------------------
 // check if it is neccessary to start the uograde-script
+
 $msg  = '';
 $msg .= (is_readable(WB_PATH.'/install/')) ?  $MESSAGE['START_INSTALL_DIR_EXISTS'].'<br />' : $msg;
 $msg .= (is_readable(WB_PATH.'/upgrade-script.php')) ?  $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'].'<br />' : '';
