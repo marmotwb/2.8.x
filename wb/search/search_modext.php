@@ -166,7 +166,7 @@ function make_url_target($page_link_target, $text, $search_words) {
 	
 	// since wb 2.7.1 the section-anchor is configurable - SEC_ANCHOR holds the anchor name
 	if(substr($page_link_target,0,12)=='#wb_section_') {
-		if(defined('SEC_ANCHOR') && SEC_ANCHOR!='') {
+		if(defined('SEC_ANCHOR') && SEC_ANCHOR!='none') {
 			$sec_id = substr($page_link_target, 12);
 			$page_link_target = '#'.SEC_ANCHOR.$sec_id;
 		} else { // section-anchors are disabled
