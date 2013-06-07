@@ -4,8 +4,8 @@
  * @category        admin
  * @package         settings
  * @author          Ryan Djurovich, WebsiteBaker Project
- * @copyright       2009-2012, WebsiteBaker Org. e.V.
- * @link            http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
@@ -57,12 +57,14 @@ $oTpl = new Template(dirname($admin->correct_theme_source('settings.htt')),'comm
 $oTpl->set_file('page',  'settings.htt');
 $oTpl->set_block('page', 'main_block', 'main');
 
-$mLang = ModLanguage::getInstance();
-$mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
-
-$oTpl->set_var('FTAN', $admin->getFTAN());
+//$mLang = ModLanguage::getInstance();
+//$mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+$mLang = Translate::getinstance();
+$mLang->enableAddon('admin\settings');
 /*-- insert all needed vars from language files ----------------------------------------*/
 $oTpl->set_var($mLang->getLangArray());
+
+$oTpl->set_var('FTAN', $admin->getFTAN());
 
 // Query current settings in the db, then loop through them and print them
 $query = "SELECT * FROM `".TABLE_PREFIX."settings`";
@@ -82,7 +84,7 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
     	$oTpl->set_var('ADVANCED_FILE_PERMS_ID', 'file_perms_box');
     	$oTpl->set_var('BASIC_FILE_PERMS_ID', 'hide');
     	$oTpl->set_var('ADVANCED', 'yes');
-    	$oTpl->set_var('ADVANCED_BUTTON', '&lt;&lt; '.$TEXT['HIDE_ADVANCED']);
+    	$oTpl->set_var('ADVANCED_BUTTON', '&lt;&lt; '.$mLang->TEXT_HIDE_ADVANCED);
     	$oTpl->set_var('ADVANCED_LINK', 'index.php?advanced=no');
 
     } else {
@@ -91,7 +93,7 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
     	$oTpl->set_var('ADVANCED_FILE_PERMS_ID', 'hide');
 
     	$oTpl->set_var('ADVANCED', 'no');
-    	$oTpl->set_var('ADVANCED_BUTTON', $TEXT['SHOW_ADVANCED'].' &gt;&gt;');
+    	$oTpl->set_var('ADVANCED_BUTTON', $mLang->TEXT_SHOW_ADVANCED.' &gt;&gt;');
     	$oTpl->set_var('ADVANCED_LINK', 'index.php?advanced=yes');
     }
 
@@ -103,75 +105,6 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
 		'THEME_URL' => THEME_URL,
 		'ADMIN_URL' => ADMIN_URL,
 	 ));
-
-	// Insert language headings
-	$oTpl->set_var(array(
-		'HEADING_GENERAL_SETTINGS' => $HEADING['GENERAL_SETTINGS'],
-		'HEADING_DEFAULT_SETTINGS' => $HEADING['DEFAULT_SETTINGS'],
-		'HEADING_SEARCH_SETTINGS' => $HEADING['SEARCH_SETTINGS'],
-		'HEADING_SERVER_SETTINGS' => $HEADING['SERVER_SETTINGS'],
-		'HEADING_WBMAILER_SETTINGS' => $HEADING['WBMAILER_SETTINGS'],
-		'HEADING_ADMINISTRATION_TOOLS' => $HEADING['ADMINISTRATION_TOOLS']
-		)
-	);
-
-	// Insert language textarea label
-	$oTpl->set_var(array(
-		'TEXT_WEBSITE_TITLE' => $TEXT['WEBSITE_TITLE'],
-		'TEXT_WEBSITE_DESCRIPTION' => $TEXT['WEBSITE_DESCRIPTION'],
-		'TEXT_WEBSITE_KEYWORDS' => $TEXT['WEBSITE_KEYWORDS'],
-		'TEXT_WEBSITE_HEADER' => $TEXT['WEBSITE_HEADER'],
-		'TEXT_WEBSITE_FOOTER' => $TEXT['WEBSITE_FOOTER'],
-		'TEXT_HEADER' => $TEXT['HEADER'],
-		'TEXT_FOOTER' => $TEXT['FOOTER'],
-		'TEXT_TEXT' => $TEXT['TEXT'],
-		'TEXT_RESULTS_HEADER' => $TEXT['RESULTS_HEADER'],
-		'TEXT_RESULTS_LOOP' => $TEXT['RESULTS_LOOP'],
-		'TEXT_RESULTS_FOOTER' => $TEXT['RESULTS_FOOTER'],
-		));
-
-	// Insert generell language
-    $oTpl->set_var(array(
-		'TEXT_SAVE' => $TEXT['SAVE'],
-		'TEXT_RESET' => $TEXT['RESET'],
-		'TEXT_ENABLED' => $TEXT['ENABLED'],
-		'TEXT_DISABLED' => $TEXT['DISABLED'],
-		'TEXT_DEFAULT' => $TEXT['DEFAULT'],
-		'TEXT_NO_RESULTS' => $TEXT['NO_RESULTS'],
-		'TEXT_PLEASE_SELECT' => $TEXT['PLEASE_SELECT'],
-		));
-
-// Insert language labels
-	$oTpl->set_var(array(
-		'TEXT_PAGE_TRASH' => $TEXT['PAGE_TRASH'],
-		'TEXT_PAGE_LANGUAGES' => $TEXT['PAGE_LANGUAGES'],
-		'TEXT_FRONTEND' => $TEXT['FRONTEND'],
-		'TEXT_LOGIN' => $TEXT['LOGIN'],
-		'TEXT_HOMEPAGE_REDIRECTION' => $TEXT['HOMEPAGE_REDIRECTION'],
-		'TEXT_SECTION_BLOCKS' => $TEXT['SECTION_BLOCKS'],
-		'TEXT_MANAGE' => $TEXT['MANAGE'],
-		'TEXT_SMART_LOGIN' => $TEXT['SMART_LOGIN'],
-		'TEXT_PHP_ERROR_LEVEL' => $TEXT['PHP_ERROR_LEVEL'],
-		'TEXT_WYSIWYG_STYLE' => $TEXT['WYSIWYG_STYLE'],
-		'TEXT_CHARSET' => $TEXT['CHARSET'],
-		'TEXT_REDIRECT_AFTER' => $TEXT['REDIRECT_AFTER'],
-		'TEXT_SIGNUP' => $TEXT['SIGNUP'].' '.$TEXT['GROUP'],
-		'TEXT_MULTILINGUAL' => $TEXT['MULTILINGUAL'],
-		'TEXT_HOME_FOLDERS' => $TEXT['HOME_FOLDERS'],
-		'TEXT_MANAGE_SECTIONS' => $HEADING['MANAGE_SECTIONS'],
-		'TEXT_MULTIPLE_MENUS' => $TEXT['MULTIPLE_MENUS'],
-		'TEXT_INLINE' => $TEXT['INLINE'],
-		'TEXT_SEPARATE' => $TEXT['SEPARATE'],
-		'TEXT_LANGUAGE' => $TEXT['LANGUAGE'],
-		'TEXT_TIMEZONE' => $TEXT['TIMEZONE'],
-		'TEXT_DATE_FORMAT' => $TEXT['DATE_FORMAT'],
-		'TEXT_TIME_FORMAT' => $TEXT['TIME_FORMAT'],
-		'TEXT_TEMPLATE' => $TEXT['TEMPLATE'],
-		'TEXT_THEME' => $TEXT['THEME'],
-		'TEXT_WYSIWYG_EDITOR' => $TEXT['WYSIWYG_EDITOR'],
-		'TEXT_PAGE_LEVEL_LIMIT' => $TEXT['PAGE_LEVEL_LIMIT'],
-		'TEXT_INTRO_PAGE' => $TEXT['INTRO_PAGE'],
-		));
 
 //  Insert permissions values
 	if($admin->get_permission('settings_advanced') != true)
@@ -293,7 +226,7 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
     }
 
 //  Work-out if media home folder feature is enabled
-    $oTpl->set_var('TEXT_HOME_FOLDERS', $TEXT['HOME_FOLDERS']);
+    $oTpl->set_var('TEXT_HOME_FOLDERS', $mLang->TEXT_HOME_FOLDERS);
 	if(HOME_FOLDERS)
 	{
     	$oTpl->set_var(array(
@@ -450,7 +383,7 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
     		}
     	} else {
     		$oTpl->set_var('ID', 'disabled');
-    		$oTpl->set_var('NAME', $MESSAGE['GROUPS']['NO_GROUPS_FOUND']);
+    		$oTpl->set_var('NAME', $mLang->MESSAGE_GROUPS_NO_GROUPS_FOUND);
     		$oTpl->parse('group_list', 'group_list_block', true);
     	}
 	}
@@ -503,7 +436,7 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
     $oTpl->set_block('main_block', 'show_wysiwyg_block',        'show_wysiwyg');
     $oTpl->set_block('show_wysiwyg_block', 'editor_list_block', 'editor_list');
 	$file='none';
-	$module_name=$TEXT['NONE'];
+	$module_name=$mLang->TEXT_NONE;
 	$oTpl->set_var('FILE', $file);
 	$oTpl->set_var('NAME', $module_name);
 	$selected = (!defined('WYSIWYG_EDITOR') || $file == WYSIWYG_EDITOR) ? $sSelected : '';
@@ -775,8 +708,8 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
 
 	$oTpl->set_var(array(
 	        'FILE' => '',
-			'TEXT_MODULE_ORDER' => $TEXT['MODULE_ORDER'],
-	        'NAME' => $TEXT['SYSTEM_DEFAULT'],
+			'TEXT_MODULE_ORDER' => $mLang->TEXT_MODULE_ORDER,
+	        'NAME' => $mLang->TEXT_SYSTEM_DEFAULT,
 	        'SELECTED' => $selected
 	    ));
 	$oTpl->parse('search_template_list', 'search_template_list_block', true);
@@ -800,16 +733,16 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
 	}
 
 	// Insert search select
-    $oTpl->set_var(array(
-		'TEXT_REGISTERED' => $TEXT['REGISTERED'],
-		'TEXT_PUBLIC' => $TEXT['PUBLIC'],
-		'TEXT_PRIVATE' => $TEXT['PRIVATE'],
-		'TEXT_NONE' => $TEXT['NONE'],
-		'TEXT_MAX_EXCERPT' => $TEXT['MAX_EXCERPT'],
-		'TEXT_TIME_LIMIT' => $TEXT['TIME_LIMIT'],
-		'TEXT_VISIBILITY' => $TEXT['VISIBILITY'],
-		'TEXT_SEARCH' => $TEXT['SEARCH'],
-		));
+//    $oTpl->set_var(array(
+//		'TEXT_REGISTERED' => $mLang->TEXT_REGISTERED'],
+//		'TEXT_PUBLIC' => $mLang->TEXT_PUBLIC,
+//		'TEXT_PRIVATE' => $mLang->TEXT_PRIVATE'],
+//		'TEXT_NONE' => $mLang->TEXT_NONE'],
+//		'TEXT_MAX_EXCERPT' => $mLang->TEXT_MAX_EXCERPT'],
+//		'TEXT_TIME_LIMIT' => $mLang->TEXT_TIME_LIMIT'],
+//		'TEXT_VISIBILITY' => $mLang->TEXT_VISIBILITY'],
+//		'TEXT_SEARCH' => $mLang->TEXT_SEARCH'],
+//		));
 	if(SEARCH == 'private')
 	{
     	$oTpl->set_var(array(
@@ -847,19 +780,19 @@ if($is_advanced)
     $oTpl->set_block('main_block', 'show_access_block','show_access');
 //  Work-out which wbmailer routine should be checked
 	$oTpl->set_var(array(
-		'TEXT_WBMAILER_DEFAULT_SETTINGS_NOTICE' => $TEXT['WBMAILER_DEFAULT_SETTINGS_NOTICE'],
-		'TEXT_WBMAILER_DEFAULT_SENDER_MAIL' => $TEXT['WBMAILER_DEFAULT_SENDER_MAIL'],
-		'TEXT_WBMAILER_DEFAULT_SENDER_NAME' => $TEXT['WBMAILER_DEFAULT_SENDER_NAME'],
-		'TEXT_WBMAILER_NOTICE' => $TEXT['WBMAILER_NOTICE'],
-		'TEXT_WBMAILER_FUNCTION' => $TEXT['WBMAILER_FUNCTION'],
-		'TEXT_WBMAILER_SMTP_HOST' => $TEXT['WBMAILER_SMTP_HOST'],
-		'TEXT_WBMAILER_PHP' => $TEXT['WBMAILER_PHP'],
-		'TEXT_WBMAILER_SMTP' => $TEXT['WBMAILER_SMTP'],
-		'TEXT_WBMAILER_SMTP_AUTH' => $TEXT['WBMAILER_SMTP_AUTH'],
-		'TEXT_WBMAILER_SMTP_AUTH_NOTICE' => $TEXT['REQUIRED'].' '.$TEXT['WBMAILER_SMTP_AUTH'],
-		'TEXT_WBMAILER_SMTP_USERNAME' => $TEXT['WBMAILER_SMTP_USERNAME'],
-		'TEXT_WBMAILER_SMTP_PASSWORD' => $TEXT['WBMAILER_SMTP_PASSWORD'],
-		'SMTP_AUTH_SELECTED' => $checked
+		'TEXT_WBMAILER_SMTP_AUTH_NOTICE' => $mLang->TEXT_REQUIRED.' '.$mLang->TEXT_WBMAILER_SMTP_AUTH,
+		'SMTP_AUTH_SELECTED' => $checked,
+		'TEXT_WBMAILER_DEFAULT_SETTINGS_NOTICE' => $mLang->TEXT_WBMAILER_DEFAULT_SETTINGS_NOTICE,
+		'TEXT_WBMAILER_DEFAULT_SENDER_MAIL' => $mLang->TEXT_WBMAILER_DEFAULT_SENDER_MAIL,
+		'TEXT_WBMAILER_DEFAULT_SENDER_NAME' => $mLang->TEXT_WBMAILER_DEFAULT_SENDER_NAME,
+		'TEXT_WBMAILER_NOTICE' => $mLang->TEXT_WBMAILER_NOTICE,
+		'TEXT_WBMAILER_FUNCTION' => $mLang->TEXT_WBMAILER_FUNCTION,
+		'TEXT_WBMAILER_SMTP_HOST' => $mLang->TEXT_WBMAILER_SMTP_HOST,
+		'TEXT_WBMAILER_PHP' => $mLang->TEXT_WBMAILER_PHP,
+		'TEXT_WBMAILER_SMTP' => $mLang->TEXT_WBMAILER_SMTP,
+		'TEXT_WBMAILER_SMTP_AUTH' => $mLang->TEXT_WBMAILER_SMTP_AUTH,
+		'TEXT_WBMAILER_SMTP_USERNAME' => $mLang->TEXT_WBMAILER_SMTP_USERNAME,
+		'TEXT_WBMAILER_SMTP_PASSWORD' => $mLang->TEXT_WBMAILER_SMTP_PASSWORD,
 		));
 
 	// Work-out if developer infos feature is enabled
@@ -1043,41 +976,12 @@ if($is_advanced)
 
 // Insert language text and messages
 	$oTpl->set_var(array(
-		'TEXT_DEV_INFOS' => $TEXT['DEV_INFOS'],
-		'TEXT_PAGES_DIRECTORY' => $TEXT['PAGES_DIRECTORY'],
-		'TEXT_PAGE_ICON_DIR' => $TEXT['PAGE_ICON_DIR'],
-		'TEXT_MEDIA_DIRECTORY' => $TEXT['MEDIA_DIRECTORY'],
-		'TEXT_PAGE_EXTENSION' => $TEXT['PAGE_EXTENSION'],
-		'TEXT_PAGE_SPACER' => $TEXT['PAGE_SPACER'],
-		'TEXT_RENAME_FILES_ON_UPLOAD' => $TEXT['RENAME_FILES_ON_UPLOAD'],
-		'TEXT_APP_NAME' => $TEXT['APP_NAME'],
-		'TEXT_SESSION_IDENTIFIER' => $TEXT['SESSION_IDENTIFIER'],
-		'TEXT_SEC_ANCHOR' => $TEXT['SEC_ANCHOR'],
-		'TEXT_SERVER_OPERATING_SYSTEM' => $TEXT['SERVER_OPERATING_SYSTEM'],
-		'TEXT_LINUX_UNIX_BASED' => $TEXT['LINUX_UNIX_BASED'],
-		'TEXT_WINDOWS' => $TEXT['WINDOWS'],
-		'TEXT_ADMIN' => $TEXT['ADMIN'],
-		'TEXT_TYPE' => $TEXT['TYPE'],
-		'TEXT_DATABASE' => $TEXT['DATABASE'],
-		'TEXT_HOST' => $TEXT['HOST'],
-		'TEXT_USERNAME' => $TEXT['USERNAME'],
-		'TEXT_PASSWORD' => $TEXT['PASSWORD'],
-		'TEXT_NAME' => $TEXT['NAME'],
-		'TEXT_TABLE_PREFIX' => $TEXT['TABLE_PREFIX'],
-		'TEXT_CHANGES' => $TEXT['CHANGES'],
-		'TEXT_FILES' => strtoupper(substr($TEXT['FILES'], 0, 1)).substr($TEXT['FILES'], 1),
-		'TEXT_DIRECTORIES' => $TEXT['DIRECTORIES'],
-		'TEXT_FILESYSTEM_PERMISSIONS' => $TEXT['FILESYSTEM_PERMISSIONS'],
-		'TEXT_USER' => $TEXT['USER'],
-		'TEXT_GROUP' => $TEXT['GROUP'],
-		'TEXT_OTHERS' => $TEXT['OTHERS'],
-		'TEXT_READ' => $TEXT['READ'],
-		'TEXT_WRITE' => $TEXT['WRITE'],
-		'TEXT_EXECUTE' => $TEXT['EXECUTE'],
+		'TEXT_CHANGES' => $mLang->TEXT_CHANGES,
+		'TEXT_FILES' => strtoupper(substr($mLang->TEXT_FILES, 0, 1)).substr($mLang->TEXT_FILES, 1),
 		'TEXT_WARN_PAGE_LEAVE' => '',
-		'TEXT_WORLD_WRITEABLE_FILE_PERMISSIONS' => $TEXT['WORLD_WRITEABLE_FILE_PERMISSIONS'],
-		'MODE_SWITCH_WARNING' => $MESSAGE['SETTINGS_MODE_SWITCH_WARNING'],
-		'WORLD_WRITEABLE_WARNING' => $MESSAGE['SETTINGS_WORLD_WRITEABLE_WARNING'],
+		'TEXT_WORLD_WRITEABLE_FILE_PERMISSIONS' => $mLang->TEXT_WORLD_WRITEABLE_FILE_PERMISSIONS,
+		'MODE_SWITCH_WARNING' => $mLang->MESSAGE_SETTINGS_MODE_SWITCH_WARNING,
+		'WORLD_WRITEABLE_WARNING' => $mLang->MESSAGE_SETTINGS_WORLD_WRITEABLE_WARNING
 		));
 
 if($is_advanced && $admin->get_user_id()=='1')
