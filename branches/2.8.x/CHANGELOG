@@ -12,6 +12,8 @@ Legend:
 ===============================================================================
 
 
+07 Jun-2013 Build 1910 Dietmar Woellbrink (Luisehahne)
+! modules/wysiwyg/save.php use new methode in class.wb to replace absolute MediaUrl
 07 Jun-2013 Build 1909 Dietmar Woellbrink (Luisehahne)
 ! install/save.php,search_modext.php set $sSectionIdPrefix (SEC_ANCHOR) to the right value
 07 Jun-2013 Build 1908 Dietmar Woellbrink (Luisehahne)
