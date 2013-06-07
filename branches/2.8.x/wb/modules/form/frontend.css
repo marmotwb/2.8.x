@@ -29,4 +29,7 @@
 .frm-field_table input[type="submit"] { padding :0.1em 0.8em; }
  .frm-warning a, 
  p.frm-warning a { background :transparent; padding-left :0; }
-fieldset.frm-fieldset { border :none; }
+fieldset.frm-fieldset { border :none; margin :0%; padding :0%; }
+.frm-warning-success-email { display :block; }
+.previewPrintTop { float :right; }
+.previewPrintTop span { display : none; }

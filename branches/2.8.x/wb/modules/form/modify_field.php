@@ -4,13 +4,13 @@
  * @category        module
  * @package         Form
  * @author          WebsiteBaker Project
- * @copyright       2009-2011, Website Baker Org. e.V.
- * @link			http://www.websitebaker2.org/
+ * @copyright       2009-2013, WebsiteBaker Org. e.V.
+ * @link            http://www.websitebaker.org/
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL$
+ * @filesource      $HeadURL$
  * @lastmodified    $Date$
  * @description
  */
@@ -23,12 +23,12 @@ $update_when_modified = false;
 // Include WB admin wrapper script
 require(WB_PATH.'/modules/admin.php');
 
-$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : 'section_'.$section_id );
+$sSectionIdPrefix = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? SEC_ANCHOR : 'Sec' );
 /* */
 // Get id
 $field_id = intval($admin->checkIDKEY('field_id', false, 'GET'));
 if (!$field_id) {
- $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id.$sec_anchor);
+ $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'#'.$sSectionIdPrefix.$section_id);
 }
 // load module language file
 $lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
@@ -210,7 +210,7 @@ $friendly = array('&lt;', '&gt;');
 		// end addition
 		?>
 		<td align="right">
-			<input type="button" value="<?php echo $TEXT['CLOSE']; ?>" onclick="javascript: window.location = '<?php echo ADMIN_URL; ?>/pages/modify.php?page_id=<?php echo $page_id.$sec_anchor; ?>';" style="width: 100px; margin-top: 5px;" />
+			<input type="button" value="<?php echo $TEXT['CLOSE']; ?>" onclick="javascript: window.location = '<?php echo ADMIN_URL; ?>/pages/modify.php?page_id=<?php echo $page_id.'#'.$sSectionIdPrefix.$section_id; ?>';" style="width: 100px; margin-top: 5px;" />
 		</td>
 	</tr>
 </table>

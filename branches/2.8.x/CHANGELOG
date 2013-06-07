@@ -12,8 +12,10 @@ Legend:
 ===============================================================================
 
 
+07 Jun-2013 Build 1919 Dietmar Woellbrink (Luisehahne)
+! /modules/form/ beginning recoding
 07 Jun-2013 Build 1918 Dietmar Woellbrink (Luisehahne)
-! /modules/news/ beginning beginning recoding
+! /modules/news/ beginning recoding
   replacing absolute MediaUrl with place holder
 07 Jun-2013 Build 1917 Dietmar Woellbrink (Luisehahne)
 ! /modules/show_menu2/  set to version 4.9.7

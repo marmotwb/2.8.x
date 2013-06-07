@@ -151,7 +151,6 @@ if($_POST == array())
 	}
 
 // do not use sec_anchor, can destroy some layouts
-//$sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$fetch_settings['section_id'] : 'section_'.$section_id );
 
 	// Get list of fields
 	$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'mod_form_fields` ';
@@ -495,6 +494,7 @@ function confirm_link(message, url) {
 			echo "</div>\n";
 				echo '<p class="frm-warning"><a href="'.htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME'])).'">'.$TEXT['BACK'].'</a></p>'."\n";
 			} else {
+				$success = false;
 // Check how many times form has been submitted in last hour
 				$last_hour = time()-3600;
 				$sql  = 'SELECT `submission_id` FROM `'.TABLE_PREFIX.'mod_form_submissions` ';
