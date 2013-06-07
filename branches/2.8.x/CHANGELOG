@@ -11,7 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-
+07 Jun-2013 Build 1921 Werner v.d.Decken(DarkViper)
+! /admin/languages  some little corrections
 07 Jun-2013 Build 1920 Dietmar Woellbrink (Luisehahne)
 ! /modules/admin.php $sSectionIdPrefix
 ! /admin/media/upload.php change $database->query($sql) to $database->get_one($sql)
