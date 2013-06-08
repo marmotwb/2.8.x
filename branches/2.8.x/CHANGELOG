@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+08 Jun-2013 Build 1922 Werner v.d.Decken(DarkViper)
+# fixed invalid translate addon activation (/admin/preferences/index.php)
 07 Jun-2013 Build 1921 Werner v.d.Decken(DarkViper)
 ! /admin/languages  some little corrections
 07 Jun-2013 Build 1920 Dietmar Woellbrink (Luisehahne)

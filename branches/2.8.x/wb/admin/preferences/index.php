@@ -31,7 +31,7 @@ function build_page( &$admin, &$database )
 	$template->set_file( 'page', 'preferences.htt' );
 	$template->set_block( 'page', 'main_block', 'main' );
 	$mLang = Translate::getinstance();
-	$mLang->enableAddon('admin\preferences');
+//	$mLang->enableAddon('admin\preferences');
 	$template->set_var($mLang->getLangArray());
 
 // read user-info from table users and assign it to template
