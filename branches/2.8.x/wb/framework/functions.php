@@ -1108,6 +1108,15 @@ function extract_permission($octal_value, $who, $action)
 		return $subject;
     }
 
+function setAccessDeniedToNewTools($sModulName)
+{
+	$oDb = WbDatabase::getInstance();
+	$sql = 'UPDATE `'.$oDb->getTablePrefix.'groups` '
+		 . 'SET `module_permissions`= TRIM(LEADING \',\' FROM (CONCAT(`module_permissions`, \','.$sModulName.'\'))) '
+	     . 'WHERE `group_id`<>1 AND NOT FIND_IN_SET(\''.$sModulName.'\', `module_permissions`)';
+	$oDb->query($sql);
+}
+	
 // Load module into DB
 function load_module($directory, $install = false)
 {
@@ -1143,6 +1152,11 @@ function load_module($directory, $install = false)
 			$sql .= '`license`=\''.addslashes($module_license).'\'';
 			$sql .= $sqlwhere;
 			$retVal = intval($database->query($sql) ? true : false);
+			if($retVal && !$sqlwhere &&
+			   ($module_function == 'tool' || $module_function == 'page' || $module_function == 'wysiwyg')
+			  ) {
+				setAccessDeniedToNewTools($module_directory);
+			}
 			// Run installation script
 			if($install == true) {
 				if(file_exists($directory.'/install.php')) {
