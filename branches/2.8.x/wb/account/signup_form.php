@@ -24,15 +24,15 @@ if(!defined('WB_PATH')) {
 /* -------------------------------------------------------- */
 
 // load module language file
-$lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
-require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
+//$lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
+//require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
 
 require_once(WB_PATH.'/include/captcha/captcha.php');
 
 include_once (WB_PATH.'/framework/functions.php');
 
-$mLang = ModLanguage::getInstance();
-$mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+$mLang = Translate::getinstance();
+$mLang->enableAddon('account');
 
 if(isset($_POST['action']) && $_POST['action']=='send') {
 	require(dirname(__FILE__).'/save_signup.php');
@@ -70,11 +70,11 @@ if( is_readable(WB_PATH .'/account/frontend.css')) {
 		'HTTP_REFERER' => $_SESSION['HTTP_REFERER'],
 		'MESSAGE_VALUE' => '',
 		'ERROR_VALUE' => '',
-		'HEADING_SIGNUP' => $TEXT['SIGNUP'],
-		'TEXT_LANGUAGE' => $TEXT['LANGUAGE'],
-		'TEXT_SIGNUP' => $TEXT['SIGNUP'],
-		'TEXT_RESET' => $TEXT['RESET'],
-		'TEXT_CANCEL' => $TEXT['CANCEL'],
+		'HEADING_SIGNUP' => $mLang->TEXT_SIGNUP,
+		'TEXT_LANGUAGE' => $mLang->TEXT_LANGUAGE,
+		'TEXT_SIGNUP' => $mLang->TEXT_SIGNUP,
+		'TEXT_RESET' => $mLang->TEXT_RESET,
+		'TEXT_CANCEL' => $mLang->TEXT_CANCEL,
 		)
 	);
 
@@ -102,10 +102,10 @@ if( is_readable(WB_PATH .'/account/frontend.css')) {
 
 // login label vars
 	$oTpl->set_var(array(
-		'TEXT_INFO' => $TEXT['INFO'],
-		'TEXT_USERNAME' => $TEXT['USERNAME'],
-		'TEXT_DISPLAY_NAME' => $TEXT['DISPLAY_NAME'],
-		'TEXT_EMAIL' => $TEXT['EMAIL'],
+		'TEXT_INFO' => $mLang->TEXT_INFO,
+		'TEXT_USERNAME' => $mLang->TEXT_USERNAME,
+		'TEXT_DISPLAY_NAME' => $mLang->TEXT_DISPLAY_NAME,
+		'TEXT_EMAIL' => $mLang->TEXT_EMAIL,
 		)
 	);
 
@@ -169,9 +169,9 @@ $sAutoLanguage = array_key_exists($sAutoLanguage,$aLangUsed) ? $sAutoLanguage : 
 	if(CONFIRMED_REGISTRATION) {
 		$oTpl->parse('captcha', '', true);
 		$oTpl->set_var(array(
-				'TEXT_NEW_PASSWORD' => $TEXT['NEW_PASSWORD'],
-				'TEXT_RETYPE_NEW_PASSWORD' => $TEXT['RETYPE_NEW_PASSWORD'],
-				'HELP_SIGNUP_REMEMBER_PASSWORD' => $HELP['SIGNUP_REMEMBER_PASSWORD'],
+				'TEXT_NEW_PASSWORD' => $mLang->TEXT_NEW_PASSWORD,
+				'TEXT_RETYPE_NEW_PASSWORD' => $mLang->TEXT_RETYPE_NEW_PASSWORD,
+				'HELP_SIGNUP_REMEMBER_PASSWORD' => $mLang->HELP_SIGNUP_REMEMBER_PASSWORD,
 				)
 			);
 		$oTpl->parse('password', 'password_block',true);
@@ -182,7 +182,7 @@ $sAutoLanguage = array_key_exists($sAutoLanguage,$aLangUsed) ? $sAutoLanguage : 
 			call_captcha();
 			$captcha = ob_get_clean();
 			$oTpl->set_var(array(
-					'TEXT_VERIFICATION' => $TEXT['VERIFICATION'],
+					'TEXT_VERIFICATION' => $mLang->TEXT_VERIFICATION,
 					'CAPTCHA' => $captcha,
 					)
 				);
@@ -214,18 +214,18 @@ $sAutoLanguage = array_key_exists($sAutoLanguage,$aLangUsed) ? $sAutoLanguage : 
 		$oTpl->parse('message', 'show_registration_block', true);
 	}
 	$oTpl->set_var(array(
-			'BACK' => $TEXT['BACK'],
+			'BACK' => $mLang->TEXT_BACK,
 			'HTTP_REFERER' => isset($_SESSION['HTTP_REFERER']) ? $_SESSION['HTTP_REFERER'] : WB_URL,
 			)
 		);
 
 	if(CONFIRMED_REGISTRATION) {
-		$sMessage  = $MESSAGE['SIGNUP2_SUBJECT_NEW_USER'].' ';
-		$sMessage .= $MESSAGE['SIGNUP_CONFIRMED_REGISTRATION'];
+		$sMessage  = $mLang->MESSAGE_SIGNUP2_SUBJECT_NEW_USER.' ';
+		$sMessage .= $mLang->MESSAGE_SIGNUP_CONFIRMED_REGISTRATION;
 		$oTpl->set_var('MESSAGE',$sMessage);
 	} else {
-		$sMessage  = $MESSAGE['SIGNUP2_SUBJECT_NEW_USER'].' ';
-		$sMessage .= $MESSAGE['SIGNUP_REGISTRATION'];
+		$sMessage  = $mLang->MESSAGE_SIGNUP2_SUBJECT_NEW_USER.' ';
+		$sMessage .= $mLang->MESSAGE_SIGNUP_REGISTRATION;
 		$oTpl->set_var('MESSAGE',$sMessage);
 	}
 	//$oTpl->parse('message', 'message_block', true);

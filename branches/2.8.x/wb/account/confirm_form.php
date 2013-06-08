@@ -25,7 +25,8 @@ if(defined('WB_PATH') == false)
 	require_once(dirname(__FILE__).'/AccountSignup.php');
 
     	// load module language file
-    	$mLang = ModLanguage::getInstance();
+    	$mLang = Translate::getInstance();
+		$mLang->enableAddon('account');
 
 		$sConfirmationId = ( isset($_GET['id']) ? $_GET['id'] : ( isset($_POST['confirm_code']) ? $_POST['confirm_code'] : '' ) );
 		$sSubmitAction = 'show'; // default action

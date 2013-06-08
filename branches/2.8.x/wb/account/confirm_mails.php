@@ -46,7 +46,8 @@ if (!function_exists('emailAdmin')) {
 }
 
 // load module language file
-$mLang = ModLanguage::getInstance();
+$mLang = Translate::getInstance();
+$mLang->enableAddon('account');
 //WB_MAILER settings
 $sServerEmail = (defined('SERVER_EMAIL') && SERVER_EMAIL != '' ? SERVER_EMAIL : emailAdmin());
 $sWebMailer   = (defined('WBMAILER_DEFAULT_SENDERNAME') && WBMAILER_DEFAULT_SENDERNAME != '' ? WBMAILER_DEFAULT_SENDERNAME : 'WebsiteBaker Mailer');
