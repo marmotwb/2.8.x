@@ -16,6 +16,8 @@
  */
 
 require_once('../config.php');
+$mLang = Translate::getinstance();
+$mLang->enableAddon('account');
 
 if(!class_exists('frontend', false)){ include(WB_PATH.'/framework/class.frontend.php'); }
 
@@ -26,9 +28,6 @@ $wb = new frontend(false);
 
 // load module language file
 //$sAutoLanguage = isset($_SESSION['LANGUAGE']) ? $_SESSION['LANGUAGE'] : AccountSignup::GetBowserLanguage(DEFAULT_LANGUAGE);
-
-$mLang = ModLanguage::getInstance();
-$mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
 
 //$langDir = WB_PATH . '/languages/' . LANGUAGE . '.php';
 //require_once(!file_exists($langDir) ? WB_PATH . '/languages/EN.php' : $langDir );
@@ -63,14 +62,14 @@ define('PAGE_ID', $page_id);
 define('ROOT_PARENT', $root_parent);
 define('PARENT', 0);
 define('LEVEL', $level);
-define('PAGE_TITLE', $TEXT['SIGNUP']);
-define('MENU_TITLE', $TEXT['SIGNUP']);
+define('PAGE_TITLE', $mLang->TEXT_SIGNUP);
+define('MENU_TITLE', $mLang->TEXT_SIGNUP);
 define('MODULE', '');
 define('VISIBILITY', 'public');
 
 define('PAGE_CONTENT', WB_PATH.'/account/confirm_form.php');
 
-
+$mLang->disableAddon();
 // Include the index (wrapper) file
 require(WB_PATH.'/index.php');
 
