@@ -17,6 +17,8 @@
 
 // Include the config file
 require('../../config.php');
+$mLang = Translate::getinstance();
+$mLang->enableAddon('admin\addons');
 require_once(WB_PATH .'/framework/functions.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 // No print admin header
@@ -24,51 +26,26 @@ $admin = new admin('Addons', 'modules_view', false);
 if( !$admin->checkFTAN() )
 {
 	$admin->print_header();
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+	$admin->print_error($mLang->MESSAGE_GENERIC_SECURITY_ACCESS);
 }
 // After check print the header
 $admin->print_header();
 
-//$mLang = ModLanguage::getInstance();
-//$mLang->setLanguage(ADMIN_PATH.'/addons/languages/', LANGUAGE, DEFAULT_LANGUAGE);
-$mLang = Translate::getinstance();
-$mLang->enableAddon('admin\addons');
-
 if(!isset($_POST['file']) OR $_POST['file'] == "") {
-	$admin->print_error($MESSAGE['GENERIC_FORGOT_OPTIONS']);
+	$admin->print_error($mLang->MESSAGE_GENERIC_FORGOT_OPTIONS);
 } else {
 	$file = preg_replace('/[^a-z0-9_-]/i', "", $_POST['file']);  // fix secunia 2010-92-2
 }
 
 // Check if the template exists
 if(!is_dir(WB_PATH.'/modules/'.$file)) {
-	$admin->print_error($MESSAGE['GENERIC_NOT_INSTALLED']);
+	$admin->print_error($mLang->MESSAGE_GENERIC_NOT_INSTALLED);
 }
 
 // Check if the template exists
 if(!is_readable(WB_PATH.'/modules/'.$file)) {
-	$admin->print_error($MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES']);
+	$admin->print_error($mLang->MESSAGE_ADMIN_INSUFFICIENT_PRIVELLIGES);
 }
-
-/*
-// Get module name
-if(!isset($_POST['file']) OR $_POST['file'] == "")
-{
-	header("Location: index.php");
-	exit(0);
-}
-else
-{
-	$file = preg_replace('/[^a-z0-9_-]/i', "", $_POST['file']);  // fix secunia 2010-92-1
-}
-
-// Check if the module exists
-if(!is_readable(WB_PATH.'/modules/'.$file)) {
-	header("Location: index.php");
-	exit(0);
-}
-*/
-
 // Setup template object, parse vars to it, then parse it
 // Create new template object
 $template = new Template(dirname($admin->correct_theme_source('modules_details.htt')),'keep');
@@ -77,11 +54,13 @@ $template->set_file('page', 'modules_details.htt');
 $template->set_block('page', 'main_block', 'main');
 
 // Insert values
-$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'module' AND directory = '$file'");
-if($result->numRows() > 0) {
-	$module = $result->fetchRow();
+$module = false;
+$sql = 'SELECT * FROM `'.TABLE_PREFIX.'addons` '
+     . 'WHERE `type`=\'module\' AND `directory`=\''.$file.'\'';
+if( ($result = $database->query($sql)) ){
+	$module = $result->fetchRow(MYSQL_ASSOC);
 }
-
+if(!$module) { $admin->print_error($mLang->MESSAGE_GENERIC_NOT_INSTALLED); }
 /*-- insert all needed vars from language files ----------------------------------------*/
 $template->set_var($mLang->getLangArray());
 
@@ -147,6 +126,5 @@ $template->set_var('TYPE', $type_name);
 // Parse module object
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
-
 // Print admin footer
 $admin->print_footer();

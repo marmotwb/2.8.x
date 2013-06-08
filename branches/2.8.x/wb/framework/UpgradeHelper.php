@@ -34,20 +34,25 @@
  */
 class UpgradeHelper {
 
-	public static function existsAllTables(array $aPackage)
+/**
+ * Compare available tables against a list of tables
+ * @param array list of needed table names without TablePrefix
+ * @return array list of missing tables
+ */
+	public static function existsAllTables(array $aTablesList)
 	{
-		$aPackage = array_flip($aPackage);
+		$aTablesList = array_flip($aTablesList);
 		$oDb = WbDatabase::getInstance();
 		$sPattern = addcslashes ( $oDb->TablePrefix, '%_' );
 		if(($oTables = $oDb->query( 'SHOW TABLES LIKE "'.$sPattern.'%"'))) {
 			while($aTable = $oTables->fetchRow(MYSQL_NUM)) {
 				$sTable =  preg_replace('/^'.preg_quote($oDb->TablePrefix, '/').'/s', '', $aTable[0]);
-				if(isset($aPackage[$sTable])) {
-					unset($aPackage[$sTable]);
+				if(isset($aTablesList[$sTable])) {
+					unset($aTablesList[$sTable]);
 				}
 			}
 		}
-		return array_flip($aPackage);
+		return array_flip($aTablesList);
 	}
 
 

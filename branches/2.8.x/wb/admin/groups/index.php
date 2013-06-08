@@ -20,8 +20,6 @@
 	function admin_groups_index()
 	{
 		$database = WbDatabase::getInstance();
-//		$mLang = ModLanguage::getInstance();
-//		$mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
 		$mLang = Translate::getinstance();
 		$mLang->enableAddon('admin\groups');
 
@@ -127,7 +125,6 @@
 		}
 		print $output;
 		$admin->print_footer();
-		$mLang->disableAddon();
 	}
 	// start dispatcher maintenance
 	if(!defined('WB_PATH'))

@@ -17,6 +17,8 @@
 
 // Include the config file
 require('../../config.php');
+$mLang = Translate::getinstance();
+$mLang->enableAddon('admin\addons');
 require_once(WB_PATH .'/framework/functions.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 // suppress to print the header, so no new FTAN will be set
@@ -24,46 +26,27 @@ $admin = new admin('Addons', 'templates_view', false);
 if( !$admin->checkFTAN() )
 {
 	$admin->print_header();
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+	$admin->print_error($mLang->MESSAGE_GENERIC_SECURITY_ACCESS);
 }
 
 // After check print the header
 $admin->print_header();
 // Get template name
 if(!isset($_POST['file']) OR $_POST['file'] == "") {
-	$admin->print_error($MESSAGE['GENERIC_FORGOT_OPTIONS']);
+	$admin->print_error($mLang->MESSAGE_GENERIC_FORGOT_OPTIONS);
 } else {
 	$file = preg_replace('/[^a-z0-9_-]/i', "", $_POST['file']);  // fix secunia 2010-92-2
 }
 
 // Check if the template exists
 if(!is_dir(WB_PATH.'/templates/'.$file)) {
-	$admin->print_error($MESSAGE['GENERIC_NOT_INSTALLED']);
+	$admin->print_error($mLang->MESSAGE_GENERIC_NOT_INSTALLED);
 }
 
 // Check if the template exists
 if(!is_readable(WB_PATH.'/templates/'.$file)) {
-	$admin->print_error($MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES']);
+	$admin->print_error($mLang->MESSAGE_ADMIN_INSUFFICIENT_PRIVELLIGES);
 }
-
-/*
-if(!isset($_POST['file']) OR $_POST['file'] == "") {
-	header("Location: index.php");
-	exit(0);
-} else {
-	$file = preg_replace('/[^a-z0-9_-]/i', "", $_POST['file']);  // fix secunia 2010-92-2
-}
-
-if(!file_exists(WB_PATH.'/templates/'.$file)) {
-	header("Location: index.php");
-	exit(0);
-}
-// Check if the template exists
-if(!is_dir(WB_PATH.'/templates/'.$file)) {
-	$admin->print_error($MESSAGE['GENERIC_NOT_INSTALLED']);
-}
-*/
-
 // Print admin header
 //$admin = new admin('Addons', 'templates_view');
 
@@ -109,12 +92,6 @@ $template->set_var(array(
       'LICENSE' => $row['license'],
     )
 );
-
-//$mLang = ModLanguage::getInstance();
-//$mLang->setLanguage(ADMIN_PATH.'/addons/languages/', LANGUAGE, DEFAULT_LANGUAGE);
-$mLang = Translate::getinstance();
-$mLang->enableAddon('admin\addons');
-
 /*-- insert all needed vars from language files ----------------------------------------*/
 $template->set_var($mLang->getLangArray());
 
@@ -122,6 +99,5 @@ $template->set_var('TEXT_FUNCTION', ($row['function'] == 'theme' ? $mLang->TEXT_
 // Parse template object
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
-
 // Print admin footer
 $admin->print_footer();
