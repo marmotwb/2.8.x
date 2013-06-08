@@ -84,5 +84,6 @@ $template->set_var(array(
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
 
+$mLang->disableAddon();
 // Print admin footer
 $admin->print_footer();

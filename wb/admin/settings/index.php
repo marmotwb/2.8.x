@@ -996,4 +996,5 @@ $oTpl->parse('main', 'main_block',false);
 $oTpl->pparse('output', 'page');
 //$oTpl->p('page');
 unset($oTpl);
+$mLang->disableAddon();
 $admin->print_footer();

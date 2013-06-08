@@ -615,6 +615,7 @@ $admin = new admin('Pages', 'pages_settings');
 	$oTpl->parse('main', 'main_block', false);
 	$oTpl->pparse('output', 'page');
 // Print admin footer
+	$mLang->disableAddon();
 	$admin->print_footer();
 
 function p($text,$lang)
