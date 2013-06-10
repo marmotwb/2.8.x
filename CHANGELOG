@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+10 Jun-2013 Build 1927 Werner v.d.Decken(DarkViper)
+# TranslateAdaptorWbOldStyle forgotten second arg for trim added
 10 Jun-2013 Build 1926 Werner v.d.Decken(DarkViper)
 ! TranslateAdaptorWbOldStyle now also accepts modified admin directory names
 09 Jun-2013 Build 1925 Werner v.d.Decken(DarkViper)

@@ -44,7 +44,6 @@ class TranslateAdaptorWbOldStyle implements TranslateAdaptorInterface {
 	public function __construct($sAddon = '')
 	{
 		$this->sAddon = $sAddon;
-		$this->sFilePath = str_replace('\\', '/', dirname(dirname(__FILE__)).'/'.$sAddon);
 	}
 /**
  * Load languagefile
@@ -103,7 +102,7 @@ class TranslateAdaptorWbOldStyle implements TranslateAdaptorInterface {
 		$this->sFilePath = $sDirname.$sAddon.'/languages/';
 		if(!is_readable($this->sFilePath) && (strpos('admin', $this->sAddon) === 0)) {
 		// correct modified admin directory
-			$sTmp = trim(WbAdaptor::getInstance()->AcpDir);
+			$sTmp = trim(WbAdaptor::getInstance()->AcpDir, '/');
 			$this->sFilePath = $sDirname.preg_replace('/^admin/', $sTmp, $sAddon).'/languages/';
 			if(!is_readable($this->sFilePath)) {
 				throw new TranslationException('missing language definitions in: '.$sAddon.'/languages');
