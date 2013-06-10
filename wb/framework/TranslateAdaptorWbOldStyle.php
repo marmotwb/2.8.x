@@ -45,7 +45,6 @@ class TranslateAdaptorWbOldStyle implements TranslateAdaptorInterface {
 	{
 		$this->sAddon = $sAddon;
 		$this->sFilePath = str_replace('\\', '/', dirname(dirname(__FILE__)).'/'.$sAddon);
-		$this->sFilePath = rtrim($this->sFilePath, '/').'/languages/';
 	}
 /**
  * Load languagefile
@@ -54,6 +53,7 @@ class TranslateAdaptorWbOldStyle implements TranslateAdaptorInterface {
  */
 	public function loadLanguage($sLangCode)
 	{
+		$this->_getAddonPath();
 		$aTranslations = array();
 		$sLangFile = strtolower($sLangCode.'.php');
 		if( ($aDirContent = scandir($this->sFilePath)) !== false) {
@@ -76,6 +76,7 @@ class TranslateAdaptorWbOldStyle implements TranslateAdaptorInterface {
  */
 	public function findFirstLanguage()
 	{
+		$this->_getAddonPath();
 	// search for first available and readable language file
 		$sRetval = '';
 		if(is_readable($this->sFilePath)) {
@@ -90,6 +91,24 @@ class TranslateAdaptorWbOldStyle implements TranslateAdaptorInterface {
 			}
 		}
 		return $sRetval;
+	}
+/**
+ * set path to translation files
+ * @throws TranslationException
+ */
+	private function _getAddonPath()
+	{
+		$sAddon   = str_replace('\\', '/', $this->sAddon);
+		$sDirname = str_replace('\\', '/', dirname(dirname(__FILE__))).'/';
+		$this->sFilePath = $sDirname.$sAddon.'/languages/';
+		if(!is_readable($this->sFilePath) && (strpos('admin', $this->sAddon) === 0)) {
+		// correct modified admin directory
+			$sTmp = trim(WbAdaptor::getInstance()->AcpDir);
+			$this->sFilePath = $sDirname.preg_replace('/^admin/', $sTmp, $sAddon).'/languages/';
+			if(!is_readable($this->sFilePath)) {
+				throw new TranslationException('missing language definitions in: '.$sAddon.'/languages');
+			}
+		}
 	}
 /**
  * Import language definitions into array
