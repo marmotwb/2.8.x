@@ -223,6 +223,31 @@ class Translate {
 		throw new TranslationException('tried to set a readonly or nonexisting property ['.$name.']!! ');
 	}
 /**
+ * Get translation text with replaced placeholders
+ * @param type $sKey
+ * @param type $aArguments
+ * @return type
+ */
+    public function __call($sKey, $aArguments)
+    {
+		$sRetval = '';
+		foreach($this->aActiveTranslations as $oAddon) {
+			if(isset($oAddon->$sKey)) {
+			// search the last matching translation (Core -> Addon)
+				$sRetval = $oAddon->$sKey;
+			}
+		}
+		if(sizeof($aArguments) > 0 && $sRetval != '') {
+			foreach($aArguments as $iKey=>$sArgument) {
+				if(is_string($sArgument)) {
+					$sRetval = preg_replace('/\{'.$iKey.'\}/', $sArgument, $sRetval);
+				}
+			}
+		}
+		return ($sRetval != '' ? $sRetval : ($this->bRemoveMissing ? '' : '#'.$sKey.'#'));
+    }
+
+/**
  * Return complete table of translations
  * @return array
  * @deprecated for backward compatibility only. Will be removed shortly

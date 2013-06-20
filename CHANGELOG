@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+21 Jun-2013 Build 1929 Werner v.d.Decken(DarkViper)
+! added new method to class Translate. it gives posibility to handle translations with additional replacements.
 20 Jun-2013 Build 1928 Werner v.d.Decken(DarkViper)
 # class WbDatabase fixed select_db() in multiconnect modus
 10 Jun-2013 Build 1927 Werner v.d.Decken(DarkViper)
