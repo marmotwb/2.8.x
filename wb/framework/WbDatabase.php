@@ -115,18 +115,19 @@ class WbDatabase {
 		}
 		$this->_db_handle = @mysql_connect($hostname.$hostport,
 		                                   $username,
-		                                   $password);
+		                                   $password,
+		                                   true);
 		if(!$this->_db_handle) {
 			throw new WbDatabaseException('unable to connect \''.$scheme.'://'.
 			                           $hostname.$hostport.'\'');
 		} else {
-			if(!@mysql_select_db($db_name)) {
+			if(!@mysql_select_db($db_name, $this->_db_handle)) {
 				throw new WbDatabaseException('unable to select database \''.$db_name.
 				                           '\' on \''.$scheme.'://'.
 				                           $hostname.$hostport.'\'');
 			} else {
 				if($this->sCharset) {
-					@mysql_query('SET NAMES \''.$this->sCharset.'\'');
+					@mysql_query('SET NAMES \''.$this->sCharset.'\'', $this->_db_handle);
 				}
 				$this->connected = true;
 			}
