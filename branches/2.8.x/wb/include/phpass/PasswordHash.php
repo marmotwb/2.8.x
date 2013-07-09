@@ -27,11 +27,11 @@
  */
 
 class PasswordHash {
-	private $itoa64;
-	private $itoa64BlowFish;
-	private $iteration_count_log2;
-	private $portable_hashes;
-	private $random_state;
+	protected $itoa64;
+	protected $itoa64BlowFish;
+	protected $random_state;
+	protected $iteration_count_log2;
+	protected $portable_hashes;
 
 	public function __construct($iteration_count_log2, $portable_hashes)
 	{
@@ -154,9 +154,8 @@ class PasswordHash {
  */
 	private function gensalt_sha($input, $sType = 'SHA512')
 	{
-		$iType = ($sType === 'SHA512') ? 6 : (($sType === 'SHA256') ? 5 : 6);
-		$iIterations = pow(2, $this->iteration_count_log2);
-		$iIterations = min(max($iIterations, 10000), 999999999);
+		$iType = ($sType === 'SHA256' ? 5 : 6);
+		$iIterations = min(max(pow(2, $this->iteration_count_log2), 10000), 999999999);
 		$output = '$'.(string)$iType.'$rounds='.(string)$iIterations.'$';
 		$output .= $this->encode64($input, 16);
 		return $output;
