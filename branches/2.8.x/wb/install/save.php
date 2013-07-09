@@ -34,6 +34,7 @@
  */
 
 $debug = true;
+if(!defined('DEBUG')) { define('DEBUG', true); }
 
 include(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php'); 
 include(dirname(dirname(__FILE__)).'/framework/WbAutoloader.php');
@@ -479,7 +480,6 @@ require_once(WB_PATH.'/framework/class.admin.php');
 	     . '(\'website_header\', \'\'), '
 	     . '(\'website_footer\', \'\'), '
 	     . '(\'wysiwyg_style\', \'font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;\'), '
-	     . '(\'rename_files_on_upload\', \'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js,txt\'), '
 	     . '(\'er_level\', \'0\'), '
 	     . '(\'default_language\', \''.$default_language.'\'), '
 	     . '(\'app_name\', \'wb_'.$session_rand.'\'), '
@@ -538,7 +538,7 @@ require_once(WB_PATH.'/framework/class.admin.php');
 	     . '(\'password_length\', \'10\'), '
 		 . '(\'password_use_types\', \''.(int)0xFFFF.'\') '
 	     . '';
-	if(!$database->query($settings_rows)) { set_error($database->get_error()); }
+	if(!$database->query($sql)) { set_error($database->get_error()); }
 
 	// Admin group
 	$full_system_permissions  = 'access,addons,admintools,admintools_view,groups,groups_add,groups_delete,'
