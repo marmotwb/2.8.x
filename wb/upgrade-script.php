@@ -577,6 +577,17 @@ echo'<h3>Step '.(++$stepID).': Updating core table included in package</h3>';
 
     $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
+	/**********************************************************
+	 *  - Adding password settings to settings table
+	 */
+	$aDebugMessage[] = "<span>Adding/updating password settings to settings table</span>";
+	$cfg = array();
+	$cfg['password_crypt_loops'] = (defined('PASSWORD_CRYPT_LOOPS') ? PASSWORD_CRYPT_LOOPS : '12');
+	$cfg['password_hash_type'] = (defined('PASSWORD_HASH_TYPES') ? PASSWORD_HASH_TYPES : 'false');
+	$cfg['password_length'] = (defined('PASSWORD_LENGTH') ? PASSWORD_LENGTH : '10');
+	$cfg['password_use_types'] = (defined('PASSWORD_USE_TYPES') ? PASSWORD_USE_TYPES : (int)0xFFFF);
+    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+
 if($bDebugModus) {
     echo implode(PHP_EOL,$aDebugMessage);
 }

@@ -471,78 +471,92 @@ require_once(WB_PATH.'/framework/class.admin.php');
 
 	require(ADMIN_PATH.'/interface/version.php');
 
-	$settings_rows=	"INSERT INTO `".TABLE_PREFIX."settings` "
-	." (setting_id, name, value) VALUES "
-	." ( 1, 'wb_version', '".VERSION."'),"
-	." ( 2, 'website_title', '$website_title'),"
-	." ( 3, 'website_description', ''),"
-	." ( 4, 'website_keywords', ''),"
-	." ( 5, 'website_header', ''),"
-	." ( 6, 'website_footer', ''),"
-	." ( 7, 'wysiwyg_style', 'font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;'),"
-	." ( 8, 'rename_files_on_upload', 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js,txt'),"
-	." ( 9, 'er_level', '0'),"
-	." (10, 'default_language', '$default_language'),"
-	." (11, 'app_name', 'wb_$session_rand'),"
-	." (12, 'sec_anchor', 'Sec'),"
-	." (13, 'default_timezone', '$default_timezone'),"
-	." (14, 'default_date_format', 'Y-m-d'),"
-	." (15, 'default_time_format', 'h:i A'),"
-	." (16, 'redirect_timer', '1500'),"
-	." (17, 'home_folders', 'true'),"
-	." (18, 'warn_page_leave', '1'),"
-	." (19, 'default_template', 'round'),"
-	." (20, 'default_theme', 'wb_theme'),"
-	." (21, 'default_charset', 'utf-8'),"
-	." (22, 'multiple_menus', 'true'),"
-	." (23, 'page_level_limit', '6'),"
-	." (24, 'intro_page', 'false'),"
-	." (25, 'page_trash', 'inline'),"
-	." (26, 'homepage_redirection', 'false'),"
-	." (27, 'page_languages', 'true'),"
-	." (28, 'wysiwyg_editor', 'fckeditor'),"
-	." (29, 'manage_sections', 'true'),"
-	." (30, 'section_blocks', 'false'),"
-	." (31, 'smart_login', 'false'),"
-	." (32, 'frontend_login', 'false'),"
-	." (33, 'frontend_signup', 'false'),"
-	." (34, 'search', 'public'),"
-	." (35, 'page_extension', '.php'),"
-	." (36, 'page_spacer', '-'),"
-	." (37, 'pages_directory', '/pages'),"
-	." (38, 'rename_files_on_upload', 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js,txt'),"
-	." (39, 'media_directory', '/media'),"
-	." (40, 'operating_system', '$operating_system'),"
-	." (41, 'string_file_mode', '$file_mode'),"
-	." (42, 'string_dir_mode', '$dir_mode'),"
-	." (43, 'wbmailer_routine', 'phpmail'),"
-	." (44, 'server_email', '$admin_email'),"
-	." (45, 'wbmailer_default_sendername', 'WebsiteBaker Mailer'),"
-	." (46, 'wbmailer_smtp_host', ''),"
-	." (47, 'wbmailer_smtp_auth', ''),"
-	." (48, 'wbmailer_smtp_username', ''),"
-	." (49, 'wbmailer_smtp_password', ''),"
-	." (50, 'fingerprint_with_ip_octets', '2'),"
-	." (51, 'secure_form_module', ''),"
-	." (52, 'mediasettings', ''),"
-	." (53, 'wb_revision', '".REVISION."'),"
- 	." (54, 'wb_sp', '".SP."'),"
-	." (55, 'page_icon_dir', '/templates/*/title_images'),"
-	." (56, 'dev_infos', 'false'),"
-	." (57, 'groups_updated', '".time()."'),"
-	." (58, 'wbmail_signature', ''),"
-	." (59, 'confirmed_registration', '1'),"
-	." (60, 'page_extendet', 'true'),"
-	." (62, 'system_locked', '0')";
+	$sql = 'INSERT INTO `'.TABLE_PREFIX.'settings` (`name`, `value`) VALUES '
+	     . '(\'wb_version\', \''.VERSION.'\'), '
+	     . '(\'website_title\', \''.$website_title.'\'), '
+	     . '(\'website_description\', \'\'), '
+	     . '(\'website_keywords\', \'\'), '
+	     . '(\'website_header\', \'\'), '
+	     . '(\'website_footer\', \'\'), '
+	     . '(\'wysiwyg_style\', \'font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;\'), '
+	     . '(\'rename_files_on_upload\', \'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js,txt\'), '
+	     . '(\'er_level\', \'0\'), '
+	     . '(\'default_language\', \''.$default_language.'\'), '
+	     . '(\'app_name\', \'wb_'.$session_rand.'\'), '
+	     . '(\'sec_anchor\', \'Sec\'), '
+	     . '(\'default_timezone\', \''.$default_timezone.'\'), '
+	     . '(\'default_date_format\', \'Y-m-d\'), '
+	     . '(\'default_time_format\', \'h:i A\'), '
+	     . '(\'redirect_timer\', \'1500\'), '
+	     . '(\'home_folders\', \'true\'), '
+	     . '(\'warn_page_leave\', \'1\'), '
+	     . '(\'default_template\', \'round\'), '
+	     . '(\'default_theme\', \'wb_theme\'), '
+	     . '(\'default_charset\', \'utf-8\'), '
+	     . '(\'multiple_menus\', \'true\'), '
+	     . '(\'page_level_limit\', \'6\'), '
+	     . '(\'intro_page\', \'false\'), '
+	     . '(\'page_trash\', \'inline\'), '
+	     . '(\'homepage_redirection\', \'false\'), '
+	     . '(\'page_languages\', \'true\'), '
+	     . '(\'wysiwyg_editor\', \'fckeditor\'), '
+	     . '(\'manage_sections\', \'true\'), '
+	     . '(\'section_blocks\', \'false\'), '
+	     . '(\'smart_login\', \'false\'), '
+	     . '(\'frontend_login\', \'false\'), '
+	     . '(\'frontend_signup\', \'false\'), '
+	     . '(\'search\', \'public\'), '
+	     . '(\'page_extension\', \'.php\'), '
+	     . '(\'page_spacer\', \'-\'), '
+	     . '(\'pages_directory\', \'/pages\'), '
+	     . '(\'rename_files_on_upload\', \'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js,txt\'), '
+	     . '(\'media_directory\', \'/media\'), '
+	     . '(\'operating_system\', \''.$operating_system.'\'), '
+	     . '(\'string_file_mode\', \''.$file_mode.'\'), '
+	     . '(\'string_dir_mode\', \''.$dir_mode.'\'), '
+	     . '(\'wbmailer_routine\', \'phpmail\'), '
+	     . '(\'server_email\', \''.$admin_email.'\'), '
+	     . '(\'wbmailer_default_sendername\', \'WebsiteBaker Mailer\'), '
+	     . '(\'wbmailer_smtp_host\', \'\'), '
+	     . '(\'wbmailer_smtp_auth\', \'\'), '
+	     . '(\'wbmailer_smtp_username\', \'\'), '
+	     . '(\'wbmailer_smtp_password\', \'\'), '
+	     . '(\'fingerprint_with_ip_octets\', \'2\'), '
+	     . '(\'secure_form_module\', \'\'), '
+	     . '(\'mediasettings\', \'\'), '
+	     . '(\'wb_revision\', \''.REVISION.'\'), '
+ 	     . '(\'wb_sp\', \''.SP.'\'), '
+	     . '(\'page_icon_dir\', \'/templates/*/title_images\'), '
+	     . '(\'dev_infos\', \'false\'), '
+	     . '(\'groups_updated\', \''.time().'\'), '
+	     . '(\'wbmail_signature\', \'\'), '
+	     . '(\'confirmed_registration\', \'1\'), '
+	     . '(\'page_extendet\', \'true\'), '
+	     . '(\'system_locked\', \'0\'), '
+	     . '(\'password_crypt_loops\', \'12\'), '
+	     . '(\'password_hash_type\', \'false\'), '
+	     . '(\'password_length\', \'10\'), '
+		 . '(\'password_use_types\', \''.(int)0xFFFF.'\') '
+	     . '';
 	if(!$database->query($settings_rows)) { set_error($database->get_error()); }
 
 	// Admin group
-	$full_system_permissions  = 'access,addons,admintools,admintools_view,groups,groups_add,groups_delete,groups_modify,groups_view,';
-	$full_system_permissions .= 'languages,languages_install,languages_uninstall,languages_view,media,media_create,media_delete,media_rename,media_upload,media_view,';
-	$full_system_permissions .= 'modules,modules_advanced,modules_install,modules_uninstall,modules_view,pages,pages_add,pages_add_l0,pages_delete,pages_intro,pages_modify,pages_settings,pages_view,';
-	$full_system_permissions .= 'preferences,preferences_view,settings,settings_advanced,settings_basic,settings_view,templates,templates_install,templates_uninstall,templates_view,users,users_add,users_delete,users_modify,users_view';
-	$insert_admin_group = "INSERT INTO `".TABLE_PREFIX."groups` VALUES ('1', 'Administrators', '$full_system_permissions', '', '')";
-	if(!$database->query($insert_admin_group)) { set_error($database->get_error()); }
+	$full_system_permissions  = 'access,addons,admintools,admintools_view,groups,groups_add,groups_delete,'
+	                          . 'groups_modify,groups_view,languages,languages_install,languages_uninstall,'
+	                          . 'languages_view,media,media_create,media_delete,media_rename,media_upload,'
+	                          . 'media_view,modules,modules_advanced,modules_install,modules_uninstall,'
+	                          . 'modules_view,pages,pages_add,pages_add_l0,pages_delete,pages_intro,'
+	                          . 'pages_modify,pages_settings,pages_view,preferences,preferences_view,'
+	                          . 'settings,settings_advanced,settings_basic,settings_view,templates,'
+	                          . 'templates_install,templates_uninstall,templates_view,users,users_add,'
+	                          . 'users_delete,users_modify,users_view';
+	$sql = 'INSERT INTO `'.TABLE_PREFIX.'groups` '
+	     . 'SET `group_id` =1,'
+	     .     '`name`=\'Administrators\','
+		 .     '`system_permissions`=\''.$full_system_permissions.'\','
+		 .     '`module_permissions`=\'\','
+		 .     '`template_permissions`=\'\'';
+	if(!$database->query($sql)) { set_error($database->get_error()); }
 
 // Admin user
 	$insert_admin_user = "INSERT INTO `".TABLE_PREFIX."users` VALUES (1, 1, '1', 1, '$admin_username', '".md5($admin_password)."', '', 0, '', 0, 'Administrator', '$admin_email', $default_timezone, '', '', '$default_language', '', 0, '');";

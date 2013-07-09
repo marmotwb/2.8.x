@@ -31,22 +31,19 @@
  *               ISTeam changes: added SHA-256, SHA-512 (2012/10/27 Werner v.d. Decken)
  */
 
-// backwardcompatibility for PHP 5.2.2 + WB2.8.x
 if(!class_exists('PasswordHash')) {
-	include(dirname(dirname(__FILE__)).'/include/phpass/PasswordHash.php'); 
+	include(dirname(dirname(__FILE__)).'/include/phpass/PasswordHash.php');
 }
 
-
 class Password extends PasswordHash
-//class Password extends vendors\phpass\PasswordHash
 {
 
-	const CRYPT_LOOPS_MIN     =  6;  // minimum numbers of loops is 2^6 (64) very, very quick
+	const CRYPT_LOOPS_MIN     =  6;  // minimum numbers of loops is 2^6 (64) very quick but unsecure
 	const CRYPT_LOOPS_MAX     = 31;  // maximum numbers of loops is 2^31 (2,147,483,648) extremely slow
 	const CRYPT_LOOPS_DEFAULT = 12;  // default numbers of loopf is 2^12 (4096) a good average
 
 	const HASH_TYPE_PORTABLE  = true;  // use MD5 only
-	const HASH_TYPE_AUTO      = false; // select highest available crypting methode
+	const HASH_TYPE_AUTO      = false; // select highest available crypting methode (default)
 
 	const PW_LENGTH_MIN       =   6;
 	const PW_LENGTH_MAX       = 100;
@@ -58,14 +55,62 @@ class Password extends PasswordHash
 	const PW_USE_SPECIAL      = 0x0008; // use special chars
 	const PW_USE_ALL          = 0xFFFF; // use all possibilities
 
+	/** holds the active singleton instance */
+	private static $_oInstance     = null;
+
+	protected $oHashMethods        = null;
+	protected $iIterationCountLog2 = self::CRYPT_LOOPS_DEFAULT;
+	protected $bPortableHashes     = self::HASH_TYPE_AUTO;
+
 /**
- * 
- * @param int number of iterations as exponent of 2 (must be between 4 and 31)
- * @param bool TRUE = use MD5 only | FALSE = automatic
+ * constructor
  */
-	public function __construct($iIterationCountLog2 = self::CRYPT_LOOPS_DEFAULT, $bPortableHashes = self::HASH_TYPE_AUTO)
+	protected function __construct()
 	{
-		parent::__construct($iIterationCountLog2, $bPortableHashes);
+		parent::__construct(self::CRYPT_LOOPS_DEFAULT, self::HASH_TYPE_AUTO);
+	}
+/**
+ * dissable cloning
+ */
+	private function __clone() {
+		;
+	}
+/**
+ * get current instance or create new one
+ * @return Password
+ */
+	public static function getInstance()
+	{
+		if( is_null(self::$_oInstance) ) {
+            $c = __CLASS__;
+            self::$_oInstance = new $c;
+			self::$_oInstance->setIteration(self::CRYPT_LOOPS_DEFAULT);
+			self::$_oInstance->setHashType(self::HASH_TYPE_AUTO);
+		}
+		return self::$oInstance;
+	}
+/**
+ * set the number of iterations
+ * @param int $iIterationCountLog2 number of iterations defined as the exponent to basic 2
+ */
+	public function setIteration($iIterationCountLog2 = self::CRYPT_LOOPS_DEFAULT)
+	{
+		$this->iteration_count_log2 = min(max($iIterationCountLog2, self::CRYPT_LOOPS_MIN), self::CRYPT_LOOPS_MAX);
+	}
+/**
+ * set type of hash generation
+ * @param bool $bPortableHashes
+ * @description HASH_TYPE_AUTO will choose the higest available algorithm to create a hash (default)<br />
+ *              Attention: it's possible that high level generated hashes from PHP>=5.3 are not validable under PHP<5.3!!<br />
+ *              HASH_TYPE_PORTABLE choose MD5 hashing with salt and n iterations
+ */
+	public function setHashType($bPortableHashes = self::HASH_TYPE_AUTO)
+	{
+		if(version_compare('5.3', PHP_VERSION, '<')) {
+			$this->portable_hashes = self::HASH_TYPE_PORTABLE;
+		}else {
+			$this->portable_hashes = (boolean)$bPortableHashes;
+		}
 	}
 /**
  * make hash from password
@@ -97,6 +142,7 @@ class Password extends PasswordHash
  */
 	public static function isValid($sPassword)
 	{
+/** @todo extend blacklist with additional utf8 codes */
 		$sBlackList = '\"\'\,\;\<\>\?\\\{\|\}\~ '
 		            . '\x00-\x20\x22\x27\x2c\x3b\x3c\x3e\x3f\x5c\x7b-\x7f\xff';
 		$bRetval = !preg_match('/['.$sBlackList.']/si', $sPassword);

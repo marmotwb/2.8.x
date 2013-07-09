@@ -341,5 +341,8 @@
 										 'WbOldStyle',
 										 (DEBUG ? Translate::CACHE_DISABLED|Translate::KEEP_MISSING : 0)
 										);
+	$oPass = Password::getInstance();
+	if(defined('PASSWORD_CRYPT_LOOPS')) { $oPass->setIteration(PASSWORD_CRYPT_LOOPS); }
+	if(defined('PASSWORD_HASH_TYPES'))  { $oPass->setIteration(PASSWORD_HASH_TYPES); }
 // *** END OF FILE ***********************************************************************
  
