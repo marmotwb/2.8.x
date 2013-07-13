@@ -26,12 +26,13 @@
  * requirements (there can be none), but merely suggestions.
  */
 
-class PasswordHash {
+class PasswordHash implements PasswordHashInterface {
 	protected $itoa64;
 	protected $itoa64BlowFish;
 	protected $random_state;
-	protected $iteration_count_log2;
-	protected $portable_hashes;
+
+	public $iteration_count_log2;
+	public $portable_hashes;
 
 	public function __construct($iteration_count_log2, $portable_hashes)
 	{
@@ -48,6 +49,17 @@ class PasswordHash {
 			$this->random_state .= getmypid();
 		}
 	}
+/** Begin inserted function for WebsiteBaker by M.v.d.Decken **/
+/**
+ * Interface compatibility methode to set values
+ * @param int  $iIterations number of iterations
+ * @param bool $bHashType   type of encoding
+ */
+	public function setParams($iIterations, $bHashType){
+		$this->iteration_count_log2 = $iIterations;
+		$this->portable_hashes = $bHashType;
+	}
+/** End inserted function for WebsiteBaker by M.v.d.Decken **/
 
 	private function get_random_bytes($count)
 	{
@@ -145,7 +157,7 @@ class PasswordHash {
 		$output .= $this->encode64($input, 3);
 		return $output;
 	}
-/** Begin inserted function for WebsiteBaker by W.v.d.Decken **/	
+/** Begin inserted function for WebsiteBaker by M.v.d.Decken **/
 /**
  * 
  * @param type $input

@@ -341,8 +341,10 @@
 										 'WbOldStyle',
 										 (DEBUG ? Translate::CACHE_DISABLED|Translate::KEEP_MISSING : 0)
 										);
-	$oPass = Password::getInstance();
+	if(!class_exists('PasswordHash')) { include(WB_PATH.'/include/phpass/PasswordHash.php'); }
+
+	$oPass = Password::getInstance(new PasswordHash(Password::CRYPT_LOOPS_DEFAULT, Password::HASH_TYPE_AUTO));
 	if(defined('PASSWORD_CRYPT_LOOPS')) { $oPass->setIteration(PASSWORD_CRYPT_LOOPS); }
-	if(defined('PASSWORD_HASH_TYPES'))  { $oPass->setIteration(PASSWORD_HASH_TYPES); }
+	if(defined('PASSWORD_HASH_TYPES'))  { $oPass->setHashType(PASSWORD_HASH_TYPES); }
 // *** END OF FILE ***********************************************************************
  

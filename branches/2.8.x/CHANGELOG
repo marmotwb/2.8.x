@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+13 Jul-2013 Build 1932 Werner v.d.Decken(DarkViper)
+! modified class Password for use with different hashing classes
 09 Jul-2013 Build 1931 Werner v.d.Decken(DarkViper)
 # typofixes in /install/save.php
 09 Jul-2013 Build 1930 Werner v.d.Decken(DarkViper)
