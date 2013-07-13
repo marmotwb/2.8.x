@@ -35,7 +35,7 @@ if(!class_exists('PasswordHash')) {
 	include(dirname(dirname(__FILE__)).'/include/phpass/PasswordHash.php');
 }
 
-class Password extends PasswordHash
+class Password
 {
 
 	const CRYPT_LOOPS_MIN     =  6;  // minimum numbers of loops is 2^6 (64) very quick but unsecure
@@ -58,7 +58,7 @@ class Password extends PasswordHash
 	/** holds the active singleton instance */
 	private static $_oInstance     = null;
 
-	protected $oHashMethods        = null;
+	private   $oPwHashClass        = null;
 	protected $iIterationCountLog2 = self::CRYPT_LOOPS_DEFAULT;
 	protected $bPortableHashes     = self::HASH_TYPE_AUTO;
 
@@ -67,7 +67,6 @@ class Password extends PasswordHash
  */
 	protected function __construct()
 	{
-		parent::__construct(self::CRYPT_LOOPS_DEFAULT, self::HASH_TYPE_AUTO);
 	}
 /**
  * dissable cloning
@@ -79,15 +78,20 @@ class Password extends PasswordHash
  * get current instance or create new one
  * @return Password
  */
-	public static function getInstance()
+	public static function getInstance($oPwHash = null)
 	{
 		if( is_null(self::$_oInstance) ) {
-            $c = __CLASS__;
-            self::$_oInstance = new $c;
-			self::$_oInstance->setIteration(self::CRYPT_LOOPS_DEFAULT);
-			self::$_oInstance->setHashType(self::HASH_TYPE_AUTO);
+			if(is_object($oPwHash) && ($oPwHash instanceof PasswordHashInterface) ) {
+				$c = __CLASS__;
+				self::$_oInstance = new $c;
+				self::$_oInstance->oPwHashClass = $oPwHash;
+				self::$_oInstance->setIteration(self::CRYPT_LOOPS_DEFAULT);
+				self::$_oInstance->setHashType(self::HASH_TYPE_AUTO);
+			}else {
+				throw new PasswordException('hashing class is not an object or does not implement PasswordHashInterface');
+			}
 		}
-		return self::$oInstance;
+		return self::$_oInstance;
 	}
 /**
  * set the number of iterations
@@ -95,7 +99,8 @@ class Password extends PasswordHash
  */
 	public function setIteration($iIterationCountLog2 = self::CRYPT_LOOPS_DEFAULT)
 	{
-		$this->iteration_count_log2 = min(max($iIterationCountLog2, self::CRYPT_LOOPS_MIN), self::CRYPT_LOOPS_MAX);
+		$this->$iIterationCountLog2 = min(max($iIterationCountLog2, self::CRYPT_LOOPS_MIN), self::CRYPT_LOOPS_MAX);
+		$this->oPwHashClass->setParams($this->iIterationCountLog2, $this->bPortableHashes);
 	}
 /**
  * set type of hash generation
@@ -107,10 +112,11 @@ class Password extends PasswordHash
 	public function setHashType($bPortableHashes = self::HASH_TYPE_AUTO)
 	{
 		if(version_compare('5.3', PHP_VERSION, '<')) {
-			$this->portable_hashes = self::HASH_TYPE_PORTABLE;
+			$this->bPortableHashes = self::HASH_TYPE_PORTABLE;
 		}else {
-			$this->portable_hashes = (boolean)$bPortableHashes;
+			$this->bPortableHashes = (boolean)$bPortableHashes;
 		}
+		$this->oPwHashClass->setParams($this->iIterationCountLog2, $this->bPortableHashes);
 	}
 /**
  * make hash from password
@@ -119,7 +125,10 @@ class Password extends PasswordHash
  */
 	public function makeHash($sPassword)
 	{
-		$sNewHash = parent::HashPassword($sPassword);
+		if(!is_object($this->oPwHashClass)) {
+			throw new PasswordException('Missing Object to calculate hashes');
+		}
+		$sNewHash = $this->oPwHashClass->HashPassword($sPassword);
 		return ($sNewHash == '*') ? null : $sNewHash;
 	}
 /**
@@ -129,11 +138,14 @@ class Password extends PasswordHash
  */
 	public function checkIt($sPassword, $sStoredHash)
 	{
+		if(!is_object($this->oPwHashClass)) {
+			throw new PasswordException('Missing Object to calculate hashes');
+		}
 		// compatibility layer for deprecated, simple and old MD5 hashes
 		if(preg_match('/^[0-9a-f]{32}$/si', $sStoredHash)) {
 			return (md5($sPassword) === $sStoredHash);
 		}
-		return parent::CheckPassword($sPassword, $sStoredHash);
+		return $this->oPwHashClass->CheckPassword($sPassword, $sStoredHash);
 	}
 /**
  * Check password for forbidden characters
@@ -250,4 +262,18 @@ class Password extends PasswordHash
 		return $aPassword;
 	}
 
-} // end of class PasswordHash
+} // end of class Password
+// //////////////////////////////////////////////////////////////////////////////////// //
+/**
+ * PasswordException
+ *
+ * @category     WBCore
+ * @package      WBCore_Security
+ * @author       Werner v.d.Decken <wkl@isteam.de>
+ * @copyright    Werner v.d.Decken <wkl@isteam.de>
+ * @license      http://www.gnu.org/licenses/gpl.html   GPL License
+ * @version      2.9.0
+ * @revision     $Revision$
+ * @lastmodified $Date$
+ */
+class PasswordException extends AppException { }
