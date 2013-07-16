@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+16 Jul-2013 Build 1933 Werner v.d.Decken(DarkViper)
+! modified layout of admin/groups for better usability
 13 Jul-2013 Build 1932 Werner v.d.Decken(DarkViper)
 ! modified class Password for use with different hashing classes
 09 Jul-2013 Build 1931 Werner v.d.Decken(DarkViper)

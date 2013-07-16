@@ -2,7 +2,6 @@
 		<div class="content_box">
 			<form name="group" action="{GROUP_ACTION_URL}" method="post" class="access {DISPLAY_ADD}">
 			<input type="hidden" name="group_id" value="{GROUP_ID}" />
-			<input type="hidden" name="advance_action" value="{ADVANCED}" />
 			<input type="hidden" name="{FORM_NAME_GROUPMASK}" value="1" />
 			<input type="hidden" name="group_name" maxlength="120" value="{GROUP_NAME}" />
 			<input type="hidden" name="{ACTION_HIDDEN}" value="{SUBMIT_TITLE}" />
@@ -16,7 +15,6 @@
 					<input type="submit" name="{ACTION_HANDLE}" value="{SUBMIT_TITLE}" />
 					<input type="submit" name="action_cancel" value="{TEXT_CANCEL}" />
 					<input type="reset" name="reset" value="{TEXT_RESET}" />
-		 	        <input class="cright" type="submit" name="advanced_action" style="{DISPLAY_ADVANCED}" value="{ADVANCED_BUTTON}" />
 				</div>
 				<br class="clear ie-clearing none" />
 		<!-- BEGIN show_cmd_manage_permission_block -->
@@ -73,7 +71,7 @@
 				</div>
 		<!-- END show_cmd_manage_permission_block -->
 		<!-- BEGIN show_cmd_advanced_permission_block -->
-				<div class="cleft col_width33">
+				<div id="JQPageView" class="cleft col_width33">
 					<div class="col_content aBlock">
 			<!-- BEGIN show_cmd_hidden_advanced_permission_list_block -->
 						<input name="{SYS_NAME}" type="hidden" value="{SYS_VALUE}" />
@@ -82,8 +80,8 @@
 							<h6>{FILESYSTEM_PERMISSIONS} {MENU_PAGES}</h6>
 							<ul>
 								<li class="c100">
-									<input name="system_permissions[pages_view]" id="pages_view" type="checkbox" value="{VALUE}" {pages_view_checked} />
-									<label for="pages_view">{TEXT_VIEW}</label>
+									<input name="system_permissions[pages_view]" id="pages_view_detail" type="checkbox" value="{VALUE}" {pages_view_checked} />
+									<label for="pages_view_detail">{TEXT_VIEW}</label>
 								</li>
 								<li class="c100">
 									<input name="system_permissions[pages_add_l0]" id="pages_add_l0" type="checkbox" value="{VALUE}" {pages_add_l0_checked} />
@@ -113,14 +111,14 @@
 						</div>
 					</div>
 				</div>
-				<div class="cleft col_width33">
+				<div id="JQMediaView"class="cleft col_width33">
 					<div class="col_content">
 						<div class="mbox curved min_h100 floatbox" style="height: 180px;">
 							<h6>{TEXT_FILESYSTEM_PERMISSIONS} {MENU_MEDIA}</h6>
 							<ul>
 								<li class="c100">
-								<input name="system_permissions[media_view]" id="media_view" type="checkbox" value="1" {media_view_checked} />
-								<label for="media_view">{TEXT_VIEW}</label>
+								<input name="system_permissions[media_view]" id="media_view_detail" type="checkbox" value="1" {media_view_checked} />
+								<label for="media_view_detail">{TEXT_VIEW}</label>
 								</li>
 								<li class="c100">
 								<input name="system_permissions[media_upload]" id="media_upload" type="checkbox" value="1" {media_upload_checked} />
@@ -145,46 +143,14 @@
 						</div>
 					</div>
 				</div>
-				<div class="cleft col_width33">
+				<div id="JQModulesView" class="cleft col_width33">
 					<div class="col_content">
 						<div class="mbox curved min_h100 floatbox" style="height: 180px;">
-							<h6>{FILESYSTEM_PERMISSIONS} {MENU_SETTINGS}</h6>
-							<ul>
-								<li class="c100">
-									<input name="system_permissions[settings_view]" id="settings_view" type="checkbox" value="1" {settings_view_checked} />
-									<label for="settings_view">{TEXT_BASIC}</label>
-								</li>
-								<li class="c100">
-									<input name="system_permissions[settings_advanced]" id="settings_advanced" type="checkbox" value="1" {settings_advanced_checked} />
-									<label for="settings_advanced">{TEXT_ADVANCED}</label>
-								</li>
-							</ul><br />
-							<h6>{FILESYSTEM_PERMISSIONS} {MENU_ADMINTOOLS}</h6>
-							<ul>
-								<li class="c100">
-									<input name="system_permissions[admintools_view]" id="admintools_view" type="checkbox" value="1" {admintools_view_checked} />
-									<label for="admintools_view">{TEXT_MODIFY}</label>
-								</li>
-							</ul><br />
-							<h6>{FILESYSTEM_PERMISSIONS} {MENU_USER_PREFERENCES}</h6>
-							<ul>
-								<li class="c100">
-									<input name="system_permissions[preferences_view]" id="preferences_view" type="checkbox" value="1" {preferences_view_checked} />
-									<label for="preferences_view">{TEXT_MODIFY}</label>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<br class="clear ie-clearing none" />
-				<div class="cleft col_width33">
-					<div class="col_content">
-						<div class="mbox curved min_h100 floatbox">
 							<h6>{FILESYSTEM_PERMISSIONS} {MENU_MODULES}</h6>
 							<ul>
 								<li class="c100">
-								<input name="system_permissions[modules_view]" id="modules_view" type="checkbox" value="1" {modules_view_checked} />
-								<label for="modules_view">{TEXT_VIEW}</label>
+								<input name="system_permissions[modules_view]" id="modules_view_detail" type="checkbox" value="1" {modules_view_checked} />
+								<label for="modules_view_detail">{TEXT_VIEW}</label>
 								</li>
 								<li class="c100">
 								<input name="system_permissions[modules_install]" id="modules_install" type="checkbox" value="1" {modules_install_checked} />
@@ -202,14 +168,15 @@
 						</div>
 					</div>
 				</div>
-				<div class="cleft col_width33">
+				<br class="clear ie-clearing none" />
+				<div id="JQTemplateView" class="cleft col_width33">
 					<div class="col_content">
-						<div class="mbox curved min_h100 floatbox">
+						<div class="mbox curved min_h100 floatbox" style="height: 180px;">
 							<h6>{FILESYSTEM_PERMISSIONS} {MENU_TEMPLATES}</h6>
 							<ul>
 								<li class="c100">
-									<input name="system_permissions[templates_view]" id="templates_view" type="checkbox" value="1" {templates_view_checked} />
-									<label for="templates_view">{TEXT_VIEW}</label>
+									<input name="system_permissions[templates_view]" id="templates_view_detail" type="checkbox" value="1" {templates_view_checked} />
+									<label for="templates_view_detail">{TEXT_VIEW}</label>
 								</li>
 								<li class="c100">
 									<input name="system_permissions[templates_install]" id="templates_install" type="checkbox" value="1" {templates_install_checked} />
@@ -224,14 +191,14 @@
 						</div>
 					</div>
 				</div>
-				<div class="cleft col_width33">
+				<div id="JQLanguagesView" class="cleft col_width33">
 					<div class="col_content">
-						<div class="mbox curved min_h100 floatbox">
+						<div class="mbox curved min_h100 floatbox" style="height: 180px;">
 							<h6>{FILESYSTEM_PERMISSIONS} {MENU_LANGUAGES}</h6>
 							<ul>
 								<li class="c100">
-									<input name="system_permissions[languages_view]" id="languages_view" type="checkbox" value="1" {languages_view_checked} />
-									<label for="languages_view">{TEXT_VIEW}</label>
+									<input name="system_permissions[languages_view]" id="languages_view_detail" type="checkbox" value="1" {languages_view_checked} />
+									<label for="languages_view_detail">{TEXT_VIEW}</label>
 								</li>
 								<li class="c100">
 									<input name="system_permissions[languages_install]" id="languages_install" type="checkbox" value="1" {languages_install_checked} />
@@ -246,15 +213,45 @@
 						</div>
 					</div>
 				</div>
-				<br class="clear ie-clearing none" />
-				<div class="cleft col_width33">
+				<div id="JQSettingsView" class="cleft col_width33">
 					<div class="col_content">
-						<div class="mbox curved min_h100 floatbox">
+						<div class="mbox curved min_h100 floatbox" style="height: 180px;">
+							<h6>{FILESYSTEM_PERMISSIONS} {MENU_SETTINGS}</h6>
+							<ul>
+								<li class="c100">
+									<input name="system_permissions[settings_view]" id="settings_view_detail" type="checkbox" value="1" {settings_view_checked} />
+									<label for="settings_view_detail">{TEXT_BASIC}</label>
+								</li>
+								<li class="c100">
+									<input name="system_permissions[settings_advanced]" id="settings_advanced" type="checkbox" value="1" {settings_advanced_checked} />
+									<label for="settings_advanced">{TEXT_ADVANCED}</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<br class="clear ie-clearing none" />
+				<div id="JQAToolsView" class="cleft col_width33">
+					<div class="col_content">
+						<div class="mbox curved min_h100 floatbox" style="height: 180px;">
+							<h6>{FILESYSTEM_PERMISSIONS} {MENU_ADMINTOOLS}</h6>
+							<ul>
+								<li class="c100">
+									<input name="system_permissions[admintools_view]" id="admintools_view_detail" type="checkbox" value="1" {admintools_view_checked} />
+									<label for="admintools_view_detail">{TEXT_MODIFY}</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div id="JQUsersView" class="cleft col_width33">
+					<div class="col_content">
+						<div class="mbox curved min_h100 floatbox" style="height: 180px;">
 							<h6>{FILESYSTEM_PERMISSIONS} {MENU_USERS}</h6>
 							<ul>
 								<li class="c100">
-									<input name="system_permissions[users_view]" id="users_view" type="checkbox" value="1" {users_view_checked} />
-									<label for="users_view">{TEXT_VIEW}</label>
+									<input name="system_permissions[users_view]" id="users_view_detail" type="checkbox" value="1" {users_view_checked} />
+									<label for="users_view_detail">{TEXT_VIEW}</label>
 								</li>
 								<li class="c100">
 									<input name="system_permissions[users_add]" id="users_add" type="checkbox" value="1" {users_add_checked} />
@@ -272,14 +269,14 @@
 						</div>
 					</div>
 				</div>
-				<div class="cleft col_width33">
+				<div id="JQGroupsView" class="cleft col_width33">
 					<div class="col_content">
-						<div class="mbox curved min_h100 floatbox">
+						<div class="mbox curved min_h100 floatbox" style="height: 180px;">
 							<h6>{FILESYSTEM_PERMISSIONS} {MENU_GROUPS}</h6>
 							<ul>
 								<li class="c100">
-									<input name="system_permissions[groups_view]" id="groups_view" type="checkbox" value="1" {groups_view_checked} />
-									<label for="groups_view">{TEXT_VIEW}</label>
+									<input name="system_permissions[groups_view]" id="groups_view_detail" type="checkbox" value="1" {groups_view_checked} />
+									<label for="groups_view_detail">{TEXT_VIEW}</label>
 								</li>
 								<li class="c100">
 									<input name="system_permissions[groups_add]" id="groups_add" type="checkbox" value="1" {groups_add_checked} />
@@ -292,6 +289,20 @@
 								<li class="c100">
 									<input name="system_permissions[groups_delete]" id="groups_delete" type="checkbox" value="1" {groups_delete_checked} />
 									<label for="groups_delete">{TEXT_DELETE}</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<br class="clear ie-clearing none">
+				<div id="JQUSettingsView" class="cleft col_width33">
+					<div class="col_content">
+						<div class="mbox curved min_h100 floatbox" style="height: 180px;">
+							<h6>{FILESYSTEM_PERMISSIONS} {MENU_USER_PREFERENCES}</h6>
+							<ul>
+								<li class="c100">
+									<input name="system_permissions[preferences_view]" id="preferences_view_detail" type="checkbox" value="1" {preferences_view_checked} />
+									<label for="preferences_view_detail">{TEXT_MODIFY}</label>
 								</li>
 							</ul>
 						</div>
@@ -362,7 +373,6 @@
 					<input type="submit" name="{ACTION_HANDLE}" value="{SUBMIT_TITLE}" />
 					<input type="submit" name="action_cancel" value="{TEXT_CANCEL}" />
 					<input type="reset" name="reset" value="{TEXT_RESET}" />
-		 	        <input class="cright" type="submit" name="advanced_action" style="{DISPLAY_ADVANCED}" value="{ADVANCED_BUTTON}" />
 				</div>
 				<br class="clear ie-clearing none" />
 	<!-- END show_cmd_permission_block -->
