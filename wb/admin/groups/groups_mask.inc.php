@@ -182,34 +182,15 @@ print_r( $_POST ); print '</pre>'; // flush ();sleep(10); die();
 //		$tpl->parse('hidden_permission_list', '');
 // Check and set system permissions boxes in main_block
 
-		if ( true == (isset( $_POST['advanced_action']) && (( $_POST['advanced_action'] == 'no') || strpos( $_POST['advanced_action'], ">>") > 0 ) ) )
-		{
-			$tpl->parse('hidden_permission_list', '');
-			$tpl->set_block('show_cmd_advanced_permission_block', 'show_cmd_hidden_advanced_permission_list_block', 'hidden_advanced_permission_list');
-			setSystemCheckboxes( $tpl, $admin, isset($_POST['system_permissions']) ? $_POST['system_permissions'] : $rec_group['system_permissions'] );
-			$tpl->set_var('DISPLAY_ADVANCED', '');
-			$tpl->set_var('DISPLAY_BASIC', 'display:none;');
-			$tpl->set_var('ADVANCED', 'yes');
-			$tpl->set_var('ADVANCED_ACTION', 'advance_action');
-			$tpl->set_var('ADVANCED_BUTTON',  ($admin->get_permission('groups') == true) ? '<< '.$mLang->TEXT_HIDE_ADVANCED : '<< '.$mLang->TEXT_HIDE_ADVANCED);
-			$tpl->set_var('FILESYSTEM_PERMISSIONS', $mLang->TEXT_FILESYSTEM_PERMISSIONS);
-
-			$tpl->parse('advanced_permission_block', 'show_cmd_advanced_permission_block', true);
-			$tpl->parse('permission_block', '');
-		} else {
 			$tpl->parse('hidden_advanced_permission_list', '');
 			$tpl->set_block('show_cmd_manage_permission_block', 'show_cmd_hidden_permission_list_block', 'hidden_permission_list');
 			setSystemCheckboxes( $tpl, $admin, isset($_POST['system_permissions']) ? $_POST['system_permissions'] : $rec_group['system_permissions'] );
 			$tpl->set_var('DISPLAY_ADVANCED', '');
 			$tpl->set_var('DISPLAY_BASIC', '');
-			$tpl->set_var('ADVANCED', 'no');
-			$tpl->set_var('ADVANCED_ACTION', 'advance_action');
-			$tpl->set_var('ADVANCED_BUTTON',  ($admin->get_permission('groups_add') == true) ? $mLang->TEXT_SHOW_ADVANCED.' >>' : $mLang->TEXT_SHOW_ADVANCED.' >>');
 			$tpl->set_var('FILESYSTEM_PERMISSIONS', $mLang->TEXT_FILESYSTEM_PERMISSIONS.' ');
 
-			$tpl->parse('advanced_permission_block', '');
+			$tpl->parse('advanced_permission_block', 'show_cmd_advanced_permission_block', true);
 			$tpl->parse('permission_block', 'show_cmd_manage_permission_block', true);
-		}
 
 // ------------------------
 
