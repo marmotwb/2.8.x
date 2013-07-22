@@ -48,8 +48,7 @@ if(!defined('WB_PATH')) {
 				$replace = array($email_to, $email_fromname.' ('.$user_id.')', date(DATE_FORMAT.' '.TIME_FORMAT,$get_ts ), $sLoginName, $get_ip);
 				$mail_message = str_replace($search, $replace, $mail_message);
 				$email_body = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "", $mail_message );
-				$success_email_to = emailAdmin();
-
+				$success_email_to = ((defined('OWNER_EMAIL') && OWNER_EMAIL != '') ? OWNER_EMAIL : emailAdmin());
 				$bSendRegistrationMailtoAdmin = $wb->mail($sServerEmail,$success_email_to,$email_subject,$email_body,$mail_replyName,$mail_replyto);
 
 // prepare confirmation mail to user, easy old style

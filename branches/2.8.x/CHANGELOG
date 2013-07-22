@@ -11,32 +11,35 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-16 Jul-2013 Build 1933 Werner v.d.Decken(DarkViper)
+22 Jul-2013 Build 1934 M.v.d.Decken(DarkViper)
+! /account/signup added posibility for different mailto address
+! /install/save.php modified internal comment
+16 Jul-2013 Build 1933 M.v.d.Decken(DarkViper)
 ! modified layout of admin/groups for better usability
-13 Jul-2013 Build 1932 Werner v.d.Decken(DarkViper)
+13 Jul-2013 Build 1932 M.v.d.Decken(DarkViper)
 ! modified class Password for use with different hashing classes
-09 Jul-2013 Build 1931 Werner v.d.Decken(DarkViper)
+09 Jul-2013 Build 1931 M.v.d.Decken(DarkViper)
 # typofixes in /install/save.php
-09 Jul-2013 Build 1930 Werner v.d.Decken(DarkViper)
+09 Jul-2013 Build 1930 M.v.d.Decken(DarkViper)
 ! implement class Password and activate it
-21 Jun-2013 Build 1929 Werner v.d.Decken(DarkViper)
+21 Jun-2013 Build 1929 M.v.d.Decken(DarkViper)
 ! added new method to class Translate. it gives posibility to handle translations with additional replacements.
-20 Jun-2013 Build 1928 Werner v.d.Decken(DarkViper)
+20 Jun-2013 Build 1928 M.v.d.Decken(DarkViper)
 # class WbDatabase fixed select_db() in multiconnect modus
-10 Jun-2013 Build 1927 Werner v.d.Decken(DarkViper)
+10 Jun-2013 Build 1927 M.v.d.Decken(DarkViper)
 # TranslateAdaptorWbOldStyle forgotten second arg for trim added
-10 Jun-2013 Build 1926 Werner v.d.Decken(DarkViper)
+10 Jun-2013 Build 1926 M.v.d.Decken(DarkViper)
 ! TranslateAdaptorWbOldStyle now also accepts modified admin directory names
-09 Jun-2013 Build 1925 Werner v.d.Decken(DarkViper)
+09 Jun-2013 Build 1925 M.v.d.Decken(DarkViper)
 ! set default rights to dissabled for new installed modules
-08 Jun-2013 Build 1924 Werner v.d.Decken(DarkViper)
+08 Jun-2013 Build 1924 M.v.d.Decken(DarkViper)
 ! syncronize project and some small typo corrections in /admin/
-08 Jun-2013 Build 1923 Werner v.d.Decken(DarkViper)
+08 Jun-2013 Build 1923 M.v.d.Decken(DarkViper)
 ! syncronize project
 # some small corrections in /admin/
-08 Jun-2013 Build 1922 Werner v.d.Decken(DarkViper)
+08 Jun-2013 Build 1922 M.v.d.Decken(DarkViper)
 # fixed invalid translate addon activation (/admin/preferences/index.php)
-07 Jun-2013 Build 1921 Werner v.d.Decken(DarkViper)
+07 Jun-2013 Build 1921 M.v.d.Decken(DarkViper)
 ! /admin/languages  some little corrections
 07 Jun-2013 Build 1920 Dietmar Woellbrink (Luisehahne)
 ! /modules/admin.php $sSectionIdPrefix
@@ -80,22 +83,22 @@ Legend:
 ! functions.php change get_parent_titles from menu_title to filename
 07 Jun-2013 Build 1907 Dietmar Woellbrink (Luisehahne)
 ! update headerinfo
-06 Jun-2013 Build 1906 Werner v.d.Decken(DarkViper)
+06 Jun-2013 Build 1906 M.v.d.Decken(DarkViper)
 + new Method Password::isValid() checks a new password for invalid characters
-01 Jun-2013 Build 1905 Werner v.d.Decken(DarkViper)
+01 Jun-2013 Build 1905 M.v.d.Decken(DarkViper)
 + new OutputFilter plugin 'FilterMediaRel'
-01 Jun-2013 Build 1904 Werner v.d.Decken(DarkViper)
+01 Jun-2013 Build 1904 M.v.d.Decken(DarkViper)
 + new method wb::ReplaceAbsoluteMediaUrl()
 + class wb: Translate::disableAddon() in print_error() and print_success()
-13 May-2013 Build 1903 Werner v.d.Decken(DarkViper)
+13 May-2013 Build 1903 M.v.d.Decken(DarkViper)
 ! some typofixes in class PassWord
 - class /framework/PasswordHash never needed(replaced by /include/phpass/PasswordHash
-12 May-2013 Build 1902 Werner v.d.Decken(DarkViper)
+12 May-2013 Build 1902 M.v.d.Decken(DarkViper)
 + added posssibility to use different adaptors for each module
 + added new adaptor to access language definitions in a MySQL database
-19 Apr-2013 Build 1901 Werner v.d.Decken(DarkViper)
+19 Apr-2013 Build 1901 M.v.d.Decken(DarkViper)
 # little corrections in class Password
-18 Apr-2013 Build 1900 Werner v.d.Decken(DarkViper)
+18 Apr-2013 Build 1900 M.v.d.Decken(DarkViper)
 + Classes Password / PasswordHash Added for an essential strengthening of the password security
 04 Apr-2013 Build 1899 Dietmar Woellbrink (Luisehahne)
 # bugfix missing td in form layout
@@ -159,16 +162,16 @@ Legend:
 ! groups change languages class to translate class
 ! prepare upgrade-script for WB Version 2.8.4 (versioncompare)
 ! update Form modul to version 2.9.1
-06 Mar-2013 Build 1882 Werner v.d.Decken(DarkViper)
+06 Mar-2013 Build 1882 M.v.d.Decken(DarkViper)
 # protect magic setter to fix security issue in WbAdapter
 05 Mar-2013 Build 1881 Dietmar Woellbrink (Luisehahne)
 # bugfix setting slash in class m_news_Reorg ( access files in root)
 ! upgrade-script shows count of created module access files
 05 Mar-2013 Build 1880 Dietmar Woellbrink (Luisehahne)
 # bugfix missing slash in class m_news_Reorg
-05 Mar-2013 Build 1879 Werner v.d.Decken(DarkViper)
+05 Mar-2013 Build 1879 M.v.d.Decken(DarkViper)
 # protect magic setter to fix security issue in WbAdapter
-05 Mar-2013 Build 1878 Werner v.d.Decken(DarkViper)
+05 Mar-2013 Build 1878 M.v.d.Decken(DarkViper)
 # fixed PagesDir in WbAdaptor
 02 Mar-2013 Build 1877 Dietmar Woellbrink (Luisehahne)
 ! fix news reorg.php to be backward compatible slash settings  
@@ -179,10 +182,10 @@ Legend:
 ! wysgwyg, now check exitings table entries, otherwise script stop loading content in editor
 ! typofix in groups
 ! change constant DB_NAME to $database->DbName
-27 Feb-2013 Build 1874 Werner v.d.Decken(DarkViper)
+27 Feb-2013 Build 1874 M.v.d.Decken(DarkViper)
 # some little typo fixes in initialize.php
 # readConfiguration() fixed in initialize.php
-27 Feb-2013 Build 1873 Werner v.d.Decken(DarkViper)
+27 Feb-2013 Build 1873 M.v.d.Decken(DarkViper)
 # some small fixes in packet Translate
 25 Feb-2013 Build 1872 Dietmar Woellbrink (Luisehahne)
 # bugfix preferences timezone, date_format, time_format settings, backend and frontend
@@ -205,22 +208,22 @@ Legend:
 ! add methode escapeString  to class WbDatabase
 ! update upgrade-script.php
 ! add getter property LastInsertId to class WbDatabase
-19 Feb-2013 Build 1865 Werner v.d.Decken(DarkViper)
+19 Feb-2013 Build 1865 M.v.d.Decken(DarkViper)
 ! update initialize.php for changed Twig-dir and activated cache in Translate
 ! initialize can handle now the new setup.ini format also.
-19 Feb-2013 Build 1864 Werner v.d.Decken(DarkViper)
+19 Feb-2013 Build 1864 M.v.d.Decken(DarkViper)
 ! update classes Translate, TranslateTable, TranslateAdaptorWbOldStyle
 + added interface TranslateAdaptorInterface
 + added Klasse_Translate_de.pdf
 ! update class WbAdaptor
 ! update /framework/initialize.php
-19 Feb-2013 Build 1863 Werner v.d.Decken(DarkViper)
+19 Feb-2013 Build 1863 M.v.d.Decken(DarkViper)
 ! updated Twig template engine to stable version 1.12.2
-19 Feb-2013 Build 1862 Werner v.d.Decken(DarkViper)
+19 Feb-2013 Build 1862 M.v.d.Decken(DarkViper)
 ! updated Twig template engine to stable version 1.12.2
-18 Feb-2013 Build 1861 Werner v.d.Decken(DarkViper)
+18 Feb-2013 Build 1861 M.v.d.Decken(DarkViper)
 + added temporary class WbAdaptor (replacement for future registry)
-04 Feb-2013 Build 1860 Werner v.d.Decken(DarkViper)
+04 Feb-2013 Build 1860 M.v.d.Decken(DarkViper)
 + added new translation classes (Translate/TranslationTable/TranslateAdaptorWbOldStyle) for easy handling of language files
 ! initialize and activate class Translate in /framework/initialize.php
 11 Jan-2013 Build 1859 Dietmar Woellbrink (Luisehahne)
@@ -238,21 +241,21 @@ Legend:
 08 Jan-2013 Build 1853 Dietmar Woellbrink (Luisehahne)
 ! update phpmailer to version 5.2.1
 ! update jquery to 1.8.3 and jQuery UI to 1.9.2
-07 Jan-2013 Build 1852 Werner v.d.Decken(DarkViper)
+07 Jan-2013 Build 1852 M.v.d.Decken(DarkViper)
 ! updated Twig template engine to stable version 1.11.1 step 2
-07 Jan-2013 Build 1851 Werner v.d.Decken(DarkViper)
+07 Jan-2013 Build 1851 M.v.d.Decken(DarkViper)
 ! updated Twig template engine to stable version 1.11.1
 06 Jan-2013 Build 1850 Dietmar Woellbrink (Luisehahne)
 ! add default_timezone in admin account by new installation 
 06 Jan-2013 Build 1849 Dietmar Woellbrink (Luisehahne)
 # typofix page_extended in admin/settings and admin/pages/
 ! Fill empty option modules dropdown in admin/pages/sections.php
-05 Jan-2013 Build 1848 Werner v.d.Decken(DarkViper)
+05 Jan-2013 Build 1848 M.v.d.Decken(DarkViper)
 # fixed reinitialisation of class frontend in /index.php
-05 Jan-2013 Build 1847 Werner v.d.Decken(DarkViper)
+05 Jan-2013 Build 1847 M.v.d.Decken(DarkViper)
 # PageTree: fixed icon requests
 + added 2 icons in wb_theme and argos_theme
-05 Jan-2013 Build 1846 Werner v.d.Decken(DarkViper)
+05 Jan-2013 Build 1846 M.v.d.Decken(DarkViper)
 + added variable root page for tree generation in class a_pages_PageTree
 # added missing CSS class jsadmin for drop/down activation
 28 Dez-2012 Build 1845 Dietmar Woellbrink (Luisehahne)
@@ -276,7 +279,7 @@ Legend:
 ! fix html validate error in pages sections
 ! add pages field page_code to class.frontend.php
 ! optimized jsadmin backend.css
-21 Dez-2012 Build 1839 Werner v.d.Decken(DarkViper)
+21 Dez-2012 Build 1839 M.v.d.Decken(DarkViper)
 ! the second optimization of runtime by recoding /admin/pages/index.php
 + new class a_pages_PageTree() for use with /admin/pages/index.php
 13 Dez-2012 Build 1838 Dietmar Woellbrink (Luisehahne)
@@ -540,7 +543,7 @@ Legend:
 # fixed missing ({missing: TEXT_TEMPLATE}) in template details
 14 Sep-2012 Build 1749 Dietmar Woellbrink (Luisehahne)
 # fixed save pagesettings, if multiple menus is disabled, set page['menu'] to default = 1
-12 Sep-2012 Build 1748 Werner v.d.Decken(DarkViper)
+12 Sep-2012 Build 1748 M.v.d.Decken(DarkViper)
 ! 3th party class idna_convert updated to version 0.8.0
 08 Sep-2012 Build 1747 Dietmar Woellbrink (Luisehahne)
 # fixed issues with older table strucure for earlier WB installations
@@ -692,30 +695,30 @@ Legend:
 + add var $iPhpDeclaredClasses = sizeof(get_declared_classes() set by PHP in initialize.php
 18 Aug-2012 Build 1693 Dietmar Woellbrink (Luisehahne)
 # fixed deprecated erigi in captcha
-08 Aug-2012 Build 1692 Werner v.d.Decken(DarkViper)
+08 Aug-2012 Build 1692 M.v.d.Decken(DarkViper)
 # corrected pageID in forwarding links
 ! changed request of permission to ami_group_member() and is_group_match()
-10 Jun-2012 Build 1691 Werner v.d.Decken(DarkViper)
+10 Jun-2012 Build 1691 M.v.d.Decken(DarkViper)
 # fixed the order of loading languages
-31 May-2012 Build 1690 Werner v.d.Decken(DarkViper)
+31 May-2012 Build 1690 M.v.d.Decken(DarkViper)
 ! ModLanguage modified for auto fallback to DEFAULT_LANGUAGE
 ! globalExceptionHandler added AppException, SecurityException, SecDirectoryTraversalException
 ! Errormessage for old class.database modified
-08 May-2012 Build 1689 Werner v.d.Decken(DarkViper)
+08 May-2012 Build 1689 M.v.d.Decken(DarkViper)
 # fixed Errorhandling for old class.database
 08 May-2012 Build 1688 Dietmar Woellbrink (Luisehahne)
 ! update upgrade-script first remove access files in an existing pages folder
   before rebuilding them 
 ! for security upgrade don't remove access files in root
-07 May-2012 Build 1687 Werner v.d.Decken(DarkViper)
+07 May-2012 Build 1687 M.v.d.Decken(DarkViper)
 # Drop tables in installer fixed
 + Twig_Autoloader activated
-07 May-2012 Build 1686 Werner v.d.Decken(DarkViper)
+07 May-2012 Build 1686 M.v.d.Decken(DarkViper)
 ! some modifications concerning the new autoloader
 + Twig Template engine v.1.7.0
 ! unfinished change in installer
 ! some droplets actualisized
-06 May-2012 Build 1685 Werner v.d.Decken(DarkViper)
+06 May-2012 Build 1685 M.v.d.Decken(DarkViper)
 ! last fixes for use of page_icon s.o.
 06 May-2012 Build 1684 Dietmar Woellbrink (Luisehahne)
 ! update upgrade-script, now don't overwrite existings values in settings
@@ -726,19 +729,19 @@ Legend:
 - this will be never needed anymore and produce errors
 ! rename class.msg_queue.php in msgQueue.php to work with autokoader
 + add function format_message to class.wb.php 
-03 May-2012 Build 1683 Werner v.d.Decken(DarkViper)
+03 May-2012 Build 1683 M.v.d.Decken(DarkViper)
 ! changed class Database into a Singleton-Class
 # added forgotten 'static' keyword in ModLanguage
 # removed version control from sm2 - include.php
-03 May-2012 Build 1682 Werner v.d.Decken(DarkViper)
+03 May-2012 Build 1682 M.v.d.Decken(DarkViper)
 ! some little corrections ModLanguage/Database/initialize.php
-03 May-2012 Build 1681 Werner v.d.Decken(DarkViper)
+03 May-2012 Build 1681 M.v.d.Decken(DarkViper)
 ! reorganisation of default theme of oage-settings
 + added menu_icon_0 and menu_icon_1
 ! update show_menu2 to handle the new icon fields (see README.de|en.txt)
 + add new droplet 'iParentIcon' for use with the new icons
 + added new module-depending language files (not complete yet) in admin/pages
-03 May-2012 Build 1680 Werner v.d.Decken(DarkViper)
+03 May-2012 Build 1680 M.v.d.Decken(DarkViper)
 ! renamed file class.database.php to Database.php
 ! renamed class database into Database
 + classes SecurityException and SecDirectoryTraversalException added in globalExceptionHandler.php
@@ -773,9 +776,9 @@ Legend:
 + add languages vars for signup
 18 Apr-2012 Build 1671 Dietmar Woellbrink (Luisehahne)
 # fixes installer and upgrade-script
-17 Apr-2012 Build 1670 Werner v.d.Decken(DarkViper)
+17 Apr-2012 Build 1670 M.v.d.Decken(DarkViper)
 + added new global exceptionhandler (class AppException)
-17 Apr-2012 Build 1669 Werner v.d.Decken(DarkViper)
+17 Apr-2012 Build 1669 M.v.d.Decken(DarkViper)
 # little fixes in /admin/addons/reload.php
 17 Apr-2012 Build 1668 Dietmar Woellbrink (Luisehahne)
 ! settigs.php add fields dev_infos and page_icon_dir
@@ -788,14 +791,14 @@ Legend:
 + add fields page_icon, menu_icon_0, menu_icon_1 to pages
 + add settings values dev_infos and page_icon_dir
 ! update languages files 
-17 Apr-2012 Build 1665 Werner v.d.Decken(DarkViper)
+17 Apr-2012 Build 1665 M.v.d.Decken(DarkViper)
 ! update page_settings - CSS for wb_theme and argos_theme (for Rev.1664)
-17 Apr-2012 Build 1664 Werner v.d.Decken(DarkViper)
+17 Apr-2012 Build 1664 M.v.d.Decken(DarkViper)
 + added additional rights for AdminUsers/ViewerUsers in /pages/page_settings
 ! /pages/settings2.php renamed into /pages/settings_save.php
 17 Apr-2012 Build 1663 Dietmar Woellbrink (Luisehahne)
 ! update round print.css for better output
-17 Apr-2012 Build 1662 Werner v.d.Decken(DarkViper)
+17 Apr-2012 Build 1662 M.v.d.Decken(DarkViper)
 + added new getter 'getQueryCount' in class database
 11 Apr-2012 Build 1661 Dietmar Woellbrink (Luisehahne)
 + add new language vars
@@ -804,41 +807,41 @@ Legend:
 # fixed Fatal error: Cannot redeclare show_wysiwyg_editor()
 06 Apr-2012 Build 1659 Dietmar Woellbrink (Luisehahne)
 ! more validation fixes in backend (Tks to Ruebenwurzel)
-05 Apr-2012 Build 1658 Werner v.d.Decken(DarkViper)
+05 Apr-2012 Build 1658 M.v.d.Decken(DarkViper)
 # fixed alternating row styles in droplet listing
 04 Apr-2012 Build 1657 Dietmar Woellbrink (Luisehahne)
 ! some validation fixes in backend
-02 Apr-2012 Build 1656 Werner v.d.Decken(DarkViper)
+02 Apr-2012 Build 1656 M.v.d.Decken(DarkViper)
 # fixed filter to serve malformed/nested HTML also.
 01 Apr-2012 Build 1655 Dietmar Woellbrink (Luisehahne)
 + add replyto to form module (see DEVINFOS)
 01 Apr-2012 Build 1654 Dietmar Woellbrink (Luisehahne)
 # Fixed SERVER_EMAIL in languages, needs double brackets
 ! Installer redesign Step 2
-28 Mar-2012 Build 1653 Werner v.d.Decken(DarkViper)
+28 Mar-2012 Build 1653 M.v.d.Decken(DarkViper)
 # fixed change_mode() against a very old problem with
 invalid calling arguments
 27 Mar-2012 Build 1652 Dietmar Woellbrink (Luisehahne)
 ! fixed path to globalExceptionHandler.php in wysiwyg
-26 Mar-2012 Build 1651 Werner v.d.Decken(DarkViper)
+26 Mar-2012 Build 1651 M.v.d.Decken(DarkViper)
 # fixed a little problem with chmod()
-24 Mar-2012 Build 1650 Werner v.d.Decken(DarkViper)
+24 Mar-2012 Build 1650 M.v.d.Decken(DarkViper)
 + add argument 'replyTo' into class.wb::mail()
 24 Mar-2012 Build 1649 Dietmar Woellbrink (Luisehahne)
 ! rebranding banner.jpg and powered.jpg round template
-24 Mar-2012 Build 1648 Werner v.d.Decken(DarkViper)
+24 Mar-2012 Build 1648 M.v.d.Decken(DarkViper)
 # a litte fix in /admin/addons/index.php.
 + added unregister_Theme to CopyTheme::_doRollback()
 + added CopyTheme::_activateTheme()
-23 Mar-2012 Build 1647 Werner v.d.Decken(DarkViper)
+23 Mar-2012 Build 1647 M.v.d.Decken(DarkViper)
 + add additional exeptionhandling in globalExceptionHandler
 23 Mar-2012 Build 1646 Dietmar Woellbrink (Luisehahne)
 # typofix in templates to include jquery
 22 Mar-2012 Build 1645 Dietmar Woellbrink (Luisehahne)
 + add language variable for template details
-22 Mar-2012 Build 1644 Werner v.d.Decken(DarkViper)
+22 Mar-2012 Build 1644 M.v.d.Decken(DarkViper)
 # prevent from empty theme-name in CopyTheme::_SanitizeNewName()
-22 Mar-2012 Build 1643 Werner v.d.Decken(DarkViper)
+22 Mar-2012 Build 1643 M.v.d.Decken(DarkViper)
 + added backend functions to copy themes and import htt-template files
   according to the the new theme fallback functionality
 22 Mar-2012 Build 1642 Dietmar Woellbrink (Luisehahne)
@@ -851,9 +854,9 @@ invalid calling arguments
 22 Mar-2012 Build 1639 Dietmar Woellbrink (Luisehahne)
 + Installer add const DEBUG to config.php (see DEVINFOS)
 ! move const DEBUG and var $starttime from index.php to initialize.php
-14 Mar-2012 Build 1638 Werner v.d.Decken(DarkViper)
+14 Mar-2012 Build 1638 M.v.d.Decken(DarkViper)
 + config.php added define to set admin-directory
-13 Mar-2012 Build 1637 Werner v.d.Decken(DarkViper)
+13 Mar-2012 Build 1637 M.v.d.Decken(DarkViper)
 ! made handling of config.php a little bit more easy
 09 Mar-2012 Build 1636 Dietmar Woellbrink (Luisehahne)
 + add missing language variables for the theme handling
@@ -863,7 +866,7 @@ invalid calling arguments
 ! update language files and rework some core files (read DEVINFOS)
 ! compress mdcr.js
 + add DEVINFOS Instructions/Informations for modulecoder
-08 Mar-2012 Build 1633 Werner v.d.Decken(DarkViper)
+08 Mar-2012 Build 1633 M.v.d.Decken(DarkViper)
 # fixed class::methode print_error(...) overwrite in /install/save.php
 02 Mar-2012 Build 1632 Dietmar Woellbrink (Luisehahne)
 ! small design update for wb theme, login und login_forgot
@@ -877,7 +880,7 @@ invalid calling arguments
 ! forgot changelog and version in Revision 1627
 01 Mar-2012 Build 1627 Dietmar Woellbrink (Luisehahne)
 # Fixed FCKeditor to work with IE9 (Tks to marmot for the source)
-29 Feb-2012 Build 1626 Werner v.d.Decken(DarkViper)
+29 Feb-2012 Build 1626 M.v.d.Decken(DarkViper)
 ! started rebuild and reorganize the OutputFilter-System
 29 Feb-2012 Build 1625 Dietmar Woellbrink (Luisehahne)
 ! update correct_theme_source and fixed the call in all files
@@ -887,9 +890,9 @@ invalid calling arguments
 # fixed FCKeditor to work in IE7/8, IE9 not tested
 ! redesign filemanager FCKeditor
 ! set Moduleversion to 2.9.7.1
-25 Feb-2012 Build 1622 Werner v.d.Decken(DarkViper)
+25 Feb-2012 Build 1622 M.v.d.Decken(DarkViper)
 # typofix in Droplet [ShowRandomWysiwyg]
-24 Feb-2012 Build 1621 Werner v.d.Decken(DarkViper)
+24 Feb-2012 Build 1621 M.v.d.Decken(DarkViper)
 # Droplet [SectionPiocker] fixed
 + Added new droplets [ShowWysiwyg] and [ShowRandomWysiwyg]
 24 Feb-2012 Build 1620 Dietmar Woellbrink (Luisehahne)
@@ -899,7 +902,7 @@ invalid calling arguments
 24 Feb-2012 Build 1618 Dietmar Woellbrink (Luisehahne)
 # fixed FCKeditor to work in IE9 (Tks to marmot)
 ! update module version to 2.9.7
-22 Feb-2012 Build 1617 Werner v.d.Decken(DarkViper)
+22 Feb-2012 Build 1617 M.v.d.Decken(DarkViper)
 # fixed function SanitizeHttpReferer() in consideration of subdirectories
 18 Feb-2012 Build 1616 Dietmar Woellbrink (Luisehahne)
 ! update INSTALL and UPGRADE instruction to 2.8.3 (Tks to Ruebenwurzel)
@@ -911,13 +914,13 @@ invalid calling arguments
 18 Feb-2012 Build 1614 Dietmar Woellbrink (Luisehahne)
 # fixed tabindex in installer (Tks to Easyuser)
 # fixed installer call in /admin/index.php
-16 Feb-2012 Build 1613 Werner v.d.Decken(DarkViper)
+16 Feb-2012 Build 1613 M.v.d.Decken(DarkViper)
 # little fixes in classs database and add new readonly property DbName
-11 Feb-2012 Build 1612 Werner v.d.Decken(DarkViper)
+11 Feb-2012 Build 1612 M.v.d.Decken(DarkViper)
 ! Number of version and revision updated in branch.
-11 Feb-2012 Build 1611 Werner v.d.Decken(DarkViper)
+11 Feb-2012 Build 1611 M.v.d.Decken(DarkViper)
 ! Number of version and revision updated.
-11 Feb-2012 Build 1610 Werner v.d.Decken(DarkViper)
+11 Feb-2012 Build 1610 M.v.d.Decken(DarkViper)
 ! Version 2.8.3 tagged
 ----------------------------------- 2.8.3 --------------------------------
 09 Feb-2012 Build 1609 Dietmar Woellbrink (Luisehahne)
@@ -962,21 +965,21 @@ invalid calling arguments
 # fixed use of undefined constant fri in /form/view.php
 01 Feb-2012 Build 1593 Dietmar Woellbrink (Luisehahne)
 # rebuild protectfile in pages/posts
-31 Jan-2012 Build 1592 Werner v.d.Decken(DarkViper)
+31 Jan-2012 Build 1592 M.v.d.Decken(DarkViper)
 # little Typo-fix in database::SqlImport(). (grummel)
-31 Jan-2012 Build 1591 Werner v.d.Decken(DarkViper)
+31 Jan-2012 Build 1591 M.v.d.Decken(DarkViper)
 # little Regex-fix in database::SqlImport().
-25 Jan-2012 Build 1590 Werner v.d.Decken(DarkViper)
+25 Jan-2012 Build 1590 M.v.d.Decken(DarkViper)
 ! mod form: added request var to submit a request identifier.
 ! argument ?fri=12345 on GET-view will submit 'FormRequestId: 12345' by email
 25 Jan-2012 Build 1589 Dietmar Woellbrink (Luisehahne)
 # fixed starting upgrade-script if missing revision in settings
-25 Jan-2012 Build 1588 Werner v.d.Decken(DarkViper)
+25 Jan-2012 Build 1588 M.v.d.Decken(DarkViper)
 # all module depending code removed, some little fixes, better integration for module-upgrade
-25 Jan-2012 Build 1587 Werner v.d.Decken(DarkViper)
+25 Jan-2012 Build 1587 M.v.d.Decken(DarkViper)
 + module news: added sql-dump to create database tables
 # module news: some little fixes in install/upgrade
-24 Jan-2012 Build 1586 Werner v.d.Decken(DarkViper)
+24 Jan-2012 Build 1586 M.v.d.Decken(DarkViper)
 + added new method SqlImport() to class database
 19 Jan-2012 Build 1585 Dietmar Woellbrink (Luisehahne)
 # fixed double table width in modify.php form module ((Tks to Ruebenwurzel)
@@ -989,7 +992,7 @@ invalid calling arguments
 # wysiwyg module, fix issues with magic_quote_gpc if on
 # form module, fix regex for radio and checkbox (Tks to Ruud)
 ! form module, make show submission table scrollable
-17 Jan-2012 Build 1581 Werner v.d.Decken(DarkViper)
+17 Jan-2012 Build 1581 M.v.d.Decken(DarkViper)
 # wysiwyg module some little typo fixes a.s.o.
 17 Jan-2012 Build 1580 Dietmar Woellbrink (Luisehahne)
 ! dropdown list to choose recipient for email confirmation
@@ -999,7 +1002,7 @@ invalid calling arguments
 # fixed warning in domain independend image links
 16 Jan-2012 Build 1577 Dietmar Woellbrink (Luisehahne)
 # fixed save dirmode and filmode to 0 if not superadmin
-16 Jan-2012 Build 1576 Werner v.d.Decken(DarkViper)
+16 Jan-2012 Build 1576 M.v.d.Decken(DarkViper)
 # wysiwyg module changed to domain independend image links
 16 Jan-2012 Build 1575 Dietmar Woellbrink (Luisehahne)
 # fixed captcha error message in form module
@@ -1018,7 +1021,7 @@ invalid calling arguments
 # remove session_start() in /account/logout.php
 10 Jan-2012 Build 1570 Dietmar Woellbrink (Luisehahne)
 !  added $module_directory to make quickskin directory changes dynamically
-10 Jan-2012 Build 1569 Werner v.d.Decken(DarkViper)
+10 Jan-2012 Build 1569 M.v.d.Decken(DarkViper)
 # possible errors on 'save password' fixed. Minimum length of password set to 6 chars
 10 Jan-2012 Build 1568 Dietmar Woellbrink (Luisehahne)
 ! fix show_menu2 2th parameter for template round and allcss (Tks to Ruebenwurzel)
@@ -1106,7 +1109,7 @@ invalid calling arguments
 + add function getTableEngine to class.database 
 + add Quickskin to include folder
 + add reworkes Droplet SectionPicker to load modules frontend.css
-08 Dez-2011 Build 1534 Werner v.d.Decken(DarkViper)
+08 Dez-2011 Build 1534 M.v.d.Decken(DarkViper)
 # /output_filter/filter-routines.php rel-URL Filter fixed for mailto-links
 08 Dez-2011 Build 1533 Dietmar Woellbrink (Luisehahne)
 + new backend theme handling (Tks to Stefek)
@@ -1138,12 +1141,12 @@ invalid calling arguments
 13 Nov-2011 Build 1523 Dietmar Woellbrink (Luisehahne)
 # fix fingerprint in secureform 
 ! update jquery to version 1.7
-12 Nov-2011 Build 1522 Werner v.d.Decken(DarkViper)
+12 Nov-2011 Build 1522 M.v.d.Decken(DarkViper)
 # /modules/output_filter/filter-routines.php little fix to inserting mdcr.js
 # /modules/form/view.php little fix depending from recoded output filter
 09 Nov-2011 Build 1521 Dietmar Woellbrink (Luisehahne)
 ! update jquery to version 1.6.4
-09 Nov-2011 Build 1520 Werner v.d.Decken(DarkViper)
+09 Nov-2011 Build 1520 M.v.d.Decken(DarkViper)
 ! /modules/output_filter completely recoded
 + new filter for relative-URL added
 + some small fixes
@@ -1166,13 +1169,13 @@ invalid calling arguments
 # fix non object message in framework/functions.php
 04 Okt-2011 Build 1513 Dietmar Woellbrink (Luisehahne)
 ! outputfilter now check and add missing slash in empty href if relative urls are enabled
-24 Sep-2011 Build 1512 Werner v.d.Decken(DarkViper)
+24 Sep-2011 Build 1512 M.v.d.Decken(DarkViper)
 ! settings for pwgen updated
 14 Sep-2011 Build 1511 Dietmar Woellbrink (Luisehahne)
 # fixed strict notice warning in class.wb
 ! change editor for intropage to editarea
 ! add missing slash in themes
-14 Sep-2011 Build 1510 Werner v.d.Decken(DarkViper)
+14 Sep-2011 Build 1510 M.v.d.Decken(DarkViper)
 + new constant 'DO_NOT_TRACK' set to true if a client sends the DNT-Header
 07 Sep-2011 Build 1509 Dietmar Woellbrink (Luisehahne)
 # continue fixing frontend account
@@ -1180,31 +1183,31 @@ invalid calling arguments
 # fixed print_error exit in frontend account
 06 Sep-2011 Build 1507 Dietmar Woellbrink (Luisehahne)
 # fixed field_remove
-26 Aug-2011 Build 1506 Werner v.d.Decken(DarkViper)
+26 Aug-2011 Build 1506 M.v.d.Decken(DarkViper)
 + new class PasswordHash
 + new Password-/Hash-generator
 19 Aug-2011 Build 1505 Dietmar Woellbrink (Luisehahne)
 # syntaxfix order::clean()
-19 Aug-2011 Build 1504 Werner v.d.Decken(DarkViper)
+19 Aug-2011 Build 1504 M.v.d.Decken(DarkViper)
 # fixed order::clean()
 18 Aug-2011 Build 1503 Dietmar Woellbrink (Luisehahne)
 ! change sql statements to strict in module droplets
 ! fix vars in compatibility mode for versions before 2.8.1 in frontend.functions.php
-11 Aug-2011 Build 1502 Werner v.d.Decken(DarkViper)
+11 Aug-2011 Build 1502 M.v.d.Decken(DarkViper)
 # fixed c&p mistake
-11 Aug-2011 Build 1501 Werner v.d.Decken(DarkViper)
+11 Aug-2011 Build 1501 M.v.d.Decken(DarkViper)
 - removed stoneaged code from 2.4
-11 Aug-2011 Build 1500 Werner v.d.Decken(DarkViper)
+11 Aug-2011 Build 1500 M.v.d.Decken(DarkViper)
 # sync working copy
-11 Aug-2011 Build 1499 Werner v.d.Decken(DarkViper)
+11 Aug-2011 Build 1499 M.v.d.Decken(DarkViper)
 # little fix in calling globalExceptionHandler from inner core files
-11 Aug-2011 Build 1498 Werner v.d.Decken(DarkViper)
+11 Aug-2011 Build 1498 M.v.d.Decken(DarkViper)
 # fixed secureform
-11 Aug-2011 Build 1497 Werner v.d.Decken(DarkViper)
+11 Aug-2011 Build 1497 M.v.d.Decken(DarkViper)
 ! sync changelog
-11 Aug-2011 Build 1496 Werner v.d.Decken(DarkViper)
+11 Aug-2011 Build 1496 M.v.d.Decken(DarkViper)
 ! activate globalExceptionHandler in inner core files
-11 Aug-2011 Build 1495 Werner v.d.Decken(DarkViper)
+11 Aug-2011 Build 1495 M.v.d.Decken(DarkViper)
 # fix SQL-statements to SQL-strict
 11 Aug-2011 Build 1494 Dietmar Woellbrink (Luisehahne)
 # Fixed save wrong template directory in database 
@@ -1219,14 +1222,14 @@ invalid calling arguments
 ! comment out $email_body .= "\n\nIP: ".$_SERVER['REMOTE_ADDR'];
 11 Aug-2011 Build 1490 Dietmar Woellbrink (Luisehahne)
 ! set default  FCKConfig.FillEmptyBlocks to true
-11 Aug-2011 Build 1489 Werner v.d.Decken(DarkViper)
+11 Aug-2011 Build 1489 M.v.d.Decken(DarkViper)
 + little fix in globalExceptionHandler
-11 Aug-2011 Build 1488 Werner v.d.Decken(DarkViper)
+11 Aug-2011 Build 1488 M.v.d.Decken(DarkViper)
 + globalExceptionHandler activated
-10 Aug-2011 Build 1487 Werner v.d.Decken(DarkViper)
+10 Aug-2011 Build 1487 M.v.d.Decken(DarkViper)
 # class.order completely recoded to reduce SQL requests
 # all other files: fix SQL-statements to SQL-strict
-08 Aug-2011 Build 1486 Werner v.d.Decken(DarkViper)
+08 Aug-2011 Build 1486 M.v.d.Decken(DarkViper)
 # database::field_modify() there was a bug to fix
 # all other files: fix SQL-statements to SQL-strict
 01 Aug-2011 Build 1485 Dietmar Woellbrink (Luisehahne)
@@ -1274,7 +1277,7 @@ invalid calling arguments
 ! set Droplet to version 1.1.0
 + add checkboxes to change frontend absolute url to relative urls
 ! set output_filter version to 0.2
-12 Jul-2011 Build 1474 Werner v.d.Decken(DarkViper)
+12 Jul-2011 Build 1474 M.v.d.Decken(DarkViper)
 #  for security reasons the 'remember me' functionality is deaktivated in
    class login
 !  'Get configuration values' is optimized
@@ -1309,13 +1312,13 @@ invalid calling arguments
 01 Jul-2011 Build 1465 Dietmar Woellbrink (Luisehahne)
 # bugfix in initialize including SecureForm
 ! update admintools FTAN handling 
-01 Jul-2011 Build 1464 Werner v.d.Decken(DarkViper)
+01 Jul-2011 Build 1464 M.v.d.Decken(DarkViper)
 #  Ticket 1102 fixed little bug in moveCssToHead() (Tks to Crnogorac081)
 01 Jul-2011 Build 1463 Dietmar Woellbrink (Luisehahne)
 # fixed Ticket 1050 Bug in include/phpmailer/class.phpmailer.php with Lotus Notes
 # fixed Ticket 573, 939 Bad formatting of e-mail received from form submissions
 # fixed Ticket 1009 cannot change user password without changing Email in preference
-30 Jun-2011 Build 1462 Werner v.d.Decken(DarkViper)
+30 Jun-2011 Build 1462 M.v.d.Decken(DarkViper)
 + class-switcher for SecureForm added
 30 Jun-2011 Build 1461 Dietmar Woellbrink (Luisehahne)
 ! correct all misspellings on finnish language file (Tks to invisigoth)
@@ -1335,9 +1338,9 @@ invalid calling arguments
 10 Jun-2011 Build 1456 Dietmar Woellbrink (Luisehahne)
 + add PL languages to news and captcha_control (tks to vixrealitum)
 ! update PL language for WebsiteBaker (tks to vixrealitum)
-06 Jun-2011 Build 1455 Werner v.d.Decken(DarkViper)
+06 Jun-2011 Build 1455 M.v.d.Decken(DarkViper)
 # fixed Bug-Ticket #1096: editing of files via modules/edit_module_files.php
-06 Jun-2011 Build 1454 Werner v.d.Decken(DarkViper)
+06 Jun-2011 Build 1454 M.v.d.Decken(DarkViper)
 # in /framework/functions.php::media_filename - replace whitespaces by _
 # /upgrade-script.php - some small fixes
 02 Jun-2011 Build 1453 Dietmar Woellbrink (Luisehahne)
@@ -1348,16 +1351,16 @@ invalid calling arguments
 ! change status to RC6
 29 May-2011 Build 1451 Dietmar Woellbrink (Luisehahne)
 # replace eregi with pregmatch in search_modext (Tks to Thorn)
-22 May-2011 Build 1450 Werner v.d.Decken(DarkViper)
+22 May-2011 Build 1450 M.v.d.Decken(DarkViper)
 # small fix at calling of moveCssToHead() in /index.php
-07 May-2011 Build 1449 Werner v.d.Decken(DarkViper)
+07 May-2011 Build 1449 M.v.d.Decken(DarkViper)
 ! cleanup some code in edit_module_files.php
 07 May-2011 Build 1448 Dietmar Woellbrink (Luisehahne)
 # secure fix edit_module_files.php
 # fix wb_wrapper_edit_area.php
-03 May-2011 Build 1447 Werner v.d.Decken(DarkViper)
+03 May-2011 Build 1447 M.v.d.Decken(DarkViper)
 ! syncronice version (no data changes)
-03 May-2011 Build 1446 Werner v.d.Decken(DarkViper)
+03 May-2011 Build 1446 M.v.d.Decken(DarkViper)
 # fixed validation of username in users and signup
 27 Apr-2011 Build 1445 Dietmar Woellbrink (Luisehahne)
 # small validation fixes in backend themes
@@ -1377,11 +1380,11 @@ invalid calling arguments
 # fixed class.admin.php missing $TEXT declaration, add get_section_details
 26 Mar-2011 Build 1440 Dietmar Woellbrink (Luisehahne)
 # add missing methode is_group_match in class.wb.php 
-17 Mar-2011 Build 1439 Werner v.d.Decken(DarkViper)
+17 Mar-2011 Build 1439 M.v.d.Decken(DarkViper)
 ! syncronice version (no data changes)
-17 Mar-2011 Build 1438 Werner v.d.Decken(DarkViper)
+17 Mar-2011 Build 1438 M.v.d.Decken(DarkViper)
 # little fixes for xhtml-validity in '/include/captcha/captcha.php'
-17 Mar-2011 Build 1437 Werner v.d.Decken(DarkViper)
+17 Mar-2011 Build 1437 M.v.d.Decken(DarkViper)
 # little fixes for xhtml-validity module 'form'
 17 Mar-2011 Build 1436 Dietmar Woellbrink (Luisehahne)
 ! update jquery to Version 1.5.1 and jQuery UI to Version 1.8.10
@@ -1408,9 +1411,9 @@ invalid calling arguments
 ! validation fixes
 04 Feb-2011 Build 1425 Dietmar Woellbrink (Luisehahne)
 ! redefined wrong admin backlinks
-31 Jan-2011 Build 1424 Werner v.d.Decken(DarkViper)
+31 Jan-2011 Build 1424 M.v.d.Decken(DarkViper)
 # typo fix and simplify used_octets calculation
-30 Jan-2011 Build 1423 Werner v.d.Decken(DarkViper)
+30 Jan-2011 Build 1423 M.v.d.Decken(DarkViper)
 ! add FINGERPRINT_WITH_IP_OCTETS to table settings
 30 Jan-2011 Build 1422 Dietmar Woellbrink (Luisehahne)
 ! update SecureForm.php to work behind Proxies
@@ -1426,14 +1429,14 @@ invalid calling arguments
 ! add redirect timer description in settings.php
 24 Jan-2011 Build 1416 Dietmar Woellbrink (Luisehahne)
 # fixed unsafe sql queries
-24 Jan-2011 Build 1415 Werner v.d.Decken(DarkViper)
+24 Jan-2011 Build 1415 M.v.d.Decken(DarkViper)
 # fixed unsafe sql queries
 23 Jan-2011 Build 1414 Dietmar Woellbrink (Luisehahne)
 # fix wrong error message in media
 ! backend start warning if upgrade-script exists
 23 Jan-2011 Build 1413 Frank Heyne (FrankH)
 # Bugfix for Ticket 900
-23 Jan-2011 Build 1412 Werner v.d.Decken(DarkViper)
+23 Jan-2011 Build 1412 M.v.d.Decken(DarkViper)
 # fixed wb::password_chars 
 23 Jan-2011 Build 1411 Frank Heyne (FrankH)
 # Bugfix for Tickets 965, 966 and 910
@@ -1441,7 +1444,7 @@ invalid calling arguments
 # Bugfix for build 1409
 23 Jan-2011 Build 1409 Frank Heyne (FrankH)
 + Ticket 1058 added warn_page_leave (currently only in wysiwyg) 
-23 Jan-2011 Build 1408 Werner v.d.Decken(DarkViper)
+23 Jan-2011 Build 1408 M.v.d.Decken(DarkViper)
 # small changes in sm2menu() [SM2_NO_TITLE + SM2_XHTML_STRICT]
 22 Jan-2011 Build 1407 Frank Heyne (FrankH)
 # various Security fixes, thanks to secunia and others 
@@ -1466,7 +1469,7 @@ invalid calling arguments
 # Security fix in admin/admintools and admin/groups
 20 Jan-2011 Build 1397 Dietmar Woellbrink (Luisehahne)
 ! recoded rediect timer in print_success (tks to Chio)
-19 Jan-2011 Build 1396 Werner von den Decken (DarkViper)
+19 Jan-2011 Build 1396 M.von den Decken (DarkViper)
 ! remove header redirect and add a die message 
 17 Jan-2011 Build 1395 Frank Heyne (FrankH)
 # Security fix in admin/addons
@@ -1498,9 +1501,9 @@ invalid calling arguments
 ! update admin/modules unpack handling, overwrite newer files
 13 Jan-2011 Build 1380 Dietmar Woellbrink (Luisehahne)
 + output fixings, known error in jsadmin will be fix later
-13 Jan-2011 Build 1379 Werner von den Decken (DarkViper)
+13 Jan-2011 Build 1379 M.von den Decken (DarkViper)
 # fix class.admin 
-13 Jan-2011 Build 1378 Werner von den Decken (DarkViper)
+13 Jan-2011 Build 1378 M.von den Decken (DarkViper)
 ! fixed inclusion of SecureForm
 + added IDNA/Punycode to  wb::validate_email()
 11 Jan-2011 Build 1377 Frank Heyne (FrankH)
