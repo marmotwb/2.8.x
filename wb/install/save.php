@@ -446,6 +446,7 @@ unset($aSqlData);
 // write the config.php
 $sConfigContent = "<?php\n"
     ."/* this file is for backward compatibility only */\n"
+    ."/* never put any code in this file! */\n"
     ."include_once(dirname(__FILE__).'/framework/initialize.php');\n";
 $sSetupFile = WB_PATH.'/config.php';
 if(!file_put_contents($sSetupFile,$sConfigContent)) {

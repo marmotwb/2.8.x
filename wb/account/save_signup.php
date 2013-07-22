@@ -184,18 +184,16 @@ if($wb->StripCodeFromText($wb->get_post('action'))=='send')
 		// Captcha
 		if(ENABLED_CAPTCHA) {
 //			if(isset($_POST['captcha']) AND $_POST['captcha'] != '')
+			$aReplacement = array('webmaster_email' =>
+			                      ((defined('OWNER_EMAIL') && OWNER_EMAIL != '') ? OWNER_EMAIL : emailAdmin()));
 			if($wb->StripCodeFromText($wb->get_post('captcha')) != '')
 			{
 				// Check for a mismatch get email user_id
 				if(!isset($_POST['captcha']) OR !isset($_SESSION['captcha']) OR $_POST['captcha'] != $_SESSION['captcha']) {
-					$replace = array('webmaster_email' => emailAdmin() );
-	//				$aErrorMsg[] = replace_vars($MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'], $replace);
-					msgQueue::add(replace_vars($MESSAGE['INCORRECT_CAPTCHA'], $replace));
+					msgQueue::add(replace_vars($MESSAGE['INCORRECT_CAPTCHA'], $aReplacement));
 				}
 			} else {
-				$replace = array('webmaster_email'=> emailAdmin() );
-	//			$aErrorMsg[] = replace_vars($MESSAGE['MOD_FORM_INCORRECT_CAPTCHA'],$replace );
-				msgQueue::add(replace_vars($MESSAGE['INCORRECT_CAPTCHA'],$replace ));
+				msgQueue::add(replace_vars($MESSAGE['INCORRECT_CAPTCHA'],$aReplacement ));
 			}
 		}
 		if(isset($_SESSION['captcha'])) { unset($_SESSION['captcha']); }
