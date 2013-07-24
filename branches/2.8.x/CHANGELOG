@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+24 Jul-2013 Build 1935 M.v.d.Decken(DarkViper)
+# /upgrade_script.php fixed headers_sent problem
+# /search/search_modext.php fixed problem with output buffer
 22 Jul-2013 Build 1934 M.v.d.Decken(DarkViper)
 ! /account/signup added posibility for different mailto address
 ! /install/save.php modified internal comment

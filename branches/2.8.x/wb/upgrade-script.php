@@ -20,7 +20,7 @@
  * 
  * 
  * @category     Core
- * @package      Core_package
+ * @package      Core_service
  * @subpackage   upgrade-script
  * @author       Dietmar Wöllbrink <dietmar.woellbrink@websitebaker.org>
  * @author       Werner v.d.Decken <wkl@isteam.de>
@@ -341,7 +341,7 @@ if($admin->get_user_id()!=1){
 //}
 
 // delete remember key cookie if set
-if (isset($_COOKIE['REMEMBER_KEY'])) {
+if (isset($_COOKIE['REMEMBER_KEY']) && !headers_sent() ) {
 	setcookie('REMEMBER_KEY', '', time() - 3600, '/');
 }
 
@@ -355,7 +355,7 @@ $_SESSION['SYSTEM_PERMISSIONS'] = null;
 // overwrite session array
 $_SESSION = array();
 // delete session cookie if set
-if (isset($_COOKIE[session_name()])) {
+if (isset($_COOKIE[session_name()]) && !headers_sent()) {
     setcookie(session_name(), '', time() - 42000, '/');
 }
 // delete the session itself

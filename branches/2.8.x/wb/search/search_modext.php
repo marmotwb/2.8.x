@@ -323,7 +323,7 @@ function print_excerpt2($mod_vars, $func_vars) {
 	);
 	echo str_replace($vars, $values, $func_results_loop_string);
 	if($func_enable_flush) { // ATTN: this will bypass output-filters and may break template-layout or -filters
-		ob_flush();flush();
+//		ob_flush();flush();
 	}
 	return true;
 }
