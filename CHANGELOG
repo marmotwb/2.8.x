@@ -11,7 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-24 Jul-2013 Build 1935 M.v.d.Decken(DarkViper)
+25 Jul-2013 Build 1937 M.v.d.Decken(DarkViper)
+- unneeded file /framework/Modlanguage.php removed
+24 Jul-2013 Build 1936 M.v.d.Decken(DarkViper)
 # /wb_theme/jquery/jquery-plugins.js fixed uncheck function
 24 Jul-2013 Build 1935 M.v.d.Decken(DarkViper)
 # /upgrade_script.php fixed headers_sent problem
