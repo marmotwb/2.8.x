@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+25 Jul-2013 Build 1939 M.v.d.Decken(DarkViper)
++ added module MultiLingual to basic packet
 25 Jul-2013 Build 1938 M.v.d.Decken(DarkViper)
 ! update Twig template engine to version 1.13.1
 25 Jul-2013 Build 1937 M.v.d.Decken(DarkViper)
