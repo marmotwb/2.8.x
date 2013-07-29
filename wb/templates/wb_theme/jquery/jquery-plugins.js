@@ -58,7 +58,7 @@ $(document).ready(function()
         if($ischecked == false) {
             if(!$('#pages_view').attr('checked')){
                 toggleBox($(this), "#JQPageView");
-            }s
+            }
             if(!$('#media_view').attr('checked')){
                 toggleBox($(this), "#JQMediaView");
             }
