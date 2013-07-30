@@ -249,7 +249,7 @@ class m_MultiLingual_Lib {
 			foreach ( $SetLanguageIcons AS $value) 
 			{
 				$data[] = array(
-				      'sIconUrl' => rtrim($this->_oReg->AppRel,'/').str_replace(rtrim($this->_oReg->DocumentRoot,'/'),'',str_replace('\\','/',dirname(__FILE__))),
+				      'sIconUrl' => $this->_oReg->AppRel . 'modules/' . basename(dirname(__FILE__)) . '/',
 				      'bCurrent' => ( ($value['language'] == $this->_oReg->Language ) ? true : false),
 				      'sUrl' => $this->_oReg->AppRel.$this->_oReg->PagesDir.trim($pages[$value['language']]['link'],'/').$this->_oReg->PageExtension,
 				      'sTitle' => $pages[$value['language']]['page_title'],
