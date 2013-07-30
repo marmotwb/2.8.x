@@ -42,8 +42,10 @@
 				<input type="text" id="page_title" name="page_title" value="{PAGE_TITLE}" />
 			</div>
 			<div class="{PAGE_EXTENDET_HIDE}">
-				<label for="page_icon" >{TEXT_PAGE_ICON}:</label>
-                <span class="overlib" {p_page_icon_dir} ><img src="{THEME_URL}/icons/help_16.png" alt="TEXT_PAGE_ICON" /></span>
+				<label for="page_icon" class="overlib"
+					style="background-image: url({THEME_URL}/icons/help_16.png);"
+					{p_page_icon_dir}>{TEXT_PAGE_ICON}: 
+				</label>
 				<select id="page_icon" name="page_icon">
 					<option value="0">--- {TEXT_NO_SELECTION} ---</option>
 				<!-- BEGIN page_icon_list_block -->
@@ -56,13 +58,17 @@
 				<input type="text" id="menu_title" name="menu_title" value="{MENU_TITLE}" />
 			</div>
 			<div>
-				<label for="seo_title">{TEXT_SEO_TITLE}:</label>
-                <span class="overlib" {p_menu_filename} ><img src="{THEME_URL}/icons/help_16.png" alt="TEXT_SEO_TITLE" /></span>
+				<label for="seo_title" class="overlib"
+					style="background-image: url({THEME_URL}/icons/help_16.png);"
+					{p_menu_filename}>{TEXT_SEO_TITLE}:
+				</label>
 				<input type="text" id="seo_title" name="seo_title" value="{SEO_TITLE}" />
 			</div>
 			<div id="extented0" style="{PAGE_EXTENDET_HIDE}">
-				<label for="menu_icon_0">{TEXT_MENU_ICON_0}:</label>
-                <span class="overlib" {p_menu_icon0_dir} ><img src="{THEME_URL}/icons/help_16.png" alt="TEXT_MENU_ICON_0" /></span>
+				<label for="menu_icon_0" class="overlib"
+					style="background-image: url({THEME_URL}/icons/help_16.png);"
+					{p_menu_icon0_dir}>{TEXT_MENU_ICON_0}:
+				</label>
 					<select id="menu_icon_0" name="menu_icon_0">
 					<option value="0">--- {TEXT_NO_SELECTION} ---</option>
 				<!-- BEGIN menu_icon0_list_block -->
@@ -71,8 +77,10 @@
 				</select>
 			</div>
 			<div id="extented1" style="{PAGE_EXTENDET_HIDE}">
-				<label for="menu_icon_1" >{TEXT_MENU_ICON_1}:</label>
-                <span class="overlib" {p_menu_icon1_dir} ><img src="{THEME_URL}/icons/help_16.png" alt="TEXT_MENU_ICON_1" /></span>
+				<label for="menu_icon_1" class="overlib"
+					style="background-image: url({THEME_URL}/icons/help_16.png);"
+					{p_menu_icon1_dir}>{TEXT_MENU_ICON_1}:
+				</label>
 					<select id="menu_icon_1" name="menu_icon_1">
 					<option value="0">--- {TEXT_NO_SELECTION} ---</option>
 				<!-- BEGIN menu_icon1_list_block -->
@@ -140,8 +148,10 @@
 			</div>
 		<!-- BEGIN show_page_code_block -->
 			<div>
-				<label for="page_code">{TEXT_PAGE_CODE}:</label>
-                <span class="overlib" {p_menu_page_code} ><img src="{THEME_URL}/icons/help_16.png" alt="TEXT_PAGE_CODE" /></span>
+				<label for="page_code" class="overlib"
+					style="background-image: url({THEME_URL}/icons/help_16.png);"
+					{p_menu_page_code}>{TEXT_PAGE_CODE}:
+				</label>
 				<select id="page_code" name="page_code" class="value_page_code">
 				<!-- BEGIN page_code_list_block -->
 						<option value="{VALUE}"{SELECTED} style="background: {FLAG_CODE_ICON} no-repeat center left; padding-left: 20px;">&nbsp;{PAGE_VALUE}</option>
