@@ -621,15 +621,15 @@ $admin = new admin('Pages', 'pages_settings');
 function p($text,$lang)
 {
 	global $admin;
-	$retVal  = 'onclick="return overlib(';
+	$retVal  = 'onmouseover="return overlib(';
 	$retVal .= '\''.$text.'\',';
 	$retVal .= 'CAPTION,\''.$lang.'\',';
 	$retVal .= 'FGCOLOR,\'#ffffff\',';
 	$retVal .= 'BGCOLOR,\'#557c9e\',';
 	$retVal .= 'BORDER,1,';
-	$retVal .= 'WIDTH,';
-	$retVal .= 'HEIGHT,';
-	$retVal .= 'STICKY,';
+//	$retVal .= 'WIDTH,';
+//	$retVal .= 'HEIGHT,';
+//	$retVal .= 'STICKY,';
 	$retVal .= 'CAPTIONSIZE,\'13px\',';
 	$retVal .= 'CLOSETEXT,\'X\',';
 	$retVal .= 'CLOSESIZE,\'14px\',';
@@ -637,12 +637,11 @@ function p($text,$lang)
 	$retVal .= 'TEXTSIZE,\'12px\',';
 	$retVal .= 'VAUTO,';
 	$retVal .= 'HAUTO,';
-	$retVal .= 'MOUSEOFF,';
+//	$retVal .= 'MOUSEOFF,';
 	$retVal .= 'WRAP,';
 	$retVal .= 'CELLPAD,5';
 	$retVal .= ')" onmouseout="return nd()"';
 //	$retVal .= '';
-
 	return $retVal;
 }
 

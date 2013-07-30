@@ -70,13 +70,12 @@ $HELP['PAGE_IMAGE_DIR'] .='<p>As a system administrator you can change the folde
 $HELP['PAGE_IMAGE_DIR'] .='<p>Example::<br /><b>/media/banner</b></p>';
 $HELP['PAGE_IMAGE_DIR'] .='<p>&nbsp;</p>';
 
-$HELP['PAGE_CODE']  = '<p>If you see this field, you have registered the module for the multilingual facility.</p>';
-$HELP['PAGE_CODE'] .= '<p>The first step is to be provided a side tree like in the help described</p>';
-$HELP['PAGE_CODE'] .= '<p><a href=\\\'http:\/\/www.websitebaker.org/en/help/designer-guide/multilingual-websites.php\\\' target=\\\'_blank\\\'>Multilingual Websites</a></p>';
-$HELP['PAGE_CODE'] .= '<p>The side linguistic tree is provided from the provided sides of the standard language (<i>Options</i>).</p>';
-$HELP['PAGE_CODE'] .= '<p>They can update any time the side linguistic tree by click on the title! The assigned sides remain unchanged.</p>';
-$HELP['PAGE_CODE'] .= '<p>If you have put a side into another language, confirm from this list the matching entry of the standard language</p>';
-$HELP['PAGE_CODE'] .= '<p>Example:<br />Created page in sub DE: <b>Impressum</b> choose Default Language EN: <b>Imprint</b></p>';
+$HELP['PAGE_CODE']  = '<p>If you see this field, you have registered the module for the multilingual facility.<br/>';
+$HELP['PAGE_CODE'] .= 'The first step is to be provided a side tree like in the WB-help described<br/>';
+$HELP['PAGE_CODE'] .= 'The side linguistic tree is provided from the provided sides of the standard language (<i>Options</i>).<br/>';
+$HELP['PAGE_CODE'] .= 'They can update any time the side linguistic tree by click on the title! The assigned sides remain unchanged.<br/>';
+$HELP['PAGE_CODE'] .= 'If you have put a side into another language, confirm from this list the matching entry of the standard language<br/>';
+$HELP['PAGE_CODE'] .= 'Example:<br />Created page in sub DE: <b>Impressum</b> choose Default Language EN: <b>Imprint</b></p>';
 
 $HELP['SEO_TITLE']  = '<p>Path and file name of the access file of this page. <br /> <b>{{filename}}</b></p>';
 $HELP['SEO_TITLE'] .= '<p>In this field you can define a well readable, expressive name for the access file, regardless of menu title or page title. This is also usable well to create SEO friendly links..</p>';
