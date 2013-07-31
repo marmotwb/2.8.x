@@ -146,24 +146,19 @@ function getSystemDefaultPermissions ()
  * @param
  * @return string: parsed HTML-content
  */
-	function set_system_permissions ($system_permissions = array())
+	function set_system_permissions ($aSystemPermissions = array())
 	{
 		// Implode system permissions
-		$imploded_system_permissions = '';
-		$system_permissions = !is_array($system_permissions) ? array() : $system_permissions;
-		foreach($system_permissions AS $key => $value)
+		$aSystemPermissions = !is_array($aSystemPermissions) ? array() : $aSystemPermissions;
+		$aSystemPermissionsSet = array();
+		foreach($aSystemPermissions AS $key => $value)
 		{
 			if($value == true)
 			{
-				if($imploded_system_permissions == '')
-				{
-					$imploded_system_permissions = $key;
-				} else {
-					$imploded_system_permissions .= ','.$key;
-				}
+				$aSystemPermissionsSet[] = $key;
 			}
 		}
-		return $imploded_system_permissions;
+		return implode(',', $aSystemPermissionsSet);
 	}
 
 /* *****************************************************************************
@@ -302,7 +297,8 @@ function getSystemDefaultPermissions ()
 	}
 	if(is_array($SystemPermissions)&& sizeof($SystemPermissions)>0) {
 		$aPermissions = convertStringToKeyArray($SystemPermissions);
-		$sTempPermissions = convertKeyArrayToString($aPermissions).',';
+//		$sTempPermissions = convertKeyArrayToString($aPermissions).',';
+		$sTempPermissions = implode(",", $aPermissions).',';
 	}
 // workout setting preferences
 	if($admin->is_group_match('preferences_view',$sTempPermissions))
@@ -383,8 +379,8 @@ function setSystemCheckboxes( &$tpl, $admin, $permissions = null )
 		{
 	//		if(strpos($key,'_view')) { continue; }
 		$checked='';
-			if(array_key_exists($key, $aPermissions)) { 
-			 continue; 
+			if(array_key_exists($key, $aPermissions)) {
+			 continue;
              }
 			$tpl->set_var('SYS_NAME', "system_permissions[$key]" );
 			$tpl->set_var('SYS_VALUE', 1 );
@@ -400,8 +396,8 @@ function setSystemCheckboxes( &$tpl, $admin, $permissions = null )
 		foreach($array AS $key => $value)
 		{
 		$checked='';
-			if(strpos($key,'_view')) { 
-			 continue; 
+			if(strpos($key,'_view')) {
+			 continue;
              }
 			$tpl->set_var('SYS_NAME', "system_permissions[$key]" );
 			$tpl->set_var('SYS_VALUE', 1 );

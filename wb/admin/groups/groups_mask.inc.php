@@ -69,7 +69,7 @@ print_r( $_POST ); print '</pre>'; // flush ();sleep(10); die();
 					{
 						$group_id = $rec_group['group_id'];
 		// Explode system permissions
-						$system_permissions = $rec_group['system_permissions'];
+						$system_permissions = explode(',', $rec_group['system_permissions']);
 		// Explode module permissions
 		 				$module_permissions = explode(',', $rec_group['module_permissions']);
 		// Explode template permissions
