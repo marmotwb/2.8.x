@@ -11,11 +11,6 @@
 				 	<input type="text" name="name" maxlength="120" value="{GROUP_NAME}" class="c400{GROUPNAME_INPUT_DISABLED}"{GROUPNAME_DISABLED} />
 				</div>
 	<!-- BEGIN show_cmd_permission_block -->
-				<div class="col_content">
-					<input type="submit" name="{ACTION_HANDLE}" value="{SUBMIT_TITLE}" />
-					<input type="submit" name="action_cancel" value="{TEXT_CANCEL}" />
-					<input type="reset" name="reset" value="{TEXT_RESET}" />
-				</div>
 				<br class="clear ie-clearing none" />
 		<!-- BEGIN show_cmd_manage_permission_block -->
 				<div class="cleft col_width100">
@@ -27,43 +22,43 @@
 						<div class="mbox curved h65 floatbox">
 							<h4>{TEXT_FILESYSTEM_PERMISSIONS}</h4>
 							<span>
-								<input id="pages_view" type="checkbox" value="1" name="system_permissions[pages_view]" {pages_view_checked}  />
+								<input id="pages_view" type="checkbox" value="1" name="_onlyJQ_pages" {pages_view_checked}  />
 								<label for="pages_view">{MENU_PAGES}</label>
 							</span>
 							<span>
-								<input id="media_view" type="checkbox" value="1" name="system_permissions[media_view]"  {media_view_checked}/>
+								<input id="media_view" type="checkbox" value="1" name="_onlyJQ_media"  {media_view_checked}/>
 								<label for="media_view">{MENU_MEDIA}</label>
 							</span>
 							<span>
-								<input id="modules_view" type="checkbox" value="1" name="system_permissions[modules_view]" {modules_view_checked} />
+								<input id="modules_view" type="checkbox" value="1" name="_onlyJQ_modules" {modules_view_checked} />
 								<label for="modules_view">{MENU_MODULES}</label>
 							</span>
 							<span>
-								<input id="templates_view" type="checkbox" value="1" name="system_permissions[templates_view]" {templates_view_checked} />
+								<input id="templates_view" type="checkbox" value="1" name="_onlyJQ_templates" {templates_view_checked} />
 								<label for="templates_view">{MENU_TEMPLATES}</label>
 							</span>
 							<span>
-								<input id="languages_view" type="checkbox" value="1" name="system_permissions[languages_view]" {languages_view_checked} />
+								<input id="languages_view" type="checkbox" value="1" name="_onlyJQ_languages" {languages_view_checked} />
 								<label for="languages_view">{MENU_LANGUAGES}</label>
 							</span>
 							<span>
-								<input id="settings_view" type="checkbox" value="1" name="system_permissions[settings_view]" {settings_view_checked} />
+								<input id="settings_view" type="checkbox" value="1" name="_onlyJQ_settings" {settings_view_checked} />
 								<label for="settings_view">{MENU_SETTINGS}</label>
 							</span>
 							<span>
-								<input id="admintools_view" type="checkbox" value="1" name="system_permissions[admintools_view]" {admintools_view_checked} />
+								<input id="admintools_view" type="checkbox" value="1" name="_onlyJQ_admintools" {admintools_view_checked} />
 								<label for="admintools_view">{MENU_ADMINTOOLS}</label>
 							</span>
 							<span>
-								<input id="users_view" type="checkbox" value="1" name="system_permissions[users_view]" {users_view_checked} />
+								<input id="users_view" type="checkbox" value="1" name="_onlyJQ_users" {users_view_checked} />
 								<label for="users_view">{MENU_USERS}</label>
 							</span>
 							<span>
-								<input id="groups_view" type="checkbox" value="1" name="system_permissions[groups_view]" {groups_view_checked} />
+								<input id="groups_view" type="checkbox" value="1" name="_onlyJQ_groups" {groups_view_checked} />
 								<label for="groups_view">{MENU_GROUPS}</label>
 							</span>
 							<span>
-								<input id="preferences_view" type="checkbox" value="1" name="system_permissions[preferences_view]" {preferences_view_checked}  />
+								<input id="preferences_view" type="checkbox" value="1" name="_onlyJQ_preferences" {preferences_view_checked}  />
 								<label for="preferences_view">{MENU_USER_PREFERENCES}</label>
 							</span>
 						</div>
@@ -80,60 +75,60 @@
 							<h6>{FILESYSTEM_PERMISSIONS} {MENU_PAGES}</h6>
 							<ul>
 								<li class="c100">
-									<input name="system_permissions[pages_view]" id="pages_view_detail" type="checkbox" value="{VALUE}" {pages_view_checked} />
+									<input name="sp_pages[]" id="pages_view_detail" type="checkbox" value="pages_view" {pages_view_checked} />
 									<label for="pages_view_detail">{TEXT_VIEW}</label>
 								</li>
 								<li class="c100">
-									<input name="system_permissions[pages_add_l0]" id="pages_add_l0" type="checkbox" value="{VALUE}" {pages_add_l0_checked} />
+									<input name="sp_pages[]" id="pages_add_l0" type="checkbox" value="pages_add_l0" {pages_add_l0_checked} />
 									<label for="pages_add_l0">{TEXT_ADD} ({TEXT_LEVEL} 0)</label>
 								</li>
 								<li class="c100">
-									<input name="system_permissions[pages_add]" id="pages_add" type="checkbox" value="{VALUE}" {pages_add_checked} />
+									<input name="sp_pages[]" id="pages_add" type="checkbox" value="pages_add" {pages_add_checked} />
 									<label for="pages_add">{TEXT_ADD}</label>
 								</li>
 								<li class="c100">
-									<input name="system_permissions[pages_settings]" id="pages_settings" type="checkbox" value="{VALUE}" {pages_settings_checked} />
+									<input name="sp_pages[]" id="pages_settings" type="checkbox" value="pages_settings" {pages_settings_checked} />
 									<label for="pages_settings">{TEXT_MODIFY_SETTINGS}</label>
 								</li>
 								<li class="c100">
-									<input name="system_permissions[pages_modify]" id="pages_modify" type="checkbox" value="{VALUE}" {pages_modify_checked} />
+									<input name="sp_pages[]" id="pages_modify" type="checkbox" value="pages_modify" {pages_modify_checked} />
 									<label for="pages_modify">{TEXT_MODIFY_CONTENT}</label>
 								</li>
 								<li class="c100">
-									<input name="system_permissions[pages_intro]" id="pages_intro" type="checkbox" value="{VALUE}" {pages_intro_checked} />
+									<input name="sp_pages[]" id="pages_intro" type="checkbox" value="pages_intro" {pages_intro_checked} />
 									<label for="pages_intro">{HEADING_MODIFY_INTRO_PAGE}</label>
 								</li>
 								<li class="c100">
-									<input name="system_permissions[pages_delete]" id="pages_delete" type="checkbox" value="{VALUE}" {pages_delete_checked} />
+									<input name="sp_pages[]" id="pages_delete" type="checkbox" value="pages_delete" {pages_delete_checked} />
 									<label for="pages_delete">{TEXT_DELETE}</label>
 								</li>
 							</ul>
 						</div>
 					</div>
 				</div>
-				<div id="JQMediaView"class="cleft col_width33">
+				<div id="JQMediaView" class="cleft col_width33">
 					<div class="col_content">
 						<div class="mbox curved min_h100 floatbox" style="height: 180px;">
 							<h6>{TEXT_FILESYSTEM_PERMISSIONS} {MENU_MEDIA}</h6>
 							<ul>
 								<li class="c100">
-								<input name="system_permissions[media_view]" id="media_view_detail" type="checkbox" value="1" {media_view_checked} />
+								<input name="sp_media[]" id="media_view_detail" type="checkbox" value="media_view" {media_view_checked} />
 								<label for="media_view_detail">{TEXT_VIEW}</label>
 								</li>
 								<li class="c100">
-								<input name="system_permissions[media_upload]" id="media_upload" type="checkbox" value="1" {media_upload_checked} />
+								<input name="sp_media[]" id="media_upload" type="checkbox" value="media_upload" {media_upload_checked} />
 								<label for="media_upload">{TEXT_UPLOAD_FILES}</label>
 								</li>
 								<li class="c100">
-								<input name="system_permissions[media_rename]" id="media_rename" type="checkbox" value="1" {media_rename_checked} />
+								<input name="sp_media[]" id="media_rename" type="checkbox" value="media_rename" {media_rename_checked} />
 								<label for="media_rename">{TEXT_RENAME}</label>
 								</li>
 								<li class="c100">
-								<input name="system_permissions[media_delete]" id="media_delete" type="checkbox" value="1" {media_delete_checked} />
+								<input name="sp_media[]" id="media_delete" type="checkbox" value="media_delete" {media_delete_checked} />
 								<label for="media_delete">{TEXT_DELETE}</label>
 								</li>
 								<li class="c100">
-								<input name="system_permissions[media_create]" id="media_create" type="checkbox" value="1" {media_create_checked} />
+								<input name="sp_media[]" id="media_create" type="checkbox" value="media_create" {media_create_checked} />
 								<label  for="media_create">{TEXT_CREATE_FOLDER}</label>
 								</li>
 								<li class="c100">
@@ -149,19 +144,19 @@
 							<h6>{FILESYSTEM_PERMISSIONS} {MENU_MODULES}</h6>
 							<ul>
 								<li class="c100">
-								<input name="system_permissions[modules_view]" id="modules_view_detail" type="checkbox" value="1" {modules_view_checked} />
+								<input name="sp_modules[]" id="modules_view_detail" type="checkbox" value="modules_view" {modules_view_checked} />
 								<label for="modules_view_detail">{TEXT_VIEW}</label>
 								</li>
 								<li class="c100">
-								<input name="system_permissions[modules_install]" id="modules_install" type="checkbox" value="1" {modules_install_checked} />
+								<input name="sp_modules[]" id="modules_install" type="checkbox" value="modules_install" {modules_install_checked} />
 								<label for="modules_install">{TEXT_ADD}</label>
 								</li>
 								<li class="c100">
-								<input name="system_permissions[modules_uninstall]" id="modules_uninstall" type="checkbox" value="1" {modules_uninstall_checked} />
+								<input name="sp_modules[]" id="modules_uninstall" type="checkbox" value="modules_uninstall" {modules_uninstall_checked} />
 								<label for="modules_uninstall">{TEXT_DELETE}</label>
 								</li>
 								<li class="c100">
-								<input name="system_permissions[modules_advanced]" id="modules_advanced" type="checkbox" value="1" {modules_advanced_checked} />
+								<input name="sp_modules[]" id="modules_advanced" type="checkbox" value="modules_advanced" {modules_advanced_checked} />
 								<label for="modules_advanced">{TEXT_ADVANCED}</label>
 								</li>
 							</ul>
@@ -175,15 +170,15 @@
 							<h6>{FILESYSTEM_PERMISSIONS} {MENU_TEMPLATES}</h6>
 							<ul>
 								<li class="c100">
-									<input name="system_permissions[templates_view]" id="templates_view_detail" type="checkbox" value="1" {templates_view_checked} />
+									<input name="sp_templates[]" id="templates_view_detail" type="checkbox" value="templates_view" {templates_view_checked} />
 									<label for="templates_view_detail">{TEXT_VIEW}</label>
 								</li>
 								<li class="c100">
-									<input name="system_permissions[templates_install]" id="templates_install" type="checkbox" value="1" {templates_install_checked} />
+									<input name="sp_templates[]" id="templates_install" type="checkbox" value="templates_install" {templates_install_checked} />
 									<label for="templates_install">{TEXT_ADD}</label>
 								</li>
 								<li class="c100">
-									<input name="system_permissions[templates_uninstall]" id="templates_uninstall" type="checkbox" value="1" {templates_uninstall_checked} />
+									<input name="sp_templates[]" id="templates_uninstall" type="checkbox" value="templates_uninstall" {templates_uninstall_checked} />
 									<label for="templates_uninstall">{TEXT_DELETE}</label>
 								</li>
 								<li class="c100" style="line-height: 2em;">&nbsp;</li>
@@ -197,15 +192,15 @@
 							<h6>{FILESYSTEM_PERMISSIONS} {MENU_LANGUAGES}</h6>
 							<ul>
 								<li class="c100">
-									<input name="system_permissions[languages_view]" id="languages_view_detail" type="checkbox" value="1" {languages_view_checked} />
+									<input name="sp_languages[]" id="languages_view_detail" type="checkbox" value="languages_view" {languages_view_checked} />
 									<label for="languages_view_detail">{TEXT_VIEW}</label>
 								</li>
 								<li class="c100">
-									<input name="system_permissions[languages_install]" id="languages_install" type="checkbox" value="1" {languages_install_checked} />
+									<input name="sp_languages[]" id="languages_install" type="checkbox" value="languages_install" {languages_install_checked} />
 									<label for="languages_install">{TEXT_ADD}</label>
 								</li>
 								<li class="c100">
-									<input name="system_permissions[languages_uninstall]" id="languages_uninstall" type="checkbox" value="1" {languages_uninstall_checked} />
+									<input name="sp_languages[]" id="languages_uninstall" type="checkbox" value="languages_uninstall" {languages_uninstall_checked} />
 									<label for="languages_uninstall">{TEXT_DELETE}</label>
 								</li>
 								<li class="c100" style="line-height: 2em;">&nbsp;</li>
@@ -219,11 +214,11 @@
 							<h6>{FILESYSTEM_PERMISSIONS} {MENU_SETTINGS}</h6>
 							<ul>
 								<li class="c100">
-									<input name="system_permissions[settings_view]" id="settings_view_detail" type="checkbox" value="1" {settings_view_checked} />
+									<input name="sp_settings[]" id="settings_view_detail" type="checkbox" value="settings_view" {settings_view_checked} />
 									<label for="settings_view_detail">{TEXT_BASIC}</label>
 								</li>
 								<li class="c100">
-									<input name="system_permissions[settings_advanced]" id="settings_advanced" type="checkbox" value="1" {settings_advanced_checked} />
+									<input name="sp_settings[]" id="settings_advanced" type="checkbox" value="settings_advanced" {settings_advanced_checked} />
 									<label for="settings_advanced">{TEXT_ADVANCED}</label>
 								</li>
 							</ul>
@@ -237,7 +232,7 @@
 							<h6>{FILESYSTEM_PERMISSIONS} {MENU_ADMINTOOLS}</h6>
 							<ul>
 								<li class="c100">
-									<input name="system_permissions[admintools_view]" id="admintools_view_detail" type="checkbox" value="1" {admintools_view_checked} />
+									<input name="sp_admintools[]" id="admintools_view_detail" type="checkbox" value="admintools_view" {admintools_view_checked} />
 									<label for="admintools_view_detail">{TEXT_MODIFY}</label>
 								</li>
 							</ul>
@@ -250,19 +245,19 @@
 							<h6>{FILESYSTEM_PERMISSIONS} {MENU_USERS}</h6>
 							<ul>
 								<li class="c100">
-									<input name="system_permissions[users_view]" id="users_view_detail" type="checkbox" value="1" {users_view_checked} />
+									<input name="sp_users[]" id="users_view_detail" type="checkbox" value="users_view" {users_view_checked} />
 									<label for="users_view_detail">{TEXT_VIEW}</label>
 								</li>
 								<li class="c100">
-									<input name="system_permissions[users_add]" id="users_add" type="checkbox" value="1" {users_add_checked} />
+									<input name="sp_users[]" id="users_add" type="checkbox" value="users_add" {users_add_checked} />
 									<label for="users_add">{TEXT_ADD}</label>
 								</li>
 								<li class="c100">
-									<input name="system_permissions[users_modify]" id="users_modify" type="checkbox" value="1" {users_modify_checked} />
+									<input name="sp_users[]" id="users_modify" type="checkbox" value="users_modify" {users_modify_checked} />
 									<label for="users_modify">{TEXT_MODIFY}</label>
 								</li>
 								<li class="c100">
-									<input name="system_permissions[users_delete]" id="users_delete" type="checkbox" value="1" {users_delete_checked} />
+									<input name="sp_users[]" id="users_delete" type="checkbox" value="users_delete" {users_delete_checked} />
 									<label for="users_delete">{TEXT_DELETE}</label>
 								</li>
 							</ul>
@@ -275,19 +270,19 @@
 							<h6>{FILESYSTEM_PERMISSIONS} {MENU_GROUPS}</h6>
 							<ul>
 								<li class="c100">
-									<input name="system_permissions[groups_view]" id="groups_view_detail" type="checkbox" value="1" {groups_view_checked} />
+									<input name="sp_groups[]" id="groups_view_detail" type="checkbox" value="groups_view" {groups_view_checked} />
 									<label for="groups_view_detail">{TEXT_VIEW}</label>
 								</li>
 								<li class="c100">
-									<input name="system_permissions[groups_add]" id="groups_add" type="checkbox" value="1" {groups_add_checked} />
+									<input name="sp_groups[]" id="groups_add" type="checkbox" value="groups_add" {groups_add_checked} />
 									<label for="groups_add">{TEXT_ADD}</label>
 								</li>
 								<li class="c100">
-									<input name="system_permissions[groups_modify]" id="groups_modify" type="checkbox" value="1" {groups_modify_checked} />
+									<input name="sp_groups[]" id="groups_modify" type="checkbox" value="groups_modify" {groups_modify_checked} />
 									<label for="groups_modify">{TEXT_MODIFY}</label>
 								</li>
 								<li class="c100">
-									<input name="system_permissions[groups_delete]" id="groups_delete" type="checkbox" value="1" {groups_delete_checked} />
+									<input name="sp_groups[]" id="groups_delete" type="checkbox" value="groups_delete" {groups_delete_checked} />
 									<label for="groups_delete">{TEXT_DELETE}</label>
 								</li>
 							</ul>
@@ -301,7 +296,7 @@
 							<h6>{FILESYSTEM_PERMISSIONS} {MENU_USER_PREFERENCES}</h6>
 							<ul>
 								<li class="c100">
-									<input name="system_permissions[preferences_view]" id="preferences_view_detail" type="checkbox" value="1" {preferences_view_checked} />
+									<input name="sp_preferences[]" id="preferences_view_detail" type="checkbox" value="preferences_view" {preferences_view_checked} />
 									<label for="preferences_view_detail">{TEXT_MODIFY}</label>
 								</li>
 							</ul>
@@ -370,7 +365,7 @@
 				</div>
 				<hr class="clear" />
 				<div class="col_content">
-					<input type="submit" name="{ACTION_HANDLE}" value="{SUBMIT_TITLE}" />
+					<input type="submit" name="{ACTION_HANDLE}" value="{SUBMIT_TITLE}" id="TESTID"/>
 					<input type="submit" name="action_cancel" value="{TEXT_CANCEL}" />
 					<input type="reset" name="reset" value="{TEXT_RESET}" />
 				</div>

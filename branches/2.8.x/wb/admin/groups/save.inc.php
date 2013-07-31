@@ -41,14 +41,27 @@ if(defined('WB_PATH') == false)
 	// check for valid group_id
 		$sql = '';
 
-//		$system_settings = getSystemDefaultPermissions();
-		$system_settings = isset($_POST['system_permissions']) ? $_POST['system_permissions'] : array();
+		$aSystemPermissionsPages = (isset($_POST["sp_pages"])) ? $_POST["sp_pages"] : array();
+		$aSystemPermissionsMedia = (isset($_POST["sp_media"])) ? $_POST["sp_media"] : array();
+		$aSystemPermissionsModules = (isset($_POST["sp_modules"])) ? $_POST["sp_modules"] : array();
+		$aSystemPermissionsTemplates = (isset($_POST["sp_templates"])) ? $_POST["sp_templates"] : array();
+		$aSystemPermissionsLanguages = (isset($_POST["sp_languages"])) ? $_POST["sp_languages"] : array();
+		$aSystemPermissionsSettings = (isset($_POST["sp_settings"])) ? $_POST["sp_settings"] : array();
+		$aSystemPermissionsAdmintools = (isset($_POST["sp_admintools"])) ? $_POST["sp_admintools"] : array();
+		$aSystemPermissionsUsers = (isset($_POST["sp_users"])) ? $_POST["sp_users"] : array();
+		$aSystemPermissionsGroups = (isset($_POST["sp_groups"])) ? $_POST["sp_groups"] : array();
+		$aSystemPermissionsPreferences = (isset($_POST["sp_preferences"])) ? $_POST["sp_preferences"] : array();
+		$aSystemPermissions = array_merge($aSystemPermissionsPages, $aSystemPermissionsMedia, $aSystemPermissionsModules,
+										$aSystemPermissionsTemplates, $aSystemPermissionsLanguages, $aSystemPermissionsSettings,
+										$aSystemPermissionsAdmintools, $aSystemPermissionsUsers, $aSystemPermissionsGroups,
+										$aSystemPermissionsPreferences);
 
+		//addons,modules,modules_advanced,modules_install,modules_view,preferences,preferences_view
 	// check FTAN and prevent 'admin'[id=1] from become changed
 		if( $admin->checkFTAN() && $group_id != 1 )
 		{
-			$system_permissions   = get_system_permissions ($admin,$system_settings);
-			$system_permissions   = set_system_permissions($system_permissions);
+			$aSystemPermissions   = get_system_permissions ($admin,$aSystemPermissions);
+			$sSystemPermissions   = set_system_permissions($aSystemPermissions);
 
 			$module_permissions   = set_module_permissions($admin);
 			$module_permissions   = implode (',', $module_permissions);
@@ -58,8 +71,6 @@ if(defined('WB_PATH') == false)
 
 			// prepare empty record to add new group
 			$group_name = $database->escapeString(strip_tags(trim($admin->get_post('name'))));
-//	print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
-//	print_r( $_POST ); print '</pre>';
 
 			$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'groups` ';
 			$sql .= 'WHERE `group_id` <> '.$group_id.' AND `name` LIKE BINARY \''.$group_name.'\'';
@@ -88,7 +99,7 @@ if(defined('WB_PATH') == false)
             if( msgQueue::isEmpty() )
 			{
 				$sql .= 'SET `name` = \''.$group_name.'\', ';
-				$sql .= '`system_permissions` = \''.$system_permissions.'\', ';
+				$sql .= '`system_permissions` = \''.$sSystemPermissions.'\', ';
 				$sql .= '`module_permissions` = \''.$module_permissions.'\', ';
 				$sql .= '`template_permissions` = \''.$template_permissions.'\' ';
 				$sql .= $where;
