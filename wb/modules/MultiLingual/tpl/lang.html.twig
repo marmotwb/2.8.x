@@ -37,7 +37,7 @@
 {% for aTarget in aTargetList %}
 	<a href="{{ aTarget.sUrl }}" {% if aTarget.bCurrent %}class="current" {% endif %}title="{{ aTarget.sTitle }}">
 		<span>
-			<img src="{{ aTarget.sIconUrl }}flags/{{ aTarget.FilePrefix }}.png" class="width: 32px; height: 32px" title="{{ aTarget.sTitle }}" alt="{{ aTarget.sLongTitle }}" />
+			<img src="{{ aTarget.sIconUrl }}flags/{{ aTarget.FilePrefix }}.png" style="width: 32px; height: 32px" title="{{ aTarget.sTitle }}" alt="{{ aTarget.sLongTitle }}" />
 		</span>
 	</a>
 {% endfor %}
