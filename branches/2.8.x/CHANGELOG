@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+03 Aug-2013 Build 1945 M.v.d.Decken(DarkViper)
+! module/MultiLingual updated for make use of different graphics format
++ Droplet to use Multilingual in index.php of template
 31 Jul-2013 Build 1944 M.v.d.Decken(DarkViper)
 # /modules/MultiLingual/tpl/lang.html-twig little typofix in template
 31 Jul-2013 Build 1943 M.v.d.Decken(DarkViper)

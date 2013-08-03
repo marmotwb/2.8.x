@@ -17,27 +17,29 @@
  */
 
 /**
- * lang.html.twig
+ * lang.twig
  *
  * @category     Modules
  * @package      Modules_MultiLingual
- * @author       M.v.d.Decken <wkl@isteam.de>
+ * @author       Werner v.d.Decken <wkl@isteam.de>
  * @author       Dietmar Wöllbrink <dietmar.woellbrink@websiteBaker.org>
- * @copyright    M.v.d.Decken <wkl@isteam.de>
+ * @copyright    Werner v.d.Decken <wkl@isteam.de>
  * @license      http://www.gnu.org/licenses/gpl.html   GPL License
  * @version      1.6.8
  * @revision     $Revision: $
  * @link         $HeadURL: $
  * @lastmodified $Date: $
  * @since        File available since 09.01.2013
+ * @description  xyz
  */
 #}
 <div id="langmenu">
 {% for aTarget in aTargetList %}
-	<a href="{{ aTarget.sUrl }}" {% if aTarget.bCurrent %}class="current" {% endif %}title="{{ aTarget.sTitle }}">
-		<span>
-			<img style="width:32px; height:24px" src="{{ aTarget.sIconUrl }}flags/{{ aTarget.sExtension }}/{{ aTarget.FilePrefix }}.{{ aTarget.sExtension }}"  title="{{ aTarget.sTitle }}" alt="{{ aTarget.sLongTitle }}" />
-		</span>
-	</a>
+ <a href="{{ aTarget.sUrl }}" {% if aTarget.bCurrent %}class="current" {% endif %}title="{{ aTarget.sTitle }}">
+<span>
+  <img src="{{ aTarget.sIconUrl }}flags/{{ aTarget.FilePrefix }}.png" class="width: 32px; height: 32px" 
+     title="{{ aTarget.sTitle }}" alt="{{ aTarget.sLongTitle }}" />
+    </span>
+ </a>
 {% endfor %}
 </div>
