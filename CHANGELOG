@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+03 Aug-2013 Build 1946 M.v.d.Decken(DarkViper)
+! Droplet iParentPageIcon
 03 Aug-2013 Build 1945 M.v.d.Decken(DarkViper)
 ! module/MultiLingual updated for make use of different graphics format
 + Droplet to use Multilingual in index.php of template
