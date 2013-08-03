@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+03 Aug-2013 Build 1947 M.v.d.Decken(DarkViper)
++ added classes AccessFile and AccessFileHelper to /framework/
 03 Aug-2013 Build 1946 M.v.d.Decken(DarkViper)
 ! Droplet iParentPageIcon
 03 Aug-2013 Build 1945 M.v.d.Decken(DarkViper)
