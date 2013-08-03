@@ -109,6 +109,7 @@ $dirRemove = array(
 
 			'[FRAMEWORK]/class.msg_queue.php',
 			'[FRAMEWORK]/class.logfile.php',
+			'[FRAMEWORK]/PasswordHash.php',
 			'[MODULES]/droplets/js/mdcr.js',
 
 		 );

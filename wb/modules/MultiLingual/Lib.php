@@ -45,35 +45,26 @@ class m_MultiLingual_Lib {
 
 
 /** @var array holds several values from the default.ini */	
-	private $_config     = array();
+	private $_config      = array();
 /** @var array set several values for Twig_Environment */	
-	private $_aTwigEnv = array();
+	private $_aTwigEnv    = array();
 /** @var array set several values for Twig_Loader */	
 	private $_aTwigLoader = array();
+/** @var string set icon extension */	
+	private $_sExtension  = array();
 /**
  * constructor used to import some application constants and objects
  */	
 	public function __construct() 
 	{
 		// import global vars and objects
-		$this->_wbAdaptor();
-	}
-
-	/**
-	 * used to import some WB-constants and objects
-	 */	
-	private function _wbAdaptor()
-	{
 		if(!defined('ADMIN_REL')) { define('ADMIN_REL', WB_REL.'/'.ADMIN_DIRECTORY); }
-
-		$this->_oApp   = (isset($GLOBALS['admin']) ? $GLOBALS['admin'] : $GLOBALS['wb']);
-		$this->_oDb    = WbDatabase::getInstance();
-		$this->_oReg = WbAdaptor::getInstance();
-
-		$this->_config = parse_ini_file(dirname(__FILE__).'/default.ini',true);
-		$this->_aTwigEnv = $this->_config['twig-environment'];
+		$this->_oApp        = (isset($GLOBALS['admin']) ? $GLOBALS['admin'] : $GLOBALS['wb']);
+		$this->_oDb         = WbDatabase::getInstance();
+		$this->_oReg        = WbAdaptor::getInstance();
+		$this->_config      = parse_ini_file(dirname(__FILE__).'/default.ini',true);
+		$this->_aTwigEnv    = $this->_config['twig-environment'];
 		$this->_aTwigLoader = $this->_config['twig-loader-file'];
-
 	}
 
 	/**
@@ -254,6 +245,7 @@ class m_MultiLingual_Lib {
 				      'sUrl' => $this->_oReg->AppRel.$this->_oReg->PagesDir.trim($pages[$value['language']]['link'],'/').$this->_oReg->PageExtension,
 				      'sTitle' => $pages[$value['language']]['page_title'],
 				      'FilePrefix' => strtolower($pages[$value['language']]['language']),
+				      'sExtension' => $this->_sExtension,
 				);
 			}
 		}
@@ -275,7 +267,26 @@ class m_MultiLingual_Lib {
 		return $twig->render($this->_aTwigLoader['default_template'], $data);
 	}
 
+    private function _detectIE()
+    {
+        preg_match('/MSIE (.*?);/', $_SERVER['HTTP_USER_AGENT'], $aMatches);
 
+        if (count($aMatches)>1){
+          return true;
+        }
+        return false;
+    }
+    
+	public function setExtension($sExtension = 'auto') 
+	{   
+		if($sExtension == 'auto' || $sExtension == 'svg') {
+			$this->_sExtension = ($this->_detectIE() == true) ? 'png' : 'svg';
+		} else {
+			$this->_sExtension = 'png';
+		}
+		return;
+	}
+    
 	public function getLangMenu() 
 	{
 		return $this->_getLangMenuTwig ( );

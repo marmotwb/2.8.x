@@ -35,11 +35,22 @@
 
 if(!function_exists('language_menu'))
 {
-	function language_menu()
+	function language_menu($sExtension = "auto")
 	{
 		global $wb;
+		$sExtension = strtolower($sExtension);
+		switch($sExtension)
+		{
+			case 'png':
+			case 'svg':
+				break;
+			default:
+				$sExtension = 'auto';
+		}
+
 		if ( $wb->page_id  < 1){ return false; }
 		$oPageLang = new m_MultiLingual_Lib();
+        $oPageLang->setExtension($sExtension);
 		$sRetVal = $oPageLang->getLangMenu();
 		return $sRetVal;
 	}

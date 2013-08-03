@@ -1,21 +1,19 @@
-If you wish to modify the template, just open the file /modules/MultiLingual/tpl/lang.html.twig
+#
+#
+How to use MultiLingual
+##########################################################################
+The easiest way is the combination with Droplet [[iMultiLingual]]
 
 ##########################################################################
+but you also can handle it in the  old manner:
 
-Simple usage:
+insert the following PHP-code in your templates index.php in the place you want 
+show the languages link bar.
+
 <?php if(function_exists('language_menu')){ echo language_menu(); } ?>
 
 ##########################################################################
-
-advanced usage:
-<?php
-$langFunction = '';
-// check if multiligual module is installed, default is off,
-if(function_exists('language_menu')){ $langFunction = language_menu(); }
-$multilang_flag = intval(($langFunction)!='');
-$aStart       = SM2_ROOT+$multilang_flag;
-echo $langFunction;
-
-?>
-$aStart defines the start level from show_menu2
+If you wish to modify the template, just open the file
+ /modules/MultiLingual/tpl/lang.html.twig
+and make your modifications.
 
