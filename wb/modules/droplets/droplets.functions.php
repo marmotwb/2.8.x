@@ -72,19 +72,19 @@ function insertDropletFile($aDropletFiles,&$msg,$bOverwriteDroplets,$admin)
 {
 	$OK  = ' <span style="color:#006400; font-weight:bold;">OK</span> ';
 	$FAIL = ' <span style="color:#ff0000; font-weight:bold;">FAILED</span> ';
-	$database=WbDatabase::getInstance();
+	$oDb = WbDatabase::getInstance();
 	foreach ($aDropletFiles as $sDropletFile) {
 		$msgSql = '';
 		$extraSql = '';
 		$sDropletName = pathinfo ($sDropletFile, PATHINFO_FILENAME);
-		$sql = 'SELECT `code` FROM `'.$database->TablePrefix.'mod_droplets` WHERE `name` LIKE "'.$sDropletName.'" ';
-		if( !($database->get_one($sql)) ) {
-			$sql = 'INSERT INTO `'.$database->TablePrefix.'mod_droplets`';
-			$msgSql = 'INSERT Droplet `'.$sDropletName.'` INTO`'.$database->TablePrefix.'mod_droplets`'." $OK";
+		$sql = 'SELECT `code` FROM `'.$oDb->TablePrefix.'mod_droplets` WHERE `name` LIKE "'.$sDropletName.'" ';
+		if( !($oDb->get_one($sql)) ) {
+			$sql = 'INSERT INTO `'.$oDb->TablePrefix.'mod_droplets`';
+			$msgSql = 'INSERT Droplet `'.$sDropletName.'` INTO`'.$oDb->TablePrefix.'mod_droplets`'." $OK";
 		} elseif ($bOverwriteDroplets) {
-			$sql = 'UPDATE `'.$database->TablePrefix.'mod_droplets` ';
+			$sql = 'UPDATE `'.$oDb->TablePrefix.'mod_droplets` ';
 			$extraSql = 'WHERE `name` = \''.$sDropletName.'\' ';
-			$msgSql = 'UPDATE Droplet `'.$sDropletName.'` INTO`'.$database->TablePrefix.'mod_droplets`'." $OK";
+			$msgSql = 'UPDATE Droplet `'.$sDropletName.'` INTO`'.$oDb->TablePrefix.'mod_droplets`'." $OK";
 		}
 // get description, comments and oode
 		$sDropletFile = preg_replace('/^\xEF\xBB\xBF/', '', $sDropletFile);
@@ -115,19 +115,19 @@ function insertDropletFile($aDropletFiles,&$msg,$bOverwriteDroplets,$admin)
 			}
 		$iModifiedWhen = time();
 		$iModifiedBy = (method_exists($admin, 'get_user_id') && ($admin->get_user_id()!=null) ? $admin->get_user_id() : 1);
-		$sql .= 'SET  `name` =\''.$sDropletName.'\','
-		     .       '`description` =\''.$sDescription.'\','
-		     .       '`comments` =\''.$sComments.'\','
-		     .       '`code` =\''.$database->escapeString($sCode).'\','
+		$sql .= 'SET  `name` =\''.$oDb->escapeString($sDropletName).'\','
+		     .       '`description` =\''.$oDb->escapeString($sDescription).'\','
+		     .       '`comments` =\''.$oDb->escapeString($sComments).'\','
+		     .       '`code` =\''.$oDb->escapeString($sCode).'\','
 		     .       '`modified_when` = '.$iModifiedWhen.','
 		     .       '`modified_by` = '.$iModifiedBy.','
 		     .       '`active` = 1'
 		     .       $extraSql;
 		}
-		if( $database->query($sql) ) {
+		if( $oDb->query($sql) ) {
 			if( $msgSql!='' ) { $msg[] = $msgSql; }
 		} else {
-			$msg[] = $database->get_error();
+			$msg[] = $oDb->get_error();
 		}
 	}
 	return;

@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+04 Aug-2013 Build 1948 M.v.d.Decken(DarkViper)
++ added $page_id compatibility to /index.php
+# solved escaping problems on save to database in modules/droplets
 03 Aug-2013 Build 1947 M.v.d.Decken(DarkViper)
 + added classes AccessFile and AccessFileHelper to /framework/
 03 Aug-2013 Build 1946 M.v.d.Decken(DarkViper)

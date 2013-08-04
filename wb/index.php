@@ -15,6 +15,9 @@
  *
  */
 
+// compatibility between old and new access file format
+if (isset($iPageId)) { $page_id = $iPageId; }
+if (isset($page_id) && !isset($iPageId)) { $iPageId = $page_id; }
 // Include config file
 $config_file = dirname(__FILE__).'/config.php';
 if(file_exists($config_file) && !defined('WB_URL'))
