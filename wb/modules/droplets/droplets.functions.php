@@ -77,52 +77,56 @@ function insertDropletFile($aDropletFiles,&$msg,$bOverwriteDroplets,$admin)
 		$msgSql = '';
 		$extraSql = '';
 		$sDropletName = pathinfo ($sDropletFile, PATHINFO_FILENAME);
-		$sql = 'SELECT `code` FROM `'.$oDb->TablePrefix.'mod_droplets` WHERE `name` LIKE "'.$sDropletName.'" ';
-		if( !($oDb->get_one($sql)) ) {
+		$sql = 'SELECT `name` FROM `'.$oDb->TablePrefix.'mod_droplets` '
+		     . 'WHERE `name` LIKE \''.addcslashes($oDb->escapeString($sDropletName), '%_').'\' ';
+		if( !( $sTmpName = $oDb->get_one($sql)) )
+		{
 			$sql = 'INSERT INTO `'.$oDb->TablePrefix.'mod_droplets`';
-			$msgSql = 'INSERT Droplet `'.$sDropletName.'` INTO`'.$oDb->TablePrefix.'mod_droplets`'." $OK";
-		} elseif ($bOverwriteDroplets) {
+			$msgSql = 'INSERT Droplet `'.$oDb->escapeString($sDropletName).'` INTO`'.$oDb->TablePrefix.'mod_droplets`'." $OK";
+		} elseif ($bOverwriteDroplets) 
+		{
+			$sDropletName = $sTmpName;
 			$sql = 'UPDATE `'.$oDb->TablePrefix.'mod_droplets` ';
-			$extraSql = 'WHERE `name` = \''.$sDropletName.'\' ';
+			$extraSql = 'WHERE `name` = \''.addcslashes($oDb->escapeString($sDropletName), '%_').'\' ';
 			$msgSql = 'UPDATE Droplet `'.$sDropletName.'` INTO`'.$oDb->TablePrefix.'mod_droplets`'." $OK";
 		}
 // get description, comments and oode
 		$sDropletFile = preg_replace('/^\xEF\xBB\xBF/', '', $sDropletFile);
 		if( ($msgSql!='') && ($aFileData = file($sDropletFile)) ) {
-			$bDescription = false;
-			$bComments = false;
-			$bCode = false;
-			$sDescription = '';
-			$sComments = '';
-			$sCode = '';
-			$sPattern = "#//:#im";
-			while ( sizeof($aFileData) > 0 ) {
-				$sSqlLine = trim(array_shift($aFileData));
-				$isNotCode = (bool)preg_match($sPattern, $sSqlLine);
-				if( $isNotCode==true ) {
+				$bDescription = false;
+				$bComments = false;
+				$bCode = false;
+				$sDescription = '';
+				$sComments = '';
+				$sCode = '';
+				$sPattern = "#//:#im";
+				while ( sizeof($aFileData) > 0 ) {
+					$sSqlLine = trim(array_shift($aFileData));
+					$isNotCode = (bool)preg_match($sPattern, $sSqlLine);
+					if( $isNotCode==true ) {
 // first step line is description
-					if($bDescription==false) {
-						$sDescription .= str_replace('//:','',$sSqlLine);
-						$bDescription = true;
-					} else {
+						if($bDescription==false) {
+							$sDescription .= str_replace('//:','',$sSqlLine);
+							$bDescription = true;
+						} else {
 // second step fill comments
-						$sComments .= str_replace('//:','',$sSqlLine).PHP_EOL;
-					}
-				} else {
+							$sComments .= str_replace('//:','',$sSqlLine).PHP_EOL;
+						}
+					} else {
 // third step fill code
-					$sCode .= str_replace('//:','',$sSqlLine).PHP_EOL;
+						$sCode .= str_replace('//:','',$sSqlLine).PHP_EOL;
+					}
 				}
-			}
-		$iModifiedWhen = time();
-		$iModifiedBy = (method_exists($admin, 'get_user_id') && ($admin->get_user_id()!=null) ? $admin->get_user_id() : 1);
-		$sql .= 'SET  `name` =\''.$oDb->escapeString($sDropletName).'\','
-		     .       '`description` =\''.$oDb->escapeString($sDescription).'\','
-		     .       '`comments` =\''.$oDb->escapeString($sComments).'\','
-		     .       '`code` =\''.$oDb->escapeString($sCode).'\','
-		     .       '`modified_when` = '.$iModifiedWhen.','
-		     .       '`modified_by` = '.$iModifiedBy.','
-		     .       '`active` = 1'
-		     .       $extraSql;
+			$iModifiedWhen = time();
+			$iModifiedBy = (method_exists($admin, 'get_user_id') && ($admin->get_user_id()!=null) ? $admin->get_user_id() : 1);
+			$sql .= 'SET  `name` =\''.$oDb->escapeString($sDropletName).'\','
+				 .       '`description` =\''.$oDb->escapeString($sDescription).'\','
+				 .       '`comments` =\''.$oDb->escapeString($sComments).'\','
+				 .       '`code` =\''.$oDb->escapeString($sCode).'\','
+				 .       '`modified_when` = '.$iModifiedWhen.','
+				 .       '`modified_by` = '.$iModifiedBy.','
+				 .       '`active` = 1'
+				 .       $extraSql;
 		}
 		if( $oDb->query($sql) ) {
 			if( $msgSql!='' ) { $msg[] = $msgSql; }
