@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+09 Aug-2013 Build 1950 M.v.d.Decken(DarkViper)
+! class AccessFile implemented in modules/news
 09 Aug-2013 Build 1949 M.v.d.Decken(DarkViper)
 ! some corrections in class AccessFile
 04 Aug-2013 Build 1948 M.v.d.Decken(DarkViper)

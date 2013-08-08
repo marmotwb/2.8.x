@@ -14,34 +14,7 @@
  * @lastmodified    $Date$
  *
  */
-
-	function createNewsAccessFile($newLink, $oldLink, $page_id, $section_id, $post_id)
-	{
-		global $admin, $MESSAGE;
-		$sError = '';
-		$sPagesPath = WB_PATH.PAGES_DIRECTORY;
-		$sPostsPath = $sPagesPath.'/posts';
-		$sBackUrl = ADMIN_URL.'/pages/modify.php?page_id='.$page_id;
-	// delete old accessfile if link has changed
-		if(($newLink != $oldLink) && (is_writable($sPostsPath.$oldLink.PAGE_EXTENSION))) {
-			if(!unlink($sPostsPath.$oldLink.PAGE_EXTENSION)) {
-				$admin->print_error($MESSAGE['PAGES_CANNOT_DELETE_ACCESS_FILE'].' - '.$oldLink,$sBackUrl);
-			}
-		}
-	// all ok, now create new accessfile
-		$newFile = $sPagesPath.$newLink.PAGE_EXTENSION;
-		// $backSteps = preg_replace('/^'.preg_quote(WB_PATH).'/', '', $sPostsPath);
-				$aOptionalCommands = array(
-				         '$section_id   = '.$section_id,
-				         '$post_id      = '.$post_id ,
-				         '$post_section = '.$section_id
-				);
-		if(	($sError = create_access_file($newFile, $page_id, 0, $aOptionalCommands))!==true ) 
-		{
-			$admin->print_error($sError,$sBackUrl );
-		}
-	} // end of function createNewsAccessFile
-/* ************************************************************************** */
+                    error_reporting(E_ALL);
 	require('../../config.php');
 	require_once(WB_PATH."/include/jscalendar/jscalendar-functions.php");
 // Get post_id
@@ -65,8 +38,6 @@
 	}
 	$admin->print_header();
 
-//	$sMediaUrl = WB_URL.MEDIA_DIRECTORY;
-//	$searchfor = '@(<[^>]*=\s*")('.preg_quote($sMediaUrl).')([^">]*".*>)@siU';
 // Validate all fields
 	$title      = $admin->StripCodeFromText($admin->get_post('title'));
 	$commenting = $admin->StripCodeFromText($admin->get_post('commenting'));
@@ -81,24 +52,20 @@
 	} else {
 		$short      = $admin->get_post('short');
 		$long       = $admin->get_post('long');
-//		if(ini_get('magic_quotes_gpc')==true)
-//		{
-//			$short = $admin->strip_slashes($short);
-//			$long = $admin->strip_slashes($long);
-//		}
-//		$short = preg_replace($searchfor, '$1{SYSVAR:MEDIA_REL}$3', $short );
-//		$long = preg_replace($searchfor, '$1{SYSVAR:MEDIA_REL}$3', $long );
 		$short = $admin->ReplaceAbsoluteMediaUrl($short);
 		$long = $admin->ReplaceAbsoluteMediaUrl($long);
 	}
 
-// Get page link URL
-	$sql = 'SELECT `link` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id`='.(int)$page_id;
-	$oldLink = $database->get_one($sql);
 // Include WB functions file
 	require(WB_PATH.'/framework/functions.php');
 // Work-out what the link should be
-	$newLink = '/posts/'.page_filename($title).PAGE_SPACER.$post_id;
+	$sNewFile = page_filename($title).PAGE_SPACER.$post_id;
+    $newLink = '/posts/'.$sNewFile;
+    $sPagesPath = WB_PATH.PAGES_DIRECTORY;
+    $sBackUrl = ADMIN_URL.'/pages/modify.php?page_id='.$page_id;
+    $sNewFilename = $sPagesPath.$newLink.PAGE_EXTENSION;
+    $sOldFilename = $sPagesPath.$old_link.PAGE_EXTENSION;
+
 // get publisedwhen and publisheduntil
 	$publishedwhen = jscalendar_to_timestamp($admin->get_post_escaped('publishdate'));
 	if($publishedwhen == '' || $publishedwhen < 1) { $publishedwhen=0; }
@@ -118,9 +85,37 @@
 	$sql .=     '`posted_when`='.time().', ';
 	$sql .=     '`posted_by`='.(int)$admin->get_user_id().' ';
 	$sql .= 'WHERE `post_id`='.(int)$post_id;
-	if( $database->query($sql) ) { 
+	if( $database->query($sql) ) {
 		// create new accessfile
-		createNewsAccessFile($newLink, $oldLink, $page_id, $section_id, $post_id);
+        $sDoWhat = (($newLink == $old_link) && (file_exists($sNewFilename))) ? "nothing" : "action";
+        if($sDoWhat == "action") {
+            $sDoWhat = (($sDoWhat == "action") && file_exists($sOldFilename)) ? "update" : "create";
+        }
+
+        switch($sDoWhat)
+        {
+            case "update":
+                try {
+                    $oAF = new AccessFile($sOldFilename, $page_id);
+                    $oAF->rename($sNewFile);
+                    unset($oAF);
+                }catch(AccessFileException $e) {
+                    $admin->print_error($e,$sBackUrl);
+                }
+            break;
+            case "create":
+                try {
+                    $oAF = new AccessFile($sNewFilename, $page_id);
+                    $oAF->addVar('section_id', $section_id, AccessFile::VAR_INT);
+                    $oAF->addVar('post_id', $post_id, AccessFile::VAR_INT);
+                    $oAF->addVar('post_section', $section_id, AccessFile::VAR_INT);
+                    $oAF->write();
+                    unset($oAF);
+                }catch(AccessFileException $e) {
+                    $admin->print_error($e,$sBackUrl);
+                }
+            break;
+        }
 	}
 // Check if there is a db error, otherwise say successful
 	if($database->is_error()) {
