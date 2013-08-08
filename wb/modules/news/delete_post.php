@@ -39,8 +39,13 @@ if($query_details->numRows() > 0) {
 }
 
 // Unlink post access file
-if(is_writable(WB_PATH.PAGES_DIRECTORY.$get_details['link'].PAGE_EXTENSION)) {
-	unlink(WB_PATH.PAGES_DIRECTORY.$get_details['link'].PAGE_EXTENSION);
+try {
+    $sFilename = WB_PATH.PAGES_DIRECTORY.$get_details['link'].PAGE_EXTENSION;
+    $oAF = new AccessFile($sFilename, $page_id);
+    $oAF->delete();
+    unset($oAF);
+}catch(AccessFileException $e) {
+    $admin->print_error($e,ADMIN_URL.'/pages/modify.php?page_id='.$page_id );
 }
 
 // Delete post
@@ -50,7 +55,7 @@ $database->query("DELETE FROM ".TABLE_PREFIX."mod_news_comments WHERE post_id = 
 // Clean up ordering
 require(WB_PATH.'/framework/class.order.php');
 $order = new order(TABLE_PREFIX.'mod_news_posts', 'position', 'post_id', 'section_id');
-$order->clean($section_id); 
+$order->clean($section_id);
 
 // Check if there is a db error, otherwise say successful
 if($database->is_error()) {
