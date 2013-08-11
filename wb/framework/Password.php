@@ -31,7 +31,7 @@
  *               ISTeam changes: added SHA-256, SHA-512 (2012/10/27 Werner v.d. Decken)
  */
 
-if(!class_exists('PasswordHash')) {
+if(!class_exists('PasswordHash', false)) {
 	include(dirname(dirname(__FILE__)).'/include/phpass/PasswordHash.php');
 }
 
