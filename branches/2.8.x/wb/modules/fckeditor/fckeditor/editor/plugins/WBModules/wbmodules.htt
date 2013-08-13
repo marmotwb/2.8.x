@@ -48,22 +48,30 @@
 			//Code that runs after the OK button is clicked 
 			function Ok() {
 				//Validate is option is selected
+				var oTagLink = document.getElementById( 'chkTaglink' );				
 				var oPageList = document.getElementById( 'cmbPages' ) ;
 				if(oPageList.selectedIndex == -1) {
 					alert( FCKLang.WBModulesErrPageSelect );
 					return false;
+				} else {
+					var sPageId = oPageList[oPageList.selectedIndex].value;
+					newsSel = document.getElementsByName( 'cmbNews' );	
+					for (i = 0; i < newsSel.length; i++) {
+						if(newsSel[i].selectedIndex !== -1) {
+			  	  	var sPageId = newsSel[i][newsSel[i].selectedIndex].value;							
+						}
+					}
 				}
 				
-				var oTagLink = document.getElementById( 'chkTaglink' );
-				
-				var sPageId = oPageList[oPageList.selectedIndex].value;
 				oLink = oEditor.FCK.CreateLink( sPageId ) ;
 				// the following line was commented out as it creates an error message in some browser (e.g. IE)
 				// even Firefox seems not to make use of the title so we remove this option for know (doc)
-				// SetAttribute( oLink, 'title', document.getElementById( 'txtTitle' ).value ) ;
+				oLink[0].setAttribute('title', document.getElementById( 'txtTitle' ).value ) ;
+				oLink[0].setAttribute('class', document.getElementById( 'txtClass' ).value ) ;
 			return true;
 
 			} 
+
 			
 		//-->
 		</script>
@@ -79,24 +87,57 @@
 						</tr>
 						<tr>
 							<td colspan="2">
-								<select id="cmbPages" style="WIDTH: 100%" size="14" name="cmbPages">
+								<select id="cmbPages" style="WIDTH: 100%" size="8" name="cmbPages">
 									<!-- BEGIN page_list_block -->
 									<option value="{LINK}"{SELECTED}>{TITLE}</option>
 									<!-- END page_list_block -->
 								</select>
 							</td>
 						</tr>
-						<!-- commented out as this option will not work in all browsers (doc)
+						<!-- commented out as this option will not work in all browsers (doc)-->
 						<tr>
 							<td nowrap><span fckLang="WBModuleslblTitle">Title</span>&nbsp;</td>
 							<td width="100%" style="align:right;"><input id="txtTitle" style="WIDTH: 98%" type="text" name="txtTitle"></td>
 						</tr>
-						-->
+						<tr>
+							<td nowrap><span fckLang="WBModuleslblClass">Class</span>&nbsp;</td>
+							<td width="100%" style="align:right;"><input id="txtClass" style="WIDTH: 98%" type="text" name="txtClass"></td>
+						</tr>
+						<tr>
+							<td valign="top" nowrap><span fckLang="WBModuleslblNews">Class</span>&nbsp;</td>
+							<td><span id="noSelect" style="display: block;" fckLang="WBModuleslblNoNews"></span>
+								<!-- BEGIN news_select_block -->
+								<select class="newspage{PAGE_ID}" id="cmbNews" style="display: none;" size="6" name="cmbNews">
+								<!-- <select id="cmbNews" style="WIDTH: 100%;" size="6" name="cmbNews">-->
+									<!-- BEGIN news_list_block -->
+									<option value="{LINK}"{SELECTED}>{TITLE}</option>
+									<!-- END news_list_block -->
+								</select>
+								<!-- END news_select_block -->
+							</td>
+						</tr>
+						
 					</table>
 				</td>
 			</tr>
 		</table>
 		
+		<script type="text/javascript">
+			var oPageList = document.getElementById( 'cmbPages' ) ;		
+			oPageList.onchange = function() {
+				pageId = (this[this.selectedIndex].value).replace(/\[wblink(.*)\]/, "$1")
+				newsSelects = document.getElementsByName( 'cmbNews' );	
+				document.getElementById( 'noSelect' ).setAttribute('style','display: block;') ;
+				for (i = 0; i < newsSelects.length; i++) {
+					newsSelects[i].setAttribute('style','display: none') ;	
+				  if (newsSelects[i].className == "newspage"+ pageId) {
+				  	document.getElementById( 'noSelect' ).setAttribute('style','display: none;') ;
+				  	newsSelects[i].setAttribute('style','display: block; width: 100%;') ;
+				  }	
+				}
+			}
+			var oPageList = document.getElementById( 'cmbPages' ) ;	
+		</script>
 	</body>
 </html> 
 <!-- END main_block -->
