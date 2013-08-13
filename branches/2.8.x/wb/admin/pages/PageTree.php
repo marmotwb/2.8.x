@@ -34,29 +34,29 @@
 class a_pages_PageTree
 {
 /** @var array language definitions */
-	private $_TEXT     = null;
+	protected $_TEXT     = null;
 /** @var array language definitions */
-	private $_MESSAGE  = null;
+	protected $_MESSAGE  = null;
 /** @var array language definitions */
-	private $_HEADING  = null;
+	protected $_HEADING  = null;
 /** @var object instance of the application object */
-	private $_oApp     = null;
+	protected $_oApp     = null;
 /** @var object instance of the database object */
-	private $_oDb      = null;
+	protected $_oDb      = null;
 /** @var array holds several values from the application global scope */	
-	private $_aReg     = array();
+	protected $_aReg     = array();
 /** @var string full HTML formattet list of pages */
-	private $_sOutput         = '';
+	protected $_sOutput         = '';
 /** @var integer number of all reachable pages */	
-	private $_iPagesTotal     = 0;
+	protected $_iPagesTotal     = 0;
 /** @var integer number of all writeable pages */	
-	private $_iPagesWriteable = 0;
+	protected $_iPagesWriteable = 0;
 /** @var integer index for toggle background color of the list */	
-	private $_iLineColor      = 0;
+	protected $_iLineColor      = 0;
 /** @var array entries to build a select list for parents */	
-	private $_aParentList     = array();
+	protected $_aParentList     = array();
 /** @var integer count all executed database requests passing all iterations. */
-	private $_queries = 0;
+	protected $_queries = 0;
 /**
  * constructor used to import some application constants and objects
  */	
@@ -98,16 +98,16 @@ class a_pages_PageTree
  * a list with all possible parent pages
  * @return array
  */	
-	public function getParentList() {
+	public function getParentList($iTreeRoot = 0) {
 		if(!$this->_sOutput) {
-			$this->parseTree();
+			$this->parseTree($iTreeRoot);
 		}
 		return $this->_aParentList;
 	}
 /**
  * used to import some WB-constants and objects
  */	
-	private function _wbAdaptor()
+	protected function _wbAdaptor()
 	{
 		$this->_TEXT        = $GLOBALS['TEXT'];
 		$this->_MESSAGE     = $GLOBALS['MESSAGE'];
@@ -129,7 +129,7 @@ class a_pages_PageTree
  * @param int use page-ID as root of the generated page tree. (default: 0)
  * @return string the whoole list
  */
-	private function _createTree($iTreeRoot = 0)
+	protected function _createTree($iTreeRoot = 0)
 	{
 		// compose the complete list
 		$sOutput = ''
@@ -167,7 +167,7 @@ class a_pages_PageTree
  * @param bool $bRelative false if should be set to absolute value
  * @return string
  */
-	private function _Tabs($iTabsDiv = 0, $bRelative = true)
+	protected function _Tabs($iTabsDiv = 0, $bRelative = true)
 	{
 		static $iTabLevel = 0;
 		$iTabLevel = ($bRelative ? $iTabLevel + $iTabsDiv : $iTabsDiv);
@@ -179,29 +179,36 @@ class a_pages_PageTree
  * @param integer $iParentKey
  * @return string SQL statement
  */			
-	private function _makeSql($iParentKey = 0)
+	protected function _makeSql($iParentKey = 0)
 	{
+		$sql  = 'SELECT ( SELECT COUNT(*) '
+		      .          'FROM `'.$this->_aReg['TABLE_PREFIX'].'pages` `x` '
+		      .          'WHERE x.`parent`=p.`page_id`'
+		      .        ') `children`, '
+		      .        's.`module`, MAX(s.`publ_start` + s.`publ_end`) published, p.`link`, '
+		      .        '(SELECT MAX(`position`) FROM `'.$this->_aReg['TABLE_PREFIX'].'pages` '
+		      .        'WHERE `parent`='.$iParentKey.') max_position, '
+		      .        '0 min_position, '
+		      .        'p.`position`, '
+		      .        'p.`page_id`, p.`parent`, p.`level`, p.`language`, p.`admin_groups`, '
+		      .        'p.`admin_users`, p.`viewing_groups`, p.`viewing_users`, p.`visibility`, '
+		      .        'p.`menu_title`, p.`page_title`, p.`page_trail` '
+		      . 'FROM `'.$this->_aReg['TABLE_PREFIX'].'pages` p '
+		      .    'INNER JOIN `'.$this->_aReg['TABLE_PREFIX'].'sections` s '
+		      .    'ON p.`page_id`=s.`page_id` ';
+//		if($iParentKey) {
+//
+//			$sql .= 'WHERE `root_parent`='.$iParentKey.' ';
+//		} else {
+//	// if tree based on root is requested (parent=0)
+			$sql .= 'WHERE `parent`='.$iParentKey.' ';
+//		}
+	// do not get pages with 'deleted' flag set on activated trashcan
 		if($this->_aReg['PAGE_TRASH'] != 'inline') {
-			$sUseTrash = ' AND `visibility`!=\'deleted\'';
-		}else { $sUseTrash = ''; }
-		$sql = 'SELECT ( SELECT COUNT(*) '
-		     .          'FROM `'.$this->_aReg['TABLE_PREFIX'].'pages` `x` '
-		     .          'WHERE x.`parent`=p.`page_id`'
-		     .        ') `children`, '
-		     .        's.`module`, MAX(s.`publ_start` + s.`publ_end`) published, p.`link`, '
-		     .        '(SELECT MAX(`position`) FROM `'.$this->_aReg['TABLE_PREFIX'].'pages` '
-		     .        'WHERE `parent`='.$iParentKey.') max_position, '
-		     .        '0 min_position, '
-		     .        'p.`position`, '
-		     .        'p.`page_id`, p.`parent`, p.`level`, p.`language`, p.`admin_groups`, '
-		     .        'p.`admin_users`, p.`viewing_groups`, p.`viewing_users`, p.`visibility`, '
-		     .        'p.`menu_title`, p.`page_title`, p.`page_trail` '
-		     . 'FROM `'.$this->_aReg['TABLE_PREFIX'].'pages` p '
-		     .    'INNER JOIN `'.$this->_aReg['TABLE_PREFIX'].'sections` s '
-		     .    'ON p.`page_id`=s.`page_id` '
-		     . 'WHERE `parent`='.$iParentKey.$sUseTrash.' '
-		     . 'GROUP BY p.`page_id` '
-		     . 'ORDER BY p.`position` ASC';
+			$sql .= 'AND `visibility`!=\'deleted\' ';
+		}
+		$sql .= 'GROUP BY p.`page_id` '
+		      . 'ORDER BY p.`position` ASC';
 		return $sql;
 	}
 /**
@@ -209,7 +216,7 @@ class a_pages_PageTree
  * @param integer start iteration from this parent page ( 0 = root)
  * @return string all of the item lines 
  */	
-	private function _IterateTree($iParent = 0)
+	protected function _IterateTree($iParent = 0)
 	{
 		$sOutput = '';
 		// Get page list from database
@@ -261,7 +268,7 @@ class a_pages_PageTree
  * @param type $aPage
  * @return string
  */
-	private function _createListItem($aPage)
+	protected function _createListItem($aPage)
 	{
 	// output the current item
 	// --- HEADER ------------------------------------------------------------------------
@@ -428,22 +435,15 @@ class a_pages_PageTree
  * build a list of possible parent pages
  * @param array $aPage 
  */	
-	private function _addToParentList(array $aPage)
+	protected function _addToParentList(array $aPage)
 	{
 		if( ($aPage['level'] < ($this->_aReg['PAGE_LEVEL_LIMIT'] - 1))
 			&& $aPage['iswriteable'] 
 			&& ($aPage['visibility'] != 'deleted')
 			&& $this->_oApp->get_permission('pages_add') ) 
 		{
-			$aNewEntry = array();
-			$aNewEntry['ID']             = $aPage['page_id'];
-			$aNewEntry['TITLE']          = $aPage['menu_title'];
-			$aNewEntry['DISABLED']       = ($aPage['iswriteable'] ? 0 : 1);
-			$aNewEntry['PARENT']         = $aPage['parent'];
-			$aNewEntry['FLAG_ROOT_ICON'] = '';
-			$aNewEntry['LEVEL']          = $aPage['level'];
-			$aNewEntry['LANGUAGE']       = $aPage['language'];
-			$this->_aParentList[]        = $aNewEntry;
+			$aPage['disabled'] = ($aPage['iswriteable'] ? 0 : 1);
+			$this->_aParentList[] = $aPage;
 		}
 	}
 	

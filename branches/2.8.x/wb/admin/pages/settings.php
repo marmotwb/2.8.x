@@ -90,6 +90,7 @@ $admin = new admin('Pages', 'pages_settings');
 //	$mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
 	$mLang = Translate::getinstance();
 	$mLang->enableAddon('admin\pages');
+	$oDb = WbDatabase::getInstance();
 	$sDisabled = ' disabled="disabled"';
 	$sSelected = ' selected="selected"';
 	$sChecked  = ' checked="checked"';
@@ -417,93 +418,87 @@ $admin = new admin('Pages', 'pages_settings');
 	} else {
 		$oTpl->set_var('DISPLAY_VIEWERS', 'display:none;');
 	}
-/*-- start multilanguage page_code 20090904 --------------------------------------------*/
-// Work-out if page languages feature is enabled
+/*-- start multilanguage page_code -----------------------------------------------------*/
 	$oTpl->set_block('main_block', 'show_page_code_block',  'show_page_code');
 	if( (defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) &&
 		 isset($aCurrentPage['page_code']) && class_exists('m_MultiLingual_Lib'))
 	{
-		// workout field is set but module missing
-		$oTpl->set_var('TEXT_PAGE_CODE',
-						   '<a href="'.WB_URL.'/modules/MultiLingual/update_keys.php?page_id='.$page_id.'">'.$mLang->TEXT_PAGE_CODE.'</a>'
-		);
-	/*-- begin recursive function page_code list ---------------------------------------*/
-		function page_code_list($parent)
-		{
-			global $admin, $database, $oTpl, $aCurrentPage, $pageCode;
-			$default_language = DEFAULT_LANGUAGE;
-
-			$sql = 'SELECT * FROM `'.TABLE_PREFIX.'pages` '
-				 . 'WHERE `parent`='.$parent.' AND `language`=\''.$default_language.'\' '
-				 . 'ORDER BY `position` ASC';
-			$get_pages = $database->query($sql);
-
-			while($page = $get_pages->fetchRow(MYSQL_ASSOC))
-			{
-				if(($admin->page_is_visible($page)==false) && ($page['visibility'] <> 'none') ) { continue; }
-
-				$oTpl->set_var('FLAG_CODE_ICON',' none ');
-				if( $page['parent'] == 0 )
-				{
-					$oTpl->set_var('FLAG_CODE_ICON','url('.THEME_URL.'/images/flags/'.strtolower($page['language']).'.png)');
-				}
-
-				// If the current page cannot be parent, then its children neither
-				$list_next_level = true;
-				// Stop users from adding pages with a level of more than the set page level limit
-				if($page['level']+1 < PAGE_LEVEL_LIMIT)
-				{
-					$can_modify = ($admin->ami_group_member($page['admin_groups']) ||
-								   $admin->is_group_match($admin->get_user_id(), $page['admin_users']));
-					$title_prefix = '';
-					for($i = 1; $i <= $page['level']; $i++) { $title_prefix .= ' - - &nbsp;'; }
-					// $space = str_repeat('&nbsp;', 3);  $space.'&lt;'..'&gt;'
-					$oTpl->set_var(array(
-											'VALUE' => intval($page['page_code']),
-											'PAGE_VALUE' => $title_prefix.$page['menu_title'],
-											'PAGE_CODE' => $title_prefix.$page['page_id']
-											)
-									);
-					if($aCurrentPage['page_code'] == $page['page_code'])
-					{
-						$oTpl->set_var('SELECTED', ' selected="selected"');
-					} elseif($aCurrentPage['page_code'] == $page['page_code'])
-					{
-						$oTpl->set_var('SELECTED', ' disabled="disabled" class="disabled"');
-						$list_next_level=false;
-					} elseif($can_modify != true)
-					{
-						$oTpl->set_var('SELECTED', ' disabled="disabled" class="disabled"');
-					} else {
-						$oTpl->set_var('SELECTED', '');
-					}
-					$oTpl->parse('page_code_list', 'page_code_list_block', true);
-				}
-				if ($list_next_level)
-					page_code_list($page['page_id']);
-			}
+		$aTplBlockData = array();
+	// workout field is set but module missing
+		$aTplBlockData['PAGE_CODE_LABEL_TEXT'] = $mLang->TEXT_PAGE_CODE;
+		$aTplBlockData['PAGE_CODE_UPDATE_URL'] = WB_REL.'/modules/MultiLingual/update_keys.php?page_id='.$page_id;
+	// get the root element(level 0) of current page with same language  in same menu
+		$sql =  'SELECT `page_id` FROM `'.$oDb->TablePrefix.'pages` '
+		     .  'WHERE `language`=\''.DEFAULT_LANGUAGE.'\' '
+		     .         'AND `level`=0 ';
+		if(defined('MULTIPLE_MENUS') && MULTIPLE_MENUS == 'true') {
+			$sql .=    'AND `menu`='.$aCurrentPage['menu'].' ';
 		}
-	/*-- end recursive function page_code list -----------------------------------------*/
-		// Insert code_page values from page to modify
+		$sql .= 'ORDER BY `position` ASC';
+		$iLangStartPageId = $oDb->get_one($sql);
+	// read the tree of the found root element
+		$oPageList = new a_pages_SmallRawPageTree();
+		$aLangCodePagesList = $oPageList->getParentList($iLangStartPageId);
+	// create option list for the select box
 		$oTpl->set_block('show_page_code_block', 'page_code_list_block', 'page_code_list');
-		if($admin->get_permission('pages_add_l0') == true OR $aCurrentPage['level'] == 0) {
-			$selected = ($aCurrentPage['parent'] == 0 ? $sSelected : '');
-			$oTpl->set_var(array(
-					'VALUE' => 0,
-					'PAGE_CODE' => $mLang->TEXT_NONE,
-					'PAGE_VALUE' => '',
-					'SELECTED' => $selected
-				)
-			);
+		$aTplItemData = array();
+		$bPageCodeIsSelected = false;
+	// add 'no selection' option at top
+		if($admin->get_permission('pages_add_l0') OR !$aCurrentPage['level'])
+		{
+			$aTplItemData['PAGE_CODE_VALUE']      = 0;
+			$aTplItemData['PAGE_CODE_PAGE_TITLE'] = $mLang->TEXT_NONE;
+			$bPageCodeIsSelected = ($aCurrentPage['page_code'] == 0);
+			$aTplItemData['PAGE_CODE_SELECTED'] = ($bPageCodeIsSelected ? $sSelected : '');
+			$oTpl->set_var($aTplItemData);
 			$oTpl->parse('page_code_list', 'page_code_list_block', true);
+			$aTplItemData = array();
 		}
-		// get pagecode form this page_id
-		page_code_list(0);
+		$iLastEntryLevel = 0;
+		$bSkipChildren = false;
+	// loop through all items
+		while (list(, $aPage) = each($aLangCodePagesList)) 
+		{
+		// skip child pages where current user has no rights for
+			if($bSkipChildren && ($aPage['level'] > $iLastEntryLevel)) { continue; }
+			$bSkipChildren   = false;
+			$iLastEntryLevel = $aPage['level'];
+		//skip entry if it's not visible
+			if(($admin->page_is_visible($aPage)==false) && ($aPage['visibility'] <> 'none') ) { continue; }
+		// insert language flag on level 0
+			$sThemeRel = WB_REL.'/'.str_replace(WB_URL, '', THEME_URL).'/images/flags/'.strtolower($aPage['language']).'.png)';
+			$aTplItemData['PAGE_CODE_ICON_URL'] = ($aPage['level'] ? 'url('.$sThemeRel.')' : 'none');
+		// create indent chars
+			$sTitlePrefix = str_repeat('--&nbsp;', $aPage['level']).'&nbsp;';
+			$aTplItemData['PAGE_CODE_PAGE_TITLE'] = $sTitlePrefix . $aPage['menu_title'];
+			$aTplItemData['PAGE_CODE_VALUE']      = intval($aPage['page_code']);
+		// set SELECTED status of this entry
+			if( $aPage['page_id'] == $aCurrentPage['page_code']
+			    && $aCurrentPage['page_code'] != 0
+				&& !$bPageCodeIsSelected
+			  )
+			{ // 
+				$aTplItemData['PAGE_CODE_SELECTED'] = $sSelected;
+				$bPageCodeIsSelected = true;
+			} elseif(!$aPage['iswriteable'])
+			{ // 
+				$aTplItemData['PAGE_CODE_SELECTED'] = $sDisabled.' class="disabled"';
+				$bSkipChildren = true;
+			} else {
+				$aTplItemData['PAGE_CODE_SELECTED'] = '';
+			}
+		// output item data
+			$oTpl->set_var($aTplItemData);
+			$oTpl->parse('page_code_list', 'page_code_list_block', true);
+			$aTplItemData = array();
+		}
+	// output block data
+		$oTpl->set_var($aTplBlockData);
 		$oTpl->parse('show_page_code', 'show_page_code_block', true);
 	}else {
 		$oTpl->set_block('show_page_code', '');
 	}
-/*-- end multilanguage page_code 20090904 ----------------------------------------------*/
+/*-- end multilanguage page_code -------------------------------------------------------*/
 
 /*-- show list of parent pages ---------------------------------------------------------*/
 	$oTpl->set_block('main_block', 'parent_page_list_block', 'parent_page_list');
@@ -515,6 +510,7 @@ $admin = new admin('Pages', 'pages_settings');
 					) );
 		$oTpl->parse('parent_page_list', 'parent_page_list_block', true);
 	}
+
 	parent_list(0);
 	$oTpl->set_var('DISPLAY_MODIFIED', ($modified_ts == 'Unknown' ? 'hide' : ''));
 
