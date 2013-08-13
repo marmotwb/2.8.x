@@ -5,3 +5,6 @@ FCKLang.WBModulesErrSelection		= 'Bitte zuerst einen Text markieren, der verlink
 FCKLang.WBModulesErrPageSelect		= 'Bitte eine WB-Seite markieren, auf die verlinkt werden soll!' ;
 FCKLang.WBModuleslblPageSelection	= 'Auswahlfenster der m\u00f6glichen WB-Seiten:';
 FCKLang.WBModuleslblTitle		= 'Linktitel:';
+FCKLang.WBModuleslblClass		= 'Linkklasse:';
+FCKLang.WBModuleslblNews		= 'News Beitrag:';
+FCKLang.WBModuleslblNoNews	= 'Keine News Seite gew\u00e4hlt.';

@@ -5,3 +5,6 @@ FCKLang.WBModulesErrSelection		= 'Eerst een selectie maken voordat u een link wi
 FCKLang.WBModulesErrPageSelect		= 'Eerst een pagina selecteren als u een link wilt creeren' ;
 FCKLang.WBModuleslblPageSelection	= 'Selecteer een WB Pagina om te linken:';
 FCKLang.WBModuleslblTitle		= 'Titel';
+FCKLang.WBModuleslblClass		= 'Class';
+FCKLang.WBModuleslblNews		= 'News post:';
+FCKLang.WBModuleslblNoNews	= 'No news page selected.';

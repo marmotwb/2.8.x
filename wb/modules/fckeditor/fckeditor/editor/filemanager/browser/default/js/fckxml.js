@@ -54,6 +54,11 @@ FCKXml.prototype.LoadUrl = function( urlToCall, asyncFunctionPointer )
 	var oXmlHttp = this.GetHttpRequest() ;
 
 	oXmlHttp.open( "GET", urlToCall, bAsync ) ;
+	
+	try {
+		oXmlHttp.responseType='msxml-document';
+	}
+	catch (e) {}
 
 	if ( bAsync )
 	{

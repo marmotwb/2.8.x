@@ -11,9 +11,11 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-14 Aug-2013 Build 1954 M.v.d.Decken(DarkViper)
+14 Aug-2013 Build 1955 M.v.d.Decken(DarkViper)
+# /modules/fckeditor update to version 2.9.9 IE fix (from Marmot)
+13 Aug-2013 Build 1954 M.v.d.Decken(DarkViper)
 # /include/editarea IE fix (from Marmot)
-14 Aug-2013 Build 1953 M.v.d.Decken(DarkViper)
+13 Aug-2013 Build 1953 M.v.d.Decken(DarkViper)
 # solved some problems with MultiLingual module
 12 Aug-2013 Build 1952 M.v.d.Decken(DarkViper)
 # solved an autoloading problem on upgrade in /framework/Password.php

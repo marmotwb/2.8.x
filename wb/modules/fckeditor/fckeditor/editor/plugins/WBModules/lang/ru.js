@@ -5,3 +5,6 @@ FCKLang.WBModulesErrSelection		= 'Пожалуйста выделите ссыл
 FCKLang.WBModulesErrPageSelect		= 'Выберите страницу чтобы сделать ссылку' ;
 FCKLang.WBModuleslblPageSelection	= 'Выберите страницу для ссылки:';
 FCKLang.WBModuleslblTitle		= 'Заголовок';
+FCKLang.WBModuleslblClass		= 'Class';
+FCKLang.WBModuleslblNews		= 'News post:';
+FCKLang.WBModuleslblNoNews	= 'No news page selected.';

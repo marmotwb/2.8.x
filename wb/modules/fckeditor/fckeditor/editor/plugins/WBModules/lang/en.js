@@ -5,3 +5,6 @@ FCKLang.WBModulesErrSelection		= 'Please select a text in order to create a (int
 FCKLang.WBModulesErrPageSelect		= 'Please select a page in order to create a link' ;
 FCKLang.WBModuleslblPageSelection	= 'Select a WB Page to link to:';
 FCKLang.WBModuleslblTitle		= 'Title';
+FCKLang.WBModuleslblClass		= 'Class';
+FCKLang.WBModuleslblNews		= 'News post:';
+FCKLang.WBModuleslblNoNews	= 'No news page selected.';
