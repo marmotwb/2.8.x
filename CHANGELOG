@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+14 Aug-2013 Build 1953 M.v.d.Decken(DarkViper)
+# solved some problems with MultiLingual module
 12 Aug-2013 Build 1952 M.v.d.Decken(DarkViper)
 # solved an autoloading problem on upgrade in /framework/Password.php
 09 Aug-2013 Build 1951 M.v.d.Decken(DarkViper)

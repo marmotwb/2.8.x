@@ -135,34 +135,39 @@
 	
 // --- build parent pages list -----------------------------------------------------------
 	$aParents = $oPageTree->getParentList();
-	$aFirstEntry = array();
-	$aFirstEntry['ID']             = 0;
-	$aFirstEntry['TITLE']          = $TEXT['NONE'];
-	$aFirstEntry['DISABLED']       = 0;
-	$aFirstEntry['PARENT']         = 99;
-	$aFirstEntry['FLAG_ROOT_ICON'] = '';
-	$aFirstEntry['LEVEL']          = 0;
-	$aFirstEntry['LANGUAGE']       = '';
-	array_unshift($aParents, $aFirstEntry);
+	$aNewEntry = array();
+	$aNewEntry['page_id']        = 0;
+	$aNewEntry['menu_title']     = $TEXT['NONE'];
+	$aNewEntry['disabled']       = 0;
+	$aNewEntry['parent']         = 99;
+	$aNewEntry['flag_root_icon'] = '';
+	$aNewEntry['level']          = 0;
+	$aNewEntry['language']       = '';
+	array_unshift($aParents, $aNewEntry);
 	reset($aParents);
 	$oTpl->set_block('main_block', 'parents_list_block', 'parents_list');
 	// walk through all items
 	while (list(, $aItem) = each($aParents)) {
 		if($admin->get_permission('pages_add')) {
+			$aNewEntry = array();
+			$aNewEntry['ID']             = $aItem['page_id'];
+			$aNewEntry['PARENT']         = $aItem['parent'];
+			$aNewEntry['LEVEL']          = $aItem['level'];
+			$aNewEntry['LANGUAGE']       = $aItem['language'];
+			$aNewEntry['FLAG_ROOT_ICON'] = '';
 			// modify item
-			$aItem['DISABLED'] = ($aItem['DISABLED'] ? ' disabled="disabled" class="disabled"' : '');
-			if(!$aItem['PARENT']) {
-				$aItem['FLAG_ROOT_ICON'] = ' style="background-image: url('.THEME_REL.'/images/flags/'
+			$aNewEntry['DISABLED'] = ($aItem['disabled'] ? ' disabled="disabled" class="disabled"' : '');
+			if(!$aItem['parent']) {
+				$aNewEntry['FLAG_ROOT_ICON'] = ' style="background-image: url('.THEME_REL.'/images/flags/'
 										 . strtolower($aItem['LANGUAGE']).'.png);"';
 			}
-			$aItem['TITLE'] = str_repeat('- ', $aItem['LEVEL']).$aItem['TITLE'];
+			$aNewEntry['TITLE'] = str_repeat('- ', $aItem['level']).$aItem['menu_title'];
 			// write block into template
-			$oTpl->set_var($aItem);
+			$oTpl->set_var($aNewEntry);
 			$oTpl->parse('parents_list', 'parents_list_block', true);
 		}
 	}
 	unset($aParents);
-	
 // --- build modules list ----------------------------------------------------------------
 	$bMatch = false;
 	$aModulePermissions = '\''.implode(',', $_SESSION['MODULE_PERMISSIONS']).'\'';

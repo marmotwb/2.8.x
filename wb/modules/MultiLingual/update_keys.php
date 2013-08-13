@@ -54,9 +54,7 @@ $update_when_modified = false;
 require(WB_PATH.'/modules/admin.php');
 $temp_page_id =  intval( htmlentities($page_id ) );
 
-$mLang = ModLanguage::getInstance();
-$mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
-
+$oTrans = Translate::getInstance();
 // check for page languages
 $oPageLang = new m_MultiLingual_Lib();
 $Result = $oPageLang->updateDefaultPagesCode(); 
@@ -64,5 +62,5 @@ if($database->is_error())
 {
 	$admin->print_error($database->get_error(), ADMIN_URL.'/pages/settings.php?page_id='.$temp_page_id );
 } else {
-	$admin->print_success($mLang->MESSAGE_PAGES_UPDATE_SETTINGS, ADMIN_URL.'/pages/settings.php?page_id='.$temp_page_id );
+	$admin->print_success($oTrans->MESSAGE_PAGES_UPDATE_SETTINGS, ADMIN_URL.'/pages/settings.php?page_id='.$temp_page_id );
 }
