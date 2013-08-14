@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+14 Aug-2013 Build 1958 M.v.d.Decken(DarkViper)
+! update Twig 1.13.1 -> 1.13.2
 14 Aug-2013 Build 1957 M.v.d.Decken(DarkViper)
 # typofixes in /admin/pages/setings.php
 # typofixes in /include/jscalendar/lang/
