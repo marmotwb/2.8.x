@@ -159,7 +159,7 @@
 			$aNewEntry['DISABLED'] = ($aItem['disabled'] ? ' disabled="disabled" class="disabled"' : '');
 			if(!$aItem['parent']) {
 				$aNewEntry['FLAG_ROOT_ICON'] = ' style="background-image: url('.THEME_REL.'/images/flags/'
-										 . strtolower($aItem['LANGUAGE']).'.png);"';
+										 . strtolower($aItem['language']).'.png);"';
 			}
 			$aNewEntry['TITLE'] = str_repeat('- ', $aItem['level']).$aItem['menu_title'];
 			// write block into template

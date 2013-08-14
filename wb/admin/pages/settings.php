@@ -471,7 +471,7 @@ $admin = new admin('Pages', 'pages_settings');
 		// create indent chars
 			$sTitlePrefix = str_repeat('--&nbsp;', $aPage['level']).'&nbsp;';
 			$aTplItemData['PAGE_CODE_PAGE_TITLE'] = $sTitlePrefix . $aPage['menu_title'];
-			$aTplItemData['PAGE_CODE_VALUE']      = intval($aPage['page_code']);
+			$aTplItemData['PAGE_CODE_VALUE']      = intval($aPage['page_ids']);
 		// set SELECTED status of this entry
 			if( $aPage['page_id'] == $aCurrentPage['page_code']
 			    && $aCurrentPage['page_code'] != 0
