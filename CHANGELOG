@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+16 Aug-2013 Build 1959 M.v.d.Decken(DarkViper)
++ ~dummy.git files to include empty directories in git-hub zipfiles
 14 Aug-2013 Build 1958 M.v.d.Decken(DarkViper)
 ! update Twig 1.13.1 -> 1.13.2
 14 Aug-2013 Build 1957 M.v.d.Decken(DarkViper)
