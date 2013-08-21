@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+22 Aug-2013 Build 1960 M.v.d.Decken(DarkViper)
+# typofix/structurfix in /modules/form/modify_settings.php
 16 Aug-2013 Build 1959 M.v.d.Decken(DarkViper)
 + ~dummy.git files to include empty directories in git-hub zipfiles
 14 Aug-2013 Build 1958 M.v.d.Decken(DarkViper)
