@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+05 Sep-2013 Build 1961 M.v.d.Decken(DarkViper)
+# /admin/settings/save now also allows empty entries for 'website_title','website_description' and 'website_keywords'
 22 Aug-2013 Build 1960 M.v.d.Decken(DarkViper)
 # typofix/structurfix in /modules/form/modify_settings.php
 16 Aug-2013 Build 1959 M.v.d.Decken(DarkViper)

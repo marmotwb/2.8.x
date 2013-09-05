@@ -176,6 +176,9 @@ $allow_tags_in_fields = array(
     'wbmail_signature'
     );
 $allow_empty_values = array(
+    'website_title',
+    'website_description',
+    'website_keywords',
     'website_header',
     'website_footer',
     'wbmail_signature',
