@@ -52,13 +52,13 @@ class TranslateAdaptorWbOldStyle implements TranslateAdaptorInterface {
  */
 	public function loadLanguage($sLangCode)
 	{
-		$this->_getAddonPath();
+		$sLanguagePath = $this->_getAddonPath();
 		$aTranslations = array();
 		$sLangFile = strtolower($sLangCode.'.php');
-		if( ($aDirContent = scandir($this->sFilePath)) !== false) {
+		if( ($aDirContent = scandir($sLanguagePath)) !== false) {
 			foreach($aDirContent as $sFile) {
 				if($sLangFile === strtolower($sFile)) {
-					$sLangFile = $this->sFilePath.$sFile;
+					$sLangFile = $sLanguagePath.$sFile;
 					if(is_readable($sLangFile)) {
 						$aTmp = $this->_importArrays($sLangFile);
 						$aTranslations = array_merge($aTranslations, $aTmp);
@@ -75,11 +75,11 @@ class TranslateAdaptorWbOldStyle implements TranslateAdaptorInterface {
  */
 	public function findFirstLanguage()
 	{
-		$this->_getAddonPath();
+		$sLanguagePath = $this->_getAddonPath();
 	// search for first available and readable language file
 		$sRetval = '';
-		if(is_readable($this->sFilePath)) {
-			$iterator = new DirectoryIterator($this->sFilePath);
+		if(is_readable($sLanguagePath)) {
+			$iterator = new DirectoryIterator($sLanguagePath);
 			foreach ($iterator as $oFileInfo) {
 				$sPattern = '/^[a-z]{2,3}\.php/siU';
 				if(!preg_match($sPattern, $oFileInfo->getBasename())) { continue; }
@@ -97,17 +97,26 @@ class TranslateAdaptorWbOldStyle implements TranslateAdaptorInterface {
  */
 	private function _getAddonPath()
 	{
-		$sAddon   = str_replace('\\', '/', $this->sAddon);
-		$sDirname = str_replace('\\', '/', dirname(dirname(__FILE__))).'/';
-		$this->sFilePath = $sDirname.$sAddon.'/languages/';
-		if(!is_readable($this->sFilePath) && (strpos('admin', $this->sAddon) === 0)) {
-		// correct modified admin directory
+	// set environment
+		$sAddon   = trim(str_replace('\\', '/', $this->sAddon), '/');
+		$sAppDirname = str_replace('\\', '/', dirname(dirname(__FILE__))).'/';
+		$sLanguagePath = $sAppDirname.$sAddon.'/languages/';
+		if(is_dir($sLanguagePath) && is_readable($sLanguagePath)) {
+		// valid directory found
+			return $sLanguagePath;
+		}
+		if(preg_match('/^admin.*/sU', $sAddon))
+		{
+		// get used acp dirname
 			$sTmp = trim(WbAdaptor::getInstance()->AcpDir, '/');
-			$this->sFilePath = $sDirname.preg_replace('/^admin/', $sTmp, $sAddon).'/languages/';
-			if(!is_readable($this->sFilePath)) {
-				throw new TranslationException('missing language definitions in: '.$sAddon.'/languages');
+		// if path starts with 'admin/' then replace with used acp dirname
+			$sLanguagePath = $sAppDirname.preg_replace('/^admin/sU', $sTmp, $sAddon).'/languages/';
+			if(is_dir($sLanguagePath) && is_readable($sLanguagePath)) {
+			// valid directory found
+				return $sLanguagePath;
 			}
 		}
+		throw new TranslationException('\''.$sAddon.'/languages\' is not a direcory or not readable!');
 	}
 /**
  * Import language definitions into array
