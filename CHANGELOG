@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+18 Sep-2013 Build 1964 Manuela v.d.Decken(DarkViper)
+! modified loading sequence of Password classes
 18 Sep-2013 Build 1963 Manuela v.d.Decken(DarkViper)
 + adding SERVER_TIMEZONE to table settings
 + insert date_default_timezone_set( SERVER_TIMEZONE ) into /framework/initialize.php
