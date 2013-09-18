@@ -187,11 +187,6 @@
 // sanitize $_SERVER['HTTP_REFERER'] ---
 	SanitizeHttpReferer(WB_URL); 
 	SetInstallPathConstants();
-// define constant systemenvironment settings ---
-	date_default_timezone_set('UTC');
-	if(!defined('MAX_TIME')) { define('MAX_TIME', (pow(2, 31)-1)); } // 32-Bit Timestamp of 19 Jan 2038 03:14:07 GMT
-	$sTmp = (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] != '') ? $_SERVER['HTTP_DNT'] : '0';
-	if(!defined('DO_NOT_TRACK')) { define('DO_NOT_TRACK', ($sTmp[0] == '1')); }
 // register WB basic autoloader ---
 	$sTmp = dirname(__FILE__).'/WbAutoloader.php';
 	if(!class_exists('WbAutoloader')){ 
@@ -266,6 +261,12 @@
 		@session_start();
 		define('SESSION_STARTED', true);
 	}
+// get/set server timezone ---
+	if(!defined('SERVER_TIMEZONE')) { define('SERVER_TIMEZONE', "UTC"); }
+	date_default_timezone_set( SERVER_TIMEZONE );
+	if(!defined('MAX_TIME')) { define('MAX_TIME', (pow(2, 31)-1)); } // 32-Bit Timestamp of 19 Jan 2038 03:14:07 GMT
+	$sTmp = (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] != '') ? $_SERVER['HTTP_DNT'] : '0';
+	if(!defined('DO_NOT_TRACK')) { define('DO_NOT_TRACK', ($sTmp[0] == '1')); }
 // get/set users timezone ---
 	if(!defined('TIMEZONE')) { define('TIMEZONE', (isset($_SESSION['TIMEZONE']) ? $_SESSION['TIMEZONE'] : DEFAULT_TIMEZONE)); }
 	if(!defined('DATE_FORMAT')) { define('DATE_FORMAT', (isset($_SESSION['DATE_FORMAT']) ? $_SESSION['DATE_FORMAT'] : DEFAULT_DATE_FORMAT)); }
@@ -341,8 +342,7 @@
 										 'WbOldStyle',
 										 (DEBUG ? Translate::CACHE_DISABLED|Translate::KEEP_MISSING : 0)
 										);
-	if(!class_exists('PasswordHash')) { include(WB_PATH.'/include/phpass/PasswordHash.php'); }
-
+	if(!class_exists('PasswordHash', false)) { include(WB_PATH.'/include/phpass/PasswordHash.php'); }
 	$oPass = Password::getInstance(new PasswordHash(Password::CRYPT_LOOPS_DEFAULT, Password::HASH_TYPE_AUTO));
 	if(defined('PASSWORD_CRYPT_LOOPS')) { $oPass->setIteration(PASSWORD_CRYPT_LOOPS); }
 	if(defined('PASSWORD_HASH_TYPES'))  { $oPass->setHashType(PASSWORD_HASH_TYPES); }

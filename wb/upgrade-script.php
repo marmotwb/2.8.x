@@ -83,8 +83,6 @@ $FAIL          = ' <span class="error">FAILED</span> ';
 $DEFAULT_THEME = 'wb_theme';
 
 $stepID = 0;
-$filesRemove = array();
-$aFilesToRemove = array();
 $dirRemove = array(
 /*
 			'[TEMPLATE]/allcss/',
@@ -95,8 +93,7 @@ $dirRemove = array(
 			'[ADMIN]/themes/',
 		 );
 //
-	$filesRemove['0'] = array(
-
+$aRemoveSingleFiles = array(
 			'[ADMIN]/preferences/details.php',
 			'[ADMIN]/preferences/email.php',
 			'[ADMIN]/preferences/password.php',
@@ -112,13 +109,12 @@ $dirRemove = array(
 			'[FRAMEWORK]/PasswordHash.php',
 			'[MODULES]/droplets/js/mdcr.js',
 
-		 );
-	$aFilesToRemove = array_merge($filesRemove['0']);
+);
 
 // deleting files below only from less 2.8.4 stable
 if(version_compare(WB_VERSION, '2.8.4', '<'))
 {
-	$filesRemove['1'] = array(
+	$aRemoveOldTemplates = array(
 
 			'[TEMPLATE]/argos_theme/templates/access.htt',
 			'[TEMPLATE]/argos_theme/templates/addons.htt',
@@ -177,11 +173,13 @@ if(version_compare(WB_VERSION, '2.8.4', '<'))
 			'[TEMPLATE]/wb_theme/templates/templates_details.htt',
 			'[TEMPLATE]/wb_theme/templates/users.htt',
 			'[TEMPLATE]/wb_theme/templates/users_form.htt'
-		 );
-
-	$aFilesToRemove = array_merge($aFilesToRemove,$filesRemove['1']);
-
+	);
+}else {
+	$aRemoveOldTemplates = array();
 }
+$aFilesToRemove = array_merge($aRemoveSingleFiles, $aRemoveOldTemplates);
+unset($aRemoveSingleFiles);
+unset($aRemoveOldTemplates);
 /* display a status message on the screen **************************************
  * @param string $message: the message to show
  * @param string $class:   kind of message as a css-class
@@ -579,6 +577,16 @@ echo'<h3>Step '.(++$stepID).': Updating core table included in package</h3>';
     $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 
 	/**********************************************************
+	 *  - Adding server_timezone to settings table
+	 */
+	$aDebugMessage[] = "<span>Adding/updating server_timezone to settings table</span>";
+	$cfg = array(
+		'server_timezone' => (defined('SERVER_TIMEZONE') ? SERVER_TIMEZONE : 'UTC')
+	);
+
+    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+
+	/**********************************************************
 	 *  - Adding password settings to settings table
 	 */
 	$aDebugMessage[] = "<span>Adding/updating password settings to settings table</span>";
@@ -633,11 +641,14 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 
 	/**********************************************************
 	 *  - Add field "page_code" to table "pages"
+	 *
+	 *  will be done in upgrade.php of the module MultiLingual
+	 *  until the module is integrated completely
 	 */
-	$table_name = TABLE_PREFIX.'pages';
-	$field_name = 'page_code';
-	$description = "INT NOT NULL DEFAULT '0' AFTER `language`";
-	add_modify_field_in_database($table_name,$field_name,$description);
+//	$table_name = TABLE_PREFIX.'pages';
+//	$field_name = 'page_code';
+//	$description = "INT NOT NULL DEFAULT '0' AFTER `language`";
+//	add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
 	 *  - Add field "menu_icon_0" to table "pages"

@@ -485,6 +485,7 @@ require_once(WB_PATH.'/framework/class.admin.php');
 	     . '(\'default_language\', \''.$default_language.'\'), '
 	     . '(\'app_name\', \'wb_'.$session_rand.'\'), '
 	     . '(\'sec_anchor\', \'Sec\'), '
+	     . '(\'server_timezone\', \'UTC\'), '
 	     . '(\'default_timezone\', \''.$default_timezone.'\'), '
 	     . '(\'default_date_format\', \'Y-m-d\'), '
 	     . '(\'default_time_format\', \'h:i A\'), '
