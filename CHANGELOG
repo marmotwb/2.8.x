@@ -11,6 +11,11 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+19 Sep-2013 Build 1965 Manuela v.d.Decken(DarkViper)
++ framework/UpgradeHelper::getMissingTables()
++ alias framework/UpgradeHelper::getMissingTables() with existsAllTables()
++ upgrade-script.php add loading class PasswordHash
+! some corrections of typos in upgrade-sript.php
 18 Sep-2013 Build 1964 Manuela v.d.Decken(DarkViper)
 ! modified loading sequence of Password classes
 18 Sep-2013 Build 1963 Manuela v.d.Decken(DarkViper)
