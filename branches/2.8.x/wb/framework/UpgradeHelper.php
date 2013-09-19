@@ -36,10 +36,11 @@ class UpgradeHelper {
 
 /**
  * Compare available tables against a list of tables
- * @param array list of needed table names without TablePrefix
+ * @param  array list of needed table names without TablePrefix
  * @return array list of missing tables
+ * @description this method is the replaement for self::existsAllTables()
  */
-	public static function existsAllTables(array $aTablesList)
+	public static function getMissingTables(array $aTablesList)
 	{
 		$aTablesList = array_flip($aTablesList);
 		$oDb = WbDatabase::getInstance();
@@ -53,6 +54,15 @@ class UpgradeHelper {
 			}
 		}
 		return array_flip($aTablesList);
+	}
+/**
+ * Alias for self::getMissingTables()
+ * @param array list of needed table names without TablePrefix
+ * @return array list of missing tables
+ */
+	public static function existsAllTables(array $aTablesList)
+	{
+		return self::getMissingTables($aTablesList);
 	}
 
 

@@ -34,17 +34,21 @@
  * @deprecated   
  * @description  xyz
  */
+if(!class_exists('PasswordHash', false))
+{
+	include(dirname(__FILE__).'/include/phpass/PasswordHash.php');
+}
 // Include config file
-$config_file = realpath('config.php');
+$config_file = dirname(__FILE__).'/config.php';
 if(file_exists($config_file) && !defined('WB_URL'))
 {
 	require($config_file);
-
 }
-//require_once(WB_PATH.'/framework/class.admin.php');
-if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+if(!class_exists('admin', false))
+{ 
+	include(WB_PATH.'/framework/class.admin.php');
+}
 $admin = new admin('Addons', 'modules', false, false);
-
 // solved wrong pages_directory value before creating access files
 $sql  = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` '
       . 'WHERE `name`=\'pages_directory\'';
@@ -52,10 +56,10 @@ $sPagesDirectory = WbDatabase::getInstance()->get_one($sql);
 $sTmp = trim($sPagesDirectory, '/');
 $sTmp = ($sTmp == '' ? '' : '/'.$sTmp);
 if($sTmp != $sPagesDirectory) {
- $sql = 'UPDATE `'.TABLE_PREFIX.'settings` '
-      . 'SET `value` = \''.$sTmpDir.'\' '
-      . 'WHERE `name`=\'pages_directory\' ';
- WbDatabase::getInstance()->query($sql);
+	$sql = 'UPDATE `'.TABLE_PREFIX.'settings` '
+		 . 'SET `value` = \''.$sTmpDir.'\' '
+		 . 'WHERE `name`=\'pages_directory\' ';
+	WbDatabase::getInstance()->query($sql);
 }
 require_once(WB_PATH.'/framework/functions.php');
 // require_once(WB_PATH.'/framework/Database.php');
@@ -330,48 +334,49 @@ span.error {
 		exit();
 	}
 if($admin->get_user_id()!=1){
-	status_msg('<br /><h3>WebsiteBaker upgrading is not possible!<br />Before upgrading to Revision '.REVISION.' you have to login as System-Administrator!</h3>', 'warning', 'div');
-        echo '<br /><br />';
+	status_msg('<br /><h3>WebsiteBaker upgrading is not possible!<br />Before upgrading '
+	          .'to Revision '.REVISION.' you have to login as System-Administrator!</h3>',
+	           'warning', 'div');
+	echo '<br /><br />';
 // delete remember key of current user from database
-//if (isset($_SESSION['USER_ID']) && isset($database)) {
-//	$table = TABLE_PREFIX . 'users';
-//	$sql = "UPDATE `$table` SET `remember_key` = '' WHERE `user_id` = '" . (int) $_SESSION['USER_ID'] . "'";
-//	$database->query($sql);
-//}
-
+	//if (isset($_SESSION['USER_ID']) && isset($database)) {
+	//	$table = TABLE_PREFIX . 'users';
+	//	$sql = "UPDATE `$table` SET `remember_key` = '' WHERE `user_id` = '" . (int) $_SESSION['USER_ID'] . "'";
+	//	$database->query($sql);
+	//}
 // delete remember key cookie if set
-if (isset($_COOKIE['REMEMBER_KEY']) && !headers_sent() ) {
-	setcookie('REMEMBER_KEY', '', time() - 3600, '/');
-}
-
-// delete most critical session variables manually
-$_SESSION['USER_ID'] = null;
-$_SESSION['GROUP_ID'] = null;
-$_SESSION['GROUPS_ID'] = null;
-$_SESSION['USERNAME'] = null;
-$_SESSION['PAGE_PERMISSIONS'] = null;
-$_SESSION['SYSTEM_PERMISSIONS'] = null;
-// overwrite session array
-$_SESSION = array();
-// delete session cookie if set
-if (isset($_COOKIE[session_name()]) && !headers_sent()) {
-    setcookie(session_name(), '', time() - 42000, '/');
-}
-// delete the session itself
-session_destroy();
-status_msg('<br /><h3>After login as System-Adminstrator you have to start upgrade-script.php again!</h3>', 'info', 'div');
-        echo '<br /><br />';
-        if(defined('ADMIN_URL')) {
-        	echo '<form action="'.ADMIN_URL.'/index.php" method="post">';
-        	echo '&nbsp;<input name="backend_send" type="submit" value="Kick me to the Login" />';
-        	echo '</form>';
-        }
-echo "<br /><br /></div>
-	</div>
-	</div>
-	</body>
-	</html>
-	";
+	if (isset($_COOKIE['REMEMBER_KEY']) && !headers_sent() ) {
+		setcookie('REMEMBER_KEY', '', time() - 3600, '/');
+	}
+	// delete most critical session variables manually
+	$_SESSION['USER_ID'] = null;
+	$_SESSION['GROUP_ID'] = null;
+	$_SESSION['GROUPS_ID'] = null;
+	$_SESSION['USERNAME'] = null;
+	$_SESSION['PAGE_PERMISSIONS'] = null;
+	$_SESSION['SYSTEM_PERMISSIONS'] = null;
+	// overwrite session array
+	$_SESSION = array();
+	// delete session cookie if set
+	if (isset($_COOKIE[session_name()]) && !headers_sent()) {
+		setcookie(session_name(), '', time() - 42000, '/');
+	}
+	// delete the session itself
+	session_destroy();
+	status_msg('<br /><h3>You have to login as System-Adminstrator start '
+	          .'upgrade-script.php again!</h3>',
+	           'info', 'div');
+	echo '<br /><br />';
+	if(defined('ADMIN_URL')) {
+		echo '<form action="'.ADMIN_URL.'/index.php" method="post">'
+		    .'&nbsp;<input name="backend_send" type="submit" value="Kick me to the Login" />'
+		    .'</form>';
+	}
+	echo '<br /><br /></div>'
+	    .'</div>'
+	    .'</div>'
+	    .'</body>'
+	    .'</html>';
 	exit();
 }
 
@@ -399,53 +404,57 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 <br />
 
 <?php
-	status_msg('<strong> Notice:</strong><br />You need to confirm that you have created a manual backup of the '.PAGES_DIRECTORY.'/ directory and the MySQL database before you can proceed.', 'warning', 'div');
-	echo "<br /><br /></div>
-	</div>
-	</div>
-	</body>
-	</html>";
+	status_msg('<strong> Notice:</strong><br />You need to confirm that you have created '
+			  .'a manual backup of the '.PAGES_DIRECTORY.'/ directory and the MySQL '
+	          .'database before you can proceed.',
+	           'warning', 'div');
+	echo '<br /><br /></div>'
+	    .'</div>'
+	    .'</div>'
+	    .'</body>'
+	    .'</html>';
 	exit();
 }
 
 /**********************************************************
  *  - check tables coming with WebsiteBaker
  */
-	$aMissingTables = UpgradeHelper::existsAllTables($aPackage);
+	$aMissingTables = UpgradeHelper::getMissingTables($aPackage);
 	if( sizeof($aMissingTables) == 0){
-        echo '<h4 style="margin-left:0;">NOTICE: '.sizeof($aPackage).' total tables included in package are successfully installed into your database `'.$database->DbName.'` '.$OK.'</h4>';
+        echo '<h4 style="margin-left:0;">NOTICE: '.sizeof($aPackage).' total tables '
+		    .'included in package are successfully installed into your database `'
+		    .$database->DbName.'` '.$OK.'</h4>';
     } else {
         status_msg('<strong>:</strong><br />can\'t run Upgrade, missing tables', 'warning', 'div');
-        echo '<h4>Missing required tables. You can install them in backend->addons->modules.<br />';
-        echo 'Or if you uploaded per FTP install possible by backend->addons->modules->advanced.<br />';
-        echo 'First rename or delete the upgrade-script.php, so the script can\'t start automatically by backend<br />';
-        echo 'After installing missing tables upload and run again upgrade-script.php<br /><br /></h4>';
-        echo '<h4 class="warning">';
-        echo 'Missing required tables.<br /><br />';
-        echo 'TABLE `'.implode('` missing! '.$FAIL.'<br />TABLE `',$aMissingTables).'` missing! '.$FAIL;
-        echo '<br /><br /></h4>';
-        echo '<br /><br />';
+        echo '<h4>Missing required tables. You can install them in backend->addons->modules.<br />'
+            .'Or if you uploaded per FTP install possible by backend->addons->modules->advanced.<br />'
+            .'First rename or delete the upgrade-script.php, so the script can\'t start automatically by backend<br />'
+            .'After installing missing tables upload and run again upgrade-script.php<br /><br /></h4>'
+            .'<h4 class="warning">'
+            .'Missing required tables.<br /><br />'
+            .'TABLE `'.implode('` missing! '.$FAIL.'<br />TABLE `',$aMissingTables).'` missing! '.$FAIL
+            .'<br /><br /></h4>'
+            .'<br /><br />';
         if(isset($_SERVER['SCRIPT_NAME'])) {
-        	echo '<form action="'.$_SERVER['SCRIPT_NAME'].'/">';
-        	echo '&nbsp;<input type="submit" value="Start upgrade again" />';
-        	echo '</form>';
+        	echo '<form action="'.$_SERVER['SCRIPT_NAME'].'/">'
+        	    .'&nbsp;<input type="submit" value="Start upgrade again" />'
+        	    .'</form>';
         }
         if(defined('ADMIN_URL')) {
-        	echo '<form action="'.ADMIN_URL.'/index.php" method="post">';
-        	echo '&nbsp;<input name="backend_send" type="submit" value="kick me to the Backend" />';
-        	echo '</form>';
+        	echo '<form action="'.ADMIN_URL.'/index.php" method="post">'
+        	    .'&nbsp;<input name="backend_send" type="submit" value="kick me to the Backend" />'
+        	    .'</form>';
         }
-        echo "<br /><br /></div>
-        </div>
-        </div>
-        </body>
-        </html>";
-
+        echo '<br /><br /></div>'
+            .'</div>'
+            .'</div>'
+            .'</body>'
+            .'</html>';
 		exit();
 	}
 
-echo '<h3>Step '.(++$stepID).': Setting default_theme</h3>';
-$aDebugMessage = array();
+	echo '<h3>Step '.(++$stepID).': Setting default_theme</h3>';
+	$aDebugMessage = array();
 	/**********************************************************
 	 *  - Adding field default_theme to settings table
 	 */
@@ -458,11 +467,11 @@ $aDebugMessage = array();
 	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 	$aDebugMessage[] = '</div>';
 
-if($bDebugModus) {
-	echo implode(PHP_EOL,$aDebugMessage);
-}
-$aDebugMessage = array();
-echo'<h3>Step '.(++$stepID).': Updating core table included in package</h3>';
+	if($bDebugModus) {
+		echo implode(PHP_EOL,$aDebugMessage);
+	}
+	$aDebugMessage = array();
+	echo'<h3>Step '.(++$stepID).': Updating core table included in package</h3>';
 	/**********************************************************
 	 *  - Adding field sec_anchor to settings table
 	 */
