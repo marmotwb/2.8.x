@@ -36,6 +36,7 @@
  */
 if(!class_exists('PasswordHash', false))
 {
+	include(dirname(__FILE__).'/framework/PasswordHashInterface.php');
 	include(dirname(__FILE__).'/include/phpass/PasswordHash.php');
 }
 // Include config file
