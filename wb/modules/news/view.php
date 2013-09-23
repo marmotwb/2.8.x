@@ -236,19 +236,19 @@ if(!isset($post_id) || !is_numeric($post_id)){
 				$short = ($post['content_short']);
 				// Replace vars with values
 				$post_long_len = strlen($post['content_long']);
-				$vars = array('[PAGE_TITLE]', '[GROUP_ID]', '[GROUP_TITLE]', '[GROUP_IMAGE]', '[DISPLAY_GROUP]', '[DISPLAY_IMAGE]', '[TITLE]', '[SHORT]', '[LINK]', '[MODI_DATE]', '[MODI_TIME]', '[CREATED_DATE]', '[CREATED_TIME]', '[PUBLISHED_DATE]', '[PUBLISHED_TIME]', '[USER_ID]', '[USERNAME]', '[DISPLAY_NAME]', '[EMAIL]', '[TEXT_READ_MORE]','[SHOW_READ_MORE]');
+				$vars = array('[POST_ID]', '[PAGE_TITLE]', '[GROUP_ID]', '[GROUP_TITLE]', '[GROUP_IMAGE]', '[DISPLAY_GROUP]', '[DISPLAY_IMAGE]', '[TITLE]', '[SHORT]', '[LINK]', '[MODI_DATE]', '[MODI_TIME]', '[CREATED_DATE]', '[CREATED_TIME]', '[PUBLISHED_DATE]', '[PUBLISHED_TIME]', '[USER_ID]', '[USERNAME]', '[DISPLAY_NAME]', '[EMAIL]', '[TEXT_READ_MORE]','[SHOW_READ_MORE]');
 				if(isset($users[$uid]['username']) AND $users[$uid]['username'] != '')
 				{
 					if($post_long_len < 9) {
-						$values = array(PAGE_TITLE, $group_id, $group_title, $group_image, $display_group, $display_image, $post['title'], $short, '#" onclick="javascript:void(0);return false;" style="cursor:no-drop;', $post_date, $post_time, $create_date, $create_time, $publ_date, $publ_time, $uid, $users[$uid]['username'], $users[$uid]['display_name'], $users[$uid]['email'], '', 'hidden');
+						$values = array($post['post_id'], PAGE_TITLE, $group_id, $group_title, $group_image, $display_group, $display_image, $post['title'], $short, '#" onclick="javascript:void(0);return false;" style="cursor:no-drop;', $post_date, $post_time, $create_date, $create_time, $publ_date, $publ_time, $uid, $users[$uid]['username'], $users[$uid]['display_name'], $users[$uid]['email'], '', 'hidden');
 					} else {
-						$values = array(PAGE_TITLE, $group_id, $group_title, $group_image, $display_group, $display_image, $post['title'], $short, $post_link, $post_date, $post_time, $create_date, $create_time, $publ_date, $publ_time, $uid, $users[$uid]['username'], $users[$uid]['display_name'], $users[$uid]['email'], $MOD_NEWS['TEXT_READ_MORE'], 'visible');
+						$values = array($post['post_id'], PAGE_TITLE, $group_id, $group_title, $group_image, $display_group, $display_image, $post['title'], $short, $post_link, $post_date, $post_time, $create_date, $create_time, $publ_date, $publ_time, $uid, $users[$uid]['username'], $users[$uid]['display_name'], $users[$uid]['email'], $MOD_NEWS['TEXT_READ_MORE'], 'visible');
 					}
 				} else {
 					if($post_long_len < 9) {
-						$values = array(PAGE_TITLE, $group_id, $group_title, $group_image, $display_group, $display_image, $post['title'], $short, '#" onclick="javascript:void(0);return false;" style="cursor:no-drop;', $post_date, $post_time, $create_date, $create_time, $publ_date, $publ_time, '', '', '', '', '','hidden');
+						$values = array($post['post_id'], PAGE_TITLE, $group_id, $group_title, $group_image, $display_group, $display_image, $post['title'], $short, '#" onclick="javascript:void(0);return false;" style="cursor:no-drop;', $post_date, $post_time, $create_date, $create_time, $publ_date, $publ_time, '', '', '', '', '','hidden');
 					} else {
-						$values = array(PAGE_TITLE, $group_id, $group_title, $group_image, $display_group, $display_image, $post['title'], $short, $post_link, $post_date, $post_time, $create_date, $create_time, $publ_date, $publ_time, '', '', '', '', $MOD_NEWS['TEXT_READ_MORE'],'visible');
+						$values = array($post['post_id'], PAGE_TITLE, $group_id, $group_title, $group_image, $display_group, $display_image, $post['title'], $short, $post_link, $post_date, $post_time, $create_date, $create_time, $publ_date, $publ_time, '', '', '', '', $MOD_NEWS['TEXT_READ_MORE'],'visible');
 					}
 				}
 				print str_replace($vars, $values, $setting_post_loop);

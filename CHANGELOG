@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+24 Sep-2013 Build 1968 Manuela v.d.Decken(DarkViper)
+# /news/add.php insert missing [SHORT] tag
++ /news/view.php add new placeholder [POST_ID] for use in post-loop
 23 Sep-2013 Build 1967 Manuela v.d.Decken(DarkViper)
 # /news/add.php fixed some little HTML syntax bugs
 20 Sep-2013 Build 1966 Manuela v.d.Decken(DarkViper)
