@@ -28,6 +28,7 @@ if(!defined('WB_PATH')) {
 	             . '    </tr>'.PHP_EOL
 	             . '    <tr>'.PHP_EOL
 	             . '      <td class="post-short" colspan="2">'.PHP_EOL
+	             . '        [SHORT]'
 	             . '        <span style="visibility:[SHOW_READ_MORE];">'.PHP_EOL
 	             . '         <a href="[LINK]">[TEXT_READ_MORE]</a>'.PHP_EOL
 	             . '        </span>'.PHP_EOL
