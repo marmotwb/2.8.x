@@ -20,7 +20,7 @@ if(!defined('WB_PATH')) {
 	throw new IllegalFileException();
 }
 
-	$header      = '<table class="loop-header"'.PHP_EOL
+	$header      = '<table class="loop-header">'.PHP_EOL
 	             . '  <tbody>'.PHP_EOL;
 	$post_loop   = '    <tr class="post-top">'.PHP_EOL
 	             . '      <td class="post-title"><a href="[LINK]">[TITLE]</a></td>'.PHP_EOL
@@ -35,7 +35,7 @@ if(!defined('WB_PATH')) {
 	             . '    </tr>';
 	$footer      = '  </tbody>'.PHP_EOL
 	             . '</table>'.PHP_EOL
-	             . '<table class="page-header" style="display: [DISPLAY_PREVIOUS_NEXT_LINKS]'.PHP_EOL
+	             . '<table class="page-header" style="display: [DISPLAY_PREVIOUS_NEXT_LINKS]>'.PHP_EOL
 	             . '  <tbody>'.PHP_EOL
 	             . '    <tr>'.PHP_EOL
 	             . '      <td class="page-left">[PREVIOUS_PAGE_LINK]</td>'.PHP_EOL
@@ -44,7 +44,7 @@ if(!defined('WB_PATH')) {
 	             . '    </tr>'.PHP_EOL
 	             . '  </tbody>'.PHP_EOL
 	             . '</table>'.PHP_EOL;
-	$post_header = '<table class="post-header"'.PHP_EOL
+	$post_header = '<table class="post-header">'.PHP_EOL
 	             . '  <tbody>'.PHP_EOL
 	             . '    <tr>'.PHP_EOL
 	             . '      <td><h1>[TITLE]</h1></td>'.PHP_EOL

@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+23 Sep-2013 Build 1967 Manuela v.d.Decken(DarkViper)
+# /news/add.php fixed some little HTML syntax bugs
 20 Sep-2013 Build 1966 Manuela v.d.Decken(DarkViper)
 ! upgrade-script.php add loading interface PasswordHashInterface
 19 Sep-2013 Build 1965 Manuela v.d.Decken(DarkViper)
