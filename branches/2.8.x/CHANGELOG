@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+30 Sep-2013 Build 1969 Dietmar Woellbrink (Luisehahne)
+# fixed wrong [REFERRER_ID] replacement for search 
+# security Application error message fix in search/search.php
 24 Sep-2013 Build 1968 Manuela v.d.Decken(DarkViper)
 # /news/add.php insert missing [SHORT] tag
 + /news/view.php add new placeholder [POST_ID] for use in post-loop
