@@ -428,13 +428,23 @@ $admin = new admin('Pages', 'pages_settings');
 		$aTplBlockData['PAGE_CODE_LABEL_TEXT'] = $mLang->TEXT_PAGE_CODE;
 		$aTplBlockData['PAGE_CODE_UPDATE_URL'] = WB_REL.'/modules/MultiLingual/update_keys.php?page_id='.$page_id;
 	// get the root element(level 0) of current page with same language  in same menu
-		$sql =  'SELECT `page_id` FROM `'.$oDb->TablePrefix.'pages` '
-		     .  'WHERE `language`=\''.DEFAULT_LANGUAGE.'\' '
-		     .         'AND `level`=0 ';
-		if(defined('MULTIPLE_MENUS') && MULTIPLE_MENUS == 'true') {
-			$sql .=    'AND `menu`='.$aCurrentPage['menu'].' ';
-		}
-		$sql .= 'ORDER BY `position` ASC';
+//		$sql =  'SELECT `page_id` FROM `'.$oDb->TablePrefix.'pages` '
+//		     .  'WHERE `language`=\''.DEFAULT_LANGUAGE.'\' '
+//		     .         'AND `level`=0 ';
+//		if(defined('MULTIPLE_MENUS') && MULTIPLE_MENUS == 'true') {
+////			$sql .=    'AND `menu`='.$aCurrentPage['menu'].' ';
+//		}
+//		$sql .= 'ORDER BY `position` ASC';
+        $sLangKey = DEFAULT_LANGUAGE;
+        $sql = 'SELECT DISTINCT `page_id` '
+             . 'FROM `'.$oDb->TablePrefix.'pages` '
+             . 'WHERE `level`= \'0\' '
+             .   'AND `root_parent`=`page_id` '
+             .   'AND `visibility`!=\'none\' '
+             .   'AND `visibility`!=\'hidden\' '
+             .   ( ($sLangKey!='') ? ' AND `language` = \''.$sLangKey.'\'' : '')
+             .   'GROUP BY `language` '
+             .   'ORDER BY `position`';
 		$iLangStartPageId = $oDb->get_one($sql);
 	// read the tree of the found root element
 		$oPageList = new a_pages_SmallRawPageTree();

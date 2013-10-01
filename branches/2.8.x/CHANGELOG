@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+01 Oct-2013 Build 1970 Dietmar Woellbrink (Luisehahne)
+! MultiLingual set svn properties to all files
+# MultiLingual typofix in methode updateDefaultPagesCode
+! Pages settings fix output page_code treelist (not ready yet)
 30 Sep-2013 Build 1969 Dietmar Woellbrink (Luisehahne)
 # fixed wrong [REFERRER_ID] replacement for search 
 # security Application error message fix in search/search.php

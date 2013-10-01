@@ -26,9 +26,9 @@
  * @copyright    Werner v.d.Decken <wkl@isteam.de>
  * @license      http://www.gnu.org/licenses/gpl.html   GPL License
  * @version      1.6.8
- * @revision     $Revision: $
- * @link         $HeadURL: $
- * @lastmodified $Date: $
+ * @revision     $Revision$
+ * @link         $HeadURL$
+ * @lastmodified $Date$
  * @since        File available since 09.01.2013
  * @description  provides a flexible posibility for changeing to a translated page
  */
@@ -62,7 +62,7 @@ class m_MultiLingual_Lib {
 		$this->_oApp        = (isset($GLOBALS['admin']) ? $GLOBALS['admin'] : $GLOBALS['wb']);
 		$this->_oDb         = WbDatabase::getInstance();
 		$this->_oReg        = WbAdaptor::getInstance();
-		$this->_config      = parse_ini_file(dirname(__FILE__).'/default.ini',true);
+		$this->_config      = $this->_aConfig = $this->getConfig((dirname(__FILE__)).'/default.ini');
 		$this->_aTwigEnv    = $this->_config['twig-environment'];
 		$this->_aTwigLoader = $this->_config['twig-loader-file'];
 	}
@@ -185,6 +185,15 @@ class m_MultiLingual_Lib {
 	}
 
 
+    protected function getConfig($sFilename)
+    {
+        if(is_readable($sFilename)){
+            return parse_ini_file($sFilename, true);
+        }else {
+            return null;
+        }
+    }
+
 
 	private function _getAllowedLanguagesFromAddons($sLangKey='')
 	{
@@ -300,7 +309,7 @@ class m_MultiLingual_Lib {
 // fill page_code with page_id for default_language
 		while( list( $page_id, $val ) = each ( $entries ) )
 		{
-			if( $val['language'] == $this->_oReg->DefaultLangauage ) {
+			if( $val['language'] == $this->_oReg->DefaultLanguage ) {
 				if( ($retVal = $this->_updatePageCode((int)$page_id, 'pages', (int)$page_id ))==false ){ break;  }
 			}
 		}
