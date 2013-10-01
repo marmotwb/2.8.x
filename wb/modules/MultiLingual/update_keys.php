@@ -26,9 +26,9 @@
  * @copyright    Werner v.d.Decken <wkl@isteam.de>
  * @license      http://www.gnu.org/licenses/gpl.html   GPL License
  * @version      1.6.8
- * @revision     $Revision: $
- * @link         $HeadURL: $
- * @lastmodified $Date: $
+ * @revision     $Revision$
+ * @link         $HeadURL$
+ * @lastmodified $Date$
  * @since        File available since 09.01.2013
  * @description  xyz
  */
@@ -55,6 +55,8 @@ require(WB_PATH.'/modules/admin.php');
 $temp_page_id =  intval( htmlentities($page_id ) );
 
 $oTrans = Translate::getInstance();
+$oTrans->enableAddon( 'modules/'.basename(dirname(__FILE__)) );
+
 // check for page languages
 $oPageLang = new m_MultiLingual_Lib();
 $Result = $oPageLang->updateDefaultPagesCode(); 
