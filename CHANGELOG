@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+01 Oct-2013 Build 1971 Dietmar Woellbrink (Luisehahne)
+! Finished Pages settings output page_code treelist
 01 Oct-2013 Build 1970 Dietmar Woellbrink (Luisehahne)
 ! MultiLingual set svn properties to all files
 # MultiLingual typofix in methode updateDefaultPagesCode

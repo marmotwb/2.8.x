@@ -48,7 +48,7 @@ $admin = new admin('Pages', 'pages_settings');
 			// if parent = 0 set flag_icon
 			$oTpl->set_var('FLAG_ROOT_ICON',' none ');
 			if( $page['parent'] == 0  && $field_set) {
-				$oTpl->set_var('FLAG_ROOT_ICON','url('.THEME_URL.'/images/flags/'.strtolower($page['language']).'.png)');
+				$oTpl->set_var('FLAG_ROOT_ICON','url('.WB_REL.'/'.str_replace(WB_URL, '', THEME_URL).'/images/flags/'.strtolower($page['language']).'.png)');
 			}
 			// If the current page cannot be parent, then its children neither
 			$list_next_level = true;
@@ -456,8 +456,10 @@ $admin = new admin('Pages', 'pages_settings');
 	// add 'no selection' option at top
 		if($admin->get_permission('pages_add_l0') OR !$aCurrentPage['level'])
 		{
-			$aTplItemData['PAGE_CODE_VALUE']      = 0;
-			$aTplItemData['PAGE_CODE_PAGE_TITLE'] = $mLang->TEXT_NONE;
+			$sThemeRel = WB_REL.'/'.str_replace(WB_URL, '', THEME_URL).'/images/flags/'.strtolower($sLangKey).'.png';
+			$aTplItemData['PAGE_CODE_ICON_URL'] = 'url('.$sThemeRel.')';
+			$aTplItemData['PAGE_CODE_VALUE']      = $iLangStartPageId;
+			$aTplItemData['PAGE_CODE_PAGE_TITLE'] = $sLangKey;
 			$bPageCodeIsSelected = ($aCurrentPage['page_code'] == 0);
 			$aTplItemData['PAGE_CODE_SELECTED'] = ($bPageCodeIsSelected ? $sSelected : '');
 			$oTpl->set_var($aTplItemData);
@@ -476,8 +478,8 @@ $admin = new admin('Pages', 'pages_settings');
 		//skip entry if it's not visible
 			if(($admin->page_is_visible($aPage)==false) && ($aPage['visibility'] <> 'none') ) { continue; }
 		// insert language flag on level 0
-			$sThemeRel = WB_REL.'/'.str_replace(WB_URL, '', THEME_URL).'/images/flags/'.strtolower($aPage['language']).'.png)';
-			$aTplItemData['PAGE_CODE_ICON_URL'] = ($aPage['level'] ? 'url('.$sThemeRel.')' : 'none');
+			$sThemeRel = WB_REL.'/'.str_replace(WB_URL, '', THEME_URL).'/images/flags/'.strtolower($sLangKey).'.png';
+			$aTplItemData['PAGE_CODE_ICON_URL'] = ($aPage['level'] ? 'none' : 'url('.$sThemeRel.')');
 		// create indent chars
 			$sTitlePrefix = str_repeat('--&nbsp;', $aPage['level']).'&nbsp;';
 			$aTplItemData['PAGE_CODE_PAGE_TITLE'] = $sTitlePrefix . $aPage['menu_title'];
