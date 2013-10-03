@@ -98,8 +98,8 @@ class m_MultiLingual_Lib {
 		     . 'FROM `'.$this->_oReg->TablePrefix.'pages` '
 		     . 'WHERE `level`= \'0\' '
 		     .   'AND `root_parent`=`page_id` '
-		     .   'AND `visibility`!=\'none\' '
-		     .   'AND `visibility`!=\'hidden\' '
+		     .   'AND (`visibility`!=\'none\' '
+		     .   'AND `visibility`!=\'hidden\') '
 		     .   ( ($sLangKey!='') ? ' AND `language` = \''.$sLangKey.'\'' : '')
 		     .   'GROUP BY `language` '
 		     .   'ORDER BY `position`';

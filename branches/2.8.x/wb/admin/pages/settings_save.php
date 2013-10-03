@@ -278,8 +278,8 @@ $page_trail = get_page_trail($page_id);
 // Update page settings in the pages table
 $sql = 'UPDATE `'.TABLE_PREFIX.'pages` '
 	 . 'SET `parent`='.$parent.', '
-	 .     '`page_title`=\''.$page_title.'\', '
-	 .     '`tooltip`=\''.$page_title.'\', '
+	 .     '`page_title`=\''.$database->escapeString($page_title).'\', '
+	 .     '`tooltip`=\''.$database->escapeString($page_title).'\', '
 	 .     '`page_icon` =\''.$database->escapeString($sPageIcon).'\', '
 	 .     '`menu_title`=\''.$database->escapeString($menu_title).'\', '
 	 .     '`menu_icon_0` =\''.$database->escapeString($sMenuIcon0).'\', '

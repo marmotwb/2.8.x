@@ -125,6 +125,39 @@ $admin = new admin('Pages', 'pages_settings');
 		$admin->print_header();
 		$admin->print_error($MESSAGE['PAGES_NOT_FOUND']);
 	}
+/* -------------------------------------------------------------------------------------*/
+
+/*-- test if multilanguage page_code -----------------------------------------------------*/
+    function getLangInUsedDbResult ( $sLangKey='' ) {
+    global $admin,$aCurrentPage;
+    	$aPage = array();
+    	$aRetval = array();
+    	$oDb = WbDatabase::getInstance();
+    	if( (defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && class_exists('m_MultiLingual_Lib'))
+    	{
+    		$sql = 'SELECT DISTINCT `language`,'
+    		     .                 '`page_id`,`level`,`parent`,`root_parent`,`page_code`,`link`,'
+    		     .                 '`visibility`,`viewing_groups`,`viewing_users`,`position`,`page_title` '
+                 . 'FROM `'.$oDb->TablePrefix.'pages` '
+                 . 'WHERE `level`= 0 '
+                 .   'AND `root_parent`=`page_id` '
+                 .   'AND (`visibility`!=\'none\' '
+                 .   'AND `visibility`!=\'hidden\') '
+                 .   ( ($sLangKey!='') ? ' AND `language` = \''.$sLangKey.'\' ' : '')
+//                 .   ( (defined('MULTIPLE_MENUS') && MULTIPLE_MENUS == 'true') ? ' AND `menu` = \''.$aCurrentPage['menu'].'\' ' : '')
+                 .   'GROUP BY `language` '
+                 .   'ORDER BY `position`';
+        	if($oRes = $oDb->query($sql)){
+        		while($aPage = $oRes->fetchRow(MYSQL_ASSOC))
+        		{
+        			if(!$admin->page_is_visible($aPage)) {continue;}
+        			$aRetval[$aPage['language']] = $aPage;
+        		}
+            }
+    	}
+        return ( sizeof($aRetval) ? $aRetval : false);
+    }
+/* -------------------------------------------------------------------------------------*/
 // Get display name of person who last modified the page
 	$user=$admin->get_user_details($aCurrentPage['modified_by']);
 // Convert the unix ts for modified_when to human a readable form
@@ -277,13 +310,24 @@ $admin = new admin('Pages', 'pages_settings');
 	}
 /*-- show visibility select box --------------------------------------------------------*/
 	$aVisibility = array();
+    $sLangKey = '';
+    if( sizeof(getLangInUsedDbResult())>1 ) {
+        $sLangKey = DEFAULT_LANGUAGE;
+    	$aLangStartPageId = array();
+        $aLangStartPageId = getLangInUsedDbResult($sLangKey);
+        $iLangStartPageId = $aLangStartPageId[$sLangKey]['page_id'];
+    }
+
 	$aVisibility['PUBLIC_SELECTED']     = ($aCurrentPage['visibility'] == 'public' ? $sSelected : '');
 	$aVisibility['PRIVATE_SELECTED']    = ($aCurrentPage['visibility'] == 'private' ? $sSelected : '');
 	$aVisibility['REGISTERED_SELECTED'] = ($aCurrentPage['visibility'] == 'registered' ? $sSelected : '');
 	$aVisibility['HIDDEN_SELECTED']     = ($aCurrentPage['visibility'] == 'hidden' ? $sSelected : '');
 	$aVisibility['NO_VIS_SELECTED']     = ($aCurrentPage['visibility'] == 'none' ? $sSelected : '');
+    if( ($aCurrentPage['language'] == $sLangKey) && ($aCurrentPage['page_id']==$iLangStartPageId) ) {
+    	$aVisibility['HIDDEN_SELECTED'] = ($aCurrentPage['visibility'] == 'hidden' ? $sDisabled : $sDisabled);
+    	$aVisibility['NO_VIS_SELECTED'] = ($aCurrentPage['visibility'] == 'none' ? $sDisabled : $sDisabled);
+    }
 	$oTpl->set_var($aVisibility);
-
 /*-- admin group list block ------------------------------------------------------------*/
 	$aAdminGroups = explode(',', '1,'.$aCurrentPage['admin_groups']);
 	$sAdminGroups = implode(',', array_unique($aAdminGroups));
@@ -419,33 +463,15 @@ $admin = new admin('Pages', 'pages_settings');
 		$oTpl->set_var('DISPLAY_VIEWERS', 'display:none;');
 	}
 /*-- start multilanguage page_code -----------------------------------------------------*/
+//    $sLangKey='';
 	$oTpl->set_block('main_block', 'show_page_code_block',  'show_page_code');
 	if( (defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) &&
-		 isset($aCurrentPage['page_code']) && class_exists('m_MultiLingual_Lib'))
+		 isset($aCurrentPage['page_code']) && sizeof(getLangInUsedDbResult())>1 )
 	{
 		$aTplBlockData = array();
 	// workout field is set but module missing
 		$aTplBlockData['PAGE_CODE_LABEL_TEXT'] = $mLang->TEXT_PAGE_CODE;
 		$aTplBlockData['PAGE_CODE_UPDATE_URL'] = WB_REL.'/modules/MultiLingual/update_keys.php?page_id='.$page_id;
-	// get the root element(level 0) of current page with same language  in same menu
-//		$sql =  'SELECT `page_id` FROM `'.$oDb->TablePrefix.'pages` '
-//		     .  'WHERE `language`=\''.DEFAULT_LANGUAGE.'\' '
-//		     .         'AND `level`=0 ';
-//		if(defined('MULTIPLE_MENUS') && MULTIPLE_MENUS == 'true') {
-////			$sql .=    'AND `menu`='.$aCurrentPage['menu'].' ';
-//		}
-//		$sql .= 'ORDER BY `position` ASC';
-        $sLangKey = DEFAULT_LANGUAGE;
-        $sql = 'SELECT DISTINCT `page_id` '
-             . 'FROM `'.$oDb->TablePrefix.'pages` '
-             . 'WHERE `level`= \'0\' '
-             .   'AND `root_parent`=`page_id` '
-             .   'AND `visibility`!=\'none\' '
-             .   'AND `visibility`!=\'hidden\' '
-             .   ( ($sLangKey!='') ? ' AND `language` = \''.$sLangKey.'\'' : '')
-             .   'GROUP BY `language` '
-             .   'ORDER BY `position`';
-		$iLangStartPageId = $oDb->get_one($sql);
 	// read the tree of the found root element
 		$oPageList = new a_pages_SmallRawPageTree();
 		$aLangCodePagesList = $oPageList->getParentList($iLangStartPageId);

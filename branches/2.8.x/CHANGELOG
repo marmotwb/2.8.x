@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+03 Oct-2013 Build 1972 Dietmar Woellbrink (Luisehahne)
+# bugfix pages/settings_save.php sql strict
+! update fix pages/settings.php page code list
+  deactivate hidden and none visibility for first default_language sub
 01 Oct-2013 Build 1971 Dietmar Woellbrink (Luisehahne)
 ! Finished Pages settings output page_code treelist
 01 Oct-2013 Build 1970 Dietmar Woellbrink (Luisehahne)

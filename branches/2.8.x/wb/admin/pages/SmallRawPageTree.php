@@ -26,9 +26,9 @@
  * @author       Manuela v.d.Decken <manuela@isteam.de>
  * @license      http://www.gnu.org/licenses/gpl.html   GPL License
  * @version      0.0.1
- * @revision     $Revision: $
- * @link         $HeadURL: $
- * @lastmodified $Date: $
+ * @revision     $Revision$
+ * @link         $HeadURL$
+ * @lastmodified $Date$
  * @since        File available since 05.08.2013
  * @description  xyz
  */
