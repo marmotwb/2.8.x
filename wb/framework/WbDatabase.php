@@ -40,6 +40,7 @@ class WbDatabase {
 
 	private $_db_handle  = null; // readonly from outside
 	private $_db_name    = '';
+	private $_sInstanceIdentifier = '';
 	protected $sTablePrefix = '';
 	protected $sCharset     = '';
 	protected $connected    = false;
@@ -59,7 +60,9 @@ class WbDatabase {
 	public static function getInstance($sIdentifier = 'core') {
 		if( !isset(self::$_oInstances[$sIdentifier])) {
             $c = __CLASS__;
-            self::$_oInstances[$sIdentifier] = new $c;
+			$oInstance = new $c;
+			$oInstance->_sInstanceIdentifier = $sIdentifier;
+            self::$_oInstances[$sIdentifier] = $oInstance;
 		}
 		return self::$_oInstances[$sIdentifier];
 	}
@@ -83,6 +86,7 @@ class WbDatabase {
  * Example for SQL-Url:  'mysql://user:password@demo.de[:3306]/datenbank'
  */
 	public function doConnect($url = '') {
+		if($this->connected) { return $this->connected; } // prevent from reconnecting
 		$this->connected = false;
 		if($url != '') {
 			$aIni = parse_url($url);
@@ -137,12 +141,12 @@ class WbDatabase {
 
 	// Disconnect from the database
 	public function disconnect() {
-		if($this->connected==true) {
+		if($this->connected == true && $oInstance->_sInstanceIdentifier != 'core' ) {
 			mysql_close($this->_db_handle);
+			$this->connected = false;
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	// Run a query
@@ -227,6 +231,7 @@ class WbDatabase {
 			case 'getTablePrefix':
 				$retval = $this->sTablePrefix;			
 				break;
+			case 'QueryCount':
 			case 'getQueryCount':
 				$retval = $this->iQueryCount;
 				break;

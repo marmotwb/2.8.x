@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+04 Oct-2013 Build 1974 Manuela v.d.Decken(DarkViper)
+! /framework/WbDatabase  fixed little problem with multiple database connections
 03 Oct-2013 Build 1973 Manuela v.d.Decken(DarkViper)
 ! /update-script.php last correction for loading PasswordHash packet
 # -- Typo fix line 87
