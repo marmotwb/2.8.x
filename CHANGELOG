@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+03 Oct-2013 Build 1973 Manuela v.d.Decken(DarkViper)
+! /update-script.php last correction for loading PasswordHash packet
+# -- Typo fix line 87
+! /admin/pages/PageTree // SmallRawPageTree : adaption of Translate and WbAdapter
 03 Oct-2013 Build 1972 Dietmar Woellbrink (Luisehahne)
 # bugfix pages/settings_save.php sql strict
 ! update fix pages/settings.php page code list

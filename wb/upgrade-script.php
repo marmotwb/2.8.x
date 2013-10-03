@@ -34,11 +34,40 @@
  * @deprecated   
  * @description  xyz
  */
-if(!class_exists('PasswordHash', false))
+// --- delete fatal disturbing files before upgrade starts -------------------------------
+$aPreDeleteFiles = array(
+// list of files
+	dirname(__FILE__).'/framework/PasswordHash.php'
+);
+if(sizeof($aPreDeleteFiles > 0))
 {
-	include(dirname(__FILE__).'/framework/PasswordHashInterface.php');
-	include(dirname(__FILE__).'/include/phpass/PasswordHash.php');
+// if there are files defined
+	$sMsg = '';
+	foreach($aPreDeleteFiles as $sFileToDelete)
+	{
+	// iterate the list
+		if(file_exists($sFileToDelete))
+		{
+			if(!is_writeable($sFileToDelete) || !@unlink($sFileToDelete))
+			{
+			// notice if deleting fails
+				$sMsg .= '<span style="color:red;">FAILED</span> deleting: '
+				       . $sFileToDelete.'<br />'.PHP_EOL;
+			}
+		}
+	}
+	if($sMsg) {
+	// stop script if there's an error occured
+		$sMsg = 'Fatal error occured during initial startup.<br /><br />'.PHP_EOL.$sMsg
+		      . '<br />'.PHP_EOL.'Please delete all of the files above manually and '
+		      . 'then <a href="http://'.$_SERVER["HTTP_HOST"].$_SERVER["SCRIPT_NAME"].'" '
+		      . 'title="restart">klick here to restart the upgrade-script</a>.<br />'.PHP_EOL;
+		die($sMsg);
+	}
 }
+unset($aPreDeleteFiles);
+$sMsg = '';
+// ---------------------------------------------------------------------------------------
 // Include config file
 $config_file = dirname(__FILE__).'/config.php';
 if(file_exists($config_file) && !defined('WB_URL'))
@@ -55,7 +84,7 @@ $sql  = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` '
       . 'WHERE `name`=\'pages_directory\'';
 $sPagesDirectory = WbDatabase::getInstance()->get_one($sql);
 $sTmp = trim($sPagesDirectory, '/');
-$sTmp = ($sTmp == '' ? '' : '/'.$sTmp);
+$sTmpDir = ($sTmp == '' ? '' : '/'.$sTmp);
 if($sTmp != $sPagesDirectory) {
 	$sql = 'UPDATE `'.TABLE_PREFIX.'settings` '
 		 . 'SET `value` = \''.$sTmpDir.'\' '
