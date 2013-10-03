@@ -61,7 +61,7 @@ class a_pages_SmallRawPageTree extends a_pages_PageTree{
 			$iMinPosition = 1;
 			while($aPage = $oPages->fetchRow(MYSQL_ASSOC))
 			{ // iterate through the current branch
-				if($this->_aReg['PAGE_LEVEL_LIMIT'] && ($aPage['level'] > $this->_aReg['PAGE_LEVEL_LIMIT'])) {
+				if($this->_oReg->PageLevelLimit && ($aPage['level'] > $this->_oReg->PageLevelLimit)) {
 					return '';
 				}
 				$aPage['min_position'] = ($aPage['position'] < $iMinPosition ? $aPage['position'] : $iMinPosition);
@@ -70,7 +70,7 @@ class a_pages_SmallRawPageTree extends a_pages_PageTree{
 				if( $this->_oApp->ami_group_member($aPage['admin_users']) ||
 					$this->_oApp->is_group_match($this->_oApp->get_groups_id(), $aPage['admin_groups']))
 				{
-					if(($aPage['visibility'] == 'deleted' && $this->_aReg['PAGE_TRASH'] == 'inline') ||
+					if(($aPage['visibility'] == 'deleted' && $this->_oReg->PageTrash == 'inline') ||
 					   ($aPage['visibility'] != 'deleted'))
 					{
 						$aPage['iswriteable'] = true;

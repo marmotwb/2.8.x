@@ -33,18 +33,14 @@
 	
 class a_pages_PageTree
 {
-/** @var array language definitions */
-	protected $_TEXT     = null;
-/** @var array language definitions */
-	protected $_MESSAGE  = null;
-/** @var array language definitions */
-	protected $_HEADING  = null;
 /** @var object instance of the application object */
 	protected $_oApp     = null;
 /** @var object instance of the database object */
 	protected $_oDb      = null;
-/** @var array holds several values from the application global scope */	
-	protected $_aReg     = array();
+/** @var object instance holds several values from the application global scope */
+	protected $_oReg     = null;
+/** @var object instance holds all of the translations */
+	protected $_oTrans   = null;
 /** @var string full HTML formattet list of pages */
 	protected $_sOutput         = '';
 /** @var integer number of all reachable pages */	
@@ -63,7 +59,10 @@ class a_pages_PageTree
 	public function __construct() 
 	{
 		// import global vars and objects
-		$this->_wbAdaptor();
+		$this->_oApp   = $GLOBALS['admin'];
+		$this->_oDb    = WbDatabase::getInstance();
+		$this->_oReg   = WbAdaptor::getInstance();
+		$this->_oTrans = Translate::getInstance();
 	}
 /**
  * parse the page tree and return
@@ -105,26 +104,6 @@ class a_pages_PageTree
 		return $this->_aParentList;
 	}
 /**
- * used to import some WB-constants and objects
- */	
-	protected function _wbAdaptor()
-	{
-		$this->_TEXT        = $GLOBALS['TEXT'];
-		$this->_MESSAGE     = $GLOBALS['MESSAGE'];
-		$this->_HEADING     = $GLOBALS['HEADING'];
-		$this->_oApp        = $GLOBALS['admin'];
-		$this->_oDb         = WbDatabase::getInstance();
-		$this->_aReg['PAGE_TRASH']       = PAGE_TRASH;
-		$this->_aReg['PAGE_LEVEL_LIMIT'] = PAGE_LEVEL_LIMIT;
-		$this->_aReg['MANAGE_SECTIONS']  = MANAGE_SECTIONS;
-		$this->_aReg['DOCUMENT_ROOT']    = $_SERVER['DOCUMENT_ROOT'];
-		$this->_aReg['WB_URL']           = WB_URL;
-		$this->_aReg['WB_REL']           = WB_REL;
-		$this->_aReg['ACP_REL']          = ADMIN_REL;
-		$this->_aReg['THEME_REL']        = THEME_REL;
-		$this->_aReg['TABLE_PREFIX']     = TABLE_PREFIX;
-	}
-/**
  * create a page tree as a well formatted, unordered list
  * @param int use page-ID as root of the generated page tree. (default: 0)
  * @return string the whoole list
@@ -139,12 +118,12 @@ class a_pages_PageTree
 		      . $this->_Tabs(1).'<tbody>'.PHP_EOL
 		      . $this->_Tabs(1).'<tr class="pages_list_header">'.PHP_EOL
 		      . $this->_Tabs(1).'<th style="width:20px;">'.PHP_EOL.'</th>'.PHP_EOL
-		      . $this->_Tabs(1).'<th class="list_menu_title">'.$this->_TEXT['VISIBILITY'].
-		                        ' / '.$this->_TEXT['MENU_TITLE'].':</th>'.PHP_EOL
-		      . $this->_Tabs(0).'<th class="list_page_title">'.$this->_TEXT['PAGE_TITLE'].
+		      . $this->_Tabs(1).'<th class="list_menu_title">'.$this->_oTrans->TEXT_VISIBILITY.
+		                        ' / '.$this->_oTrans->TEXT_MENU_TITLE.':</th>'.PHP_EOL
+		      . $this->_Tabs(0).'<th class="list_page_title">'.$this->_oTrans->TEXT_PAGE_TITLE.
 		                        '</th>'.PHP_EOL
 		      . $this->_Tabs(0).'<th class="list_page_id">PID</th>'.PHP_EOL
-		      . $this->_Tabs(0).'<th class="header_list_actions">'.$this->_TEXT['ACTIONS'].
+		      . $this->_Tabs(0).'<th class="header_list_actions">'.$this->_oTrans->TEXT_ACTIONS.
 		                        ':</th>'.PHP_EOL
 		      . $this->_Tabs(0).'<th class="list_page_id">&nbsp;</th>'.PHP_EOL
 		      . $this->_Tabs(-1).'</tr>'.PHP_EOL
@@ -176,25 +155,26 @@ class a_pages_PageTree
 	}
 /**
  * compose the needed SQL statement
- * @param integer $iParentKey
+ * @param  integer $iParentKey
  * @return string SQL statement
  */			
 	protected function _makeSql($iParentKey = 0)
 	{
+		$iParentKey = intval($iParentKey);
 		$sql  = 'SELECT ( SELECT COUNT(*) '
-		      .          'FROM `'.$this->_aReg['TABLE_PREFIX'].'pages` `x` '
+		      .          'FROM `'.$this->_oDb->TablePrefix.'pages` `x` '
 		      .          'WHERE x.`parent`=p.`page_id`'
 		      .        ') `children`, '
 		      .        's.`module`, MAX(s.`publ_start` + s.`publ_end`) published, p.`link`, '
-		      .        '(SELECT MAX(`position`) FROM `'.$this->_aReg['TABLE_PREFIX'].'pages` '
+		      .        '(SELECT MAX(`position`) FROM `'.$this->_oDb->TablePrefix.'pages` '
 		      .        'WHERE `parent`='.$iParentKey.') max_position, '
 		      .        '0 min_position, '
 		      .        'p.`position`, '
 		      .        'p.`page_id`, p.`parent`, p.`level`, p.`language`, p.`admin_groups`, '
 		      .        'p.`admin_users`, p.`viewing_groups`, p.`viewing_users`, p.`visibility`, '
 		      .        'p.`menu_title`, p.`page_title`, p.`page_trail` '
-		      . 'FROM `'.$this->_aReg['TABLE_PREFIX'].'pages` p '
-		      .    'INNER JOIN `'.$this->_aReg['TABLE_PREFIX'].'sections` s '
+		      . 'FROM `'.$this->_oDb->TablePrefix.'pages` p '
+		      .    'INNER JOIN `'.$this->_oDb->TablePrefix.'sections` s '
 		      .    'ON p.`page_id`=s.`page_id` ';
 //		if($iParentKey) {
 //
@@ -204,7 +184,7 @@ class a_pages_PageTree
 			$sql .= 'WHERE `parent`='.$iParentKey.' ';
 //		}
 	// do not get pages with 'deleted' flag set on activated trashcan
-		if($this->_aReg['PAGE_TRASH'] != 'inline') {
+		if($this->_oReg->PageTrash != 'inline') {
 			$sql .= 'AND `visibility`!=\'deleted\' ';
 		}
 		$sql .= 'GROUP BY p.`page_id` '
@@ -237,7 +217,7 @@ class a_pages_PageTree
 			$iMinPosition = 1;
 			while($aPage = $oPages->fetchRow(MYSQL_ASSOC))
 			{ // iterate through the current branch
-				if($this->_aReg['PAGE_LEVEL_LIMIT'] && ($aPage['level'] > $this->_aReg['PAGE_LEVEL_LIMIT'])) {
+				if($this->_oReg->PageLevelLimit && ($aPage['level'] > $this->_oReg->PageLevelLimit)) {
 					return '';
 				}
 				$aPage['min_position'] = ($aPage['position'] < $iMinPosition ? $aPage['position'] : $iMinPosition);
@@ -246,7 +226,7 @@ class a_pages_PageTree
 				if( $this->_oApp->ami_group_member($aPage['admin_users']) ||
 					$this->_oApp->is_group_match($this->_oApp->get_groups_id(), $aPage['admin_groups']))
 				{
-					if(($aPage['visibility'] == 'deleted' && $this->_aReg['PAGE_TRASH'] == 'inline') ||
+					if(($aPage['visibility'] == 'deleted' && $this->_oReg->PageTrash == 'inline') ||
 					   ($aPage['visibility'] != 'deleted'))
 					{
 						$aPage['iswriteable'] = true;
@@ -281,8 +261,8 @@ class a_pages_PageTree
 		          . (int)($aPage['level']*20).'px;">';
 		if((bool)$aPage['children']) {
 			$sOutput .= '<a href="javascript:toggle_visibility(\'p'.$aPage['page_id'].'\');" '
-			          . 'title="'.$this->_TEXT['EXPAND'].'/'.$this->_TEXT['COLLAPSE'].'">'
-			          . '<span><img src="'.$this->_aReg['THEME_REL'].'/images/'
+			          . 'title="'.$this->_oTrans->TEXT_EXPAND.'/'.$this->_oTrans->TEXT_COLLAPSE.'">'
+			          . '<span><img src="'.$this->_oReg->ThemeRel.'/images/'
 			          . ( ((isset($_COOKIE['p'.$aPage['page_id']]) 
 						  && $_COOKIE['p'.$aPage['page_id']] == '1') ? 'minus' : 'plus')
 						)
@@ -295,15 +275,15 @@ class a_pages_PageTree
 	// --- TAB 2 --- (menu title) --------------------------------------------------------
 		$sOutput .= $this->_Tabs(0).'<td class="list_menu_title">';
 		if($this->_oApp->get_permission('pages_modify') && $aPage['iswriteable']) {
-			$sOutput .= '<a href="'.$this->_aReg['ACP_REL'].'/pages/modify.php?page_id='
-			          . $aPage['page_id'].'" title="'.$this->_TEXT['MODIFY'].'">';
+			$sOutput .= '<a href="'.$this->_oReg->AcpRel.'/pages/modify.php?page_id='
+			          . $aPage['page_id'].'" title="'.$this->_oTrans->TEXT_MODIFY.'">';
 		}
-		$sIcon = $this->_aReg['THEME_REL'].'/images/'.$aPage['visibility'].'_16.png';
-		if(!is_readable($this->_aReg['DOCUMENT_ROOT'].$sIcon)) {
-			$sIcon = $this->_aReg['THEME_REL'].'/images/public_16.png';
+		$sIcon = $this->_oReg->ThemeRel.'/images/'.$aPage['visibility'].'_16.png';
+		if(!is_readable($this->_oReg->DocumentRoot.$sIcon)) {
+			$sIcon = $this->_oReg->ThemeRel.'/images/public_16.png';
 		}
-		$sOutput .= '<img src="'.$sIcon.'" alt="'.$this->_TEXT['VISIBILITY'].': '
-		          . $this->_TEXT[strtoupper($aPage['visibility'])].'" class="page_list_rights" />';
+		$sOutput .= '<img src="'.$sIcon.'" alt="'.$this->_oTrans->TEXT_VISIBILITY.': '
+				  . $this->_oTrans->{'TEXT_'.strtoupper($aPage['visibility'])}  .'" class="page_list_rights" />';
 		if($this->_oApp->get_permission('pages_modify') && $aPage['iswriteable']) {
 			$sOutput .= '<span class="modify_link">'.$aPage['menu_title'].'</span></a>';
 		}else {
@@ -317,16 +297,16 @@ class a_pages_PageTree
 	// --- TAB 5 --- (show this page in new window) --------------------------------------
 		$sOutput .= $this->_Tabs(0).'<td class="list_actions">';
 		if($aPage['visibility'] != 'deleted' && $aPage['visibility'] != 'none') {
-			$sPageLink = $this->_aReg['WB_REL'].preg_replace(
-			                                 '/^'.preg_quote($this->_aReg['WB_URL'], '/').'/siU', 
+			$sPageLink = $this->_oReg->AppRel.preg_replace(
+			                                 '/^'.preg_quote($this->_oReg->AppUrl, '/').'/siU',
 			                                 '', 
 			                                 $this->_oApp->page_link($aPage['link'])
 			                                );
-			$sOutput .= '<a href="'.$sPageLink.'" target="_blank" title="'.$this->_TEXT['VIEW']
-			          . '"><img src="'.$this->_aReg['THEME_REL'].'/images/view_16.png" alt="'
-			          . $this->_TEXT['VIEW'].'" /></a>';
+			$sOutput .= '<a href="'.$sPageLink.'" target="_blank" title="'.$this->_oTrans->TEXT_VIEW
+			          . '"><img src="'.$this->_oReg->ThemeRel.'/images/view_16.png" alt="'
+			          . $this->_oTrans->TEXT_VIEW.'" /></a>';
 		}else { 
-			$sOutput .= '<img src="'.$this->_aReg['THEME_REL'].'/images/blank_16.gif" alt=" " />'; 
+			$sOutput .= '<img src="'.$this->_oReg->ThemeRel.'/images/blank_16.gif" alt=" " />';
 		}
 		$sOutput .= '</td>'.PHP_EOL;
 
@@ -334,29 +314,29 @@ class a_pages_PageTree
 		$sOutput .= $this->_Tabs(0).'<td class="list_actions">';
 		if($aPage['visibility'] != 'deleted') { 
 			if($this->_oApp->get_permission('pages_settings') && $aPage['iswriteable']) {
-				$sOutput .= '<a href="'.$this->_aReg['ACP_REL'].'/pages/settings.php?page_id='
-				          . $aPage['page_id'].'" title="'.$this->_TEXT['SETTINGS'].'">'
-				          . '<img src="'.$this->_aReg['THEME_REL'].'/images/modify_16.png" alt="'
-				          . $this->_TEXT['SETTINGS'].'" /></a>';
+				$sOutput .= '<a href="'.$this->_oReg->AcpRel.'/pages/settings.php?page_id='
+				          . $aPage['page_id'].'" title="'.$this->_oTrans->TEXT_SETTINGS.'">'
+				          . '<img src="'.$this->_oReg->ThemeRel.'/images/modify_16.png" alt="'
+				          . $this->_oTrans->TEXT_SETTINGS.'" /></a>';
 			}
 		}else {
-			$sOutput .= '<a href="'.$this->_aReg['ACP_REL'].'/pages/restore.php?page_id='.$aPage['page_id'].'" '
-			          . 'title="'.$this->_TEXT['RESTORE'].'"><img src="'.$this->_aReg['THEME_REL']
-			          . '/images/restore_16.png" alt="'.$this->_TEXT['RESTORE'].'" /></a>';
+			$sOutput .= '<a href="'.$this->_oReg->AcpRel.'/pages/restore.php?page_id='.$aPage['page_id'].'" '
+			          . 'title="'.$this->_oTrans->TEXT_RESTORE.'"><img src="'.$this->_oReg->ThemeRel
+			          . '/images/restore_16.png" alt="'.$this->_oTrans->TEXT_RESTORE.'" /></a>';
 		}
 		$sOutput .= '</td>'.PHP_EOL;
 
 	// --- TAB 7 --- (edit sections) -----------------------------------------------------
 		$sOutput .= $this->_Tabs(0).'<td class="list_actions">';
-		if( $this->_aReg['MANAGE_SECTIONS'] && $this->_oApp->get_permission('pages_add') && $aPage['iswriteable'] ) {
+		if( $this->_oReg->ManageSections && $this->_oApp->get_permission('pages_add') && $aPage['iswriteable'] ) {
 			$file = $this->_oApp->page_is_active($aPage) ? "clock_16.png" : "clock_red_16.png";
 			$file = ($aPage['published'] && $aPage['module'] != 'menu_link') ? $file : 'noclock_16.png';
-			$sOutput .= '<a href="'.$this->_aReg['ACP_REL'].'/pages/sections.php?page_id='
-			          . $aPage['page_id'].'" title="'.$this->_HEADING['MANAGE_SECTIONS'].'">'
-			          . '<img src="'.$this->_aReg['THEME_REL'].'/images/'.$file.'" alt="'
-			          . $this->_HEADING['MANAGE_SECTIONS'].'" /></a>';
+			$sOutput .= '<a href="'.$this->_oReg->AcpRel.'/pages/sections.php?page_id='
+			          . $aPage['page_id'].'" title="'.$this->_oTrans->HEADING_MANAGE_SECTIONS.'">'
+			          . '<img src="'.$this->_oReg->ThemeRel.'/images/'.$file.'" alt="'
+			          . $this->_oTrans->HEADING_MANAGE_SECTIONS.'" /></a>';
 		}else { 
-			$sOutput .= '<img src="'.$this->_aReg['THEME_REL'].'/images/blank_16.gif" alt=" " />'; 
+			$sOutput .= '<img src="'.$this->_oReg->ThemeRel.'/images/blank_16.gif" alt=" " />';
 		}
 		$sOutput .= '</td>'.PHP_EOL;
 
@@ -365,10 +345,10 @@ class a_pages_PageTree
 		if($aPage['position'] > $aPage['min_position']) {
 			if($aPage['visibility'] != 'deleted') {
 				if($this->_oApp->get_permission('pages_settings') && $aPage['iswriteable']) {
-					$sOutput .= '<a href="'.$this->_aReg['ACP_REL'].'/pages/move_up.php?page_id='
-					          . $aPage['page_id'].'" title="'.$this->_TEXT['MOVE_UP']
-					          . '"><img src="'.$this->_aReg['THEME_REL'].'/images/up_16.png" alt="'
-					          . $this->_TEXT['MOVE_UP'].'" /></a>';
+					$sOutput .= '<a href="'.$this->_oReg->AcpRel.'/pages/move_up.php?page_id='
+					          . $aPage['page_id'].'" title="'.$this->_oTrans->TEXT_MOVE_UP
+					          . '"><img src="'.$this->_oReg->ThemeRel.'/images/up_16.png" alt="'
+					          . $this->_oTrans->TEXT_MOVE_UP.'" /></a>';
 				}
 			}
 		}
@@ -379,10 +359,10 @@ class a_pages_PageTree
 		if($aPage['position'] < $aPage['max_position']) {
 			if($aPage['visibility'] != 'deleted') {
 				if($this->_oApp->get_permission('pages_settings') && $aPage['iswriteable']) {
-					$sOutput .= '<a href="'.$this->_aReg['ACP_REL'].'/pages/move_down.php?page_id='
-					          . $aPage['page_id'].'" title="'.$this->_TEXT['MOVE_DOWN']
-					          . '"><img src="'.$this->_aReg['THEME_REL'].'/images/down_16.png" alt="'
-					          . $this->_TEXT['MOVE_DOWN'].'" /></a>';
+					$sOutput .= '<a href="'.$this->_oReg->AcpRel.'/pages/move_down.php?page_id='
+					          . $aPage['page_id'].'" title="'.$this->_oTrans->TEXT_MOVE_DOWN
+					          . '"><img src="'.$this->_oReg->ThemeRel.'/images/down_16.png" alt="'
+					          . $this->_oTrans->TEXT_MOVE_DOWN.'" /></a>';
 				}
 			}
 		}
@@ -392,12 +372,12 @@ class a_pages_PageTree
 		$sOutput .= $this->_Tabs(0).'<td class="list_actions">';
 		if($this->_oApp->get_permission('pages_delete') && $aPage['iswriteable']) {
 			$sOutput .= '<a href="javascript:confirm_link(pages_delete_confirm+\'?\',\''
-			          . $this->_aReg['ACP_REL'].'/pages/delete.php?page_id='
+			          . $this->_oReg->AcpRel.'/pages/delete.php?page_id='
 			          . $this->_oApp->getIDKEY($aPage['page_id']).'\');" title="'
-			          . $this->_TEXT['DELETE'].'"><img src="'.$this->_aReg['THEME_REL']
-			          . '/images/delete_16.png" alt="'.$this->_TEXT['DELETE'].'" /></a>';
+			          . $this->_oTrans->TEXT_DELETE.'"><img src="'.$this->_oReg->ThemeRel
+			          . '/images/delete_16.png" alt="'.$this->_oTrans->TEXT_DELETE.'" /></a>';
 		}else { 
-			$sOutput .= '<img src="'.$this->_aReg['THEME_REL'].'/images/blank_16.gif" alt=" " />'; 
+			$sOutput .= '<img src="'.$this->_oReg->ThemeRel.'/images/blank_16.gif" alt=" " />';
 		}
 		$sOutput .= '</td>'.PHP_EOL;
 
@@ -407,13 +387,13 @@ class a_pages_PageTree
 			$this->_oApp->get_permission('pages_add')
 			&& $aPage['iswriteable'] 
 			&& ($aPage['visibility'] != 'deleted') 
-			&& $aPage['level'] < ($this->_aReg['PAGE_LEVEL_LIMIT'] - 1)
+			&& $aPage['level'] < ($this->_oReg->PageLevelLimit - 1)
 		  )
 		{
 			$sOutput .= '<a href="javascript:add_child_page(\''.$aPage['page_id'].'\');" '
-			          . 'title="'.$this->_HEADING['ADD_CHILD_PAGE'].'"><img src="'
-			          . $this->_aReg['THEME_REL'].'/images/siteadd.png" name="addpage_'.$aPage['page_id']
-			          . '" alt="'.$this->_HEADING['ADD_CHILD_PAGE'].'" /></a>';
+			          . 'title="'.$this->_oTrans->HEADING_ADD_CHILD_PAGE.'"><img src="'
+			          . $this->_oReg->ThemeRel.'/images/siteadd.png" name="addpage_'.$aPage['page_id']
+			          . '" alt="'.$this->_oTrans->HEADING_ADD_CHILD_PAGE.'" /></a>';
 		}else { 
 			$sOutput .= '&nbsp;'; 
 		}
@@ -437,7 +417,7 @@ class a_pages_PageTree
  */	
 	protected function _addToParentList(array $aPage)
 	{
-		if( ($aPage['level'] < ($this->_aReg['PAGE_LEVEL_LIMIT'] - 1))
+		if( ($aPage['level'] < ($this->_oReg->PageLevelLimit - 1))
 			&& $aPage['iswriteable'] 
 			&& ($aPage['visibility'] != 'deleted')
 			&& $this->_oApp->get_permission('pages_add') ) 
