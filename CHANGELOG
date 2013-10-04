@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+04 Oct-2013 Build 1975 Dietmar Woellbrink (Luisehahne)
+!   /install/sql/wb_search_data.sql recoding initial data for table `search` without primary index value
 04 Oct-2013 Build 1974 Manuela v.d.Decken(DarkViper)
 ! /framework/WbDatabase  fixed little problem with multiple database connections
 03 Oct-2013 Build 1973 Manuela v.d.Decken(DarkViper)
