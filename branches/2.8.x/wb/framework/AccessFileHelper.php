@@ -86,14 +86,14 @@ class AccessFileHelper {
 		$bResult = true;
 		if (!is_writeable($sRootDir))
 		{
-			return false;
 			self::$aDelTreeLog[] = 'insufficient rights or directory not empty in : '.str_replace($oReg->AppPath, '', $sRootDir);
+			return false;
 		}
 		$oIterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($sRootDir), RecursiveIteratorIterator::CHILD_FIRST);
 		foreach ($oIterator as $oPath)
 		{
-			$sPath = trim(str_replace('\\', '/', $oPath->__toString()), '/');
-			if ($oPath->isDir())
+			$sPath = rtrim(str_replace('\\', '/', $oPath->__toString()), '/');
+			if ($oPath->isDir() && !preg_match('/\.$/s', $sPath))
 			{
 				// proceed directories
 				if (!rmdir($sPath))
