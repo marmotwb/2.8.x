@@ -11,10 +11,16 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+06 Oct-2013 Build 1977 Dietmar Woellbrink (Luisehahne)
+! /framework/functions.php: started implementation of packet AccessFile in function rebuild_all_accessfiles()
++ /framework/functions.php::rm_full_dir() added additional argument to set list of protected files
+! integrate the new processes into the upgrade-script.php
++ extended checks and informations in /modules/MultiLingual/upgrade.php 
+  increasing version for module MultiLingual to 1.6.9
 05 Oct-2013 Build 1976 Manuela v.d.Decken(DarkViper)
 # Packet AccessFile fixed indifferent handling of './..' directory entries
 04 Oct-2013 Build 1975 Dietmar Woellbrink (Luisehahne)
-!   /install/sql/wb_search_data.sql recoding initial data for table `search` without primary index value
+!  /install/sql/wb_search_data.sql recoding initial data for table `search` without primary index value
 04 Oct-2013 Build 1974 Manuela v.d.Decken(DarkViper)
 ! /framework/WbDatabase  fixed little problem with multiple database connections
 03 Oct-2013 Build 1973 Manuela v.d.Decken(DarkViper)
