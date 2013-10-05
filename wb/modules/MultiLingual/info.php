@@ -25,7 +25,7 @@
  * @author       Dietmar Wöllbrink <dietmar.woellbrink@websiteBaker.org>
  * @copyright    Werner v.d.Decken <wkl@isteam.de>
  * @license      http://www.gnu.org/licenses/gpl.html   GPL License
- * @version      1.6.8
+ * @version      1.6.9
  * @revision     $Revision$
  * @link         $HeadURL$
  * @lastmodified $Date$
@@ -34,9 +34,9 @@
  */
 
 $module_directory = 'MultiLingual';
-$module_name = 'MultiLingual Switcher 1.6.8';
+$module_name = 'MultiLingual Switcher 1.6.9';
 $module_function = 'snippet';
-$module_version = '1.6.8';
+$module_version = '1.6.9';
 $module_status	= 'alpha';
 $module_platform = '2.8.4';
 $module_author = 'Luisehahne';

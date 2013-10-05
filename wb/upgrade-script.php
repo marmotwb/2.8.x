@@ -116,7 +116,7 @@ $OK            = ' <span class="ok">OK</span> ';
 $FAIL          = ' <span class="error">FAILED</span> ';
 $DEFAULT_THEME = 'wb_theme';
 
-$stepID = 0;
+$stepID = 1;
 $dirRemove = array(
 /*
 			'[TEMPLATE]/allcss/',
@@ -679,17 +679,6 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 	add_modify_field_in_database($table_name,$field_name,$description);
 
 	/**********************************************************
-	 *  - Add field "page_code" to table "pages"
-	 *
-	 *  will be done in upgrade.php of the module MultiLingual
-	 *  until the module is integrated completely
-	 */
-//	$table_name = TABLE_PREFIX.'pages';
-//	$field_name = 'page_code';
-//	$description = "INT NOT NULL DEFAULT '0' AFTER `language`";
-//	add_modify_field_in_database($table_name,$field_name,$description);
-
-	/**********************************************************
 	 *  - Add field "menu_icon_0" to table "pages"
 	 */
 	$table_name = TABLE_PREFIX.'pages';
@@ -897,9 +886,8 @@ echo '<div style="margin-left:2em;">';
 	/**********************************************************
 	* upgrade media directory index protect files
 	*/
-	$dir = (WB_PATH.MEDIA_DIRECTORY);
 	echo '<h4>Upgrade media directory '.MEDIA_DIRECTORY.'/ index.php protect files</h4>';
-	$aDebugMessage = rebuildFolderProtectFile($dir);
+	$aDebugMessage = rebuildFolderProtectFile();
 	if( sizeof( $aDebugMessage ) ){
 		echo '<span><strong>Upgrade '.sizeof( $aDebugMessage ).' directory '.MEDIA_DIRECTORY.'/ protect files</strong></span>'." $OK<br />";
 	} else {
@@ -916,9 +904,13 @@ echo '<div style="margin-left:2em;">';
     /**********************************************************
      *  - Reformat/rebuild all existing access files
      */
-    $sPagePath = (defined('PAGES_DIRECTORY') && (PAGES_DIRECTORY != '') ? PAGES_DIRECTORY : '');
-    $msg = rebuild_all_accessfiles();
-	$dir = (WB_PATH.PAGES_DIRECTORY);
+//    $sPagePath = (defined('PAGES_DIRECTORY') && (PAGES_DIRECTORY != '') ? PAGES_DIRECTORY : '');
+//	$sPageDir = str_replace('\\','/',WB_PATH.$sPagePath);
+//	$aProtectedFiles = array(
+//           $sPageDir.'/intro.php',
+//           $sPageDir.'/intro/intro.php',
+//    );
+    $msg = rebuild_all_accessfiles($bDebugModus);
 //	$aDebugMessage = rebuildFolderProtectFile($dir);
 	echo '<strong>'.implode ('<br />',$msg).'</strong>';
     echo '</div>';

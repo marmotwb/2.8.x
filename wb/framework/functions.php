@@ -24,26 +24,61 @@ if(!defined('WB_PATH')) {
 // Define that this file has been loaded
 define('FUNCTIONS_FILE_LOADED', true);
 
+
+/**
+ * Delete an Accessfiles Tree
+ * @param  string  $sDirToDelete  
+ * @return boolean true/false
+ * @description    Delete all accessfiles and its depending directory tree 
+ *                 inside the given directory.
+ */
+
+function DeleteAccessFilesTree($sDirToDelete)
+{
+        $sBaseDir = realpath($sDirToDelete);
+        if( $sBaseDir !== false) {    
+		$sBaseDir = rtrim(str_replace('\\', '/', $sBaseDir), '/') . '/';
+		// scan start directory for access files
+		foreach (glob($sBaseDir . '*.php', GLOB_MARK) as $sItem) {
+            $sItem = str_replace('\\', '/', $sItem);
+			try{
+				$oAccFile = new AccessFile($sItem);
+				$oAccFile->delete();
+			}catch(AccessFileIsNoAccessfileException $e) {
+				continue;
+			}
+		}
+		return true;
+	}	
+	return false;
+}
+
 /**
  * @description: recursively delete a non empty directory
  * @param string $directory :
  * @param bool $empty : true if you want the folder just emptied, but not deleted
  *                      false, or just simply leave it out, the given directory will be deleted, as well
+ * @param array $aProtectedFiles optional list of protected files, full path needed
  * @return boolean: true/false
  * @from http://www.php.net/manual/de/function.rmdir.php#98499
  */
-function rm_full_dir($directory, $empty = false)
+function rm_full_dir($directory, $empty = false, $aProtectedFiles = null)
 {
+	$directory = rtrim(str_replace('\\','/',$directory),'/');
+	if($aProtectedFiles == null) {
+		$aProtectedFiles = array();
+	}
     $iErrorReporting = error_reporting(0);
-	if(substr($directory,-1) == "/") {
-        $directory = substr($directory,0,-1);
-    }
-   // If suplied dirname is a file then unlink it
+
     if (is_file( $directory )&& is_writable( $directory )) {
-        $retval = unlink($directory);
-        clearstatcache();
-        error_reporting($iErrorReporting);
-        return $retval;
+		if(!in_array(($directory), $aProtectedFiles)) {
+			$retval = unlink($directory);
+			clearstatcache();
+			error_reporting($iErrorReporting);
+			return $retval;
+		}else {
+			return true;
+		}
     }
     if(!is_writable($directory) || !is_dir($directory)) {
         error_reporting($iErrorReporting);
@@ -59,10 +94,12 @@ function rm_full_dir($directory, $empty = false)
 			{
                 $path = $directory . "/" . $contents;
                 if(is_dir($path)) {
-                    rm_full_dir($path);
+                    rm_full_dir($path, false, $aProtectedFiles);
                 } else {
-                    unlink($path);
-					clearstatcache();
+					if(!in_array($path, $aProtectedFiles)) {
+				        unlink($path);
+						clearstatcache();
+					}
                 }
             }
         }
@@ -670,15 +707,16 @@ function createFolderProtectFile($sAbsDir='',$make_dir=true)
 {
 	global $admin, $MESSAGE;
 	$retVal = array();
-	$wb_path = rtrim(str_replace('\/\\', '/', WB_PATH), '/');
-	if( ($sAbsDir=='') || ($sAbsDir == $wb_path) ) { return $retVal;}
+	$wb_path   = rtrim(str_replace('\/\\', '/', WB_PATH), '/');
+	$sAppPath  = rtrim(str_replace('\/\\', '/', WB_PATH), '/').'/';
+	if( ($sAbsDir=='') || ($sAbsDir == $sAppPath) ) { return $retVal;}
 
 	if ( $make_dir==true ) {
 		// Check to see if the folder already exists
 		if(is_readable($sAbsDir)) {
 			$retVal[] = basename($sAbsDir).'::'.$MESSAGE['MEDIA_DIR_EXISTS'];
 		}
-		if (!is_dir($sAbsDir) && !make_dir($sAbsDir) ) {
+		if (!make_dir($sAbsDir) && !is_dir($sAbsDir) ) {
 			$retVal[] = basename($sAbsDir).'::'.$MESSAGE['MEDIA_DIR_NOT_MADE'];
 		} else {
 			change_mode($sAbsDir);
@@ -693,8 +731,8 @@ function createFolderProtectFile($sAbsDir='',$make_dir=true)
 	{
         // if(file_exists($sAbsDir.'/index.php')) { unlink($sAbsDir.'/index.php'); }
 	    // Create default "index.php" file
-		$rel_pages_dir = str_replace($wb_path, '', dirname($sAbsDir) );
-		$step_back = str_repeat( '../', substr_count($rel_pages_dir, '/')+1 );
+		$iBackSteps = substr_count(str_replace($sAppPath, '', $sAbsDir), '/');
+		$sIndexFile = str_repeat('../', $iBackSteps).'index.php';
 		$sResponse  = $_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently';
 		$content =
 			'<?php'."\n".
@@ -1407,19 +1445,26 @@ if(!function_exists('url_encode')){
 }
 
 if(!function_exists('rebuild_all_accessfiles')){
-	function rebuild_all_accessfiles() {
+	function rebuild_all_accessfiles($bShowDetails=false ) {
         global $database;
-    	$retVal = array();
+    	$aRetval = array();
     	/**
     	 * try to remove access files and build new folder protect files
     	 */
-    	$sTempDir = (defined('PAGES_DIRECTORY') && (PAGES_DIRECTORY != '') ? PAGES_DIRECTORY : '');
-    	if(($sTempDir!='') && is_writeable(WB_PATH.$sTempDir)==true) {
-    	 	if(rm_full_dir (WB_PATH.$sTempDir, true )==false) {
-    			$retVal[] = 'Could not delete existing access files';
-    	 	}
+ //   	$sTempDir = (defined('PAGES_DIRECTORY') && (PAGES_DIRECTORY != '') ? PAGES_DIRECTORY : '').'/';
+        $sTreeToDelete = WbAdaptor::getInstance()->AppPath.WbAdaptor::getInstance()->PagesDir;
+    	if(($sTreeToDelete!='') && is_writeable($sTreeToDelete)==true) {
+//    	 	if(rm_full_dir (WB_PATH.$sTempDir, true, $aProtectedFiles )==false) {
+//    			$aRetval[] = 'Could not delete existing access files';
+//    	 	}
+            DeleteAccessFilesTree($sTreeToDelete);
+            if($bShowDetails) {
+                $aRetval = array_merge($aRetval, AccessFileHelper::getDelTreeLog());
+            }
     	}
-		$retVal = createFolderProtectFile(rtrim( WB_PATH.PAGES_DIRECTORY,'/') );
+
+		$aRetval = array_merge($aRetval,createFolderProtectFile(rtrim( WB_PATH.PAGES_DIRECTORY,'/') ));
+
     	/**
     	 * Reformat/rebuild all existing access files
     	 */
@@ -1450,9 +1495,9 @@ if(!function_exists('rebuild_all_accessfiles')){
                 create_access_file($filename, $page['page_id'], $page['level']);
                 $x++;
             }
-            $retVal[] = 'Number of new formated access files: '.$x.'';
+            $aRetval[] = 'Number of new formated access files: '.$x.'';
         }
-    return $retVal;
+    return $aRetval;
 	}
 }
 
