@@ -27,14 +27,15 @@ define('FUNCTIONS_FILE_LOADED', true);
 
 /**
  * Delete an Accessfiles Tree
- * @param  string  $sDirToDelete  
+ * @param  string  $sDirToDelete
+ * @param  array   &$aReport  returns report if set
  * @return boolean true/false
  * @description    Delete all accessfiles and its depending directory tree 
  *                 inside the given directory.
  */
-
-function DeleteAccessFilesTree($sDirToDelete)
+function DeleteAccessFilesTree($sDirToDelete, array &$aReport = null)
 {
+		$aReport = array();
         $sBaseDir = realpath($sDirToDelete);
         if( $sBaseDir !== false) {    
 		$sBaseDir = rtrim(str_replace('\\', '/', $sBaseDir), '/') . '/';
@@ -44,6 +45,7 @@ function DeleteAccessFilesTree($sDirToDelete)
 			try{
 				$oAccFile = new AccessFile($sItem);
 				$oAccFile->delete();
+				$aReport = array_merge($aReport, AccessFileHelper::getDelTreeLog());
 			}catch(AccessFileIsNoAccessfileException $e) {
 				continue;
 			}
@@ -1451,15 +1453,16 @@ if(!function_exists('rebuild_all_accessfiles')){
     	/**
     	 * try to remove access files and build new folder protect files
     	 */
- //   	$sTempDir = (defined('PAGES_DIRECTORY') && (PAGES_DIRECTORY != '') ? PAGES_DIRECTORY : '').'/';
+//   	$sTempDir = (defined('PAGES_DIRECTORY') && (PAGES_DIRECTORY != '') ? PAGES_DIRECTORY : '').'/';
         $sTreeToDelete = WbAdaptor::getInstance()->AppPath.WbAdaptor::getInstance()->PagesDir;
     	if(($sTreeToDelete!='') && is_writeable($sTreeToDelete)==true) {
 //    	 	if(rm_full_dir (WB_PATH.$sTempDir, true, $aProtectedFiles )==false) {
 //    			$aRetval[] = 'Could not delete existing access files';
 //    	 	}
-            DeleteAccessFilesTree($sTreeToDelete);
+			$aDeleteLog = array();	// <<< geändert
+            DeleteAccessFilesTree($sTreeToDelete, $aDeleteLog);	// <<< geändert
             if($bShowDetails) {
-                $aRetval = array_merge($aRetval, AccessFileHelper::getDelTreeLog());
+                $aRetval = array_merge($aRetval, $aDeleteLog);	// <<< geändert
             }
     	}
 
