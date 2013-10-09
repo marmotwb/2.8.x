@@ -1446,63 +1446,74 @@ if(!function_exists('url_encode')){
 	}
 }
 
-if(!function_exists('rebuild_all_accessfiles')){
-	function rebuild_all_accessfiles($bShowDetails=false ) {
-        global $database;
-    	$aRetval = array();
-    	/**
-    	 * try to remove access files and build new folder protect files
-    	 */
-//   	$sTempDir = (defined('PAGES_DIRECTORY') && (PAGES_DIRECTORY != '') ? PAGES_DIRECTORY : '').'/';
-        $sTreeToDelete = WbAdaptor::getInstance()->AppPath.WbAdaptor::getInstance()->PagesDir;
-    	if(($sTreeToDelete!='') && is_writeable($sTreeToDelete)==true) {
-//    	 	if(rm_full_dir (WB_PATH.$sTempDir, true, $aProtectedFiles )==false) {
-//    			$aRetval[] = 'Could not delete existing access files';
-//    	 	}
-			$aDeleteLog = array();	// <<< geändert
-            DeleteAccessFilesTree($sTreeToDelete, $aDeleteLog);	// <<< geändert
-            if($bShowDetails) {
-                $aRetval = array_merge($aRetval, $aDeleteLog);	// <<< geändert
-            }
+if(!function_exists('rebuild_all_accessfiles'))
+{
+	function rebuild_all_accessfiles($bShowDetails=false ) 
+	{
+		$oDb = WbDatabase::getInstance();
+		$oReg = WbAdaptor::getInstance();
+	// try to remove access files and build new folder protect files
+        $sTreeToDelete = $oReg->AppPath.$oReg->PagesDir;
+    	if(($sTreeToDelete!='') && is_writeable($sTreeToDelete)==true)
+		{
+			$aDeleteLog = array();
+            DeleteAccessFilesTree($sTreeToDelete, $aDeleteLog);
+		// show details if debug is set
+            if($bShowDetails) { $aRetval = $aDeleteLog; }
     	}
-
-		$aRetval = array_merge($aRetval,createFolderProtectFile(rtrim( WB_PATH.PAGES_DIRECTORY,'/') ));
-
-    	/**
-    	 * Reformat/rebuild all existing access files
-    	 */
-//        $sql = 'SELECT `page_id`,`root_parent`,`link`, `level` FROM `'.TABLE_PREFIX.'pages` ORDER BY `link`';
-		$sql  = 'SELECT `page_id`,`root_parent`,`link`, `level` ';
-		$sql .= 'FROM `'.TABLE_PREFIX.'pages` ';
-		$sql .= 'WHERE `link` != \'\' ORDER BY `link` ';
-        if (($oPage = $database->query($sql)))
+	// set logging informations
+		$aRetval = array_merge((isset($aRetval) ? $aRetval : array()),
+		                       createFolderProtectFile(rtrim( $oReg->AppPath.$oReg->PagesDir, '/') ));
+	// Reformat/rebuild all existing access files
+		$sql  = 'SELECT `page_id`,`root_parent`,`parent`,`link`,`level`,`page_trail` '
+		      . 'FROM `'.$oDb->TablePrefix.'pages` '
+		      . 'WHERE `link` != \'\' '
+		      . 'ORDER BY `link`';
+        if (($oPage = $oDb->query($sql)))
         {
-            $x = 0;
-            while (($page = $oPage->fetchRow(MYSQL_ASSOC)))
+            $iFileCounter = 0;
+		// iterate over all existing page records
+            while (($aPageRecord = $oPage->fetchRow(MYSQL_ASSOC)))
             {
-                // Work out level
-                $level = level_count($page['page_id']);
-                // Work out root parent
-                $root_parent = root_parent($page['page_id']);
-                // Work out page trail
-                $page_trail = get_page_trail($page['page_id']);
-                // Update page with new level and link
-                $sql  = 'UPDATE `'.TABLE_PREFIX.'pages` SET ';
-                $sql .= '`root_parent` = '.$root_parent.', ';
-                $sql .= '`level` = '.$level.', ';
-                $sql .= '`page_trail` = "'.$page_trail.'" ';
-                $sql .= 'WHERE `page_id` = '.$page['page_id'];
-
-                if(!$database->query($sql)) {}
-                $filename = WB_PATH.PAGES_DIRECTORY.$page['link'].PAGE_EXTENSION;
-                create_access_file($filename, $page['page_id'], $page['level']);
-                $x++;
+		// --- begin reorg tree structure ------------------------------------------------
+			// rebuild level entries
+				$sql = 'SELECT `level`+1 AS `level`, `page_trail` '
+				     . 'FROM `'.$oDb->TablePrefix.'pages` '
+					 . 'WHERE `page_id`='.$aPageRecord['parent'];
+			// search for parent record
+				$oParent = $oDb->query($sql);
+				if(($aParentRecord = $oParent->fetchRow(MYSQLI_ASSOC)))
+				{
+				// get values from existing parent record
+					$aPageRecord['level'] = intval($aParentRecord['level']);
+					$aPageRecord['root_parent'] = intval($aParentRecord['page_trail']);
+					$aPageRecord['page_trail'] = (string)$aParentRecord['page_trail'].','.(string)$aPageRecord['page_id'];
+				}else
+				{
+				// set as root record if no parentrecord exists
+					$aPageRecord['level'] = 0;
+					$aPageRecord['root_parent'] = $aPageRecord['page_id'];
+					$aPageRecord['page_trail'] = (string)$aPageRecord['page_id'];
+				}
+			// update current record with regenerated values
+                $sql  = 'UPDATE `'.$oDb->TablePrefix.'pages` '
+				      . 'SET `root_parent`='.$aPageRecord['root_parent'].', '
+				      .     '`level`='.$aPageRecord['level'].', '
+				      .     '`page_trail`=\''.$aPageRecord['page_trail'].'\' '
+				      . 'WHERE `page_id`='.$aPageRecord['page_id'];
+				$oDb->query($sql);
+		// --- end reorg tree structure --------------------------------------------------
+                $sFilename = $oReg->AppPath.$oReg->PagesDir.$aPageRecord['link'].$oReg->PageExtension;
+				$oAccessFile = new AccessFile($sFilename, $aPageRecord['page_id']);
+				$oAccessFile->write();
+				unset($oAccessFile);
+                $iFileCounter++;
             }
-            $aRetval[] = 'Number of new formated access files: '.$x.'';
+            $aRetval[] = 'Number of new formated access files: '.$iFileCounter;
         }
-    return $aRetval;
-	}
-}
+		return $aRetval;
+	} // end of function rebuild_all_accessfiles()
+} // endif
 
 if(!function_exists('upgrade_modules')){
 	function upgrade_modules($aModuleList) {

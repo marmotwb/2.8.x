@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+10 Oct-2013 Build 1980 Dietmar Woellbrink (Luisehahne)
+! /framework/initialize.php::SetInstallPathConstants() setting of DOCUMENT_ROOT now compatible for windows installation
+! /framework/functions.php::rebuild_all_accessfiles() Optimize rebuild access file coding
 10 Oct-2013 Build 1979 Manuela v.d.Decken(DarkViper)
 # /admin/pages/PageTree forgotten changes from rev.1973
 08 Oct-2013 Build 1978 Dietmar Woellbrink (Luisehahne)
