@@ -80,8 +80,9 @@
 		}
 		if(!defined('ADMIN_REL')){ define('ADMIN_REL', WB_REL.'/'.ADMIN_DIRECTORY); }
 		if(!defined('DOCUMENT_ROOT')) {
-			
-			define('DOCUMENT_ROOT', preg_replace('/'.preg_quote(WB_REL, '/').'$/', '', WB_PATH));
+            define('DOCUMENT_ROOT', preg_replace('/'.preg_quote(str_replace('\\', '/', WB_REL), '/').'$/', '', str_replace('\\', '/', WB_PATH)));			
+            // creating $_SERVER['DOCUMENT_ROOT'] for Windows IIS Server
+            $_SERVER['DOCUMENT_ROOT'] = DOCUMENT_ROOT;
 		}
 		if(!defined('TMP_PATH')){ define('TMP_PATH', WB_PATH.'/temp'); }
 	}
