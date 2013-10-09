@@ -262,7 +262,7 @@ class a_pages_PageTree
 		if((bool)$aPage['children']) {
 			$sOutput .= '<a href="javascript:toggle_visibility(\'p'.$aPage['page_id'].'\');" '
 			          . 'title="'.$this->_oTrans->TEXT_EXPAND.'/'.$this->_oTrans->TEXT_COLLAPSE.'">'
-			          . '<span><img src="'.$this->_oReg->ThemeRel.'/images/'
+			          . '<span><img src="'.$this->_oReg->ThemeRel.'images/'
 			          . ( ((isset($_COOKIE['p'.$aPage['page_id']]) 
 						  && $_COOKIE['p'.$aPage['page_id']] == '1') ? 'minus' : 'plus')
 						)
@@ -275,12 +275,12 @@ class a_pages_PageTree
 	// --- TAB 2 --- (menu title) --------------------------------------------------------
 		$sOutput .= $this->_Tabs(0).'<td class="list_menu_title">';
 		if($this->_oApp->get_permission('pages_modify') && $aPage['iswriteable']) {
-			$sOutput .= '<a href="'.$this->_oReg->AcpRel.'/pages/modify.php?page_id='
+			$sOutput .= '<a href="'.$this->_oReg->AcpRel.'pages/modify.php?page_id='
 			          . $aPage['page_id'].'" title="'.$this->_oTrans->TEXT_MODIFY.'">';
 		}
-		$sIcon = $this->_oReg->ThemeRel.'/images/'.$aPage['visibility'].'_16.png';
-		if(!is_readable($this->_oReg->DocumentRoot.$sIcon)) {
-			$sIcon = $this->_oReg->ThemeRel.'/images/public_16.png';
+		$sIcon = $this->_oReg->ThemeRel.'images/'.$aPage['visibility'].'_16.png';
+		if(!is_readable(rtrim($this->_oReg->DocumentRoot, '/').$sIcon)) {
+			$sIcon = $this->_oReg->ThemeRel.'images/public_16.png';
 		}
 		$sOutput .= '<img src="'.$sIcon.'" alt="'.$this->_oTrans->TEXT_VISIBILITY.': '
 				  . $this->_oTrans->{'TEXT_'.strtoupper($aPage['visibility'])}  .'" class="page_list_rights" />';
@@ -303,10 +303,10 @@ class a_pages_PageTree
 			                                 $this->_oApp->page_link($aPage['link'])
 			                                );
 			$sOutput .= '<a href="'.$sPageLink.'" target="_blank" title="'.$this->_oTrans->TEXT_VIEW
-			          . '"><img src="'.$this->_oReg->ThemeRel.'/images/view_16.png" alt="'
+			          . '"><img src="'.$this->_oReg->ThemeRel.'images/view_16.png" alt="'
 			          . $this->_oTrans->TEXT_VIEW.'" /></a>';
 		}else { 
-			$sOutput .= '<img src="'.$this->_oReg->ThemeRel.'/images/blank_16.gif" alt=" " />';
+			$sOutput .= '<img src="'.$this->_oReg->ThemeRel.'images/blank_16.gif" alt=" " />';
 		}
 		$sOutput .= '</td>'.PHP_EOL;
 
@@ -314,15 +314,15 @@ class a_pages_PageTree
 		$sOutput .= $this->_Tabs(0).'<td class="list_actions">';
 		if($aPage['visibility'] != 'deleted') { 
 			if($this->_oApp->get_permission('pages_settings') && $aPage['iswriteable']) {
-				$sOutput .= '<a href="'.$this->_oReg->AcpRel.'/pages/settings.php?page_id='
+				$sOutput .= '<a href="'.$this->_oReg->AcpRel.'pages/settings.php?page_id='
 				          . $aPage['page_id'].'" title="'.$this->_oTrans->TEXT_SETTINGS.'">'
-				          . '<img src="'.$this->_oReg->ThemeRel.'/images/modify_16.png" alt="'
+				          . '<img src="'.$this->_oReg->ThemeRel.'images/modify_16.png" alt="'
 				          . $this->_oTrans->TEXT_SETTINGS.'" /></a>';
 			}
 		}else {
-			$sOutput .= '<a href="'.$this->_oReg->AcpRel.'/pages/restore.php?page_id='.$aPage['page_id'].'" '
+			$sOutput .= '<a href="'.$this->_oReg->AcpRel.'pages/restore.php?page_id='.$aPage['page_id'].'" '
 			          . 'title="'.$this->_oTrans->TEXT_RESTORE.'"><img src="'.$this->_oReg->ThemeRel
-			          . '/images/restore_16.png" alt="'.$this->_oTrans->TEXT_RESTORE.'" /></a>';
+			          . 'images/restore_16.png" alt="'.$this->_oTrans->TEXT_RESTORE.'" /></a>';
 		}
 		$sOutput .= '</td>'.PHP_EOL;
 
@@ -331,12 +331,12 @@ class a_pages_PageTree
 		if( $this->_oReg->ManageSections && $this->_oApp->get_permission('pages_add') && $aPage['iswriteable'] ) {
 			$file = $this->_oApp->page_is_active($aPage) ? "clock_16.png" : "clock_red_16.png";
 			$file = ($aPage['published'] && $aPage['module'] != 'menu_link') ? $file : 'noclock_16.png';
-			$sOutput .= '<a href="'.$this->_oReg->AcpRel.'/pages/sections.php?page_id='
+			$sOutput .= '<a href="'.$this->_oReg->AcpRel.'pages/sections.php?page_id='
 			          . $aPage['page_id'].'" title="'.$this->_oTrans->HEADING_MANAGE_SECTIONS.'">'
-			          . '<img src="'.$this->_oReg->ThemeRel.'/images/'.$file.'" alt="'
+			          . '<img src="'.$this->_oReg->ThemeRel.'images/'.$file.'" alt="'
 			          . $this->_oTrans->HEADING_MANAGE_SECTIONS.'" /></a>';
 		}else { 
-			$sOutput .= '<img src="'.$this->_oReg->ThemeRel.'/images/blank_16.gif" alt=" " />';
+			$sOutput .= '<img src="'.$this->_oReg->ThemeRel.'images/blank_16.gif" alt=" " />';
 		}
 		$sOutput .= '</td>'.PHP_EOL;
 
@@ -345,9 +345,9 @@ class a_pages_PageTree
 		if($aPage['position'] > $aPage['min_position']) {
 			if($aPage['visibility'] != 'deleted') {
 				if($this->_oApp->get_permission('pages_settings') && $aPage['iswriteable']) {
-					$sOutput .= '<a href="'.$this->_oReg->AcpRel.'/pages/move_up.php?page_id='
+					$sOutput .= '<a href="'.$this->_oReg->AcpRel.'pages/move_up.php?page_id='
 					          . $aPage['page_id'].'" title="'.$this->_oTrans->TEXT_MOVE_UP
-					          . '"><img src="'.$this->_oReg->ThemeRel.'/images/up_16.png" alt="'
+					          . '"><img src="'.$this->_oReg->ThemeRel.'images/up_16.png" alt="'
 					          . $this->_oTrans->TEXT_MOVE_UP.'" /></a>';
 				}
 			}
@@ -359,9 +359,9 @@ class a_pages_PageTree
 		if($aPage['position'] < $aPage['max_position']) {
 			if($aPage['visibility'] != 'deleted') {
 				if($this->_oApp->get_permission('pages_settings') && $aPage['iswriteable']) {
-					$sOutput .= '<a href="'.$this->_oReg->AcpRel.'/pages/move_down.php?page_id='
+					$sOutput .= '<a href="'.$this->_oReg->AcpRel.'pages/move_down.php?page_id='
 					          . $aPage['page_id'].'" title="'.$this->_oTrans->TEXT_MOVE_DOWN
-					          . '"><img src="'.$this->_oReg->ThemeRel.'/images/down_16.png" alt="'
+					          . '"><img src="'.$this->_oReg->ThemeRel.'images/down_16.png" alt="'
 					          . $this->_oTrans->TEXT_MOVE_DOWN.'" /></a>';
 				}
 			}
@@ -372,12 +372,12 @@ class a_pages_PageTree
 		$sOutput .= $this->_Tabs(0).'<td class="list_actions">';
 		if($this->_oApp->get_permission('pages_delete') && $aPage['iswriteable']) {
 			$sOutput .= '<a href="javascript:confirm_link(pages_delete_confirm+\'?\',\''
-			          . $this->_oReg->AcpRel.'/pages/delete.php?page_id='
+			          . $this->_oReg->AcpRel.'pages/delete.php?page_id='
 			          . $this->_oApp->getIDKEY($aPage['page_id']).'\');" title="'
 			          . $this->_oTrans->TEXT_DELETE.'"><img src="'.$this->_oReg->ThemeRel
-			          . '/images/delete_16.png" alt="'.$this->_oTrans->TEXT_DELETE.'" /></a>';
+			          . 'images/delete_16.png" alt="'.$this->_oTrans->TEXT_DELETE.'" /></a>';
 		}else { 
-			$sOutput .= '<img src="'.$this->_oReg->ThemeRel.'/images/blank_16.gif" alt=" " />';
+			$sOutput .= '<img src="'.$this->_oReg->ThemeRel.'images/blank_16.gif" alt=" " />';
 		}
 		$sOutput .= '</td>'.PHP_EOL;
 
@@ -392,7 +392,7 @@ class a_pages_PageTree
 		{
 			$sOutput .= '<a href="javascript:add_child_page(\''.$aPage['page_id'].'\');" '
 			          . 'title="'.$this->_oTrans->HEADING_ADD_CHILD_PAGE.'"><img src="'
-			          . $this->_oReg->ThemeRel.'/images/siteadd.png" name="addpage_'.$aPage['page_id']
+			          . $this->_oReg->ThemeRel.'images/siteadd.png" name="addpage_'.$aPage['page_id']
 			          . '" alt="'.$this->_oTrans->HEADING_ADD_CHILD_PAGE.'" /></a>';
 		}else { 
 			$sOutput .= '&nbsp;'; 
