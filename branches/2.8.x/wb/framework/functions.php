@@ -1503,7 +1503,7 @@ if(!function_exists('rebuild_all_accessfiles'))
 				      . 'WHERE `page_id`='.$aPageRecord['page_id'];
 				$oDb->query($sql);
 		// --- end reorg tree structure --------------------------------------------------
-                $sFilename = $oReg->AppPath.$oReg->PagesDir.$aPageRecord['link'].$oReg->PageExtension;
+                $sFilename = $oReg->AppPath.$oReg->PagesDir.ltrim($aPageRecord['link'],'/').$oReg->PageExtension;
 				$oAccessFile = new AccessFile($sFilename, $aPageRecord['page_id']);
 				$oAccessFile->write();
 				unset($oAccessFile);

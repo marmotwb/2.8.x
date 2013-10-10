@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+10 Oct-2013 Build 1981 Dietmar Woellbrink (Luisehahne)
+# Argument that is passed to the constructor of the Access File Class has been corrected
 10 Oct-2013 Build 1980 Dietmar Woellbrink (Luisehahne)
 ! /framework/initialize.php::SetInstallPathConstants() setting of DOCUMENT_ROOT now compatible for windows installation
 ! /framework/functions.php::rebuild_all_accessfiles() Optimize rebuild access file coding
