@@ -223,6 +223,7 @@ class WbAdaptor {
 		}
 		$this->_aSys['AppName'] = 'WebsiteBaker';
 		$this->_aSys['System']['AppName'] = 'WebsiteBaker';
+		$this->_aSys['Request']['AppName'] = 'WebsiteBaker';
 	}
 
 } // end of class WbAdaptor

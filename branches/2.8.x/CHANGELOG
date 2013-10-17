@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+17 Oct-2013 Build 1982 Manuela v.d.Decken(DarkViper)
+# /framework/AccessFile  little Typofixes
++ /framework/AccessFileHelper added new method getDelTreeLog() and add const LOG_PRESERVE and LOG_CLEAR
+! set WbAdaptor::AppName to 'WebsiteBaker'
 10 Oct-2013 Build 1981 Dietmar Woellbrink (Luisehahne)
 # Argument that is passed to the constructor of the Access File Class has been corrected
 10 Oct-2013 Build 1980 Dietmar Woellbrink (Luisehahne)

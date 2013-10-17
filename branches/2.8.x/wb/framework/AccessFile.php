@@ -102,10 +102,10 @@ class AccessFile {
 		}
 	}
 
-	/**
-	 * Write the accessfile
-	 * @throws AccessFileException
-	 */
+/**
+ * Write the accessfile
+ * @throws AccessFileException
+ */
 	public function write() 
 	{
 		// remove AppPath from File for use in error messages
@@ -146,7 +146,6 @@ class AccessFile {
 		// prepare old/new file-/dirname
 		$sOldFilename   = $this->_sFileName;
 		$sOldSubDirname = dirname($sOldFilename) . '/';
-		$sBaseDirname   = dirname($sOldSubDirname) . '/';
 		$sPattern = '/^(' . preg_quote($sOldSubDirname, '/') . ')([^\/\.]+?)(\.[a-z0-9]+)$/siU';
 		$sNewFilename = preg_replace($sPattern, '\1' . $sNewName . '\3', $sOldFilename);
 		$sNewSubDirname = dirname($sNewFilename) . '/';
