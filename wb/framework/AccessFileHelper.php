@@ -44,6 +44,14 @@ class AccessFileHelper {
  */
 	const DEL_ROOT_DELETE   = 1;
 /**
+ * clear logs
+ */
+	const LOG_CLEAR = true;
+/**
+ * preserve logs
+ */
+	const LOG_PRESERVE = false;
+/**
  * to store the last delTree log
  */
 	static $aDelTreeLog = array();
@@ -131,11 +139,14 @@ class AccessFileHelper {
 	}
 /**
  * returns the log of the last delTree request
+ * @param  bool  $bClearLog   TRUE clears the log after request, FALSE preserve the log
  * @return array
  */
-	static function getDelTreeLog()
+	static function getDelTreeLog($bClearLog = self::LOG_CLEAR)
 	{
-		return self::$aDelTreeLog;
+		$aRetval = self::$aDelTreeLog;
+		if($bClearLog) { self::$aDelTreeLog = array(); }
+		return $aRetval;
 	}
 
 } // end of class AccessFileHelper
