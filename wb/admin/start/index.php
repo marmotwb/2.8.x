@@ -28,7 +28,7 @@ $admin = new admin('Start','start');
 //	$database = WbDatabase::getInstance();
 
 if(defined('FINALIZE_SETUP')) {
-	require_once(WB_PATH.'/framework/functions.php');
+    require_once(WB_PATH.'/framework/functions.php');
 	$dirs = array( 'modules'   => WB_PATH.'/modules/',
 	               'templates' => WB_PATH.'/templates/',
 	               'languages' => WB_PATH.'/languages/'
@@ -63,7 +63,10 @@ if(defined('FINALIZE_SETUP')) {
 
 $msg  = '';
 $msg .= (is_readable(WB_PATH.'/install/')) ?  $MESSAGE['START_INSTALL_DIR_EXISTS'].'<br />' : $msg;
-$msg .= (is_readable(WB_PATH.'/upgrade-script.php')) ?  $MESSAGE['START_UPGRADE_SCRIPT_EXISTS'].'<br />' : '';
+$aReplace =array( 
+      'file' => '<a style="font-weight:bold;" href="'.WB_URL.'/upgrade-script.php">upgrade-script.php</a>'
+    );
+$msg .= (is_readable(WB_PATH.'/upgrade-script.php') ?  replace_vars($MESSAGE['START_UPGRADE_SCRIPT_EXISTS'].'<br />',$aReplace) : '');
 //$msg .= ''.$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'].'<br />';
 
 // ---------------------------------------
@@ -141,7 +144,7 @@ $sql = 'DELETE FROM `'.TABLE_PREFIX.'users` WHERE `confirm_timeout` BETWEEN 1 AN
 WbDatabase::getInstance()->query($sql);
 
 /**
- * delete Outdated Confirmations
+ * delete stored ip adresses default after 60 days
  */
 $sql = 'UPDATE `'.TABLE_PREFIX.'users` SET `login_ip` = \'\' WHERE `login_when` < '.(time()-(60*84600));
 WbDatabase::getInstance()->query($sql);
