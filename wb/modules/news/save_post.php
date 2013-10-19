@@ -88,6 +88,14 @@
 	if( $database->query($sql) ) {
 		// create new accessfile
         $sDoWhat = (($newLink == $old_link) && (file_exists($sNewFilename))) ? "nothing" : "action";
+// try to create the whole path to the accessfile
+    	$sAccessPath = dirname($sNewFilename).'/';
+    	if(!($bRetval = is_dir($sAccessPath))) {
+    		$iOldUmask = umask(0) ;
+    		// sanitize directory mode to 'o+rwx/g+x/u+x' and create path
+    		$bRetval = mkdir($sAccessPath, (OCTAL_DIR_MODE |0711), true); 
+    		umask($iOldUmask);
+    	}
         if($sDoWhat == "action") {
             $sDoWhat = (($sDoWhat == "action") && file_exists($sOldFilename)) ? "update" : "create";
         }

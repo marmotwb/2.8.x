@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
@@ -19,74 +20,165 @@
 /**
  * Reorg.php
  *
- * @category     Module
- * @package      Module_news
- * @author       Werner v.d.Decken <wkl@isteam.de>
- * @copyright    Werner v.d.Decken <wkl@isteam.de>
+ * @category     Addon
+ * @package      news_package
+ * @copyright    Manuela v.d.Decken <manuela@isteam.de>
+ * @author       Manuela v.d.Decken <manuela@isteam.de>
  * @license      http://www.gnu.org/licenses/gpl.html   GPL License
  * @version      0.0.1
  * @revision     $Revision: $
  * @link         $HeadURL: $
  * @lastmodified $Date: $
- * @since        File available since 17.01.2013
- * @description  Reorganisation jobs for the 'news' module
+ * @since        File available since 15.10.2013
+ * @description  reorganisize all accessfiles of the addon 'news'
  */
-
 class m_news_Reorg {
 
-	protected $_oReg = null;
-	protected $_sPagesDir = '';
+/** registry object */
+	protected $oReg = null;
+/** database object */
+	protected $oDb  = null;
+/** root directory for accessfiles */
+	protected $sAccessFilesRoot = '';
+/** sub directory for accessfiles
+ * @description  This is needed to correct db::x_mod_news_posts::link entries of former versions<br />
+ *               It can be removed after <b>all</b> modules accessing news are modified to access
+ *               without a hardcoded subdirectory name.
+ */
+	protected $sAccessFilesSubdir = 'posts/';
+/** collector of return values */
+	protected $aReport = null;
+/** set kind of return values */
+	protected $bDetailedLog = false;
+
+/** show extended log entries */
+	const LOG_EXTENDED = true;
+/** show minimal log entries */
+	const LOG_SHORT    = false;
 
 /**
- * Execute reorganisation
- * @return string all occured messages 
+ * constructor
+ * @param int $bDetailedLog  can be LOG_EXTENDED or LOG_SHORT
  */
-	public function execute() 
+	public function __construct($bDetailedLog = self::LOG_SHORT)
 	{
-		$sOutput = null;
-		$this->_oReg = null;
-		if(class_exists('WbAdaptor')) {
-			$this->_oReg = WbAdaptor::getInstance();
-			$sTmp = trim($this->_oReg->PagesDir, '/');
-			$sTmp = ($sTmp == '' ? '' : $sTmp.'/');
-			$this->_sPagesDir = $sTmp;
-			$sOutput = $this->createAccessFiles();
-		}
-		// add here the requests for additional reorg methods
-		return $sOutput;
+		$this->bDetailedLog     = $bDetailedLog;
+		$this->oDb              = WbDatabase::getInstance();
+		$this->oReg             = WbAdaptor::getInstance();
+		$this->sAccessFilesRoot = $this->oReg->AppPath.$this->oReg->PagesDir.$this->sAccessFilesSubdir;
 	}
 /**
- * Creates all Accessfiles from DB
- * @return string all occured messages 
+ * execute reorganisation
+ * @return boolean
  */
-	protected function createAccessFiles()
+	public function execute()
 	{
-		$count = 0;
-		$aReturnMsg = array();
-		$sql  = 'SELECT `page_id`,`post_id`,`section_id`,`link` ';
-		$sql .= 'FROM `'.$this->_oReg->TablePrefix.'mod_news_posts`';
-		$sql .= 'WHERE `link` != \'\'';
-		if(($oPosts = WbDatabase::getInstance()->query($sql))) {
-			while($aPost = $oPosts->fetchRow(MYSQL_ASSOC))
+	// reset areport
+		$this->aReport = array( 'FilesDeleted'=>0,
+		                        'FilesCreated'=>0,
+		                        'Success'=>array(),
+		                        'Failed'=>array()
+		                      );
+	// delete old accessfiles
+		$this->deleteAll();
+	// recreate new accessfiles
+		$this->rebuildAll();
+	// return true if all is successful done
+		return (sizeof($this->aReport['Failed']) == 0);
+	}
+/**
+ * getReport
+ * @return array
+ * @description a report about the whoole reorganisation<br />
+ *              returns an array including<br />
+ *              (int) number of 'FilesDeleted'<br />
+ *              (int) number of 'FilesCreated'<br />
+ *              (array) 'Success'<br />
+ *              (array) 'Failed'
+ */
+	public function getReport()
+	{
+		return $this->aReport;
+	}
+/**
+ * deleteAll
+ * @throws AccessFileException
+ * @description delete all accessfiles and its children in $sAccessFilesRoot
+ */
+	protected function deleteAll()
+	{
+	// scan start directory for access files
+		foreach (glob($this->sAccessFilesRoot . '*'.$this->oReg->PageExtension, GLOB_MARK) as $sItem)
+		{
+		// sanitize itempath
+            $sItem = str_replace('\\', '/', $sItem);
+			if(AccessFileHelper::isAccessFile($sItem))
 			{
-				$sAccessFile = $this->_oReg->AppPath.$this->_sPagesDir
-				               . trim(str_replace('\\', '/', $aPost['link']), '/')
-				               . $this->_oReg->PageExtension;
-				$aOptionalCommand = array(
-					'$section_id   = '.$aPost['section_id'].';',
-					'$post_section = '.$aPost['section_id'].';',
-					'$post_id      = '.$aPost['post_id'].';'
-				);
-
-				if(create_access_file($sAccessFile, $aPost['page_id'], 0, $aOptionalCommand)){
-					$count++;	
-				} else {
-					$aReturnMsg[] = 'Can\'t create '.$sAccessFile;	
+			// delete accessfiles only
+				if(is_writable($sItem) && @unlink($sItem))
+				{
+				// if file is successful deleted
+					if($this->bDetailedLog)
+					{
+						$this->aReport['Success'][] = 'File successful removed : '.str_replace($this->oReg->AppPath, '', $sItem);
+					}
+				// increment successful counter
+					$this->aReport['FilesDeleted']++;
+				}else
+				{
+				// if failed
+					$this->aReport['Failed'][] = 'Delete file failed : '.str_replace($this->oReg->AppPath, '', $sItem);
 				}
-			}
-			$aReturnMsg[] = 'Number of new created access files: '.$count;
-		}
-		return $aReturnMsg;
-	}
-	// add here some additional reorg methods **************************************** *//
-} // end of class Reorg
+			} // endif
+		} // endforeach
+	} // end of function deleteAll()
+/**
+ * rebuildAll
+ * @return integer  number of successful deleted files
+ * @throws AccessFileException
+ * @description rebuild all accessfiles from database
+ */
+	protected function rebuildAll()
+	{
+		$sql = 'SELECT `page_id`, `post_id`, `section_id`, `link`, `title` '
+		     . 'FROM `'.$this->oDb->TablePrefix.'mod_news_posts` '
+		     . 'WHERE `link`!=\'\'';
+		if(($oPosts = $this->oDb->query($sql)))
+		{
+			while(($aPost = $oPosts->fetchRow(MYSQL_ASSOC)))
+			{
+			// sanitize link if there is an old value in database from former versions
+				$aPost['link'] = trim( str_replace('\\', '/', $aPost['link']), '/');
+				$aPost['link'] = preg_replace( '/^'.preg_quote($this->sAccessFilesSubdir, '/').'/',
+				                               '',
+				                               trim( str_replace('\\', '/', $aPost['link']), '/')
+				                             );
+			// compose name of accessfile
+				$sAccFileName = $this->sAccessFilesRoot.$aPost['link'].$this->oReg->PageExtension;
+				try
+				{
+				// create new object
+					$oAccFile = new AccessFile($sAccFileName, $aPost['page_id']);
+					$oAccFile->addVar('section_id',   $aPost['section_id'], AccessFile::VAR_INT);
+					$oAccFile->addVar('post_id',      $aPost['post_id'],    AccessFile::VAR_INT);
+					$oAccFile->addVar('post_section', $aPost['section_id'], AccessFile::VAR_INT);
+					$oAccFile->write();
+				// destroy object if its file is written
+					unset($oAccFile);
+					if($this->bDetailedLog)
+					{
+						$this->aReport['Success'][] = 'File successful created : '.str_replace($this->oReg->AppPath, '', $sAccFileName);
+					}
+				// increment successful counter
+					$this->aReport['FilesCreated']++;
+				}catch(AccessFileException $e)
+				{
+				// if failed
+					$this->aReport['Failed'][] = ($this->bDetailedLog ? $e : $e->getMessage());
+				}
+			} // endwhile
+		} // endif
+	} // end of function rebuildAll()
+
+} // end of class m_news_Reorg
+
