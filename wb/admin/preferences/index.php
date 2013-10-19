@@ -23,6 +23,8 @@
 function build_page( &$admin, &$database )
 {
 //	global $HEADING, $TEXT;
+    $mLang = Translate::getinstance();
+	$oReg  = WbAdaptor::getInstance();
 	include_once(WB_PATH.'/framework/functions-utf8.php');
 	// Setup template object, parse vars to it, then parse it
 	// Setup template object, parse vars to it, then parse it
@@ -67,22 +69,17 @@ function build_page( &$admin, &$database )
 $aLangAddons = array();
 $aLangBrowser = array();
 
-// read available languages from table addons
-$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';
-$sql .= 'WHERE `type` = \'language\' ORDER BY `directory`';
-if( $oLang = $database->query($sql) )
-{
-    while( $aLang = $oLang->fetchRow(MYSQL_ASSOC) )
-    {
-        $aLangAddons[$aLang['directory']] = $aLang['name'];
-    }
-}
 
 // default, if no information from client available
 $sAutoLanguage = DEFAULT_LANGUAGE;
+// read available languages from table addons
+$aLangAddons = $admin->getAvailableLanguages();
 
-$aLangUsed = array_flip(explode(',',$admin->GetLanguagesInUsed()));
+$aLangUsed = array_flip(explode(',',$admin->getLanguagesInUsed()));
 $aLangUsed = array_intersect_key($aLangAddons, $aLangUsed);
+if( (sizeof($aLangUsed)<2) || !($oReg->PageLanguages) ){
+    $aLangUsed =  $aLangAddons;    
+}
 $template->set_block('main_block', 'language_list_block', 'language_list');
 foreach( $aLangUsed as $sDirectory => $sName  )
 {

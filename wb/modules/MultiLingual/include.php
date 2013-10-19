@@ -38,6 +38,8 @@ if(!function_exists('language_menu'))
 	function language_menu($sExtension = "auto")
 	{
 		global $wb;
+		$oReg   = WbAdaptor::getInstance();
+        if(!$oReg->PageLanguages) {return false;}
 		$sExtension = strtolower($sExtension);
 		switch($sExtension)
 		{
@@ -48,7 +50,7 @@ if(!function_exists('language_menu'))
 				$sExtension = 'auto';
 		}
 
-		if ( $wb->page_id  < 1){ return false; }
+		if ( ($wb->page_id  < 1) ){ return false; }
 		$oPageLang = new m_MultiLingual_Lib();
         $oPageLang->setExtension($sExtension);
 		$sRetVal = $oPageLang->getLangMenu();

@@ -135,7 +135,7 @@ $sMenuIcon1 = (isset($_POST['menu_icon_1']) ? $_POST['menu_icon_1'] : 0);
 // Validate data
 if($page_title == '' || substr($page_title,0,1)=='.')
 {
-	$admin->print_error($MESSAGE['PAGES_BLANK_PAGE_TITLE'],$target_url);
+	$admin->print_error($mLang->PAGES_BLANK_PAGE_TITLE,$target_url);
 }
 if($menu_title == '' || substr($menu_title,0,1)=='.')
 {
