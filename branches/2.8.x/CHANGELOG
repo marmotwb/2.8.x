@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+19 Oct-2013 Build 1988 Dietmar Woellbrink (Luisehahne)
+! /upgrade-script.php, implement class AccessFile()
+  add messages for better overview
 19 Oct-2013 Build 1987 Dietmar Woellbrink (Luisehahne)
 ! see Build 1986
   also implemented in frontend account
