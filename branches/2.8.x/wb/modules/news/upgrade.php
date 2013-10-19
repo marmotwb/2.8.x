@@ -179,24 +179,24 @@ if(!defined('WB_URL')) {
 	}
 // ************************************************
 // Check the validity of 'create-file-timestamp' and balance against 'posted-timestamp'
-			$sql  = 'UPDATE `'.$database->TablePrefix.'mod_news_posts` ';
-			$sql .= 'SET `created_when`=`published_when` ';
-			$sql .= 'WHERE `published_when`<`created_when`';
+			$sql = 'UPDATE `'.$database->TablePrefix.'mod_news_posts` '
+			     . 'SET `created_when`=`published_when` '
+			     . 'WHERE `published_when`<`created_when`';
 			$database->query($sql);
-			$sql  = 'UPDATE `'.$database->TablePrefix.'mod_news_posts` ';
-			$sql .= 'SET `created_when`=`posted_when` ';
-			$sql .= 'WHERE `published_when`=0 OR `published_when`>`posted_when`';
+			$sql = 'UPDATE `'.$database->TablePrefix.'mod_news_posts` '
+			     . 'SET `created_when`=`posted_when` '
+			     . 'WHERE `published_when`=0 OR `published_when`>`posted_when`';
 			$database->query($sql);
 // ************************************************
+// rebuild all access files
 			$aReport = array('FilesDeleted'=>0,'FilesCreated'=>0,);
-        	$sModulReorg = 'm_news_Reorg';
-        	if( !$globalStarted && class_exists($sModulReorg) ) {
-        		$oReorg = new $sModulReorg($sModulReorg::LOG_EXTENDED);
-				$aReturnMsg = $oReorg->execute(); // show details
+        	if( !$globalStarted && class_exists('m_news_Reorg') ) {
+        		$oReorg = new m_news_Reorg(ModuleReorgAbstract::LOG_EXTENDED);
+				$oReorg->execute(); // show details
                 $aReport = $oReorg->getReport();
                 unset($oReorg);
         	}
-
+// ************************************************
 			// only for upgrade-script
 			if($globalStarted) {
 				if($bDebug) {

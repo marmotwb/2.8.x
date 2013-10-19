@@ -11,6 +11,11 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+19 Oct-2013 Build 1990 Manuela v.d.Decken(DarkViper)
++ /framework/ModuleReorgAbstract  provides the basics for modul depending reorganisation classes
+! /modules/news/Reorg  now extends ModuleReorgAbstract
+#                      problem with empty directories fixed
+! /modules/news/upgrade.php // rebuild all access files fixed
 19 Oct-2013 Build 1989 Dietmar Woellbrink (Luisehahne)
 # bugfix /admin/start/index.php::undefined function replace_vars()
 19 Oct-2013 Build 1988 Dietmar Woellbrink (Luisehahne)
