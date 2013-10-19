@@ -32,12 +32,9 @@
  * @since        File available since 15.10.2013
  * @description  reorganisize all accessfiles of the addon 'news'
  */
-class m_news_Reorg {
 
-/** registry object */
-	protected $oReg = null;
-/** database object */
-	protected $oDb  = null;
+class m_news_Reorg extends ModuleReorgAbstract{
+
 /** root directory for accessfiles */
 	protected $sAccessFilesRoot = '';
 /** sub directory for accessfiles
@@ -46,59 +43,34 @@ class m_news_Reorg {
  *               without a hardcoded subdirectory name.
  */
 	protected $sAccessFilesSubdir = 'posts/';
-/** collector of return values */
-	protected $aReport = null;
-/** set kind of return values */
-	protected $bDetailedLog = false;
 
-/** show extended log entries */
-	const LOG_EXTENDED = true;
-/** show minimal log entries */
-	const LOG_SHORT    = false;
-
-/**
- * constructor
- * @param int $bDetailedLog  can be LOG_EXTENDED or LOG_SHORT
- */
-	public function __construct($bDetailedLog = self::LOG_SHORT)
-	{
-		$this->bDetailedLog     = $bDetailedLog;
-		$this->oDb              = WbDatabase::getInstance();
-		$this->oReg             = WbAdaptor::getInstance();
-		$this->sAccessFilesRoot = $this->oReg->AppPath.$this->oReg->PagesDir.$this->sAccessFilesSubdir;
-	}
 /**
  * execute reorganisation
  * @return boolean
  */
 	public function execute()
 	{
-	// reset areport
+/**
+ * @description Structure of report array.<br />
+ *              (int) number of 'FilesDeleted'<br />
+ *              (int) number of 'FilesCreated'<br />
+ *              (array) 'Success'<br />
+ *              (array) 'Failed'
+ */
+	// reset report
 		$this->aReport = array( 'FilesDeleted'=>0,
 		                        'FilesCreated'=>0,
 		                        'Success'=>array(),
 		                        'Failed'=>array()
 		                      );
+	// build AccessFilesRoot
+		$this->sAccessFilesRoot = $this->oReg->AppPath.$this->oReg->PagesDir.$this->sAccessFilesSubdir;
 	// delete old accessfiles
 		$this->deleteAll();
 	// recreate new accessfiles
 		$this->rebuildAll();
 	// return true if all is successful done
 		return (sizeof($this->aReport['Failed']) == 0);
-	}
-/**
- * getReport
- * @return array
- * @description a report about the whoole reorganisation<br />
- *              returns an array including<br />
- *              (int) number of 'FilesDeleted'<br />
- *              (int) number of 'FilesCreated'<br />
- *              (array) 'Success'<br />
- *              (array) 'Failed'
- */
-	public function getReport()
-	{
-		return $this->aReport;
 	}
 /**
  * deleteAll
@@ -108,29 +80,36 @@ class m_news_Reorg {
 	protected function deleteAll()
 	{
 	// scan start directory for access files
-		foreach (glob($this->sAccessFilesRoot . '*'.$this->oReg->PageExtension, GLOB_MARK) as $sItem)
+		$aMatches = glob($this->sAccessFilesRoot . '*'.$this->oReg->PageExtension);
+		if(is_array($aMatches))
 		{
-		// sanitize itempath
-            $sItem = str_replace('\\', '/', $sItem);
-			if(AccessFileHelper::isAccessFile($sItem))
+			foreach($aFileList as $sItem)
 			{
-			// delete accessfiles only
-				if(is_writable($sItem) && @unlink($sItem))
+			// sanitize itempath
+				$sItem = str_replace('\\', '/', $sItem);
+				if(AccessFileHelper::isAccessFile($sItem))
 				{
-				// if file is successful deleted
-					if($this->bDetailedLog)
+				// delete accessfiles only
+					if(is_writable($sItem) && @unlink($sItem))
 					{
-						$this->aReport['Success'][] = 'File successful removed : '.str_replace($this->oReg->AppPath, '', $sItem);
+					// if file is successful deleted
+						if($this->bDetailedLog)
+						{
+							$this->aReport['Success'][] = 'File successful removed : '.str_replace($this->oReg->AppPath, '', $sItem);
+						}
+					// increment successful counter
+						$this->aReport['FilesDeleted']++;
+					}else
+					{
+					// if failed
+						$this->aReport['Failed'][] = 'Delete file failed : '.str_replace($this->oReg->AppPath, '', $sItem);
 					}
-				// increment successful counter
-					$this->aReport['FilesDeleted']++;
-				}else
-				{
-				// if failed
-					$this->aReport['Failed'][] = 'Delete file failed : '.str_replace($this->oReg->AppPath, '', $sItem);
-				}
-			} // endif
-		} // endforeach
+				} // endif
+			} // endforeach
+		}else
+		{
+			$this->aReport['Failed'][] = 'Directory scan failed : '.str_replace($this->oReg->AppPath, '', $this->sAccessFilesRoot);
+		}
 	} // end of function deleteAll()
 /**
  * rebuildAll
