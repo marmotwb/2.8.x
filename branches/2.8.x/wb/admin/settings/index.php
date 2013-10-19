@@ -44,8 +44,6 @@ db_update_key_value( 'settings', $cfg );
 require_once(WB_PATH.'/framework/functions.php');
 require_once(WB_PATH.'/framework/functions-utf8.php');
 
-if(!class_exists('Template', false)){ include(WB_PATH.'/include/phplib/ttemplate.inc'); }
-
 // Setup template object, parse vars to it, then parse it
 // Create new template object
 $oTpl = new Template(dirname($admin->correct_theme_source('settings.htt')),'comment');

@@ -605,17 +605,8 @@ $admin = new admin('Pages', 'pages_settings');
 	}
 
 /*-- show language select box ----------------------------------------------------------*/
-	$sql = 'SELECT `directory`, `name` FROM `'.TABLE_PREFIX.'addons` '
-		 . 'WHERE `type`=\'language\' ';
-	if( !defined('PAGE_LANGUAGES') || !PAGE_LANGUAGES) {
-	// display only default and current language if site is single language only
-		$sql .= 'AND `directory`=\''.DEFAULT_LANGUAGE.'\' ';
-		if($aCurrentPage['language'] != DEFAULT_LANGUAGE) {
-			$sql .= 'AND `directory`=\''.$aCurrentPage['language'].'\' ';
-		}
-	}
-	$sql .= 'ORDER BY `name`';
-	if( ($oLanguages = $database->query($sql)) )
+
+	if( ($oLanguages = $admin->getAvailableLanguagesObjectInstance()) )
 	{
 		$aAvailLanguages = array();
 		while($aLanguage = $oLanguages->fetchRow(MYSQL_ASSOC)) {

@@ -61,9 +61,11 @@ $TEXT['MENU_ICON_1_DIR']      = 'Folder Menu image hover';
 
 $MESSAGE['PAGES_LAST_MODIFIED'] = 'Last modification by';
 $MESSAGE['PAGES_BLANK_SEO_TITLE'] = 'Please enter a Filename';
+$MESSAGE['PAGES_ADDED'] = 'Page added successfully';
+$MESSAGE['PAGES_SAVED'] = 'Page saved successfully';
+$MESSAGE['PAGES_SAVED_SETTINGS'] = 'Page settings saved successfully';
 $MESSAGE['PAGES_CANNOT_CREATE_PROTECTED_FILE'] = 'Protected File, Page cannot be add!';
-$MESSAGE['PAGES_CANNOT_MODIFY_PROTECTED_FILE'] = 'Geschützter Name, Page cannot be modified!';
-
+$MESSAGE['PAGES_CANNOT_MODIFY_PROTECTED_FILE'] = 'Protected File, Page cannot be modified!';
 
 $HELP['PAGE_IMAGE_DIR']  = '<p>The topical side picture path is<br /> <b>{{icon_dir}}</b>.</p>';
 $HELP['PAGE_IMAGE_DIR'] .='<p>As a system administrator you can change the folder for side pictures and menu pictures under options extendet options in server setting.</p>';
