@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+19 Oct-2013 Build 1989 Dietmar Woellbrink (Luisehahne)
+# bugfix /admin/start/index.php::undefined function replace_vars()
 19 Oct-2013 Build 1988 Dietmar Woellbrink (Luisehahne)
 ! /upgrade-script.php, implement class AccessFile()
   add messages for better overview
