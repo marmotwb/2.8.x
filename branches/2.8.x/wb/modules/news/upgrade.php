@@ -188,6 +188,14 @@ if(!defined('WB_URL')) {
 			$sql .= 'WHERE `published_when`=0 OR `published_when`>`posted_when`';
 			$database->query($sql);
 // ************************************************
+			$aReport = array('FilesDeleted'=>0,'FilesCreated'=>0,);
+        	$sModulReorg = 'm_news_Reorg';
+        	if( !$globalStarted && class_exists($sModulReorg) ) {
+        		$oReorg = new $sModulReorg($sModulReorg::LOG_EXTENDED);
+				$aReturnMsg = $oReorg->execute(); // show details
+                $aReport = $oReorg->getReport();
+                unset($oReorg);
+        	}
 
 			// only for upgrade-script
 			if($globalStarted) {
@@ -196,7 +204,10 @@ if(!defined('WB_URL')) {
 				}
 			} 
 		}
-		$msg[] = "News upgrade successfull finished $OK";
+
+//		$msg[] = '<strong>'.$aReport['FilesDeleted'].' Files successful deleted</strong>';
+		$msg[] = '<strong>Number of new formated access files: '.$aReport['FilesCreated'].'</strong>';
+		$msg[] = "<strong>News upgrade successfull finished</strong>";
 		if($globalStarted) {
 			echo "<strong>News upgrade successfull finished $OK</strong><br />";
 		}
@@ -207,15 +218,10 @@ if(!defined('WB_URL')) {
 // end mod_news_Upgrade
 
 // ------------------------------------
-// only show if manuell upgrade
-$bDebugModus = ((isset($bDebugModus)) ? $bDebugModus : false);
 // Don't show the messages twice
+$bDebugModus = ((isset($bDebugModus)) ? $bDebugModus : false);
 if( is_array($msg = mod_news_Upgrade($bDebugModus)) ) {
-	$sModulReorg = 'm_news_Reorg';
-	if(class_exists($sModulReorg)) {
-		$oReorg = new $sModulReorg();
-		$msg = array_merge($msg, $oReorg->execute() ); // show details
-	}
-	echo '<strong>'.implode('<br />',$msg).'</strong><br />';
+// only show if manuell upgrade
+	echo ''.implode('<br />',$msg).'<br />';
 }
 /* **** END UPGRADE ********************************************************* */
