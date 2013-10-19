@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+19 Oct-2013 Build 1984 Dietmar Woellbrink (Luisehahne)
+! /languages/ all language files, add new translation $MESSAGE['START_UPGRADE_SCRIPT_EXISTS']
+! /admin/start/index.php for system administrator only: add start link to 'MESSAGE_START_UPGRADE_SCRIPT_EXISTS'
 19 Oct-2013 Build 1983 Dietmar Woellbrink (Luisehahne)
 ! /framework/class.wb.php::getLanguagesDetailsInUsed() optimized
 + /framework/class.wb.php::getAvailableLanguagesObjectInstance()
