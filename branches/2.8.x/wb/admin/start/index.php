@@ -27,8 +27,8 @@ $admin = new admin('Start','start');
 // ---------------------------------------
 //	$database = WbDatabase::getInstance();
 
+require_once(WB_PATH.'/framework/functions.php');
 if(defined('FINALIZE_SETUP')) {
-    require_once(WB_PATH.'/framework/functions.php');
 	$dirs = array( 'modules'   => WB_PATH.'/modules/',
 	               'templates' => WB_PATH.'/templates/',
 	               'languages' => WB_PATH.'/languages/'
