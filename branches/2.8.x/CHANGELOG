@@ -11,6 +11,12 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+19 Oct-2013 Build 1983 Dietmar Woellbrink (Luisehahne)
+! /framework/class.wb.php::getLanguagesDetailsInUsed() optimized
++ /framework/class.wb.php::getAvailableLanguagesObjectInstance()
+! /framework/class.wb.php::getLanguagesInUsed() method optimized
+! /framework/class.frontend.php update changes made in class.wb.php
+! /framework/functions.php::rebuild_all_accessfiles() is no longer creating FolderProtectFiles
 17 Oct-2013 Build 1982 Manuela v.d.Decken(DarkViper)
 # /framework/AccessFile  little Typofixes
 + /framework/AccessFileHelper added new method getDelTreeLog() and add const LOG_PRESERVE and LOG_CLEAR

@@ -50,6 +50,7 @@ function DeleteAccessFilesTree($sDirToDelete, array &$aReport = null)
 				continue;
 			}
 		}
+        clearstatcache();
 		return true;
 	}	
 	return false;
@@ -1452,8 +1453,10 @@ if(!function_exists('rebuild_all_accessfiles'))
 	{
 		$oDb = WbDatabase::getInstance();
 		$oReg = WbAdaptor::getInstance();
+		$aRetval = array();
 	// try to remove access files and build new folder protect files
         $sTreeToDelete = $oReg->AppPath.$oReg->PagesDir;
+
     	if(($sTreeToDelete!='') && is_writeable($sTreeToDelete)==true)
 		{
 			$aDeleteLog = array();
@@ -1461,9 +1464,6 @@ if(!function_exists('rebuild_all_accessfiles'))
 		// show details if debug is set
             if($bShowDetails) { $aRetval = $aDeleteLog; }
     	}
-	// set logging informations
-		$aRetval = array_merge((isset($aRetval) ? $aRetval : array()),
-		                       createFolderProtectFile(rtrim( $oReg->AppPath.$oReg->PagesDir, '/') ));
 	// Reformat/rebuild all existing access files
 		$sql  = 'SELECT `page_id`,`root_parent`,`parent`,`link`,`level`,`page_trail` '
 		      . 'FROM `'.$oDb->TablePrefix.'pages` '
