@@ -49,11 +49,11 @@ if(isset($_POST['action']) && $_POST['action']=='send') {
 if($_SESSION['display_form'])
 {
 
-$sIncludeHeadLinkCss = '';
-if( is_readable(WB_PATH .'/account/frontend.css')) {
-	$sIncludeHeadLinkCss .= '<link href="'.WB_URL.'/account/frontend.css"';
-	$sIncludeHeadLinkCss .= ' rel="stylesheet" type="text/css" media="screen" />'."\n";
-}
+    $sIncludeHeadLinkCss = '';
+    if( is_readable(WB_PATH .'/account/frontend.css')) {
+    	$sIncludeHeadLinkCss .= '<link href="'.WB_URL.'/account/frontend.css"';
+    	$sIncludeHeadLinkCss .= ' rel="stylesheet" type="text/css" media="screen" />'."\n";
+    }
 
 // set template file and assign module and template block
 	$oTpl = new Template(dirname(__FILE__).'/htt','keep');
@@ -121,36 +121,29 @@ if( is_readable(WB_PATH .'/account/frontend.css')) {
 	);
 
 
-$aLangAddons = array();
-$aLangBrowser = array();
+    $aLangAddons = array();
+    $aLangBrowser = array();
 // read available languages from table addons
-$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';
-$sql .= 'WHERE `type` = \'language\' ORDER BY `directory`';
-if( $oLang = $database->query($sql) )
-{
-    while( $aLang = $oLang->fetchRow(MYSQL_ASSOC) )
-    {
-        $aLangAddons[$aLang['directory']] = $aLang['name'];
-    }
-}
+    $aLangAddons = $admin->getAvailableLanguages();
 
 // default, if no information from client available
-$sAutoLanguage = DEFAULT_LANGUAGE;
+    $sAutoLanguage = DEFAULT_LANGUAGE;
 // detect client language
-if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-	if(preg_match('/([a-z]{2})(?:-[a-z]{2})*/i', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']), $matches)) {
-		$sAutoLanguage = strtoupper($matches[1]);
-	}
-}
+    if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+    	if(preg_match('/([a-z]{2})(?:-[a-z]{2})*/i', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']), $matches)) {
+    		$sAutoLanguage = strtoupper($matches[1]);
+    	}
+    }
+    
+    $sAutoLanguage=($wb->get_session('LANGUAGE')) ? $_SESSION['LANGUAGE'] : $sAutoLanguage;
 
-$sAutoLanguage=($wb->get_session('LANGUAGE')) ? $_SESSION['LANGUAGE'] : $sAutoLanguage;
-
-//$sAutoLanguage = 'NL';
-$aLangUsed = array_flip(explode(',',$wb->GetLanguagesInUsed()));
-$aLangUsed = array_intersect_key($aLangAddons, $aLangUsed);
-$sAutoLanguage = array_key_exists($sAutoLanguage,$aLangUsed) ? $sAutoLanguage : DEFAULT_LANGUAGE;
-//print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />';
-//print_r( $aLangUsed ); print '</pre>'; // flush ();sleep(10); die();
+    //$sAutoLanguage = 'NL';
+    $aLangUsed = array_flip(explode(',',$wb->getLanguagesInUsed()));
+    $aLangUsed = array_intersect_key($aLangAddons, $aLangUsed);
+    if( (sizeof($aLangUsed)<2) || !($oReg->PageLanguages) ){
+        $aLangUsed =  $aLangAddons;    
+    }
+    $sAutoLanguage = array_key_exists($sAutoLanguage,$aLangUsed) ? $sAutoLanguage : DEFAULT_LANGUAGE;
 //  read available languages from table addons and assign it to the template
     $oTpl->set_block('main_block', 'language_list_block', 'language_list');
     foreach( $aLangUsed as $sDirectory => $aName  )

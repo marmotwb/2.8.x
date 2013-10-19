@@ -33,7 +33,7 @@ $MOD_PREFERENCE = array(
 	'SAVE_EMAIL' => 'Email speichern',
 	'SAVE_PASSWORD' => 'Passwort speichern',
 	'SAVE_LANGUAGE' => 'Sprache wechseln',
-	'SET_PREFERENCES_LANGUAGE' => 'Einstellungen sind nur in Ihrer Spracheinstellung möglich! Sie müssen zuerst die Sprache wechseln und die Einstellungen neu aufrufen!',
+	'SET_PREFERENCES_LANGUAGE' => 'Für deine Sprache existiert keine gültige Seite. Bitte wähle eine gültige Sprache aus und wechsele zu dieser Sprache!!',
 );
 
 $HEADING['SIGNUP2_CONFIMED_REGISTRATION'] = 'Kontofreischaltung';

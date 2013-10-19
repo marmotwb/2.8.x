@@ -30,7 +30,7 @@ $MOD_PREFERENCE = array(
 	'SAVE_EMAIL'    => 'save email',
 	'SAVE_PASSWORD' => 'save password',
 	'SAVE_LANGUAGE' => 'Switch language',
-	'SET_PREFERENCES_LANGUAGE' => 'Settings are possible only in your linguistic setting! You first have to change the language and start the settings anew!',
+	'SET_PREFERENCES_LANGUAGE' => 'For your language, there is no valid pages. Please select a valid language and switch to this language!',
 );
 $TEXT['USERNAME'] = 'Loginname';
 $HEADING['SIGNUP2_CONFIMED_REGISTRATION'] = 'Unlock account';
