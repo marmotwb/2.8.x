@@ -30,12 +30,57 @@ if(!class_exists('wbmailer', false)){ include(WB_PATH.'/framework/class.wbmailer
 
 class wb extends SecureForm
 {
+/** @var object instance of the database object */
+	protected $_oDb      = null;
+/** @var object instance holds several values from the application global scope */
+	protected $_oReg     = null;
+/** @var object instance holds all of the translations */
+	protected $_oTrans   = null;
 
  	public $password_chars = 'a-zA-Z0-9\_\-\!\#\*\+\@\$\&\:';	// General initialization function
 
 	// performed when frontend or backend is loaded.
 	public function  __construct($mode = SecureForm::FRONTEND) {
 		parent::__construct($mode);
+
+		$this->_oDb    = WbDatabase::getInstance();
+		$this->_oReg   = WbAdaptor::getInstance();
+		$this->_oTrans = Translate::getInstance();
+	}
+
+/**
+ *
+ *
+ * @return object instance of the database object of all visible languages with defined fields
+ *
+ */
+	public function getAvailableLanguagesObjectInstance( ) {
+
+			$sql = 'SELECT `directory`,`name` '
+			     . 'FROM `'.$this->_oDb->TablePrefix.'addons` '
+		         . 'WHERE `type` = \'language\' '
+		         . 'ORDER BY `directory`';
+        return ($this->_oDb->query($sql));
+	}
+
+
+/**
+ *
+ *
+ * @return array of all visible languages with defined fields
+ *
+ */
+	public function getAvailableLanguages( ) {
+        $aRetval = array();
+        if($oRes = $this->getAvailableLanguagesObjectInstance())
+        {
+            while($aRow = $oRes->fetchRow(MYSQL_ASSOC))
+            {
+                $aRetval[$aRow['directory']] = $aRow['name'];
+            }
+        }
+        
+        return ( $aRetval);
 	}
 
 /**
@@ -44,31 +89,32 @@ class wb extends SecureForm
  * @return array of first visible language pages with defined fields
  *
  */
-	public function GetLanguagesDetailsInUsed ( ) {
-        global $database;
+	public function getLanguagesDetailsInUsed ( ) {
+//        global $database;
         $aRetval = array();
-        $sql =
-            'SELECT DISTINCT `language`'.
-            ', `page_id`,`level`,`parent`,`root_parent`,`page_code`,`link`,`language`'.
-            ', `visibility`,`viewing_groups`,`viewing_users`,`position` '.
-            'FROM `'.TABLE_PREFIX.'pages` '.
-            'WHERE `level`= \'0\' '.
-              'AND `root_parent`=`page_id` '.
-              'AND `visibility`!=\'none\' '.
-              'AND `visibility`!=\'hidden\' '.
-            'GROUP BY `language` '.
-            'ORDER BY `position`';
-
-            if($oRes = $database->query($sql))
+		$sql = 'SELECT DISTINCT `language`, `page_id`, `level`, `parent`, `root_parent`, '
+			 .                 '`page_code`, `link`, `language`, `visibility`, '
+			 .                 '`viewing_groups`,`viewing_users`,`position` '
+			 . 'FROM `'.$this->_oDb->TablePrefix.'pages` '
+			 . 'WHERE `level`= \'0\' '
+			 .       'AND `root_parent`=`page_id` '
+			 .       'AND `visibility`!=\'none\' '
+			 .       'AND `visibility`!=\'hidden\' '
+			 . 'GROUP BY `language` '
+			 . 'ORDER BY `position`';
+        if($oRes = $this->_oDb->query($sql))
+        {
+            while($aRow = $oRes->fetchRow(MYSQL_ASSOC))
             {
-                while($page = $oRes->fetchRow(MYSQL_ASSOC))
-                {
-                    if(!$this->page_is_visible($page)) {continue;}
-                    $aRetval[$page['language']] = $page;
-                }
+                if(!$this->page_is_visible($aRow)) {continue;}
+                $aRetval[$aRow['language']] = $aRow;
             }
+        }
         return $aRetval;
 	}
+
+
+
 
 /**
  *
@@ -76,8 +122,10 @@ class wb extends SecureForm
  * @return comma separate list of first visible languages
  *
  */
-	public function GetLanguagesInUsed ( ) {
-        return implode(',', array_keys($this->GetLanguagesDetailsInUsed()));
+	public function getLanguagesInUsed ( ) {
+        $aRetval = array_keys($this->getLanguagesDetailsInUsed()) ;
+        if(sizeof($aRetval)==0) { return null; }
+        return implode(',', $aRetval);
   	}
 
 

@@ -80,7 +80,7 @@ class frontend extends wb {
  */
 
         if( $this->get_session('session_started') ) {
-            $_SESSION['USED_LANGUAGES'] = $this->GetLanguagesInUsed();
+            $_SESSION['USED_LANGUAGES'] = $this->getLanguagesInUsed();
         }
 
 		$maintance = ( defined('SYSTEM_LOCKED') && (SYSTEM_LOCKED==true) ? true : false );
@@ -173,7 +173,7 @@ class frontend extends wb {
 
 		$bCanRedirect = false;
 // set defaults 
-		$aLanguagesDetailsInUsed = $this->GetLanguagesDetailsInUsed();
+		$aLanguagesDetailsInUsed = $this->getLanguagesDetailsInUsed();
 		$_SESSION['HTTP_REFERER'] = WB_URL;
 		$_SESSION['PAGE_ID'] = $this->page_id;
 		if($this->page_id != 0) {
@@ -189,7 +189,7 @@ class frontend extends wb {
 			$this->page = $get_page->fetchRow(MYSQL_ASSOC);
 
 		//  Check if the page language is also the selected language. If not, send headers again.
-			if (($this->page['language'] != LANGUAGE) && $this->FrontendLanguage )
+			if (($this->page['language'] != LANGUAGE) && $this->FrontendLanguage && ($this->_oReg->PageLanguages) )
             {
             //  check if there is an query-string
 				if(isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] != '') {
