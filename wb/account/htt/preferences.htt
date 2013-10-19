@@ -11,7 +11,7 @@
     <div class="details">
         <h3>{HEADING_MY_SETTINGS}</h3>
         <form name="details" action="{ACTION_URL}" method="post">
-            <input type="hidden" name="redirect" value="{HTTP_REFERER}" />
+            <input type="hidden" name="redirect" value="{REFERER_ID}" />
             <table>
             <tr>
                 <td>{TEXT_DISPLAY_NAME}:</td>
@@ -70,7 +70,7 @@
                     <button class="error" type="reset" name="reset" value="reset">{TEXT_RESET}</button>
                     <button type="submit" name="action" value="details">{MOD_PREFERENCE_SAVE_SETTINGS}</button>
         <!-- END show_detail_send_block -->
-                    <button type="button" value="cancel" onclick="javascript:window.location='{HTTP_REFERER}';">{TEXT_CANCEL}</button>
+                    <button type="{SUBMIT_BUTTON}" name="action" value="{VALUE_BUTTON}" onclick="javascript:window.location='{HTTP_REFERER}';">{TEXT_CANCEL}</button>
                 </td>
             </tr>
             </table>

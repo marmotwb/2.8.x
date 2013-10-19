@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+19 Oct-2013 Build 1987 Dietmar Woellbrink (Luisehahne)
+! see Build 1986
+  also implemented in frontend account
 19 Oct-2013 Build 1986 Dietmar Woellbrink (Luisehahne)
 ! If the advanced option languages ​​Page was disabled or pages exist with one language only,
   then all available languages ​​are shown to be selected in the User-Settings implemented in backend 

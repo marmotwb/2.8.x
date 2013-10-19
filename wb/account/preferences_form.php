@@ -23,6 +23,9 @@ throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
 
+$oReg  = WbAdaptor::getInstance();
+$mLang = Translate::getinstance();
+
 if($wb->is_authenticated() === false) {
 // User needs to login first
     header("Location: ".WB_URL."/account/login.php?redirect=".$wb->link);
@@ -46,7 +49,6 @@ $sDefaultLanguage = DEFAULT_LANGUAGE;
 $sLanguage = LANGUAGE.'.php';
 
 $LanguageDir = WB_PATH .'/account/languages/';
-
 $sLanguageFile = ( file_exists($LanguageDir.$sUserLanguage.'.php') ? $LanguageDir.$sUserLanguage.'.php' : $LanguageDir.$sLanguage);
 $sLanguageFile = ( is_readable($sLanguageFile) ?  $sLanguageFile :  $LanguageDir.$sDefaultLanguage.'.php'   );
 // load module default language file (EN)
@@ -85,7 +87,7 @@ switch($wb->get_post('action')):
     default:
 // do nothing
 endswitch; // switch
-// require(dirname(__FILE__).'/save_preferences.php');
+
 // get existing values from database
 $sql  = "SELECT `display_name`,`email`,`language`,`timezone`,`date_format`,`time_format` ";
 $sql .= "FROM `".TABLE_PREFIX."users` ";
@@ -111,7 +113,21 @@ $template->set_block('main_block', 'show_detail_send_block', 'show_detail_send')
 $template->set_block('main_block', 'show_email_send_block', 'show_email_send');
 $template->set_block('main_block', 'show_password_send_block', 'show_password_send');
 
-if(($sUserLanguage != LANGUAGE) ) {
+$aLangAddons = array();
+$aLangBrowser = array();
+// default, if no information from client available
+$sAutoLanguage = DEFAULT_LANGUAGE;
+
+// read available languages from table addons
+$aLangAddons = $admin->getAvailableLanguages();
+
+$aLangUsed = array_flip(explode(',',$wb->getLanguagesInUsed()));
+$aLangUsed = array_intersect_key($aLangAddons, $aLangUsed);
+if( (sizeof($aLangUsed)<2) || !($oReg->PageLanguages) ){
+    $aLangUsed =  $aLangAddons;    
+}
+
+if( !(array_key_exists($sUserLanguage, $aLangUsed)) ) {
     $template->parse('show_detail_send', '');
     $template->parse('show_email_send', '');
     $template->parse('show_password_send', '');
@@ -122,14 +138,18 @@ if(($sUserLanguage != LANGUAGE) ) {
 }
 
 // Insert language text and messages visibilty="hidden"
+// WB_URL.'/account/preferences.php'
 $template->set_var(array(
-    'HTTP_REFERER' => ( $wb->get_session('HTTP_REFERER')!='' ? $_SESSION['HTTP_REFERER'] : WB_URL),
+    'REFERER_ID' => ( $wb->get_session('HTTP_REFERER')!='' ? $_SESSION['HTTP_REFERER'] : WB_URL),
+    'HTTP_REFERER' => (!(array_key_exists($sUserLanguage, $aLangUsed)) ?WB_URL.'/account/preferences.php':( $wb->get_session('HTTP_REFERER')!='' ? $_SESSION['HTTP_REFERER'] : WB_URL)),
     'CSS_BLOCK'	=> $sIncludeHeadLinkCss,
     'TEXT_SAVE'	=> $TEXT['SAVE'],
     'TEXT_RESET' => $TEXT['RESET'],
-    'TEXT_CANCEL' => ($sUserLanguage!=LANGUAGE) ? $MOD_PREFERENCE['SAVE_LANGUAGE']:$TEXT['CANCEL'],
-    'MOD_PREFERENCE_SET_PREFERENCES_LANGUAGE' => ($sUserLanguage!=LANGUAGE) ? $MOD_PREFERENCE['SET_PREFERENCES_LANGUAGE']:'',
-    'DISPLAY_PREFERENCES_LANGUAGE' => ($sUserLanguage!=LANGUAGE) ? '':'display:none',
+    'SUBMIT_BUTTON' => (!(array_key_exists($sUserLanguage, $aLangUsed)) ?'submit':'button'),
+    'VALUE_BUTTON' => (!(array_key_exists($sUserLanguage, $aLangUsed)) ?'details':'cancel'),
+    'TEXT_CANCEL' => (!(array_key_exists($sUserLanguage, $aLangUsed)) ? $MOD_PREFERENCE['SAVE_LANGUAGE']:$TEXT['CANCEL']),
+    'MOD_PREFERENCE_SET_PREFERENCES_LANGUAGE' => !(array_key_exists($sUserLanguage, $aLangUsed)) ? $MOD_PREFERENCE['SET_PREFERENCES_LANGUAGE']:'',
+    'DISPLAY_PREFERENCES_LANGUAGE' => !(array_key_exists($sUserLanguage, $aLangUsed)) ? '':'display:none',
 	'TEXT_DISPLAY_NAME'	=> $TEXT['DISPLAY_NAME'],
     'TEXT_EMAIL' => $TEXT['EMAIL'],
     'TEXT_LANGUAGE' => $TEXT['LANGUAGE'],
@@ -141,28 +161,6 @@ $template->set_var(array(
     'TEXT_RETYPE_NEW_PASSWORD' => $TEXT['RETYPE_NEW_PASSWORD']
     )
 );
-
-$aLangAddons = array();
-$aLangBrowser = array();
-
-// read available languages from table addons
-$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';
-$sql .= 'WHERE `type` = \'language\' ORDER BY `directory`';
-if( $oLang = $database->query($sql) )
-{
-    while( $aLang = $oLang->fetchRow(MYSQL_ASSOC) )
-    {
-        $aLangAddons[$aLang['directory']] = $aLang['name'];
-    }
-}
-
-// default, if no information from client available
-$sAutoLanguage = DEFAULT_LANGUAGE;
-
-//$sAutoLanguage = 'FR';
-$aLangUsed = array_flip(explode(',',$wb->GetLanguagesInUsed()));
-$aLangUsed = array_intersect_key($aLangAddons, $aLangUsed);
-//$sAutoLanguage = array_key_exists($sAutoLanguage,$aLangUsed) ? $sAutoLanguage : DEFAULT_LANGUAGE;
 
 // read available languages from table addons and assign it to the template
 $template->set_block('main_block', 'language_list_block', 'language_list');
