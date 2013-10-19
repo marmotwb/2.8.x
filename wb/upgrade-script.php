@@ -489,7 +489,7 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 	 *  - Adding field default_theme to settings table
 	 */
 	$aDebugMessage[] = '<div style="margin-left:2em;">';
-	$aDebugMessage[] = "<br /><span><strong>Adding default_theme to settings table</strong></span>";
+	$aDebugMessage[] = "<span><strong>Adding default_theme to table settings</strong></span>";
 	// db_update_key_value('settings', 'default_theme', $DEFAULT_THEME);
 	$cfg = array(
 		'default_theme' => $DEFAULT_THEME
@@ -497,9 +497,8 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
 	$aDebugMessage[] = '</div>';
 
-	if($bDebugModus) {
-		echo implode(PHP_EOL,$aDebugMessage);
-	}
+	echo implode(PHP_EOL,$aDebugMessage);
+
 	$aDebugMessage = array();
 	echo'<h3>Step '.(++$stepID).': Updating core table included in package</h3>';
 	/**********************************************************
@@ -511,7 +510,8 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 	$cfg = array(
 		'sec_anchor' => defined( 'SEC_ANCHOR' )&& (SEC_ANCHOR!='') ? SEC_ANCHOR : 'Sec'
 	);
-	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$bLogStatus = (db_update_key_value( 'settings', $cfg ) ? true : false );
+	$aDebugMessage[] = ( ($bLogStatus==true ) ? " $OK<br />" : " $FAIL!<br />");
 
 	/**********************************************************
 	 *  - Adding redirect timer to settings table
@@ -520,7 +520,8 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 	$cfg = array(
 		'redirect_timer' => defined('REDIRECT_TIMER')&& (REDIRECT_TIMER!='') ? REDIRECT_TIMER : '1500'
 	);
-	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$bLogStatus = (db_update_key_value( 'settings', $cfg ) ? true : false );
+	$aDebugMessage[] = ( ($bLogStatus==true ) ? " $OK<br />" : " $FAIL!<br />");
 
 	/**********************************************************
 	 *  - Adding default_time_formatr to settings table
@@ -529,7 +530,8 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 	$cfg = array(
 		'default_time_format' => defined('DEFAULT_TIME_FORMAT')&& (DEFAULT_TIME_FORMAT!='') ? DEFAULT_TIME_FORMAT : 'h:i A'
 	);
-	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$bLogStatus = (db_update_key_value( 'settings', $cfg ) ? true : false );
+	$aDebugMessage[] = ( ($bLogStatus==true ) ? " $OK<br />" : " $FAIL!<br />");
 
 	/**********************************************************
 	 *  - Adding rename_files_on_upload to settings table
@@ -543,7 +545,8 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 		    'rename_files_on_upload' => 'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js'
 		);
 	}
-	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$bLogStatus = (db_update_key_value( 'settings', $cfg ) ? true : false );
+	$aDebugMessage[] = ( ($bLogStatus==true ) ? " $OK<br />" : " $FAIL!<br />");
 
 	/**********************************************************
 	 *  - Adding mediasettings to settings table
@@ -552,8 +555,8 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 	$cfg = array(
 		'mediasettings' => (defined('MEDIASETTINGS')&& (MEDIASETTINGS!='') ? MEDIASETTINGS : ''),
 	);
-
-	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$bLogStatus = (db_update_key_value( 'settings', $cfg ) ? true : false );
+	$aDebugMessage[] = ( ($bLogStatus==true ) ? " $OK<br />" : " $FAIL!<br />");
 
 	/**********************************************************
 	 *  - Adding fingerprint_with_ip_octets to settings table
@@ -563,8 +566,8 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 		'fingerprint_with_ip_octets' => (defined('FINGERPRINT_WITH_IP_OCTETS') ? FINGERPRINT_WITH_IP_OCTETS : '2'),
 		'secure_form_module' => (defined('SECURE_FORM_MODULE') ? SECURE_FORM_MODULE : '')
 	);
-
-	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$bLogStatus = (db_update_key_value( 'settings', $cfg ) ? true : false );
+	$aDebugMessage[] = ( ($bLogStatus==true ) ? " $OK<br />" : " $FAIL!<br />");
 
 	/**********************************************************
 	 *  - Adding page_icon_dir to settings table
@@ -573,8 +576,8 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 	$cfg = array(
 		'page_icon_dir' => (defined('PAGE_ICON_DIR')&& (PAGE_ICON_DIR!='') ? PAGE_ICON_DIR : '/templates/*/title_images'),
 	);
-
-	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$bLogStatus = (db_update_key_value( 'settings', $cfg ) ? true : false );
+	$aDebugMessage[] = ( ($bLogStatus==true ) ? " $OK<br />" : " $FAIL!<br />");
 	/**********************************************************
 	 *  - Adding page_extended to settings table
 	 */
@@ -582,8 +585,8 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 	$cfg = array(
 		'page_extendet' => (defined('PAGE_EXTENDET') ? PAGE_EXTENDET : 'true'),
 	);
-
-	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$bLogStatus = (db_update_key_value( 'settings', $cfg ) ? true : false );
+	$aDebugMessage[] = ( ($bLogStatus==true ) ? " $OK<br />" : " $FAIL!<br />");
 
 	/**********************************************************
 	 *  - Adding wbmail_signature to settings table
@@ -592,8 +595,8 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 	$cfg = array(
 		'wbmail_signature' => (defined('WBMAIL_SIGNATURE')&& (WBMAIL_SIGNATURE!='') ? WBMAIL_SIGNATURE : '')
 	);
-
-	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$bLogStatus = (db_update_key_value( 'settings', $cfg ) ? true : false );
+	$aDebugMessage[] = ( ($bLogStatus==true ) ? " $OK<br />" : " $FAIL!<br />");
 
 	/**********************************************************
 	 *  - Adding confirmed_registration to settings table
@@ -602,8 +605,8 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 	$cfg = array(
 		'confirmed_registration' => (defined('CONFIRMED_REGISTRATION') ? CONFIRMED_REGISTRATION : '0')
 	);
-
-	$aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$bLogStatus = (db_update_key_value( 'settings', $cfg ) ? true : false );
+	$aDebugMessage[] = ( ($bLogStatus==true ) ? " $OK<br />" : " $FAIL!<br />");
 
 	/**********************************************************
 	 *  - Adding dev_infos to settings table
@@ -612,8 +615,8 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 	$cfg = array(
 		'dev_infos' => (defined('DEV_INFOS') ? DEV_INFOS : 'false')
 	);
-
-    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$bLogStatus = (db_update_key_value( 'settings', $cfg ) ? true : false );
+	$aDebugMessage[] = ( ($bLogStatus==true ) ? " $OK<br />" : " $FAIL!<br />");
 
 	/**********************************************************
 	 *  - Adding server_timezone to settings table
@@ -622,11 +625,11 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 	$cfg = array(
 		'server_timezone' => (defined('SERVER_TIMEZONE') ? SERVER_TIMEZONE : 'UTC')
 	);
-
-    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$bLogStatus = (db_update_key_value( 'settings', $cfg ) ? true : false );
+	$aDebugMessage[] = ( ($bLogStatus==true ) ? " $OK<br />" : " $FAIL!<br />");
 
 	/**********************************************************
-	 *  - Adding password settings to settings table
+	 *  - Adding password settings to table settings
 	 */
 	$aDebugMessage[] = "<span>Adding/updating password settings to settings table</span>";
 	$cfg = array();
@@ -634,11 +637,14 @@ if (!(isset($_POST['backup_confirmed']) && $_POST['backup_confirmed'] == 'confir
 	$cfg['password_hash_type'] = (defined('PASSWORD_HASH_TYPES') ? PASSWORD_HASH_TYPES : 'false');
 	$cfg['password_length'] = (defined('PASSWORD_LENGTH') ? PASSWORD_LENGTH : '10');
 	$cfg['password_use_types'] = (defined('PASSWORD_USE_TYPES') ? PASSWORD_USE_TYPES : (int)0xFFFF);
-    $aDebugMessage[] = (db_update_key_value( 'settings', $cfg ) ? " $OK<br />" : " $FAIL!<br />");
+	$bLogStatus = (db_update_key_value( 'settings', $cfg ) ? true : false );
+	$aDebugMessage[] = ( ($bLogStatus==true ) ? " $OK<br />" : " $FAIL!<br />");
 
 if($bDebugModus) {
     echo implode(PHP_EOL,$aDebugMessage);
-}
+} else {
+        echo '<strong>Successfully upgraded</strong>'." $OK<br />";	   
+	}
 echo '</div>';
 
 $aDebugMessage = array();
@@ -752,6 +758,8 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 
 	if($bDebugModus) {
 		echo implode(PHP_EOL,$aDebugMessage);
+	} else {
+        echo '<strong>Successfully upgraded</strong>'." $OK<br />";	   
 	}
 
 	$aDebugMessage = array();
@@ -775,6 +783,8 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 
 	if($bDebugModus) {
 		echo implode(PHP_EOL,$aDebugMessage);
+	} else {
+        echo '<strong>Successfully upgraded</strong>'." $OK<br />";	   
 	}
 	echo '</div>';
 }
@@ -809,6 +819,8 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 
 	if($bDebugModus) {
 		echo implode(PHP_EOL,$aDebugMessage);
+	} else {
+        echo '<strong>Successfully upgraded</strong>'." $OK<br />";	   
 	}
 	echo '</div>';
 	$aDebugMessage = array();
@@ -830,6 +842,8 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 
 	if($bDebugModus) {
 	    echo implode(PHP_EOL,$aDebugMessage);
+	} else {
+        echo '<strong>Successfully upgraded</strong>'." $OK<br />";	   
 	}
 	echo '</div>';
 
@@ -880,38 +894,31 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 }
 
 $aDebugMessage = array();
-echo '<h3>Step '.(++$stepID).': Updating access and protected files in folders</h3>';
+echo '<h3>Step '.(++$stepID).': Updating access files in folders</h3>';
 
 echo '<div style="margin-left:2em;">';
 	/**********************************************************
 	* upgrade media directory index protect files
 	*/
-	echo '<h4>Upgrade media directory '.MEDIA_DIRECTORY.'/ index.php protect files</h4>';
-	$aDebugMessage = rebuildFolderProtectFile();
-	if( sizeof( $aDebugMessage ) ){
-		echo '<span><strong>Upgrade '.sizeof( $aDebugMessage ).' directory '.MEDIA_DIRECTORY.'/ protect files</strong></span>'." $OK<br />";
-	} else {
-		echo '<span><strong>Upgrade directory '.MEDIA_DIRECTORY.'/ protect files</strong></span>'." $FAIL!<br />";
-		echo implode ('<br />',$aDebugMessage);
-	}
-
-    $aDebugMessage = array();
+//	echo '<h4>Upgrade media directory '.MEDIA_DIRECTORY.'/ index.php protect files</h4>';
+//	$aDebugMessage = rebuildFolderProtectFile();
+//	if( sizeof( $aDebugMessage ) ){
+//		echo '<span><strong>Upgrade '.sizeof( $aDebugMessage ).' directory '.MEDIA_DIRECTORY.'/ protect files</strong></span>'." $OK<br />";
+//	} else {
+//		echo '<span><strong>Upgrade directory '.MEDIA_DIRECTORY.'/ protect files</strong></span>'." $FAIL!<br />";
+//		echo implode ('<br />',$aDebugMessage);
+//	}
+//
+//    $aDebugMessage = array();
     /**********************************************************
      * upgrade pages directory index access files
      */
-	echo '<h4>Upgrade pages directory '.PAGES_DIRECTORY.'/  protect and access files</h4>';
+	echo '<h4>Upgrade pages directory '.PAGES_DIRECTORY.'/  access files</h4>';
 
     /**********************************************************
      *  - Reformat/rebuild all existing access files
      */
-//    $sPagePath = (defined('PAGES_DIRECTORY') && (PAGES_DIRECTORY != '') ? PAGES_DIRECTORY : '');
-//	$sPageDir = str_replace('\\','/',WB_PATH.$sPagePath);
-//	$aProtectedFiles = array(
-//           $sPageDir.'/intro.php',
-//           $sPageDir.'/intro/intro.php',
-//    );
     $msg = rebuild_all_accessfiles($bDebugModus);
-//	$aDebugMessage = rebuildFolderProtectFile($dir);
 	echo '<strong>'.implode ('<br />',$msg).'</strong>';
     echo '</div>';
 
@@ -1052,13 +1059,13 @@ echo '<div style="margin-left:2em;">';
 	 * upgrade modules if newer version is available
 	 * $aModuleList list of proofed modules
 	 */
-	$aModuleList = array(
+	$aProofedModuleList = array(
 	              'captcha_control','code','droplets','form','jsadmin',
 	              'menu_link','news','output_filter','wrapper','wysiwyg','MultiLingual');
-	if(sizeof($aModuleList)) 
+	if(sizeof($aProofedModuleList)) 
 	{
 		echo '<h3>Step '.(++$stepID).': Upgrade proofed modules</h3>';
-		foreach($aModuleList as $sModul) {
+		foreach($aProofedModuleList as $sModul) {
 			if(file_exists(WB_PATH.'/modules/'.$sModul.'/upgrade.php')) {
 				$currModulVersion = get_modul_version ($sModul, false);
 				$newModulVersion =  get_modul_version ($sModul, true);
@@ -1086,14 +1093,22 @@ echo '<div style="margin-left:2em;">';
 			if(class_exists($sModulReorg)) {
 				$sModulVersion =  get_modul_version ($sModul, true);
 				echo '<div style="margin-left:2em;">';
-				echo '<h4>'.'Create/Reorg Accesfiles for module \''.$sModul.'\' version '.$sModulVersion.'</h4>';
-				$oReorg = new $sModulReorg();
+				echo '<h4>'.'Create/Reorg Accessfiles for module \''.$sModul.'\' version '.$sModulVersion.'</h4>';
+				$oReorg = new $sModulReorg($sModulReorg::LOG_EXTENDED);
 				$aReturnMsg = $oReorg->execute(); // show details
-				if(is_array($aReturnMsg)) {
-					foreach($aReturnMsg as $title) {
-					echo '<strong>'.$title.'</strong><br />';
-					}
-				}
+                $aReport = $oReorg->getReport();
+                unset($oReorg);
+                if($bDebugModus) {
+                    foreach($aReport['Failed'] as $sValue) {
+                        echo $sValue.'<br />';
+                    }
+                    foreach($aReport['Success'] as $sValue) {
+                        echo $sValue.'<br />';
+                    }
+    			}
+//				echo '<strong>'.$aReport['FilesDeleted'].' Files successful deleted</strong><br />';
+				echo '<strong>Number of new formated access files: '.$aReport['FilesCreated'].'</strong><br />';
+
 				echo '</div>';
 			}
 		}
