@@ -58,7 +58,7 @@ abstract class ModuleReorgAbstract {
  * constructor
  * @param int $bDetailedLog  can be LOG_EXTENDED or LOG_SHORT
  */
-	public function __construct($bDetailedLog = self::LOG_SHORT) {
+	final public function __construct($bDetailedLog = self::LOG_SHORT) {
 		$this->bDetailedLog = (bool)($bDetailedLog & self::LOG_EXTENDED);
 		$this->oDb          = WbDatabase::getInstance();
 		$this->oReg         = WbAdaptor::getInstance();

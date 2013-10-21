@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+21 Oct-2013 Build 1991 Manuela v.d.Decken(DarkViper)
+# /news/Reorg::deleteAll() typofix
+! ModuleReorgAbstract::__construct() set to final
 19 Oct-2013 Build 1990 Manuela v.d.Decken(DarkViper)
 + /framework/ModuleReorgAbstract  provides the basics for modul depending reorganisation classes
 ! /modules/news/Reorg  now extends ModuleReorgAbstract
