@@ -83,7 +83,7 @@ class m_news_Reorg extends ModuleReorgAbstract{
 		$aMatches = glob($this->sAccessFilesRoot . '*'.$this->oReg->PageExtension);
 		if(is_array($aMatches))
 		{
-			foreach($aFileList as $sItem)
+			foreach($aMatches as $sItem)
 			{
 			// sanitize itempath
 				$sItem = str_replace('\\', '/', $sItem);
