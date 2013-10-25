@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+25 Oct-2013 Build 1992 Dietmar Woellbrink (Luisehahne)
+! /admin/modules/index.php : captions of module lists changed from `directory` to real `name` and sorted by name
 21 Oct-2013 Build 1991 Manuela v.d.Decken(DarkViper)
 # /news/Reorg::deleteAll() typofix
 ! ModuleReorgAbstract::__construct() set to final

@@ -39,7 +39,7 @@ if(!isset($_POST['file']) OR $_POST['file'] == "") {
 
 // Check if the template exists
 if(!is_dir(WB_PATH.'/modules/'.$file)) {
-	$admin->print_error($mLang->MESSAGE_GENERIC_NOT_INSTALLED);
+	$admin->print_error($file.'::'.$mLang->MESSAGE_GENERIC_NOT_INSTALLED);
 }
 
 // Check if the template exists
@@ -55,8 +55,9 @@ $template->set_block('page', 'main_block', 'main');
 
 // Insert values
 $module = false;
-$sql = 'SELECT * FROM `'.TABLE_PREFIX.'addons` '
-     . 'WHERE `type`=\'module\' AND `directory`=\''.$file.'\'';
+$sql = 'SELECT * FROM  `'.TABLE_PREFIX.'addons` '
+     . 'WHERE `type` = \'module\' '
+     . 'AND `directory`= \''.$file.'\' ';
 if( ($result = $database->query($sql)) ){
 	$module = $result->fetchRow(MYSQL_ASSOC);
 }
