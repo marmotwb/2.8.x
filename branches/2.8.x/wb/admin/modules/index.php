@@ -16,9 +16,19 @@
  */
 
 // Print admin header
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
+$config_file = realpath('../../config.php');
+if(file_exists($config_file) && !defined('WB_URL'))
+{
+	require_once($config_file);
+}
+$oReg = WbAdaptor::getInstance();
+if(!class_exists('admin', false)){ include($oReg->AppPath.'framework/class.admin.php'); }
 $admin = new admin('Addons', 'modules');
+// Make news post access files dir
+if(!function_exists('get_variable_content')) {require($oReg->AppPath.'framework/functions.php');}
+$oReg->getWbConstants();
+$mLang = Translate::getinstance();
+$mLang->enableAddon('admin\addons');
 
 // Setup template object, parse vars to it, then parse it
 // Create new template object
@@ -29,60 +39,73 @@ $template->set_block('page', 'main_block', 'main');
 
 // Insert values into module list
 $template->set_block('main_block', 'module_list_block', 'module_list');
-$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'module' order by name");
-if($result->numRows() > 0) {
-	while ($addon = $result->fetchRow())
-	{
-		if ($admin->get_permission($addon['directory'],'module')==false) { continue;}
-//echo $addon['directory'].'<br />';
-		$template->set_var('VALUE', $addon['directory']);
-		$template->set_var('NAME', $addon['name']);
-		$template->parse('module_list', 'module_list_block', true);
-	}
-}
+$aAddonsList = array();
+$sql = 'SELECT `directory`,`name` FROM  `'.$database->TablePrefix.'addons` '
+     . 'WHERE `type` = \'module\' '
+     . 'ORDER BY `name` ';
+if($result = $database->query($sql)){
 
+	while ($addon = $result->fetchRow(MYSQL_ASSOC))
+	{
+        $aAddonsList[$addon['directory']] = $addon['name'];
+	}
+    natcasesort ($aAddonsList);
+    foreach ($aAddonsList as $sModule => $sModuleName)
+    {
+		if ($admin->get_permission($sModule,'module')==false) { continue;}
+		$template->set_var('VALUE', $sModule);
+		$template->set_var('NAME', $sModuleName);
+		$template->parse('module_list', 'module_list_block', true);
+    }
+
+}
+$aModuleList = array();
 // Insert modules which includes a install.php file to install list
-$module_files = glob(WB_PATH . '/modules/*');
+foreach (glob($oReg->AppPath.'modules/*', GLOB_MARK|GLOB_ONLYDIR) as $sTmp) {
+    $sModulePath = str_replace('\\','/',$sTmp);
+    $sModule = basename($sModulePath);
+// list all module names not directories 
+    $sModuleName = 'failed';
+    if(function_exists('file_get_contents') && is_readable($sModulePath.'info.php')) {
+    	$sData = file_get_contents($sModulePath.'info.php');
+    	$sModuleName = get_variable_content('module_name', $sData, false, false);
+    }
+    $aModuleList[$sModule] = $sModuleName;
+}
+natcasesort ($aModuleList);
 $template->set_block('main_block', 'install_list_block', 'install_list');
 $template->set_block('main_block', 'upgrade_list_block', 'upgrade_list');
 $template->set_block('main_block', 'uninstall_list_block', 'uninstall_list');
 $template->set_var(array('INSTALL_VISIBLE' => 'hide', 'UPGRADE_VISIBLE' => 'hide', 'UNINSTALL_VISIBLE' => 'hide'));
-
 $show_block = false;
-foreach ($module_files as $index => $path)
+foreach ($aModuleList as $sModule => $sModuleName)
 {
-	if ( $admin->get_permission(basename($path),'module')==false ) { continue;}
-	if (is_dir($path)) {
-//echo basename($path).'<br />';
-		if (is_readable($path . '/install.php')) {
-			$show_block = true;
-			$template->set_var('INSTALL_VISIBLE', '');
-			$template->set_var('VALUE', basename($path));
-			$template->set_var('NAME', basename($path));
-			$template->parse('install_list', 'install_list_block', true);
-		}
-
-		if (is_readable($path . '/upgrade.php')) {
-			$show_block = true;
-			$template->set_var('UPGRADE_VISIBLE', '');
-			$template->set_var('VALUE', basename($path));
-			$template->set_var('NAME', basename($path));
-			$template->parse('upgrade_list', 'upgrade_list_block', true);
-		}
-
-		if (is_readable($path . '/uninstall.php')) {
-			$show_block = true;
-			$template->set_var('UNINSTALL_VISIBLE', '');
-			$template->set_var('VALUE', basename($path));
-			$template->set_var('NAME', basename($path));
-			$template->parse('uninstall_list', 'uninstall_list_block', true);
-		}
-
-	} else {
-		unset($module_files[$index]);
+	if ( $admin->get_permission($sModule,'module')==false ) { continue;}
+	if (is_readable($oReg->AppPath.'modules/'.$sModule.'/install.php')) {
+		$show_block = true;
+		$template->set_var('INSTALL_VISIBLE', '');
+		$template->set_var('VALUE', $sModule);
+		$template->set_var('NAME', $sModuleName);
+		$template->parse('install_list', 'install_list_block', true);
 	}
-}
 
+	if (is_readable($oReg->AppPath.'modules/'.$sModule.'/upgrade.php')) {
+		$show_block = true;
+		$template->set_var('UPGRADE_VISIBLE', '');
+		$template->set_var('VALUE', $sModule);
+		$template->set_var('NAME', $sModuleName);
+		$template->parse('upgrade_list', 'upgrade_list_block', true);
+	}
+
+	if (is_readable($oReg->AppPath.'modules/'.$sModule.'/uninstall.php')) {
+		$show_block = true;
+		$template->set_var('UNINSTALL_VISIBLE', '');
+		$template->set_var('VALUE', $sModule);
+		$template->set_var('NAME', $sModuleName);
+		$template->parse('uninstall_list', 'uninstall_list_block', true);
+	}
+
+}
 // Insert permissions values
 if($admin->get_permission('modules_install') != true) {
 	$template->set_var('DISPLAY_INSTALL', 'hide');
@@ -94,35 +117,33 @@ if($admin->get_permission('modules_view') != true) {
 	$template->set_var('DISPLAY_LIST', 'hide');
 }
 // only show block if there is something to show
-if(!$show_block || count($module_files) == 0 || !isset($_GET['advanced']) || $admin->get_permission('settings_advanced') != true) {
+if(!$show_block || count($aModuleList) == 0 || !isset($_GET['advanced']) || $admin->get_permission('settings_advanced') != true) {
 	$template->set_var('DISPLAY_MANUAL_INSTALL', 'hide');
 }
-
-//$mLang = ModLanguage::getInstance();
-//$mLang->setLanguage(ADMIN_PATH.'/addons/languages/', LANGUAGE, DEFAULT_LANGUAGE);
-$mLang = Translate::getinstance();
-$mLang->enableAddon('admin\addons');
 
 /*-- insert all needed vars from language files ----------------------------------------*/
 $template->set_var($mLang->getLangArray());
 
 // insert urls
 $template->set_var(array(
-					'ADMIN_URL' => ADMIN_URL,
-					'WB_URL' => WB_URL,
-					'THEME_URL' => THEME_URL,
+/** @todo the following 3 rtrims can be removed, after using of WB_PATH/s.o is changed in templates **/
+					'ADMIN_URL' => rtrim($oReg->AcpUrl, '/'),
+					'WB_URL' => rtrim($oReg->AppUrl, '/'),
+					'THEME_URL' => rtrim($oReg->ThemeUrl, '/'),
 					'FTAN' => $admin->getFTAN()
 					)
 				);
 // Insert language text and messages
 $template->set_var(array(
-	'URL_TEMPLATES' => $admin->get_permission('templates') ?
-		'<a href="' . ADMIN_URL . '/templates/index.php">' . $mLang->MENU_TEMPLATES . '</a>' : '<b>'.$mLang->MENU_TEMPLATES.'</b>',
-	'URL_LANGUAGES' => $admin->get_permission('languages') ?
-		'<a href="' . ADMIN_URL . '/languages/index.php">' . $mLang->MENU_LANGUAGES . '</a>' : '<b>'.$mLang->MENU_LANGUAGES.'</b>',
-	'URL_ADVANCED' => $admin->get_permission('modules_advanced') ?
-		'<a href="' . ADMIN_URL . '/modules/index.php?advanced">' . $mLang->TEXT_ADVANCED . '</a>' : '<b>'.$mLang->TEXT_ADVANCED.'</b>' ,
-	'HEADING_CHANGE_TEMPLATE_NOTICE' => ''
+	'URL_TEMPLATES' => $admin->get_permission('templates')
+	                   ? '<a href="'.$oReg->AcpUrl.'templates/index.php">'.$mLang->MENU_TEMPLATES.'</a>'
+	                   : '<b>'.$mLang->MENU_TEMPLATES.'</b>',
+	'URL_LANGUAGES' => $admin->get_permission('languages') 
+	                   ? '<a href="'.$oReg->AcpUrl.'languages/index.php">'.$mLang->MENU_LANGUAGES.'</a>'
+	                   : '<b>'.$mLang->MENU_LANGUAGES.'</b>',
+	'URL_ADVANCED'  => $admin->get_permission('modules_advanced') 
+	                   ? '<a href="' . $oReg->AcpUrl.'modules/index.php?advanced">'.$mLang->TEXT_ADVANCED.'</a>'
+	                   : '<b>'.$mLang->TEXT_ADVANCED.'</b>', 'HEADING_CHANGE_TEMPLATE_NOTICE' => ''
 	)
 );
 
