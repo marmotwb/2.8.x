@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+06 Nov-2013 Build 1993 Manuela v.d.Decken(DarkViper)
+! /module/output_filter/filters/filterWbLink added extended format to [wblinkXX] - tag
++ /framework/WbLinkAbstract.php added abstract class/interface for filterWbLink
 25 Oct-2013 Build 1992 Dietmar Woellbrink (Luisehahne)
 ! /admin/modules/index.php : captions of module lists changed from `directory` to real `name` and sorted by name
 21 Oct-2013 Build 1991 Manuela v.d.Decken(DarkViper)
