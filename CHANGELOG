@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+06 Nov-2013 Build 1994 Manuela v.d.Decken(DarkViper)
++ /module/news/WbLink.php  added Interface class to module news
+! ../fck_wbmodules.php & ../wbmodules.htt modified link generation for news module
 06 Nov-2013 Build 1993 Manuela v.d.Decken(DarkViper)
 ! /module/output_filter/filters/filterWbLink added extended format to [wblinkXX] - tag
 + /framework/WbLinkAbstract.php added abstract class/interface for filterWbLink

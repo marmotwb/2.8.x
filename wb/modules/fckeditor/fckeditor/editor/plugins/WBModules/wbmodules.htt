@@ -125,7 +125,7 @@
 		<script type="text/javascript">
 			var oPageList = document.getElementById( 'cmbPages' ) ;		
 			oPageList.onchange = function() {
-				pageId = (this[this.selectedIndex].value).replace(/\[wblink(.*)\]/, "$1")
+				pageId = (this[this.selectedIndex].value).replace(/\[wblink(\d+)[^\]]*\]/, "$1")
 				newsSelects = document.getElementsByName( 'cmbNews' );	
 				document.getElementById( 'noSelect' ).setAttribute('style','display: block;') ;
 				for (i = 0; i < newsSelects.length; i++) {
