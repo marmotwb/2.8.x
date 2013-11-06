@@ -87,22 +87,27 @@ if($get_pages->numRows() > 0) {
 	$template->parse('page_list', 'page_list_block', false);
 }
 
-$newsSections = $database->query("SELECT * FROM ".TABLE_PREFIX."sections WHERE module = 'news'");
-$newsPages = array();
 $template->set_block('main_block', 'news_select_block', 'select_list');
 $template->set_block('news_select_block', 'news_list_block', 'news_list');
+$sql = 'SELECT * '
+     . 'FROM `'.TABLE_PREFIX.'sections` '
+     . 'WHERE `module`=\'news\'';
+$newsSections = $database->query($sql);
 while($section = $newsSections->fetchRow()){
-	$news = $database->query("SELECT title, link FROM ".TABLE_PREFIX."mod_news_posts WHERE active=1 AND section_id = ".$section['section_id']);
-	while($item = $news->fetchRow()) {
-    $template->set_var('TITLE', $item['title']);
-		$template->set_var('LINK', WB_URL.PAGES_DIRECTORY.$item['link'].PAGE_EXTENSION);
+	$sql = 'SELECT `title`, `link`, `post_id`, `page_id` '
+	     . 'FROM `'.TABLE_PREFIX.'mod_news_posts` '
+	     . 'WHERE `active`=1 AND `section_id`='.$section['section_id'];
+	$news = $database->query($sql);
+	while($aItem = $news->fetchRow()) {
+		$template->set_var('TITLE', $aItem['title']);
+		$template->set_var('LINK', '[wblink'.$aItem['page_id'].'?addon=news&item='.$aItem['post_id'].']');
+//		$template->set_var('LINK', WB_URL.PAGES_DIRECTORY.$item['link'].PAGE_EXTENSION);
 		$template->parse('news_list', 'news_list_block', true);
 	}
 	$template->set_var('PAGE_ID', $section['page_id']);
 	$template->parse('select_list', 'news_select_block', true);
 	$template->clear_var('news_list');
 }
-
 
 // Parse the template object
 $template->parse('main', 'main_block', false);
