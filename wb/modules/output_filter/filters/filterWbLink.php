@@ -23,7 +23,7 @@
 				if($aMatches[2][$iKey])
 				{
 					$aReplaceList[$sKeyString]['Args'] = array();
-					$aArgs = explode('&', $aMatches[2][$iKey]);
+					$aArgs = preg_split('/&amp;|&/i', $aMatches[2][$iKey], -1, PREG_SPLIT_NO_EMPTY);
 					foreach($aArgs as $sArgument)
 					{
 						$aTmp = explode('=', $sArgument);
