@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+09 Nov-2013 Build 1996 Dietmar Woellbrink (Luisehahne)
+# /framework/initialize.php::readConfiguration  missing constants setting solved
 07 Nov-2013 Build 1995 Manuela v.d.Decken(DarkViper)
 # output_filter > filters/filterWbLink solved Entity problem by splitting arguments
 06 Nov-2013 Build 1994 Manuela v.d.Decken(DarkViper)
