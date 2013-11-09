@@ -22,12 +22,11 @@ if(!defined('WB_PATH')) {
 	require_once(dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
 	throw new IllegalFileException();
 }
-
 /* -------------------------------------------------------- */
 
 function prepareDropletToFile($aDroplet) {
 	$retVal = '';
-	$sDescription = '//:'.($aDroplet['description']!='') ? $aDroplet['description']: 'Desription';
+	$sDescription = '//:'.(($aDroplet['description']!='') ? $aDroplet['description']: 'Desription');
 	$sComments = '';
 	$aComments = explode("\n",$aDroplet['comments']);
 	$sCode = '';
@@ -62,7 +61,6 @@ function backupDropletFromDatabase($sTmpDir) {
 				$retVal .= $sFileName.',';
 			}
 		}
-		
 	}
 	return $retVal;
 }
