@@ -115,7 +115,7 @@
 		if(is_readable($sSetupFile)) {
 			$aCfg = parse_ini_file($sSetupFile, true);
 			foreach($aCfg['Constants'] as $key=>$value) {
-				switch($key):
+				switch(strtoupper($key)):
 					case 'DEBUG':
 						$value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
 						if(!defined('DEBUG')) { define('DEBUG', $value); }
@@ -185,9 +185,9 @@
 	}else {
 		$aSqlData = readConfiguration($sDbConnectType);
 	}
+	SetInstallPathConstants();
 // sanitize $_SERVER['HTTP_REFERER'] ---
 	SanitizeHttpReferer(WB_URL); 
-	SetInstallPathConstants();
 // register WB basic autoloader ---
 	$sTmp = dirname(__FILE__).'/WbAutoloader.php';
 	if(!class_exists('WbAutoloader')){ 
