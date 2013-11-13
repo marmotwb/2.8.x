@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+13 Nov-2013 Build 1998 Manuela v.d.Decken(DarkViper)
++ WbDatabase added new methods fetchObject(), rewind(), seekRow(), freeResult()
+! renamed some methods and add aliases for the old names
 09 Nov-2013 Build 1997 Dietmar Woellbrink (Luisehahne)
 # /modules/droplets/droplets.functions.php::prepareDropletToFile   added missing forward droplet flag into description text
 09 Nov-2013 Build 1996 Dietmar Woellbrink (Luisehahne)
