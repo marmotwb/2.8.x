@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+14 Nov-2013 Build 2002 Dietmar Woellbrink (Luisehahne)
+# include/editarea/edit_area_full.js fixed browser useragent query (Tks to Marmot)
+  include/editarea/SOURCE add editarea sourcecode 
 14 Nov-2013 Build 2001 Dietmar Woellbrink (Luisehahne)
 ! /framework/class.wb.php::ShowMaintainScreen add locked maintenance message
 # /framework/initialize.php::readConfiguration taken back last change (Revision 1996)
