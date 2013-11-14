@@ -172,22 +172,14 @@ class a_pages_PageTree
 		      .        'p.`position`, '
 		      .        'p.`page_id`, p.`parent`, p.`level`, p.`language`, p.`admin_groups`, '
 		      .        'p.`admin_users`, p.`viewing_groups`, p.`viewing_users`, p.`visibility`, '
-		      .        'p.`menu_title`, p.`page_title`, p.`page_trail` '
+		      .        'p.`menu_title`, p.`page_title`, p.`page_trail`, '
+		      .        'GROUP_CONCAT(CAST(CONCAT(s.`section_id`, \' - \', s.`module`) AS CHAR) SEPARATOR \'\n\') `section_list` '
 		      . 'FROM `'.$this->_oDb->TablePrefix.'pages` p '
 		      .    'INNER JOIN `'.$this->_oDb->TablePrefix.'sections` s '
-		      .    'ON p.`page_id`=s.`page_id` ';
-//		if($iParentKey) {
-//
-//			$sql .= 'WHERE `root_parent`='.$iParentKey.' ';
-//		} else {
-//	// if tree based on root is requested (parent=0)
-			$sql .= 'WHERE `parent`='.$iParentKey.' ';
-//		}
-	// do not get pages with 'deleted' flag set on activated trashcan
-		if($this->_oReg->PageTrash != 'inline') {
-			$sql .= 'AND `visibility`!=\'deleted\' ';
-		}
-		$sql .= 'GROUP BY p.`page_id` '
+		      .    'ON p.`page_id`=s.`page_id` '
+		      . 'WHERE `parent`='.$iParentKey.' '
+		      .    (($this->_oReg->PageTrash != 'inline') ? 'AND `visibility`!=\'deleted\' ' : '')
+		      . 'GROUP BY p.`page_id` '
 		      . 'ORDER BY p.`position` ASC';
 		return $sql;
 	}
@@ -332,9 +324,9 @@ class a_pages_PageTree
 			$file = $this->_oApp->page_is_active($aPage) ? "clock_16.png" : "clock_red_16.png";
 			$file = ($aPage['published'] && $aPage['module'] != 'menu_link') ? $file : 'noclock_16.png';
 			$sOutput .= '<a href="'.$this->_oReg->AcpRel.'pages/sections.php?page_id='
-			          . $aPage['page_id'].'" title="'.$this->_oTrans->HEADING_MANAGE_SECTIONS.'">'
+			          . $aPage['page_id'].'" title="'.$this->_oTrans->HEADING_MANAGE_SECTIONS."\n".$aPage['section_list'].'">'
 			          . '<img src="'.$this->_oReg->ThemeRel.'images/'.$file.'" alt="'
-			          . $this->_oTrans->HEADING_MANAGE_SECTIONS.'" /></a>';
+			          . $this->_oTrans->HEADING_MANAGE_SECTIONS."\n".$aPage['section_list'].'" /></a>';
 		}else { 
 			$sOutput .= '<img src="'.$this->_oReg->ThemeRel.'images/blank_16.gif" alt=" " />';
 		}
