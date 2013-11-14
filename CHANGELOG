@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+14 Nov-2013 Build 1999 Manuela v.d.Decken(DarkViper)
+! admin/pages/PageTree added list of sections to the tooltip of 'manage_sections'
 13 Nov-2013 Build 1998 Manuela v.d.Decken(DarkViper)
 + WbDatabase added new methods fetchObject(), rewind(), seekRow(), freeResult()
 ! renamed some methods and add aliases for the old names
