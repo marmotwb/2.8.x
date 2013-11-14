@@ -49,179 +49,171 @@ if(!defined('WB_URL')) {
 //{
 	function mod_news_Upgrade($bDebug=false)
 	{
+	// set environment
 		global $OK ,$FAIL;
-		$database=WbDatabase::getInstance();
-		$mLang = Translate::getinstance();
-		$sModName = basename(dirname(__FILE__));
-		$mLang->enableAddon('modules\\'.$sModName);
-		$msg    = array();
-		$callingScript = $_SERVER["SCRIPT_NAME"];
-// check if upgrade startet by upgrade-script to echo a message
-		$tmp = 'upgrade-script.php';
-		$globalStarted = substr_compare($callingScript, $tmp,(0-strlen($tmp)),strlen($tmp)) === 0;
-// check for missing tables, if true stop the upgrade
-		$aTable = array('mod_news_posts','mod_news_groups','mod_news_comments','mod_news_settings');
-		$aPackage = UpgradeHelper::existsAllTables($aTable);
-		if( sizeof($aPackage) > 0){
-			$msg[] =  'TABLE '.implode(' missing! '.$FAIL.'<br />TABLE ',$aPackage).' missing! '.$FAIL;
-			$msg[] = "WYSIWYG upgrade failed $FAIL";
-			if($globalStarted) {
+		$aMandatoryTables = array('mod_news_posts','mod_news_groups','mod_news_comments','mod_news_settings');
+		$oDb              = WbDatabase::getInstance();
+		$oLang            = Translate::getinstance();
+		$oReg             = WbAdaptor::getInstance();
+		$msg              = array();
+		$sCallingScript   = $_SERVER['SCRIPT_NAME'];
+		$sPagesPath       = $oReg->AppPath.$oReg->PagesDir;
+		$sPostsPath       = $sPagesPath.'/posts';
+		$sModName         = basename(dirname(__FILE__));
+		$oLang->enableAddon('modules\\'.$sModName);
+	// check if upgrade startet by upgrade-script to echo a message
+		$bGlobalStarted = preg_match('/upgrade\-script\.php$/', $sCallingScript);
+/* --- check for missing tables, if true stop the upgrade ----------------------------- */
+		$aMissingTables = UpgradeHelper::getMissingTables($aMandatoryTables);
+		if( sizeof($aMissingTables) > 0){
+			$msg[] = 'TABLE '.implode(' missing! '.$FAIL.'<br />TABLE ', $aMissingTables).' missing! '.$FAIL;
+			$msg[] = 'WYSIWYG upgrade failed '.$FAIL;
+			if($bGlobalStarted) {
 				echo '<strong>'.implode('<br />',$msg).'</strong><br />';
 			}
-			$mLang->disableAddon();
-			return ( ($globalStarted==true ) ? $globalStarted : $msg);
-		} else {
-			/**
-			 * check database engine
-			 */
-			 for($x=0; $x<sizeof($aTable);$x++) {
-				if(($sOldType = $database->getTableEngine($database->TablePrefix.$aTable[$x]))) {
-					if(('myisam' != strtolower($sOldType))) {
-						if(!$database->query('ALTER TABLE `'.$database->TablePrefix.$aTable[$x].'` Engine = \'MyISAM\' ')) {
-							$msg[] = $database->get_error()." $FAIL";
-						} else{
-							$msg[] = 'TABLE `'.$database->TablePrefix.$aTable[$x].'` changed to Engine = \'MyISAM\''." $OK";
-						}
-					} else {
-						 $msg[] = 'TABLE `'.$database->TablePrefix.$aTable[$x].'` has Engine = \'MyISAM\''." $OK";
+			$oLang->disableAddon();
+			return ( ($bGlobalStarted==true ) ? $bGlobalStarted : $msg);
+		}
+/* --- check for database engine ------------------------------------------------------ */
+		for($x=0; $x<sizeof($aMandatoryTables);$x++) {
+			if(($sOldType = $oDb->getTableEngine($oDb->TablePrefix.$aMandatoryTables[$x]))) {
+				if(('myisam' != strtolower($sOldType))) {
+					if(!$oDb->query('ALTER TABLE `'.$oDb->TablePrefix.$aMandatoryTables[$x].'` Engine = \'MyISAM\' ')) {
+						$msg[] = $oDb->get_error()." $FAIL";
+					}else {
+						$msg[] = 'TABLE `'.$oDb->TablePrefix.$aMandatoryTables[$x].'` changed to Engine = \'MyISAM\''." $OK";
 					}
 				} else {
-					$msg[] = $database->get_error()." $FAIL";
+					 $msg[] = 'TABLE `'.$oDb->TablePrefix.$aMandatoryTables[$x].'` has Engine = \'MyISAM\''." $OK";
 				}
+			} else {
+				$msg[] = $oDb->get_error()." $FAIL";
 			}
-
-			$sPagesPath = WB_PATH.PAGES_DIRECTORY;
-			$sPostsPath = $sPagesPath.'/posts';
-// create /posts/ - directory if not exists
-			if(is_writable($sPagesPath)) {
-				if(!($bRetval = is_dir($sPostsPath))) {
-					$iOldUmask = umask(0) ;
-					// sanitize directory mode to 'o+rwx/g+x/u+x' and create path
-					$bRetval = mkdir($sPostsPath, (OCTAL_DIR_MODE |0711), true); 
-					umask($iOldUmask);
-				}
-				if($bRetval) {
-					$msg[] = 'Directory "'.PAGES_DIRECTORY.'/posts/" already exists or created.'." $OK";
-				}else {
-					$msg[] = ($mLang->MESSAGE_PAGES_CANNOT_CREATE_ACCESS_FILE)." $FAIL";
-				}
-			}else {
-					$msg[] = ($mLang->MESSAGE_PAGES_CANNOT_CREATE_ACCESS_FILE)." $FAIL";
-			}
-	// check if new fields must be added
-			$doImportDate = true;
-			if(!$database->field_exists($database->TablePrefix.'mod_news_posts', 'created_when')) {
-				if(!$database->field_add($database->TablePrefix.'mod_news_posts', 'created_when',
-				                        'INT NOT NULL DEFAULT \'0\' AFTER `commenting`')) {
-					$msg[] = $mLang->MESSAGE_RECORD_MODIFIED_FAILED." $FAIL";
-				} else {
-					$msg[] = 'TABLE `'.$database->TablePrefix.'mod_news_posts` Datafield `created_when` added.'." $OK";
-				}
-			} else { 
-				$msg[] = 'TABLE `'.$database->TablePrefix.'mod_news_posts` Datafield `created_when` already exists.'." $OK";
-				$doImportDate = false; 
-			}
-
-			if(!$database->field_exists($database->TablePrefix.'mod_news_posts', 'created_by')) {
-				if(!$database->field_add($database->TablePrefix.'mod_news_posts', 'created_by',
-				                        'INT NOT NULL DEFAULT \'0\' AFTER `created_when`')) {
-					$msg[] = $mLang->MESSAGE_RECORD_MODIFIED_FAILED." $FAIL";
-				} else {
-					$msg[] = 'TABLE `'.$database->TablePrefix.'mod_news_posts` Datafield `created_by` added.'." $OK";
-				}
-			} else { 
-				$msg[] = 'TABLE `'.$database->TablePrefix.'mod_news_posts` Datafield `created_by` already exists.'." $OK";
-				$doImportDate = false; 
-			}
-// preset new fields `created_by` and `created_by` from existing values
-			if($doImportDate) {
-				$sql  = 'UPDATE `'.$database->TablePrefix.'mod_news_posts` ';
-				$sql .= 'SET `created_by`=`posted_by`, `created_when`=`posted_when`';
-				$database->query($sql);
-			}
-	if($doImportDate) {
-	/**
-	 * rebuild news post folder
-	 */
-//	$array = rebuildFolderProtectFile($sPostsPath);
-		// now iterate through all existing accessfiles,
-		// write its creation date into database
-			if(is_writable($sPostsPath)) {
-				$oDir = new DirectoryIterator($sPostsPath);
-				$count = 0;
-				foreach ($oDir as $fileinfo)
+		}
+/* --- create posts/ - directory if not exists ---------------------------------------- */
+		if(!($bRetval = is_dir($sPostsPath))) 
+		{ 
+		// /posts - dir missing
+			if(is_writable($sPagesPath))
+			{
+			// try to create the directory
+				$iOldUmask = umask(0) ;
+				if(!($bRetval = mkdir($sPostsPath, $oReg->OctalDirMode, true)))
 				{
-					$fileName = $fileinfo->getFilename();
-					if((!$fileinfo->isDot()) &&
-					   ($fileName != 'index.php') &&
-					   (substr_compare($fileName,PAGE_EXTENSION,(0-strlen(PAGE_EXTENSION)),strlen(PAGE_EXTENSION)) === 0)
-					  )
-					{
-					// save creation date from old accessfile
-						if($doImportDate) {
-							$link = '/posts/'.preg_replace('/'.preg_quote(PAGE_EXTENSION).'$/i', '', $fileinfo->getFilename());
-							$sql  = 'UPDATE `'.$database->TablePrefix.'mod_news_posts` ';
-							$sql .= 'SET `created_when`='.$fileinfo->getMTime().' ';
-							$sql .= 'WHERE `link`=\''.$link.'\'';
-							if($database->query($sql)) {
-								// delete old access file
-								unlink($fileinfo->getPathname());
-								$count++;
-							}
-						}
-					}
+					$msg[] = 'Not able to create directory "'.str_replace($oReg->AppPath, '', $sPostsPath).'". '.$FAIL;
 				}
-				unset($oDir);
+				umask($iOldUmask);
+			}else
+			{
+				$msg[] = 'Directory "'.str_replace($oReg->AppPath, '', $sPostsPath).'" is not writeable.'." $FAIL";
+				$bRetval = false;
 			}
-			if($count > 0) {
-				$msg[] = 'Save date of creation from '.$count.' old accessfiles and delete these files.'." $OK";
+			if(!$bRetval) { 
+				$oLang->disableAddon();
+				return ( ($bGlobalStarted==true ) ? $bGlobalStarted : $msg);
 			}
-	}
-// ************************************************
-// Check the validity of 'create-file-timestamp' and balance against 'posted-timestamp'
-			$sql = 'UPDATE `'.$database->TablePrefix.'mod_news_posts` '
+		}
+		$msg[] = 'Directory "'.str_replace($oReg->AppPath, '', $sPostsPath).'" exists.'." $OK";
+/* --- create new db fields if `created_when` and `created_by` is missing ------------- */
+		$doImportDate = 0;
+		$aMsgList = array(
+			0 => 'Datafield `'.$oDb->TablePrefix.'mod_news_posts`.`created_when` exists. '.$OK,
+			1 => 'Datafield `'.$oDb->TablePrefix.'mod_news_posts`.`created_by` exists. '.$OK,
+			2 => 'missing Datafield `'.$oDb->TablePrefix.'mod_news_posts`.`created_when`. '.$FAIL,
+			3 => 'missing Datafield `'.$oDb->TablePrefix.'mod_news_posts`.`created_by`. '.$FAIL,
+			4 => 'Datafield `'.$oDb->TablePrefix.'mod_news_posts`.`created_when` created. '.$OK,
+			5 => 'Datafield `'.$oDb->TablePrefix.'mod_news_posts`.`created_by` created. '.$OK,
+		);
+		if($oDb->field_exists($oDb->TablePrefix.'mod_news_posts', 'created_when')) {
+			$doImportDate |= pow(2, 0);
+		}else {
+			if($oDb->field_add($oDb->TablePrefix.'mod_news_posts', 'created_when', 'INT NOT NULL DEFAULT \'0\' AFTER `commenting`')) {
+				$doImportDate |= (pow(2, 0) | pow(2, 4));
+			}else {
+				$doImportDate |= pow(2, 2);
+			}
+		}
+		if($oDb->field_exists($oDb->TablePrefix.'mod_news_posts', 'created_by')) {
+			$doImportDate |= pow(2, 1);
+		}else {
+			if($oDb->field_add($oDb->TablePrefix.'mod_news_posts', 'created_by', 'INT NOT NULL DEFAULT \'0\' AFTER `created_when`')) {
+				$doImportDate |= (pow(2, 1) | pow(2, 5));
+			}else {
+				$doImportDate |= pow(2, 3);
+			}
+		}
+		// build messages
+		foreach($aMsgList as $iKey => $sMsgText) {
+			if($doImportDate & pow(2, $iKey)) { $msg[] = $sMsgText; }
+		}
+		// break if not all fields exists now
+		if(!($doImportDate & (pow(2, 0) | pow(2, 1)))) {
+			$oLang->disableAddon();
+			return ($bGlobalStarted ? $bGlobalStarted : $msg);
+		}
+/* --- import creation date from old style accessfiles -------------------------------- */
+		// preset new fields `created_by` and `created_by` from existing values
+		// if both fields are created new
+		if($doImportDate & (pow(2, 4) | pow(2, 5)))
+		{
+		// first copy values inside the table and exchange all \ by / in field `link`
+			$sql  = 'UPDATE `'.$oDb->TablePrefix.'mod_news_posts` '
+			      . 'SET `created_by`=`posted_by`, '
+			      .     '`created_when`=`posted_when` '
+			      .     '`link`= REPLACE(`link`, \'\\\', \'/\')';
+			$oDb->query($sql);
+		// read Timestamps from old styled accessfiles
+			$iCount = 0;
+			$aMatches = glob($sPostsPath.'*'.$oReg->PageExtension);
+			if(is_array($aMatches)) {
+				foreach($aMatches as $sFile) {
+					$sLink = str_replace($sPagesPath, '', str_replace('\\', '/', $sFile));
+					$sLink = '/'.preg_replace('/'.preg_quote($oReg->PageExtension).'$/i', '', $sLink);
+					$sql = 'UPDATE `'.$oDb->TablePrefix.'mod_news_posts` '
+					     . 'SET `created_when`='.filemtime($sFile).' '
+					     . 'WHERE `link`=\''.$sLink.'\'';
+					if(($oDb->query('$sql'))) { $iCount++; }
+				}
+			}
+			if($iCount) {
+				$msg[] = 'Creation date of &#62;'.$iCount.'&#60; posts has been imported from old styled accessfiles.'." $OK";
+			}
+		// Check the validity of 'create-file-timestamp' and balance against 'posted-timestamp'
+			$sql = 'UPDATE `'.$oDb->TablePrefix.'mod_news_posts` '
 			     . 'SET `created_when`=`published_when` '
 			     . 'WHERE `published_when`<`created_when`';
-			$database->query($sql);
-			$sql = 'UPDATE `'.$database->TablePrefix.'mod_news_posts` '
+			$oDb->query($sql);
+			$sql = 'UPDATE `'.$oDb->TablePrefix.'mod_news_posts` '
 			     . 'SET `created_when`=`posted_when` '
 			     . 'WHERE `published_when`=0 OR `published_when`>`posted_when`';
-			$database->query($sql);
-// ************************************************
-// rebuild all access files
-			$aReport = array('FilesDeleted'=>0,'FilesCreated'=>0,);
-        	if( !$globalStarted && class_exists('m_news_Reorg') ) {
-        		$oReorg = new m_news_Reorg(ModuleReorgAbstract::LOG_EXTENDED);
-				$oReorg->execute(); // show details
-                $aReport = $oReorg->getReport();
-                unset($oReorg);
-        	}
-// ************************************************
-			// only for upgrade-script
-			if($globalStarted) {
-				if($bDebug) {
-					echo '<strong>'.implode('<br />',$msg).'</strong><br />';
-				}
-			} 
+			$oDb->query($sql);
 		}
-
-//		$msg[] = '<strong>'.$aReport['FilesDeleted'].' Files successful deleted</strong>';
+/* --- rebuild all access files ------------------------------------------------------- */
+		$aReport = array('FilesDeleted'=>0,'FilesCreated'=>0,);
+		$oReorg = new m_news_Reorg(ModuleReorgAbstract::LOG_EXTENDED);
+		$oReorg->execute(); // show details
+		$aReport = $oReorg->getReport();
+		unset($oReorg);
+/* --- for running from upgrade-script.php only --------------------------------------- */
+		if($bGlobalStarted && $bDebug) {
+			echo '<strong>'.implode('<br />',$msg).'</strong><br />';
+		}
+/* ------------------------------------------------------------------------------------ */
 		$msg[] = '<strong>Number of new formated access files: '.$aReport['FilesCreated'].'</strong>';
 		$msg[] = "<strong>News upgrade successfull finished</strong>";
-		if($globalStarted) {
+		if($bGlobalStarted) {
 			echo "<strong>News upgrade successfull finished $OK</strong><br />";
 		}
-		$mLang->disableAddon();
-		return ( ($globalStarted==true ) ? $globalStarted : $msg);
+		$oLang->disableAddon();
+		return ($bGlobalStarted ? $bGlobalStarted : $msg);
 	}
-//}
 // end mod_news_Upgrade
 
 // ------------------------------------
 // Don't show the messages twice
-$bDebugModus = ((isset($bDebugModus)) ? $bDebugModus : false);
-if( is_array($msg = mod_news_Upgrade($bDebugModus)) ) {
+	$bDebugModus = ((isset($bDebugModus)) ? $bDebugModus : false);
+	if( is_array($msg = mod_news_Upgrade($bDebugModus)) ) {
 // only show if manuell upgrade
-	echo ''.implode('<br />',$msg).'<br />';
-}
+		echo implode('<br />', $msg).'<br />';
+	}
 /* **** END UPGRADE ********************************************************* */

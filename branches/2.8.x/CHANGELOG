@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+14 Nov-2013 Build 2003 Dietmar Woellbrink (Luisehahne)
+! /modules/news/upgrade.php optimize add and modify field tables, rebuild message
+! /modules/news/modify_post.php and modify_post.php check posts folder if not exists then create
+! /upgrade-script.php  add ModuleReorgAbstract calling the Reorg Accessfiles from modules
 14 Nov-2013 Build 2002 Dietmar Woellbrink (Luisehahne)
 # include/editarea/edit_area_full.js fixed browser useragent query (Tks to Marmot)
   include/editarea/SOURCE add editarea sourcecode 
