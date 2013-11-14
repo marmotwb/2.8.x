@@ -104,7 +104,9 @@ class WbAdaptor {
 		$aConsts = get_defined_constants(true);
 		foreach($aConsts['user'] as $sKey=>$sVal)
 		{
-			// change all path items to trailing slash scheme
+		// skip possible existing database constants
+			if (preg_match('/^db_|^TABLE_PREFIX$/i', $sKey)) { continue; }
+		// change all path items to trailing slash scheme
 			switch($sKey):
 				case 'WB_URL': 
 					$sVal = rtrim(str_replace('\\', '/', $sVal), '/').'/';
@@ -186,10 +188,6 @@ class WbAdaptor {
 					$sVal = trim(str_replace('\\', '/', $sVal), '/').'/';
 					$sKey = 'DefaultTheme';
 					$this->_aSys['Request'][$sKey] = $sVal; 
-					break;
-				case 'TABLE_PREFIX':
-					$sKey = 'TablePrefix';
-					$this->_aSys['System'][$sKey] = $sVal; 
 					break;
 				case 'OCTAL_FILE_MODE':
 					$sVal = ((intval($sVal) & ~0111)|0600); // o-x/g-x/u-x/o+rw

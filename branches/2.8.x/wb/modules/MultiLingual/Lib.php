@@ -78,7 +78,7 @@ class m_MultiLingual_Lib {
 	{
 		// if new Pagecode is missing then set the own page ID
 		$entry = ( !isset($iNewPageCode) ? $iPageId : $iNewPageCode);
-		$sql = 'UPDATE `'.$this->_oReg->TablePrefix.$sTable.'` '
+		$sql = 'UPDATE `'.$this->_oDb->TablePrefix.$sTable.'` '
 		     . 'SET `page_code`='.$entry.', '
 		     .     '`modified_when` = '.time().' '
 		     . 'WHERE `page_id` = '.$iPageId;
@@ -94,8 +94,9 @@ class m_MultiLingual_Lib {
 	{
 		$sql = 'SELECT DISTINCT `language`,'
 		     .                 '`page_id`,`level`,`parent`,`root_parent`,`page_code`,`link`,'
-		     .                 '`visibility`,`viewing_groups`,`viewing_users`,`position`,`page_title` '
-		     . 'FROM `'.$this->_oReg->TablePrefix.'pages` '
+		     .                 '`visibility`,`viewing_groups`,`viewing_users`,`position`,'
+		     .                 '`page_title`,`tooltip` '
+		     . 'FROM `'.$this->_oDb->TablePrefix.'pages` '
 		     . 'WHERE `level`= \'0\' '
 		     .   'AND `root_parent`=`page_id` '
 		     .   'AND (`visibility`!=\'none\' '
@@ -116,8 +117,9 @@ class m_MultiLingual_Lib {
 	{
 		$sql = 'SELECT `language`,'
 		     .        '`page_id`,`level`,`parent`,`root_parent`,`page_code`,`link`,'
-		     .        '`visibility`,`viewing_groups`,`viewing_users`,`position`,`page_title` '
-		     .  'FROM `'.$this->_oReg->TablePrefix.'pages`'
+		     .        '`visibility`,`viewing_groups`,`viewing_users`,`position`,'
+		     .        '`page_title`,`tooltip` '
+		     .  'FROM `'.$this->_oDb->TablePrefix.'pages`'
 		     .  'WHERE `page_code` = '.$iPageCode.' '
 		     .  'ORDER BY `position`';
 		return $this->_oDb->query($sql);
@@ -130,7 +132,7 @@ class m_MultiLingual_Lib {
 	 */
 	private function _getLangAddonsDbResult ( $sLangKey='' ) 
 	{
-		$sql = 'SELECT `directory`,`name`  FROM `'.$this->_oReg->TablePrefix.'addons` '
+		$sql = 'SELECT `directory`,`name`  FROM `'.$this->_oDb->TablePrefix.'addons` '
 		     . 'WHERE `type` = \'language\' '
 		     . ( ($sLangKey!='') ? ' AND `directory` = \''.$langKey.'\' ' : '')
 		     . 'ORDER BY `directory`';
@@ -144,9 +146,9 @@ class m_MultiLingual_Lib {
 	 */
 	private function _getPageListDbResult ( $parent ) 
 	{
-	    $sql = 'SELECT `language`,'
+	    $sql = 'SELECT `language`,`tooltip`,'
 		     .        '`page_id`,`page_title`,`menu_title`, `page_code`, `parent` '
-		     . 'FROM `'.$this->_oReg->TablePrefix.'pages` '
+		     . 'FROM `'.$this->_oDb->TablePrefix.'pages` '
 		     . 'WHERE `parent` = '.$parent. ' '
 		     . 'ORDER BY `position`';
 		return $this->_oDb->query($sql);
@@ -159,8 +161,8 @@ class m_MultiLingual_Lib {
 		{
 			while($page = $oRes->fetchRow(MYSQL_ASSOC))
 			{
-			if(!$this->_oApp->page_is_visible($page)) {continue;}
-			$aRetval[$page['language']] = $page;
+				if(!$this->_oApp->page_is_visible($page)) {continue;}
+				$aRetval[$page['language']] = $page;
 			}
 		}
 		return $aRetval;
@@ -175,9 +177,9 @@ class m_MultiLingual_Lib {
 			{
 				if (( $value['page_id'] != $this_page ) )
 				{
-				$entries [$value['page_id']]['language'] = $value['language'];
-				$entries [$value['page_id']]['menu_title'] = $value['menu_title'];
-				$this->_getPageList($value['page_id'], $this_page );
+					$entries [$value['page_id']]['language'] = $value['language'];
+					$entries [$value['page_id']]['menu_title'] = $value['menu_title'];
+					$this->_getPageList($value['page_id'], $this_page );
 				}
 			}
 		}
@@ -237,28 +239,34 @@ class m_MultiLingual_Lib {
 	*/
 	private function _getLangMenuData ( ) 
 	{
-		$data = array();
-		$SetLanguageUrl = array();
-		$SetLanguageIcons = array();
-		$SetLanguageIcons = $this->_getLanguagesDetailsInUsed( );
-		if(sizeof($SetLanguageIcons)>1) 
+		$aTplData = array();
+	// get root pages for all used languages
+		$aAllowedRootLanguages = $this->_getLanguagesDetailsInUsed( );
+		if(sizeof($aAllowedRootLanguages)>1)
 		{
-			$pages = $this->_getPageCodeValues( $this->_oApp->page_code );
-			$tmppage = array_intersect_key($pages,$SetLanguageIcons);
-			$pages = array_merge($SetLanguageIcons,$tmppage);
-			foreach ( $SetLanguageIcons AS $value) 
+		// get all pages witch the same page_code
+			$aMatchingPages = $this->_getPageCodeValues( $this->_oApp->page['page_code'] );
+		// remove all pages from list with not avaliable languages
+			$aPossibleMatchingPages = array_intersect_key($aMatchingPages, $aAllowedRootLanguages);
+		// add Allowed root pages to possible matches
+			$aAvailablePages = array_merge($aPossibleMatchingPages, $aAllowedRootLanguages);
+			foreach ( $aAvailablePages AS $aPage)
 			{
-				$data[] = array(
-				      'sIconUrl' => $this->_oReg->AppRel . 'modules/' . basename(dirname(__FILE__)) . '/',
-				      'bCurrent' => ( ($value['language'] == $this->_oReg->Language ) ? true : false),
-				      'sUrl' => $this->_oReg->AppRel.$this->_oReg->PagesDir.trim($pages[$value['language']]['link'],'/').$this->_oReg->PageExtension,
-				      'sTitle' => $pages[$value['language']]['page_title'],
-				      'FilePrefix' => strtolower($pages[$value['language']]['language']),
-				      'sExtension' => $this->_sExtension,
+				$aTplData[] = array(
+				    'sIconUrl'         => $this->_oReg->AppRel . 'modules/'
+					                    . basename(dirname(__FILE__)) . '/',
+				    'bCurrentLanguage' => (($aPage['language'] == $this->_oReg->Language) ? true : false),
+				    'sTargetPageUrl'   => $this->_oReg->AppRel . $this->_oReg->PagesDir
+				                        . trim($aAvailablePages[$aPage['language']]['link'],'/')
+					                    . $this->_oReg->PageExtension,
+				    'sPageTitle'       => $aAvailablePages[$aPage['language']]['page_title'],
+				    'sFilename'        => strtolower($aAvailablePages[$aPage['language']]['language']),
+				    'sImageType'       => $this->_sExtension,
+					'sToolTip'         => $aAvailablePages[$aPage['language']]['tooltip']
 				);
 			}
 		}
-		return $data;
+		return $aTplData;
 	}
 
 	/**
@@ -279,7 +287,6 @@ class m_MultiLingual_Lib {
     private function _detectIE()
     {
         preg_match('/MSIE (.*?);/', $_SERVER['HTTP_USER_AGENT'], $aMatches);
-
         if (count($aMatches)>1){
           return true;
         }
