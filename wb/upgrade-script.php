@@ -1094,7 +1094,7 @@ echo '<div style="margin-left:2em;">';
 				$sModulVersion =  get_modul_version ($sModul, true);
 				echo '<div style="margin-left:2em;">';
 				echo '<h4>'.'Create/Reorg Accessfiles for module \''.$sModul.'\' version '.$sModulVersion.'</h4>';
-				$oReorg = new $sModulReorg($sModulReorg::LOG_EXTENDED);
+				$oReorg = new $sModulReorg(ModuleReorgAbstract::LOG_EXTENDED);
 				$aReturnMsg = $oReorg->execute(); // show details
                 $aReport = $oReorg->getReport();
                 unset($oReorg);
