@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+
+14 Nov-2013 Build 2005 Dietmar Woellbrink (Luisehahne)
+/admin/addons/reload.php::ReloadAddonLoop delete all cachefiles of class Translate
 14 Nov-2013 Build 2004 Dietmar Woellbrink (Luisehahne)
 ! /modules/MultiLingual/tpl/lang.html.twig  updating template with changed data
 14 Nov-2013 Build 2003 Dietmar Woellbrink (Luisehahne)
