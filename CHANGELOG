@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+14 Nov-2013 Build 2001 Dietmar Woellbrink (Luisehahne)
+! /framework/class.wb.php::ShowMaintainScreen add locked maintenance message
+# /framework/initialize.php::readConfiguration taken back last change (Revision 1996)
 14 Nov-2013 Build 2000 Manuela v.d.Decken(DarkViper)
 ! WbAdaptor::getWbConstants() now on import skip constants holding database settings
 14 Nov-2013 Build 1999 Manuela v.d.Decken(DarkViper)

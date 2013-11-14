@@ -115,7 +115,7 @@
 		if(is_readable($sSetupFile)) {
 			$aCfg = parse_ini_file($sSetupFile, true);
 			foreach($aCfg['Constants'] as $key=>$value) {
-				switch(strtoupper($key)):
+				switch($key):
 					case 'DEBUG':
 						$value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
 						if(!defined('DEBUG')) { define('DEBUG', $value); }

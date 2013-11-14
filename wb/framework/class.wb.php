@@ -549,10 +549,9 @@ return $components;
 	public function ShowMaintainScreen($type = 'locked')
 	{
 		global $database, $MESSAGE;
-		$CHECK_BACK = $MESSAGE['GENERIC_PLEASE_CHECK_BACK_SOON'];
-		$BE_PATIENT = '';
 		$LANGUAGE   = strtolower((isset($_SESSION['LANGUAGE']) ? $_SESSION['LANGUAGE'] : LANGUAGE ));
-
+		$PAGE_TITLE = $MESSAGE['GENERIC_WEBSITE_UNDER_CONSTRUCTION'];
+		$PAGE_ICON  = 'negative';
 		$show_screen = false;
 		if($type == 'locked')
 		{
@@ -581,14 +580,11 @@ return $components;
 		// delete the session itself
 				session_destroy();
 				$PAGE_TITLE = $MESSAGE['GENERIC_WEBSITE_LOCKED'];
-				$BE_PATIENT = $MESSAGE['GENERIC_BE_PATIENT'];
 				$PAGE_ICON  = 'system';
 				$show_screen = true;
 			}
 		} else {
 			header($_SERVER['SERVER_PROTOCOL'].' 503 Service Unavailable');
-			$PAGE_TITLE = $MESSAGE['GENERIC_WEBSITE_UNDER_CONSTRUCTION'];
-			$PAGE_ICON  = 'negative';
 			$show_screen = true;
 		}
 		if($show_screen)
@@ -606,14 +602,14 @@ return $components;
     			} else {
     				$charset='utf-8';
     			}
-    		    $tpl->set_var( 'PAGE_TITLE', $MESSAGE['GENERIC_WEBSITE_UNDER_CONSTRUCTION'] );
+    		    $tpl->set_var( 'PAGE_TITLE', $PAGE_TITLE );
     	 	    $tpl->set_var( 'CHECK_BACK', $MESSAGE['GENERIC_PLEASE_CHECK_BACK_SOON'] );
     	 	    $tpl->set_var( 'CHARSET', $charset );
     	 	    $tpl->set_var( 'WB_URL', WB_URL );
-    	 	    $tpl->set_var( 'BE_PATIENT', $BE_PATIENT );
+    	 	    $tpl->set_var( 'BE_PATIENT', $MESSAGE['GENERIC_BE_PATIENT'] );
     	 	    $tpl->set_var( 'THEME_URL', THEME_URL );
     			$tpl->set_var( 'PAGE_ICON', $PAGE_ICON);
-    			$tpl->set_var( 'LANGUAGE', strtolower(LANGUAGE));
+    			$tpl->set_var( 'LANGUAGE', $LANGUAGE);
     		    $tpl->parse( 'main', 'main_block', false );
     		    $tpl->pparse( 'output', 'page' );
                 exit();
