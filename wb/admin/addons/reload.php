@@ -43,6 +43,10 @@
 		}catch(Exception $e) {
 			return false;
 		}
+        $sTransCachePath = WB_PATH.'/temp/TranslationTable/cache/';
+        if(is_writeable($sTransCachePath) && ($sType = 'language') ) {
+        	rm_full_dir ( $sTransCachePath,true );
+        }
 		return true;
 	}
 /**
