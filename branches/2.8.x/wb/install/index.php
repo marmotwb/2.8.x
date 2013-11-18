@@ -138,6 +138,7 @@ function checkConfigFile ($sWbPath,$sType ) {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <title>WebsiteBaker Installation Wizard</title>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <link href="stylesheet.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">

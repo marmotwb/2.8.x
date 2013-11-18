@@ -12,6 +12,8 @@ Legend:
 ===============================================================================
 
 
+19 Nov-2013 Build 2006 Dietmar Woellbrink (Luisehahne)
+!implemented temporary solution for IE11 compatibility
 14 Nov-2013 Build 2005 Dietmar Woellbrink (Luisehahne)
 /admin/addons/reload.php::ReloadAddonLoop delete all cachefiles of class Translate
 14 Nov-2013 Build 2004 Dietmar Woellbrink (Luisehahne)
