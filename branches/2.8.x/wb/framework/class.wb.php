@@ -755,8 +755,11 @@ return $components;
 		}
 		if(is_string($sContent)) {
 			$sMediaUrl = WB_URL.MEDIA_DIRECTORY;
-			$searchfor = '@(<[^>]*=\s*")('.preg_quote($sMediaUrl).')([^">]*".*>)@siU';
-			$sContent = preg_replace($searchfor, '$1{SYSVAR:MEDIA_REL}$3', $sContent );
+			$aSearchfor = array('@(<[^>]*=\s*")('.preg_quote($sMediaUrl).')([^">]*".*>)@siU',
+			                    '@(<[^>]*=\s*")('.preg_quote(WB_URL).')([^">]*".*>)@siU');
+			$aReplacements = array('$1{SYSVAR:MEDIA_REL}$3',
+			                       '$1{SYSVAR:WB_REL}$3');
+			$sContent = preg_replace($aSearchfor, $aReplacements, $sContent );
 		}
 		return $sContent;
 	}

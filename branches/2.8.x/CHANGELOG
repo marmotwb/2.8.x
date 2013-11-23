@@ -11,7 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-
+23 Nov-2013 Build 2007 Manuela v.d.Decken(DarkViper)
+! modules/wysiwyg  made completely independend from hardcoded internal URLs
 19 Nov-2013 Build 2006 Dietmar Woellbrink (Luisehahne)
 !implemented temporary solution for IE11 compatibility
 14 Nov-2013 Build 2005 Dietmar Woellbrink (Luisehahne)
