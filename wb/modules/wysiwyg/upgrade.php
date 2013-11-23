@@ -84,10 +84,19 @@ if(!defined('WB_PATH')) {
 			} else {
 				$msg[] = 'Field ( `content` ) description has been changed successfully'." $OK";
 			}
-// change internal absolute links into relative links
+// change internal absolute Media links into relative links
 			$sTable = $database->TablePrefix.'mod_wysiwyg';
 			$sql  = 'UPDATE `'.$sTable.'` ';
 			$sql .= 'SET `content` = REPLACE(`content`, \'"'.WB_URL.MEDIA_DIRECTORY.'\', \'"{SYSVAR:MEDIA_REL}\')';
+			if (!$database->query($sql)) {
+				$msg[] = ''.$database->get_error();
+			} else {
+				$msg[] = 'Change internal absolute Media links into relative links'." $OK";
+			}
+// change all other internal absolute links into relative links
+			$sTable = $database->TablePrefix.'mod_wysiwyg';
+			$sql  = 'UPDATE `'.$sTable.'` ';
+			$sql .= 'SET `content` = REPLACE(`content`, \'"'.WB_URL.'\', \'"{SYSVAR:WB_REL}\')';
 			if (!$database->query($sql)) {
 				$msg[] = ''.$database->get_error();
 			} else {

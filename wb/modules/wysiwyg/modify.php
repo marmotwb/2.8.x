@@ -26,8 +26,9 @@ if(!defined('WB_PATH')) {
 $sMediaUrl = WB_URL.MEDIA_DIRECTORY;
 // Get page content
 $sql = 'SELECT `content` FROM `'.TABLE_PREFIX.'mod_wysiwyg` WHERE `section_id`='.(int)$section_id;
-if ( ($content = $database->get_one($sql)) !== null  ) {
- $content = htmlspecialchars(str_replace('{SYSVAR:MEDIA_REL}', $sMediaUrl, $content));
+if (($content = $database->get_one($sql)) !== null) {
+	$content = str_replace('{SYSVAR:MEDIA_REL}', $sMediaUrl, $content);
+	$content = htmlspecialchars(str_replace('{SYSVAR:WB_REL}', WB_URL, $content));
 } else {
  $content = 'There is an relation error in the database.';
  $sql = 'INSERT INTO `'.TABLE_PREFIX.'mod_wysiwyg` SET '
