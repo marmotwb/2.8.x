@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+25 Nov-2013 Build 2008 Manuela v.d.Decken(DarkViper)
+! /include/idna_convert  protect unneeded files in an zip file.
 23 Nov-2013 Build 2007 Manuela v.d.Decken(DarkViper)
 ! modules/wysiwyg  made completely independend from hardcoded internal URLs
 19 Nov-2013 Build 2006 Dietmar Woellbrink (Luisehahne)
