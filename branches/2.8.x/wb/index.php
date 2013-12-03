@@ -24,7 +24,6 @@ if(file_exists($config_file) && !defined('WB_URL'))
 {
 	require_once($config_file);
 }
-
 // Check if the config file has been set-up
 if(!defined('TABLE_PREFIX'))
 {
@@ -66,7 +65,8 @@ $wb->get_website_settings();
 // Load functions available to templates, modules and code sections
 // also, set some aliases for backward compatibility
 require(WB_PATH.'/framework/frontend.functions.php');
-
+// reload all of the already defined global constants
+WbAdaptor::getInstance()->getWbConstants();
 // redirect menu-link
 /**
  *

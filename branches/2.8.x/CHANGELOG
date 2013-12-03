@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+03 Nov-2013 Build 2011 Manuela v.d.Decken(DarkViper)
+! WbDatabase added method fetchObject()
+! WbAdaptor little typofixes
+! /index.php  added one more update of WbAdaptor
 03 Nov-2013 Build 2010 Manuela v.d.Decken(DarkViper)
 ! WbAutoloader added possibility to load classes with additional file prefix 'class.'
 27 Nov-2013 Build 2009 Manuela v.d.Decken(DarkViper)

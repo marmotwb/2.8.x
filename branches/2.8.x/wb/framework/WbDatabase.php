@@ -615,7 +615,7 @@ if(!defined('MYSQL_SEEK_LAST')) { define('MYSQL_SEEK_LAST', -1); }
 class mysql {
 
 	private $result = null;
-	private $_db_handle = null;
+	private $oDbHandle = null;
 
 /**
  * query sql statement
@@ -666,7 +666,11 @@ class mysql {
  */
 	function fetchObject($sClassName = null, array $aParams = null)
 	{
-		return mysql_fetch_object($this->result, $sClassName, $aParams);
+		if ($sClassName === null || class_exists($sClassName)) {
+			return mysql_fetch_object($this->result, $sClassName, $aParams);
+		} else {
+			throw new WbDatabaseException('Class <'.$sClassName.'> not available on request of mysql_fetch_object()');
+		}
 	}
 /**
  * rewind
