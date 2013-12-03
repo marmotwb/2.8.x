@@ -34,6 +34,8 @@
  * @deprecated   
  * @description  xyz
  */
+include_once(dirname(__FILE__).'/framework/UpgradeHelper.php');
+
 // --- delete fatal disturbing files before upgrade starts -------------------------------
 $aPreDeleteFiles = array(
 // list of files
@@ -58,11 +60,8 @@ if(sizeof($aPreDeleteFiles > 0))
 	}
 	if($sMsg) {
 	// stop script if there's an error occured
-		$sMsg = 'Fatal error occured during initial startup.<br /><br />'.PHP_EOL.$sMsg
-		      . '<br />'.PHP_EOL.'Please delete all of the files above manually and '
-		      . 'then <a href="http://'.$_SERVER["HTTP_HOST"].$_SERVER["SCRIPT_NAME"].'" '
-		      . 'title="restart">klick here to restart the upgrade-script</a>.<br />'.PHP_EOL;
-		die($sMsg);
+		$sMsg = $sMsg.'<br />'.PHP_EOL.'Please delete all of the files above manually!';
+		UpgradeHelper::dieWithMessage($sMsg);
 	}
 }
 unset($aPreDeleteFiles);
@@ -70,12 +69,12 @@ $sMsg = '';
 // ---------------------------------------------------------------------------------------
 // Include config file
 $config_file = dirname(__FILE__).'/config.php';
-if(file_exists($config_file) && !defined('WB_URL'))
-{
-	require($config_file);
+if (is_readable($config_file) && !defined('WB_URL')) {
+	require_once($config_file);
 }
-if(!class_exists('admin', false))
-{ 
+UpgradeHelper::checkSetupFiles($config_file);
+
+if (!class_exists('admin', false)) {
 	include(WB_PATH.'/framework/class.admin.php');
 }
 $admin = new admin('Addons', 'modules', false, false);
@@ -915,6 +914,15 @@ echo '<div style="margin-left:2em;">';
      */
 	echo '<h4>Upgrade pages directory '.PAGES_DIRECTORY.'/  access files</h4>';
 
+	/**********************************************************
+	 * Repair inconsistent PageTree
+	 */
+	$iCount = UpgradeHelper::sanitizePagesTreeLinkStructure();
+	if (false === $iCount) {
+		echo '<span><strong>Repair PageTree links </strong></span> '.$FAIL.'<br />';
+	} else {
+		echo '<span><strong>'.$iCount.' PageTree links repaired.</strong></span> '.$OK.'<br />';
+	}
     /**********************************************************
      *  - Reformat/rebuild all existing access files
      */
@@ -1153,7 +1161,6 @@ echo '<div style="margin-left:2em;">';
 		closedir($handle);
 	}
 	echo '<strong><span>'.$iLoaded.' Templates reloaded,</span> found '.$iFound.' directories in folder /templates/</strong><br />';
-
 	$iFound = 0;
 	$iLoaded = 0;
 	////delete languages
@@ -1169,6 +1176,14 @@ echo '<div style="margin-left:2em;">';
 		closedir($handle);
 	}
 	echo '<strong><span>'.$iLoaded.' Languages reloaded,</span> found '.$iFound.' files in folder /languages/</strong><br />';
+	$sTransCachePath = WB_PATH.'/temp/TranslationTable/cache/';
+	if (is_writeable($sTransCachePath)) {
+		if (rm_full_dir($sTransCachePath, true)) {
+			echo '<strong><span>Translation Cache cleaned</span></strong> '.$OK.'<br />';
+		} else {
+			echo '<strong><span>Clean Translation Cache</span></strong> '.$FAIL.'<br />';
+		}
+	}
 	echo '</div>';
 
 /**********************************************************

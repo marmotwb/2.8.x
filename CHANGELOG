@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+03 Nov-2013 Build 2012 Manuela v.d.Decken(DarkViper)
+! upgrade-script:: now repairs mismatched pagelinks from older versions
+! upgrade-script:: /temp/TranslationTable/cache/ will be deleted now during upgrade
++ UpgradeHelper::checkSetupFiles() the old config.php will be changed into setup.ini.php now.
 03 Nov-2013 Build 2011 Manuela v.d.Decken(DarkViper)
 ! WbDatabase added method fetchObject()
 ! WbAdaptor little typofixes
