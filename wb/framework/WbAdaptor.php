@@ -35,9 +35,9 @@
 class WbAdaptor {
 
 /** active instance */	
-	private static $_oInstance = null;
+	protected static $_oInstance = null;
 /** array hold settings */	
-	private $_aSys = array();
+	protected $_aSys = array();
 /** constructor */
 	protected function __construct() 
 	{
