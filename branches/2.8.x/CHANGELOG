@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+03 Nov-2013 Build 2010 Manuela v.d.Decken(DarkViper)
+! WbAutoloader added possibility to load classes with additional file prefix 'class.'
 27 Nov-2013 Build 2009 Manuela v.d.Decken(DarkViper)
 ! framework/functions-utf8::entities_to_7bit() deprecated warning for modifier /e in preg_replace() corrected
 25 Nov-2013 Build 2008 Manuela v.d.Decken(DarkViper)
