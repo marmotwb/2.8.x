@@ -52,7 +52,7 @@ class m_news_WbLink extends WbLinkAbstract
 	// search `link` from posts table and create absolute URL
 		$sql = 'SELECT `link` '
 			 . 'FROM `'.$this->oDb->TablePrefix.'mod_news_posts` '
-			 . 'WHERE `post_id`='.$aReplacement['Args']['item'];
+			 . 'WHERE `post_id`='.$aReplacement['item'];
 		if(($sLink = $this->oDb->get_one($sql)))
 		{
 			$sLink = trim(str_replace('\\', '/', $sLink), '/');
@@ -64,9 +64,24 @@ class m_news_WbLink extends WbLinkAbstract
 		}
 		return $sRetval;
 	}
-
-//	public function generateLinkList(Template $oTpl)
-//	{
-//		;
-//	}
+/**
+ * generateOptionsList
+ * @param  string $sObjectName name of the array to create (default: 'AddonItemsSelectBox')
+ * @return &array complete definition of a SelectBox
+ * @description Bild a mulitdimensional Array with complete Option definitions for use in a Select Box
+ */
+	public function &generateOptionsList()
+	{
+		$aAddonItems =& $this->_executeListGeneration(
+	                                           'news',
+	                                           'mod_news_posts',
+	                                           'page_id',
+	                                           'section_id',
+	                                           'post_id',
+	                                           'created_when',
+	                                           'title',
+	                                           'active'
+	                                          );
+		return $aAddonItems;
+	}
 } // end of class m_news_WbLink

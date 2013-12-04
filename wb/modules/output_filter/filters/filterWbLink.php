@@ -67,7 +67,7 @@
 							if($oWbLink instanceof WbLinkAbstract)
 							{
 							// create real link from replacement data
-								$aReplaceList[$sKey] = $oWbLink->makeLinkFromTag($aReplacement);
+								$aReplaceList[$sKey] = $oWbLink->makeLinkFromTag($aReplacement['Args']);
 							}
 						}
 					}
