@@ -37,6 +37,7 @@ $MENU['USERS'] = 'Benutzer';
 $MENU['VIEW'] = 'Ansicht';
 
 $MESSAGE['PAGES_LAST_MODIFIED'] = 'Letzte Änderung durch';
+$MESSAGE['UNABLE_DELETE_GROUP'] = 'Diese Gruppe kann nicht gelöscht werden, da es die einzige Gruppe folgender User ist: ';
 
 $TEXT['ACTIONS'] = 'Aktionen';
 $TEXT['ACTIVE'] = 'Aktiv';

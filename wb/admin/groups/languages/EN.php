@@ -35,6 +35,7 @@ $MENU['USERS'] = 'Users';
 $MENU['VIEW'] = 'View';
 
 $MESSAGE['PAGES_LAST_MODIFIED'] = 'Last modification by';
+$MESSAGE['UNABLE_DELETE_GROUP'] = 'This group can not be deteted because it is the only one group of following users: ';
 
 $TEXT['ACTIONS'] = 'Actions';
 $TEXT['ACTIVE'] = 'Active';
