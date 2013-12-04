@@ -137,18 +137,18 @@ class UpgradeHelper {
 				      . '<li>setup.ini.php.new</li></ul>';
 				self::dieWithMessage($sMsg);
 			} else { // ok, let's change the files now!
-				if (file_exists($aAppPath.'setup.ini.php')) {
+				if (file_exists($sAppPath.'setup.ini.php')) {
 				// if 'setup.ini.php' exists
-					if (!is_writeable($aAppPath.'setup.ini.php')) {
+					if (!is_writeable($sAppPath.'setup.ini.php')) {
 					// but it's not writable
 						$sMsg = 'The file \'setup.ini.php\' already exists but is not writeable!';
 						self::dieWithMessage($sMsg);
 					}
 				} else {
 				// try to rename 'setup.ini.php.new' into 'setup.ini.php'
-					if (!rename($aAppPath.'setup.ini.php.new', $aAppPath.'setup.ini.php')) {
-						$sMsg = 'Can not rename \''.$aAppPath.'setup.ini.php.new\' into \''.$aAppPath.'setup.ini.php\' !!<br />'
-						      . 'Create an empty file \''.$aAppPath.'setup.ini.php\' and make it writeable for the server!';
+					if (!rename($sAppPath.'setup.ini.php.new', $sAppPath.'setup.ini.php')) {
+						$sMsg = 'Can not rename \''.$sAppPath.'setup.ini.php.new\' into \''.$sAppPath.'setup.ini.php\' !!<br />'
+						      . 'Create an empty file \''.$sAppPath.'setup.ini.php\' and make it writeable for the server!';
 						self::dieWithMessage($sMsg);
 					}
 				}
@@ -172,8 +172,8 @@ class UpgradeHelper {
 					$aSetupConsts['ADMIN_DIRECTORY'] = trim(str_replace('\\', '/', preg_replace('/^'.preg_quote(WB_PATH, '/').'/', '', ADMIN_PATH)), '/').'/';
 					$aSetupConsts['WB_URL'] = rtrim(str_replace('\\', '/', WB_URL), '/').'/';
 				// Try and write settings to config file
-					if (writeSetupIni($sAppPath, $aSetupConsts)) {
-						if (writeConfig($sAppPath)) {
+					if (self::writeSetupIni($sAppPath, $aSetupConsts)) {
+						if (self::writeConfig($sAppPath)) {
 							return true;
 						} else {
 							$sMsg ='Error writing \''.$sAppPath.'config.php\'!';
@@ -228,7 +228,7 @@ class UpgradeHelper {
 		   ."user    = \"".$aSetupValues['DB_USERNAME']."\"\n"
 		   ."pass    = \"".$aSetupValues['DB_PASSWORD']."\"\n"
 		   ."host    = \"".$aSetupValues['DB_HOST']."\"\n"
-		   ."port    = \"".$aSetupValues['DB_PORT']."3306\"\n"
+		   ."port    = \"".$aSetupValues['DB_PORT']."\"\n"
 		   ."name    = \"".$aSetupValues['DB_NAME']."\"\n"
 		   ."charset = \"".$aSetupValues['DB_CHARSET']."\"\n"
 		   ."table_prefix = \"".$aSetupValues['TABLE_PREFIX']."\"\n"

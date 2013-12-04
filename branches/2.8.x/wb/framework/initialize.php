@@ -37,22 +37,23 @@
  * sanitize $_SERVER['HTTP_REFERER']
  * @param string $sWbUrl qualified startup URL of current application
  */
-	function SanitizeHttpReferer($sWbUrl = WB_URL) {
+	function initSanitizeHttpReferer($sWbUrl) {
 		$sTmpReferer = '';
 		if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != '') {
+			$sTmpReferer = $_SERVER['HTTP_REFERER'];
 			$aRefUrl = parse_url($_SERVER['HTTP_REFERER']);
 			if ($aRefUrl !== false) {
 				$aRefUrl['host'] = isset($aRefUrl['host']) ? $aRefUrl['host'] : '';
 				$aRefUrl['path'] = isset($aRefUrl['path']) ? $aRefUrl['path'] : '';
 				$aRefUrl['fragment'] = isset($aRefUrl['fragment']) ? '#'.$aRefUrl['fragment'] : '';
-				$aWbUrl = parse_url(WB_URL);
+				$aWbUrl = parse_url($sWbUrl);
 				if ($aWbUrl !== false) {
 					$aWbUrl['host'] = isset($aWbUrl['host']) ? $aWbUrl['host'] : '';
 					$aWbUrl['path'] = isset($aWbUrl['path']) ? $aWbUrl['path'] : '';
 					if (strpos($aRefUrl['host'].$aRefUrl['path'],
 							   $aWbUrl['host'].$aWbUrl['path']) !== false) {
 						$aRefUrl['path'] = preg_replace('#^'.$aWbUrl['path'].'#i', '', $aRefUrl['path']);
-						$sTmpReferer = WB_URL.$aRefUrl['path'].$aRefUrl['fragment'];
+						$sTmpReferer = $sWbUrl.$aRefUrl['path'].$aRefUrl['fragment'];
 					}
 					unset($aWbUrl);
 				}
@@ -65,14 +66,14 @@
  * Set constants for system/install values
  * @throws RuntimeException
  */
-	function SetInstallPathConstants() {
+	function initSetInstallPathConstants() {
 		if(!defined('DEBUG')){ define('DEBUG', false); } // normaly set in config file
 		if(!defined('ADMIN_DIRECTORY')){ define('ADMIN_DIRECTORY', 'admin'); }
 		if(!preg_match('/xx[a-z0-9_][a-z0-9_\-\.]+/i', 'xx'.ADMIN_DIRECTORY)) {
 			throw new RuntimeException('Invalid admin-directory: ' . ADMIN_DIRECTORY);
 		}
 		if(!defined('WB_PATH')){ define('WB_PATH', dirname(dirname(__FILE__))); }
-		if(!defined('ADMIN_URL')){ define('ADMIN_URL', WB_URL.'/'.ADMIN_DIRECTORY); }
+		if(!defined('ADMIN_URL')){ define('ADMIN_URL', rtrim(WB_URL, '/\\').'/'.ADMIN_DIRECTORY); }
 		if(!defined('ADMIN_PATH')){ define('ADMIN_PATH', WB_PATH.'/'.ADMIN_DIRECTORY); }
 		if(!defined('WB_REL')){
 			$x1 = parse_url(WB_URL);
@@ -80,37 +81,45 @@
 		}
 		if(!defined('ADMIN_REL')){ define('ADMIN_REL', WB_REL.'/'.ADMIN_DIRECTORY); }
 		if(!defined('DOCUMENT_ROOT')) {
-            define('DOCUMENT_ROOT', preg_replace('/'.preg_quote(str_replace('\\', '/', WB_REL), '/').'$/', '', str_replace('\\', '/', WB_PATH)));			
-            // creating $_SERVER['DOCUMENT_ROOT'] for Windows IIS Server
-            $_SERVER['DOCUMENT_ROOT'] = DOCUMENT_ROOT;
+			define('DOCUMENT_ROOT', preg_replace('/'.preg_quote(str_replace('\\', '/', WB_REL), '/').'$/', '', str_replace('\\', '/', WB_PATH)));
+			$_SERVER['DOCUMENT_ROOT'] = DOCUMENT_ROOT;
 		}
 		if(!defined('TMP_PATH')){ define('TMP_PATH', WB_PATH.'/temp'); }
 	}
 /**
+ * checkValidCaller
+ * @param array $aCaller list of allowed scripts
+ * @return true || Exception
+ * @throws RuntimeException
+ * @description test if acctual file is called from one of the given list
+ */
+	function initCheckValidCaller(array $aCaller)
+	{
+		$x = debug_backtrace();
+		if(sizeof($x) == 0) {
+			return true;
+		}
+		$sPattern = '/('.str_replace('#', '|', preg_quote(implode('#', $aCaller), '/')).')$/si';
+		foreach($x as $aStep) {
+			// define the scripts which can read the configuration
+			if(preg_match($sPattern, $aStep['file'])) {
+				return true;
+			}
+		}
+		throw new RuntimeException('illegal file request!');
+	}
+/**
  * Read DB settings from configuration file
- * @return string
+ * @return array
  * @throws RuntimeException
  * 
  */
-	function readConfiguration($sRetvalType = 'url') {
-		// check for valid file request. Becomes more stronger in next version
-		$x = debug_backtrace();
-		$bValidRequest = false;
-		if(sizeof($x) != 0) {
-			foreach($x as $aStep) {
-				// define the scripts which can read the configuration
-				if(preg_match('/(save.php|index.php|config.php|upgrade-script.php)$/si', $aStep['file'])) {
-					$bValidRequest = true;
-					break;
-				}
-			}
-		} else {
-			$bValidRequest = true;
-		}
-		if(!$bValidRequest) {
-			throw new RuntimeException('illegal function request!'); 
-		}
-		$aRetval = array();
+	function initReadSetupFile()
+	{
+	// check for valid file request. Becomes more stronger in next version
+		initCheckValidCaller(array('save.php','index.php','config.php','upgrade-script.php'));
+		$aCfg = array();
+
 		$sSetupFile = dirname(dirname(__FILE__)).'/setup.ini.php';
 		if(is_readable($sSetupFile)) {
 			$aCfg = parse_ini_file($sSetupFile, true);
@@ -120,12 +129,12 @@
 						$value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
 						if(!defined('DEBUG')) { define('DEBUG', $value); }
 						break;
-					case 'WB_URL':
+					case 'WB_URL': // << case is set deprecated
 					case 'AppUrl':
 						$value = trim(str_replace('\\', '/', $value), '/'); 
 						if(!defined('WB_URL')) { define('WB_URL', $value); }
 						break;
-					case 'ADMIN_DIRECTORY':
+					case 'ADMIN_DIRECTORY': // << case is set deprecated
 					case 'AcpDir':
 						$value = trim(str_replace('\\', '/', $value), '/'); 
 						if(!defined('ADMIN_DIRECTORY')) { define('ADMIN_DIRECTORY', $value); }
@@ -135,65 +144,84 @@
 						break;
 				endswitch;
 			}
-			$db = $aCfg['DataBase'];
-			$db['type'] = isset($db['type']) ? $db['type'] : 'mysql';
-			$db['user'] = isset($db['user']) ? $db['user'] : 'foo';
-			$db['pass'] = isset($db['pass']) ? $db['pass'] : 'bar';
-			$db['host'] = isset($db['host']) ? $db['host'] : 'localhost';
-			$db['port'] = isset($db['port']) ? $db['port'] : '3306';
-			$db['port'] = ($db['port'] != '3306') ? $db['port'] : '';
-			$db['name'] = isset($db['name']) ? $db['name'] : 'dummy';
-			$db['charset'] = isset($db['charset']) ? trim($db['charset']) : '';
-			$db['table_prefix'] = (isset($db['table_prefix']) ? $db['table_prefix'] : '');
-			if(!defined('TABLE_PREFIX')) { define('TABLE_PREFIX', $db['table_prefix']); }
-			if($sRetvalType == 'dsn') {
-				$aRetval[0] = $db['type'].':dbname='.$db['name'].';host='.$db['host'].';'
-				            . ($db['port'] != '' ? 'port='.(int)$db['port'].';' : '');
-				$aRetval[1] = array('CHARSET' => $db['charset'], 'TABLE_PREFIX' => $db['table_prefix']);
-				$aRetval[2] = array( 'user' => $db['user'], 'pass' => $db['pass']);
-			}else { // $sRetvalType == 'url'
-				$aRetval[0] = $db['type'].'://'.$db['user'].':'.$db['pass'].'@'
-				            . $db['host'].($db['port'] != '' ? ':'.$db['port'] : '').'/'.$db['name']
-				            . '?Charset='.$db['charset'].'&TablePrefix='.$db['table_prefix'];
-			}
-			unset($db, $aCfg);
-			return $aRetval;
 		}
-		throw new RuntimeException('unable to read setup.ini.php');
+		return $aCfg;
+//		throw new RuntimeException('unable to read setup.ini.php');
 	}
+ /**
+ * GetDbConnectData
+ * @param array $aCfg
+ * @param string $sDbConnectType  can be 'url' or 'dsn'
+ * @return array
+ *
+ */
+	function initGetDbConnectData(array $aCfg, $sDbConnectType = 'url')
+	{
+		if(defined('DB_TYPE'))
+		{
+		// import constants for compatibility reasons
+			$db = array();
+			if(defined('DB_TYPE'))      { $db['type']         = DB_TYPE; }
+			if(defined('DB_USERNAME'))  { $db['user']         = DB_USERNAME; }
+			if(defined('DB_PASSWORD'))  { $db['pass']         = DB_PASSWORD; }
+			if(defined('DB_HOST'))      { $db['host']         = DB_HOST; }
+			if(defined('DB_PORT'))      { $db['port']         = DB_PORT; }
+			if(defined('DB_NAME'))      { $db['name']         = DB_NAME; }
+			if(defined('DB_CHARSET'))   { $db['charset']      = DB_CHARSET; }
+			if(defined('TABLE_PREFIX')) { $db['table_prefix'] = TABLE_PREFIX; }
+			$aCfg['DataBase'] = $db;
+		}
+		// sanitize values
+		$db = $aCfg['DataBase'];
+		$db['type'] = isset($db['type']) ? $db['type'] : 'mysql';
+		$db['user'] = isset($db['user']) ? $db['user'] : 'foo';
+		$db['pass'] = isset($db['pass']) ? $db['pass'] : 'bar';
+		$db['host'] = isset($db['host']) ? $db['host'] : 'localhost';
+		$db['port'] = isset($db['port']) ? $db['port'] : '3306';
+		$db['port'] = ($db['port'] != '3306') ? $db['port'] : '';
+		$db['name'] = isset($db['name']) ? $db['name'] : 'dummy';
+		$db['charset'] = isset($db['charset']) ? trim($db['charset']) : 'utf8';
+		$db['table_prefix'] = (isset($db['table_prefix']) ? $db['table_prefix'] : '');
+		if(!defined('TABLE_PREFIX')) { define('TABLE_PREFIX', $db['table_prefix']); }
+		if($sDbConnectType == 'dsn') {
+		// build dsn to connect
+			$aRetval[0] = $db['type'].':dbname='.$db['name'].';host='.$db['host'].';'
+						. ($db['port'] != '' ? 'port='.(int)$db['port'].';' : '');
+			$aRetval[1] = array('CHARSET' => $db['charset'], 'TABLE_PREFIX' => $db['table_prefix']);
+			$aRetval[2] = array( 'user' => $db['user'], 'pass' => $db['pass']);
+		}else { 
+		// build url to connect
+			$aRetval[0] = $db['type'].'://'.$db['user'].':'.$db['pass'].'@'
+						. $db['host'].($db['port'] != '' ? ':'.$db['port'] : '').'/'.$db['name']
+						. '?Charset='.$db['charset'].'&TablePrefix='.$db['table_prefix'];
+		}
+		return $aRetval;
+	}
+
 /* ***************************************************************************************
  * Start initialization                                                                  *
  ****************************************************************************************/
 // initialize debug evaluation values ---	
-	$sDbConnectType = 'url'; // depending from class WbDatabase it can be 'url' or 'dsn'
 	$starttime = array_sum(explode(" ",microtime()));
 	$iPhpDeclaredClasses = sizeof(get_declared_classes());
+	$sDbConnectType = 'url'; // depending from class WbDatabase it can be 'url' or 'dsn'
 // disable all kind of magic_quotes in PHP versions before 5.4 ---
 	if(version_compare(PHP_VERSION, '5.4.0', '<')) {
-		if(get_magic_quotes_gpc() || get_magic_quotes_runtime()) {
-			@ini_set('magic_quotes_sybase', 0);
-			@ini_set('magic_quotes_gpc', 0);
-			@ini_set('magic_quotes_runtime', 0);
-		}
+		@set_magic_quotes_runtime(0);
 	}
-// load db configuration ---
-	if(defined('DB_TYPE')) {
-		$sTmp = ($sTmp=((defined('DB_PORT') && DB_PORT !='') ? DB_PORT : '')) ? ':'.$sTmp : '';
-		$sTmp = DB_TYPE.'://'.DB_USERNAME.':'.DB_PASSWORD.'@'.DB_HOST.$sTmp.'/'.DB_NAME.'?Charset=';
-		$sTmp .= (defined('DB_CHARSET') ? DB_CHARSET : '').'&TablePrefix='.TABLE_PREFIX;
-		$aSqlData = array( 0 => $sTmp);
-	}else {
-		$aSqlData = readConfiguration($sDbConnectType);
-	}
-	SetInstallPathConstants();
+// load configuration ---
+	$aCfg = initReadSetupFile();
 // sanitize $_SERVER['HTTP_REFERER'] ---
-	SanitizeHttpReferer(WB_URL); 
+	initSetInstallPathConstants();
+	initSanitizeHttpReferer(WB_URL);
 // register WB basic autoloader ---
 	$sTmp = dirname(__FILE__).'/WbAutoloader.php';
 	if(!class_exists('WbAutoloader')){ 
 		include($sTmp);
 	}
 	WbAutoloader::doRegister(array(ADMIN_DIRECTORY=>'a', 'modules'=>'m'));
+// instantiate and initialize adaptor for temporary registry replacement ---
+	WbAdaptor::getInstance()->getWbConstants();
 // register TWIG autoloader ---
 	$sTmp = dirname(dirname(__FILE__)).'/include/Sensio/Twig/lib/Twig/Autoloader.php';
 	if(!class_exists('Twig_Autoloader')) { 
@@ -205,14 +233,20 @@
 		include(dirname(__FILE__).'/globalExceptionHandler.php');
 	}
 // ---------------------------
+// get Database connection data from configuration
+	$aSqlData = initGetDbConnectData($aCfg, $sDbConnectType);
 // Create global database instance ---
-	$database = WbDatabase::getInstance();
+	$oDb = $database = WbDatabase::getInstance();
 	if($sDbConnectType == 'dsn') {
-		$bTmp = $database->doConnect($aSqlData[0], $aSqlData[1]['user'], $aSqlData[1]['pass'], $aSqlData[2]);
+		$bTmp = $oDb->doConnect($aSqlData[0], $aSqlData[1]['user'], $aSqlData[1]['pass'], $aSqlData[2]);
 	}else {
-		$bTmp = $database->doConnect($aSqlData[0]);
+		$bTmp = $oDb->doConnect($aSqlData[0]);
 	}
-	unset($aSqlData);
+// remove critical data from memory
+	unset($aSqlData, $aCfg);
+
+	if(!defined('TABLE_PREFIX')) { define('TABLE_PREFIX', $oDb->TablePrefix); }
+
 // load global settings from database and define global consts from ---
 	$sql = 'SELECT `name`, `value` FROM `'.TABLE_PREFIX.'settings`';
 	if(($oSettings = $database->query($sql))) {
@@ -333,15 +367,14 @@
 	}
 /** end of deprecated part **/
 // instantiate and initialize adaptor for temporary registry replacement ---
-	if(class_exists('WbAdaptor')) {
-		WbAdaptor::getInstance()->getWbConstants();
-	}
+	WbAdaptor::getInstance()->getWbConstants();
 // load and activate new global translation table
 	Translate::getInstance()->initialize('en',
 										 (defined('DEFAULT_LANGUAGE') ? DEFAULT_LANGUAGE : ''), 
 										 (defined('LANGUAGE') ? LANGUAGE : ''),
 										 'WbOldStyle',
-										 (DEBUG ? Translate::CACHE_DISABLED|Translate::KEEP_MISSING : 0)
+										 (Translate::CACHE_DISABLED|Translate::KEEP_MISSING)
+//										 (DEBUG ? Translate::CACHE_DISABLED|Translate::KEEP_MISSING : 0)
 										);
 	if(!class_exists('PasswordHash', false)) { include(WB_PATH.'/include/phpass/PasswordHash.php'); }
 	$oPass = Password::getInstance(new PasswordHash(Password::CRYPT_LOOPS_DEFAULT, Password::HASH_TYPE_AUTO));
