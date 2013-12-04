@@ -72,7 +72,7 @@ $config_file = dirname(__FILE__).'/config.php';
 if (is_readable($config_file) && !defined('WB_URL')) {
 	require_once($config_file);
 }
-UpgradeHelper::checkSetupFiles($config_file);
+UpgradeHelper::checkSetupFiles(dirname(__FILE__).'/');
 
 if (!class_exists('admin', false)) {
 	include(WB_PATH.'/framework/class.admin.php');

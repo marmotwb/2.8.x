@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+04 Nov-2013 Build 2015 Manuela v.d.Decken(DarkViper)
+# some fixes in upgrade-script and UpgradeHelper.
+! update initialize.php for secure use of setup.ini.php
 04 Nov-2013 Build 2014 Manuela v.d.Decken(DarkViper)
 + added new Interface usable to connect from WYSIWYG-Editor to all Modules with subitems like news or topics
 04 Nov-2013 Build 2013 Manuela v.d.Decken(DarkViper)
