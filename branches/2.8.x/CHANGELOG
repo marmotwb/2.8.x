@@ -11,28 +11,30 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-05 Nov-2013 Build 2018 Manuela v.d.Decken(DarkViper)
+05 Dec-2013 Build 2018 Dietmar Woellbrink (Luisehahne)
+-  \templates\wb_theme\css :: remove 0 byte files
+05 Dec-2013 Build 2018 Manuela v.d.Decken(DarkViper)
 ! little correction in admin/settings/save.php from line 391
-05 Nov-2013 Build 2017 Manuela v.d.Decken(DarkViper)
+05 Dec-2013 Build 2017 Manuela v.d.Decken(DarkViper)
 ! comment added in table `field users`.`group_id`
-05 Nov-2013 Build 2016 Manuela v.d.Decken(DarkViper)
+05 Dec-2013 Build 2016 Manuela v.d.Decken(DarkViper)
 # install/save.php output for setup.ini.php corrected
-04 Nov-2013 Build 2015 Manuela v.d.Decken(DarkViper)
+04 Dec-2013 Build 2015 Manuela v.d.Decken(DarkViper)
 # some fixes in upgrade-script and UpgradeHelper.
 ! update initialize.php for secure use of setup.ini.php
-04 Nov-2013 Build 2014 Manuela v.d.Decken(DarkViper)
+04 Dec-2013 Build 2014 Manuela v.d.Decken(DarkViper)
 + added new Interface usable to connect from WYSIWYG-Editor to all Modules with subitems like news or topics
-04 Nov-2013 Build 2013 Manuela v.d.Decken(DarkViper)
+04 Dec-2013 Build 2013 Manuela v.d.Decken(DarkViper)
 # admin/groups some logical errors fixed
-03 Nov-2013 Build 2012 Manuela v.d.Decken(DarkViper)
+03 Dec-2013 Build 2012 Manuela v.d.Decken(DarkViper)
 ! upgrade-script:: now repairs mismatched pagelinks from older versions
 ! upgrade-script:: /temp/TranslationTable/cache/ will be deleted now during upgrade
 + UpgradeHelper::checkSetupFiles() the old config.php will be changed into setup.ini.php now.
-03 Nov-2013 Build 2011 Manuela v.d.Decken(DarkViper)
+03 Dec-2013 Build 2011 Manuela v.d.Decken(DarkViper)
 ! WbDatabase added method fetchObject()
 ! WbAdaptor little typofixes
 ! /index.php  added one more update of WbAdaptor
-03 Nov-2013 Build 2010 Manuela v.d.Decken(DarkViper)
+03 Dec-2013 Build 2010 Manuela v.d.Decken(DarkViper)
 ! WbAutoloader added possibility to load classes with additional file prefix 'class.'
 27 Nov-2013 Build 2009 Manuela v.d.Decken(DarkViper)
 ! framework/functions-utf8::entities_to_7bit() deprecated warning for modifier /e in preg_replace() corrected
