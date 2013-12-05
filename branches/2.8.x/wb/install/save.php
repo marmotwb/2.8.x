@@ -279,9 +279,9 @@ if(!isset($_POST['operating_system']) OR $_POST['operating_system'] != 'linux' A
 // Work-out file permissions
 if($operating_system == 'windows') {
 	$file_mode = '0777';
-	$dir_mode = '0777';
+	$dir_mode = '0666';
 } elseif(isset($_POST['world_writeable']) AND $_POST['world_writeable'] == 'true') {
-	$file_mode = '0777';
+	$file_mode = '0666';
 	$dir_mode = '0777';
 } else {
 	$file_mode = default_file_mode('../temp');
@@ -383,8 +383,8 @@ $sConfigContent =
 .";################################################\n"
 ."[Constants]\n"
 ."DEBUG   = false\n"
-."AppUrl  = ".$wb_url."\n"
-."AcpDir  = admin/\n"
+."AppUrl  = \"".$wb_url."\"\n"
+."AcpDir  = \"admin/\"\n"
 .";##########\n"
 ."[DataBase]\n"
 ."type    = \"mysql\"\n"
