@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}sections` (
 DROP TABLE IF EXISTS `{TABLE_PREFIX}users`;
 CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_id` int(11) NOT NULL DEFAULT '0',
+  `group_id` int(11) NOT NULL DEFAULT '0' COMMENT 'this field is set deprecated and never used in WB',
   `groups_id` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '0',
   `active` int(11) NOT NULL DEFAULT '0',
   `username` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
