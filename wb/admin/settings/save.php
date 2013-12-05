@@ -390,15 +390,11 @@ while($aSearch = $oSearch->fetchRow(MYSQL_ASSOC))
 
     if ( ($passed == true) )
 	{
-		$value = $admin->add_slashes($value);
         $sql  = 'UPDATE `'.TABLE_PREFIX.'search` ';
-        $sql .= 'SET `value` = \''.$value.'\' ';
+        $sql .= 'SET `value` = \''.$database->escapeString($value).'\' ';
         $sql .= 'WHERE `name` = \''.$sSearchName.'\' ';
         $sql .= 'AND `extra` = \'\' ';
-		if($database->query($sql)) {
-
-		}
-		$sql_info = mysql_info($database->db_handle);
+		$database->query($sql);
     }
 }
 
