@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+05 Nov-2013 Build 2016 Manuela v.d.Decken(DarkViper)
+# install/save.php output for setup.ini.php corrected
 04 Nov-2013 Build 2015 Manuela v.d.Decken(DarkViper)
 # some fixes in upgrade-script and UpgradeHelper.
 ! update initialize.php for secure use of setup.ini.php
