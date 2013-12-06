@@ -11,8 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-05 Dec-2013 Build 2018 Dietmar Woellbrink (Luisehahne)
--  \templates\wb_theme\css :: remove 0 byte files
+06 Dec-2013 Build 2020 Dietmar Woellbrink (Luisehahne)
+# /admin/languages/detail.php::getInfoFromLanguageFile() change require_once to require
+05 Dec-2013 Build 2019 Dietmar Woellbrink (Luisehahne)
+-  /templates/wb_theme/css :: remove 0 byte files
 05 Dec-2013 Build 2018 Manuela v.d.Decken(DarkViper)
 ! little correction in admin/settings/save.php from line 391
 05 Dec-2013 Build 2017 Manuela v.d.Decken(DarkViper)
