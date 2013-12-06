@@ -21,11 +21,12 @@ function getInfoFromLanguageFile($sFile)
 {
 	$mRetval = array();
 	$mLang = Translate::getinstance();
+    $oReg  = WbAdaptor::getInstance();
 	// check for valid language code
 	if(preg_match('/^([A-Z]{2}.php)/', $sFile)) {
-		if(is_file(WB_PATH.'/languages/'.$sFile) ) {
-			if(is_readable(WB_PATH.'/languages/'.$sFile) ) {
-				require_once(WB_PATH.'/languages/'.$sFile);
+		if(is_file($oReg->AppPath.'languages/'.$sFile) ) {
+			if(is_readable($oReg->AppPath.'languages/'.$sFile) ) {
+				require($oReg->AppPath.'languages/'.$sFile);
 				$mRetval['CODE'] = $language_code;
 				$mRetval['NAME'] = $language_name;
 				$mRetval['AUTHOR'] = $language_author;
