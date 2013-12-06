@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+06 Dec-2013 Build 2022 Manuela v.d.Decken(DarkViper)
+! framework/initialize.php WB will die if magic_quotes is set to 'on'
 06 Dec-2013 Build 2021 Manuela v.d.Decken(DarkViper)
 ! PageTree::_makeSql() added sort order to list of sections per page
 06 Dec-2013 Build 2020 Dietmar Woellbrink (Luisehahne)
