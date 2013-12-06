@@ -206,8 +206,12 @@
 	$iPhpDeclaredClasses = sizeof(get_declared_classes());
 	$sDbConnectType = 'url'; // depending from class WbDatabase it can be 'url' or 'dsn'
 // disable all kind of magic_quotes in PHP versions before 5.4 ---
-	if(version_compare(PHP_VERSION, '5.4.0', '<')) {
-		@set_magic_quotes_runtime(0);
+	if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
+		$sMsg = '<p style="color: #ff0000;">WebsiteBaker is not able to run with magic_quotes=on!!<br />'
+		      . 'Please change your PHP-ini or add a _htaccess file to switch this setting to off!<br />'
+		      . 'If you have problems to solve that, ask your hosting provider for it.<br  />'
+		      . 'The very best solution is the use of PHP-5.4 and up</p>';
+		die($sMsg);
 	}
 // load configuration ---
 	$aCfg = initReadSetupFile();
