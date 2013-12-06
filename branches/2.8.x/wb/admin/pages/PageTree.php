@@ -173,7 +173,7 @@ class a_pages_PageTree
 		      .        'p.`page_id`, p.`parent`, p.`level`, p.`language`, p.`admin_groups`, '
 		      .        'p.`admin_users`, p.`viewing_groups`, p.`viewing_users`, p.`visibility`, '
 		      .        'p.`menu_title`, p.`page_title`, p.`page_trail`, '
-		      .        'GROUP_CONCAT(CAST(CONCAT(s.`section_id`, \' - \', s.`module`) AS CHAR) SEPARATOR \'\n\') `section_list` '
+		      .        'GROUP_CONCAT(CAST(CONCAT(s.`section_id`, \' - \', s.`module`) AS CHAR) ORDER BY s.`position` SEPARATOR \'\n\') `section_list` '
 		      . 'FROM `'.$this->_oDb->TablePrefix.'pages` p '
 		      .    'INNER JOIN `'.$this->_oDb->TablePrefix.'sections` s '
 		      .    'ON p.`page_id`=s.`page_id` '

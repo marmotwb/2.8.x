@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+06 Dec-2013 Build 2021 Manuela v.d.Decken(DarkViper)
+! PageTree::_makeSql() added sort order to list of sections per page
 06 Dec-2013 Build 2020 Dietmar Woellbrink (Luisehahne)
 # /admin/languages/detail.php::getInfoFromLanguageFile() change require_once to require
 05 Dec-2013 Build 2019 Dietmar Woellbrink (Luisehahne)
