@@ -249,7 +249,7 @@ class m_MultiLingual_Lib {
 		// remove all pages from list with not avaliable languages
 			$aPossibleMatchingPages = array_intersect_key($aMatchingPages, $aAllowedRootLanguages);
 		// add Allowed root pages to possible matches
-			$aAvailablePages = array_merge($aPossibleMatchingPages, $aAllowedRootLanguages);
+			$aAvailablePages = array_merge($aAllowedRootLanguages, $aPossibleMatchingPages);
 			foreach ( $aAvailablePages AS $aPage)
 			{
 				$aTplData[] = array(
