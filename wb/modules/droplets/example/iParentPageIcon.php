@@ -7,12 +7,13 @@
 //
 
 $oDb = WbDatabase::getInstance();
+$oReg = WbAdaptor::getInstance();
 $type = !isset($type) ? 0 : (intval($type) % 3);
 $icontypes = array( 0=>'page_icon', 1=>'menu_icon_0', 2=>'menu_icon_1');
 $icon_url = '';
-if( isset($icon) && is_readable(WB_PATH.'/templates/'.TEMPLATE.'/'.$icon) )
+if( isset($icon) && is_readable($oReg->AppPath.'templates/'.TEMPLATE.'/'.$icon) )
 {
-	$icon_url = WB_REL.'/templates/'.TEMPLATE.'/'.$icon;
+	$icon_url = $oReg->AppUrl.'templates/'.TEMPLATE.'/'.$icon;
 }
 $tmp_trail = array_reverse($GLOBALS['wb']->page_trail);
 foreach($tmp_trail as $pid)
@@ -22,9 +23,10 @@ foreach($tmp_trail as $pid)
 	$sql .= 'WHERE `page_id`='.(int)$pid;
 	if( ($icon = $oDb->get_one($sql)) != false )
 	{
-		if( file_exists(WB_PATH.$icon) )
+		$icon = ltrim(str_replace('\\', '/', $icon), '/');
+		if( file_exists($oReg->AppPath.$icon) )
 		{
-			$icon_url = WB_REL.$icon;
+			$icon_url = $oReg->AppUrl.$icon;
 			break;
 		}
 	}

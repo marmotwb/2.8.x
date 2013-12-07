@@ -20,10 +20,10 @@
  * @return: a valid image-URL or empty string
  */
 
-$ext = !isset($ext) ? 'auto' : strtolower($ext);
+$sExt = !isset($ext) ? 'auto' : strtolower($ext);
 $sRetval = '';
 if(function_exists('language_menu')){
-	switch($ext)
+	switch($sExt)
 	{
 		case 'png':
 		case 'svg':
