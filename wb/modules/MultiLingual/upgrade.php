@@ -33,13 +33,13 @@
  * @description  provides a flexible posibility for changeing to a translated page
  */
 
-/* -------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------ */
 // Must include code to stop this file being accessed directly
 if(!defined('WB_URL')) {
 	require_once(dirname(dirname(dirname(__FILE__))).'/framework/globalExceptionHandler.php');
 	throw new IllegalFileException();
 }
-/* -------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------ */
 
 	function mod_MultiLingual_upgrade($bDebug=false) {
 		global $OK ,$FAIL;
