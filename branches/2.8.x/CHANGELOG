@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+07 Dec-2013 Build 2023 Manuela v.d.Decken(DarkViper)
+# mod-MultiLingual misconfiguration of language switches solved
 06 Dec-2013 Build 2022 Manuela v.d.Decken(DarkViper)
 ! framework/initialize.php WB will die if magic_quotes is set to 'on'
 06 Dec-2013 Build 2021 Manuela v.d.Decken(DarkViper)

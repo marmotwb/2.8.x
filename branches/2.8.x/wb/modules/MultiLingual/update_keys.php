@@ -66,3 +66,21 @@ if($database->is_error())
 } else {
 	$admin->print_success($oTrans->MESSAGE_PAGES_UPDATE_SETTINGS, ADMIN_URL.'/pages/settings.php?page_id='.$temp_page_id );
 }
+/**
+ * Create repeated string
+ * @param integer $iRepeats  number of repetitions
+ * @param string  $sString   string to use for one indent (default: \t)
+ * @return string created string with repetitions of $sString
+ * @description create a string depending on number of repeats and a string for each repeat<br />
+ *              Gives a way to generate pretty formatted HTML code being outputted, by providing<br />
+ *              a certain number of TABs or SPACEs, according to the indent level.
+ */
+	function spacer($iRepeats = 1, $sString = "\t"){
+		// intval() converts the value into a natural, int number. 0 on invald values.
+		// max() transform negative values into 0
+		// str_repeat() creates a string of $iRepeats*($sString)
+		return str_repeat($sString, max(0, intval($iRepeats)));
+	}
+
+	echo "<option value=\"{$page['page_id']}\">$title</option>\n";
+	echo '<option value="'.$page['page_id'].'">'.$title.'</option>'.PHP_EOL;
