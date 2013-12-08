@@ -74,7 +74,7 @@ abstract class WbLinkAbstract {
 		     . 'FROM `'.$this->oDb->TablePrefix.'sections` `s` '
 			 . 'LEFT JOIN `'.$this->oDb->TablePrefix.$this::TABLE_NAME.'` `p` ON `s`.`section_id`= `p`.`'.$this::FIELDNAME_SECTION_ID.'` '
 			 . 'WHERE `s`.`module`=\''.$this->sAddon.'\' '
-		     . ($this->FIELDNAME_ACTIVE != '' ? 'AND `p`.`'.$this::FIELDNAME_ACTIVE.'`>0 ' : '')
+		     . ($this::FIELDNAME_ACTIVE != '' ? 'AND `p`.`'.$this::FIELDNAME_ACTIVE.'`>0 ' : '')
 			 . 'ORDER BY `s`.`page_id`, `s`.`section_id`'.($this::FIELDNAME_TIMESTAMP != '' ? ', `p`.`'.$this::FIELDNAME_TIMESTAMP.'` DESC' : '');
 		if (( $oRes = $this->oDb->doQuery($sql))) {
 		// preset group changer flags
@@ -96,7 +96,7 @@ abstract class WbLinkAbstract {
 				}
 				// save current record
 				$aAddonItems[$iCurrentPage.'P'][$iSectionCounter][] = array(
-				    'wblink' => '[wblink'.$aItem['PageId'].'?addon='.$sAddon.'&item='.$aItem['ItemId'].']',
+				    'wblink' => '[wblink'.$aItem['PageId'].'?addon='.$this->sAddon.'&item='.$aItem['ItemId'].']',
 				    'title'  => preg_replace("/\r?\n/", "\\n", $this->oDb->escapeString($aItem['Title']))
 				);
 			}
