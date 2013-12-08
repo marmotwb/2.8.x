@@ -36,8 +36,7 @@
 {% for aTarget in aTargetList %}
 	<a href="{{ aTarget.sTargetPageUrl }}" {% if aTarget.bCurrentLanguage %}class="current" {% endif %}title="{{ aTarget.sToolTip }}">
 		<span>
-			<img style="width:32px; height:24px" src="{{ aTarget.sIconUrl }}flags/
-				{{ aTarget.sImageType }}/{{ aTarget.sFilename }}.{{ aTarget.sImageType }}"
+			<img style="width:32px; height:24px" src="{{ aTarget.sIconUrl }}flags/{{ aTarget.sImageType }}/{{ aTarget.sFilename }}.{{ aTarget.sImageType }}"
 				title="{{ aTarget.sPageTitle }}" alt="{{ aTarget.sToolTip }}"
 			/>
 		</span>
