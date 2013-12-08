@@ -30,7 +30,7 @@
  * @link         $HeadURL: $
  * @lastmodified $Date: $
  * @since        File available since 04.11.2013
- * @description  This class implements an interface for the wblink-outputfilter
+ * @description  This class implements an interface for i.e. the wblink-outputfilter
  *
  * @inherited WbDatabase $oDb
  * @inherited WbAdaptor  $oReg
@@ -39,49 +39,75 @@
 
 class m_news_WbLink extends WbLinkAbstract
 {
+/* *** BEGIN define the environment of your addon! ************************************ */
+/* (this section is a MUST and it MUST have all 8 consts defined!!)                     */
+/**
+ * name of the needed table
+ * @description do NOT use the TablePrefix in this name!
+ */
+	const TABLE_NAME           = 'mod_news_posts';
+
+/**
+ * name of the field with the PageId
+ */
+	const FIELDNAME_PAGE_ID    = 'page_id';
+
+/**
+ * name of the field with the SectionId
+ */
+	const FIELDNAME_SECTION_ID = 'section_id';
+
+/**
+ * name of the field with the ItemId
+ */
+	const FIELDNAME_ITEM_ID    = 'post_id';
+
+/**
+ * name of the field with the needed link
+ */
+	const FIELDNAME_LINK       = 'link';
+
+/**
+ * name of the field with the needed title
+ */
+	const FIELDNAME_TITLE      = 'title';
+
+/**
+ * name of the field with the timestamp
+ * @description define an empty string if no 'timestamp'-field is available or it's not needed!
+ */
+	const FIELDNAME_TIMESTAMP  = 'created_when';
+
+/** name of the field with the active-flag
+ * @description define an empty string if no 'active'-field is available or it's not needed!
+ */
+	const FIELDNAME_ACTIVE     = 'active';
+/* *** END define the environment of your addon! ************************************** */
+
 /**
  * makeLinkFromTag
  * @param type $aReplacement
  * @return string
- * @description
+ * @description this method is used by the output filter
  */
 	public function makeLinkFromTag(array $aReplacement)
 	{
-	// set link on failure ('#' means, still stay on current page)
-		$sRetval = '#';
-	// search `link` from posts table and create absolute URL
-		$sql = 'SELECT `link` '
-			 . 'FROM `'.$this->oDb->TablePrefix.'mod_news_posts` '
-			 . 'WHERE `post_id`='.$aReplacement['item'];
-		if(($sLink = $this->oDb->get_one($sql)))
-		{
-			$sLink = trim(str_replace('\\', '/', $sLink), '/');
-		// test if valid accessfile is available
-			if(is_readable($this->oReg->AppPath.$this->oReg->PagesDir.$sLink.$this->oReg->PageExtension))
-			{
-				$sRetval = $this->oReg->AppUrl.$this->oReg->PagesDir.$sLink.$this->oReg->PageExtension;
-			}
-		}
-		return $sRetval;
+/* *** Define here the full path where your links are based on! *********************** */
+
+		$sBaseDir = $this->oReg->AppPath.$this->oReg->PagesDir;
+
+/* *** Do NOT change the following request! ******************************************* */
+		$sBaseDir = rtrim(str_replace('\\', '/', $sBaseDir), '/').'/';
+		return $this->_makeLinkFromTag($sBaseDir, $aReplacement);
 	}
 /**
  * generateOptionsList
- * @param  string $sObjectName name of the array to create (default: 'AddonItemsSelectBox')
- * @return &array complete definition of a SelectBox
- * @description Bild a mulitdimensional Array with complete Option definitions for use in a Select Box
+ * @return &array definition of a SelectBox
+ * @description build a mulitdimensional Array with complete Option definitions for use in a Select Box
  */
 	public function &generateOptionsList()
 	{
-		$aAddonItems =& $this->_executeListGeneration(
-	                                           'news',
-	                                           'mod_news_posts',
-	                                           'page_id',
-	                                           'section_id',
-	                                           'post_id',
-	                                           'created_when',
-	                                           'title',
-	                                           'active'
-	                                          );
+		$aAddonItems =& $this->_executeListGeneration();
 		return $aAddonItems;
 	}
 } // end of class m_news_WbLink

@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+08 Dec-2013 Build 2026 Manuela v.d.Decken(DarkViper)
+! [wblink] outputfilter now can handle ancors too
+! WbLink Interface is much more easier to use now.
 07 Dec-2013 Build 2025 Manuela v.d.Decken(DarkViper)
 # mod-MultiLingual forgotten fix in Lib.php :(
 07 Dec-2013 Build 2024 Manuela v.d.Decken(DarkViper)
