@@ -35,71 +35,98 @@
  */
 abstract class WbLinkAbstract {
 
-	protected $oDb  = null;
-	protected $oReg = null;
-
+/**
+ * @var object $oDb the active instance of WbDatabase 
+ */
+	protected $oDb    = null;
+/**
+ * @var object $oReg the active instance of WbAdaptor
+ */
+	protected $oReg   = null;
+/**
+ * @var string $sAddon the name of the addon, which extends this class
+ */
+	protected $sAddon = '';
+/**
+ * protected constructor
+ */
 	final public function __construct()
 	{
-		$this->oDb  = WbDatabase::getInstance();
-		$this->oReg = WbAdaptor::getInstance();
+		$this->oDb    = WbDatabase::getInstance();
+		$this->oReg   = WbAdaptor::getInstance();
+		$this->sAddon = preg_replace('/^.*?_([^_]+)_[^_]*?$/', '\1', get_class($this));
 	}
+
 
 	abstract public function makeLinkFromTag(array $aReplacement);
 	abstract public function &generateOptionsList();
 
 /**
- *
- * @param string $sAddonName
- * @param string $sAddonTableName
- * @param string $sPageIdName
- * @param string $sSectionIdName
- * @param string $sItemIdName
- * @param string $sDateTimeName
- * @param string $sTitleName
- * @param string $sActivatedName
+ * executeListGeneration
  * @return array by reference
  */
-	final protected function &_executeListGeneration(
-	                                                  $sAddonName      = 'news',
-	                                                  $sAddonTableName = 'mod_news_posts',
-	                                                  $sPageIdName     = 'page_id',
-	                                                  $sSectionIdName  = 'section_id',
-	                                                  $sItemIdName     = 'post_id',
-	                                                  $sDateTimeName   = 'created_when',
-	                                                  $sTitleName      = 'title',
-	                                                  $sActivatedName  = 'active'
-	                                                )
+	final protected function &_executeListGeneration()
 	{
 		$aAddonItems = array();
 		//generate news lists
-		$sql = 'SELECT `p`.`'.$sItemIdName.'` `ItemId`, `p`.`'.$sPageIdName.'` `PageId`, '
-		     .        '`s`.`section_id` `SectionId`, `p`.`'.$sTitleName.'` `Title` '
+		$sql = 'SELECT `p`.`'.$this::FIELDNAME_ITEM_ID.'` `ItemId`, `p`.`'.$this::FIELDNAME_PAGE_ID.'` `PageId`, '
+		     .        '`s`.`section_id` `SectionId`, `p`.`'.$this::FIELDNAME_TITLE.'` `Title` '
 		     . 'FROM `'.$this->oDb->TablePrefix.'sections` `s` '
-			 . 'LEFT JOIN `'.$this->oDb->TablePrefix.$sAddonTableName.'` `p` ON `s`.`section_id`= `p`.`'.$sSectionIdName.'` '
-			 . 'WHERE `p`.`'.$sActivatedName.'`>0 AND `s`.`module`=\''.$sAddonName.'\' '
-			 . 'ORDER BY `s`.`page_id`, `s`.`section_id`, `p`.`'.$sDateTimeName.'` DESC';
+			 . 'LEFT JOIN `'.$this->oDb->TablePrefix.$this::TABLE_NAME.'` `p` ON `s`.`section_id`= `p`.`'.$this::FIELDNAME_SECTION_ID.'` '
+			 . 'WHERE `s`.`module`=\''.$this->sAddon.'\' '
+		     . ($this->FIELDNAME_ACTIVE != '' ? 'AND `p`.`'.$this::FIELDNAME_ACTIVE.'`>0 ' : '')
+			 . 'ORDER BY `s`.`page_id`, `s`.`section_id`'.($this::FIELDNAME_TIMESTAMP != '' ? ', `p`.`'.$this::FIELDNAME_TIMESTAMP.'` DESC' : '');
 		if (( $oRes = $this->oDb->doQuery($sql))) {
+		// preset group changer flags
 			$iCurrentPage    = 0;
 			$iCurrentSection = 0;
 			$iSectionCounter = 0;
 			while ($aItem = $oRes->fetchRow(MYSQL_ASSOC)) {
+			// iterate all matches
 				if ($iCurrentPage != $aItem['PageId']) {
+				// change group by PageId
 					$iCurrentPage = $aItem['PageId'];
 					$aAddonItems[$iCurrentPage.'P'] = array();
 				}
 				if ($iCurrentSection != $aItem['SectionId']) {
+				// change group by SectionId
 					$iCurrentSection = $aItem['SectionId'];
 					$aAddonItems[$iCurrentPage.'P'][] = array();
 					$iSectionCounter = sizeof($aAddonItems[$iCurrentPage.'P'])-1;
 				}
+				// save current record
 				$aAddonItems[$iCurrentPage.'P'][$iSectionCounter][] = array(
-				    'wblink' => '[wblink'.$aItem['PageId'].'?addon='.$sAddonName.'&item='.$aItem['ItemId'].']',
+				    'wblink' => '[wblink'.$aItem['PageId'].'?addon='.$sAddon.'&item='.$aItem['ItemId'].']',
 				    'title'  => preg_replace("/\r?\n/", "\\n", $this->oDb->escapeString($aItem['Title']))
 				);
 			}
 		}
 		return $aAddonItems;
 	}
-
-
+/**
+ * makeLinkFromTag
+ * @param string $sBasePath
+ * @param array $aReplacement
+ * @return string a valid URL or '#' on error
+ */
+	protected function _makeLinkFromTag($sBasePath, array $aReplacement)
+	{
+	// set link on failure ('#' means, still stay on current page)
+		$sRetval = '#';
+	// search `link` from posts table and create absolute URL
+		$sql = 'SELECT `'.$this::FIELDNAME_LINK.'` '
+			 . 'FROM `'.$this->oDb->TablePrefix.$this::TABLE_NAME.'` '
+			 . 'WHERE `'.$this::FIELDNAME_ITEM_ID.'`='.$aReplacement['item'];
+		if (($sLink = $this->oDb->get_one($sql))) {
+			$sLink     = trim(str_replace('\\', '/', $sLink), '/');
+			$sBasePath = trim(str_replace('\\', '/', $sBasePath), '/').'/';
+		// test if valid accessfile is available
+			$sFilePath = $sBasePath.$sLink.$this->oReg->PageExtension;
+			if (is_readable($sFilePath)) {
+				$sRelPath = preg_replace('/^'.preg_quote($this->oReg->AppPath, '/').'/', '', $sFilePath);
+				$sRetval = $this->oReg->AppUrl.$sRelPath.$aReplacement['ancor'];
+			}
+		}
+		return $sRetval;
+	}
 } // end of class WbLinkAbstract
