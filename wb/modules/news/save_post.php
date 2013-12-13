@@ -14,7 +14,7 @@
  * @lastmodified    $Date$
  *
  */
-                    error_reporting(E_ALL);
+    error_reporting(E_ALL);
 	require('../../config.php');
 	require_once(WB_PATH."/include/jscalendar/jscalendar-functions.php");
 // Get post_id
@@ -72,30 +72,22 @@
 	$publisheduntil = jscalendar_to_timestamp($admin->get_post_escaped('enddate'), $publishedwhen);
 	if($publisheduntil == '' || $publisheduntil < 1) { $publisheduntil=0; }
 // Update row
-	$sql  = 'UPDATE `'.TABLE_PREFIX.'mod_news_posts` ';
-	$sql .= 'SET `group_id`='.(int)$group_id.', ';
-	$sql .=     '`title`=\''.$title.'\', ';
-	$sql .=     '`link`=\''.$newLink.'\', ';
-	$sql .=     '`content_short`=\''.$short.'\', ';
-	$sql .=     '`content_long`=\''.$long.'\', ';
-	$sql .=     '`commenting`=\''.$commenting.'\', ';
-	$sql .=     '`active`='.(int)$active.', ';
-	$sql .=     '`published_when`='.(int)$publishedwhen.', ';
-	$sql .=     '`published_until`='.(int)$publisheduntil.', ';
-	$sql .=     '`posted_when`='.time().', ';
-	$sql .=     '`posted_by`='.(int)$admin->get_user_id().' ';
-	$sql .= 'WHERE `post_id`='.(int)$post_id;
+	$sql  = 'UPDATE `'.TABLE_PREFIX.'mod_news_posts` '
+          . 'SET `group_id`='.(int)$group_id.', '
+          .     '`title`=\''.$database->escapeString($title).'\', '
+          .     '`link`=\''.$database->escapeString($newLink).'\', '
+          .     '`content_short`=\''.$database->escapeString($short).'\', '
+          .     '`content_long`=\''.$database->escapeString($long).'\', '
+          .     '`commenting`=\''.$database->escapeString($commenting).'\', '
+          .     '`active`='.(int)$active.', '
+          .     '`published_when`='.(int)$publishedwhen.', '
+          .     '`published_until`='.(int)$publisheduntil.', '
+          .     '`posted_when`='.time().', '
+          .     '`posted_by`='.(int)$admin->get_user_id().' '
+          . 'WHERE `post_id`='.(int)$post_id;
 	if( $database->query($sql) ) {
 		// create new accessfile
         $sDoWhat = (($newLink == $old_link) && (file_exists($sNewFilename))) ? "nothing" : "action";
-// try to create the whole path to the accessfile
-    	$sAccessPath = dirname($sNewFilename).'/';
-    	if(!($bRetval = is_dir($sAccessPath))) {
-    		$iOldUmask = umask(0) ;
-    		// sanitize directory mode to 'o+rwx/g+x/u+x' and create path
-    		$bRetval = mkdir($sAccessPath, (OCTAL_DIR_MODE |0711), true); 
-    		umask($iOldUmask);
-    	}
         if($sDoWhat == "action") {
             $sDoWhat = (($sDoWhat == "action") && file_exists($sOldFilename)) ? "update" : "create";
         }
@@ -104,9 +96,15 @@
         {
             case "update":
                 try {
-                    $oAF = new AccessFile($sOldFilename, $page_id);
-                    $oAF->rename($sNewFile);
-                    unset($oAF);
+// prozedural rename accessfile if link has changed, has to be changed to accessfile class when fixed
+            		if(($sNewFilename != $sOldFilename) && (is_writable($sOldFilename))) {
+            			if(!rename($sOldFilename,$sNewFilename)) {
+            				$admin->print_error($MESSAGE['PAGES_CANNOT_DELETE_ACCESS_FILE'].' - '.$oldLink,$sBackUrl);
+            			}
+            		}
+//                    $oAF = new AccessFile($sOldFilename, $page_id);
+//                    $oAF->rename($sNewFile);
+//                    unset($oAF);
                 }catch(AccessFileException $e) {
                     $admin->print_error($e,$sBackUrl);
                 }
