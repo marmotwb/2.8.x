@@ -69,6 +69,12 @@ if(!isset($_GET['sessions_checked']) OR $_GET['sessions_checked'] != 'true') {
 		$session_support = '<font class="bad">Disabled</font>';
 	}
 }
+$getMagicQuotesGpc = '<font class="good">Disabled</font>';
+if ( function_exists('get_magic_quotes_gpc')  && filter_var(strtolower(get_magic_quotes_gpc()), FILTER_VALIDATE_BOOLEAN ) ) {
+    $getMagicQuotesGpc = '<font class="bad">Enabled</font>';
+    $installFlag = false;
+}
+
 // Check if AddDefaultCharset is set
 $e_adc=false;
 $sapi=php_sapi_name();
@@ -97,18 +103,14 @@ function checkConfigFile ($sWbPath,$sType ) {
 	$sConfigFile = $sWbPath.$sType.'.php';
 
 // config.php or config.php.new
-		if( (file_exists($sConfigFile)==true))
-		{
+		if ((file_exists($sConfigFile)==true)) {
 // next operation only if file is writeable
-			if(is_writeable($sConfigFile))
-			{
+			if (is_writeable($sConfigFile)) {
 // already installed? it's not empty
-				if ( filesize($sConfigFile) > 100)
-				{
+				if (filesize($sConfigFile) > 100) {
 					$config = '<font class="bad">Already installed? Check!</font>';
 // try to open and to write
-				} elseif( !$handle = fopen($sConfigFile, 'w') )
-				{
+				} elseif (!$handle = fopen($sConfigFile, 'w')) {
 					$config = '<font class="bad">Not Writeable</font>';
 				} else {
 					if (fwrite($handle, $sConfigContent) === FALSE) {
@@ -119,13 +121,12 @@ function checkConfigFile ($sWbPath,$sType ) {
 					}
 					// Close file
 					fclose($handle);
-					}
+				}
 			} else {
 				$config = '<font class="bad">Not Writeable</font>';
 			}
 // it's config.php.new
-		} elseif((file_exists($sConfigFile.'.new')==true))
-		{
+		} elseif ((file_exists($sConfigFile.'.new')==true)) {
 			$config = '<font class="bad">Please rename to '.$sType.'.php</font>';
 		} else {
 			$config = '<font class="bad">Missing!!?</font>';
@@ -138,7 +139,6 @@ function checkConfigFile ($sWbPath,$sType ) {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <title>WebsiteBaker Installation Wizard</title>
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <link href="stylesheet.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
@@ -196,10 +196,10 @@ function change_os(type) {
 		</tr>
 		<?php } ?>
 		<tr>
-			<td style="color: #666666;">PHP Version > 5.2.1</td>
+			<td style="color: #666666;">PHP Version 5.3.2 and up</td>
 			<td>
 				<?php
-			   if (version_compare(PHP_VERSION, '5.2.1', '>'))
+			   if (version_compare(PHP_VERSION, '5.3.2', '>='))
 			   {
 					?><font class="good">Yes</font><?php
 				} else {
@@ -213,12 +213,20 @@ function change_os(type) {
 		</tr>
 	<tr>
 		<td style="color: #666666;">PHP Interface</td>
-			<td colspan="2">
+			<td>
 				<?php
 						?><font class="good">
 						<?php echo $sapi ?>
 						</font>
 			</td>
+		<td style="color: #666666;">magic_quotes_gpc</td>
+			<td >
+				<?php
+						?><font class="good">
+						<?php echo $getMagicQuotesGpc ?>
+						</font>
+			</td>
+
 		</tr>
 
 		<td style="color: #666666;">Server DefaultCharset</td>
