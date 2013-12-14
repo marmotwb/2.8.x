@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+14 Dec-2013 Build 2029 Manuela v.d.Decken(DarkViper)
+! initialize.php now blocking PHP-versions <5.3.2 and PHP with magic_quotes enabled
+! droplets some new/recoded droplets added, some old ones removed
 14 Dec-2013 Build 2028 Dietmar Woellbrink (Luisehahne)
 # /modules/news/save_posts.php::title rename fix
 08 Dec-2013 Build 2027 Manuela v.d.Decken(DarkViper)

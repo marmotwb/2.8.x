@@ -205,8 +205,16 @@
 	$starttime = array_sum(explode(" ",microtime()));
 	$iPhpDeclaredClasses = sizeof(get_declared_classes());
 	$sDbConnectType = 'url'; // depending from class WbDatabase it can be 'url' or 'dsn'
+// PHP less then 5.3.2 is prohibited ---
+	if (version_compare(PHP_VERSION, '5.3.2', '<')) {
+		$sMsg = '<p style="color: #ff0000;">WebsiteBaker is not able to run with PHP-Version less then 5.3.2!!<br />'
+		      . 'Please change your PHP-Version to any kind from 5.3.2 and up!<br />'
+		      . 'If you have problems to solve that, ask your hosting provider for it.<br  />'
+		      . 'The very best solution is the use of PHP-5.4 and up</p>';
+		die($sMsg);
+	}
 // disable all kind of magic_quotes in PHP versions before 5.4 ---
-	if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
+	if (function_exists('get_magic_quotes_gpc') && filter_var(get_magic_quotes_gpc(), FILTER_VALIDATE_BOOLEAN)) {
 		$sMsg = '<p style="color: #ff0000;">WebsiteBaker is not able to run with magic_quotes=on!!<br />'
 		      . 'Please change your PHP-ini or add a _htaccess file to switch this setting to off!<br />'
 		      . 'If you have problems to solve that, ask your hosting provider for it.<br  />'
@@ -223,7 +231,7 @@
 	if(!class_exists('WbAutoloader')){ 
 		include($sTmp);
 	}
-	WbAutoloader::doRegister(array(ADMIN_DIRECTORY=>'a', 'modules'=>'m'));
+	WbAutoloader::doRegister(array(ADMIN_DIRECTORY=>'a', 'modules'=>'m', 'templates'=>'t', 'include'=>'i'));
 // instantiate and initialize adaptor for temporary registry replacement ---
 	WbAdaptor::getInstance()->getWbConstants();
 // register TWIG autoloader ---
