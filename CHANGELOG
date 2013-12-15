@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+15 Dec-2013 Build 2031 Dietmar Woellbrink (Luisehahne)
+# /search/search.php:: trim() parameter (Tks to evaki)
+# /search/search_mod.php:: check for undefined users index
 14 Dec-2013 Build 2030 Dietmar Woellbrink (Luisehahne)
 ! /install/index.php add query magic_quotes_gpc (has to be disables)
 ! /install/save.php  set values for home_folders and page_languages to default false

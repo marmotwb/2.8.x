@@ -196,14 +196,14 @@ $search_url_string = ''; // for $_GET -- ATTN: unquoted! Will become urldecoded 
 $string = '';
 if(isset($_REQUEST['string'])) {
 	if($match!='exact') { // $string will be cleaned below
-		$string=str_replace(',', '', $_REQUEST['string']);
+		$string=str_replace(',', '', trim($_REQUEST['string']) );
 	} else {
-		$string=$_REQUEST['string'];
+		$string=trim($_REQUEST['string']);
 	}
     // redo possible magic quotes
     $string = $wb->strip_slashes($string);
     $string = preg_replace('/\s+/', ' ', $string);
-    $string = trim($string);
+//    $string = trim($string);
 	// remove some bad chars
 	$string = str_replace ( array('[[',']]'),'', $string);
 	$string = preg_replace('/(^|\s+)[|.]+(?=\s+|$)/', '', $string);
