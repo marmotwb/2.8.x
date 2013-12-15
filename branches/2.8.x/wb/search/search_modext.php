@@ -45,7 +45,7 @@ function get_page_modified($page_modified_when) {
 // make username and displayname for "last modified by... on ..."-string
 function get_page_modified_by($page_modified_by, $users) {
 	global $TEXT;
-	if($page_modified_by>0) {
+	if( ($page_modified_by > 0) && isset($users[$page_modified_by]) ) {
 		$username = $users[$page_modified_by]['username'];
 		$displayname = $users[$page_modified_by]['display_name'];
 	} else {
