@@ -24,7 +24,12 @@ function print_textinputs_var() {
 	global $textinputs;
 	foreach( $textinputs as $key=>$val ) {
 		# $val = str_replace( "'", "%27", $val );
-		echo "textinputs[$key] = decodeURIComponent(\"" . $val . "\");\n";
+		$aSearch  = array('/^(.*?)<(\s*?script[^>]*?)>(.*?<\s*?\/script\s*?)>(.*)$/si',
+		                  '/^(.*?)<(\s*?script[^>]*?)>(.*)$/si');
+		$aReplace = array('\1&lt;\2&gt;\3&lt;\4&gt\5', '\1&lt;\2&gt;\3');
+		$val = preg_replace($aSearch, $aReplace, urldecode($val));
+		echo "textinputs[$key] = \"" . $val . "\";\n";
+//		echo "textinputs[$key] = decodeURIComponent(\"" . $val . "\");\n";
 	}
 }
 
