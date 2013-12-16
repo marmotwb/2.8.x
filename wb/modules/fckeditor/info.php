@@ -19,7 +19,7 @@
 $module_directory		= 'fckeditor';
 $module_name			= 'FCKeditor';
 $module_function		= 'WYSIWYG';
-$module_version			= '2.9.9';
+$module_version			= '2.10.0';
 $module_platform		= '2.8.4';
 $module_requirements    = 'PHP 5.2.2 or higher, WB 2.8.4 or higher';
 $module_author 			= 'Christian Sommer, P. Widlund, S. Braunewell, M. Gallas, Wouldlouper, Aldus, Luisehahne, M.v.d.Decken';
