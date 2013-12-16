@@ -46,7 +46,89 @@ if(LANGUAGE_LOADED) {
 	}
 }
 require_once(WB_PATH . '/include/editarea/wb_wrapper_edit_area.php');
-echo registerEditArea ('contentedit','php',true,'both',true,true,600,450,'search, fullscreen, |, undo, redo, |, select_font,|, highlight, reset_highlight, |, help');
+
+/**
+ * toolbar: define the toolbar that will be displayed, each element being separated by a ",".
+ * Type: String (combinaison of: "|", "*", "search", "go_to_line", "undo", "redo", "change_smooth_selection", "reset_highlight", "highlight", "word_wrap", "help", "save", "load", "new_document", "syntax_selection")
+ * "|" or "separator" make appears a separator in the toolbar.
+ * "*" or "return" make appears a line-break in the toolbar
+ * Default: "search, go_to_line, fullscreen, |, undo, redo, |, select_font,|, change_smooth_selection, highlight, reset_highlight, word_wrap, |, help"
+
+$aDefaultSettings = array (
+		'id' => "src"	// should contain the id of the textarea that should be converted into an editor
+		,'language' => "en"
+		,'syntax' => ""
+		,'start_highlight' => false	// if start with highlight
+		,'is_multi_files' => false		// enable the multi file mode (the textarea content is ignored)
+		,'min_width' => 400
+		,'min_height' => 125
+		,'allow_resize' => "y"	// possible values: "no", "both", "x", "y"
+		,'allow_toggle' => true		// true or false
+		,'plugins' => "" // comma separated plugin list
+		,'browsers' => "all"	// all or known
+		,'display' => "onload" 		// onload or later
+		,'toolbar' => "search, go_to_line, fullscreen, |, undo, redo, |, select_font,|, change_smooth_selection, highlight, reset_highlight, word_wrap, |, help"
+		,'begin_toolbar' => ""		//  "new_document, save, load, |"
+		,'end_toolbar' => ""		// or end_toolbar
+		,'font_size' => "10"		// not for IE
+		,'font_family' => "monospace"	// can be "verdana,monospace". Allow non monospace font but Firefox get smaller tabulation with non monospace fonts. IE doesn't change the tabulation width and Opera doesn't take this option into account... 
+		,'cursor_position' => "begin"
+		,'gecko_spellcheck' => false	// enable/disable by default the gecko_spellcheck
+		,'max_undo' => 30
+		,'fullscreen' => false
+		,'is_editable' => true
+		,'word_wrap' => false		// define if the text is wrapped of not in the textarea
+		,'replace_tab_by_spaces' => false
+		,'debug' => false		// used to display some debug information into a newly created textarea. Can be usefull to display trace info in it if you want to modify the code
+		,'show_line_colors' => false	// if the highlight is disabled for the line currently beeing edited (if enabled => heavy CPU use)
+		,'syntax_selection_allow' => "basic,brainfuck,c,coldfusion,cpp,css,html,java,js,pas,perl,php,python,ruby,robotstxt,sql,tsql,vb,xml"
+		,'smooth_selection' => true
+		,'autocompletion' => false	// NOT IMPLEMENTED			
+		,'load_callback' => ""		// click on load button (function name)
+		,'save_callback' => ""		// click on save button (function name)
+		,'change_callback' => ""	// textarea onchange trigger (function name)
+		,'submit_callback' => ""	// form submited (function name)
+		,'EA_init_callback' => ""	// EditArea initiliazed (function name)
+		,'EA_delete_callback' => ""	// EditArea deleted (function name)
+		,'EA_load_callback' => ""	// EditArea fully loaded and displayed (function name)
+		,'EA_unload_callback' => ""	// EditArea delete while being displayed (function name)
+		,'EA_toggle_on_callback' => ""	         // EditArea toggled on (function name)
+		,'EA_toggle_off_callback' => ""	        // EditArea toggled off (function name)
+		,'EA_file_switch_on_callback' => ""	    // a new tab is selected (called for the newly selected file)
+		,'EA_file_switch_off_callback' => ""	// a new tab is selected (called for the previously selected file)
+		,'EA_file_close_callback' => ""		    // close a tab
+	);
+ */
+
+/**
+ * 
+ */
+$aInitEditArea = getEditareaDefaultSettings();
+$aInitEditArea['id'] = 'contentedit';
+$aInitEditArea['syntax'] = 'php';
+$aInitEditArea['allow_resize'] = 'y';
+$aInitEditArea['allow_toggle'] = true;
+$aInitEditArea['start_highlight'] = true;
+$aInitEditArea['min_width'] = 200;
+$aInitEditArea['min_height'] = 250;
+$aInitEditArea['toolbar'] = 'default';
+$aInitEditArea['syntax_selection_allow'] = 'basic,php,css,html';
+echo registerEditArea($aInitEditArea);
+
+/**
+ * 
+echo registerEditArea ('contentedit'
+                      ,'php'
+                      ,'basic,php,css,html'
+                      ,'y'
+                      ,true
+                      ,true
+                      ,200
+                      ,250
+                      ,'default'
+//                      ,'search, fullscreen, |, undo, redo, |, select_font,|, highlight, word_wrap, |, help'
+);
+ */
 
 $modified_when = time();
 $modified_by = ($admin->ami_group_member('1') ? 1 : $admin->get_user_id());
@@ -75,7 +157,7 @@ $content = (htmlspecialchars($fetch_content['code']));
 <input type="hidden" name="show_wysiwyg" value="<?php echo $fetch_content['show_wysiwyg']; ?>" />
 <?php echo $admin->getFTAN(); ?>
 
-<table class="row_a" cellpadding="4" cellspacing="0" border="0" width="100%">
+<table class="row_a">
 		<tr>
 		<td width="10%" class="setting_name">
 			<?php echo $TEXT['NAME']; ?>:
@@ -140,7 +222,7 @@ if ($modified_by == 1) {
 ?>
 	<tr>
 		<td valign="top" class="setting_name" width="60px"><?php echo $TEXT['CODE']; ?>:</td>
-		<td ><textarea name="savecontent" id ="contentedit" style="width: 98%; height: 450px;" rows="50" cols="120"><?php echo $content; ?></textarea>&nbsp;
+		<td ><textarea name="savecontent" id ="contentedit" style="width: 98%; height: 450px;" rows="10" cols="12"><?php echo $content; ?></textarea>&nbsp;
 		</td>
 	</tr>
 	<tr>
