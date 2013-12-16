@@ -27,7 +27,7 @@ class database {
 		$msg .= '$database = new database();</span> by <span style="color:#00bb00; font-weight:bold;">';
 		$msg .= '$database = WbDatabase::getInstance();</span>.</p>';
 		$msg .= '<p>Also you can get information and help from the ';
-		$msg .= '<a href="http://www.websitebaker2.org/forum/index.php/board,2.0.html">WebsiteBaker Forum</a></p>';
+		$msg .= '<a href="http://www.websitebaker.org/forum/index.php/board,2.0.html">WebsiteBaker Forum</a></p>';
 		$msg .= '<hr />';
 		$msg .= '<p style="color: #dd0000; font-weight: bold;">Runtime Error !!</p>';
 		$msg .= '<p>Ouups...  hier wurde ein ung&uuml;ltiges Kommando gefunden!!</p>';
@@ -37,7 +37,7 @@ class database {
 		$msg .= '$database = new database();</span> durch <span style="color:#00bb00; font-weight:bold;">';
 		$msg .= '$database = WbDatabase::getInstance();</span>.</p>';
 		$msg .= '<p>Auch k&ouml;nnen sie auch Informationen und Hilfe im ';
-		$msg .= '<a href="http://www.websitebaker2.org/forum/index.php/board,31.0.html">WebsiteBaker Forum</a> finden.</p>';
+		$msg .= '<a href="http://www.websitebaker.org/forum/index.php/board,31.0.html">WebsiteBaker Forum</a> finden.</p>';
 		$msg .= '</div>';
 		die($msg);
 		
