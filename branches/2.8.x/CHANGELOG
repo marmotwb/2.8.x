@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+16 Dec-2013 Build 2034 Dietmar Woellbrink (Luisehahne)
+! Changed links to WB website
 16 Dec-2013 Build 2033 Dietmar Woellbrink (Luisehahne)
 ! /include/editarea/wb_wrapper_edit_area.php:: add init parameters as Array
 ! /modules/droplets/modify_droplet.php call edit_area with Array
