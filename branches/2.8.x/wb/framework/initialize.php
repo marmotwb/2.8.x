@@ -319,7 +319,7 @@
 	if(!defined('DATE_FORMAT')) { define('DATE_FORMAT', (isset($_SESSION['DATE_FORMAT']) ? $_SESSION['DATE_FORMAT'] : DEFAULT_DATE_FORMAT)); }
 	if(!defined('TIME_FORMAT')) { define('TIME_FORMAT', (isset($_SESSION['TIME_FORMAT']) ? $_SESSION['TIME_FORMAT'] : DEFAULT_TIME_FORMAT)); }
 // set Theme directory --- 
-	if(!defined('THEMA_URL')) { define('THEME_URL',  WB_URL.'/templates/'.DEFAULT_THEME); }
+	if(!defined('THEME_URL')) { define('THEME_URL',  WB_URL.'/templates/'.DEFAULT_THEME); }
 	if(!defined('THEME_PATH')) { define('THEME_PATH', WB_PATH.'/templates/'.DEFAULT_THEME); }
 	if(!defined('THEME_REL')) { define('THEME_REL',  WB_REL.'/templates/'.DEFAULT_THEME); }
 // extended wb editor settings
