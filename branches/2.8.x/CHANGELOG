@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+16 Dec-2013 Build 2033 Dietmar Woellbrink (Luisehahne)
+! /include/editarea/wb_wrapper_edit_area.php:: add init parameters as Array
+! /modules/droplets/modify_droplet.php call edit_area with Array
 16 Dec-2013 Build 2032 Dietmar Woellbrink (Luisehahne)
 ! /modules/droplets/example/ update some droplets and remove the old ones
 15 Dec-2013 Build 2031 Dietmar Woellbrink (Luisehahne)
