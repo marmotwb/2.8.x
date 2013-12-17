@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+18 Dec-2013 Build 2040 Dietmar Woellbrink (Luisehahne)
+# /include/editarea/wb_wrapper_edit_area.php change php versions compare for json_encode
 18 Dec-2013 Build 2039 Dietmar Woellbrink (Luisehahne)
 # droplets example iLoginBox add missing Page_ID
 16 Dec-2013 Build 2038 Manuela v.d.Decken(DarkViper)

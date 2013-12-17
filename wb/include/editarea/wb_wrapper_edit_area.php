@@ -152,7 +152,7 @@ if( is_array($initId) ){
 			loader_help();
 	        define('LOADER_HELP', true);
 		}
-        if(version_compare(PHP_VERSION, '5.3', '<'))
+        if(version_compare(PHP_VERSION, '5.4', '<'))
         {
             $json = json_encode($aInitEditArea);
         } else {
