@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+18 Dec-2013 Build 2039 Dietmar Woellbrink (Luisehahne)
+# droplets example iLoginBox add missing Page_ID
 16 Dec-2013 Build 2038 Manuela v.d.Decken(DarkViper)
 # typofix in framework/initialize.php
 16 Dec-2013 Build 2037 Manuela v.d.Decken(DarkViper)

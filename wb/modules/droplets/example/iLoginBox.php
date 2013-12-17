@@ -6,6 +6,7 @@
 	$mLang = Translate::getinstance();
 	if( !(isset($wb) && is_object($wb)) ) { $wb = new frontend(); }
 	if( !(isset($admin) && is_object($admin)) ) { $admin= new admin('##skip##'); }
+	$page_id = PAGE_ID == 0 ? $wb->default_page_id : PAGE_ID;
 
 	$return_value = '<div class="login-box">'."\n";
 	$return_admin = ' ';
@@ -62,7 +63,7 @@
 		//change ot the group that should get special links
 		if( $admin->get_permission('pages_modify') && $admin->get_page_permission( PAGE_ID ) )
 		{
-			$return_value .= '<li class="modify"><a target="_blank" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$wb->page_id.'" title="'.$mLang->HEADING_MODIFY_PAGE.'" class="blank_target">'.$mLang->HEADING_MODIFY_PAGE.'</a></li>'."\n";
+			$return_value .= '<li class="modify"><a target="_blank" href="'.ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'" title="'.$mLang->HEADING_MODIFY_PAGE.'" class="blank_target">'.$mLang->HEADING_MODIFY_PAGE.'</a></li>'."\n";
 		}
 		$return_value .= '<li>&nbsp;'.'</li>'."\n";
 		$return_value .= '</ul>'."\n";
