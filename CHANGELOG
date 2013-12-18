@@ -11,6 +11,11 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+18 Dec-2013 Build 2041 Dietmar Woellbrink (Luisehahne)
+- /media/~dummy.git 
++ /media/favicon.ico
+- /pages/~dummy.git
++ /pages/favicon.ico
 18 Dec-2013 Build 2040 Dietmar Woellbrink (Luisehahne)
 # /include/editarea/wb_wrapper_edit_area.php change php versions compare for json_encode
 18 Dec-2013 Build 2039 Dietmar Woellbrink (Luisehahne)
