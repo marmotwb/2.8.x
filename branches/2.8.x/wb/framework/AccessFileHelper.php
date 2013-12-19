@@ -71,7 +71,7 @@ class AccessFileHelper {
  */
 	static public function isAccessFile($sFileName)
 	{
-		if (!is_readable($sFileName)) { throw new AccessFileInvalidFilePathException('invalid filename ['.$sFileName.']');
+		if (!is_readable($sFileName)) { throw new AccessFileInvalidFilePathException('invalid filename ['.$sFileName.']'); }
 		$bRetval = false;
 		if (($sFile = file_get_contents($sFileName)) !== false) {
 			$sPattern = '/^\s*?<\?php.*?\$i?page_?id\s*=\s*[0-9]+;.*?(?:require|include)'
@@ -80,7 +80,6 @@ class AccessFileHelper {
 			unset($sFile);
 		}
 		return $bRetval;
-    	}
     }
 /**
  * Delete all contents of basedir, but not the basedir itself

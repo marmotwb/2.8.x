@@ -173,7 +173,7 @@ class AccessFile {
 	 * Rename an existing Accessfile
 	 * @param  string  $sNewName the new filename without path and without extension
 	 * @return boolean
-	 * @throws AccessFileAccessFileRenameException
+	 * @throws AccessFileRenameException
 	 */
 	public function rename($sNewName)
 	{

@@ -11,7 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-
+19 Dec-2013 Build 2046 Manuela v.d.Decken(DarkViper)
+# little Typofixes in packet AccessFile 
+19 Dec-2013 Build 2045 Dietmar Woellbrink (Luisehahne)
+! update Access Files Classes with easier handling for modules who create their own accessfiles
 19 Dec-2013 Build 2044 Dietmar Woellbrink (Luisehahne)
 # /admin/modules/install.php:: fixed Fileupload error messages
 19 Dec-2013 Build 2043 Dietmar Woellbrink (Luisehahne)
