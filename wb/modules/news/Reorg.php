@@ -127,17 +127,18 @@ class m_news_Reorg extends ModuleReorgAbstract{
 			while(($aPost = $oPosts->fetchRow(MYSQL_ASSOC)))
 			{
 			// sanitize link if there is an old value in database from former versions
-				$aPost['link'] = trim( str_replace('\\', '/', $aPost['link']), '/');
 				$aPost['link'] = preg_replace( '/^'.preg_quote($this->sAccessFilesSubdir, '/').'/',
 				                               '',
 				                               trim( str_replace('\\', '/', $aPost['link']), '/')
 				                             );
+
 			// compose name of accessfile
 				$sAccFileName = $this->sAccessFilesRoot.$aPost['link'].$this->oReg->PageExtension;
+
 				try
 				{
 				// create new object
-					$oAccFile = new AccessFile($sAccFileName, $aPost['page_id']);
+					$oAccFile = new AccessFile($this->sAccessFilesRoot, $aPost['link'], $aPost['page_id']);
 					$oAccFile->addVar('section_id',   $aPost['section_id'], AccessFile::VAR_INT);
 					$oAccFile->addVar('post_id',      $aPost['post_id'],    AccessFile::VAR_INT);
 					$oAccFile->addVar('post_section', $aPost['section_id'], AccessFile::VAR_INT);
