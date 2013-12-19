@@ -12,6 +12,8 @@ Legend:
 ===============================================================================
 
 
+19 Dec-2013 Build 2044 Dietmar Woellbrink (Luisehahne)
+# /admin/modules/install.php:: fixed Fileupload error messages
 19 Dec-2013 Build 2043 Dietmar Woellbrink (Luisehahne)
 + /admin/addons/languages/ add more Language Files (Tks To jacobi22)
 18 Dec-2013 Build 2042 Dietmar Woellbrink (Luisehahne)

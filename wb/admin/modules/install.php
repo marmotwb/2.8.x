@@ -19,8 +19,14 @@
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 
 // Setup admin object
-require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
+//require('../../config.php');
+$config_file = realpath('../../config.php');
+if(file_exists($config_file) && !defined('WB_URL'))
+{
+	require($config_file);
+}
+
+//require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Addons', 'modules_install', false);
 if( !$admin->checkFTAN() )
 {
@@ -51,26 +57,35 @@ if(!$_FILES['userfile']['error']) {
 		$admin->print_error($MESSAGE['GENERIC_BAD_PERMISSIONS']);
 	}
 } else {
+    $iErrorMessage = ( isset($_FILES['userfile']['error']) && ( $_FILES['userfile']['error'] > 0 ) ? $_FILES['userfile']['error'] : UNKNOW_UPLOAD_ERROR );
 // index for language files
 	$key = 'UNKNOW_UPLOAD_ERROR';
-    switch ($error_code) {
+    switch ( $iErrorMessage ) {
         case UPLOAD_ERR_INI_SIZE:
             $key = 'UPLOAD_ERR_INI_SIZE';
+            break;
         case UPLOAD_ERR_FORM_SIZE:
             $key = 'UPLOAD_ERR_FORM_SIZE';
+            break;
         case UPLOAD_ERR_PARTIAL:
             $key = 'UPLOAD_ERR_PARTIAL';
+            break;
         case UPLOAD_ERR_NO_FILE:
             $key = 'UPLOAD_ERR_NO_FILE';
-        case UPLOAD_ERR_NO_TMP_DIR:
+             break;
+       case UPLOAD_ERR_NO_TMP_DIR:
             $key = 'UPLOAD_ERR_NO_TMP_DIR';
+            break;
         case UPLOAD_ERR_CANT_WRITE:
             $key = 'UPLOAD_ERR_CANT_WRITE';
+            break;
         case UPLOAD_ERR_EXTENSION:
             $key = 'UPLOAD_ERR_EXTENSION';
+            break;
         default:
             $key = 'UNKNOW_UPLOAD_ERROR';
     }
+
 	$admin->print_error($MESSAGE[$key].'<br />'.$MESSAGE['GENERIC_CANNOT_UPLOAD']);
 }
 
