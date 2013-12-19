@@ -22,8 +22,9 @@
  *
  * @category     Core
  * @package      Core_Routing
- * @copyright    M.v.d.Decken <manuela@isteam.de>
- * @author       M.v.d.Decken <manuela@isteam.de>
+ * @subpackage   Accessfiles
+ * @copyright    Manuela v.d.Decken <manuela@isteam.de>
+ * @author       Manuela v.d.Decken <manuela@isteam.de>
  * @license      http://www.gnu.org/licenses/gpl.html   GPL License
  * @version      0.0.1
  * @revision     $Revision: $
@@ -32,7 +33,7 @@
  * @since        File available since 01.08.2013
  * @description  this class provides some helper methodes to handle access files
  */
-
+if (class_exists('AccesFile')) {;}
 class AccessFileHelper {
 
 /**
@@ -70,16 +71,17 @@ class AccessFileHelper {
  */
 	static public function isAccessFile($sFileName)
 	{
+		if (!is_readable($sFileName)) { throw new AccessFileInvalidFilePathException('invalid filename ['.$sFileName.']');
 		$bRetval = false;
-		if (($sFile = file_get_contents($sFileName)) !== false)
-		{
+		if (($sFile = file_get_contents($sFileName)) !== false) {
 			$sPattern = '/^\s*?<\?php.*?\$i?page_?id\s*=\s*[0-9]+;.*?(?:require|include)'
-					. '(?:_once)?\s*\(\s*\'.*?index\.php\'\s?\);/siU';
+			          . '(?:_once)?\s*\(\s*\'.*?index\.php\'\s?\);/siU';
 			$bRetval = (bool) preg_match($sPattern, $sFile);
 			unset($sFile);
 		}
 		return $bRetval;
-	}
+    	}
+    }
 /**
  * Delete all contents of basedir, but not the basedir itself
  * @param string  $sRootDir the content of which should be deleted
@@ -92,43 +94,34 @@ class AccessFileHelper {
 		$oReg = WbAdaptor::getInstance();
 		self::$aDelTreeLog = array();
 		$bResult = true;
-		if (!is_writeable($sRootDir))
-		{
+		if (!is_writeable($sRootDir)) {
 			self::$aDelTreeLog[] = 'insufficient rights or directory not empty in : '.str_replace($oReg->AppPath, '', $sRootDir);
 			return false;
 		}
 		$oIterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($sRootDir), RecursiveIteratorIterator::CHILD_FIRST);
-		foreach ($oIterator as $oPath)
-		{
+		foreach ($oIterator as $oPath) {
 			$sPath = rtrim(str_replace('\\', '/', $oPath->__toString()), '/');
-			if ($oPath->isDir() && !preg_match('/\.$/s', $sPath))
-			{
+			if ($oPath->isDir() && !preg_match('/\.$/s', $sPath)) {
 				// proceed directories
-				if (!rmdir($sPath))
-				{
+				if (!rmdir($sPath)) {
 					$bResult = false;
 					self::$aDelTreeLog[] = 'insufficient rights or directory not empty in : '.str_replace($oReg->AppPath, '', $sPath);
-				}else {
+				} else {
 					self::$aDelTreeLog[] = 'Directory successful removed : '.str_replace($oReg->AppPath, '', $sPath);
 				}
-			} elseif ($oPath->isFile())
-			{
+			} elseif ($oPath->isFile()) {
 				// proceed files
-				if (!unlink($sPath))
-				{
+				if (!unlink($sPath)) {
 					$bResult = false;
 					self::$aDelTreeLog[] = 'insufficient rights or directory not empty in : '.str_replace($oReg->AppPath, '', $sPath);
-				}else {
+				} else {
 					self::$aDelTreeLog[] = 'File successful deleted : '.str_replace($oReg->AppPath, '', $sPath);
 				}
 			}
 		}
-		if (($iMode & self::DEL_ROOT_DELETE))
-		{
-			if ($bResult)
-			{ // if there was no error before
-				if (rmdir($sRootDir))
-				{
+		if (($iMode & self::DEL_ROOT_DELETE)) {
+			if ($bResult) { // if there was no error before
+				if (rmdir($sRootDir)) {
 					self::$aDelTreeLog[] = 'Directory successful removed : '.str_replace($oReg->AppPath, '', $sRootDir);
 					return $bResult;
 				}
@@ -142,11 +135,72 @@ class AccessFileHelper {
  * @param  bool  $bClearLog   TRUE clears the log after request, FALSE preserve the log
  * @return array
  */
-	static function getDelTreeLog($bClearLog = self::LOG_CLEAR)
+	static public function getDelTreeLog($bClearLog = self::LOG_CLEAR)
 	{
 		$aRetval = self::$aDelTreeLog;
 		if($bClearLog) { self::$aDelTreeLog = array(); }
 		return $aRetval;
 	}
+
+/* *** following methods still are in developing right now! Do not use it! ************ */
+
+/**
+ * isPathInsideApplication
+ * @param string $sRootPath   full base path<br />
+ *        example1-a: '/www/htdocs/subdir/'
+ *        example2-a: 'c://www/htdocs/subdir/'
+ *        example3-a: 'http://user:pass@isteam.de:123/www/htdocs/subdir/'
+ * @param string $sFullPath  full path to test<br />
+ *        example1-b: '/www/htdocs/subdir/targetdir/../testfile.php'
+ *        example2-b: 'c://www/htdocs/subdir/targetdir/../testfile.php'
+ *        example3-b: 'http://user:pass@isteam.de:123/www/htdocs/subdir/targetdir/../testfile.php'
+ * @return type
+ */
+	static public function isRootPartOfPath($sRootPath, $sFullPath)
+	{
+		$sRootPath = self::getRealPath($sRootPath);
+		$sFullPath = self::getRealPath($sFullPath);
+		$sRetval = (preg_match('/^'.preg_quote($sRootPath, '/').'/', $sFullPath) ? $sFullPath : null );
+		return $sRetval;;
+	}
+
+	static public function getRealPath($sPath)
+	{
+		$iCount = 0;
+		$aResultPath = array();
+		$sPath = str_replace(array('\\', '/./'), array('/', '/'), $sPath);
+		if(preg_match('/^\/?\.\//', $sPath)) {
+			$sPath = str_replace('\\', '/', getcwd()).'/'.preg_replace('/^\/?\.\//', '', $sPath);
+		}
+
+		$sPattern = '/((?:^[a-z]?\:\/+)|(?:^.*?\:\/\/.*?\/)|(?:^\/+))[^\/].*$/is';
+	// extract host/root - part from path save and then remove it from path
+		$sPrefix = preg_replace($sPattern, '\1', $sPath);
+		$sPath = preg_replace('/^'.preg_quote($sPrefix, '/').'/', '', $sPath);
+	// replace any tripple or more dots by doubble dots and split the path at '/' into an array.
+	// save number of replaced .. in $iCount and add somme buffer elements
+		$aTestPath = array_merge(($iCount ? array_fill(0, $iCount * 2, '###') : array()),
+				                 explode('/', preg_replace(array('/\.{2,}/s', '/./'), array('..', '/'), $sPath, -1, $iCount))
+		             );
+		foreach ($aTestPath as $sPart) {
+			switch ($sPart) {
+				case '.': // skip part
+					continue;
+					break;
+				case '..': // step back
+					array_pop($aResultPath);
+					break;
+				default: // take part
+					$aResultPath[] = $sPart;
+					break;
+			}
+		}
+		while($aResultPath[0] == '###') { 
+			array_shift($aResultPath);
+		}
+		$sResultPath = $sPrefix.implode('/', $aResultPath);
+		return $sResultPath;
+	}
+
 
 } // end of class AccessFileHelper
