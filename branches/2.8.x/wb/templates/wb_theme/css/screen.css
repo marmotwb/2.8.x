@@ -6,7 +6,7 @@ body{ margin :0 auto; padding :0px; background :#a8bccb; text-align :left; font-
 div.main { border :0px none #666666; margin :0px auto 1em auto; min-width :75em; max-width :90em; font-size :1.0em; padding :10px 15px; width :83%; overflow :hidden; }
 .td { clear :both; font-size :1.0em; margin :0 auto; text-align :center; width :100%; }
 div.main .table { background :url(../images/bgtitle.png) #ffffff repeat-x; margin :0 auto; overflow :auto; width :100%; }
-.wrapper { position :relative; display :block; overflow :auto; width :inherit; }
+.wrapper { position:relative; display:block; overflow:auto; width:inherit;}
 .content { padding :25px 15px; text-align :left; overflow :hidden; }
 img { border :none; }
 .input_small { width :20px; }
@@ -133,7 +133,7 @@ table.section { border-collapse :separate; width :100%; table-layout :fixed; bor
 .tool_table li { padding :1px; list-style-type :disc; }
 /* new tablelayout without table attribute  */
 div.settings_table { margin :0 auto; width :90%; }
-form.settings_table { border :1px none #eeee; font-family :verdana,arial,helvetica,sans-serif; margin :5px auto; padding :5px; }
+form.settings_table { border :1px none #eee; font-family :verdana,arial,helvetica,sans-serif; margin :5px auto; padding :5px; }
    form.settings_table fieldset { border :2px none #eeeeee; display :block; line-height :1.0em; margin :1px auto; padding :3px 0px 3px 0px; }
    input[type="file"] { max-width :75%; border :1px solid #000000; background-color :#ccccff; }
    legend.settings_table ,
@@ -261,7 +261,7 @@ div.page-settings { font-size :0.9em; border :none; text-align :left; overflow :
 	div.page-settings [type=checkbox] { width :2.5em; }
 	div.page-settings [type=reset],
 	div.page-settings [type=submit] { padding :2px; width :auto; }
-div.page-settings-leftcol { float :left; padding :10px 10px 10px 10px; border-right :groove 0px #a8bccb; border: 0 solid 1px  #a8bccb :; }
+div.page-settings-leftcol { float :left; padding :10px 10px 10px 10px; border-right :groove 0px #a8bccb; border: solid 1px  #a8bccb; }
 div.page-settings-leftcol div.page-settings-tab { border :solid 1px #a8bccb; padding :8px; margin-bottom :8px; }
 	div.page-settings-leftcol div { padding :2px 0 3px 0; vertical-align :top; }
 	div.page-settings-leftcol label { width :170px; vertical-align :top; }
@@ -308,7 +308,7 @@ div.col_width33 { width :33.333%; }
 div.admintools { display :block; border :0px none #333333; margin :auto 2%; min-height :1%; padding :2px; text-align :center; overflow :auto; }
 div.admintools .section { width :100%; }
    div.admintools ul { padding :0; min-height :100px; overflow :hidden; }
-   div.admintools ul li { float :left; border :0px none #666666 solid; max-height :7em; list-style-type :none; padding :1px; margin :2px 1% auto 1%; width :46%; }
+   div.admintools ul li { float :left; border :0px #666666 solid; max-height :7em; list-style-type :none; padding :1px; margin :2px 1% auto 1%; width :46%; }
    div.admintools li span { display :block; float :none; line-height :1em; font-size :1.2em; }
    div.admintools span.title { font-size :1.1em; }
 /* */
