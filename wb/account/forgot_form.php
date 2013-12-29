@@ -42,9 +42,9 @@ if(isset($_POST['email']) && is_string($_POST['email']) )
     		$email = '';
     	} else {
         // Check if the email exists in the database
-        	$sql  = 'SELECT `user_id`,`username`,`display_name`,`email`,`last_reset`,`password` '.
-        	        'FROM `'.TABLE_PREFIX.'users` '.
-        	        'WHERE `email`=\''.$wb->add_slashes($email).'\'';
+        	$sql  = 'SELECT `user_id`,`username`,`display_name`,`email`,`last_reset`,`password` '
+        	      . 'FROM `'.TABLE_PREFIX.'users` '
+        	      . 'WHERE `email`=\''.$wb->add_slashes($email).'\'';
 
         	if(($results = $database->query($sql)))
         	{
@@ -59,10 +59,10 @@ if(isset($_POST['email']) && is_string($_POST['email']) )
         				$old_pass = $results_array['password'];
         			// Generate a random password then update the database with it
         				$new_pass = $pwh->createNew();
-        				$sql = 'UPDATE `'.TABLE_PREFIX.'users` '.
-        				       'SET `password`=\''.md5($new_pass);
-        				           '`last_reset`='.time().' '.
-        				       'WHERE `user_id`='.(int)$results_array['user_id'];
+        				$sql = 'UPDATE `'.TABLE_PREFIX.'users` '
+        				     . 'SET `password`=\''.md5($new_pass).'\', '
+        				     .     '`last_reset`='.time().' '
+        				     . 'WHERE `user_id`='.(int)$results_array['user_id'];
         				unset($pwh); // destroy $pwh-Object
         				if($database->query($sql))
         				{ // Setup email to send
