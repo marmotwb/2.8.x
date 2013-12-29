@@ -40,7 +40,7 @@ $sUserLanguage = LANGUAGE;
 	$sql  = 'SELECT `language` ';
 	$sql .= 'FROM `'.TABLE_PREFIX.'users` ';
 	$sql .= 'WHERE `user_id` = '.$wb->get_user_id();
-    if ($sUserLanguage = $database->get_one($sql)) {
+    if (($sUserLanguage = $database->get_one($sql))) {
 		$_SESSION['LANGUAGE'] = $sUserLanguage;
     }
 
@@ -49,10 +49,10 @@ $sDefaultLanguage = DEFAULT_LANGUAGE;
 $sLanguage = LANGUAGE.'.php';
 
 $LanguageDir = WB_PATH .'/account/languages/';
-$sLanguageFile = ( file_exists($LanguageDir.$sUserLanguage.'.php') ? $LanguageDir.$sUserLanguage.'.php' : $LanguageDir.$sLanguage);
+$sLanguageFile = ( is_readable($LanguageDir.$sUserLanguage.'.php') ? $LanguageDir.$sUserLanguage.'.php' : $LanguageDir.$sLanguage);
 $sLanguageFile = ( is_readable($sLanguageFile) ?  $sLanguageFile :  $LanguageDir.$sDefaultLanguage.'.php'   );
 // load module default language file (EN)
-require($sLanguageFile);
+if (is_readable($sLanguageFile)) { require_once($sLanguageFile); }
 
 if(!function_exists('utf8_check')) { require(WB_PATH.'/framework/functions-utf8.php'); }
 

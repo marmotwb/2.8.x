@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+29 Dec-2013 Build 2051 Manuela v.d.Decken(DarkViper)
+# account/preferences_form : language selection fixed
+# account/forgot_form : password generation fixed
 22 Dec-2013 Build 2050 Manuela v.d.Decken(DarkViper)
 # little Typofixes in admin/groups/languages/IT.php
 20 Dec-2013 Build 2049 Dietmar Woellbrink (Luisehahne)
