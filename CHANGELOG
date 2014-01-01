@@ -12,6 +12,9 @@ Legend:
 ===============================================================================
 
 
+01 Jan-2014 Build 2064 Manuela v.d.Decken(DarkViper)
+! register PHPMailerAutoload now in initialize instead of class.WbMailer.php
+# a unsecure require() fixed in class PHPMailer::__construct() (notice to Syncro given)
 01 Jan-2014 Build 2063 Dietmar Woellbrink (Luisehahne)
 # problems with confirmation mail solved
 01 Jan-2014 Build 2062 Manuela v.d.Decken(DarkViper)

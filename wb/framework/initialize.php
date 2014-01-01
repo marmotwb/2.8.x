@@ -234,13 +234,18 @@
 	}
 	WbAutoloader::doRegister(array(ADMIN_DIRECTORY=>'a', 'modules'=>'m', 'templates'=>'t', 'include'=>'i'));
 // instantiate and initialize adaptor for temporary registry replacement ---
-	WbAdaptor::getInstance()->getWbConstants();
+    $oReg = WbAdaptor::getInstance();
+	$oReg->getWbConstants();
 // register TWIG autoloader ---
 	$sTmp = dirname(dirname(__FILE__)).'/include/Sensio/Twig/lib/Twig/Autoloader.php';
 	if(!class_exists('Twig_Autoloader')) { 
 		include($sTmp); 
 	}
 	Twig_Autoloader::register();
+// register PHPMailer autoloader ---
+    if (!function_exists('PHPMailerAutoload')) {
+        require($oReg->AppPath.'include/phpmailer/PHPMailerAutoload.php');
+    }
 // aktivate exceptionhandler ---
 	if(!function_exists('globalExceptionHandler')) {
 		include(dirname(__FILE__).'/globalExceptionHandler.php');
@@ -382,7 +387,7 @@
 	}
 /** end of deprecated part **/
 // instantiate and initialize adaptor for temporary registry replacement ---
-	WbAdaptor::getInstance()->getWbConstants();
+	$oReg->getWbConstants();
 // load and activate new global translation table
 	Translate::getInstance()->initialize('en',
 										 (defined('DEFAULT_LANGUAGE') ? DEFAULT_LANGUAGE : ''), 

@@ -22,17 +22,6 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
-/* -------------------------------------------------------- */
-// Must include code to stop this file being accessed directly
-if(!defined('WB_PATH')) {
-	require_once(dirname(__FILE__).'/globalExceptionHandler.php');
-	throw new IllegalFileException();
-}
-/* -------------------------------------------------------- */
-// Include PHPMailer class if needed
-if (!function_exists('PHPMailerAutoload')) {
-    require(WbAdaptor::getInstance()->AppPath.'include/phpmailer/PHPMailerAutoload.php');
-}
 
 class WbMailer extends PHPMailer
 {
