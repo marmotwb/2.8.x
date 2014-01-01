@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+01 Jan-2014 Build 2059 Manuela v.d.Decken(DarkViper)
+! update class Wbmailer for use of PHPMailerAutoload
 01 Jan-2014 Build 2058 Manuela v.d.Decken(DarkViper)
 ! change wysiwyg module from filterMediaRel to filterReplaceSysvar
 ! change wb::ReplaceAbsoluteMediaUrl from filterMediaRel to filterReplaceSysvar

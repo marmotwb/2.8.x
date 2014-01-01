@@ -29,16 +29,19 @@ if(!defined('WB_PATH')) {
 	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
-// Include PHPMailer class
-require_once(WB_PATH."/include/phpmailer/class.phpmailer.php");
+// Include PHPMailer class if needed
+if (!function_exists('PHPMailerAutoload')) {
+    require(WbAdaptor::getInstance()->AppPath.'include/phpmailer/PHPMailerAutoload.php');
+}
 
-class wbmailer extends PHPMailer 
+class WbMailer extends PHPMailer
 {
 	// new websitebaker mailer class (subset of PHPMailer class)
 	// setting default values 
 
-	function wbmailer() {
-		global $database;
+	function __construct() {
+
+        $oDb = WbDatabase::getInstance();
 		// set mailer defaults (PHP mail function)
 		$db_wbmailer_routine = "phpmail";
 		$db_wbmailer_smtp_host = "";
@@ -47,16 +50,27 @@ class wbmailer extends PHPMailer
 
 		// get mailer settings from database
 		// $database = new database();
-		$query = "SELECT * FROM " .TABLE_PREFIX. "settings";
-		$results = $database->query($query);
-		while($setting = $results->fetchRow()) {
-			if ($setting['name'] == "wbmailer_routine") { $db_wbmailer_routine = $setting['value']; }
-			if ($setting['name'] == "wbmailer_smtp_host") { $db_wbmailer_smtp_host = $setting['value']; }
-			if ($setting['name'] == "wbmailer_smtp_auth") { $db_wbmailer_smtp_auth = (bool)$setting['value']; }
-			if ($setting['name'] == "wbmailer_smtp_username") { $db_wbmailer_smtp_username = $setting['value']; }
-			if ($setting['name'] == "wbmailer_smtp_password") { $db_wbmailer_smtp_password = $setting['value']; }
-			if ($setting['name'] == "wbmailer_default_sendername") { $db_wbmailer_default_sendername = $setting['value']; }
-			if ($setting['name'] == "server_email") { $db_server_email = $setting['value']; }
+		$query = 'SELECT * FROM `'.$oDb->TablePrefix.'settings`';
+		$oSettingSet = $oDb->doQuery($query);
+		while($aSettings = $oSettingSet->fetchRow(MYSQL_ASSOC)) {
+            switch ($aSettings['name']):
+                case 'wbmailer_routine':
+                    $db_wbmailer_routine = $aSettings['value']; break;
+                case 'wbmailer_smtp_host':
+                    $db_wbmailer_smtp_host = $aSettings['value']; break;
+                case 'wbmailer_smtp_auth':
+                    $db_wbmailer_smtp_auth = (bool)$aSettings['value']; break;
+                case 'wbmailer_smtp_username':
+                    $db_wbmailer_smtp_username = $aSettings['value']; break;
+                case 'wbmailer_smtp_password':
+                    $db_wbmailer_smtp_password = $aSettings['value']; break;
+                case 'wbmailer_default_sendername':
+                    $db_wbmailer_default_sendername = $aSettings['value']; break;
+                case 'server_email':
+                    $db_server_email = $aSettings['value']; break;
+                default:
+                    break;
+            endswitch;
 		}
 
 		// set method to send out emails
@@ -96,7 +110,6 @@ class wbmailer extends PHPMailer
 				$this->FromName = $db_wbmailer_default_sendername;			// FROM NAME: set default name
 			}
 		}
-
 		/* 
 			some mail provider (lets say mail.com) reject mails send out by foreign mail 
 			relays but using the providers domain in the from mail address (e.g. myname@mail.com)
