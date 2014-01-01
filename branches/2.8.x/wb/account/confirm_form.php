@@ -16,9 +16,9 @@
  */
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
-if(defined('WB_PATH') == false)
-{
-	die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
+if(!defined('WB_PATH')) {
+	require_once(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
 
@@ -27,6 +27,12 @@ if(defined('WB_PATH') == false)
     	// load module language file
     	$mLang = Translate::getInstance();
 		$mLang->enableAddon('account');
+        $sIncludeHeadLinkCss = '';
+        if( is_readable(WB_PATH .'/account/frontend.css')) {
+        	$sIncludeHeadLinkCss .= '<link href="'.WB_URL.'/account/frontend.css"';
+        	$sIncludeHeadLinkCss .= ' rel="stylesheet" type="text/css" media="screen" />'."\n";
+            print $sIncludeHeadLinkCss;
+        }
 
 		$sConfirmationId = ( isset($_GET['id']) ? $_GET['id'] : ( isset($_POST['confirm_code']) ? $_POST['confirm_code'] : '' ) );
 		$sSubmitAction = 'show'; // default action
@@ -36,12 +42,6 @@ if(defined('WB_PATH') == false)
 			unset($_POST);
 			$sSubmitAction = 'cancel'; // default action
 		}
-
-        $sIncludeHeadLinkCss = '';
-        if( is_readable(WB_PATH .'/account/frontend.css')) {
-        	$sIncludeHeadLinkCss .= '<link href="'.WB_URL.'/account/frontend.css"';
-        	$sIncludeHeadLinkCss .= ' rel="stylesheet" type="text/css" media="screen" />'."\n";
-        }
 
 		$output = '';
 		msgQueue::clear();
@@ -59,17 +59,3 @@ if(defined('WB_PATH') == false)
 			default:
 				include(dirname(__FILE__).'/confirm_form_mask.php');
 		endswitch; // end of switch
-
-
-//		if(!msgQueue::isEmpty())
-//		{
-//		}
-//		if( ($msg = msgQueue::getSuccess()) != '')
-//		{
-//			$output = $admin->format_message($msg, 'ok').$output;
-//		}
-//		if( ($msg = msgQueue::getError()) != '')
-//		{
-//			$output = $admin->format_message($msg, 'error').$output;
-//		}
-//		print $output;

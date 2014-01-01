@@ -30,7 +30,7 @@ $sPassword = $database->escapeString($wb->StripCodeFromText($wb->get_post('new_p
 $sLoginName = $database->escapeString($wb->StripCodeFromText($wb->get_post('new_loginname')));
 $sConfirmationId = $database->escapeString($wb->StripCodeFromText($wb->get_post('confirm_code')));
 
-$bSendRegistrationMailtoUser = false;
+$bSendRegistrationMailtoUser  = false;
 $bSendRegistrationMailtoAdmin = false;
 $aUser = array();
 if( ($sPassword=='') || ($sLoginName=='') ) {

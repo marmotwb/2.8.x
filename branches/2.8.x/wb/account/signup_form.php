@@ -28,11 +28,33 @@ if(!defined('WB_PATH')) {
 //require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
 
 require_once(WB_PATH.'/include/captcha/captcha.php');
-
 include_once (WB_PATH.'/framework/functions.php');
 
 $mLang = Translate::getinstance();
 $mLang->enableAddon('account');
+$oDb  = WbDatabase::getInstance();
+$oReg = WbAdaptor::getInstance();
+// default, if no information from client available
+
+$aLangAddons = array();
+$aLangBrowser = array();
+$sAutoLanguage = 'EN';
+// detect client language
+if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+	if(preg_match('/([a-z]{2})(?:-[a-z]{2})*/i', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']), $matches)) {
+		$sAutoLanguage = strtoupper($matches[1]);
+	}
+}
+
+$sAutoLanguage=($wb->get_session('LANGUAGE')) ? $_SESSION['LANGUAGE'] : $sAutoLanguage;
+if(!defined('LANGUAGE')) { define('LANGUAGE',$sAutoLanguage);}
+
+$sIncludeHeadLinkCss = '';
+if( is_readable(WB_PATH .'/account/frontend.css')) {
+	$sIncludeHeadLinkCss .= '<link href="'.WB_URL.'/account/frontend.css"';
+	$sIncludeHeadLinkCss .= ' rel="stylesheet" type="text/css" media="screen" />'."\n";
+    print $sIncludeHeadLinkCss;
+}
 
 if(isset($_POST['action']) && $_POST['action']=='send') {
 	require(dirname(__FILE__).'/save_signup.php');
@@ -48,19 +70,13 @@ if(isset($_POST['action']) && $_POST['action']=='send') {
 
 if($_SESSION['display_form'])
 {
-
-    $sIncludeHeadLinkCss = '';
-    if( is_readable(WB_PATH .'/account/frontend.css')) {
-    	$sIncludeHeadLinkCss .= '<link href="'.WB_URL.'/account/frontend.css"';
-    	$sIncludeHeadLinkCss .= ' rel="stylesheet" type="text/css" media="screen" />'."\n";
-    }
-
 // set template file and assign module and template block
 	$oTpl = new Template(dirname(__FILE__).'/htt','keep');
 	$oTpl->set_file('page', 'signup.htt');
 	$oTpl->debug = false; // false, true
 	$oTpl->set_block('page', 'main_block', 'main');
 // generell vars
+
 	$oTpl->set_var(array(
 		'FTAN' => $wb->getFTAN(),
 		'ACTION_URL' => WB_URL.'/account/signup.php',
@@ -120,22 +136,19 @@ if($_SESSION['display_form'])
 		)
 	);
 
-
-    $aLangAddons = array();
-    $aLangBrowser = array();
 // read available languages from table addons
     $aLangAddons = $admin->getAvailableLanguages();
 
 // default, if no information from client available
-    $sAutoLanguage = DEFAULT_LANGUAGE;
+//    $sAutoLanguage = 'EN';
 // detect client language
-    if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-    	if(preg_match('/([a-z]{2})(?:-[a-z]{2})*/i', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']), $matches)) {
-    		$sAutoLanguage = strtoupper($matches[1]);
-    	}
-    }
-    
-    $sAutoLanguage=($wb->get_session('LANGUAGE')) ? $_SESSION['LANGUAGE'] : $sAutoLanguage;
+//    if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+//    	if(preg_match('/([a-z]{2})(?:-[a-z]{2})*/i', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']), $matches)) {
+//    		$sAutoLanguage = strtoupper($matches[1]);
+//    	}
+//    }
+//    
+//    $sAutoLanguage=($wb->get_session('LANGUAGE')) ? $_SESSION['LANGUAGE'] : $sAutoLanguage;
 
     //$sAutoLanguage = 'NL';
     $aLangUsed = array_flip(explode(',',$wb->getLanguagesInUsed()));
@@ -161,6 +174,7 @@ if($_SESSION['display_form'])
 	$oTpl->set_block('main_block', 'captcha_block', 'captcha');
 	if(CONFIRMED_REGISTRATION) {
 		$oTpl->parse('captcha', '', true);
+//    	$oTpl->parse('CSS_BLOCK', $sIncludeHeadLinkCss);
 		$oTpl->set_var(array(
 				'TEXT_NEW_PASSWORD' => $mLang->TEXT_NEW_PASSWORD,
 				'TEXT_RETYPE_NEW_PASSWORD' => $mLang->TEXT_RETYPE_NEW_PASSWORD,
@@ -197,6 +211,7 @@ if($_SESSION['display_form'])
 	$oTpl->set_file('page', 'success.htt');
 	$oTpl->debug = false; // false, true
 	$oTpl->set_block('page', 'main_block', 'main');
+//	$oTpl->parse('CSS_BLOCK', $sIncludeHeadLinkCss);
 	// show messages, default block off
 	$oTpl->set_block('main_block', 'show_registration_block', 'message');
 	$oTpl->parse('message', '');

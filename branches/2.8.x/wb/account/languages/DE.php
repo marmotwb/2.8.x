@@ -27,8 +27,8 @@
 // Array fuer alle sprachabhaengigen Textausgaben im Front- und Backend
 // Hinweis: Verwende nachfolgende Namenskonvention für die Sprachausgabe des Moduls: $MOD_MODULE_DIRECTORY
 $MOD_PREFERENCE = array(
-	'PLEASE_SELECT' => 'bitte w&auml;hlen',
-	'DETAILS_SAVED'	=> 'allgemeine Einstellungen ge&auml;ndert',
+	'PLEASE_SELECT' => 'bitte wählen',
+	'DETAILS_SAVED'	=> 'allgemeine Einstellungen geändert',
 	'SAVE_SETTINGS' => 'Einstellungen speichern',
 	'SAVE_EMAIL' => 'Email speichern',
 	'SAVE_PASSWORD' => 'Passwort speichern',
@@ -144,19 +144,19 @@ Ihr Support Team
 
 ";
 
-$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Vielen Dank f&uuml;r Ihre Registrierung!';
+$MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Vielen Dank für Ihre Registrierung!';
 $MESSAGE['SIGNUP2_NEW_USER'] = 'Es wurde ein neuer User regisriert';
 $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'] = 'Deine WB Logindaten ...';
 $MESSAGE['SIGNUP_NO_EMAIL'] = 'Bitte geben Sie Ihre E-Mail Adresse an';
 
-$MESSAGE['SIGNUP_CONFIRMED_REGISTRATION'] = "Um Ihr Konto nutzen zu k&ouml;nnen, erhalten Sie eine E-Mail mit einem Link, um Ihr Konto zu aktivieren.
-<br /><b>Die Aktivierung muss innerhalb 24 Stunden erfolgen, da ansonsten das Konto wieder gel&ouml;scht wird.</b>
+$MESSAGE['SIGNUP_CONFIRMED_REGISTRATION'] = "Um Ihr Konto nutzen zu können, erhalten Sie eine E-Mail mit einem Link, um Ihr Konto zu aktivieren.
+<br /><b>Die Aktivierung muss innerhalb 24 Stunden erfolgen, da ansonsten das Konto wieder gelöscht wird.</b>
 ";
 $MESSAGE['SIGNUP_REGISTRATION'] = 'Sie erhalten Ihre Zugangsdaten per E-Mail!!';
 $MESSAGE['SIGNUP_NEW_USER'] = '<b>Das Konto wurde angelegt.</b>';
 $MESSAGE['SIGNUP_ACTIVATION'] = 'Kontoaktivierung';
 
-$TEXT['NEED_CURRENT_PASSWORD'] = 'mit aktuellem Passwort best&auml;tigen';
+$TEXT['NEED_CURRENT_PASSWORD'] = 'mit aktuellem Passwort bestätigen';
 $TEXT['NEED_TO_LOGIN'] = 'M&uuml;ssen Sie sich einloggen?';
 $TEXT['NEW_PASSWORD'] = 'Neues Passwort';
 $TEXT['PASSWORD'] = 'Kennwort';

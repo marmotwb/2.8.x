@@ -23,6 +23,8 @@ if(!defined('WB_PATH')) {
 }
 /* -------------------------------------------------------- */
 
+            $search  = array();
+            $replace = array();
 		//WB_MAILER settings
 			$sServerEmail = (defined('SERVER_EMAIL') && SERVER_EMAIL != '' ? SERVER_EMAIL : emailAdmin());
 			$sWebMailer   = (defined('WBMAILER_DEFAULT_SENDERNAME') && WBMAILER_DEFAULT_SENDERNAME != '' ? WBMAILER_DEFAULT_SENDERNAME : 'WebsiteBaker Mailer');
@@ -42,8 +44,8 @@ if(!defined('WB_PATH')) {
 
 				$mail_replyto = $email_to;
 				$mail_replyName = $sDisplayName;
-				$mail_message = $MESSAGE['SIGNUP2_ADMIN_INFO'];
-				$email_subject = $MESSAGE['SIGNUP2_NEW_USER'];
+				$mail_message = $mLang->MESSAGE_SIGNUP2_ADMIN_INFO;
+				$email_subject = $mLang->MESSAGE_SIGNUP2_NEW_USER;
 				$search = array('{LOGIN_EMAIL}','{LOGIN_ID}', '{SIGNUP_DATE}', '{LOGIN_NAME}', '{LOGIN_IP}');
 				$replace = array($email_to, $email_fromname.' ('.$user_id.')', date(DATE_FORMAT.' '.TIME_FORMAT,$get_ts ), $sLoginName, $get_ip);
 				$mail_message = str_replace($search, $replace, $mail_message);
@@ -53,9 +55,9 @@ if(!defined('WB_PATH')) {
 
 // prepare confirmation mail to user, easy old style
 				if(($email_to != '') && $bSaveRegistration) {
-					$email_subject = $MESSAGE['SIGNUP2_SUBJECT_LOGIN_INFO'];
-					$mail_message = $MESSAGE['SIGNUP2_BODY_LOGIN_INFO'].$MESSAGE['SUCCESS_EMAIL_TEXT_GENERATED'];
-					$search = array('{LOGIN_DISPLAY_NAME}', '{LOGIN_WEBSITE_TITLE}', '{LOGIN_NAME}', '{LOGIN_PASSWORD}');
+					$sEmailSubject = $mLang->MESSAGE_SIGNUP2_SUBJECT_LOGIN_INFO;
+					$mail_message  = $mLang->MESSAGE_SIGNUP2_BODY_LOGIN_INFO.$mLang->MESSAGE_SUCCESS_EMAIL_TEXT_GENERATED;
+					$search  = array('{LOGIN_DISPLAY_NAME}', '{LOGIN_WEBSITE_TITLE}', '{LOGIN_NAME}', '{LOGIN_PASSWORD}');
 					$replace = array($sDisplayName, WEBSITE_TITLE, $sLoginName, $sNewPassword);
 					$mail_message = str_replace($search, $replace, $mail_message);
 				}
@@ -64,11 +66,13 @@ if(!defined('WB_PATH')) {
 				if(($email_to != '') && $bSaveRegistration) {
 //					$daylight_saving = date('I');
 					$sConfirmedTimeOut = gmdate('Y/m/d H:i',$sTimeOut).' GMT';
-					$email_subject = $MESSAGE['SIGNUP_ACTIVATION'];
-					$search = array('{LOGIN_DISPLAY_NAME}', '{LOGIN_WEBSITE_TITLE}', '{LOGIN_NAME}', '{LINK}', '{CONFIRMED_REGISTRATION_ENDTIME}');
+					$sEmailSubject = $mLang->MESSAGE_SIGNUP_ACTIVATION;
+					$search = array("{LOGIN_DISPLAY_NAME}", "{LOGIN_WEBSITE_TITLE}", "{LOGIN_NAME}", "{LINK}", "{CONFIRMED_REGISTRATION_ENDTIME}" );
 					$replace = array($sDisplayName, WEBSITE_TITLE, $sLoginName, $sConfirmedLink,$sConfirmedTimeOut);
-					$mail_message = $MESSAGE['SEND_CONFIRMED_REGISTRATION'].$MESSAGE['SUCCESS_EMAIL_TEXT_GENERATED'];
+					$mail_message = $mLang->MESSAGE_SEND_CONFIRMED_REGISTRATION.$mLang->MESSAGE_SUCCESS_EMAIL_TEXT_GENERATED;
 					$mail_message = str_replace($search, $replace, $mail_message);
+//print '<pre style="text-align: left;"><strong>function '.__FUNCTION__.'( '.''.' );</strong>  basename: '.basename(__FILE__).'  line: '.__LINE__.' -> <br />'; 
+//print_r( $mail_message ); print '</pre>'; // flush ();sleep(10); die();
 				}
 			}
 // now send user email, first prepare values for both of type
@@ -77,5 +81,4 @@ if(!defined('WB_PATH')) {
 			$recipient = preg_replace( $regex, "?", $sDisplayName );
 			$email_fromname = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "?", $recipient );
 			$email_body = preg_replace( "/(content-type:|bcc:|cc:|to:|from:)/im", "", $mail_message );
-
-			$bSendRegistrationMailtoUser = $wb->mail($sServerEmail,$email_to,$email_subject,$email_body,$sWebMailer);
+			$bSendRegistrationMailtoUser = $wb->mail($sServerEmail,$email_to,$sEmailSubject,$email_body,$sWebMailer);

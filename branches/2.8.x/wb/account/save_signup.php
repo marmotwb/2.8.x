@@ -66,6 +66,9 @@ if (!function_exists('checkPassWordConfirmCode')) {
 		return false;
 	}
 }
+// load module language file
+//$lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
+//require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
 
 //if(isset($_POST['action']) && $_POST['action']=='send')
 if($wb->StripCodeFromText($wb->get_post('action'))=='send')
@@ -102,30 +105,28 @@ if($wb->StripCodeFromText($wb->get_post('action'))=='send')
 		// Check if username already exists
 		$sql = 'SELECT `user_id` FROM `'.TABLE_PREFIX.'users` WHERE `username` = \''.$_SESSION['USERNAME'].'\'';
 		if($database->get_one($sql)){
-//			$aErrorMsg[] = $MESSAGE['USERS_USERNAME_TAKEN'];
-			msgQueue::add($MESSAGE['USERS_USERNAME_TAKEN']);
+			msgQueue::add($mLang->MESSAGE_USERS_USERNAME_TAKEN);
 			$_SESSION['USERNAME'] = '';
 		} else {
 			if(preg_match('/^[a-z]{1}[a-z0-9_-]{3,}$/i', $_SESSION['USERNAME'])==false) {
-//				$aErrorMsg[] = $MESSAGE['USERS_NAME_INVALID_CHARS'];
-				msgQueue::add($MESSAGE['USERS_NAME_INVALID_CHARS']);
+				msgQueue::add($mLang->MESSAGE_USERS_NAME_INVALID_CHARS);
 				$_SESSION['USERNAME'] = '';
 		 	}
 		}
 	} else {
-//		$aErrorMsg[] = $MESSAGE['LOGIN_USERNAME_BLANK'];
-		msgQueue::add($MESSAGE['LOGIN_USERNAME_BLANK']);
+		msgQueue::add($mLang->MESSAGE_LOGIN_USERNAME_BLANK);
 	}
 
 // check that display_name is unique in whoole system (prevents from User-faking)
     	$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` ';
     	$sql .= 'WHERE `user_id` <> '.(int)$admin->get_user_id().' AND `display_name` LIKE "'.$wb->get_session('DISPLAY_NAME').'"';
     	if( ($iFoundUser = intval($database->get_one($sql))) > 0 ){
-            msgQueue::add($MESSAGE['USERS_USERNAME_TAKEN'].' ('.$TEXT['DISPLAY_NAME'].')');
-            $_SESSION['DISPLAY_NAME'] = '';
-       } else {
+//            msgQueue::add($mLang->MESSAGE_USERS_USERNAME_TAKEN );
+//			$_SESSION['USERNAME'] = '';
+//       } else {
             if($wb->get_session('DISPLAY_NAME') == '') {
-        	   msgQueue::add($MESSAGE['GENERIC_FILL_IN_ALL'].' ('.$TEXT['DISPLAY_NAME'].')');
+        	   msgQueue::add($mLang->MESSAGE_GENERIC_FILL_IN_ALL.' ('.$mLang->TEXT_DISPLAY_NAME.')');
+            $_SESSION['DISPLAY_NAME'] = '';
             }
        }
 
@@ -133,22 +134,17 @@ if($wb->StripCodeFromText($wb->get_post('action'))=='send')
 		// Check if the email already exists
 		$sql = 'SELECT `user_id` FROM `'.TABLE_PREFIX.'users` WHERE `email` = \''.$_SESSION['EMAIL'].'\'';
 		if($database->get_one($sql)){
-			msgQueue::add($MESSAGE['USERS_EMAIL_TAKEN']);
+			msgQueue::add($mLang->MESSAGE_USERS_EMAIL_TAKEN);
 			$_SESSION['EMAIL'] = '';
 		} else {
 			if(!$wb->validate_email($_SESSION['EMAIL'])){
-				msgQueue::add($MESSAGE['USERS_INVALID_EMAIL']);
+				msgQueue::add($mLang->MESSAGE_USERS_INVALID_EMAIL);
 				$_SESSION['EMAIL'] = '';
 			}
 		}
 	} else {
-		msgQueue::add($MESSAGE['SIGNUP_NO_EMAIL']);
+		msgQueue::add($mLang->MESSAGE_SIGNUP_NO_EMAIL);
 	}
-
-//	if($wb->get_session('DISPLAY_NAME') == "") {
-////		$aErrorMsg[] = $MESSAGE['GENERIC_FILL_IN_ALL'];
-//		msgQueue::add($MESSAGE['GENERIC_FILL_IN_ALL'].' ('.$TEXT['DISPLAY_NAME'].')');
-//	}
 
 	if(CONFIRMED_REGISTRATION) {
 		$iMinPassLength = 6;
@@ -163,21 +159,21 @@ if($wb->StripCodeFromText($wb->get_post('action'))=='send')
 		$sPwHashNew = false;
 		if($sNewPassword != '') {
 			if(strlen($sNewPassword) < $iMinPassLength) {
-				msgQueue::add($MESSAGE['USERS_PASSWORD_TOO_SHORT']);
+				msgQueue::add($mLang->MESSAGE_USERS_PASSWORD_TOO_SHORT);
 			} else {
 				if($sNewPassword != $sNewPasswordRetyped) {
-					msgQueue::add($MESSAGE['USERS_PASSWORD_MISMATCH']);
+					msgQueue::add($mLang->MESSAGE_USERS_PASSWORD_MISMATCH);
 				} else {
 					$pattern = '/[^'.$wb->password_chars.']/';
 					if (preg_match($pattern, $sNewPassword)) {
-						msgQueue::add($MESSAGE['PREFERENCES_INVALID_CHARS']);
+						msgQueue::add($mLang->MESSAGE_PREFERENCES_INVALID_CHARS);
 					}else {
 						$sPwHashNew = md5($sNewPassword);
 					}
 				}
 			}
 		} else {
-			msgQueue::add($MESSAGE['LOGIN_PASSWORD_BLANK']);
+			msgQueue::add($mLang->MESSAGE_LOGIN_PASSWORD_BLANK);
 		}
 
 	} else {
@@ -190,10 +186,10 @@ if($wb->StripCodeFromText($wb->get_post('action'))=='send')
 			{
 				// Check for a mismatch get email user_id
 				if(!isset($_POST['captcha']) OR !isset($_SESSION['captcha']) OR $_POST['captcha'] != $_SESSION['captcha']) {
-					msgQueue::add(replace_vars($MESSAGE['INCORRECT_CAPTCHA'], $aReplacement));
+					msgQueue::add(replace_vars($mLang->MESSAGE_INCORRECT_CAPTCHA, $aReplacement));
 				}
 			} else {
-				msgQueue::add(replace_vars($MESSAGE['INCORRECT_CAPTCHA'],$aReplacement ));
+				msgQueue::add(replace_vars($mLang->MESSAGE_INCORRECT_CAPTCHA,$aReplacement ));
 			}
 		}
 		if(isset($_SESSION['captcha'])) { unset($_SESSION['captcha']); }
@@ -213,6 +209,7 @@ if($wb->StripCodeFromText($wb->get_post('action'))=='send')
 
 	if( ($msg = msgQueue::getError()) != '') {
 // back to signup_form to show errors, otherwise save user and send mail
+
 	} else {
 		$get_ip = ObfuscateIp();
 		$get_ts = time();
@@ -268,13 +265,15 @@ if($wb->StripCodeFromText($wb->get_post('action'))=='send')
 			}
 		} else {
     		$bSaveRegistration = true;
-			msgQueue::add($MESSAGE['SIGNUP_NEW_USER'],true);
-
+			msgQueue::add($mLang->MESSAGE_SIGNUP_NEW_USER,true);
+            // send mails and check if $bSendRegistrationMailtoUser was send
 			include(dirname(__FILE__).'/signup_mails.php');
 
 			if($bSaveRegistration && $bSendRegistrationMailtoUser) {
 			// send success message to screen, no signup form
 				$_SESSION['display_form'] = false;
+			} else {
+				msgQueue::add('No Activation E-Mail was send! Contact your Administrator');
 			}
 
 		} // end success $bSaveRegistration
