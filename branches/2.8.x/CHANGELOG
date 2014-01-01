@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+01 Jan-2014 Build 2056 Manuela v.d.Decken(DarkViper)
++ add missing EN translation for PHPMailer
 01 Jan-2014 Build 2055 Dietmar Woellbrink (Luisehahne)
 ! update language files from PHPMailer
 01 Jan-2014 Build 2054 Manuela v.d.Decken(DarkViper)
