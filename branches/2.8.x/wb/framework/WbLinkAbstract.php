@@ -119,7 +119,7 @@ abstract class WbLinkAbstract {
 			 . 'WHERE `'.$this::FIELDNAME_ITEM_ID.'`='.$aReplacement['item'];
 		if (($sLink = $this->oDb->get_one($sql))) {
 			$sLink     = trim(str_replace('\\', '/', $sLink), '/');
-			$sBasePath = trim(str_replace('\\', '/', $sBasePath), '/').'/';
+			$sBasePath = rtrim(str_replace('\\', '/', $sBasePath), '/').'/';
 		// test if valid accessfile is available
 			$sFilePath = $sBasePath.$sLink.$this->oReg->PageExtension;
 			if (is_readable($sFilePath)) {
