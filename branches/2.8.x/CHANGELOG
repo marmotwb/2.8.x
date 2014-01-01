@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+01 Jan-2014 Build 2057 Manuela v.d.Decken(DarkViper)
+! replace filterMediaRel by filterReplaceSysvar in module/output_filter
++ add OutputFilterApi in module/outputfilter
+! update index.php in module/output_filter
 01 Jan-2014 Build 2056 Manuela v.d.Decken(DarkViper)
 + add missing EN translation for PHPMailer
 01 Jan-2014 Build 2055 Dietmar Woellbrink (Luisehahne)
