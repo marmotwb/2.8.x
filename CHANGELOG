@@ -12,6 +12,8 @@ Legend:
 ===============================================================================
 
 
+01 Jan-2014 Build 2063 Dietmar Woellbrink (Luisehahne)
+# problems with confirmation mail solved
 01 Jan-2014 Build 2062 Manuela v.d.Decken(DarkViper)
 ! wb::mail  added message on error if DEBUG is set
 01 Jan-2014 Build 2061 Manuela v.d.Decken(DarkViper)

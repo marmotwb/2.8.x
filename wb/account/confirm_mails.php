@@ -17,9 +17,9 @@
 
 /* -------------------------------------------------------- */
 // Must include code to stop this file being accessed directly
-if(defined('WB_PATH') == false)
-{
-	die('<h2 style="color:red;margin:3em auto;text-align:center;">Cannot access this file directly</h2>');
+if(!defined('WB_PATH')) {
+	require_once(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php');
+	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
 if (!function_exists('ObfuscateIp')) {
@@ -48,9 +48,16 @@ if (!function_exists('emailAdmin')) {
 // load module language file
 $mLang = Translate::getInstance();
 $mLang->enableAddon('account');
+
 //WB_MAILER settings
 $sServerEmail = (defined('SERVER_EMAIL') && SERVER_EMAIL != '' ? SERVER_EMAIL : emailAdmin());
 $sWebMailer   = (defined('WBMAILER_DEFAULT_SENDERNAME') && WBMAILER_DEFAULT_SENDERNAME != '' ? WBMAILER_DEFAULT_SENDERNAME : 'WebsiteBaker Mailer');
+$sIncludeHeadLinkCss = '';
+if( is_readable(WB_PATH .'/account/frontend.css')) {
+	$sIncludeHeadLinkCss .= '<link href="'.WB_URL.'/account/frontend.css"';
+	$sIncludeHeadLinkCss .= ' rel="stylesheet" type="text/css" media="screen" />'."\n";
+    print $sIncludeHeadLinkCss;
+}
 
 /**
  * now send user email, if activation don't failed'
@@ -79,8 +86,8 @@ if(($email_to != '') && $bSaveRegistration ) {
 
 	$mail_replyto = $email_to;
 	$mail_replyName = $sDisplayName;
-	$mail_message = $MESSAGE['SIGNUP2_ADMIN_INFO'];
-	$email_subject = $MESSAGE['SIGNUP2_NEW_USER'];
+	$mail_message = $mLang->MESSAGE_SIGNUP2_ADMIN_INFO;
+	$email_subject = $mLang->MESSAGE_SIGNUP2_NEW_USER;
 	$search = array('{LOGIN_EMAIL}','{LOGIN_ID}', '{SIGNUP_DATE}', '{LOGIN_NAME}', '{LOGIN_IP}');
 	$replace = array($email_to, $email_fromname.' ('.$iUserId.')', date(DATE_FORMAT.' '.TIME_FORMAT,$get_ts ), $sLoginName, $sLoginIp);
 	$mail_message = str_replace($search, $replace, $mail_message);
@@ -96,6 +103,7 @@ if(($email_to != '') && $bSaveRegistration ) {
 	$oTpl->set_file('page', 'success.htt');
 	$oTpl->debug = false; // false, true
 	$oTpl->set_block('page', 'main_block', 'main');
+//	$oTpl->parse('CSS_BLOCK', $sIncludeHeadLinkCss);
 	// show messages, default block off
 	$oTpl->set_block('main_block', 'show_registration_block', 'message');
 	$oTpl->parse('message', '');

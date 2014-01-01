@@ -23,9 +23,19 @@
  */
 
 // Include config file
-$config_file = realpath('../config.php');
+$config_file = realpath('../framework/initialize.php');
 if(file_exists($config_file) && !defined('WB_URL'))
 {
+    $sAutoLanguage = 'EN';
+// detect client language
+    if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+    	if(preg_match('/([a-z]{2})(?:-[a-z]{2})*/i', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']), $matches)) {
+    		$sAutoLanguage = strtoupper($matches[1]);
+    	}
+    }
+    $sAutoLanguage=( isset($_SESSION['LANGUAGE'] ) ? $_SESSION['LANGUAGE'] : $sAutoLanguage);
+    if(!defined('LANGUAGE')) { define('LANGUAGE',$sAutoLanguage); }
+
 	require_once($config_file);
 }
 
@@ -61,8 +71,8 @@ if(ENABLED_ASP && isset($_POST['username']) && (
 	$wb->send_header(WB_URL.'/index.php');
 }
 
-$langDir = WB_PATH . '/languages/' . LANGUAGE . '.php';
-require_once(!file_exists($langDir) ? WB_PATH . '/languages/EN.php' : $langDir );
+//$langDir = WB_PATH . '/languages/' . LANGUAGE . '.php';
+//require_once(!file_exists($langDir) ? WB_PATH . '/languages/EN.php' : $langDir );
 
 $_SESSION['display_form'] = true;
 
