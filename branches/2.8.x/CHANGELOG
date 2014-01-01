@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+01 Jan-2014 Build 2060 Manuela v.d.Decken(DarkViper)
+# initialize.php a little fix in handling of languages
+! modified translation for german language
 01 Jan-2014 Build 2059 Manuela v.d.Decken(DarkViper)
 ! update class Wbmailer for use of PHPMailerAutoload
 01 Jan-2014 Build 2058 Manuela v.d.Decken(DarkViper)

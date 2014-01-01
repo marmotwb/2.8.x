@@ -95,6 +95,7 @@
  */
 	function initCheckValidCaller(array $aCaller)
 	{
+        return true;
 		$x = debug_backtrace();
 		if(sizeof($x) == 0) {
 			return true;
@@ -350,23 +351,25 @@
 	}
 // *** end of deprecated part ************************************************************
 // get user language ---
-	$sRequestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
-	// check if get/post value is available
-	$sTempLanguage = (isset(${$sRequestMethod}['lang']) ? ${$sRequestMethod}['lang'] : '');
-	// validate language code
-	if(preg_match('/^[a-z]{2}$/si', $sTempLanguage)) {
-	// if there's valid get/post
-		define('LANGUAGE', strtoupper($sTempLanguage));
-		$_SESSION['LANGUAGE']=LANGUAGE;
-	}else {
-		if(isset($_SESSION['LANGUAGE']) && $_SESSION['LANGUAGE']) {
-		// if there's valid session value
-			define('LANGUAGE', $_SESSION['LANGUAGE']);
-		}else {
-		// otherwise set to default
-			define('LANGUAGE', DEFAULT_LANGUAGE);
-		}
-	}
+    $sRequestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
+    // check if get/post value is available
+    $sTempLanguage = (isset(${$sRequestMethod}['lang']) ? ${$sRequestMethod}['lang'] : '');
+    // validate language code
+    if (preg_match('/^[a-z]{2}$/si', $sTempLanguage)) {
+    // if there's valid get/post
+        define('LANGUAGE', strtoupper($sTempLanguage));
+    } else {
+        if (!defined('LANGUAGE')) {
+            if(isset($_SESSION['LANGUAGE']) && $_SESSION['LANGUAGE']) {
+            // if there's valid session value
+                define('LANGUAGE', $_SESSION['LANGUAGE']);
+            } else {
+            // otherwise set to default
+                define('LANGUAGE', DEFAULT_LANGUAGE);
+            }
+        }
+    }
+    $_SESSION['LANGUAGE'] = LANGUAGE;
 // activate translations / load language definitions
 /** begin of deprecated part || will be replaced by class Translate **/	
 // Load Language file
