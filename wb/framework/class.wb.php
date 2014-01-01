@@ -664,6 +664,7 @@ return $components;
 		$myMail->AltBody = strip_tags($message);              // CONTENT (TEXT)
 		// check if there are any send mail errors, otherwise say successful
 		if (!$myMail->Send()) {
+            if (DEBUG) { msgQueue::add('PHPMailer Error: '.$myMail->ErrorInfo); }
 			return false;
 		} else {
 			return true;

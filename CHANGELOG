@@ -11,6 +11,11 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+
+01 Jan-2014 Build 2062 Manuela v.d.Decken(DarkViper)
+! wb::mail  added message on error if DEBUG is set
+01 Jan-2014 Build 2061 Manuela v.d.Decken(DarkViper)
+# wbLinkAbstract::_makeLinkFromTag  fix error in built filepath
 01 Jan-2014 Build 2060 Manuela v.d.Decken(DarkViper)
 # initialize.php a little fix in handling of languages
 ! modified translation for german language
