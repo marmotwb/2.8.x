@@ -572,7 +572,11 @@ class PHPMailer
         $this->exceptions = ($exceptions == true);
         //Make sure our autoloader is loaded
         if (!in_array('PHPMailerAutoload', spl_autoload_functions())) {
-            require 'PHPMailerAutoload.php';
+            $sAutoLoaderFile = __DIR__.DIRECTORY_SEPARATOR.'PHPMailerAutoload.php';
+            if (!is_readable($sAutoLoaderFile)) {
+                throw new phpmailerException('Unable to find autoloader: [' . $sAutoLoaderFile . ']');
+            }
+            require($sAutoLoaderFile);
         }
     }
 
