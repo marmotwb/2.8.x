@@ -36,10 +36,10 @@ if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 		define('OUTPUT_FILTER_AT_REPLACEMENT', $filter_settings['at_replacement']);
 		define('OUTPUT_FILTER_DOT_REPLACEMENT', $filter_settings['dot_replacement']);
 
-/* ### filter type: replace MediaRel placeholder ############################ */
-		if (file_exists($sFilterDirectory.'filterMediaRel.php')) {
-			require_once($sFilterDirectory.'filterMediaRel.php');
-			$content = doFilterMediaRel($content);
+/* ### filter type: replace Sysvar placeholder ############################## */
+		if (file_exists($sFilterDirectory.'filterReplaceSysvar.php')) {
+			require_once($sFilterDirectory.'filterReplaceSysvar.php');
+			$content = doFilterReplaceSysvar($content);
 		}
 /* ### filter type: change [wblinkxx] into real URLs ######################## */
 		if (file_exists($sFilterDirectory.'filterWbLink.php')) {
@@ -58,10 +58,10 @@ if(!defined('WB_PATH')) { throw new IllegalFileException(); }
 				$content = doFilterEmail($content, $output_filter_mode);
 			}
 		}
-/* ### filter type: replace MediaRel placeholder ############################ */
-		if (file_exists($sFilterDirectory.'filterMediaRel.php')) {
-			require_once($sFilterDirectory.'filterMediaRel.php');
-			$content = doFilterMediaRel($content);
+/* ### filter type: replace Sysvar placeholder ############################## */
+		if (file_exists($sFilterDirectory.'filterReplaceSysvar.php')) {
+			require_once($sFilterDirectory.'filterReplaceSysvar.php');
+			$content = doFilterReplaceSysvar($content);
 		}
 /* ### filter type: change [wblinkxx] into real URLs ######################## */
 		if (file_exists($sFilterDirectory.'filterWbLink.php')) {
