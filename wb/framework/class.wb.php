@@ -647,7 +647,7 @@ return $components;
 		// $message = preg_replace('/[\r\n]/', '<br \>', $message);
 
 		// create PHPMailer object and define default settings
-		$myMail = new wbmailer();
+		$myMail = new WbMailer();
 		// set user defined from address
 		if ($fromaddress!='') {
 			if($fromname!='') $myMail->FromName = $fromname;  // FROM-NAME
@@ -750,15 +750,15 @@ return $components;
  *              independend placeholder
  */
 	public function ReplaceAbsoluteMediaUrl($sContent){
+        $oReg = WbAdaptor::getInstance();
 		if(ini_get('magic_quotes_gpc')==true){
 			$sContent = $this->strip_slashes($sContent);
 		}
 		if(is_string($sContent)) {
-			$sMediaUrl = WB_URL.MEDIA_DIRECTORY;
-			$aSearchfor = array('@(<[^>]*=\s*")('.preg_quote($sMediaUrl).')([^">]*".*>)@siU',
-			                    '@(<[^>]*=\s*")('.preg_quote(WB_URL).')([^">]*".*>)@siU');
-			$aReplacements = array('$1{SYSVAR:MEDIA_REL}$3',
-			                       '$1{SYSVAR:WB_REL}$3');
+			$aSearchfor = array('@(<[^>]*=\s*")('.preg_quote($oReg->AppUrl.$oReg->MediaDir).')([^">]*".*>)@siU',
+			                    '@(<[^>]*=\s*")('.preg_quote($oReg->AppUrl).')([^">]*".*>)@siU');
+			$aReplacements = array('$1{SYSVAR:AppUrl.MediaDir}$3',
+			                       '$1{SYSVAR:AppUrl}$3');
 			$sContent = preg_replace($aSearchfor, $aReplacements, $sContent );
 		}
 		return $sContent;

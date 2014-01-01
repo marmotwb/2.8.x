@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+01 Jan-2014 Build 2058 Manuela v.d.Decken(DarkViper)
+! change wysiwyg module from filterMediaRel to filterReplaceSysvar
+! change wb::ReplaceAbsoluteMediaUrl from filterMediaRel to filterReplaceSysvar
 01 Jan-2014 Build 2057 Manuela v.d.Decken(DarkViper)
 ! replace filterMediaRel by filterReplaceSysvar in module/output_filter
 + add OutputFilterApi in module/outputfilter

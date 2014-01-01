@@ -24,7 +24,8 @@ if(!defined('WB_PATH')) {
 
 	function mod_wysiwyg_upgrade ($bDebug=false) {
 		global $OK ,$FAIL;
-		$database=WbDatabase::getInstance();
+		$oDb = WbDatabase::getInstance();
+        $oReg = WbAdaptor::getInstance();
 		$msg = array();
 		$callingScript = $_SERVER["SCRIPT_NAME"];
 		// check if upgrade startet by upgrade-script to echo a message
@@ -42,66 +43,90 @@ if(!defined('WB_PATH')) {
 			return ( ($globalStarted==true ) ? $globalStarted : $msg);
 		} else {
 			for($x=0; $x<sizeof($aTable);$x++) {
-				if(($sOldType = $database->getTableEngine($database->TablePrefix.$aTable[$x]))) {
+				if(($sOldType = $oDb->getTableEngine($oDb->TablePrefix.$aTable[$x]))) {
 					if(('myisam' != strtolower($sOldType))) {
-						if(!$database->query('ALTER TABLE `'.$database->TablePrefix.$aTable[$x].'` Engine = \'MyISAM\' ')) {
-							$msg[] = $database->get_error();
+						if(!$oDb->query('ALTER TABLE `'.$oDb->TablePrefix.$aTable[$x].'` Engine = \'MyISAM\' ')) {
+							$msg[] = $oDb->get_error();
 						} else{
-							$msg[] = 'TABLE `'.$database->TablePrefix.$aTable[$x].'` changed to Engine = \'MyISAM\''." $OK";
+							$msg[] = 'TABLE `'.$oDb->TablePrefix.$aTable[$x].'` changed to Engine = \'MyISAM\''." $OK";
 						}
 					} else {
-						 $msg[] = 'TABLE `'.$database->TablePrefix.$aTable[$x].'` has Engine = \'MyISAM\''." $OK";
+						 $msg[] = 'TABLE `'.$oDb->TablePrefix.$aTable[$x].'` has Engine = \'MyISAM\''." $OK";
 					}
 				} else {
-					$msg[] = $database->get_error();
+					$msg[] = $oDb->get_error();
 				}
 			}
 // add change or missing index
-			$sTable = $database->TablePrefix.'mod_wysiwyg';
-			if($database->index_exists($sTable, 'PRIMARY')) {
-				$sql = 'ALTER TABLE `'.$database->DbName.'`.`'.$sTable.'` DROP PRIMARY KEY';
-				if(!$database->query($sql)) {
-					$msg[] = ''.$database->get_error();
+			$sTable = $oDb->TablePrefix.'mod_wysiwyg';
+			if($oDb->index_exists($sTable, 'PRIMARY')) {
+				$sql = 'ALTER TABLE `'.$oDb->DbName.'`.`'.$sTable.'` DROP PRIMARY KEY';
+				if(!$oDb->query($sql)) {
+					$msg[] = ''.$oDb->get_error();
 				}
 			}
-			if(!$database->index_add($sTable, '', 'section_id', 'PRIMARY')) {
-				$msg[] = ''.$database->get_error();
+			if(!$oDb->index_add($sTable, '', 'section_id', 'PRIMARY')) {
+				$msg[] = ''.$oDb->get_error();
 			} else {
 				$msg[] = 'Create PRIMARY KEY ( `section_id` )'." $OK";
 			}
 // change table structure
-			$sTable = $database->TablePrefix.'mod_wysiwyg';
+			$sTable = $oDb->TablePrefix.'mod_wysiwyg';
 			$sDescription = 'LONGTEXT NOT NULL';
 			$sFieldName = 'text';
-			if(!$database->field_modify($sTable,$sFieldName,$sDescription)) {
-				$msg[] = ''.$database->get_error();
+			if(!$oDb->field_modify($sTable,$sFieldName,$sDescription)) {
+				$msg[] = ''.$oDb->get_error();
 			} else {
 				$msg[] = 'Field ( `text` ) description has been changed successfully'." $OK";
 			}
 			$sFieldName = 'content';
-			if(!$database->field_modify($sTable,$sFieldName,$sDescription)) {
-				$msg[] = ''.$database->get_error();
+			if(!$oDb->field_modify($sTable,$sFieldName,$sDescription)) {
+				$msg[] = ''.$oDb->get_error();
 			} else {
 				$msg[] = 'Field ( `content` ) description has been changed successfully'." $OK";
 			}
-// change internal absolute Media links into relative links
-			$sTable = $database->TablePrefix.'mod_wysiwyg';
-			$sql  = 'UPDATE `'.$sTable.'` ';
-			$sql .= 'SET `content` = REPLACE(`content`, \'"'.WB_URL.MEDIA_DIRECTORY.'\', \'"{SYSVAR:MEDIA_REL}\')';
-			if (!$database->query($sql)) {
-				$msg[] = ''.$database->get_error();
-			} else {
-				$msg[] = 'Change internal absolute Media links into relative links'." $OK";
-			}
-// change all other internal absolute links into relative links
-			$sTable = $database->TablePrefix.'mod_wysiwyg';
-			$sql  = 'UPDATE `'.$sTable.'` ';
-			$sql .= 'SET `content` = REPLACE(`content`, \'"'.WB_URL.'\', \'"{SYSVAR:WB_REL}\')';
-			if (!$database->query($sql)) {
-				$msg[] = ''.$database->get_error();
-			} else {
-				$msg[] = 'Change internal absolute links into relative links'." $OK";
-			}
+// change internal absolute links into Sysvar placeholders and repair already existing entries
+			$sTable = $oDb->TablePrefix.'mod_wysiwyg';
+            $sql = 'SELECT `section_id`, `content` FROM `'.$oDb->TablePrefix.'mod_wysiwyg` ';
+            if (($oEntrySet = $oDb->doQuery($sql))) {
+                $iRecords = 0;
+                $iReplaced = 0;
+                $aSearch = array( '/\{SYSVAR\:MEDIA_REL\}[\/\\\\]?/sU',
+                                  '/\{SYSVAR\:WB_URL\}[\/\\\\]?/sU',
+                                  '/(\{SYSVAR\:AppUrl\.MediaDir\})[\/\\\\]?/sU',
+                                  '/(\{SYSVAR\:AppUrl\})[\/\\\\]?/sU'
+                                );
+                $aReplace = array( '{SYSVAR:AppUrl.MediaDir}', '{SYSVAR:AppUrl}', '\1', '\1' );
+                while (($aEntry = $oEntrySet->fetchRow(MYSQL_ASSOC))) {
+                    $iCount = 0;
+                    $aEntry['content'] = preg_replace($aSearch, $aReplace, $aEntry['content'], -1, $iCount);
+                    if ($iCount > 0) {
+                        $iReplaced += $iCount;
+                        $sql = 'UPDATE `'.$oDb->TablePrefix.'mod_wysiwyg` '
+                             . 'SET `content`=\''.$oDb->escapeString($aEntry['content']).'\' '
+                             . 'WHERE `section_id`='.$aEntry['section_id'];
+                        $oDb->doQuery($sql);
+                        $iRecords++;
+                    }
+                }
+                $msg[] = '['.$iRecords.'] records with ['.$iReplaced.'] SYSVAR placeholder(s) repaired'." $OK";
+            }
+            try {
+                $sql  = 'UPDATE `'.$sTable.'` ';
+                $sql .= 'SET `content` = REPLACE(`content`, \'"'.$oReg->AppPath.$oReg->MediaDir.'\', \'"{SYSVAR:AppPath.MediaDir}\')';
+                $oDb->doQuery($sql);
+				$msg[] = 'Change internal absolute Media links into SYSVAR placeholders'." $OK";
+            } catch(WbDatabaseException $e) {
+				$msg[] = ''.$oDb->get_error();
+            }
+            try {
+                $sql  = 'UPDATE `'.$sTable.'` ';
+                $sql .= 'SET `content` = REPLACE(`content`, \'"'.$oReg->AppPath.'\', \'"{SYSVAR:AppPath}\')';
+                $oDb->doQuery($sql);
+				$msg[] = 'Change internal absolute links into SYSVAR placeholders'." $OK";
+            } catch(WbDatabaseException $e) {
+				$msg[] = ''.$oDb->get_error();
+            }
 // only for $callingScript upgrade-script.php
 			if($globalStarted) {
 				if($bDebug) {
