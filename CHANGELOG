@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+01 Jan-2014 Build 2053 Manuela v.d.Decken(DarkViper)
+! update PHPMailer to version Version 5.2.7
 29 Dec-2013 Build 2052 Manuela v.d.Decken(DarkViper)
 # account/forgot_form : fixed fix...
 29 Dec-2013 Build 2051 Manuela v.d.Decken(DarkViper)
