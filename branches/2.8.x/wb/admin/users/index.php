@@ -33,8 +33,9 @@
 
 	function admin_users_index($aActionRequest)
 	{
-		global $MESSAGE;
 		$database = WbDatabase::getInstance();
+		$mLang = Translate::getinstance();
+		$mLang->enableAddon('admin\users');
 
         $sAdminPath = dirname(str_replace('\\', '/', __FILE__));
         $sAdminName = basename($sAdminPath);
@@ -91,7 +92,14 @@
 // Check if user id is a valid number and doesnt equal 1
                 $aActionRequest['user_id'] = $user_id;
     			if($user_id == 0){
-        			msgQueue::add($MESSAGE['GENERIC_FORGOT_OPTIONS'] );
+    				$admin = new admin('Access', 'users');
+    				msgQueue::clear();
+        			msgQueue::add($mLang->MESSAGE_GENERIC_FORGOT_OPTIONS );
+                    $aActionRequest['user_id'] = $user_id;
+                    $aActionRequest['cancel_url'] = ADMIN_URL.'/access/index.php';
+					include($sAdminPath.'/user_list.php');
+					$output  = show_userlist($admin, $aActionRequest);
+    				break;
                 }
 
     			if( ($user_id == $admin->get_user_id() ) )
@@ -105,7 +113,7 @@
     			if( ($user_id < 2 ) )
     			{
     				// if($admin_header) { $admin->print_header(); }
-    				msgQueue::add($MESSAGE['GENERIC_SECURITY_ACCESS'] );
+    				msgQueue::add($mLang->MESSAGE_GENERIC_SECURITY_ACCESS );
     			}
                 $admin_header = false;
                 if(isset($aActionRequest['BackLink'])) {
@@ -127,7 +135,6 @@
     			// Check if user id is a valid number and doesnt equal 1
                 $aActionRequest['user_id'] = $user_id;
                 $aActionRequest['cancel_url'] = ADMIN_URL.'/access/index.php';
-
 				if($user_id > 1) // prevent 'admin' [ID 1] from modify
 				{
 					include($sAdminPath.'/user_form.php');

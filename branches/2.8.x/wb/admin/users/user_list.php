@@ -26,8 +26,8 @@ if(!defined('WB_URL')) {
 
 	function show_userlist($admin, &$aActionRequest)
 	{
-		global $TEXT, $MESSAGE, $HEADING, $MENU;
 		$database = WbDatabase::getInstance();
+		$mLang = Translate::getInstance();
         $iUserStatus = 1;
         $iUserStatus = ( ( $admin->get_get('status')==1 ) ? 0 : $iUserStatus );
         unset($_GET);
@@ -54,15 +54,16 @@ if(!defined('WB_URL')) {
         $UserStatusActive = 'url('.THEME_URL.'/images/user.png)';
         $UserStatusInactive = 'url('.THEME_URL.'/images/user_red.png)';
 
-        $sUserTitle = ($iUserStatus == 0) ? $MENU['USERS'].' '.strtolower($TEXT['ACTIVE']) : $MENU['USERS'].' '.strtolower($TEXT['DELETED']) ;
+        $sUserTitle = ($iUserStatus == 0) ? $mLang->MENU_USERS.' '.strtolower($mLang->TEXT_ACTIVE) : $mLang->MENU_USERS.' '.strtolower($mLang->TEXT_DELETED) ;
 
-        $oTpl->set_var('TEXT_USERS', $sUserTitle.' '.$TEXT['SHOW'] );
+        $oTpl->set_var('TEXT_USERS', $sUserTitle.' '.$mLang->TEXT_SHOW );
         $oTpl->set_var('STATUS_ICON', ( ($iUserStatus==0) ? $UserStatusActive : $UserStatusInactive) );
 
         // Get existing value from database
         $sql  = 'SELECT `user_id`, `username`, `display_name`, `active` FROM `'.TABLE_PREFIX.'users` ' ;
         $sql .= 'WHERE user_id != 1 ';
-        $sql .=     'AND active = '.$iUserStatus.' ';
+        $sql .=     'AND `active` = '.$iUserStatus.' ';
+        $sql .=     'AND `confirm_code` = \'\' ';
         $sql .= 'ORDER BY `display_name`,`username`';
 
 //        $query = "SELECT user_id, username, display_name, active FROM ".TABLE_PREFIX."users WHERE user_id != '1' ORDER BY display_name,username";
@@ -71,8 +72,8 @@ if(!defined('WB_URL')) {
         	$admin->print_error($database->get_error(), 'index.php');
         }
 
-        $sUserList  = $TEXT['LIST_OPTIONS'].' ';
-        $sUserList .= ($iUserStatus == 1) ? $MENU['USERS'].' '.strtolower($TEXT['ACTIVE']) : $MENU['USERS'].' '.strtolower($TEXT['DELETED']) ;
+        $sUserList  = $mLang->TEXT_LIST_OPTIONS.' ';
+        $sUserList .= ($iUserStatus == 1) ? $mLang->MENU_USERS.' '.strtolower($mLang->TEXT_ACTIVE) : $mLang->MENU_USERS.' '.strtolower($mLang->TEXT_DELETED) ;
         // Insert values into the modify/remove menu
         $oTpl->set_block('main_block', 'list_block', 'list');
         if($oRes->numRows() > 0) {
@@ -90,7 +91,7 @@ if(!defined('WB_URL')) {
         	}
         } else {
         	// Insert single value to say no users were found
-        	$oTpl->set_var('NAME', $TEXT['NONE_FOUND']);
+        	$oTpl->set_var('NAME', $mLang->TEXT_NONE_FOUND);
         	$oTpl->parse('list', 'list_block', true);
         }
 
@@ -104,12 +105,12 @@ if(!defined('WB_URL')) {
         if($admin->get_permission('users_delete') != true) {
         	$oTpl->set_var('DISPLAY_DELETE', 'hide');
         }
-        $HeaderTitle = $HEADING['MODIFY_DELETE_USER'].' ';
-        $HeaderTitle .= (($iUserStatus == 1) ? strtolower($TEXT['ACTIVE']) : strtolower($TEXT['DELETED']));
+        $HeaderTitle  = (($iUserStatus == 1) ? $mLang->HEADING_MODIFY_ACTIVE_USER : $mLang->HEADING_MODIFY_DELETE_USER ).' ';
+        $HeaderTitle .= (($iUserStatus == 1) ? strtolower($mLang->TEXT_ACTIVE) : strtolower($mLang->TEXT_INACTIVE));
         // Insert language headings
         $oTpl->set_var(array(
         		'HEADING_MODIFY_DELETE_USER' => $HeaderTitle,
-        		'HEADING_ADD_USER' => $HEADING['ADD_USER']
+        		'HEADING_ADD_USER' => $mLang->HEADING_ADD_USER
         		)
         );
         // insert urls
@@ -122,17 +123,18 @@ if(!defined('WB_URL')) {
         // Insert language text and messages
         $oTpl->set_var(array(
         		'DISPLAY_WAITING_ACTIVATION' => '',
-        		'TEXT_MODIFY' => $TEXT['MODIFY'],
-        		'TEXT_DELETE' => $TEXT['DELETE'],
-        		'TEXT_MANAGE_GROUPS' => ( $admin->get_permission('groups') == true ) ? $TEXT['MANAGE_GROUPS'] : "**",
-        		'CONFIRM_DELETE' => (($iUserStatus == 1) ? $TEXT['ARE_YOU_SURE'] : $MESSAGE['USERS_CONFIRM_DELETE'])
+        		'TEXT_MODIFY' => $mLang->TEXT_MODIFY,
+        		'TEXT_DELETE' => $mLang->TEXT_DELETE,
+        		'TEXT_USER_DELETE' => (($iUserStatus == 1) ? $mLang->TEXT_DEACTIVE : $mLang->TEXT_DELETE),
+        		'TEXT_MANAGE_GROUPS' => ( $admin->get_permission('groups') == true ) ? $mLang->TEXT_MANAGE_GROUPS : "**",
+        		'CONFIRM_DELETE' => (($iUserStatus == 1) ? $mLang->TEXT_ARE_YOU_SURE : $mLang->MESSAGE_USERS_CONFIRM_DELETE)
         		)
         );
 
         $oTpl->set_block('main_block', 'show_confirmed_activation_block', 'show_confirmed_activation');
         if($admin->ami_group_member('1')) {
                 $oTpl->set_block('show_confirmed_activation_block', 'list_confirmed_activation_block', 'list_confirmed_activation');
-            	$oTpl->set_var('DISPLAY_WAITING_ACTIVATION', 'Users awaiting activation');
+            	$oTpl->set_var('DISPLAY_WAITING_ACTIVATION', $mLang->MESSAGE_USERS_WAITING_ACTIVATION);
         		$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'users` ';
         		$sql .= 'WHERE `confirm_timeout` != 0 ';
                 $sql .=   'AND `active` = 0 ';
@@ -144,9 +146,9 @@ if(!defined('WB_URL')) {
                 	// Loop through users
                     if($nNumRows = $oRes->numRows()) {
                     	while($aUser = $oRes->fetchRow(MYSQL_ASSOC)) {
-                    		$oTpl->set_var('VALUE',$admin->getIDKEY($aUser['user_id']));
-                       		$oTpl->set_var('STATUS', '') ;
-                    		$oTpl->set_var('NAME', $aUser['display_name'].' ('.$aUser['username'].')'.' ['.$aUser['email'].']');
+                    		$oTpl->set_var('CVALUE',$admin->getIDKEY($aUser['user_id']));
+                       		$oTpl->set_var('CSTATUS', '') ;
+                    		$oTpl->set_var('CNAME', $aUser['display_name'].' ('.$aUser['username'].')'.' ['.$aUser['email'].']');
                     		$oTpl->parse('list_confirmed_activation', 'list_confirmed_activation_block', true);
                     	}
                     	$oTpl->parse('show_confirmed_activation', 'show_confirmed_activation_block',true);
@@ -192,7 +194,7 @@ if(!defined('WB_URL')) {
     			   'DISPLAY_MODIFY' => '',
     			   'HEADING_MODIFY_USER' => '',
     			   'DISPLAY_HOME_FOLDERS' => '',
-    			   'SUBMIT_TITLE' => $TEXT['ADD'],
+    			   'SUBMIT_TITLE' => $mLang->TEXT_ADD,
                    'HIDE_SAVE_BACK' => 'hide',
     			   )
 			);
@@ -217,7 +219,7 @@ if(!defined('WB_URL')) {
         $results = $database->query("SELECT group_id, name FROM ".TABLE_PREFIX."groups WHERE group_id != '1'");
         if($results->numRows() > 0) {
         	$oTpl->set_var('ID', '');
-        	$oTpl->set_var('NAME', $TEXT['PLEASE_SELECT'].'...');
+        	$oTpl->set_var('NAME', $mLang->TEXT_PLEASE_SELECT.'...');
         	$oTpl->set_var('SELECTED', ' selected="selected"');
         	$oTpl->parse('group_list', 'group_list_block', true);
         	while($group = $results->fetchRow()) {
@@ -237,7 +239,7 @@ if(!defined('WB_URL')) {
         } else {
         	if($results->numRows() == 0) {
         		$oTpl->set_var('ID', '');
-        		$oTpl->set_var('NAME', $TEXT['NONE_FOUND']);
+        		$oTpl->set_var('NAME', $mLang->TEXT_NONE_FOUND);
         		$oTpl->parse('group_list', 'group_list_block', true);
         	}
         }
@@ -278,21 +280,21 @@ if(!defined('WB_URL')) {
 
         // Insert language text and messages
         $oTpl->set_var(array(
-        			'TEXT_CANCEL' => $TEXT['CANCEL'],
-        			'TEXT_RESET' => $TEXT['RESET'],
-        			'TEXT_ACTIVE' => $TEXT['ACTIVE'],
-        			'TEXT_DISABLED' => $TEXT['DISABLED'],
-        			'TEXT_PLEASE_SELECT' => $TEXT['PLEASE_SELECT'],
-        			'TEXT_USERNAME' => $TEXT['USERNAME'],
-        			'TEXT_PASSWORD' => $TEXT['PASSWORD'],
-        			'TEXT_RETYPE_PASSWORD' => $TEXT['RETYPE_PASSWORD'],
-        			'TEXT_DISPLAY_NAME' => $TEXT['DISPLAY_NAME'],
-        			'TEXT_EMAIL' => $TEXT['EMAIL'],
-        			'TEXT_GROUP' => $TEXT['GROUP'],
-        			'TEXT_NONE' => $TEXT['NONE'],
-        			'TEXT_HOME_FOLDER' => $TEXT['HOME_FOLDER'],
+        			'TEXT_CANCEL' => $mLang->TEXT_CANCEL,
+        			'TEXT_RESET' => $mLang->TEXT_RESET,
+        			'TEXT_ACTIVE' => $mLang->TEXT_ACTIVE,
+        			'TEXT_DISABLED' => $mLang->TEXT_DISABLED,
+        			'TEXT_PLEASE_SELECT' => $mLang->TEXT_PLEASE_SELECT,
+        			'TEXT_USERNAME' => $mLang->TEXT_USERNAME,
+        			'TEXT_PASSWORD' => $mLang->TEXT_PASSWORD,
+        			'TEXT_RETYPE_PASSWORD' => $mLang->TEXT_RETYPE_PASSWORD,
+        			'TEXT_DISPLAY_NAME' => $mLang->TEXT_DISPLAY_NAME,
+        			'TEXT_EMAIL' => $mLang->TEXT_EMAIL,
+        			'TEXT_GROUP' => $mLang->TEXT_GROUP,
+        			'TEXT_NONE' => $mLang->TEXT_NONE,
+        			'TEXT_HOME_FOLDER' => $mLang->TEXT_HOME_FOLDER,
         			'USERNAME_FIELDNAME' => $username_fieldname,
-        			'CHANGING_PASSWORD' => $MESSAGE['USERS_CHANGING_PASSWORD']
+        			'CHANGING_PASSWORD' => $mLang->MESSAGE_USERS_CHANGING_PASSWORD
         			)
         	);
 

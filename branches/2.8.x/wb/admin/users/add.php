@@ -25,15 +25,15 @@ if(!defined('WB_URL')) {
 
 	function add_user($admin, &$aActionRequest)
 	{
-		global $MESSAGE,$TEXT, $HEADING;
 		$database = WbDatabase::getInstance();
+		$mLang = Translate::getInstance();
         $bRetVal = false;
         $iMinPassLength = 6;
 
         if( !$admin->checkFTAN() )
         {
 //        	$admin->print_header();
-        	msgQueue::add($MESSAGE['GENERIC_SECURITY_ACCESS']);
+        	msgQueue::add($mLang->MESSAGE_GENERIC_SECURITY_ACCESS);
             return $bRetVal;
         }
 
@@ -63,7 +63,7 @@ if(!defined('WB_URL')) {
         // Check values
         // Check values
         if($groups_id == "") {
-        	msgQueue::add($MESSAGE['USERS_NO_GROUP']);
+        	msgQueue::add($mLang->MESSAGE_USERS_NO_GROUP);
         } else {
             $aGroups_id = explode(',', $groups_id);
             //if user is in administrator-group, get this group else just get the first one
@@ -71,7 +71,7 @@ if(!defined('WB_URL')) {
         }
 
         if(!preg_match('/^[a-z]{1}[a-z0-9_-]{2,}$/i', $username)) {
-        	msgQueue::add( $MESSAGE['USERS_NAME_INVALID_CHARS']);
+        	msgQueue::add( $mLang->MESSAGE_USERS_NAME_INVALID_CHARS);
         }
 
 		$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` '.
@@ -79,21 +79,21 @@ if(!defined('WB_URL')) {
         // Check if username already exists
         if( ($iFoundUser = $database->get_one($sql)) != null ) {
             if($iFoundUser) {
-            	msgQueue::add($MESSAGE['USERS_USERNAME_TAKEN']);
+            	msgQueue::add($mLang->MESSAGE_USERS_USERNAME_TAKEN);
             }
         }
 
     	if(strlen($password) < $iMinPassLength ) {
-    		msgQueue::add($MESSAGE['USERS_PASSWORD_TOO_SHORT']);
+    		msgQueue::add($mLang->MESSAGE_USERS_PASSWORD_TOO_SHORT);
     	}
 
 		$pattern = '/[^'.$admin->password_chars.']/';
 		if (preg_match($pattern, $password)) {
-			msgQueue::add($MESSAGE['PREFERENCES_INVALID_CHARS']);
+			msgQueue::add($mLang->MESSAGE_PREFERENCES_INVALID_CHARS);
     	}
 
     	if(($password != $password2) ) {
-    		msgQueue::add($MESSAGE['USERS_PASSWORD_MISMATCH']);
+    		msgQueue::add($mLang->MESSAGE__USERS_PASSWORD_MISMATCH);
     	}
 
 //
@@ -101,25 +101,25 @@ if(!defined('WB_URL')) {
     	$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` ';
     	$sql .= 'WHERE `user_id` <> '.(int)$admin->get_user_id().' AND `display_name` LIKE "'.$display_name.'"';
     	if( ($iFoundUser = intval($database->get_one($sql))) > 0 ){
-    	   msgQueue::add($MESSAGE['USERS_USERNAME_TAKEN'].' ('.$TEXT['DISPLAY_NAME'].')');
+    	   msgQueue::add($mLang->MESSAGE_USERS_USERNAME_TAKEN.' ('.$mLang->TEXT_DISPLAY_NAME.')');
         } else {
             if($display_name == '') {
-        	   msgQueue::add($MESSAGE['GENERIC_FILL_IN_ALL'].' ('.$TEXT['DISPLAY_NAME'].')');
+        	   msgQueue::add($mLang->MESSAGE_GENERIC_FILL_IN_ALL.' ('.$mLang->TEXT_DISPLAY_NAME.')');
             }
        }
 
         if(findStringInFileList($display_name, dirname(__FILE__).'/disallowedNames')) {
-            msgQueue::add( $TEXT['ERROR'].' '.$TEXT['DISPLAY_NAME'].' ('.$display_name.')' );
+            msgQueue::add( $mLang->TEXT_ERROR.' '.$mLang->TEXT_DISPLAY_NAME.' ('.$display_name.')' );
         }
 
         if($email != "")
         {
         	if($admin->validate_email($email) == false)
             {
-                msgQueue::add($MESSAGE['USERS_INVALID_EMAIL'].' ('.$email.')');
+                msgQueue::add($mLang->MESSAGE_USERS_INVALID_EMAIL.' ('.$email.')');
         	}
         } else { // e-mail must be present
-        	msgQueue::add($MESSAGE['SIGNUP_NO_EMAIL']);
+        	msgQueue::add($mLang->MESSAGE_SIGNUP_NO_EMAIL);
         }
 
 		$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` '.
@@ -128,11 +128,11 @@ if(!defined('WB_URL')) {
         // Check if the email already exists
         if( ($iFoundUser = $database->get_one($sql)) != null ) {
             if($iFoundUser) {
-            	if(isset($MESSAGE['USERS_EMAIL_TAKEN']))
+            	if(isset($mLang->MESSAGE_USERS_EMAIL_TAKEN))
                 {
-            		msgQueue::add($MESSAGE['USERS_EMAIL_TAKEN'].' ('.$email.')');
+            		msgQueue::add($mLang->MESSAGE_USERS_EMAIL_TAKEN.' ('.$email.')');
             	} else {
-            		msgQueue::add($MESSAGE['USERS_INVALID_EMAIL'].' ('.$email.')');
+            		msgQueue::add($mLang->MESSAGE_USERS_INVALID_EMAIL.' ('.$email.')');
             	}
             }
         }
@@ -150,7 +150,7 @@ if(!defined('WB_URL')) {
                 $sHomeFolder = WB_PATH.MEDIA_DIRECTORY.'/home/'.( media_filename($username) );
                 if ( sizeof(createFolderProtectFile( $sHomeFolder )) )
                 {
-                	msgQueue::add($MESSAGE['MEDIA_DIR_NOT_MADE'].' ('.basename($sHomeFolder).') ' );
+                	msgQueue::add($mLang->MESSAGE_MEDIA_DIR_NOT_MADE.' ('.basename($sHomeFolder).') ' );
                 }
             }
             // Inser the user into the database
@@ -175,14 +175,14 @@ if(!defined('WB_URL')) {
                     '`login_ip`     = \''.$database->escapeString($login_ip).'\' '.
                     '';
             if($database->query($sql)) {
-            	msgQueue::add($MESSAGE['USERS_ADDED'], true);
+            	msgQueue::add($mLang->MESSAGE_USERS_ADDED, true);
 		        $bRetVal = true;
             }
             if($database->is_error()) {
                 msgQueue::add( implode('<br />',explode(';',$database->get_error())) );
             }
         } else {
-        	msgQueue::add($HEADING['ADD_USER'].' '.$MESSAGE['GENERIC_NOT_COMPARE']);
+        	msgQueue::add($mLang->HEADING_ADD_USER.' '.$mLang->MESSAGE_GENERIC_NOT_COMPARE);
 
 		}
 		return $bRetVal;

@@ -12,6 +12,8 @@ Legend:
 ===============================================================================
 
 
+02 Jan-2014 Build 2065 Dietmar Woellbrink (Luisehahne)
+# /admin/users bugfixes user deactivating and deleting
 01 Jan-2014 Build 2064 Manuela v.d.Decken(DarkViper)
 ! register PHPMailerAutoload now in initialize instead of class.WbMailer.php
 # a unsecure require() fixed in class PHPMailer::__construct() (notice to Syncro given)
