@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+02 Jan-2014 Build 2067 Dietmar Woellbrink (Luisehahne)
++ /admin/users/languages/ 20 Language Files added (Tks To jacobi22)
 02 Jan-2014 Build 2066 Dietmar Woellbrink (Luisehahne)
 ! /modules/output_filter/OutputFilterApi.php:: Typofix
 02 Jan-2014 Build 2065 Dietmar Woellbrink (Luisehahne)
