@@ -26,7 +26,7 @@ function OutputFilterApi($sFilterName, $sContent)
 {
     $oReg = WbAdaptor::getInstance();
     $sFilterDir = __DIR__.'/filters/filter';
-    if (!preg_match('/^[a-z][a-z0-9\-]*$/si', $sContent)) {
+    if (!preg_match('/^[a-z][a-z0-9\-]*$/si', $sFilterName)) {
         return $sContent;
     }
     if (is_readable($sFilterDir.$sFilterName.$oReg->PageExtension)) {
