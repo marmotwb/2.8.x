@@ -26,8 +26,8 @@ if(!defined('WB_URL')) {
 
 	function show_usermask($admin, &$aActionRequest)
 	{
-		global $TEXT, $MESSAGE, $HEADING, $MENU;
 		$database = WbDatabase::getInstance();
+		$mLang = Translate::getInstance();
 
     	$user_id = intval($aActionRequest['user_id']);
         $user = array(
@@ -71,7 +71,7 @@ if(!defined('WB_URL')) {
     			   'SUB_ACTION'   => 'save',
                    'BACK_LINK'    => (isset($aActionRequest['BackLink'])) ? $aActionRequest['BackLink'] : '',
                    'CANCEL_URL'   => $aActionRequest['cancel_url'],
-    			   'SUBMIT_TITLE' => $TEXT['SAVE'],
+    			   'SUBMIT_TITLE' => $mLang->TEXT_SAVE,
                    'USER_ID' => $user['user_id'],
 //    			   'NO_RIGHTS' => 'hide',
 //    			   'CHANGING_GROUPS' => '',
@@ -101,7 +101,7 @@ if(!defined('WB_URL')) {
     	$sql .= 'WHERE `group_id` != 1 ORDER BY `name`';
 		if($oRes = $database->query($sql)) {
 			$oTpl->set_var('ID', '');
-			$oTpl->set_var('NAME', $TEXT['PLEASE_SELECT'].'...');
+			$oTpl->set_var('NAME', $mLang->TEXT_PLEASE_SELECT.'...');
 			$oTpl->set_var('SELECTED', '');
 			$oTpl->parse('group_list', 'group_list_block', true);
 			while($group = $oRes->fetchRow(MYSQL_ASSOC)) {
@@ -147,7 +147,7 @@ if(!defined('WB_URL')) {
 		} else {
 			if($oRes->numRows() == 0) {
 				$oTpl->set_var('ID', '');
-				$oTpl->set_var('NAME', $TEXT['NONE_FOUND']);
+				$oTpl->set_var('NAME', $mLang->TEXT_NONE_FOUND);
 				$oTpl->set_var('SELECTED', ' selected="selected"');
 				$oTpl->parse('group_list', 'group_list_block', true);
 			}
@@ -189,23 +189,23 @@ if(!defined('WB_URL')) {
 
 		// Insert language text and messages
 		$oTpl->set_var(array(
-                    'TEXT_RESET' => $TEXT['RESET'],
-                    'TEXT_CANCEL' => $TEXT['CANCEL'],
-                    'TEXT_ACTIVE' => $TEXT['ACTIVE'],
-                    'TEXT_DISABLED' => $TEXT['DISABLED'],
-                    'TEXT_PLEASE_SELECT' => $TEXT['PLEASE_SELECT'],
-                    'TEXT_USERNAME' => $TEXT['USERNAME'],
-                    'TEXT_PASSWORD' => $TEXT['PASSWORD'],
-                    'TEXT_RETYPE_PASSWORD' => $TEXT['RETYPE_PASSWORD'],
-                    'TEXT_DISPLAY_NAME' => $TEXT['DISPLAY_NAME'],
-                    'TEXT_EMAIL' => $TEXT['EMAIL'],
-                    'TEXT_GROUP' => $TEXT['GROUP'],
-                    'TEXT_NONE' => $TEXT['NONE'],
-                    'TEXT_HOME_FOLDER' => $TEXT['HOME_FOLDER'],
-                    'TEXT_SAVE_BACK' => $TEXT['SAVE'].' &amp; '.$TEXT['BACK'],
+                    'TEXT_RESET' => $mLang->TEXT_RESET,
+                    'TEXT_CANCEL' => $mLang->TEXT_CANCEL,
+                    'TEXT_ACTIVE' => $mLang->TEXT_ACTIVE,
+                    'TEXT_DISABLED' => $mLang->TEXT_DISABLED,
+                    'TEXT_PLEASE_SELECT' => $mLang->TEXT_PLEASE_SELECT,
+                    'TEXT_USERNAME' => $mLang->TEXT_USERNAME,
+                    'TEXT_PASSWORD' => $mLang->TEXT_PASSWORD,
+                    'TEXT_RETYPE_PASSWORD' => $mLang->TEXT_RETYPE_PASSWORD,
+                    'TEXT_DISPLAY_NAME' => $mLang->TEXT_DISPLAY_NAME,
+                    'TEXT_EMAIL' => $mLang->TEXT_EMAIL,
+                    'TEXT_GROUP' => $mLang->TEXT_GROUP,
+                    'TEXT_NONE' => $mLang->TEXT_NONE,
+                    'TEXT_HOME_FOLDER' => $mLang->TEXT_HOME_FOLDER,
+                    'TEXT_SAVE_BACK' => $mLang->TEXT_SAVE.' &amp; '.$mLang->TEXT_BACK,
                     'USERNAME_FIELDNAME' => $username_fieldname,
-                    'CHANGING_PASSWORD' => $MESSAGE['USERS_CHANGING_PASSWORD'],
-                    'HEADING_MODIFY_USER' => $HEADING['MODIFY_USER']
+                    'CHANGING_PASSWORD' => $mLang->MESSAGE_USERS_CHANGING_PASSWORD,
+                    'HEADING_MODIFY_USER' => $mLang->HEADING_MODIFY_USER
                     )
                 );
 

@@ -25,13 +25,13 @@
 </select>
 
 <input type="submit" name="modify" style="width: 100px;" value="{TEXT_MODIFY}" class="{DISPLAY_MODIFY}" />
-<input type="submit" name="delete" style="width: 100px;" value="{TEXT_DELETE}" onclick="return confirm('{CONFIRM_DELETE}');" class="{DISPLAY_DELETE}" />
+<input type="submit" name="delete" style="width: 100px;" value="{TEXT_USER_DELETE}" onclick="return confirm('{CONFIRM_DELETE}');" class="{DISPLAY_DELETE}" />
 
 <!-- BEGIN show_confirmed_activation_block -->
 <h3 class="bold">{DISPLAY_WAITING_ACTIVATION}</h3>
      <select name="activation_user_id" class="user-activation" style="width: 500px; margin-left: 34px;">
     <!-- BEGIN list_confirmed_activation_block -->
-    	<option value="{VALUE}" {STATUS}>{NAME}</option>
+    	<option value="{CVALUE}" {CSTATUS}>{CNAME}</option>
     <!-- END list_confirmed_activation_block -->
     </select>
     <input type="submit" name="delete_outdated" style="width: 100px;" value="{TEXT_DELETE}" onclick="return confirm('{CONFIRM_DELETE}');" class="{DISPLAY_DELETE}" />

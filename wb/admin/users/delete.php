@@ -25,27 +25,55 @@ if(!defined('WB_URL')) {
 /* -------------------------------------------------------- */
 function delete_user($admin, &$aActionRequest)
 {
-	global $TEXT, $MESSAGE;
 	$database = WbDatabase::getInstance();
+	$mLang = Translate::getInstance();
     $aUserID = array();
     $bRetVal = false;
-    if(isset($aActionRequest['activation_user_id'])) {
-		if(!is_array($aActionRequest['activation_user_id'])) {
-	
-	        $aUserID[] = $aActionRequest['activation_user_id'];
-	    } else {
-	        $aUserID = $aActionRequest['activation_user_id'];
-	    }
-    } else {
-	    if(isset($aActionRequest['user_id'])) {
-			if(!is_array($aActionRequest['user_id'])) {
-		
-		        $aUserID[] = $aActionRequest['user_id'];
-		    } else {
-		        $aUserID = $aActionRequest['user_id'];
-		    }
-	    } 
-    } 
+
+    $action = 'default';
+    $action = (isset($aActionRequest['delete']) ? 'delete' : $action );
+    $action = (isset($aActionRequest['delete_outdated']) ? 'delete_outdated' : $action );
+
+	switch($action) :
+		case 'delete': // delete the user
+    	    if(isset($aActionRequest['user_id'])) {
+    			if(!is_array($aActionRequest['user_id'])) {
+    		        $aUserID[] = $aActionRequest['user_id'];
+    		    } else {
+    		        $aUserID = $aActionRequest['user_id'];
+    		    }
+    	    } 
+    		break;
+		case 'delete_outdated': // delete Users awaiting activation
+            if(isset($aActionRequest['activation_user_id'])) {
+        		if(!is_array($aActionRequest['activation_user_id'])) {
+        	        $aUserID[] = $aActionRequest['activation_user_id'];
+        	    } else {
+        	        $aUserID = $aActionRequest['activation_user_id'];
+        	    }
+            }
+    		break;
+		default: // show userlist with empty modify mask
+	endswitch; // end of switch
+    
+//    if(isset($aActionRequest['activation_user_id'])) {
+//		if(!is_array($aActionRequest['activation_user_id'])) {
+//	
+//	        $aUserID[] = $aActionRequest['activation_user_id'];
+//	    } else {
+//	        $aUserID = $aActionRequest['activation_user_id'];
+//	    }
+//    } else {
+//	    if(isset($aActionRequest['user_id'])) {
+//			if(!is_array($aActionRequest['user_id'])) {
+//		
+//		        $aUserID[] = $aActionRequest['user_id'];
+//		    } else {
+//		        $aUserID = $aActionRequest['user_id'];
+//		    }
+//	    } 
+//    } 
+    
 
     foreach ( $aUserID AS $key => $value)
     {
@@ -60,14 +88,14 @@ function delete_user($admin, &$aActionRequest)
 
 		// Check if user id is a valid number and doesnt equal 1
 		if($user_id == 0){
-			msgQueue::add($MESSAGE['GENERIC_FORGOT_OPTIONS'] );
+			msgQueue::add($mLang->MESSAGE_GENERIC_FORGOT_OPTIONS );
             return $bRetVal;
         }
 
 		if( ($user_id < 2 ) )
 		{
 			// if($admin_header) { $admin->print_header(); }
-			msgQueue::add($MESSAGE['GENERIC_SECURITY_ACCESS'] );
+			msgQueue::add($mLang->MESSAGE_GENERIC_SECURITY_ACCESS );
             return $bRetVal;
 		}
 
@@ -77,18 +105,20 @@ function delete_user($admin, &$aActionRequest)
                     'WHERE `user_id` = '.$user_id;
             if( ($iDeleteUser = $database->get_one($sql)) != null ) {
                 if($iDeleteUser) {
-    				// Delete the user
+    				// Deactivate the user
         			$sql  = 'UPDATE `'.TABLE_PREFIX.'users` SET '.
                             '`active` = 0 '.
                             'WHERE `user_id` = '.$user_id;
                     if( $database->query($sql) ) {
-                        msgQueue::add($TEXT['USERS_DELETED'], true);
+                        msgQueue::add($mLang->TEXT_USERS_MARKED_DELETED, true);
                     }
                 } else {
+
+
         			$sql  = 'DELETE FROM `'.TABLE_PREFIX.'users` '.
                             'WHERE `user_id` = '.$user_id;
                     if( $database->query($sql) ) {
-                        msgQueue::add($MESSAGE['USERS_DELETED'], true);
+                        msgQueue::add($mLang->MESSAGE_USERS_DELETED, true);
                     }
                 }
                 $bRetVal = true;

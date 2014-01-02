@@ -25,25 +25,25 @@ if(!defined('WB_URL')) {
 
 	function save_user($admin, &$aActionRequest)
 	{
-		global $TEXT, $MESSAGE;
         // Create a javascript back link
 //        $js_back = ADMIN_URL.'/users/index.php';
         unset($aActionRequest['save']);
 
         $aActionRequest['modify']= 'change';
 		$database = WbDatabase::getInstance();
+		$mLang = Translate::getInstance();
         $bRetVal = 0;
     	$iMinPassLength = 6;
 
         if( !$admin->checkFTAN() )
         {
-        	msgQueue::add($MESSAGE['GENERIC_SECURITY_ACCESS']);
+        	msgQueue::add($mLang->MESSAGE_GENERIC_SECURITY_ACCESS);
             return $bRetVal;
         }
 
         // Check if user id is a valid number and doesnt equal 1
         if(!isset($aActionRequest['user_id']) OR !is_numeric($aActionRequest['user_id']) OR $aActionRequest['user_id'] == 1) {
-        	msgQueue::add('::'.$MESSAGE['GENERIC_NOT_UPGRADED']);
+        	msgQueue::add('::'.$mLang->MESSAGE_GENERIC_NOT_UPGRADED);
             return $bRetVal;
         } else {
         	$user_id = intval($aActionRequest['user_id']);
@@ -52,7 +52,7 @@ if(!defined('WB_URL')) {
 		if( ($user_id < 2 ) )
 		{
 			// if($admin_header) { $admin->print_header(); }
-        	msgQueue::add($MESSAGE['GENERIC_SECURITY_OFFENSE']);
+        	msgQueue::add($mLang->MESSAGE_GENERIC_SECURITY_OFFENSE);
             return $bRetVal;
 		}
 		// Get existing values
@@ -83,7 +83,7 @@ if(!defined('WB_URL')) {
 
         // Check values
         if($groups_id == "") {
-        	msgQueue::add($MESSAGE['USERS_NO_GROUP']);
+        	msgQueue::add($mLang->MESSAGE_USERS_NO_GROUP);
         } else {
             $aGroups_id = explode(',', $groups_id);
             //if user is in administrator-group, get this group else just get the first one
@@ -93,35 +93,35 @@ if(!defined('WB_URL')) {
 //$admin->is_group_match($admin->get_groups_id(), '1' )
         if(!preg_match('/^[a-z]{1}[a-z0-9_-]{2,}$/i', $username))
         {
-        	msgQueue::add( $MESSAGE['USERS_NAME_INVALID_CHARS']);
+        	msgQueue::add( $mLang->MESSAGE_USERS_NAME_INVALID_CHARS);
         }
 
         if($password != "") {
         	if(strlen($password) < $iMinPassLength ) {
-        		msgQueue::add($MESSAGE['USERS_PASSWORD_TOO_SHORT']);
+        		msgQueue::add($mLang->MESSAGE['USERS_PASSWORD_TOO_SHORT']);
         	}
 
 			$pattern = '/[^'.$admin->password_chars.']/';
 			if (preg_match($pattern, $password)) {
-				msgQueue::add($MESSAGE['PREFERENCES_INVALID_CHARS']);
+				msgQueue::add($mLang->MESSAGE_PREFERENCES_INVALID_CHARS);
         	}
 
         	if(($password != $password2) ) {
-        		msgQueue::add($MESSAGE['USERS_PASSWORD_MISMATCH']);
+        		msgQueue::add($mLang->MESSAGE_USERS_PASSWORD_MISMATCH);
         	}
         }
 // check that display_name is unique in whoole system (prevents from User-faking)
     	$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` ';
     	$sql .= 'WHERE `user_id` <> '.(int)$user_id.' AND `display_name` LIKE "'.$display_name.'"';
     	if( $database->get_one($sql) > 0 ){
-            msgQueue::add($MESSAGE['USERS_USERNAME_TAKEN'].' ('.$TEXT['DISPLAY_NAME'].')');
-            msgQueue::add($MESSAGE['MEDIA_CANNOT_RENAME']);
+            msgQueue::add($mLang->MESSAGE_USERS_USERNAME_TAKEN.' ('.$mLang->TEXT_DISPLAY_NAME.')');
+            msgQueue::add($mLang->MESSAGE_MEDIA_CANNOT_RENAME);
         }
 //
 		if( ($admin->get_user_id() != '1' ) )
 		{
             if(findStringInFileList($display_name, dirname(__FILE__).'/disallowedNames')) {
-                msgQueue::add( $TEXT['ERROR'].' '.$TEXT['DISPLAY_NAME'].' ('.$display_name.')' );
+                msgQueue::add( $mLang->TEXT_ERROR.' '.$mLang->TEXT_DISPLAY_NAME.' ('.$display_name.')' );
             }
 		}
 
@@ -131,10 +131,10 @@ if(!defined('WB_URL')) {
         {
         	if($admin->validate_email($email) == false)
             {
-                msgQueue::add($MESSAGE['USERS_INVALID_EMAIL'].' ('.$email.')');
+                msgQueue::add($mLang->MESSAGE_USERS_INVALID_EMAIL.' ('.$email.')');
         	}
         } else { // e-mail must be present
-        	msgQueue::add($MESSAGE['SIGNUP_NO_EMAIL']);
+        	msgQueue::add($mLang->MESSAGE_SIGNUP_NO_EMAIL);
         }
 
 		$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` '.
@@ -143,11 +143,11 @@ if(!defined('WB_URL')) {
         // Check if the email already exists
         if( ($iFoundUser = $database->get_one($sql)) != null ) {
             if($iFoundUser) {
-            	if(isset($MESSAGE['USERS_EMAIL_TAKEN']))
+            	if(isset($mLang->MESSAGE_USERS_EMAIL_TAKEN))
                 {
-            		msgQueue::add($MESSAGE['USERS_EMAIL_TAKEN'].' ('.$email.')');
+            		msgQueue::add($mLang->MESSAGE_USERS_EMAIL_TAKEN.' ('.$email.')');
             	} else {
-            		msgQueue::add($MESSAGE['USERS_INVALID_EMAIL'].' ('.$email.')');
+            		msgQueue::add($mLang->MESSAGE_USERS_INVALID_EMAIL.' ('.$email.')');
             	}
             }
         }
@@ -174,7 +174,7 @@ if(!defined('WB_URL')) {
                 $sHomeFolder = WB_PATH.MEDIA_DIRECTORY.'/home/'.( media_filename($username) );
                 if ( sizeof(createFolderProtectFile( $sHomeFolder )) )
                 {
-    //            	msgQueue::add($MESSAGE['MEDIA_DIR_NOT_MADE']);
+    //            	msgQueue::add($mLang->MESSAGE_MEDIA_DIR_NOT_MADE);
                 }
             }
 
@@ -204,14 +204,14 @@ if(!defined('WB_URL')) {
 
             }
             if($database->query($sql)) {
-            	msgQueue::add($MESSAGE['USERS_SAVED'], true);
+            	msgQueue::add($mLang->MESSAGE_USERS_SAVED, true);
                 $bRetVal = $user_id;
             }
             if($database->is_error()) {
                msgQueue::add( implode('<br />',explode(';',$database->get_error())) );
             }
        } else {
-            	msgQueue::add($MESSAGE['GENERIC_NOT_UPGRADED']);
+            	msgQueue::add($mLang->MESSAGE_GENERIC_NOT_UPGRADED);
        }
 
 //        return $admin->getIDKEY($user_id);
