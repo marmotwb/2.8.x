@@ -1,6 +1,6 @@
 // Copyright 2006 Stepan Riha
 // www.nonplus.net
-// $Id: tool.js 2 2006-04-18 03:04:39Z stepan $
+// $Id$
 
 JsAdmin.init_tool = function() {
 	var instruction = YAHOO.util.Dom.get('jsadmin_install');

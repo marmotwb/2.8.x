@@ -9,9 +9,9 @@
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.3
  * @requirements    PHP 5.2.2 and higher
- * @version         $Id: search.php 1652 2012-03-27 10:35:26Z Luisehahne $
- * @filesource		$HeadURL: http://svn.websitebaker2.org/branches/2.8.x/wb/admin/users/save.php $
- * @lastmodified    $Date: 2011-01-10 13:21:47 +0100 (Mo, 10. Jan 2011) $
+ * @version         $Id$
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 /* -------------------------------------------------------- */

@@ -13,8 +13,8 @@
  * @link            http://www.yaml.de
  * @package         yaml
  * @version         3.2
- * @revision        $Revision: 430 $
- * @lastmodified    $Date: 2009-10-27 21:15:57 +0100 (Di, 27. Okt 2009) $
+ * @revision        $Revision$
+ * @lastmodified    $Date$
  */
  
 var is_webkit = navigator.userAgent.toLowerCase().indexOf('webkit') > -1;

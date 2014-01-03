@@ -10,9 +10,9 @@
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
- * @version         $Id: upgrade.php 1717 2012-08-29 14:09:09Z Luisehahne $
- * @filesource      $HeadURL: svn://isteam.dynxs.de/wb_svn/wb280/branches/2.8.x/wb/modules/droplets/upgrade.php $
- * @lastmodified    $Date: 2012-08-29 16:09:09 +0200 (Mi, 29. Aug 2012) $
+ * @version         $Id$
+ * @filesource      $HeadURL$
+ * @lastmodified    $Date$
  *
  */
 /* -------------------------------------------------------- */
