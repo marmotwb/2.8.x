@@ -11,8 +11,11 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+03 Jan-2014 Build 2071 Manuela v.d.Decken(DarkViper)
++ include/Sensio/Twig added Version 1.15.0
 03 Jan-2014 Build 2070 Manuela v.d.Decken(DarkViper)
 ! update revision properties for all files
+- include/Sensio/Twig remove Version 1.13.2
 03 Jan-2014 Build 2069 Manuela v.d.Decken(DarkViper)
 ! module News: some little fixes, implementation of AccessFile completed.
 03 Jan-2014 Build 2068 Manuela v.d.Decken(DarkViper)
