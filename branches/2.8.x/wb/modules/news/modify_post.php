@@ -65,10 +65,14 @@ if(!make_dir(WB_PATH.PAGES_DIRECTORY.'/posts')) {
     $sMediaUrl = WB_URL.MEDIA_DIRECTORY;
     // Get header and footer
     $sql = 'SELECT * FROM `'.TABLE_PREFIX.'mod_news_posts` WHERE `post_id`='.(int)$post_id;
-    if($oPostRes = $database->query($sql)){
+    if (($oPostRes = $database->query($sql))) {
     	$aPostRec = $oPostRes->fetchRow(MYSQL_ASSOC);
-    	$aPostRec['content_short'] = str_replace('{SYSVAR:MEDIA_REL}', $sMediaUrl,$aPostRec['content_short']);
-    	$aPostRec['content_long']  = str_replace('{SYSVAR:MEDIA_REL}', $sMediaUrl,$aPostRec['content_long']);
+        $sFilterApi = WB_PATH.'/modules/output_filter/OutputFilterApi.php';
+        if (is_readable($sFilterApi)) {
+            require_once($sFilterApi);
+            $aPostRec['content_short'] = OutputFilterApi('ReplaceSysvar', $aPostRec['content_short']);
+            $aPostRec['content_long'] = OutputFilterApi('ReplaceSysvar', $aPostRec['content_long']);
+        }
     }
     //$query_content = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_news_posts WHERE post_id = '$post_id'");
     

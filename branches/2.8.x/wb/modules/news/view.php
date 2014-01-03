@@ -23,8 +23,6 @@ if(!defined('WB_URL')) {
 }
 /* -------------------------------------------------------- */
 global $post_id, $post_section,$TEXT,$MESSAGE;
-$sMediaUrl = WB_URL.MEDIA_DIRECTORY;
-
 // load module language file
 $lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';
 require_once(!file_exists($lang) ? (dirname(__FILE__)) . '/languages/EN.php' : $lang );
