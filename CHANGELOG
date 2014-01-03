@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+03 Jan-2014 Build 2068 Manuela v.d.Decken(DarkViper)
+# admin/users/user_list  corrected multibyte handling
+# Droplet - iEditThisPage: copy/past error fixed (object reference)
 02 Jan-2014 Build 2067 Dietmar Woellbrink (Luisehahne)
 + /admin/users/languages/ 20 Language Files added (Tks To jacobi22)
 02 Jan-2014 Build 2066 Dietmar Woellbrink (Luisehahne)
