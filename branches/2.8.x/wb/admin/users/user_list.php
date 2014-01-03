@@ -54,7 +54,8 @@ if(!defined('WB_URL')) {
         $UserStatusActive = 'url('.THEME_URL.'/images/user.png)';
         $UserStatusInactive = 'url('.THEME_URL.'/images/user_red.png)';
 
-        $sUserTitle = ($iUserStatus == 0) ? $mLang->MENU_USERS.' '.strtolower($mLang->TEXT_ACTIVE) : $mLang->MENU_USERS.' '.strtolower($mLang->TEXT_DELETED) ;
+        $sUserTitle = ($iUserStatus == 0) ? $mLang->MENU_USERS.' '.mb_strtolower($mLang->TEXT_ACTIVE, 'UTF-8')
+                                          : $mLang->MENU_USERS.' '.mb_strtolower($mLang->TEXT_DELETED, 'UTF-8') ;
 
         $oTpl->set_var('TEXT_USERS', $sUserTitle.' '.$mLang->TEXT_SHOW );
         $oTpl->set_var('STATUS_ICON', ( ($iUserStatus==0) ? $UserStatusActive : $UserStatusInactive) );
@@ -73,7 +74,8 @@ if(!defined('WB_URL')) {
         }
 
         $sUserList  = $mLang->TEXT_LIST_OPTIONS.' ';
-        $sUserList .= ($iUserStatus == 1) ? $mLang->MENU_USERS.' '.strtolower($mLang->TEXT_ACTIVE) : $mLang->MENU_USERS.' '.strtolower($mLang->TEXT_DELETED) ;
+        $sUserList .= ($iUserStatus == 1) ? $mLang->MENU_USERS.' '.mb_strtolower($mLang->TEXT_ACTIVE, 'UTF-8')
+                                          : $mLang->MENU_USERS.' '.mb_strtolower($mLang->TEXT_DELETED, 'UTF-8') ;
         // Insert values into the modify/remove menu
         $oTpl->set_block('main_block', 'list_block', 'list');
         if($oRes->numRows() > 0) {
@@ -106,7 +108,8 @@ if(!defined('WB_URL')) {
         	$oTpl->set_var('DISPLAY_DELETE', 'hide');
         }
         $HeaderTitle  = (($iUserStatus == 1) ? $mLang->HEADING_MODIFY_ACTIVE_USER : $mLang->HEADING_MODIFY_DELETE_USER ).' ';
-        $HeaderTitle .= (($iUserStatus == 1) ? strtolower($mLang->TEXT_ACTIVE) : strtolower($mLang->TEXT_INACTIVE));
+        $HeaderTitle .= (($iUserStatus == 1) ? mb_strtolower($mLang->TEXT_ACTIVE, 'UTF-8')
+                                             : mb_strtolower($mLang->TEXT_INACTIVE, 'UTF-8'));
         // Insert language headings
         $oTpl->set_var(array(
         		'HEADING_MODIFY_DELETE_USER' => $HeaderTitle,
@@ -144,7 +147,7 @@ if(!defined('WB_URL')) {
         //        	$oTpl->set_var('NAME', 'User waiting for activation');
         //        	$oTpl->set_var('STATUS', '' );
                 	// Loop through users
-                    if($nNumRows = $oRes->numRows()) {
+                    if(($nNumRows = $oRes->numRows())) {
                     	while($aUser = $oRes->fetchRow(MYSQL_ASSOC)) {
                     		$oTpl->set_var('CVALUE',$admin->getIDKEY($aUser['user_id']));
                        		$oTpl->set_var('CSTATUS', '') ;
