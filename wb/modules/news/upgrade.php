@@ -188,6 +188,50 @@ if(!defined('WB_URL')) {
 			     . 'WHERE `published_when`=0 OR `published_when`>`posted_when`';
 			$oDb->query($sql);
 		}
+/* --- insert SYSVAR placeholders and repair already existing ------------------------- */
+        $sql = 'SELECT `post_id`, `content_long`, `content_short` '
+             . 'FROM `'.$oDb->TablePrefix.'mod_news_posts` ';
+        if (($oEntrySet = $oDb->doQuery($sql))) {
+            $iRecords = 0;
+            $iReplaced = 0;
+            $aSearch = array( '/\{SYSVAR\:MEDIA_REL\}[\/\\\\]?/sU',
+                              '/\{SYSVAR\:WB_URL\}[\/\\\\]?/sU',
+                              '/(\{SYSVAR\:AppUrl\.MediaDir\})[\/\\\\]?/sU',
+                              '/(\{SYSVAR\:AppUrl\})[\/\\\\]?/sU'
+                            );
+            $aReplace = array( '{SYSVAR:AppUrl.MediaDir}', '{SYSVAR:AppUrl}', '\1', '\1' );
+            while (($aEntry = $oEntrySet->fetchRow(MYSQL_ASSOC))) {
+                $iCount = 0;
+                $aSubject = array($aEntry['content_long'], $aEntry['content_short']);
+                $aNewContents = preg_replace($aSearch, $aReplace, $aSubject, -1, $iCount);
+                if ($iCount > 0) {
+                    $iReplaced += $iCount;
+                    $sql = 'UPDATE `'.$oDb->TablePrefix.'mod_news_posts` '
+                         . 'SET `content_long`=\''.$oDb->escapeString($aNewContents[0]).'\', '
+                         .     '`content_short`=\''.$oDb->escapeString($aNewContents[1]).'\' '
+                         . 'WHERE `post_id`='.$aEntry['post_id'];
+                    $oDb->doQuery($sql);
+                    $iRecords++;
+                }
+            }
+            $msg[] = '['.$iRecords.'] records with ['.$iReplaced.'] SYSVAR placeholder(s) repaired'." $OK";
+        }
+        try {
+            $sql  = 'UPDATE `'.$oDb->TablePrefix.'mod_news_posts` ';
+            $sql .= 'SET `content` = REPLACE(`content`, \'"'.$oReg->AppPath.$oReg->MediaDir.'\', \'"{SYSVAR:AppPath.MediaDir}\')';
+            $oDb->doQuery($sql);
+            $msg[] = 'Change internal absolute Media links into SYSVAR placeholders'." $OK";
+        } catch(WbDatabaseException $e) {
+            $msg[] = ''.$oDb->get_error();
+        }
+        try {
+            $sql  = 'UPDATE `'.$oDb->TablePrefix.'mod_news_posts` ';
+            $sql .= 'SET `content` = REPLACE(`content`, \'"'.$oReg->AppPath.'\', \'"{SYSVAR:AppPath}\')';
+            $oDb->doQuery($sql);
+            $msg[] = 'Change internal absolute links into SYSVAR placeholders'." $OK";
+        } catch(WbDatabaseException $e) {
+            $msg[] = ''.$oDb->get_error();
+        }
 /* --- rebuild all access files ------------------------------------------------------- */
 		$aReport = array('FilesDeleted'=>0,'FilesCreated'=>0,);
 		$oReorg = new m_news_Reorg(ModuleReorgAbstract::LOG_EXTENDED);
