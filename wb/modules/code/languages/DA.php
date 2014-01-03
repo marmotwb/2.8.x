@@ -1,6 +1,6 @@
 <?php
 
-// $Id: DA.php 1097 2009-07-27 06:58:07Z Ruebenwurzel $
+// $Id$
 
 /*
 

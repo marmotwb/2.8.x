@@ -9,9 +9,9 @@
  * @license         http://www.gnu.org/licenses/gpl.html
  * @platform        WebsiteBaker 2.8.4
  * @requirements    PHP 5.2.2 and higher
- * @version         $Id: upgrade.php 1428 2011-02-07 04:55:31Z Luisehahne $
- * @filesource      $HeadURL: http://svn.websitebaker2.org/branches/2.8.x/wb/modules/code/upgrade.php $
- * @lastmodified    $Date: 2011-02-07 05:55:31 +0100 (Mo, 07. Feb 2011) $
+ * @version         $Id$
+ * @filesource      $HeadURL$
+ * @lastmodified    $Date$
  *
  */
 // Must include code to stop this file being access directly

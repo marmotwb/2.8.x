@@ -11,8 +11,8 @@
  * @platform        WebsiteBaker 2.8.x
  * @requirements    PHP 5.2.2 and higher
  * @version         $Id$
- * @filesource		$HeadURL: http://svn29.websitebaker2.org/trunk/wb/modules/fckeditor/index.php $
- * @lastmodified    $Date: 2010-11-23 00:55:43 +0100 (Di, 23. Nov 2010) $
+ * @filesource		$HeadURL$
+ * @lastmodified    $Date$
  *
  */
 

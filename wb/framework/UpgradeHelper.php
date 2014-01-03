@@ -26,9 +26,9 @@
  * @author       Werner v.d.Decken <wkl@isteam.de>
  * @license      http://www.gnu.org/licenses/gpl.html   GPL License
  * @version      0.0.1
- * @revision     $Revision: $
- * @link         $HeadURL: $
- * @lastmodified $Date: $
+ * @revision     $Revision$
+ * @link         $HeadURL$
+ * @lastmodified $Date$
  * @since        File available since 17.03.2013
  * @description  some helper function for upgrade-script.php
  */

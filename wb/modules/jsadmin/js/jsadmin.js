@@ -1,6 +1,6 @@
 // Copyright 2006 Stepan Riha
 // www.nonplus.net
-// $Id: jsadmin.js 2 2006-04-18 03:04:39Z stepan $
+// $Id$
 
 // Initialize JsAdmin when page loads
 JsAdmin.loadHandler = function(ev, self) {

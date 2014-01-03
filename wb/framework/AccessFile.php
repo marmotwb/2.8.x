@@ -27,8 +27,8 @@
  * @author       Manuela v.d.Decken <manuela@isteam.de>
  * @license      http://www.gnu.org/licenses/gpl.html   GPL License
  * @version      0.0.1
- * @revision     $Revision: $
- * @lastmodified $Date: $
+ * @revision     $Revision$
+ * @lastmodified $Date$
  * @since        File available since 17.01.2013
  * @description  Single standard accessfile with additional var-entries
  */
@@ -404,8 +404,8 @@ class AccessFile {
  * @copyright    M.v.d.Decken <manuela@isteam.de>
  * @license      http://www.gnu.org/licenses/gpl.html   GPL License
  * @version      2.9.0
- * @revision     $Revision: 12 $
- * @lastmodified $Date: 2012-12-29 21:39:37 +0100 (Sa, 29 Dez 2012) $
+ * @revision     $Revision$
+ * @lastmodified $Date$
  * @description  Exceptionhandler for the Accessfiles and depending classes
  */
 
