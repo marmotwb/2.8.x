@@ -41,10 +41,10 @@
 				<label for="page_title">{TEXT_PAGE_TITLE}:</label>
 				<input type="text" id="page_title" name="page_title" value="{PAGE_TITLE}" />
 			</div>
-			<div class="{PAGE_EXTENDET_HIDE}">
+			<div id="extented" style="{PAGE_ICONDIR_HIDE}">
 				<label for="page_icon" class="overlib"
 					style="background-image: url({THEME_URL}/icons/help_16.png);"
-					{p_page_icon_dir}>{TEXT_PAGE_ICON}: 
+					{p_page_icon_dir}>{TEXT_PAGE_ICON}:
 				</label>
 				<select id="page_icon" name="page_icon">
 					<option value="0">--- {TEXT_NO_SELECTION} ---</option>
@@ -256,7 +256,9 @@
 			<input type="submit" name="submit" value="{TEXT_SAVE}" />
 			<input type="submit" name="back_submit" value="{TEXT_SAVE_BACK}" />
 			<span style="padding-left: 2em;"><input type="reset" name="reset" value="{TEXT_RESET}" />
+		<!-- BEGIN show_extended_input_block -->
 			<input type="submit" value="{TEXT_EXTENDED}" id="{VISIBILITY}_extended" name="extendet_submit" /></span>
+		<!-- END show_extended_input_block -->
 		</div>
 	</div>
 </form>

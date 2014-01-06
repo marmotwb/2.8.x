@@ -137,7 +137,12 @@ if(!defined('WB_URL')) {
         $oTpl->set_block('main_block', 'show_confirmed_activation_block', 'show_confirmed_activation');
         if($admin->ami_group_member('1')) {
                 $oTpl->set_block('show_confirmed_activation_block', 'list_confirmed_activation_block', 'list_confirmed_activation');
-            	$oTpl->set_var('DISPLAY_WAITING_ACTIVATION', $mLang->MESSAGE_USERS_WAITING_ACTIVATION);
+                $oTpl->set_var(array(
+                		'DISPLAY_WAITING_ACTIVATION' => $mLang->MESSAGE_USERS_WAITING_ACTIVATION,
+                		'TEXT_USER_ACTIVATE' => $mLang->TEXT_ACTIVATE,
+                		'TEXT_USER_DELETE' => (($iUserStatus == 1) ? $mLang->TEXT_DEACTIVE : $mLang->TEXT_DELETE),
+                		)
+                );
         		$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'users` ';
         		$sql .= 'WHERE `confirm_timeout` != 0 ';
                 $sql .=   'AND `active` = 0 ';

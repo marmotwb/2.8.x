@@ -114,7 +114,7 @@ $admin = new admin('Pages', 'pages_settings');
 		{
 			$admin->print_error($MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS']);
 		}
-	}else {
+	} else {
 		$admin->print_header();
 		$admin->print_error($database->get_error());
 	}
@@ -238,13 +238,15 @@ $admin = new admin('Pages', 'pages_settings');
 	}
 
 /*-- collect page-icons for select boxes -----------------------------------------------*/
-  $sAllowedImageTypes = '\.jpg|\.jpeg|\.png|\.gif';
+    $sAllowedImageTypes = '\.jpg|\.jpeg|\.png|\.gif';
 	$aPageIcons = array();
 	$aIcon = array();
 	$sTemplate = ($aCurrentPage['template'] == '' ? DEFAULT_TEMPLATE : $aCurrentPage['template']);
 	$sIconDir = str_replace('\\', '/', ((defined('PAGE_ICON_DIR') && PAGE_ICON_DIR != '') ? PAGE_ICON_DIR : MEDIA_DIRECTORY));
 	$sIconDir = str_replace('/*', '/'.$sTemplate, $sIconDir);
-	$bIconDirHide = ($page_extend==true) ? 'display:block;' : 'display:none;';
+	$bMenuIconDirHide = (($page_extend==true) ? 'display:block;' : 'display:none;');
+	$bPageIconDirHide = (($page_extend==true) ? 'display:block;' : 'display:none;');
+//	$bPageIconDirHide = (($page_extend==true)||($admin->get_permission('media_view') == true) ? 'display:block;' : 'display:none;');
 
 //	$oTpl->set_var('ICON_DIR', WB_REL.$sIconDir);
 	$sHelp = replaceVars($mLang->HELP_PAGE_IMAGE_DIR, array('icon_dir'=>WB_REL.$sIconDir ) );
@@ -254,7 +256,8 @@ $admin = new admin('Pages', 'pages_settings');
 	$sAccesFile = (($database->get_one($sql)));
 	$sFilename = replaceVars($mLang->HELP_SEO_TITLE, array('filename'=>PAGES_DIRECTORY.$sAccesFile.PAGE_EXTENSION ) );
 
-	$oTpl->set_var('PAGE_EXTENDET_HIDE',  $bIconDirHide);
+	$oTpl->set_var('PAGE_ICONDIR_HIDE',  $bPageIconDirHide);
+	$oTpl->set_var('PAGE_EXTENDET_HIDE', $bMenuIconDirHide);
 	$oTpl->set_var('p_page_icon_dir',  p($sHelp,$mLang->TEXT_PAGE_ICON_DIR));
 	$oTpl->set_var('p_menu_icon0_dir', p($sHelp,$mLang->TEXT_MENU_ICON_0_DIR));
 	$oTpl->set_var('p_menu_icon1_dir', p($sHelp,$mLang->TEXT_MENU_ICON_1_DIR));
@@ -495,7 +498,7 @@ $admin = new admin('Pages', 'pages_settings');
 		$iLastEntryLevel = 0;
 		$bSkipChildren = false;
 	// loop through all items
-		while (list(, $aPage) = each($aLangCodePagesList)) 
+		while (list(, $aPage) = each($aLangCodePagesList))
 		{
 		// skip child pages where current user has no rights for
 			if($bSkipChildren && ($aPage['level'] > $iLastEntryLevel)) { continue; }
@@ -515,11 +518,11 @@ $admin = new admin('Pages', 'pages_settings');
 			    && $aCurrentPage['page_code'] != 0
 				&& !$bPageCodeIsSelected
 			  )
-			{ // 
+			{ //
 				$aTplItemData['PAGE_CODE_SELECTED'] = $sSelected;
 				$bPageCodeIsSelected = true;
 			} elseif(!$aPage['iswriteable'])
-			{ // 
+			{ //
 				$aTplItemData['PAGE_CODE_SELECTED'] = $sDisabled.' class="disabled"';
 				$bSkipChildren = true;
 			} else {
@@ -634,6 +637,13 @@ $admin = new admin('Pages', 'pages_settings');
 	$oTpl->set_var('SELF_SELECTED',  ($aCurrentPage['target'] == '_self'  ? $sSelected : ''));
 	$oTpl->set_var('BLANK_SELECTED', ($aCurrentPage['target'] == '_blank' ? $sSelected : ''));
 
+/*-- show_extended_input_block ---------------------------------------------------------*/
+	$oTpl->set_block('main_block', 'show_extended_input_block', 'extended_input');
+	if($admin->get_permission('settings_advanced') == true) {
+		$oTpl->parse('extended_input', 'show_extended_input_block', true);
+	} else {
+		$oTpl->parse('extended_input', '', true);
+	}
 /*-- insert all needed vars from language files ----------------------------------------*/
 	$oTpl->set_var($mLang->getLangArray());
 /*-- finalize the page -----------------------------------------------------------------*/

@@ -49,10 +49,12 @@
         $action = (isset($aActionRequest['modify']) ? 'modify' : $action );
         $action = (isset($aActionRequest['delete']) ? 'delete' : $action );
         $action = (isset($aActionRequest['delete_outdated']) ? 'delete_outdated' : $action );
+        $action = (isset($aActionRequest['enable_outdated']) ? 'enable_outdated' : $action );
 
 		switch($action) :
 			case 'delete': // delete the user
 			case 'delete_outdated': // delete Users awaiting activation
+			case 'enable_outdated': // enable Users awaiting activation
     			$admin = new admin('Access', 'users_delete',false);
 				include($sAdminPath.'/delete.php');
     			delete_user($admin,$aActionRequest);

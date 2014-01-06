@@ -35,6 +35,7 @@
     <!-- END list_confirmed_activation_block -->
     </select>
     <input type="submit" name="delete_outdated" style="width: 100px;" value="{TEXT_DELETE}" onclick="return confirm('{CONFIRM_DELETE}');" class="{DISPLAY_DELETE}" />
+    <input type="submit" name="enable_outdated" style="width: 100px;" value="{TEXT_USER_ACTIVATE}" onclick="return confirm('{CONFIRM_DELETE}');" class="{DISPLAY_DELETE}" />
 <!-- END show_confirmed_activation_block -->
 
 </form>
