@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+06 Jan-2014 Build 2075 Manuela v.d.Decken(DarkViper)
+! Installer and upgradescript will never start with php below 5.3.2
+# little correction for autoloading PHPMailer in install/save
 06 Jan-2014 Build 2074 Manuela v.d.Decken(DarkViper)
 + added new outputfilter to use OutputFilterDashboard
 06 Jan-2014 Build 2073 Manuela v.d.Decken(DarkViper)
