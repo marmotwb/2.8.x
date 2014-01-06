@@ -59,14 +59,14 @@
 	$group_id   = intval($admin->get_post('group'));
 // Include WB functions file
 	require($oReg->AppPath.'framework/functions.php');
-// Work-out all needed path and filenames
-    $sAccessFsileRootPath = $oReg->AppPath.$oReg->PagesDir.$sNewsLinkSubdir;
+// Work-out all needed path and filenames 
+    $sAccessFileRootPath = $oReg->AppPath.$oReg->PagesDir.$sNewsLinkSubdir;
 	$sOldLink     = preg_replace('/^\/?'.preg_quote($sNewsLinkSubdir, '/').'/', '', str_replace('\\', '/', $admin->StripCodeFromText($admin->get_post('link'))));
     $sOldFilename = $sAccessFileRootPath.$sOldLink.$oReg->PageExtension;
 	$sNewLink     = page_filename($title).$oReg->PageSpacer.$post_id;
     $sNewFilename = $sAccessFileRootPath.$sNewLink.$oReg->PageExtension;
     $sBackUrl = $oReg->AcpUrl.'pages/modify.php?page_id='.$page_id;
-// get publisedwhen and publisheduntil
+// get publisedwhen and publisheduntil 
     $x = strtotime(preg_replace('/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})(.*)$/s', '\2/\1/\3\4', $admin->get_post_escaped('publishdate')));
     $publishedwhen = $x ? $x : 0;
     $x = strtotime(preg_replace('/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})(.*)$/s', '\2/\1/\3\4', $admin->get_post_escaped('enddate')), $publishedwhen);

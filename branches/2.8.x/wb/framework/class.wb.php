@@ -25,8 +25,6 @@ if(!defined('WB_PATH')) {
 /* -------------------------------------------------------- */
 // Include PHPLIB template class
 if(!class_exists('Template', false)){ include(WB_PATH.'/include/phplib/template.inc'); }
-// Include new wbmailer class (subclass of PHPmailer)
-if(!class_exists('wbmailer', false)){ include(WB_PATH.'/framework/class.wbmailer.php'); }
 
 class wb extends SecureForm
 {
