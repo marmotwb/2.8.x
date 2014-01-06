@@ -57,16 +57,23 @@ if(!defined('WB_URL')) {
 					$msg[] = $database->get_error();
 				}
 			}
+// change table structure
 			$table_name = $database->TablePrefix.'mod_output_filter';
 			$field_name = 'sys_rel';
 			$description = 'INT(11) NOT NULL DEFAULT \'0\' FIRST';
-			if(!$database->field_exists($table_name,$field_name)) {
-				$database->field_add($table_name, $field_name, $description);
-				$msg[] = 'Add field `sys_rel` FIRST'." $OK";
+			if(!$database->isField($table_name,$field_name)) {
+				$database->addField($table_name, $field_name, $description);
+				$msg[] = 'Add field `'.$field_name.'` FIRST'." $OK";
 			} else {
-				$msg[] = 'Field `sys_rel` already exists'." $OK";
+				$msg[] = 'Field `'.$field_name.'` already exists'." $OK";
 			}
-// change table structure
+			$field_name = 'opf';
+			if(!$database->isField($table_name,$field_name)) {
+				$database->addField($table_name, $field_name, $description);
+				$msg[] = 'Add field `'.$field_name.'` FIRST'." $OK";
+			} else {
+				$msg[] = 'Field `'.$field_name.'` already exists'." $OK";
+			}
 			$sTable = $database->TablePrefix.'mod_output_filter';
 			$sDescription = 'int(11) NOT NULL DEFAULT \'0\'';
 			$sFieldName = 'sys_rel';

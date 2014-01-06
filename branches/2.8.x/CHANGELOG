@@ -11,6 +11,12 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+06 Jan-2014 Build 2074 Manuela v.d.Decken(DarkViper)
++ added new outputfilter to use OutputFilterDashboard
+06 Jan-2014 Build 2073 Manuela v.d.Decken(DarkViper)
+recall tagging of WebsiteBaker 2.8.4 release
+03 Jan-2014 Build 2072 Manuela v.d.Decken(DarkViper)
+Tagging WebsiteBaker 2.8.4 release
 03 Jan-2014 Build 2071 Manuela v.d.Decken(DarkViper)
 + include/Sensio/Twig added Version 1.15.0
 03 Jan-2014 Build 2070 Manuela v.d.Decken(DarkViper)
