@@ -129,12 +129,20 @@ class UpgradeHelper {
 	{
 		if (defined('DB_PASSWORD')) {
 		// old config.php is active
-			if (!is_writable($sAppPath.'config.php') || !is_writable($sAppPath.'config.php.new') || !is_writable($sAppPath.'setup.ini.php.new'))
+			if (    !is_writable($sAppPath.'config.php')
+                 || (file_exists($sAppPath.'config.php.new') && !is_writable($sAppPath.'config.php.new'))
+                 || (file_exists($sAppPath.'setup.ini.php') && !is_writable($sAppPath.'setup.ini.php'))
+                 || (!file_exists($sAppPath.'setup.ini.php') && !is_writable($sAppPath.'setup.ini.php.new'))
+               )
 			{
 			// stop script if there's an error occured
-				$sMsg = 'Following files must exist and be writable to run upgrade:<br />'
-				      . '<ul><li>config.php</li>'.(file_exists($sAppPath.'config.php.new') ? '<li>config.php.new</li>' : '')
-				      . '<li>setup.ini.php.new</li></ul>';
+				$sMsg = 'Following files must exist and be writable to run upgrade:<br />'.PHP_EOL
+				      . '<ul>'.PHP_EOL
+                      . '<li>config.php</li>'.PHP_EOL
+                      . (file_exists($sAppPath.'config.php.new') ? '<li>config.php.new</li>'.PHP_EOL : '')
+                      . (file_exists($sAppPath.'setup.ini.php') ? '<li>setup.ini.php</li>'.PHP_EOL : '')
+                      . (!file_exists($sAppPath.'setup.ini.php') ? '<li>setup.ini.php.new</li>'.PHP_EOL : '')
+                      . '</ul>'.PHP_EOL;
 				self::dieWithMessage($sMsg);
 			} else { // ok, let's change the files now!
 				if (file_exists($sAppPath.'setup.ini.php')) {

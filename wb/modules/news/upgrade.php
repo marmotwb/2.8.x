@@ -159,7 +159,7 @@ if(!defined('WB_URL')) {
 		// first copy values inside the table and exchange all \ by / in field `link`
 			$sql  = 'UPDATE `'.$oDb->TablePrefix.'mod_news_posts` '
 			      . 'SET `created_by`=`posted_by`, '
-			      .     '`created_when`=`posted_when` '
+			      .     '`created_when`=`posted_when`, '
 			      .     '`link`= REPLACE(`link`, \'\\\', \'/\')';
 			$oDb->query($sql);
 		// read Timestamps from old styled accessfiles
