@@ -36,9 +36,13 @@
 $debug = true;
 if(!defined('DEBUG')) { define('DEBUG', true); }
 
-include(dirname(dirname(__FILE__)).'/framework/globalExceptionHandler.php'); 
-include(dirname(dirname(__FILE__)).'/framework/WbAutoloader.php');
-WbAutoloader::doRegister(array('admin'=>'a', 'modules'=>'m'));
+include(dirname(__DIR__).'/framework/globalExceptionHandler.php');
+include(dirname(__DIR__).'/framework/WbAutoloader.php');
+WbAutoloader::doRegister(array('admin'=>'a', 'modules'=>'m', 'templates'=>'t', 'include'=>'i'));
+// register PHPMailer autoloader ---
+if (!function_exists('PHPMailerAutoload')) {
+    require(dirname(__DIR__).'/include/phpmailer/PHPMailerAutoload.php');
+}
 
 function errorLogs($error_str)
 {

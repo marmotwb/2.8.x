@@ -35,7 +35,14 @@
  * @description  xyz
  */
 include_once(dirname(__FILE__).'/framework/UpgradeHelper.php');
-
+// PHP less then 5.3.2 is prohibited ---
+if (version_compare(PHP_VERSION, '5.3.2', '<')) {
+    $sMsg = '<p style="color: #ff0000;">WebsiteBaker 2.8.4 and above is not able to run with PHP-Version less then 5.3.2!!<br />'
+          . 'Please change your PHP-Version to any kind from 5.3.2 and up!<br />'
+          . 'If you have problems to solve that, ask your hosting provider for it.<br  />'
+          . 'The very best solution is the use of PHP-5.4 and up</p>';
+    die($sMsg);
+}
 // --- delete fatal disturbing files before upgrade starts -------------------------------
 $aPreDeleteFiles = array(
 // list of files
