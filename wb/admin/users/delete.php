@@ -32,7 +32,8 @@ function delete_user($admin, &$aActionRequest)
 
     $action = 'default';
     $action = (isset($aActionRequest['delete']) ? 'delete' : $action );
-    $action = (isset($aActionRequest['delete_outdated']) ? 'delete_outdated' : $action );
+    $action = (isset($aActionRequest['delete_outdated']) ? 'delete_outdated'   : $action );
+    $action = (isset($aActionRequest['enable_outdated']) ? 'enable_outdated' : $action );
 
 	switch($action) :
 		case 'delete': // delete the user
@@ -42,7 +43,7 @@ function delete_user($admin, &$aActionRequest)
     		    } else {
     		        $aUserID = $aActionRequest['user_id'];
     		    }
-    	    } 
+    	    }
     		break;
 		case 'delete_outdated': // delete Users awaiting activation
             if(isset($aActionRequest['activation_user_id'])) {
@@ -53,12 +54,21 @@ function delete_user($admin, &$aActionRequest)
         	    }
             }
     		break;
+		case 'enable_outdated': // enable Users awaiting activation
+            if(isset($aActionRequest['activation_user_id'])) {
+        		if(!is_array($aActionRequest['activation_user_id'])) {
+        	        $aUserID[] = $aActionRequest['activation_user_id'];
+        	    } else {
+        	        $aUserID = $aActionRequest['activation_user_id'];
+        	    }
+            }
+    		break;
 		default: // show userlist with empty modify mask
 	endswitch; // end of switch
-    
+
 //    if(isset($aActionRequest['activation_user_id'])) {
 //		if(!is_array($aActionRequest['activation_user_id'])) {
-//	
+//
 //	        $aUserID[] = $aActionRequest['activation_user_id'];
 //	    } else {
 //	        $aUserID = $aActionRequest['activation_user_id'];
@@ -66,14 +76,14 @@ function delete_user($admin, &$aActionRequest)
 //    } else {
 //	    if(isset($aActionRequest['user_id'])) {
 //			if(!is_array($aActionRequest['user_id'])) {
-//		
+//
 //		        $aUserID[] = $aActionRequest['user_id'];
 //		    } else {
 //		        $aUserID = $aActionRequest['user_id'];
 //		    }
-//	    } 
-//    } 
-    
+//	    }
+//    }
+
 
     foreach ( $aUserID AS $key => $value)
     {
@@ -101,34 +111,55 @@ function delete_user($admin, &$aActionRequest)
 
 		if( ($msg = msgQueue::getError()) == '')
 		{
-			$sql  = 'SELECT `active` FROM `'.TABLE_PREFIX.'users` '.
-                    'WHERE `user_id` = '.$user_id;
-            if( ($iDeleteUser = $database->get_one($sql)) != null ) {
-                if($iDeleteUser) {
-    				// Deactivate the user
-        			$sql  = 'UPDATE `'.TABLE_PREFIX.'users` SET '.
-                            '`active` = 0 '.
-                            'WHERE `user_id` = '.$user_id;
-                    if( $database->query($sql) ) {
-                        msgQueue::add($mLang->TEXT_USERS_MARKED_DELETED, true);
-                    }
-                } else {
 
-
-        			$sql  = 'DELETE FROM `'.TABLE_PREFIX.'users` '.
-                            'WHERE `user_id` = '.$user_id;
-                    if( $database->query($sql) ) {
-                        msgQueue::add($mLang->MESSAGE_USERS_DELETED, true);
+    	switch($action) :
+    		case 'enable_outdated': // enable Users awaiting activation
+    			$sql  = 'SELECT `display_name` FROM `'.TABLE_PREFIX.'users` '.
+                        'WHERE `user_id` = '.$user_id;
+                if( ($sDisplayUser = $database->getOne($sql)) != null ) {
+            		$sql = 'UPDATE `'.TABLE_PREFIX.'users` '
+            		     . 'SET `active`=1, '
+            		     .     '`confirm_code`=\'\', '
+            		     .     '`confirm_timeout`=0 '
+            		     . 'WHERE `user_id`='.$user_id;
+            		if($database->query($sql)) {
+                        msgQueue::add($mLang->MESSAGE_USERS_ADDED.' ('.$sDisplayUser.')', true);
+                        $bRetVal = true;
+                    } else {
+                        msgQueue::add($mLang->TEXT_ENABLE.$mLang->MESSAGE_GENERIC_NOT_COMPARE.' ('.$sDisplayUser.')');
                     }
                 }
-                $bRetVal = true;
-            }
-            if($database->is_error()) {
-                msgQueue::add( implode('<br />',explode(';',$database->get_error())) );
-                $bRetVal = false;
-           }
-		}
-    }
+        		break;
+    		default: // show userlist with empty modify mask
+    			$sql  = 'SELECT `active` FROM `'.TABLE_PREFIX.'users` '.
+                        'WHERE `user_id` = '.$user_id;
+                if( ($iDeleteUser = $database->get_one($sql)) != null ) {
+                    if($iDeleteUser) {
+        				// Deactivate the user
+            			$sql  = 'UPDATE `'.TABLE_PREFIX.'users` SET '.
+                                '`active` = 0 '.
+                                'WHERE `user_id` = '.$user_id;
+                        if( $database->query($sql) ) {
+                            msgQueue::add($mLang->TEXT_USERS_MARKED_DELETED, true);
+                        }
+                    } else {
+
+
+            			$sql  = 'DELETE FROM `'.TABLE_PREFIX.'users` '.
+                                'WHERE `user_id` = '.$user_id;
+                        if( $database->query($sql) ) {
+                            msgQueue::add($mLang->MESSAGE_USERS_DELETED, true);
+                        }
+                    }
+                    $bRetVal = true;
+                }
+                if($database->is_error()) {
+                    msgQueue::add( implode('<br />',explode(';',$database->get_error())) );
+                    $bRetVal = false;
+               }
+    	endswitch; // end of switch
+		} // getError
+    } // foreach users
     if(isset($aActionRequest['clearmsg'])) { msgQueue::clear();  }
     return $bRetVal;
 }

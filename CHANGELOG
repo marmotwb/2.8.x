@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+06 Jan-2014 Build 2076 Manuela v.d.Decken(DarkViper)
+# some fixes in admin/users
+# some fixes in admin/pages
 06 Jan-2014 Build 2075 Manuela v.d.Decken(DarkViper)
 ! Installer and upgradescript will never start with php below 5.3.2
 # little correction for autoloading PHPMailer in install/save
