@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+07 Jan-2014 Build 2079 Manuela v.d.Decken(DarkViper)
+! modules/output_filter added new field `opf` in mod_output_filter.sql
 07 Jan-2014 Build 2078 Manuela v.d.Decken(DarkViper)
 ! admin/users/languages update
 06 Jan-2014 Build 2077 Manuela v.d.Decken(DarkViper)
