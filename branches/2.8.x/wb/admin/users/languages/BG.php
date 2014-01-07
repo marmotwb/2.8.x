@@ -5,7 +5,7 @@
  * Bulgarian
  * File created on 2014-01-02T15:14:39+01:00
  ****************************************************************************************/
-
+ 
 $HEADING['ADD_USER'] = 'Добави потребител';
 $HEADING['MODIFY_USER'] = 'Промени потребител';
 $HEADING['MODIFY_ACTIVE_USER'] = 'Changing/disabling users';

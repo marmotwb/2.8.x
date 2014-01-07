@@ -5,7 +5,7 @@
  * Portuguese (Brazil)
  * File created on 2014-01-02T15:14:39+01:00
  ****************************************************************************************/
-
+ 
 $HEADING['ADD_USER'] = 'Adicionar Usuário';
 $HEADING['MODIFY_USER'] = 'Modificar Usuário';
 $HEADING['MODIFY_ACTIVE_USER'] = 'Changing/disabling users';

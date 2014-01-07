@@ -40,6 +40,7 @@ $MESSAGE['USERS_USERNAME_TOO_SHORT'] = 'The entered login name was too short';
 $MESSAGE['USERS_WAITING_ACTIVATION'] = 'Awaiting user activation'; // new
 
 $TEXT['ACTIVE'] = 'Activ';
+$TEXT['ACTIVATE'] = 'Activate';
 $TEXT['DEACTIVE'] = 'Deactivate'; // new
 $TEXT['DEACTIVED'] = 'Disabled'; // new
 $TEXT['ADD'] = 'Add';

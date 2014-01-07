@@ -5,7 +5,7 @@
  * Eesti
  * File created on 2014-01-02T15:14:39+01:00
  ****************************************************************************************/
-
+ 
 $HEADING['ADD_USER'] = 'Lisa Kasutaja';
 $HEADING['MODIFY_USER'] = 'Muuda Kasutajat';
 $HEADING['MODIFY_ACTIVE_USER'] = 'Changing/disabling users';
