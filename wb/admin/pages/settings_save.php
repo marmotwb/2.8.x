@@ -29,14 +29,15 @@ if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php')
 //$lang_dir = dirname(__FILE__).'/languages/';
 //$lang = file_exists($lang_dir.LANGUAGE.'.php') ? LANGUAGE : 'EN';
 //require_once($lang_dir.$lang.'.php');
-//if( !isset($mLang->TEXT_PAGE_LANG_LOADED) ) { require($lang_dir.$lang.'.php'); }
+//if( !isset($oLang->TEXT_PAGE_LANG_LOADED) ) { require($lang_dir.$lang.'.php'); }
 
 // suppress to print the header, so no new FTAN will be set
 $admin = new admin('Pages', 'pages_settings',false);
 $pagetree_url = ADMIN_URL.'/pages/index.php';
-
-$mLang = Translate::getinstance();
-$mLang->enableAddon('admin\pages');
+$oDb   = WbDatabase::getInstance();
+$oReg  = WbAdaptor::getInstance();
+$oLang = Translate::getinstance();
+$oLang->enableAddon('admin\pages');
 
 // Get page id
 if(!isset($_POST['page_id']) || (isset($_POST['page_id']) && preg_match('/[^0-9a-z]/i',$_POST['page_id'])) )
@@ -44,26 +45,17 @@ if(!isset($_POST['page_id']) || (isset($_POST['page_id']) && preg_match('/[^0-9a
 	header("Location: index.php");
 	exit(0);
 } else {
-//	$page_id = $admin->checkIDKEY('page_id');
-//	$page_id = (int)$_POST['page_id']; || preg_match('/[^0-9a-f]/i',$_POST['page_id'])
 	if((!($page_id = $admin->checkIDKEY('page_id')))) {
 		$admin->print_header();
-		$admin->print_error($mLang->MESSAGE_GENERIC_SECURITY_ACCESS, $pagetree_url);
+		$admin->print_error($oLang->MESSAGE_GENERIC_SECURITY_ACCESS, $pagetree_url);
 	}
 }
-
-/*
-if( (!($page_id = $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD']))) )
-{
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
-}
-*/
 $target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
 
 if (!$admin->checkFTAN())
 {
 	$admin->print_header();
-	$admin->print_error($mLang->MESSAGE_GENERIC_SECURITY_ACCESS,$target_url);
+	$admin->print_error($oLang->MESSAGE_GENERIC_SECURITY_ACCESS,$target_url);
 }
 
 // After check print the header
@@ -72,11 +64,11 @@ $admin->print_header();
 if(isset($_POST['extendet_submit'])) {
 //	$val = (((($page_exented=='1') ? $page_exented : 0)) + 1) % 2;
 	$val = (defined('PAGE_EXTENDET') ? filter_var(PAGE_EXTENDET, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : false);
-	$sql  = (defined('PAGE_EXTENDET') ? 'UPDATE `' : 'INSERT INTO `') . TABLE_PREFIX . 'settings` SET ';
+	$sql  = (defined('PAGE_EXTENDET') ? 'UPDATE `' : 'INSERT INTO `') . $oDb->TablePrefix . 'settings` SET ';
 	$sql .= '`name`=\'page_extendet\', ';
 	$sql .= '`value`=\''.($val ? 'false' : 'true').'\' ';
 	$sql .= (defined('PAGE_EXTENDET') ? 'WHERE `name`=\'page_extendet\'' : '');
-    if($database->query($sql)) {
+    if($oDb->doQuery($sql)) {
 // redirect to backend
 echo "<p style=\"text-align:center;\"> If the script</strong> could not be start automatically.\n" .
      "Please click <a style=\"font-weight:bold;\" " .
@@ -91,7 +83,7 @@ document.location = '$target_url';
 </script>";
 
     } else {
-    	$admin->print_error($database->get_error(), $target_url );
+    	$admin->print_error($oDb->get_error(), $target_url );
     }
 }
 
@@ -135,11 +127,11 @@ $sMenuIcon1 = (isset($_POST['menu_icon_1']) ? $_POST['menu_icon_1'] : 0);
 // Validate data
 if($page_title == '' || substr($page_title,0,1)=='.')
 {
-	$admin->print_error($mLang->PAGES_BLANK_PAGE_TITLE,$target_url);
+	$admin->print_error($oLang->PAGES_BLANK_PAGE_TITLE,$target_url);
 }
 if($menu_title == '' || substr($menu_title,0,1)=='.')
 {
-	$admin->print_error($mLang->MESSAGE_PAGES_BLANK_MENU_TITLE,$target_url);
+	$admin->print_error($oLang->MESSAGE_PAGES_BLANK_MENU_TITLE,$target_url);
 }
 if($seo_title == '' || substr($seo_title,0,1)=='.')
 {
@@ -147,9 +139,10 @@ if($seo_title == '' || substr($seo_title,0,1)=='.')
 }
 
 // Get existing perms
-$sql  = 'SELECT `parent`,`link`,`position`,`admin_groups`,`admin_users`,`menu_title` ';
-$sql .= 'FROM `'.TABLE_PREFIX.'pages` WHERE `page_id`='.$page_id;
-$results = $database->query($sql);
+$sql = 'SELECT `parent`,`link`,`position`,`admin_groups`,`admin_users`,`menu_title` '
+     . 'FROM `'.$oDb->TablePrefix.'pages` '
+     . 'WHERE `page_id`='.$page_id;
+$results = $oDb->doQuery($sql);
 
 $results_array = $results->fetchRow(MYSQL_ASSOC);
 $old_parent = $results_array['parent'];
@@ -160,7 +153,7 @@ if($admin->ami_group_member('1')) {
 	if(!$admin->ami_group_member($results_array['admin_groups']) &&
 	   !$admin->is_group_match($admin->get_user_id(), $results_array['admin_users']))
 	{
-		$admin->print_error($mLang->MESSAGE_PAGES_INSUFFICIENT_PERMISSIONS);
+		$admin->print_error($oLang->MESSAGE_PAGES_INSUFFICIENT_PERMISSIONS);
 	}
 	// Setup admin groups
 	$aAdminGroups = (is_array($aAdminGroups) ? $aAdminGroups : array(1));
@@ -193,7 +186,7 @@ if(!is_readable(WB_PATH.$sMenuIcon1)) { $sMenuIcon1 = ''; }
 if($parent != $old_parent)
 {
 	// Include ordering class
-	require(WB_PATH.'/framework/class.order.php');
+//	require(WB_PATH.'/framework/class.order.php');
 	$order = new order(TABLE_PREFIX.'pages', 'position', 'page_id', 'parent');
 	// Get new order
 	$position = $order->get_new($parent);
@@ -233,7 +226,7 @@ if( ($parent == '0') ) {
 		if( $denied )
 		{
 //			$link .= '_' .$page_id;
-			$admin->print_error($mLang->MESSAGE_PAGES_CANNOT_MODIFY_PROTECTED_FILE);
+			$admin->print_error($oLang->MESSAGE_PAGES_CANNOT_MODIFY_PROTECTED_FILE);
 		}
 	}
 	$filename = WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION;
@@ -254,45 +247,32 @@ if( ($parent == '0') ) {
 
 // $database = new database();
 // Check if a page with same page filename exists
-$sql = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'pages` '
+$sql = 'SELECT COUNT(*) FROM `'.$oDb->TablePrefix.'pages` '
      . 'WHERE `link` = \''.$link.'\' '
      .   'AND `page_id` != '.$page_id;
-if( ($iSamePages = intval($database->get_one($sql))) > 0 ){
-	$admin->print_error($mLang->MESSAGE_PAGES_PAGE_EXISTS, $target_url);
+if( ($iSamePages = intval($oDb->getOne($sql))) > 0 ){
+	$admin->print_error($oLang->MESSAGE_PAGES_PAGE_EXISTS, $target_url);
 }
-
-//if($get_same_page = $database->query($sql)){
-//	if($get_same_page->numRows() > 0)
-//	{
-//		$admin->print_error($mLang->MESSAGE_PAGES_PAGE_EXISTS, $target_url);
-//	}
-//}
-
-// Update page with new order
-//$sql = 'UPDATE `'.TABLE_PREFIX.'pages` SET `parent`='.$parent.', `position`='.$position.' WHERE `page_id`='.$page_id.'';
-//$database->query($sql);
-
 // Get page trail
 $page_trail = get_page_trail($page_id);
-
 // Update page settings in the pages table
-$sql = 'UPDATE `'.TABLE_PREFIX.'pages` '
+$sql = 'UPDATE `'.$oDb->TablePrefix.'pages` '
 	 . 'SET `parent`='.$parent.', '
-	 .     '`page_title`=\''.$database->escapeString($page_title).'\', '
-	 .     '`tooltip`=\''.$database->escapeString($page_title).'\', '
-	 .     '`page_icon` =\''.$database->escapeString($sPageIcon).'\', '
-	 .     '`menu_title`=\''.$database->escapeString($menu_title).'\', '
-	 .     '`menu_icon_0` =\''.$database->escapeString($sMenuIcon0).'\', '
-	 .     '`menu_icon_1` =\''.$database->escapeString($sMenuIcon1).'\', '
+	 .     '`page_title`=\''.$oDb->escapeString($page_title).'\', '
+	 .     '`tooltip`=\''.$oDb->escapeString($page_title).'\', '
+	 .     '`page_icon` =\''.$oDb->escapeString($sPageIcon).'\', '
+	 .     '`menu_title`=\''.$oDb->escapeString($menu_title).'\', '
+	 .     '`menu_icon_0` =\''.$oDb->escapeString($sMenuIcon0).'\', '
+	 .     '`menu_icon_1` =\''.$oDb->escapeString($sMenuIcon1).'\', '
 	 .     '`menu`='.$menu.', '
 	 .     '`level`='.$level.', '
 	 .     '`page_trail`=\''.$page_trail.'\', '
 	 .     '`root_parent`='.$root_parent.', '
-	 .     '`link`=\''.$database->escapeString($link).'\', '
+	 .     '`link`=\''.$oDb->escapeString($link).'\', '
 	 .     '`template`=\''.$template.'\', '
 	 .     '`target`=\''.$target.'\', '
-	 .     '`description`=\''.$database->escapeString($description).'\', '
-	 .     '`keywords`=\''.$database->escapeString($keywords).'\', '
+	 .     '`description`=\''.$oDb->escapeString($description).'\', '
+	 .     '`keywords`=\''.$oDb->escapeString($keywords).'\', '
 	 .     '`position`='.$position.', '
 	 .     '`visibility`=\''.$visibility.'\', '
 	 .     '`searching`='.$searching.', '
@@ -308,9 +288,9 @@ if($admin->ami_group_member('1')) {
 	 . '`page_code`='.$page_code.' '
 	 . 'WHERE `page_id`='.$page_id;
 
-if(!$database->query($sql)) {
+if(!$oDb->doQuery($sql)) {
 	$target_url = ADMIN_URL.'/pages/settings.php?page_id='.$page_id;
-	$admin->print_error($database->get_error(), $target_url );
+	$admin->print_error($oDb->get_error(), $target_url );
 }
 
 // Clean old order if needed
@@ -321,8 +301,9 @@ if($parent != $old_parent)
 
 // using standard function by core,
 function fix_page_trail($page_id) {
-	global $database,$admin,$target_url,$pagetree_url,$mLang;
-
+	global $admin, $target_url, $pagetree_url;
+    $oLang = Translate::getInstance();
+    $oDb   = WbDatabase::getInstance();
 	$target_url = (isset($_POST['back_submit'])) ? $pagetree_url : $target_url;
 	
 // Work out level
@@ -333,16 +314,16 @@ function fix_page_trail($page_id) {
 	$page_trail = get_page_trail($page_id);
 
 // Update page with new level and link
-	$sql  = 'UPDATE `'.TABLE_PREFIX.'pages` '
+	$sql  = 'UPDATE `'.$oDb->TablePrefix.'pages` '
 	      . 'SET `root_parent` = '.$root_parent.', '
 	      .     '`level` = '.$level.', '
 	      .     '`page_trail` = \''.$page_trail.'\' '
 	      .'WHERE `page_id` = '.$page_id;
 
-	if($database->query($sql)) {
-		$admin->print_success($mLang->MESSAGE_PAGES_SAVED_SETTINGS, $target_url );
+	if($oDb->doQuery($sql)) {
+		$admin->print_success($oLang->MESSAGE_PAGES_SAVED_SETTINGS, $target_url );
 	} else {
-		$admin->print_error($database->get_error(), $target_url );
+		$admin->print_error($oDb->get_error(), $target_url );
 	}
 }
 
@@ -363,7 +344,7 @@ $bCanCreateAcessFiles = (($bCanCreateAcessFiles==true) ? file_exists(WB_PATH) &&
 
 if( !$bCanCreateAcessFiles )
 {
-	$admin->print_error($mLang->MESSAGE_PAGES_CANNOT_CREATE_ACCESS_FILE, $target_url);
+	$admin->print_error($oLang->MESSAGE_PAGES_CANNOT_CREATE_ACCESS_FILE, $target_url);
 } else {
 // Create a new file in the /pages dir if title changed
 	$old_filename = WB_PATH.PAGES_DIRECTORY.$old_link.PAGE_EXTENSION;
@@ -379,10 +360,20 @@ if( !$bCanCreateAcessFiles )
 			unlink($old_filename);
 		}
 // Create access file
-		create_access_file($filename,$page_id,$level);
-		if(!file_exists($filename)) {
-			$admin->print_error($mLang->MESSAGE_PAGES_CANNOT_CREATE_ACCESS_FILE);
-		}
+        $sNewLink = str_replace($oReg->AppPath.$oReg->PagesDir, '', str_replace('\\', '/', $filename));
+        try{
+            $oAccFile = new AccessFile($oReg->AppPath.$oReg->PagesDir, $sNewLink, $page_id);
+            $oAccFile->write();
+            unset($oAccFile);
+        } catch (AccessFileException $e) {
+            $sMsg = $oLang->MESSAGE_PAGES_CANNOT_CREATE_ACCESS_FILE
+                  . '<br />'.$e->getMessage();
+            $admin->print_error($sMsg);
+        }
+//		create_access_file($filename,$page_id,$level);
+//		if(!file_exists($filename)) {
+//			$admin->print_error($oLang->MESSAGE_PAGES_CANNOT_CREATE_ACCESS_FILE.'');
+//		}
 // Move a directory for this page
 		if(is_writeable(WB_PATH.PAGES_DIRECTORY.$old_link.'/') && !is_dir(WB_PATH.PAGES_DIRECTORY.$link.'/'))
 		{
@@ -420,11 +411,20 @@ if( !$bCanCreateAcessFiles )
 								unlink($old_subpage_file);
 							}
 							$sAccessFile = WB_PATH.PAGES_DIRECTORY.$new_sub_link.PAGE_EXTENSION;
-							create_access_file($sAccessFile, $sub['page_id'], $new_sub_level);
-							if(!file_exists($sAccessFile)) {
-								$admin->print_error($mLang->MESSAGE_PAGES_CANNOT_CREATE_ACCESS_FILE);
-							} else {
-							}
+                            $sNewLink = str_replace($oReg->AppPath.$oReg->PagesDir, '', str_replace('\\', '/', $sAccessFile));
+                            try {
+                                $oAccFile = new AccessFile(WB_PATH.PAGES_DIRECTORY.'/', $sNewLink, $sub['page_id']);
+                                $oAccFile->write();
+                                unset($oAccFile);
+                            } catch (AccessFileException $e) {
+                                $sMsg = $oLang->MESSAGE_PAGES_CANNOT_CREATE_ACCESS_FILE
+                                      . '<br />'.$e->getMessage();
+                                $admin->print_error($sMsg);
+                            }
+//							create_access_file($sAccessFile, $sub['page_id'], $new_sub_level);
+//							if(!file_exists($sAccessFile)) {
+//								$admin->print_error($oLang->MESSAGE_PAGES_CANNOT_CREATE_ACCESS_FILE);
+//							}
 						}
 					}
 				}
