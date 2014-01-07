@@ -15,6 +15,7 @@ SET time_zone = "+00:00";
 --
 DROP TABLE IF EXISTS `{TABLE_PREFIX}mod_output_filter`;
 CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}mod_output_filter` (
+  `opf` int(11) NOT NULL DEFAULT '0',
   `sys_rel` int(11) NOT NULL DEFAULT '0',
   `email_filter` int(11) NOT NULL DEFAULT '1',
   `mailto_filter` int(11) NOT NULL DEFAULT '1',

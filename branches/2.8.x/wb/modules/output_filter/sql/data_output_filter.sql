@@ -14,5 +14,5 @@ SET time_zone = "+00:00";
 -- Default Daten für Tabelle `mod_output_filter`
 --
 
-INSERT INTO `{TABLE_PREFIX}mod_output_filter` VALUES('0', '1', '1', '{at}', '{dot}');
+INSERT INTO `{TABLE_PREFIX}mod_output_filter` VALUES(0, 0, 1, 1, '{at}', '{dot}');
 -- EndOfFile
