@@ -36,7 +36,7 @@ $admin = new admin('Pages', 'pages_settings',false);
 $pagetree_url = ADMIN_URL.'/pages/index.php';
 $oDb   = WbDatabase::getInstance();
 $oReg  = WbAdaptor::getInstance();
-$oLang = Translate::getinstance();
+$oLang = Translate::getInstance();
 $oLang->enableAddon('admin\pages');
 
 // Get page id

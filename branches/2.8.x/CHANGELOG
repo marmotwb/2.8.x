@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+07 Jan-2014 Build 2081 Manuela v.d.Decken(DarkViper)
+# admin/pages/settings_save Typofix Line 39
 07 Jan-2014 Build 2080 Manuela v.d.Decken(DarkViper)
 ! admin/pages/settings_save class AccessFile implemented
 07 Jan-2014 Build 2079 Manuela v.d.Decken(DarkViper)
