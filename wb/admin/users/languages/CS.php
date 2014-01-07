@@ -5,7 +5,7 @@
  * &#268;e&scaron;tina
  * File created on 2014-01-02T15:14:39+01:00
  ****************************************************************************************/
-
+ 
 $HEADING['ADD_USER'] = 'Přidat uživatele';
 $HEADING['MODIFY_USER'] = 'Změnit uživatele';
 $HEADING['MODIFY_ACTIVE_USER'] = 'Changing/disabling users';

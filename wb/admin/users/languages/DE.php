@@ -4,7 +4,7 @@
  * ACP-module  users                                                                    *
  * deutsch                                                                              *
  ****************************************************************************************/
-
+ 
 $HEADING['ADD_USER'] = 'Benutzer hinzufügen';
 $HEADING['MODIFY_USER'] = 'Benutzer ändern';
 $HEADING['MODIFY_ACTIVE_USER'] = 'Ändern/Deaktivieren von Benutzern'; // new
