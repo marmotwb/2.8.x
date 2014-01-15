@@ -194,12 +194,14 @@ if(!defined('WB_URL')) {
         if (($oEntrySet = $oDb->doQuery($sql))) {
             $iRecords = 0;
             $iReplaced = 0;
-            $aSearch = array( '/\{SYSVAR\:MEDIA_REL\}[\/\\\\]?/sU',
-                              '/\{SYSVAR\:WB_URL\}[\/\\\\]?/sU',
-                              '/(\{SYSVAR\:AppUrl\.MediaDir\})[\/\\\\]?/sU',
-                              '/(\{SYSVAR\:AppUrl\})[\/\\\\]?/sU'
+            $aSearch = array( '/\{SYSVAR\:MEDIA_REL\}\/*/s',
+                              '/\{SYSVAR\:WB_URL\}\/*/s',
+                              '/'.preg_quote('"'.$oReg->AppUrl.$oReg->MediaDir, '/').'*/s',
+                              '/'.preg_quote('"'.$oReg->AppUrl, '/').'*/s',
+                              '/(\{SYSVAR\:AppUrl\.MediaDir\})\/+/s',
+                              '/(\{SYSVAR\:AppUrl\})\/+/s'
                             );
-            $aReplace = array( '{SYSVAR:AppUrl.MediaDir}', '{SYSVAR:AppUrl}', '\1', '\1' );
+            $aReplace = array( '{SYSVAR:AppUrl.MediaDir}', '{SYSVAR:AppUrl}', '{SYSVAR:AppUrl.MediaDir}', '{SYSVAR:AppUrl}', '\1', '\1');
             while (($aEntry = $oEntrySet->fetchRow(MYSQL_ASSOC))) {
                 $iCount = 0;
                 $aSubject = array($aEntry['content_long'], $aEntry['content_short']);
@@ -214,23 +216,7 @@ if(!defined('WB_URL')) {
                     $iRecords++;
                 }
             }
-            $msg[] = '['.$iRecords.'] records with ['.$iReplaced.'] SYSVAR placeholder(s) repaired'." $OK";
-        }
-        try {
-            $sql  = 'UPDATE `'.$oDb->TablePrefix.'mod_news_posts` ';
-            $sql .= 'SET `content` = REPLACE(`content`, \'"'.$oReg->AppPath.$oReg->MediaDir.'\', \'"{SYSVAR:AppPath.MediaDir}\')';
-            $oDb->doQuery($sql);
-            $msg[] = 'Change internal absolute Media links into SYSVAR placeholders'." $OK";
-        } catch(WbDatabaseException $e) {
-            $msg[] = ''.$oDb->get_error();
-        }
-        try {
-            $sql  = 'UPDATE `'.$oDb->TablePrefix.'mod_news_posts` ';
-            $sql .= 'SET `content` = REPLACE(`content`, \'"'.$oReg->AppPath.'\', \'"{SYSVAR:AppPath}\')';
-            $oDb->doQuery($sql);
-            $msg[] = 'Change internal absolute links into SYSVAR placeholders'." $OK";
-        } catch(WbDatabaseException $e) {
-            $msg[] = ''.$oDb->get_error();
+            $msg[] = '['.$iRecords.'] records with ['.$iReplaced.'] SYSVAR placeholder(s) repaired/inserted'." $OK";
         }
 /* --- rebuild all access files ------------------------------------------------------- */
 		$aReport = array('FilesDeleted'=>0,'FilesCreated'=>0,);
