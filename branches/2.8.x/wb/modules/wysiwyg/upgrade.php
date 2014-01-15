@@ -91,49 +91,35 @@ if(!defined('WB_PATH')) {
             if (($oEntrySet = $oDb->doQuery($sql))) {
                 $iRecords = 0;
                 $iReplaced = 0;
-                $aSearch = array( '/\{SYSVAR\:MEDIA_REL\}[\/\\\\]?/sU',
-                                  '/\{SYSVAR\:WB_URL\}[\/\\\\]?/sU',
-                                  '/(\{SYSVAR\:AppUrl\.MediaDir\})[\/\\\\]?/sU',
-                                  '/(\{SYSVAR\:AppUrl\})[\/\\\\]?/sU'
+                $aSearch = array( '/\{SYSVAR\:MEDIA_REL\}\/*/s',
+                                  '/\{SYSVAR\:WB_URL\}\/*/s',
+                                  '/'.preg_quote('"'.$oReg->AppUrl.$oReg->MediaDir, '/').'*/s',
+                                  '/'.preg_quote('"'.$oReg->AppUrl, '/').'*/s',
+                                  '/(\{SYSVAR\:AppUrl\.MediaDir\})\/+/s',
+                                  '/(\{SYSVAR\:AppUrl\})\/+/s'
                                 );
-                $aReplace = array( '{SYSVAR:AppUrl.MediaDir}', '{SYSVAR:AppUrl}', '\1', '\1' );
+                $aReplace = array( '{SYSVAR:AppUrl.MediaDir}', '{SYSVAR:AppUrl}', '{SYSVAR:AppUrl.MediaDir}', '{SYSVAR:AppUrl}', '\1', '\1');
                 while (($aEntry = $oEntrySet->fetchRow(MYSQL_ASSOC))) {
                     $iCount = 0;
-                    $aEntry['content'] = preg_replace($aSearch, $aReplace, $aEntry['content'], -1, $iCount);
+                    $aSubject = array($aEntry['content_long'], $aEntry['content_short']);
+                    $aNewContents = preg_replace($aSearch, $aReplace, $aSubject, -1, $iCount);
                     if ($iCount > 0) {
                         $iReplaced += $iCount;
-                        $sql = 'UPDATE `'.$oDb->TablePrefix.'mod_wysiwyg` '
-                             . 'SET `content`=\''.$oDb->escapeString($aEntry['content']).'\' '
-                             . 'WHERE `section_id`='.$aEntry['section_id'];
+                        $sql = 'UPDATE `'.$oDb->TablePrefix.'mod_news_posts` '
+                             . 'SET `content_long`=\''.$oDb->escapeString($aNewContents[0]).'\', '
+                             .     '`content_short`=\''.$oDb->escapeString($aNewContents[1]).'\' '
+                             . 'WHERE `post_id`='.$aEntry['post_id'];
                         $oDb->doQuery($sql);
                         $iRecords++;
                     }
                 }
-                $msg[] = '['.$iRecords.'] records with ['.$iReplaced.'] SYSVAR placeholder(s) repaired'." $OK";
-            }
-            try {
-                $sql  = 'UPDATE `'.$sTable.'` ';
-                $sql .= 'SET `content` = REPLACE(`content`, \'"'.$oReg->AppPath.$oReg->MediaDir.'\', \'"{SYSVAR:AppPath.MediaDir}\')';
-                $oDb->doQuery($sql);
-				$msg[] = 'Change internal absolute Media links into SYSVAR placeholders'." $OK";
-            } catch(WbDatabaseException $e) {
-				$msg[] = ''.$oDb->get_error();
-            }
-            try {
-                $sql  = 'UPDATE `'.$sTable.'` ';
-                $sql .= 'SET `content` = REPLACE(`content`, \'"'.$oReg->AppPath.'\', \'"{SYSVAR:AppPath}\')';
-                $oDb->doQuery($sql);
-				$msg[] = 'Change internal absolute links into SYSVAR placeholders'." $OK";
-            } catch(WbDatabaseException $e) {
-				$msg[] = ''.$oDb->get_error();
-            }
+                $msg[] = '['.$iRecords.'] records with ['.$iReplaced.'] SYSVAR placeholder(s) repaired/inserted'." $OK";
 // only for $callingScript upgrade-script.php
-			if($globalStarted) {
-				if($bDebug) {
-					echo '<strong>'.implode('<br />',$msg).'</strong><br />';
-				}
-			}
-		}
+                if($globalStarted && $bDebug) {
+                    echo '<strong>'.implode('<br />',$msg).'</strong><br />';
+                }
+            }
+        }
 		$msg[] = 'WYSIWYG upgrade successfull finished'." $OK";
 		if($globalStarted) {
 			echo "<strong>WYSIWYG upgrade successfull finished $OK</strong><br />";

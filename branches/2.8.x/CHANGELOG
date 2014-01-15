@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+15 Jan-2014 Build 2083 Manuela v.d.Decken(DarkViper)
+# modules/news/upgrade manipulation of {SYSVAR:}-Tags fixed
+# modules/wysiwyg/upgrade manipulation of {SYSVAR:}-Tags fixed
+# modules/news/add default template fixed
 07 Jan-2014 Build 2082 Manuela v.d.Decken(DarkViper)
 ! added missing translation in admin/users
 ! DOC-files updated.

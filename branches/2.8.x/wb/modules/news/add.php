@@ -36,7 +36,7 @@ if(!defined('WB_PATH')) {
 	             . '    </tr>';
 	$footer      = '  </tbody>'.PHP_EOL
 	             . '</table>'.PHP_EOL
-	             . '<table class="page-header" style="display: [DISPLAY_PREVIOUS_NEXT_LINKS]>'.PHP_EOL
+	             . '<table class="page-header" style="display: [DISPLAY_PREVIOUS_NEXT_LINKS];">'.PHP_EOL
 	             . '  <tbody>'.PHP_EOL
 	             . '    <tr>'.PHP_EOL
 	             . '      <td class="page-left">[PREVIOUS_PAGE_LINK]</td>'.PHP_EOL
