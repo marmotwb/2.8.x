@@ -183,18 +183,29 @@
 		$db['name'] = isset($db['name']) ? $db['name'] : 'dummy';
 		$db['charset'] = isset($db['charset']) ? trim($db['charset']) : 'utf8';
 		$db['table_prefix'] = (isset($db['table_prefix']) ? $db['table_prefix'] : '');
+        if (isset($db['options']) && is_array($db['options'])) {
+            foreach ($db['options'] as $key=>$value) {
+                $aRetval['options'][constant($key)] = $value;
+            }
+        }
 		if(!defined('TABLE_PREFIX')) { define('TABLE_PREFIX', $db['table_prefix']); }
 		if($sDbConnectType == 'dsn') {
 		// build dsn to connect
-			$aRetval[0] = $db['type'].':dbname='.$db['name'].';host='.$db['host'].';'
-						. ($db['port'] != '' ? 'port='.(int)$db['port'].';' : '');
-			$aRetval[1] = array('CHARSET' => $db['charset'], 'TABLE_PREFIX' => $db['table_prefix']);
-			$aRetval[2] = array( 'user' => $db['user'], 'pass' => $db['pass']);
+            $aRetval['dsn']      = $db['type'].':dbname='.$db['name'].';host='.$db['host']
+						         . ($db['port'] != '' ? ';port='.(int)$db['port'] : '');
+            if ($db['charset'] == 'utf8') {
+                $aRetval['dsn'] .= ';charset=UTF8';
+                $aRetval['options'][constant('PDO::MYSQL_ATTR_INIT_COMMAND')]  = 'SET NAMES \'UTF8\'';
+            }
+            $aRetval['options']  = '';
+            $aRetval['user']     = $db['user'];
+            $aRetval['password'] = $db['pass'];
+            $aRetval['addons']   = array('CHARSET' => $db['charset'], 'TABLE_PREFIX' => $db['table_prefix']);
 		}else { 
 		// build url to connect
-			$aRetval[0] = $db['type'].'://'.$db['user'].':'.$db['pass'].'@'
-						. $db['host'].($db['port'] != '' ? ':'.$db['port'] : '').'/'.$db['name']
-						. '?Charset='.$db['charset'].'&TablePrefix='.$db['table_prefix'];
+            $aRetval['url'] = $db['type'].'://'.$db['user'].':'.$db['pass'].'@'
+						    . $db['host'].($db['port'] != '' ? ':'.$db['port'] : '').'/'.$db['name']
+						    . '?Charset='.$db['charset'].'&TablePrefix='.$db['table_prefix'];
 		}
 		return $aRetval;
 	}
@@ -256,9 +267,9 @@
 // Create global database instance ---
 	$oDb = $database = WbDatabase::getInstance();
 	if($sDbConnectType == 'dsn') {
-		$bTmp = $oDb->doConnect($aSqlData[0], $aSqlData[1]['user'], $aSqlData[1]['pass'], $aSqlData[2]);
+		$bTmp = $oDb->doConnect($aSqlData['dsn'], $aSqlData['user'], $aSqlData['password'], null, $aSqlData['addons']);
 	}else {
-		$bTmp = $oDb->doConnect($aSqlData[0]);
+		$bTmp = $oDb->doConnect($aSqlData['url']);
 	}
 // remove critical data from memory
 	unset($aSqlData, $aCfg);
