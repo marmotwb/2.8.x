@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+16 Jan-2014 Build 2086 Manuela v.d.Decken(DarkViper)
+# A remaining semicolon removed from AccessFileHelper
 16 Jan-2014 Build 2085 Manuela v.d.Decken(DarkViper)
 ! build DSN extended for PDO::MYSQL_ATTR_INIT_COMMAND = 'SET NAMES xx'
 16 Jan-2014 Build 2084 Manuela v.d.Decken(DarkViper)
