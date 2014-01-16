@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+16 Jan-2014 Build 2084 Manuela v.d.Decken(DarkViper)
+# modules/wysiwyg/upgrade copy-past mistake corrected
 15 Jan-2014 Build 2083 Manuela v.d.Decken(DarkViper)
 # modules/news/upgrade manipulation of {SYSVAR:}-Tags fixed
 # modules/wysiwyg/upgrade manipulation of {SYSVAR:}-Tags fixed
