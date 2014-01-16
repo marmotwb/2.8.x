@@ -101,14 +101,12 @@ if(!defined('WB_PATH')) {
                 $aReplace = array( '{SYSVAR:AppUrl.MediaDir}', '{SYSVAR:AppUrl}', '{SYSVAR:AppUrl.MediaDir}', '{SYSVAR:AppUrl}', '\1', '\1');
                 while (($aEntry = $oEntrySet->fetchRow(MYSQL_ASSOC))) {
                     $iCount = 0;
-                    $aSubject = array($aEntry['content_long'], $aEntry['content_short']);
-                    $aNewContents = preg_replace($aSearch, $aReplace, $aSubject, -1, $iCount);
+                    $aEntry['content'] = preg_replace($aSearch, $aReplace, $aEntry['content'], -1, $iCount);
                     if ($iCount > 0) {
                         $iReplaced += $iCount;
-                        $sql = 'UPDATE `'.$oDb->TablePrefix.'mod_news_posts` '
-                             . 'SET `content_long`=\''.$oDb->escapeString($aNewContents[0]).'\', '
-                             .     '`content_short`=\''.$oDb->escapeString($aNewContents[1]).'\' '
-                             . 'WHERE `post_id`='.$aEntry['post_id'];
+                        $sql = 'UPDATE `'.$oDb->TablePrefix.'mod_wysiwyg` '
+                             . 'SET `content`=\''.$oDb->escapeString($aEntry['content']).'\' '
+                             . 'WHERE `section_id`='.$aEntry['section_id'];
                         $oDb->doQuery($sql);
                         $iRecords++;
                     }
