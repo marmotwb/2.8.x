@@ -160,7 +160,7 @@ class AccessFileHelper {
 		$sRootPath = self::getRealPath($sRootPath);
 		$sFullPath = self::getRealPath($sFullPath);
 		$sRetval = (preg_match('/^'.preg_quote($sRootPath, '/').'/', $sFullPath) ? $sFullPath : null );
-		return $sRetval;;
+		return $sRetval;
 	}
 
 	static public function getRealPath($sPath)
