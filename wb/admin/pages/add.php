@@ -25,6 +25,8 @@ if(!defined('WB_URL'))
 }
 // Create new admin object and print admin header
 if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+$oReg  = WbAdaptor::getInstance();
+$oDb   = WbDatabase::getInstance();
 $mLang = Translate::getinstance();
 $mLang->enableAddon('admin\pages');
 
@@ -50,7 +52,7 @@ $admin_groups = $admin->get_post('admin_groups');
 $viewing_groups = $admin->get_post('viewing_groups');
 
 // Work-out if we should check for existing page_code
-$field_set = $database->field_exists(TABLE_PREFIX.'pages', 'page_code');
+$field_set = $oDb->isField($oDb->TablePrefix.'pages', 'page_code');
 
 // add Admin to admin and viewing-groups
 $admin_groups[] = 1;
@@ -155,7 +157,7 @@ if($parent == '0')
 }
 
 // Check if a page with same page filename exists
-//$get_same_page = $database->query("SELECT page_id FROM ".TABLE_PREFIX."pages WHERE link = '$link'");
+//$get_same_page = $oDb->query("SELECT page_id FROM ".TABLE_PREFIX."pages WHERE link = '$link'");
 //if($get_same_page->numRows() > 0 OR file_exists(WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION) OR file_exists(WB_PATH.PAGES_DIRECTORY.$link.'/'))
 //{
 //	$admin->print_error($MESSAGE['PAGES_PAGE_EXISTS']);
@@ -163,22 +165,22 @@ if($parent == '0')
 $bLinkExists = file_exists(WB_PATH.PAGES_DIRECTORY.$link.PAGE_EXTENSION) || file_exists(WB_PATH.PAGES_DIRECTORY.$link);
 
 // UNLOCK TABLES
-$sql = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'pages` '
+$sql = 'SELECT COUNT(*) FROM `'.$oDb->TablePrefix.'pages` '
      . 'WHERE `link` = \''.$link.'\' ';
-if( (($iSamePages = intval($database->get_one($sql))) > 0) || $bLinkExists ){
+if( (($iSamePages = intval($oDb->getOne($sql))) > 0) || $bLinkExists ){
 	$admin->print_error($MESSAGE['PAGES_PAGE_EXISTS']);
 }
 
 // Include the ordering class
 require(WB_PATH.'/framework/class.order.php');
-$order = new order(TABLE_PREFIX.'pages', 'position', 'page_id', 'parent');
+$order = new order($oDb->TablePrefix.'pages', 'position', 'page_id', 'parent');
 // First clean order
 $order->clean($parent);
 // Get new order
 $position = $order->get_new($parent);
 
 // Work-out if the page parent (if selected) has a seperate template or language to the default
-$query_parent = $database->query("SELECT template, language FROM ".TABLE_PREFIX."pages WHERE page_id = '$parent'");
+$query_parent = $oDb->doQuery("SELECT template, language FROM ".$oDb->TablePrefix."pages WHERE page_id = '$parent'");
 if($query_parent->numRows() > 0)
 {
 	$fetch_parent = $query_parent->fetchRow();
@@ -190,33 +192,33 @@ if($query_parent->numRows() > 0)
 }
 
 // Insert page into pages table
-$sql  = 'INSERT INTO `'.TABLE_PREFIX.'pages` ';
-$sql .= 'SET `parent` = '.$parent.', ';
-$sql .= '`target` = "_top", ';
-$sql .= '`page_title` = "'.$title.'", ';
-$sql .= '`menu_title` = "'.$title.'", ';
-$sql .= '`tooltip` = "'.$title.'", ';
-$sql .= '`template` = "'.$template.'", ';
-$sql .= '`visibility` = "'.$visibility.'", ';
-$sql .= '`position` = '.$position.', ';
-$sql .= '`menu` = 1, ';
-$sql .= '`language` = "'.$language.'", ';
-$sql .= '`searching` = 1, ';
-$sql .= '`modified_when` = '.time().', ';
-$sql .= '`modified_by` = '.$admin->get_user_id().', ';
-$sql .= '`admin_groups` = "'.$admin_groups.'", ';
-$sql .= '`viewing_groups` = "'.$viewing_groups.'"';
+$sql = 'INSERT INTO `'.$oDb->TablePrefix.'pages` '
+     . 'SET `parent` = '.$parent.', '
+     .     '`target` = \'_top\', '
+     .     '`page_title` = \''.$title.'\', '
+     .     '`menu_title` = \''.$title.'\', '
+     .     '`tooltip` = \''.$title.'\', '
+     .     '`template` = \''.$template.'\', '
+     .     '`visibility` = \''.$visibility.'\', '
+     .     '`position` = '.$position.', '
+     .     '`menu` = 1, '
+     .     '`language` = \''.$language.'\', '
+     .     '`searching` = 1, '
+     .     '`modified_when` = '.time().', '
+     .     '`modified_by` = '.$admin->get_user_id().', '
+     .     '`admin_groups` = \''.$admin_groups.'\', '
+     .     '`viewing_groups` = \''.$viewing_groups.'\'';
 
-if(!$database->query($sql)) {
-	if($database->is_error())
+if(!$oDb->doQuery($sql)) {
+	if($oDb->isError())
 	{
-		$admin->print_error($database->get_error());
+		$admin->print_error($oDb->getError());
 	}
 }
 
 // Get the page id
-//$page_id = $database->get_one("SELECT LAST_INSERT_ID()");
-$page_id = $database->LastInsertId;
+//$page_id = $oDb->getOne("SELECT LAST_INSERT_ID()");
+$page_id = $oDb->LastInsertId;
 // Work out level
 $level = level_count($page_id);
 // Work out root parent
@@ -225,21 +227,24 @@ $root_parent = root_parent($page_id);
 $page_trail = get_page_trail($page_id);
 
 /*
-$database->query("UPDATE ".TABLE_PREFIX."pages SET link = '$link', level = '$level', root_parent = '$root_parent', page_trail = '$page_trail' WHERE page_id = '$page_id'");
+$oDb->doQuery("UPDATE ".$oDb->TablePrefix."pages SET link = '$link', level = '$level', root_parent = '$root_parent', page_trail = '$page_trail' WHERE page_id = '$page_id'");
 */
 // Update page with new level and link
-$sql  = 'UPDATE `'.TABLE_PREFIX.'pages` SET ';
-$sql .= '`root_parent` = '.$root_parent.', ';
-$sql .= '`level` = '.$level.', ';
-$sql .= '`link` = \''.$link.'\', ';
-$sql .= '`page_trail` = \''.$page_trail.'\'';
-$sql .= ((defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set && ($language == DEFAULT_LANGUAGE)
-                                    && class_exists('m_MultiLingual_Lib') ? ', `page_code` = '.(int)$page_id.' ' : ' ');
-$sql .= 'WHERE `page_id` = '.$page_id;
-$database->query($sql);
-if($database->is_error())
+$sql = 'UPDATE `'.$oDb->TablePrefix.'pages` '
+     . 'SET `root_parent` = '.$root_parent.', '
+     .     '`level` = '.$level.', '
+     .     '`link` = \''.$link.'\', '
+     .     '`page_trail` = \''.$page_trail.'\' '
+     .     ( (defined('PAGE_LANGUAGES') && PAGE_LANGUAGES) && $field_set
+              && ($language == DEFAULT_LANGUAGE) && class_exists('m_MultiLingual_Lib')
+             ? ', `page_code` = '.(int)$page_id.' '
+             : ''
+           )
+     . 'WHERE `page_id` = '.$page_id;
+$oDb->doQuery($sql);
+if($oDb->isError())
 {
-	$admin->print_error($database->get_error());
+	$admin->print_error($oDb->getError());
 }
 
 // add position 1 to new page section
@@ -247,33 +252,36 @@ $position = 1;
 
 // Add new record into the sections table
 // Insert module into DB
-$sql  = 'INSERT INTO `'.TABLE_PREFIX.'sections` ';
-$sql .= 'SET `page_id` = '.(int)$page_id.', ';
-$sql .= '`module` = \''.$module.'\', ';
-$sql .= '`position` = '.(int)$position.', ';
-$sql .= '`block` = \'1\', ';
-$sql .= '`publ_start` = \'0\',';
-$sql .= '`publ_end` = \'0\' ';
-if($database->query($sql)) {
+$sql = 'INSERT INTO `'.$oDb->TablePrefix.'sections` '
+     . 'SET `page_id` = '.(int)$page_id.', '
+     .     '`module` = \''.$module.'\', '
+     .     '`position` = '.(int)$position.', '
+     .     '`block` = \'1\', '
+     .     '`publ_start` = \'0\','
+     .     '`publ_end` = \'0\' ';
+if($oDb->doQuery($sql)) {
 	// Get the section id
-	$section_id = $database->get_one("SELECT LAST_INSERT_ID()");
+	$section_id = $oDb->getOne("SELECT LAST_INSERT_ID()");
 	// Include the selected modules add file if it exists
 	if(file_exists(WB_PATH.'/modules/'.$module.'/add.php'))
     {
 		require(WB_PATH.'/modules/'.$module.'/add.php');
 	}
 }
-
 // Create a new file in the /pages dir
-create_access_file($filename, $page_id, $level);
-
-if(!file_exists($filename)) {
-	$admin->print_error($mLang->MESSAGE_PAGES_CANNOT_CREATE_ACCESS_FILE);
+$sNewLink = str_replace($oReg->AppPath.$oReg->PagesDir, '', str_replace('\\', '/', $filename));
+try{
+    $oAccFile = new AccessFile($oReg->AppPath.$oReg->PagesDir, $sNewLink, $page_id);
+    $oAccFile->write();
+    unset($oAccFile);
+} catch (AccessFileException $e) {
+    $sMsg = $oLang->MESSAGE_PAGES_CANNOT_CREATE_ACCESS_FILE
+          . '<br />'.$e->getMessage();
+    $admin->print_error($sMsg);
 }
-
 // Check if there is a db error, otherwise say successful
-if($database->is_error()) {
-	$admin->print_error($database->get_error().' (sections)');
+if($oDb->isError()) {
+	$admin->print_error($oDb->getError().' (sections)');
 } else {
 	$admin->print_success($mLang->MESSAGE_PAGES_ADDED, ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 }
