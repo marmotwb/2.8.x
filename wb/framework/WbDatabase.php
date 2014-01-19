@@ -52,7 +52,7 @@ class WbDatabase {
  * __constructor
  *  prevent from public instancing
  */
-	protected function  __construct() {}
+	private function  __construct() {}
 /**
  * prevent from cloning
  */
