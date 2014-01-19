@@ -35,6 +35,27 @@
 class UpgradeHelper {
 
 /**
+ * do not delete start directory of deltree
+ */
+	const DEL_ROOT_PRESERVE = 0;
+/**
+ * delete start directory of deltree
+ */
+	const DEL_ROOT_DELETE   = 1;
+/**
+ * clear logs
+ */
+	const LOG_CLEAR = true;
+/**
+ * preserve logs
+ */
+	const LOG_PRESERVE = false;
+/**
+ * to store the last delTree log
+ */
+	static $aDelTreeLog = array();
+
+/**
  * Compare available tables against a list of tables
  * @param  array list of needed table names without TablePrefix
  * @return array list of missing tables
@@ -265,6 +286,60 @@ class UpgradeHelper {
 		}
 		return false;
 	}
+/**
+ * Delete all contents of basedir, but not the basedir itself
+ * @param string  $sRootDir the content of which should be deleted
+ * @param integer $iMode    the mode can be set to self::DEL_ROOT_PRESERVE(default) or self::DEL_ROOT_DELETE
+ * @return boolean          false if a file or directory can't be deleted
+ */
+	static public function delTree($sRootDir, $iMode = self::DEL_ROOT_PRESERVE)
+	{
+		// check if root dir is inside the installation and is writeable
+		$oReg = WbAdaptor::getInstance();
+		self::$aDelTreeLog = array();
+		$bResult = true;
+		if (!is_writeable($sRootDir)) {
+			self::$aDelTreeLog[] = str_replace($oReg->AppPath, '', $sRootDir);
+			return false;
+		}
+		$oIterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($sRootDir), RecursiveIteratorIterator::CHILD_FIRST);
+		foreach ($oIterator as $oPath) {
+			$sPath = rtrim(str_replace('\\', '/', $oPath->__toString()), '/');
+			if ($oPath->isDir() && !preg_match('/\.$/s', $sPath)) {
+				// proceed directories
+				if (!rmdir($sPath)) {
+					$bResult = false;
+					self::$aDelTreeLog[] = str_replace($oReg->AppPath, '', $sPath);
+				}
+			} elseif ($oPath->isFile()) {
+				// proceed files
+				if (!unlink($sPath)) {
+					$bResult = false;
+					self::$aDelTreeLog[] = str_replace($oReg->AppPath, '', $sPath);
+				}
+			}
+		}
+		if (($iMode & self::DEL_ROOT_DELETE) && $bResult) {
+        // delete RootDir if there was no error before
+            if (!rmdir($sRootDir)) {
+                $bResult = false;
+                self::$aDelTreeLog[] = str_replace($oReg->AppPath, '', $sRootDir);
+            }
+		}
+		return $bResult;
+	}
+/**
+ * returns the log of the last delTree request
+ * @param  bool  $bClearLog   TRUE clears the log after request, FALSE preserve the log
+ * @return array
+ */
+	static public function getDelTreeLog($bClearLog = self::LOG_CLEAR)
+	{
+		$aRetval = self::$aDelTreeLog;
+		if($bClearLog) { self::$aDelTreeLog = array(); }
+		return $aRetval;
+	}
+
 
 } // end of class UpgradeHelper
 

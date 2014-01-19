@@ -11,6 +11,14 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+19 Jan-2014 Build 2089 Manuela v.d.Decken(DarkViper)
+! UpgradeHelper: added method delTree()
+- templates/argos_theme
+- templates/allcss
+- templates/wb_theme
++ templates/WbTheme
+! all upgrade/install and all other files needed to change defaults
+# modules/MultiLingual/update_keys.php  inactive lines of code removed
 19 Jan-2014 Build 2088 Manuela v.d.Decken(DarkViper)
 # news/delete_post invalid arguments for AccessFile corrected
 ! search/search.php  read settings optimized

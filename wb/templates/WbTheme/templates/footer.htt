@@ -1,0 +1,42 @@
+<!-- BEGIN footer_block -->
+	</div>
+	</div>
+</div>
+
+<table class="footer">
+<tbody>
+<tr>
+	<td>
+      <!-- Please note: the below reference to the GNU GPL should not be removed, as it provides a link for users to read about warranty, etc. -->
+      <a href="http://www.websitebaker.org/" title="external">WebsiteBaker</a> is released under the
+      <a href="http://www.gnu.org/licenses/gpl.html" title="WebsiteBaker is released under the GNU General Public License">GNU General Public License</a>
+      <!-- Please note: the above reference to the GNU GPL should not be removed, as it provides a link for users to read about warranty, etc. -->
+	</td>
+</tr>
+</tbody>
+</table>
+<!-- BEGIN show_debug_block -->
+<div class="mbox dev-info rounded shadow">
+	<div style="text-align:left; width: auto;">
+		<span class="">Memory Limit: {FILESIZE}&nbsp;|&nbsp;</span>
+		<span class="">Used Memory: {MEMORY}&nbsp;|&nbsp;</span>
+		<span class="">Script loaded in: {PAGE_LOAD_TIME} Sec&nbsp;|&nbsp;</span>
+		<span class="">{QUERIES} SQL-Queries executed &nbsp;|&nbsp;</span>
+		<span class="">{CLASSES} declared classes&nbsp;|&nbsp;</span>
+		<span class="">Summary size of {INCLUDES} included files: {SUM_FILESIZE}</span>
+	<!-- BEGIN show_block_list -->
+		<br /><ul style="margin-left: 27px; margin-top: 0;">
+		<!-- BEGIN include_block_list -->
+			<li style="color: #336699; list-style:decimal-leading-zero;">{INCLUDES_ARRAY} ({FILESIZE})</li>
+		<!-- END include_block_list -->
+		</ul>
+	<!-- END show_block_list -->
+
+	</div>
+</div>
+<!-- END show_debug_block -->
+</div>
+{BACKEND_BODY_MODULE_JS}
+</body>
+</html>
+<!-- END footer_block -->

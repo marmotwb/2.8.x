@@ -79,6 +79,7 @@ $config_file = dirname(__FILE__).'/config.php';
 if (is_readable($config_file) && !defined('WB_URL')) {
 	require_once($config_file);
 }
+$oReg = WbAdaptor::getInstance();
 UpgradeHelper::checkSetupFiles(dirname(__FILE__).'/');
 
 if (!class_exists('admin', false)) {
@@ -120,99 +121,66 @@ $aPackage = array (
 
 $OK            = ' <span class="ok">OK</span> ';
 $FAIL          = ' <span class="error">FAILED</span> ';
-$DEFAULT_THEME = 'wb_theme';
+$DEFAULT_THEME = 'WbTheme';
 
 $stepID = 1;
 $dirRemove = array(
-/*
-			'[TEMPLATE]/allcss/',
-			'[TEMPLATE]/blank/',
-			'[TEMPLATE]/round/',
-			'[TEMPLATE]/simple/',
-*/
-			'[ADMIN]/themes/',
+//			'[TEMPLATE]allcss/',
+//			'[TEMPLATE]blank/',
+//			'[TEMPLATE]round/',
+//			'[TEMPLATE]simple/',
+            '[TEMPLATE]wb_theme/',
+			'[ADMIN]themes/'
 		 );
-//
+
 $aRemoveSingleFiles = array(
-			'[ADMIN]/preferences/details.php',
-			'[ADMIN]/preferences/email.php',
-			'[ADMIN]/preferences/password.php',
-			'[ADMIN]/pages/settings2.php',
-			'[ADMIN]/users/users.php',
-			'[ADMIN]/groups/add.php',
-			'[ADMIN]/groups/groups.php',
-			'[ADMIN]/groups/save.php',
-			'[ADMIN]/skel/themes/htt/groups.htt',
+			'[ADMIN]preferences/details.php',
+			'[ADMIN]preferences/email.php',
+			'[ADMIN]preferences/password.php',
+			'[ADMIN]pages/settings2.php',
+			'[ADMIN]users/users.php',
+			'[ADMIN]groups/add.php',
+			'[ADMIN]groups/groups.php',
+			'[ADMIN]groups/save.php',
+			'[ADMIN]skel/themes/htt/groups.htt',
 
-			'[FRAMEWORK]/class.msg_queue.php',
-			'[FRAMEWORK]/class.logfile.php',
-			'[FRAMEWORK]/PasswordHash.php',
-			'[MODULES]/droplets/js/mdcr.js',
-
+			'[FRAMEWORK]class.msg_queue.php',
+			'[FRAMEWORK]class.logfile.php',
+			'[FRAMEWORK]PasswordHash.php',
+			'[MODULES]droplets/js/mdcr.js'
 );
-
 // deleting files below only from less 2.8.4 stable
 if(version_compare(WB_VERSION, '2.8.4', '<'))
 {
 	$aRemoveOldTemplates = array(
-
-			'[TEMPLATE]/argos_theme/templates/access.htt',
-			'[TEMPLATE]/argos_theme/templates/addons.htt',
-			'[TEMPLATE]/argos_theme/templates/admintools.htt',
-			'[TEMPLATE]/argos_theme/templates/error.htt',
-			'[TEMPLATE]/argos_theme/templates/groups.htt',
-			'[TEMPLATE]/argos_theme/templates/groups_form.htt',
-			'[TEMPLATE]/argos_theme/templates/languages.htt',
-			'[TEMPLATE]/argos_theme/templates/languages_details.htt',
-			'[TEMPLATE]/argos_theme/templates/login.htt',
-			'[TEMPLATE]/argos_theme/templates/login_forgot.htt',
-			'[TEMPLATE]/argos_theme/templates/media.htt',
-			'[TEMPLATE]/argos_theme/templates/media_browse.htt',
-			'[TEMPLATE]/argos_theme/templates/media_rename.htt',
-			'[TEMPLATE]/argos_theme/templates/modules.htt',
-			'[TEMPLATE]/argos_theme/templates/modules_details.htt',
-			'[TEMPLATE]/argos_theme/templates/pages.htt',
-			'[TEMPLATE]/argos_theme/templates/pages_modify.htt',
-			'[TEMPLATE]/argos_theme/templates/pages_sections.htt',
-			'[TEMPLATE]/argos_theme/templates/pages_settings.htt',
-			'[TEMPLATE]/argos_theme/templates/preferences.htt',
-			'[TEMPLATE]/argos_theme/templates/setparameter.htt',
-			'[TEMPLATE]/argos_theme/templates/settings.htt',
-			'[TEMPLATE]/argos_theme/templates/start.htt',
-			'[TEMPLATE]/argos_theme/templates/success.htt',
-			'[TEMPLATE]/argos_theme/templates/templates.htt',
-			'[TEMPLATE]/argos_theme/templates/templates_details.htt',
-			'[TEMPLATE]/argos_theme/templates/users.htt',
-			'[TEMPLATE]/argos_theme/templates/users_form.htt',
-
-			'[TEMPLATE]/wb_theme/templates/access.htt',
-			'[TEMPLATE]/wb_theme/templates/addons.htt',
-			'[TEMPLATE]/wb_theme/templates/admintools.htt',
-			'[TEMPLATE]/wb_theme/templates/error.htt',
-			'[TEMPLATE]/wb_theme/templates/groups.htt',
-			'[TEMPLATE]/wb_theme/templates/groups_form.htt',
-			'[TEMPLATE]/wb_theme/templates/languages.htt',
-			'[TEMPLATE]/wb_theme/templates/languages_details.htt',
-			'[TEMPLATE]/wb_theme/templates/login.htt',
-			'[TEMPLATE]/wb_theme/templates/login_forgot.htt',
-			'[TEMPLATE]/wb_theme/templates/media.htt',
-			'[TEMPLATE]/wb_theme/templates/media_browse.htt',
-			'[TEMPLATE]/wb_theme/templates/media_rename.htt',
-			'[TEMPLATE]/wb_theme/templates/modules.htt',
-			'[TEMPLATE]/wb_theme/templates/modules_details.htt',
-			'[TEMPLATE]/wb_theme/templates/pages.htt',
-			'[TEMPLATE]/wb_theme/templates/pages_modify.htt',
-			'[TEMPLATE]/wb_theme/templates/pages_sections.htt',
-			'[TEMPLATE]/wb_theme/templates/pages_settings.htt',
-			'[TEMPLATE]/wb_theme/templates/preferences.htt',
-			'[TEMPLATE]/wb_theme/templates/setparameter.htt',
-			'[TEMPLATE]/wb_theme/templates/settings.htt',
-			'[TEMPLATE]/wb_theme/templates/start.htt',
-			'[TEMPLATE]/wb_theme/templates/success.htt',
-			'[TEMPLATE]/wb_theme/templates/templates.htt',
-			'[TEMPLATE]/wb_theme/templates/templates_details.htt',
-			'[TEMPLATE]/wb_theme/templates/users.htt',
-			'[TEMPLATE]/wb_theme/templates/users_form.htt'
+			'[TEMPLATE]argos_theme/templates/access.htt',
+			'[TEMPLATE]argos_theme/templates/addons.htt',
+			'[TEMPLATE]argos_theme/templates/admintools.htt',
+			'[TEMPLATE]argos_theme/templates/error.htt',
+			'[TEMPLATE]argos_theme/templates/groups.htt',
+			'[TEMPLATE]argos_theme/templates/groups_form.htt',
+			'[TEMPLATE]argos_theme/templates/languages.htt',
+			'[TEMPLATE]argos_theme/templates/languages_details.htt',
+			'[TEMPLATE]argos_theme/templates/login.htt',
+			'[TEMPLATE]argos_theme/templates/login_forgot.htt',
+			'[TEMPLATE]argos_theme/templates/media.htt',
+			'[TEMPLATE]argos_theme/templates/media_browse.htt',
+			'[TEMPLATE]argos_theme/templates/media_rename.htt',
+			'[TEMPLATE]argos_theme/templates/modules.htt',
+			'[TEMPLATE]argos_theme/templates/modules_details.htt',
+			'[TEMPLATE]argos_theme/templates/pages.htt',
+			'[TEMPLATE]argos_theme/templates/pages_modify.htt',
+			'[TEMPLATE]argos_theme/templates/pages_sections.htt',
+			'[TEMPLATE]argos_theme/templates/pages_settings.htt',
+			'[TEMPLATE]argos_theme/templates/preferences.htt',
+			'[TEMPLATE]argos_theme/templates/setparameter.htt',
+			'[TEMPLATE]argos_theme/templates/settings.htt',
+			'[TEMPLATE]argos_theme/templates/start.htt',
+			'[TEMPLATE]argos_theme/templates/success.htt',
+			'[TEMPLATE]argos_theme/templates/templates.htt',
+			'[TEMPLATE]argos_theme/templates/templates_details.htt',
+			'[TEMPLATE]argos_theme/templates/users.htt',
+			'[TEMPLATE]argos_theme/templates/users_form.htt'
 	);
 }else {
 	$aRemoveOldTemplates = array();
@@ -282,7 +250,7 @@ body {
 #container {
 	min-width:48em;
     width: 70%;
-	background: #A8BCCB url(<?php echo WB_URL; ?>/templates/wb_theme/images/background.png) repeat-x;
+	background: #A8BCCB url(<?php echo WB_URL; ?>/templates/<?php echo $DEFAULT_THEME; ?>/images/background.png) repeat-x;
 	border:1px solid #000;
 	color:#000;
 	margin:2em auto;
@@ -355,7 +323,7 @@ span.error {
 <body>
 <div id="container">
 <div class="page">
-<img src="<?php echo WB_URL; ?>/templates/wb_theme/images/logo.png" alt="WebsiteBaker Project" />
+<img src="<?php echo WB_URL; ?>/templates/<?php echo $DEFAULT_THEME; ?>/images/logo.png" alt="WebsiteBaker Project" />
 <div class="content">
 <h1>WebsiteBaker Upgrade</h1>
 <?php
@@ -794,7 +762,6 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 	}
 	echo '</div>';
 }
-
 if(version_compare(WB_REVISION, REVISION, '<='))
 {
 	$aDebugMessage = array();
@@ -954,12 +921,12 @@ echo '<div style="margin-left:2em;">';
 			'[TEMPLATE]'
 		);
 		$replacements = array(
-			'/'.substr(ADMIN_PATH, strlen(WB_PATH)+1),
-			MEDIA_DIRECTORY,
-			PAGES_DIRECTORY,
-			'/framework',
-			'/modules',
-			'/templates'
+            $oReg->AcpDir,
+            $oReg->MediaDir,
+            $oReg->PagesDir,
+			'framework/',
+			'modules/',
+			'templates/'
 		);
 
 		$msg = '';
@@ -968,14 +935,14 @@ echo '<div style="margin-left:2em;">';
 		foreach( $aFilesToRemove as $file )
 		{
 			$file = str_replace($searches, $replacements, $file);
-			if( is_writable(WB_PATH.'/'.$file) ) {
+			if( is_writable($oReg->AppDir.$file) ) {
 				$iFound++;
 				// try to unlink file
-				if(!unlink(WB_PATH.$file)) {
+				if(!unlink($oReg->AppDir.$file)) {
 					$iFailed++;
 				}
 			}
-			if( is_readable(WB_PATH.'/'.$file) ) {
+			if( is_readable($oReg->AppDir.$file) ) {
 				// save in err-list, if failed
 				$msg .= $file.'<br />';
 			}
@@ -1007,7 +974,7 @@ echo '<div style="margin-left:2em;">';
 
 
 	/**********************************************************
-	 * - check for deprecated / never needed files
+	 * - check for deprecated / never needed folders
 	 */
 	$iLoaded = sizeof($dirRemove);
 	if($iLoaded) {
@@ -1018,38 +985,32 @@ echo '<div style="margin-left:2em;">';
 			'[ADMIN]',
 			'[MEDIA]',
 			'[PAGES]',
+			'[FRAMEWORK]',
+			'[MODULES]',
 			'[TEMPLATE]'
 		);
 		$replacements = array(
-			substr(ADMIN_PATH, strlen(WB_PATH)+1),
-			MEDIA_DIRECTORY,
-			PAGES_DIRECTORY,
-			'/templates',
+            $oReg->AcpDir,
+            $oReg->MediaDir,
+            $oReg->PagesDir,
+			'framework/',
+			'modules/',
+			'templates/'
 		);
 		$msg = '';
 		echo '<div style="margin-left:2em;">';
 		echo '<h4>Search '.$iLoaded.' deprecated and outdated folders</h4>';
-		foreach( $dirRemove as $dir ) {
-			$dir = str_replace($searches, $replacements, $dir);
-			$dir = WB_PATH.'/'.$dir;
-			if( is_dir( $dir )) {
-				$iFound++;
-			// try to delete dir
-				if(!is_writable( $dir ) || !rm_full_dir($dir)) {
-				// save in err-list, if failed
-					$iFailed++;
-				}
-			}
-			if( is_readable(WB_PATH.'/'.$dir) ) {
-				$msg .= str_replace(WB_PATH,'',$dir).'<br />';
-			}
-		}
-		
-		$iRemove = $iFound-$iFailed;
-		echo '<strong>Remove '.$iRemove.' from '.$iFound.' founded</strong> ';
+		foreach( $dirRemove as $sRootDir ) {
+			$sRootDir = str_replace($searches, $replacements, $sRootDir);
+            if (file_exists($oReg->AppPath.$sRootDir)) {
+                if (!UpgradeHelper::delTree($oReg->AppPath.$sRootDir, UpgradeHelper::DEL_ROOT_DELETE)) {
+                    $iFailed = sizeof(($msg = UpgradeHelper::getDelTreeLog()));
+                    $msg = implode('<br />', $msg);
+                }
+            }
+        }
 		echo ($iFailed == 0) ? $OK : $FAIL;
 		echo '</div>';
-
 		if($msg != '') {
 			$msg = '<br /><br />Following directories are deprecated, outdated or a security risk and
 					can not be removed automatically.<br /><br />Please delete them
@@ -1066,8 +1027,6 @@ echo '<div style="margin-left:2em;">';
 			</html>";
 			exit;
 		}
-
-
 	}
 
 	/**********************************************************
