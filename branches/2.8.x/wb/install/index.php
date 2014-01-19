@@ -171,7 +171,7 @@ function change_os(type) {
 <table summary="" cellpadding="0" cellspacing="0">
 <tr style="background: #a9c9ea;">
 	<td valign="top">
-		<img src="../templates/wb_theme/images/logo.png" alt="Logo" />
+		<img src="../templates/WbTheme/images/logo.png" alt="Logo" />
 	</td>
 	<td>
 		<h1 style="border:none; margin-top:1em;font-size:150%;">Installation Wizard</h1>

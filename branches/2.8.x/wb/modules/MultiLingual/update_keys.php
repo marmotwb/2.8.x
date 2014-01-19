@@ -76,11 +76,5 @@ if($database->is_error())
  *              a certain number of TABs or SPACEs, according to the indent level.
  */
 	function spacer($iRepeats = 1, $sString = "\t"){
-		// intval() converts the value into a natural, int number. 0 on invald values.
-		// max() transform negative values into 0
-		// str_repeat() creates a string of $iRepeats*($sString)
 		return str_repeat($sString, max(0, intval($iRepeats)));
 	}
-
-	echo "<option value=\"{$page['page_id']}\">$title</option>\n";
-	echo '<option value="'.$page['page_id'].'">'.$title.'</option>'.PHP_EOL;

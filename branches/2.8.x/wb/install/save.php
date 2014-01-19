@@ -497,7 +497,7 @@ require_once(WB_PATH.'/framework/class.admin.php');
 	     . '(\'home_folders\', \'false\'), '
 	     . '(\'warn_page_leave\', \'1\'), '
 	     . '(\'default_template\', \'round\'), '
-	     . '(\'default_theme\', \'wb_theme\'), '
+	     . '(\'default_theme\', \'WbTheme\'), '
 	     . '(\'default_charset\', \'utf-8\'), '
 	     . '(\'multiple_menus\', \'true\'), '
 	     . '(\'page_level_limit\', \'6\'), '

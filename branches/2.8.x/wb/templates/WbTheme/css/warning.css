@@ -1,0 +1,74 @@
+/**
+ * Login Module v1.0
+ *
+ * Ajax Login Module is a simple AJAX login page that is very easy to 
+ * plug into your existing php application with no need for further configuration and coding.
+ *
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright 2009, Christopher M. Natan
+ * @link          http://phpstring.co.cc/phpclasses/modules/ajax-login-module/
+ * @version       $Revision$
+ * @modifiedby    $LastChangedBy: Luisehahne $
+ * @lastmodified  $Date$
+ *
+ */
+* html div{ height :0.1em; }
+html{ color :#330033; font-family :Verdana, "Trebuchet MS", Arial, Helvetica, sans-serif; font-size :90%; font-weight :normal; overflow :scroll; }
+body{ margin :0px auto; padding :0px; background :#a8bccb; text-align :left; }
+a:link { color :#002951; font-weight :bold; text-decoration :none; }
+a:visited, a:active { color : #003366; font-weight :bold; text-decoration :none; }
+a:hover { color :#0099ff; }
+h1 { font-size :1.5em; }
+h1, h3, h4 { margin :0.5em auto; padding-bottom :5px; display :block; color :#003366; font-weight :bold; }
+h3 { font-size :1.2em; }
+h4 { font-size :1.0em; }
+hr { margin : 0em auto; color : #003366; }
+
+img { border :none; padding :1.5em 0; }
+input.text { width :224px; }
+li p { margin :0.5em 0; }
+ul, li { margin :0; padding :0; list-style :none; }
+div.bottomdiv {
+   border-left :1px solid #003366;
+   border-right :1px solid #003366;
+   border-bottom :1px solid #003366;
+   padding :10px;
+   background-color :#eff2f6;
+   color :#330033;
+   background-repeat :repeat-x;
+   text-align :center;
+   -webkit-border-bottom-left-radius :8px;
+   -webkit-border-bottom-right-radius :8px;
+   -moz-border-radius-bottomleft :8px;
+   -moz-border-radius-bottomright :8px;
+   border-bottom-right-radius :8px;
+}
+div.topdiv {
+   border-left : 1px solid #003366;
+   border-right :1px solid #003366;
+   border-top :1px solid #003366;
+   padding :10px;
+   background-color : #a8bccb;
+   background-image :url(../images/menu.png);
+   background-position : center top;
+   background-repeat :repeat-x;
+   color :#fff;
+   font-weight :bold;
+   -webkit-border-top-left-radius :8px;
+   -webkit-border-top-right-radius :8px;
+   -moz-border-radius-topleft :8px;
+   -moz-border-radius-topright :8px;
+   border-top-left-radius :8px;
+   border-top-right-radius :8px;
+}
+.clear { clear :both; }
+.container { width :459px; margin :8em auto; color :#666666; font-family :Arial, Helvetica, sans-serif; font-size :1em; height :370px; }
+.field { width :260px; float :right; height :20px; }
+.invalid_message { width :100%; clear :both; padding-top :5px; color :#990000; font-size :1em; text-align :center; height :auto; }
+.label { width :170px; float :left; color :#333333; font-size :1em; font-weight :bold; }
+.label { padding-left :10px; height :20px; }
+.label,.field { margin-top :5px; margin-bottom :5px; text-align :left; }
+.shadow { -moz-box-shadow :5px 5px 10px #000030; /* Firefox */ -webkit-box-shadow :5px 5px 10px #000030; /* Safari and Chrome */ -khtml-box-shadow :5px 5px 10px #000030; /* Konqueror and else */ box-shadow :5px 5px 10px #000030; /* Opera 10.5+, future browsers and IE6+ using IE-CSS3 */ }
+.smaller { font-size :0.8em; }
+.spacer { line-height :1em; }
