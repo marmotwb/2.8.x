@@ -11,7 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-
+19 Jan-2014 Build 2088 Manuela v.d.Decken(DarkViper)
+# news/delete_post invalid arguments for AccessFile corrected
+! search/search.php  read settings optimized
+! WbDatabase  visibility of constructor corrected
 17 Jan-2014 Build 2087 Manuela v.d.Decken(DarkViper)
 ! admin/pages/add class AccessFile implemented
 16 Jan-2014 Build 2086 Manuela v.d.Decken(DarkViper)

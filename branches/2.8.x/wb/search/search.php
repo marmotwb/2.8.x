@@ -31,47 +31,64 @@ if(SHOW_SEARCH != true) {
 
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
-
+$oDb = WbDatabase::getInstance();
 // Get search settings
 $table=TABLE_PREFIX.'search';
-$query = $database->query("SELECT value FROM $table WHERE name = 'header' LIMIT 1");
-$fetch_header = $query->fetchRow();
-$query = $database->query("SELECT value FROM $table WHERE name = 'footer' LIMIT 1");
-$fetch_footer = $query->fetchRow();
-$query = $database->query("SELECT value FROM $table WHERE name = 'results_header' LIMIT 1");
-$fetch_results_header = $query->fetchRow();
-$query = $database->query("SELECT value FROM $table WHERE name = 'results_footer' LIMIT 1");
-$fetch_results_footer = $query->fetchRow();
-$query = $database->query("SELECT value FROM $table WHERE name = 'results_loop' LIMIT 1");
-$fetch_results_loop = $query->fetchRow();
-$query = $database->query("SELECT value FROM $table WHERE name = 'no_results' LIMIT 1");
-$fetch_no_results = $query->fetchRow();
-$query = $database->query("SELECT value FROM $table WHERE name = 'module_order' LIMIT 1");
-if($query->numRows() > 0) { $res = $query->fetchRow(); } else { $res['value']='faqbaker,manual,wysiwyg'; }
-$search_module_order = $res['value'];
-$query = $database->query("SELECT value FROM $table WHERE name = 'max_excerpt' LIMIT 1");
-if($query->numRows() > 0) { $res = $query->fetchRow(); } else { $res['value'] = '15'; }
-$search_max_excerpt = (int)($res['value']);
-if(!is_numeric($search_max_excerpt)) { $search_max_excerpt = 15; }
-$query = $database->query("SELECT value FROM $table WHERE name = 'cfg_show_description' LIMIT 1");
-if($query->numRows() > 0) { $res = $query->fetchRow(); } else { $res['value'] = 'true'; }
-if($res['value'] == 'false') { $cfg_show_description = false; } else { $cfg_show_description = true; }
-$query = $database->query("SELECT value FROM $table WHERE name = 'cfg_search_description' LIMIT 1");
-if($query->numRows() > 0) { $res = $query->fetchRow(); } else { $res['value'] = 'true'; }
-if($res['value'] == 'false') { $cfg_search_description = false; } else { $cfg_search_description = true; }
-$query = $database->query("SELECT value FROM $table WHERE name = 'cfg_search_keywords' LIMIT 1");
-if($query->numRows() > 0) { $res = $query->fetchRow(); } else { $res['value'] = 'true'; }
-if($res['value'] == 'false') { $cfg_search_keywords = false; } else { $cfg_search_keywords = true; }
-$query = $database->query("SELECT value FROM $table WHERE name = 'cfg_enable_old_search' LIMIT 1");
-if($query->numRows() > 0) { $res = $query->fetchRow(); } else { $res['value'] = 'true'; }
-if($res['value'] == 'false') { $cfg_enable_old_search = false; } else { $cfg_enable_old_search = true; }
-$query = $database->query("SELECT value FROM $table WHERE name = 'cfg_enable_flush' LIMIT 1");
-if($query->numRows() > 0) { $res = $query->fetchRow(); } else { $res['value'] = 'false'; }
-if($res['value'] == 'false') { $cfg_enable_flush = false; } else { $cfg_enable_flush = true; }
-$query = $database->query("SELECT value FROM $table WHERE name = 'time_limit' LIMIT 1"); // time-limit per module
-if($query->numRows() > 0) { $res = $query->fetchRow(); } else { $res['value'] = '0'; }
-$search_time_limit = (int)($res['value']);
-if($search_time_limit < 1) $search_time_limit = 0;
+// set default values if needed
+$aSettings = array( 'search_module_order'   => 'wysiwyg',
+                    'search_max_excerpt'    => 15,
+                    'cfg_show_description'  => true,
+                    'cfg_search_description'=> true,
+                    'cfg_search_keywords'   => true,
+                    'cfg_enable_old_search' => true,
+                    'cfg_enable_flush'      => true,
+                    'search_time_limit'     => 0
+                  );
+$sql = 'SELECT `name`, `value` FROM `'.$oDb->TablePrefix.'search`';
+$oSearchSettings = $oDb->doQuery($sql);
+while ($aSettingsRecord = $oSearchSettings->fetchRow(MYSQL_ASSOC)) {
+// read settings and sanitize it
+    switch ($aSettingsRecord['name']) {
+        case 'header':
+        case 'footer':
+        case 'results_header':
+        case 'results_footer':
+        case 'results_loop':
+        case 'no_results':
+            $aSettings['fetch_'.$aSettingsRecord['name']] = $aSettingsRecord['value'];
+            break;
+        case 'module_order':
+            $aSettings['search_module_order'] = ( $aSettingsRecord['value']
+                                                  ? $aSettingsRecord['value']
+                                                  : 'wysiwyg'
+                                                );
+            break;
+        case 'max_excerpt':
+            $aSettings['search_max_excerpt'] = ( intval($aSettingsRecord['value'])
+                                                 ? intval($aSettingsRecord['value'])
+                                                 : $aSettings['search_max_excerpt']
+                                               );
+            break;
+        case 'cfg_show_description':
+        case 'cfg_search_description':
+        case 'cfg_search_keywords':
+        case 'cfg_enable_old_search':
+        case 'cfg_enable_flush':
+            $aSettings[$aSettingsRecord['name']] = (filter_var( $aSettingsRecord['value'],
+                                                                FILTER_VALIDATE_BOOLEAN,
+                                                                FILTER_NULL_ON_FAILURE
+                                                              ) !== false);
+            break;
+        case 'time_limit':
+            $aSettings['search_time_limit'] = ( intval($aSettingsRecord['value']) < 0
+                                                ? 0
+                                                : intval($aSettingsRecord['value'])
+                                              );
+            break;
+        default:
+            break;
+    }
+}
 
 // search-module-extension: get helper-functions
 require_once(WB_PATH.'/search/search_modext.php');
@@ -273,17 +290,17 @@ if ($match == 'any') {
 // Replace vars in search settings with values
 $vars = array('[SEARCH_STRING]', '[WB_URL]', '[PAGE_EXTENSION]', '[TEXT_RESULTS_FOR]');
 $values = array($search_display_string, WB_URL, PAGE_EXTENSION, $TEXT['RESULTS_FOR']);
-$search_footer = str_replace($vars, $values, ($fetch_footer['value']));
-$search_results_header = str_replace($vars, $values, ($fetch_results_header['value']));
-$search_results_footer = str_replace($vars, $values, ($fetch_results_footer['value']));
+$search_footer = str_replace($vars, $values, ($aSettings['fetch_footer']));
+$search_results_header = str_replace($vars, $values, ($aSettings['fetch_results_header']));
+$search_results_footer = str_replace($vars, $values, ($aSettings['fetch_results_footer']));
 
 // Do extra vars/values replacement
 $vars = array('[SEARCH_STRING]', '[WB_URL]', '[PAGE_EXTENSION]', '[TEXT_SEARCH]', '[TEXT_ALL_WORDS]', '[TEXT_ANY_WORDS]', '[TEXT_EXACT_MATCH]', '[TEXT_MATCH]', '[TEXT_MATCHING]', '[ALL_CHECKED]', '[ANY_CHECKED]', '[EXACT_CHECKED]', '[REFERRER_ID]', '[SEARCH_PATH]');
 $values = array($search_display_string, WB_URL, PAGE_EXTENSION, $TEXT['SEARCH'], $TEXT['ALL_WORDS'], $TEXT['ANY_WORDS'], $TEXT['EXACT_MATCH'], $TEXT['MATCH'], $TEXT['MATCHING'], $all_checked, $any_checked, $exact_checked, REFERRER_ID, $search_path);
-$search_header = str_replace($vars, $values, ($fetch_header['value']));
+$search_header = str_replace($vars, $values, ($aSettings['fetch_header']));
 $vars = array('[TEXT_NO_RESULTS]');
 $values = array($TEXT['NO_RESULTS']);
-$search_no_results = str_replace($vars, $values, ($fetch_no_results['value']));
+$search_no_results = str_replace($vars, $values, ($aSettings['fetch_no_results']));
 
 /*
  * Start of output
@@ -307,10 +324,10 @@ if($search_normal_string != '') {
 		}
 	}
 	// sort module search-order
-	// get the modules from $search_module_order first ...
+	// get the modules from $aSettings['search_module_order'] first ...
 	$sorted_modules = array();
 	$m = count($modules);
-	$search_modules = explode(',', $search_module_order);
+	$search_modules = explode(',', $aSettings['search_module_order']);
 	foreach($search_modules AS $item) {
 		$item = trim($item);
 		for($i=0; $i < $m; $i++) {
@@ -346,9 +363,9 @@ if($search_normal_string != '') {
 		'search_match' => $match, // match-type
 		'search_url_array' => $search_url_array, // array of strings from the original search-string. ATTN: strings are not quoted!
 		'search_entities_array' => $search_entities_array, // entities
-		'results_loop_string' => $fetch_results_loop['value'],
-		'default_max_excerpt' => $search_max_excerpt,
-		'time_limit' => $search_time_limit, // time-limit in secs
+		'results_loop_string' => $aSettings['fetch_results_loop'],
+		'default_max_excerpt' => $aSettings['search_max_excerpt'],
+		'time_limit' => $aSettings['search_time_limit'], // time-limit in secs
 		'search_path' => $search_path // see docu
 	);
 	foreach($search_funcs['__before'] as $func) {
@@ -357,7 +374,7 @@ if($search_normal_string != '') {
 	// now call module-based $search_funcs[]
 	$seen_pages = array(); // seen pages per module.
 	$pages_listed = array(); // seen pages.
-	if($search_max_excerpt!=0) { // skip this search if $search_max_excerpt==0
+	if($aSettings['search_max_excerpt']!=0) { // skip this search if $aSettings['search_max_excerpt']==0
 		foreach($sorted_modules AS $module_name) {
 			$start_time = time();	// get start-time to check time-limit; not very accurate, but ok
 			$seen_pages[$module_name] = array();
@@ -378,7 +395,7 @@ if($search_normal_string != '') {
 			if($sections_query->numRows() > 0) {
 				while($res = $sections_query->fetchRow()) {
 					// check if time-limit is exceeded for this module
-					if($search_time_limit > 0 && (time()-$start_time > $search_time_limit)) {
+					if($aSettings['search_time_limit'] > 0 && (time()-$start_time > $aSettings['search_time_limit'])) {
 						break;
 					}
 					// Only show this section if it is not "out of publication-date"
@@ -393,7 +410,7 @@ if($search_normal_string != '') {
 						'section_id' => $res['section_id'],
 						'page_title' => $res['page_title'],
 						'page_menu_title' => $res['menu_title'],
-						'page_description' => ($cfg_show_description?$res['description']:""),
+						'page_description' => ($aSettings['cfg_show_description']?$res['description']:""),
 						'page_keywords' => $res['keywords'],
 						'page_link' => $res['link'],
 						'page_modified_when' => $res['modified_when'],
@@ -403,10 +420,10 @@ if($search_normal_string != '') {
 						'search_match' => $match,
 						'search_url_array' => $search_url_array, // needed for url-string only
 						'search_entities_array' => $search_entities_array, // entities
-						'results_loop_string' => $fetch_results_loop['value'],
-						'default_max_excerpt' => $search_max_excerpt,
-						'enable_flush' => $cfg_enable_flush,
-						'time_limit' => $search_time_limit // time-limit in secs
+						'results_loop_string' => $aSettings['fetch_results_loop'],
+						'default_max_excerpt' => $aSettings['search_max_excerpt'],
+						'enable_flush' => $aSettings['cfg_enable_flush'],
+						'time_limit' => $aSettings['search_time_limit'] // time-limit in secs
 					);
 					// Only show this page if we are allowed to see it
 					if($admin->page_is_visible($res) == false) {
@@ -445,9 +462,9 @@ if($search_normal_string != '') {
 		'search_match' => $match, // match-type
 		'search_url_array' => $search_url_array, // array of strings from the original search-string. ATTN: strings are not quoted!
 		'search_entities_array' => $search_entities_array, // entities
-		'results_loop_string' => $fetch_results_loop['value'],
-		'default_max_excerpt' => $search_max_excerpt,
-		'time_limit' => $search_time_limit, // time-limit in secs
+		'results_loop_string' => $aSettings['fetch_results_loop'],
+		'default_max_excerpt' => $aSettings['search_max_excerpt'],
+		'time_limit' => $aSettings['search_time_limit'], // time-limit in secs
 		'search_path' => $search_path // see docu
 	);
 	foreach($search_funcs['__after'] as $func) {
@@ -475,7 +492,7 @@ if($search_normal_string != '') {
 				'page_id' => $page['page_id'],
 				'page_title' => $page['page_title'],
 				'page_menu_title' => $page['menu_title'],
-				'page_description' => ($cfg_show_description?$page['description']:""),
+				'page_description' => ($aSettings['cfg_show_description']?$page['description']:""),
 				'page_keywords' => $page['keywords'],
 				'page_link' => $page['link'],
 				'page_modified_when' => $page['modified_when'],
@@ -485,9 +502,9 @@ if($search_normal_string != '') {
 				'search_match' => $match,
 				'search_url_array' => $search_url_array, // needed for url-string only
 				'search_entities_array' => $search_entities_array, // entities
-				'results_loop_string' => $fetch_results_loop['value'],
+				'results_loop_string' => $aSettings['fetch_results_loop'],
 				'default_max_excerpt' => $max_excerpt_num,
-				'enable_flush' => $cfg_enable_flush
+				'enable_flush' => $aSettings['cfg_enable_flush']
 			);
 			// Only show this page if we are allowed to see it
 			if($admin->page_is_visible($page) == false) {
@@ -502,8 +519,8 @@ if($search_normal_string != '') {
 			}
 			$text = $func_vars['page_title'].$divider
 				.$func_vars['page_menu_title'].$divider
-				.($cfg_search_description?$func_vars['page_description']:"").$divider
-				.($cfg_search_keywords?$func_vars['page_keywords']:"").$divider;
+				.($aSettings['cfg_search_description']?$func_vars['page_description']:"").$divider
+				.($aSettings['cfg_search_keywords']?$func_vars['page_keywords']:"").$divider;
 			$mod_vars = array(
 				'page_link' => $func_vars['page_link'],
 				'page_link_target' => "",
@@ -539,10 +556,10 @@ if($search_normal_string != '') {
 		}
 	}
 	// sort module search-order
-	// get the modules from $search_module_order first ...
+	// get the modules from $aSettings['search_module_order'] first ...
 	$sorted_modules = array();
 	$m = count($modules);
-	$search_modules = explode(',', $search_module_order);
+	$search_modules = explode(',', $aSettings['search_module_order']);
 	foreach($search_modules AS $item) {
 		$item = trim($item);
 		for($i=0; $i < $m; $i++) {
@@ -558,7 +575,7 @@ if($search_normal_string != '') {
 		$sorted_modules[] = $item;
 	}
 
-	if($cfg_enable_old_search) { // this is the old (wb <= 2.6.7) search-function
+	if($aSettings['cfg_enable_old_search']) { // this is the old (wb <= 2.6.7) search-function
 		$search_path_SQL = str_replace(' link ', ' '.TABLE_PREFIX.'pages.link ', $search_path_SQL);
 		foreach($sorted_modules AS $module) {
 			if(isset($seen_pages[$module['value']]) && count($seen_pages[$module['value']])>0) // skip modules handled by new search-func
@@ -686,12 +703,12 @@ if($search_normal_string != '') {
 							$time = $TEXT['UNKNOWN'].' '.$TEXT['TIME'];
 						}
 						$excerpt="";
-						if($cfg_show_description == 0) {
+						if($aSettings['cfg_show_description'] == 0) {
 							$page['description'] = "";
 						}
 						$values = array($link, $page['page_title'], $page['description'], $users[$page['modified_by']]['username'], $users[$page['modified_by']]['display_name'], $date, $time, $TEXT['LAST_UPDATED_BY'], strtolower($TEXT['ON']), $excerpt);
 						// Show loop code with vars replaced by values
-						echo str_replace($vars, $values, ($fetch_results_loop['value']));
+						echo str_replace($vars, $values, ($aSettings['fetch_results_loop']));
 						// Say that this page has been listed
 						$seen_pages[$module_name][$page['page_id']] = true;
 						$pages_listed[$page['page_id']] = true;

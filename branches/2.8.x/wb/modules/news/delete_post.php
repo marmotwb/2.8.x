@@ -15,54 +15,59 @@
  *
  */
 
-require('../../config.php');
+    require('../../config.php');
 
-$admin_header = false;
-// Tells script to update when this page was last updated
-$update_when_modified = true;
-// Include WB admin wrapper script
-require(WB_PATH.'/modules/admin.php');
+    $admin_header = false;
+    $update_when_modified = true; // Tells script to update when this page was last updated
+    $oReg   = WbAdaptor::getInstance();
+    $oDb    = WbDatabase::getInstance();
+    $oTrans = Translate::getInstance();
+    $oTrans->enableAddon('modules\news');
+    require($oReg->AppPath.'/modules/admin.php'); // Include WB admin wrapper script
+    $sErrMsg = '';
+    $sRedirectLink = $oReg->AcpUrl.'pages/modify.php?page_id='.$page_id;
+    if (($post_id = ($admin->checkIDKEY('post_id', false, 'GET')))) {
+    // Get post details
+        $sql = 'SELECT `link` FROM `'.$oDb->TablePrefix.'mod_news_posts` '
+             . 'WHERE `post_id`='.$post_id;
+        if (($sPostLink = $oDb->getOne($sql))) {
+            try {
+                $sAccesFilesRootDir = $oReg->AppPath.$oReg->PagesDir.'posts/';
+                $sAccesFileName = str_replace('posts/', '', trim($sPostLink, '/')).$oReg->PageExtension;
+            // Unlink post access file
+                $oAF = new AccessFile($sAccesFilesRootDir, $sAccesFileName);
+                $oAF->delete();
+                unset($oAF);
+            // first delete all depending records
+                $sql = 'DELETE FROM `'.$oDb->TablePrefix.'mod_news_comments` '
+                     . 'WHERE `post_id`='.$post_id;
+                $oDb->doQuery($sql);
+            // now delete master record
+                $sql = 'DELETE FROM `'.$oDb->TablePrefix.'mod_news_posts` '
+                     . 'WHERE `post_id`='.$post_id;
+                $oDb->doQuery($sql);
+            // reorder positions
+                $oOrder = new order($oDb->TablePrefix.'mod_news_posts', 'position', 'post_id', 'section_id');
+                $oOrder->clean($section_id);
+            } catch(AccessFileException $e) {
+                $sErrMsg = (string)$e;
+            } catch(WbDatabaseException $e) {
+                $sErrMsg = (string)$e;
+                $sRedirectLink = $oReg->AppUrl.'modules/news/modify_post.php?page_id='.$page_id.'&post_id='.$post_id;
+            }
+        } else {
+            $sErrMsg = $oTrans->TEXT_NOT_FOUND;
+        }
+    } else {
+        $sErrMsg = $oTrans->MESSAGE_GENERIC_SECURITY_ACCESS;
+    }
+    // print result
+    $admin->print_header();
+    if($sErrMsg) {
+        $admin->print_error($sErrMsg, $sRedirectLink);
+    } else {
+        $admin->print_success($oTrans->TEXT_SUCCESS, $sRedirectLink);
+    }
+    $oTrans->disableAddon();
+    $admin->print_footer();
 
-$post_id = ($admin->checkIDKEY('post_id', false, 'GET'));
-if (!$post_id) {
-	$admin->print_header();
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
-}
-$admin->print_header();
-
-// Get post details
-$query_details = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_news_posts WHERE post_id = '$post_id'");
-if($query_details->numRows() > 0) {
-	$get_details = $query_details->fetchRow();
-} else {
-	$admin->print_error($TEXT['NOT_FOUND'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
-}
-
-// Unlink post access file
-try {
-    $sFilename = WB_PATH.PAGES_DIRECTORY.$get_details['link'].PAGE_EXTENSION;
-    $oAF = new AccessFile($sFilename, $page_id);
-    $oAF->delete();
-    unset($oAF);
-}catch(AccessFileException $e) {
-    $admin->print_error($e,ADMIN_URL.'/pages/modify.php?page_id='.$page_id );
-}
-
-// Delete post
-$database->query("DELETE FROM ".TABLE_PREFIX."mod_news_posts WHERE post_id = '$post_id' LIMIT 1");
-$database->query("DELETE FROM ".TABLE_PREFIX."mod_news_comments WHERE post_id = '$post_id'");
-
-// Clean up ordering
-require(WB_PATH.'/framework/class.order.php');
-$order = new order(TABLE_PREFIX.'mod_news_posts', 'position', 'post_id', 'section_id');
-$order->clean($section_id);
-
-// Check if there is a db error, otherwise say successful
-if($database->is_error()) {
-	$admin->print_error($database->get_error(), WB_URL.'/modules/news/modify_post.php?page_id='.$page_id.'&post_id='.$post_id);
-} else {
-	$admin->print_success($TEXT['SUCCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
-}
-
-// Print admin footer
-$admin->print_footer();
