@@ -36,8 +36,26 @@
   </table>
   <br />
 </form>
-
-
+<form name="uninstall" action="uninstall.php" method="post" class="{DISPLAY_UNINSTALL} left">
+{FTAN}
+  <h2>{HEADING_UNINSTALL_LANGUAGE}</h2>
+  <table summary="" cellpadding="2" cellspacing="0" border="0" width="100%">
+    <tr>
+      <td>
+        <select name="code" style="width: 97%;">
+		<option value="" selected="selected">{TEXT_PLEASE_SELECT}...</option>
+		<!-- BEGIN language_list_block -->
+			<option value="{VALUE}">{NAME}</option>
+          <!-- END language_list_block -->
+        </select>
+      </td>
+      <td width="110">
+        <input type="submit" name="submit" value="{TEXT_UNINSTALL}" style="width: 100px;" />
+      </td>
+    </tr>
+  </table>
+  <br />
+</form>
 <form name="details" action="details.php" method="post" class="{DISPLAY_LIST}">
 {FTAN}
   <h2>{HEADING_LANGUAGE_DETAILS}</h2>
