@@ -20,7 +20,7 @@
 function getInfoFromLanguageFile($sFile)
 {
 	$mRetval = array();
-	$mLang = Translate::getinstance();
+	$mLang = Translate::getInstance();
     $oReg  = WbAdaptor::getInstance();
 	// check for valid language code
 	if(preg_match('/^([A-Z]{2}.php)/', $sFile)) {
@@ -47,7 +47,7 @@ function getInfoFromLanguageFile($sFile)
 // Include the config code
 require('../../config.php');
 // Print admin header
-$mLang = Translate::getinstance();
+$mLang = Translate::getInstance();
 $mLang->enableAddon('admin\addons');
 require_once(WB_PATH.'/framework/class.admin.php');
 $admin = new admin('Addons', 'languages_view', false);

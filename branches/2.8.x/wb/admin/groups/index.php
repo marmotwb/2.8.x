@@ -20,7 +20,7 @@
 	function admin_groups_index()
 	{
 		$database = WbDatabase::getInstance();
-		$mLang = Translate::getinstance();
+		$mLang = Translate::getInstance();
 		$mLang->enableAddon('admin\groups');
 
 		$mod_path = dirname(str_replace('\\', '/', __FILE__));

@@ -34,7 +34,7 @@
 	function admin_users_index($aActionRequest)
 	{
 		$database = WbDatabase::getInstance();
-		$mLang = Translate::getinstance();
+		$mLang = Translate::getInstance();
 		$mLang->enableAddon('admin\users');
 
         $sAdminPath = dirname(str_replace('\\', '/', __FILE__));

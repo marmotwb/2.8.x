@@ -53,7 +53,7 @@ if(!defined('WB_URL')) {
 		global $OK ,$FAIL;
 		$aMandatoryTables = array('mod_news_posts','mod_news_groups','mod_news_comments','mod_news_settings');
 		$oDb              = WbDatabase::getInstance();
-		$oLang            = Translate::getinstance();
+		$oLang            = Translate::getInstance();
 		$oReg             = WbAdaptor::getInstance();
 		$msg              = array();
 		$sCallingScript   = $_SERVER['SCRIPT_NAME'];

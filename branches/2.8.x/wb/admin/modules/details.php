@@ -17,7 +17,7 @@
 
 // Include the config file
 require('../../config.php');
-$mLang = Translate::getinstance();
+$mLang = Translate::getInstance();
 $mLang->enableAddon('admin\addons');
 require_once(WB_PATH .'/framework/functions.php');
 require_once(WB_PATH.'/framework/class.admin.php');

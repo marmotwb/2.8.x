@@ -23,7 +23,7 @@
 function build_page( &$admin, &$database )
 {
 //	global $HEADING, $TEXT;
-    $mLang = Translate::getinstance();
+    $mLang = Translate::getInstance();
 	$oReg  = WbAdaptor::getInstance();
 	include_once(WB_PATH.'/framework/functions-utf8.php');
 	// Setup template object, parse vars to it, then parse it
@@ -32,7 +32,7 @@ function build_page( &$admin, &$database )
 	$template = new Template(dirname($admin->correct_theme_source('preferences.htt')));
 	$template->set_file( 'page', 'preferences.htt' );
 	$template->set_block( 'page', 'main_block', 'main' );
-	$mLang = Translate::getinstance();
+	$mLang = Translate::getInstance();
 //	$mLang->enableAddon('admin\preferences');
 	$template->set_var($mLang->getLangArray());
 

@@ -24,7 +24,7 @@ throw new IllegalFileException();
 /* -------------------------------------------------------- */
 
 $oReg  = WbAdaptor::getInstance();
-$mLang = Translate::getinstance();
+$mLang = Translate::getInstance();
 
 if($wb->is_authenticated() === false) {
 // User needs to login first

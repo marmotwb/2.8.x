@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+20 Jan-2014 Build 2090 Manuela v.d.Decken(DarkViper)
+! several Files: corrected case sensitivity of ::getInstance()
 19 Jan-2014 Build 2089 Manuela v.d.Decken(DarkViper)
 ! UpgradeHelper: added method delTree()
 - templates/argos_theme
