@@ -11,16 +11,22 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
-20 Jan-2014 Build 2090 Manuela v.d.Decken(DarkViper)
+20 Jan-2014 Build 2092 Manuela v.d.Decken(DarkViper)
+! several files:  remove multiple ;;
+! uninstall language deactivated
+- droplet: iSectionPicker
++ droplet: SectionPicker
+20 Jan-2014 Build 2091 Manuela v.d.Decken(DarkViper)
 ! several Files: corrected case sensitivity of ::getInstance()
-19 Jan-2014 Build 2089 Manuela v.d.Decken(DarkViper)
+19 Jan-2014 Build 2090 Manuela v.d.Decken(DarkViper)
 ! UpgradeHelper: added method delTree()
-- templates/argos_theme
-- templates/allcss
-- templates/wb_theme
 + templates/WbTheme
 ! all upgrade/install and all other files needed to change defaults
 # modules/MultiLingual/update_keys.php  inactive lines of code removed
+19 Jan-2014 Build 2089 Manuela v.d.Decken(DarkViper)
+- templates/argos_theme
+- templates/allcss
+- templates/wb_theme
 19 Jan-2014 Build 2088 Manuela v.d.Decken(DarkViper)
 # news/delete_post invalid arguments for AccessFile corrected
 ! search/search.php  read settings optimized

@@ -64,7 +64,7 @@ $MESSAGE['GENERIC_NOT_UPGRADED'] = 'Actualisatie niet mogelijk';
 $MESSAGE['GENERIC_SECURITY_ACCESS'] = 'Veiligheidsrisico! Toegang geweigerd!';
 $MESSAGE['GENERIC_SECURITY_OFFENSE'] = 'Veiligheidsrisico! Data-opslag geweigerd!';
 $MESSAGE['GENERIC_UNINSTALLED'] = 'De&iuml;nstallatie voltooid';
-$MESSAGE['GENERIC_UPGRADED'] = 'Upgrade voltooid';;
+$MESSAGE['GENERIC_UPGRADED'] = 'Upgrade voltooid';
 $MESSAGE['MEDIA_BLANK_NAME'] = 'U heeft geen nieuwe naam opgegeven';
 $MESSAGE['MEDIA_CANNOT_DELETE_DIR'] = 'Kan geselecteerde map niet verwijderen';
 

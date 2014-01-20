@@ -1,6 +1,6 @@
 //:Load the view.php from any other section-module, including the frontend.css
-//:Use [[iSectionPicker?sid=123]]
-global $database, $wb, $section_id,$page_id,$module;
+//:Use [[SectionPicker?sid=123]]
+global $database, $wb, $TEXT, $DGTEXT,$section_id,$page_id;
 $content = '';
 $sid = isset($sid) ? intval($sid) : 0;
 if( $sid ) {
@@ -20,10 +20,10 @@ if( $sid ) {
 			} else { $_sFrontendCss = ''; }
 			$section_id = $sid;
 			ob_start();
-			$sectionAnchor = (defined('SEC_ANCHOR') && SEC_ANCHOR!='') ? SEC_ANCHOR : 'Sec';
-			echo PHP_EOL.'<div id="'.$sectionAnchor.$sSectionIdPrefix.'" class="section m_'.$module.'" >'.PHP_EOL;
-			require(WB_PATH.'/modules/'.$module.'/view.php');
-			echo PHP_EOL.'</div><!-- '.$module.$section_id.' -->'.PHP_EOL;
+            $sectionAnchor = (defined('SEC_ANCHOR') && SEC_ANCHOR!='') ? SEC_ANCHOR.$section_id : 'section_'.$section_id;
+            echo PHP_EOL.'<div id="'.$sectionAnchor.'" class="wb_'.$module.'" >'.PHP_EOL;
+            require(WB_PATH.'/modules/'.$module.'/view.php');
+            echo PHP_EOL.'</div><!-- '.$module.$section_id.' -->'.PHP_EOL;
 			$content = $_sFrontendCss.ob_get_clean();
 			$section_id = $oldSid; // restore old sectionID
 		}
