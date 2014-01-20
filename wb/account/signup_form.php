@@ -30,7 +30,7 @@ if(!defined('WB_PATH')) {
 require_once(WB_PATH.'/include/captcha/captcha.php');
 include_once (WB_PATH.'/framework/functions.php');
 
-$mLang = Translate::getinstance();
+$mLang = Translate::getInstance();
 $mLang->enableAddon('account');
 $oDb  = WbDatabase::getInstance();
 $oReg = WbAdaptor::getInstance();

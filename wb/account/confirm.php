@@ -30,7 +30,7 @@ if(file_exists($config_file) && !defined('WB_URL'))
 
 	require_once($config_file);
 }
-$mLang = Translate::getinstance();
+$mLang = Translate::getInstance();
 $mLang->enableAddon('account');
 
 if(!class_exists('frontend', false)){ include(WB_PATH.'/framework/class.frontend.php'); }

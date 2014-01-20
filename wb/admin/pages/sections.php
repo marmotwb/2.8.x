@@ -39,7 +39,7 @@ If(!defined('DEBUG')) { define('DEBUG',$debug);}
 $admin = new admin('Pages', 'pages_view', false);
 // Include the WB functions file
 if(!function_exists('directory_list')) { require(WB_PATH.'/framework/functions.php'); }
-$mLang = Translate::getinstance();
+$mLang = Translate::getInstance();
 $mLang->enableAddon('admin\pages');
 $oDb = WbDatabase::getInstance();
 $action = 'show';

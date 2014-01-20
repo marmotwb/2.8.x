@@ -57,7 +57,7 @@ $oTpl->set_block('page', 'main_block', 'main');
 
 //$mLang = ModLanguage::getInstance();
 //$mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
-$mLang = Translate::getinstance();
+$mLang = Translate::getInstance();
 $mLang->enableAddon('admin\settings');
 /*-- insert all needed vars from language files ----------------------------------------*/
 $oTpl->set_var($mLang->getLangArray());

@@ -27,7 +27,7 @@ $admin = new admin('Addons', 'modules');
 // Make news post access files dir
 if(!function_exists('get_variable_content')) {require($oReg->AppPath.'framework/functions.php');}
 $oReg->getWbConstants();
-$mLang = Translate::getinstance();
+$mLang = Translate::getInstance();
 $mLang->enableAddon('admin\addons');
 
 // Setup template object, parse vars to it, then parse it

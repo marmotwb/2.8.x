@@ -52,7 +52,7 @@ if($admin->get_permission('languages_view') != true) {
 
 //$mLang = ModLanguage::getInstance();
 //$mLang->setLanguage(ADMIN_PATH.'/addons/languages/', LANGUAGE, DEFAULT_LANGUAGE);
-$mLang = Translate::getinstance();
+$mLang = Translate::getInstance();
 $mLang->enableAddon('admin\addons');
 
 /*-- insert all needed vars from language files ----------------------------------------*/

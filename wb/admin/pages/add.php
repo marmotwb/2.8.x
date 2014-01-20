@@ -27,7 +27,7 @@ if(!defined('WB_URL'))
 if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 $oReg  = WbAdaptor::getInstance();
 $oDb   = WbDatabase::getInstance();
-$mLang = Translate::getinstance();
+$mLang = Translate::getInstance();
 $mLang->enableAddon('admin\pages');
 
 // suppress to print the header, so no new FTAN will be set
