@@ -19,7 +19,6 @@
 // Headings and text outputs
 $MOD_MAIL_FILTER['HEADING'] = 'Indstillinger: Output-filter';
 $MOD_MAIL_FILTER['HOWTO'] = 'Du kan konfigurere output-filteret med indstillingerne nedenfor.';
-$MOD_MAIL_FILTER['HOWTOTIP'] = '<strong>Tip: </strong>Mailadresser kan krypteres vedhj&Atilde;&brvbar;lp af en  Javascript-funktion. For at g&Atilde;¸re brug af denne indstilling, skal du tilf&Atilde;¸je PHP-koden <code style="background:#FFA;color:#900;"><?php register_frontend_modfiles(js);?></code> til <head> sektionnen af  index.php i din template (layout-skabelon). Uden denne &Atilde;&brvbar;ndring vil kun @-tegnet i email-adressen blive erstattet.';
 $MOD_MAIL_FILTER['WARNING']				= '';
 
 // Text and captions of form elements

@@ -19,7 +19,6 @@
 // Headings and text outputs
 $MOD_MAIL_FILTER['HEADING']	= 'Options: Output Filter';
 $MOD_MAIL_FILTER['HOWTO'] = 'You can configure the output filtering with the options below.';
-$MOD_MAIL_FILTER['HOWTOTIP'] = '<strong>Tip: </strong>Mailto links can be encrypted by a Javascript function. To make use of this option, one needs to add the PHP code <code style="background:#FFA;color:#900;">&lt;?php register_frontend_modfiles(\'js\');?&gt;</code> into the &lt;head&gt; section of the index.php of your template. Without this modification, only the @ character in the mailto part will be replaced.';
 $MOD_MAIL_FILTER['WARNING']	= '';
 
 // Text and captions of form elements

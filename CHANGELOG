@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+22 Jan-2014 Build 2093 Manuela v.d.Decken(DarkViper)
+! modules/output-filter remove a string from display output
 20 Jan-2014 Build 2092 Manuela v.d.Decken(DarkViper)
 ! several files:  remove multiple ;;
 ! uninstall language deactivated
