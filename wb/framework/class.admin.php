@@ -57,7 +57,7 @@ class admin extends wb {
 		parent::__construct(SecureForm::BACKEND);
     	if( $section_name != '##skip##' )
     	{
-    		global $database, $MESSAGE, $TEXT;
+    		global $database;
     		// Specify the current applications name
     		$this->section_name = $section_name;
     		$this->section_permission = $section_permission;
@@ -84,10 +84,10 @@ class admin extends wb {
             		    $oTpl->set_file( 'page', 'ErrorMsgFile.htt' );
             	 	    $oTpl->set_var( 'THEME_URL', THEME_URL );
             			$oTpl->set_var( 'PAGE_ICON', 'negative');
-            			$oTpl->set_var( 'ERROR_TITLE', $MESSAGE['MEDIA_DIR_ACCESS_DENIED']);
-            	 	    $oTpl->set_var( 'PAGE_TITLE', $MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES'] );
+            			$oTpl->set_var( 'ERROR_TITLE', $this->_oTrans->MESSAGE_MEDIA_DIR_ACCESS_DENIED);
+            	 	    $oTpl->set_var( 'PAGE_TITLE', $this->_oTrans->MESSAGE_ADMIN_INSUFFICIENT_PRIVELLIGES);
             	 	    $oTpl->set_var( 'BACK_LINK', $sBackLink );
-            	 	    $oTpl->set_var( 'TEXT_BACK', $TEXT['BACK'] );
+            	 	    $oTpl->set_var( 'TEXT_BACK', $this->_oTrans->TEXT_BACK);
                 		$output = $oTpl->finish($oTpl->parse('output', 'page'));
         			}
         			throw new ErrorMsgException($output);
@@ -101,12 +101,9 @@ class admin extends wb {
             }
 
     		// Check if the backend language is also the selected language. If not, send headers again.
-    		$sql  = 'SELECT `language` FROM `'.TABLE_PREFIX.'users` ';
-    		$sql .= 'WHERE `user_id`='.(int)$this->get_user_id();
-    		$get_user_language = @$database->query($sql);
-    		$user_language = ($get_user_language) ? $get_user_language->fetchRow() : '';
-    		// prevent infinite loop if language file is not XX.php (e.g. DE_du.php)
-    		$user_language = substr($user_language[0],0,2);
+    		$sql = 'SELECT `language` FROM `'.$this->_oDb->TablePrefix.'users` '
+    		     . 'WHERE `user_id`='.(int)$this->get_user_id();
+            $user_language = preg_replace('/([a-z]{2}).*/i', '\1', strtoupper((string)$this->_oDb->getOne($sql)));
     		// obtain the admin folder (e.g. /admin)
     		$admin_folder = str_replace(WB_PATH, '', ADMIN_PATH);
 
@@ -139,19 +136,17 @@ class admin extends wb {
 	 */
 	function print_header($body_tags = '')
 	{
-		// Get vars from the language file
-		global $MENU, $MESSAGE, $TEXT;
-		// Connect to database and get website title
-		global $database;
 		// $GLOBALS['FTAN'] = $this->getFTAN();
 		$this->createFTAN();
-		$sql = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` WHERE `name`=\'website_title\'';
-		$get_title = $database->query($sql);
-		$title = $get_title->fetchRow();
+		$sql = 'SELECT `value` FROM `'.$this->_oDb->TablePrefix.'settings` '
+             . 'WHERE `name`=\'website_title\'';
+        $title = (string)$this->_oDb->getOne($sql);
 		// Setup template object, parse vars to it, then parse it
 		$header_template = new Template(dirname($this->correct_theme_source('header.htt')) );
 		$header_template->set_file('page', 'header.htt');
 		$header_template->set_block('page', 'header_block', 'header');
+        $this->_oTrans->enableAddon('templates\\'.$this->_oReg->DefaultTheme);
+        $header_template->set_var($this->_oTrans->getLangArray());
 		if(defined('DEFAULT_CHARSET')) {
 			$charset=DEFAULT_CHARSET;
 		} else {
@@ -163,22 +158,21 @@ class admin extends wb {
 		$view_url = WB_URL;
 		if(isset($_GET['page_id'])) {
 			// extract page link from the database
-			$sql  = 'SELECT `link` FROM `'.TABLE_PREFIX.'pages` ';
-			$sql .= 'WHERE `page_id`='.intval($_GET['page_id']);
-			$result = @$database->query($sql);
-			$row = @$result->fetchRow();
-			if($row) $view_url .= PAGES_DIRECTORY .$row['link']. PAGE_EXTENSION;
+			$sql = 'SELECT `link` FROM `'.$this->_oDb->TablePrefix.'pages` '
+			     . 'WHERE `page_id`='.intval($_GET['page_id']);
+            $row = (string)$this->_oDb->getOne($sql);
+            if ($row) { $view_url .= PAGES_DIRECTORY .$row. PAGE_EXTENSION; }
 		}
 
         $HelpUrl = ((strtolower(LANGUAGE)!='de') ? '/en/help.php' : '/de/hilfe.php');
 		$sServerAdress = isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : '127.0.0.1';
 		$header_template->set_var(	array(
-							'SECTION_FORGOT' => $MENU['FORGOT'],
-							'SECTION_NAME' => $MENU['LOGIN'],
+							'SECTION_FORGOT' => $this->_oTrans->MENU_FORGOT,
+							'SECTION_NAME' => $this->_oTrans->MENU_LOGIN,
 							'BODY_TAGS' => $body_tags,
-							'WEBSITE_TITLE' => ($title['value']),
-							'TEXT_ADMINISTRATION' => $TEXT['ADMINISTRATION'],
-							'CURRENT_USER' => $MESSAGE['START_CURRENT_USER'],
+							'WEBSITE_TITLE' => $title,
+							'TEXT_ADMINISTRATION' => $this->_oTrans->TEXT_ADMINISTRATION,
+							'CURRENT_USER' => $this->_oTrans->MESSAGE_START_CURRENT_USER,
 							'DISPLAY_NAME' => $this->get_display_name(),
 							'CHARSET' => $charset,
 							//'LANGUAGE' => strtolower(LANGUAGE),
@@ -192,11 +186,11 @@ class admin extends wb {
 							'THEME_URL' => THEME_URL,
 							'START_URL' => ADMIN_URL.'/index.php',
 							'START_CLASS' => 'start',
-							'TITLE_START' => $TEXT['READ_MORE'],
-							'TITLE_VIEW' => $TEXT['WEBSITE'],
-							'TITLE_HELP' => 'WebsiteBaker '.$MENU['HELP'],
+							'TITLE_START' => $this->_oTrans->TEXT_READ_MORE,
+							'TITLE_VIEW' => $this->_oTrans->TEXT_WEBSITE,
+							'TITLE_HELP' => 'WebsiteBaker '.$this->_oTrans->MENU_HELP,
 							'URL_VIEW' => $view_url,
-							'TITLE_LOGOUT' => $MENU['LOGIN'],
+							'TITLE_LOGOUT' => $this->_oTrans->MENU_LOGIN,
 							'LOGIN_DISPLAY_HIDDEN' => !$this->is_authenticated() ? 'hidden' : '',
 							'LOGIN_DISPLAY_NONE' => !$this->is_authenticated() ? 'none' : '',
 							'LOGIN_LINK' => $_SERVER['SCRIPT_NAME'],
@@ -211,7 +205,7 @@ class admin extends wb {
 		if($this->get_user_id() == 1)
 		{
 			$sys_locked = (((int)(defined('SYSTEM_LOCKED') ? SYSTEM_LOCKED : 0)) == 1);
-			$header_template->set_var('MAINTENANCE_MODE', ($sys_locked ? $TEXT['MAINTENANCE_OFF'] : $TEXT['MAINTENANCE_ON']));
+			$header_template->set_var('MAINTENANCE_MODE', ($sys_locked ? $this->_oTrans->TEXT_MAINTENANCE_OFF : $this->_oTrans->TEXT_MAINTENANCE_ON));
 			$header_template->set_var('MAINTENANCE_ICON', THEME_URL.'/images/'.($sys_locked ? 'lock' : 'unlock').'.png');
 			$header_template->set_var('MAINTAINANCE_URL', ADMIN_URL.'/settings/locking.php');
 			$header_template->parse('maintenance', 'maintenance_block', true);
@@ -233,27 +227,27 @@ class admin extends wb {
 		} else {
 			$header_template->set_var('STYLE', 'start');
 			$header_template->set_var(	array(
-						'SECTION_NAME' => $MENU[strtoupper($this->section_name)],
-						'TITLE_LOGOUT' => $MENU['LOGOUT'],
+                        'SECTION_NAME' => $this->_oTrans->{'MENU'.strtoupper($this->section_name)},
+						'TITLE_LOGOUT' => $this->_oTrans->MENU_LOGOUT,
 						'LOGIN_DISPLAY_NONE' => '',
 						'START_ICON' => 'home',
 						'LOGIN_ICON' => 'logout',
 						'LOGIN_LINK' => ADMIN_URL.'/logout/index.php',
-						'TITLE_START' => $MENU['START']
+						'TITLE_START' => $this->_oTrans->MENU_START
 						)
 					);
 
 			// @array ( $url, $target, $title, $page_permission, $permission_required )
 			$menu = array(
 //					array(ADMIN_URL.'/index.php', '', $MENU['START'], 'start', 1 ),
-					array(ADMIN_URL.'/pages/index.php', '', $MENU['PAGES'], 'pages', 1),
+					array(ADMIN_URL.'/pages/index.php', '', $this->_oTrans->MENU_PAGES, 'pages', 1),
 // 					array($view_url, '_blank', $MENU['FRONTEND'], 'pages', 1),
-					array(ADMIN_URL.'/media/index.php', '', $MENU['MEDIA'], 'media', 1),
-					array(ADMIN_URL.'/addons/index.php', '', $MENU['ADDONS'], 'addons', 1),
-					array(ADMIN_URL.'/preferences/index.php', '', $MENU['PREFERENCES'], 'preferences', 1),
-					array(ADMIN_URL.'/settings/index.php', '', $MENU['SETTINGS'], 'settings', 1),
-					array(ADMIN_URL.'/admintools/index.php', '', $MENU['ADMINTOOLS'], 'admintools', 1),
-					array(ADMIN_URL.'/access/index.php', '', $MENU['ACCESS'], 'access', 1),
+					array(ADMIN_URL.'/media/index.php', '', $this->_oTrans->MENU_MEDIA, 'media', 1),
+					array(ADMIN_URL.'/addons/index.php', '', $this->_oTrans->MENU_ADDONS, 'addons', 1),
+					array(ADMIN_URL.'/preferences/index.php', '', $this->_oTrans->MENU_PREFERENCES, 'preferences', 1),
+					array(ADMIN_URL.'/settings/index.php', '', $this->_oTrans->MENU_SETTINGS, 'settings', 1),
+					array(ADMIN_URL.'/admintools/index.php', '', $this->_oTrans->MENU_ADMINTOOLS, 'admintools', 1),
+					array(ADMIN_URL.'/access/index.php', '', $this->_oTrans->MENU_ACCESS, 'access', 1),
 //					array('http://addons.websitebaker2.org/', '', 'WB-Addons', 'preferences', 1),
 //					array('http://template.websitebaker2.org/', '', 'WB-Template', 'preferences', 1),
 //					array('http://www.websitebaker.org/', '_blank', 'WebsiteBaker Home', '', 0),
@@ -289,24 +283,24 @@ class admin extends wb {
 		$header_template->parse('header', 'header_block', false);
 		$header_template->pparse('output', 'page');
 		unset($header_template);
+        $this->_oTrans->disableAddon();
 	}
 
 	// Print the admin footer
-		function print_footer($activateJsAdmin = false) {
-		global $database,$starttime,$iPhpDeclaredClasses;
-		$oTrans = Translate::getInstance();
-		$oTrans->disableAddon();
+	function print_footer($activateJsAdmin = false) {
+		global $starttime, $iPhpDeclaredClasses;
 		// include the required file for Javascript admin
 		if($activateJsAdmin == true) {
 			if(file_exists(WB_PATH.'/modules/jsadmin/jsadmin_backend_include.php')){
 				@include_once(WB_PATH.'/modules/jsadmin/jsadmin_backend_include.php');
 			}
 		}
-
 		// Setup template object, parse vars to it, then parse it
 		$footer_template = new Template(dirname($this->correct_theme_source('footer.htt')));
 		$footer_template->set_file('page', 'footer.htt');
 		$footer_template->set_block('page', 'footer_block', 'header');
+        $this->_oTrans->enableAddon('templates\\'.$this->_oReg->DefaultTheme);
+        $footer_template->set_var($this->_oTrans->getLangArray());
 		$footer_template->set_var(array(
 						'BACKEND_BODY_MODULE_JS' => $this->register_backend_modfiles_body('js'),
 						'WB_URL' => WB_URL,
@@ -324,7 +318,7 @@ class admin extends wb {
 
 			$footer_template->set_var('MEMORY', number_format(memory_get_peak_usage(true), 0, ',', '.').'&nbsp;Byte' );
 //			$footer_template->set_var('MEMORY', number_format(memory_get_usage(true), 0, ',', '.').'&nbsp;Byte' );
-			$footer_template->set_var('QUERIES', $database->getQueryCount );
+			$footer_template->set_var('QUERIES', $this->_oDb->getQueryCount );
 			// $footer_template->set_var('QUERIES', 'disabled' );
 	        $included_files =  get_included_files();
 			$footer_template->set_var('INCLUDES', sizeof($included_files) );
@@ -374,6 +368,7 @@ class admin extends wb {
 		$footer_template->parse('header', 'footer_block', false);
 		$footer_template->pparse('output', 'page');
 		unset($footer_template);
+
 	}
 
 	// Return a system permission

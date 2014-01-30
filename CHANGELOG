@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+30 Jan-2014 Build 2094 Manuela v.d.Decken(DarkViper)
+# TranslateAdaptorWbOldStyle::_getAddonPath now ignores a missing language file
+! admin::print_header() now provides all translations in theme::header.htt and accepts language files in theme
+! admin::print_footer() now provides all translations in theme::footer.htt and accepts language files in theme
 22 Jan-2014 Build 2093 Manuela v.d.Decken(DarkViper)
 ! modules/output-filter remove a string from display output
 20 Jan-2014 Build 2092 Manuela v.d.Decken(DarkViper)

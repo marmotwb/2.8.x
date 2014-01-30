@@ -52,21 +52,23 @@ class TranslateAdaptorWbOldStyle implements TranslateAdaptorInterface {
  */
 	public function loadLanguage($sLangCode)
 	{
+        $aTranslations = array();
 		$sLanguagePath = $this->_getAddonPath();
-		$aTranslations = array();
-		$sLangFile = strtolower($sLangCode.'.php');
-		if( ($aDirContent = scandir($sLanguagePath)) !== false) {
-			foreach($aDirContent as $sFile) {
-				if($sLangFile === strtolower($sFile)) {
-					$sLangFile = $sLanguagePath.$sFile;
-					if(is_readable($sLangFile)) {
-						$aTmp = $this->_importArrays($sLangFile);
-						$aTranslations = array_merge($aTranslations, $aTmp);
-						break;
-					}
-				}
-			}
-		}
+        if (is_readable($sLanguagePath)) {
+            $sLangFile = strtolower($sLangCode.'.php');
+            if( ($aDirContent = scandir($sLanguagePath)) !== false) {
+                foreach($aDirContent as $sFile) {
+                    if($sLangFile === strtolower($sFile)) {
+                        $sLangFile = $sLanguagePath.$sFile;
+                        if(is_readable($sLangFile)) {
+                            $aTmp = $this->_importArrays($sLangFile);
+                            $aTranslations = array_merge($aTranslations, $aTmp);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 		return (sizeof($aTranslations) > 0 ? $aTranslations : false);
 	}
 /**
@@ -116,7 +118,7 @@ class TranslateAdaptorWbOldStyle implements TranslateAdaptorInterface {
 				return $sLanguagePath;
 			}
 		}
-		throw new TranslationException('\''.$sAddon.'/languages\' is not a direcory or not readable!');
+        return '';
 	}
 /**
  * Import language definitions into array
