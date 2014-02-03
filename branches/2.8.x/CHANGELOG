@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+03 Feb-2014 Build 2096 Manuela v.d.Decken(DarkViper)
++ Translate::enablePrivateTable() allows to add more private language definitions
++ Translate::disablePrivateTable()
+! TranslateAdaptorWbOldStyle move hardcoded foldername into a variable
 03 Feb-2014 Build 2095 Manuela v.d.Decken(DarkViper)
 ! /functions::make_thumb() set JPG-compression to 100%
 ! /database::showError() output text corrected
