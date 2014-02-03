@@ -54,10 +54,18 @@ class Translate {
 	protected $aLoadedAddons       = array();
 /** TranslationTable object of the core and additional one activated addon */	
 	protected $aActiveTranslations = array();
+// **  */
+    protected $aPrivatePriorities = array();
 /** possible option flags */	
 	const CACHE_DISABLED = 1; // ( 2^0 )
 	const KEEP_MISSING   = 2; // ( 2^1 )
-	
+/** types of translation tables */
+    const TABLE_CORE               = 0;
+    const TABLE_ADDON              = 1;
+    const TABLE_THEME              = 2;
+    const TABLE_TEMPLATE           = 2;
+    const FIRST_USER_DEFINED_TABLE = 10;
+    const STEP_USER_DEFINED_TABLES = 5;
 /** prevent class from public instancing and get an object to hold extensions */
 	protected function  __construct() {}
 /** prevent from cloning existing instance */
@@ -117,7 +125,7 @@ class Translate {
 			                             $this->sUserLanguage,
 			                             $this->bUseCache);
 			$this->aLoadedAddons['core'] = $oTmp->load($this->sAdaptor);
-			$this->aActiveTranslations[0] = $this->aLoadedAddons['core'];
+			$this->aActiveTranslations[self::TABLE_CORE] = $this->aLoadedAddons['core'];
 			if(sizeof($this->aLoadedAddons['core']) == 0) {
 			// throw an exception for missing translations
 				throw new TranslationException('missing core translations');
@@ -168,7 +176,7 @@ class Translate {
 			if(!isset($this->aLoadedAddons[$sAddon])) {
 				$this->addAddon($sAddon, $sAdaptor);
 			}
-			$this->aActiveTranslations[1] = $this->aLoadedAddons[$sAddon];
+			$this->aActiveTranslations[self::TABLE_ADDON] = $this->aLoadedAddons[$sAddon];
 		}
 		
 	}
@@ -177,11 +185,67 @@ class Translate {
  */	
 	public function disableAddon()
 	{
-		if(isset($this->aActiveTranslations[1])) {
-			unset($this->aActiveTranslations[1]);
+		if(isset($this->aActiveTranslations[self::TABLE_ADDON])) {
+			unset($this->aActiveTranslations[self::TABLE_ADDON]);
 		}
 	}
-	
+/**
+ * Activate additional translation table
+ * @param string $sAddon    Addon descriptor (i.e. 'modules\myAddon')
+ * @param int    $iPriority (default: self::FIRST_USER_DEFINED_TABLE)
+ * @param string $sAdaptor  (optional)Adaptor name (default: $this->sAdaptor)
+ */
+	public function enablePrivateTable($sAddon, $iPriority = self::FIRST_USER_DEFINED_TABLE, $sAdaptor = null)
+	{
+        switch (($iPriority = intval($iPriority))) :
+            case self::TABLE_THEME:
+            case self::TABLE_TEMPLATE:
+                break;
+            default:
+                $iPriority = ($iPriority < self::FIRST_USER_DEFINED_TABLE ? self::FIRST_USER_DEFINED_TABLE : $iPriority);
+            // search for first free priority position
+                while (array_key_exists($iPriority, $this->aActiveTranslations)) {
+                    $iPriority += self::STEP_USER_DEFINED_TABLES;
+                }
+                break;
+        endswitch;
+    // sanitize Addon descriptor
+		$sAddon = str_replace('/', '\\', $sAddon);
+		if(!(strtolower($sAddon) == 'core' || $sAddon == '')) {
+        // if addon is not already in list then add it now
+			if(!isset($this->aLoadedAddons[$sAddon])) {
+				$this->addAddon($sAddon, $sAdaptor);
+			}
+            // copy table into activate list
+			$this->aActiveTranslations[$iPriority] = $this->aLoadedAddons[$sAddon];
+            // save dependency of addon<->priority
+            $this->aPrivatePriorities[$sAddon] = $iPriority;
+            // sort active list ascending by priority
+            ksort($this->aActiveTranslations);
+		}
+
+	}
+/**
+ * Remove private table from ActiveTranslations table
+ * @param string $sAddon    Addon descriptor (i.e. 'modules\myAddon')
+ */
+	public function disablePrivateTable($sAddon)
+    {
+    // sanitize addon descriptor
+		$sAddon = str_replace('/', '\\', $sAddon);
+        if (isset($this->aPrivatePriorities[$sAddon])) {
+        // get priority for this addon if it's loaded
+            $iPriority = $this->aPrivatePriorities[$sAddon];
+        // check if addon is activated
+            if (isset($this->aActiveTranslations[$iPriority]) && $iPriority >= self::FIRST_USER_DEFINED_TABLE) {
+            // deactivate addon and remove it from priority list
+                unset($this->aActiveTranslations[$iPriority]);
+                unset($this->aPrivatePriorities[$sAddon]);
+            // sort active translation list for ascending priority
+                ksort($this->aActiveTranslations);
+            }
+        }
+    }
 /**
  * Is key available
  * @param string Language key

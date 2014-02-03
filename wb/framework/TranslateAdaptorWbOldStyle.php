@@ -36,6 +36,7 @@
 class TranslateAdaptorWbOldStyle implements TranslateAdaptorInterface {
 
 	protected $sAddon     = '';
+    protected $sTransDir  = 'languages/';
 	protected $sFilePath  = '';
 /**
  * Constructor
@@ -100,9 +101,9 @@ class TranslateAdaptorWbOldStyle implements TranslateAdaptorInterface {
 	private function _getAddonPath()
 	{
 	// set environment
-		$sAddon   = trim(str_replace('\\', '/', $this->sAddon), '/');
+		$sAddon   = trim(str_replace('\\', '/', $this->sAddon), '/').'/';
 		$sAppDirname = str_replace('\\', '/', dirname(dirname(__FILE__))).'/';
-		$sLanguagePath = $sAppDirname.$sAddon.'/languages/';
+		$sLanguagePath = $sAppDirname.$sAddon.$this->sTransDir;
 		if(is_dir($sLanguagePath) && is_readable($sLanguagePath)) {
 		// valid directory found
 			return $sLanguagePath;
@@ -111,8 +112,8 @@ class TranslateAdaptorWbOldStyle implements TranslateAdaptorInterface {
 		{
 		// get used acp dirname
 			$sTmp = trim(WbAdaptor::getInstance()->AcpDir, '/');
-		// if path starts with 'admin/' then replace with used acp dirname
-			$sLanguagePath = $sAppDirname.preg_replace('/^admin/sU', $sTmp, $sAddon).'/languages/';
+		// if path starts with 'admin/' then replace with used real acp dirname
+			$sLanguagePath = $sAppDirname.preg_replace('/^admin/sU', $sTmp, $sAddon).$this->sTransDir;
 			if(is_dir($sLanguagePath) && is_readable($sLanguagePath)) {
 			// valid directory found
 				return $sLanguagePath;
