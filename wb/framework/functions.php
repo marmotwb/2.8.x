@@ -978,7 +978,7 @@ function make_thumb($source, $destination, $size)
 		$source = imageCreateFromJpeg($source);
 		$dst_img = ImageCreateTrueColor($thumb_w, $thumb_h);
 		imagecopyresampled($dst_img,$source,0,0,0,0,$thumb_w,$thumb_h,$original_x,$original_y);
-		imagejpeg($dst_img, $destination);
+		imagejpeg($dst_img, $destination, 100);
 		// Clear memory
 		imagedestroy($dst_img);
 		imagedestroy($source);

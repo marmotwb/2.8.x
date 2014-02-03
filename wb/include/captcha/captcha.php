@@ -113,7 +113,7 @@ if(!function_exists('call_captcha')) {
 		switch(CAPTCHA_TYPE) {
 		case 'calc_image':
 			$captcha_width = 160;
-			$captcha_height = 55;
+			$captcha_height = 60;
 			break;
 		case 'calc_ttf_image':
 			$captcha_width = 175;
@@ -125,7 +125,7 @@ if(!function_exists('call_captcha')) {
 			break;
 		case 'old_image':
 			$captcha_width = 160;
-			$captcha_height = 55;
+			$captcha_height = 60;
 			break;
 		default:
 			$captcha_width = 250;
