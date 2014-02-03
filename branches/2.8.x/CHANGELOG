@@ -11,6 +11,13 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+03 Feb-2014 Build 2095 Manuela v.d.Decken(DarkViper)
+! /functions::make_thumb() set JPG-compression to 100%
+! /database::showError() output text corrected
+! ../captcha.php::call_captcha() imagesize corected
+! droplet >> [[SiteModified]]  recoded
+! droplet >> [[ModifiedWhen]]  recoded
+! install/index length of password restricted to 30 chars
 30 Jan-2014 Build 2094 Manuela v.d.Decken(DarkViper)
 # TranslateAdaptorWbOldStyle::_getAddonPath now ignores a missing language file
 ! admin::print_header() now provides all translations in theme::header.htt and accepts language files in theme

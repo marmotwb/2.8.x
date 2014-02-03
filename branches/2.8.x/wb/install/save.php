@@ -356,7 +356,7 @@ if(!isset($_POST['admin_username']) OR $_POST['admin_username'] == '') {
 if(!isset($_POST['admin_email']) OR $_POST['admin_email'] == '') {
 	set_error('Please enter an email for the Administrator account','admin_email');
 } else {
-	if(preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/i', $_POST['admin_email'])) {
+	if(preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i', $_POST['admin_email'])) {
 		$admin_email = $_POST['admin_email'];
 	} else {
 		set_error('Please enter a valid email address for the Administrator account','admin_email');
@@ -376,6 +376,10 @@ if(!isset($_POST['admin_repassword']) OR $_POST['admin_repassword'] == '') {
 if($admin_password != $admin_repassword) {
 	set_error('Sorry, the two Administrator account passwords you entered do not match','admin_repassword');
 }
+if (mb_strlen($admin_password) < 6) {
+	set_error('Sorry, the password must have 6 chars at last','admin_password');
+}
+
 // End admin user details code
 
 // Try and write settings to config file

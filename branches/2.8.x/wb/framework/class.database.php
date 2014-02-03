@@ -25,7 +25,7 @@ class database {
 		$msg .= 'tried to create an invalid <b>'.$y[1]['class'].'</b> - object</p>';
 		$msg .= '<p>Please replace <span style="color:#dd0000; font-weight:bold;">';
 		$msg .= '$database = new database();</span> by <span style="color:#00bb00; font-weight:bold;">';
-		$msg .= '$database = WbDatabase::getInstance();</span>.</p>';
+		$msg .= '$database = WbDatabase::getInstance();</span></p>';
 		$msg .= '<p>Also you can get information and help from the ';
 		$msg .= '<a href="http://www.websitebaker.org/forum/index.php/board,2.0.html">WebsiteBaker Forum</a></p>';
 		$msg .= '<hr />';
@@ -35,7 +35,7 @@ class database {
 		$msg .= 'wurde versucht, ein ung&uuml;ltiges <b>'.$y[1]['class'].'</b> - Objekt zu erstellen.</p>';
 		$msg .= '<p>Bitte ersetzen Sie <span style="color:#dd0000; font-weight:bold;">';
 		$msg .= '$database = new database();</span> durch <span style="color:#00bb00; font-weight:bold;">';
-		$msg .= '$database = WbDatabase::getInstance();</span>.</p>';
+		$msg .= '$database = WbDatabase::getInstance();</span></p>';
 		$msg .= '<p>Auch k&ouml;nnen sie auch Informationen und Hilfe im ';
 		$msg .= '<a href="http://www.websitebaker.org/forum/index.php/board,31.0.html">WebsiteBaker Forum</a> finden.</p>';
 		$msg .= '</div>';

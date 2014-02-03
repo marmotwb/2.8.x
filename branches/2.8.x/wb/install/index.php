@@ -179,7 +179,7 @@ function change_os(type) {
 </tr>
 </table>
 
-<form name="website_baker_installation_wizard" action="save.php" method="post">
+<form name="website_baker_installation_wizard" action="save.php" method="post" accept-charset="UTF-8">
 <input type="hidden" name="url" value="" />
 <input type="hidden" name="username_fieldname" value="admin_username" />
 <input type="hidden" name="password_fieldname" value="admin_password" />
@@ -552,13 +552,13 @@ But this solution does not guarranty a correct displaying of the content from al
 		<tr>
 			<td class="name">Password:</td>
 			<td class="value">
-				<input <?php echo field_error('admin_password');?> type="password" tabindex="16" name="admin_password" value="" />
+				<input <?php echo field_error('admin_password');?> type="password" maxlength="30" tabindex="16" name="admin_password" value="" />
 			</td>
 		</tr>
 		<tr>
 			<td class="name">Re-Password:</td>
 			<td class="value">
-				<input <?php echo field_error('admin_repassword');?> type="password" tabindex="17" name="admin_repassword" value=""  />
+				<input <?php echo field_error('admin_repassword');?> type="password" maxlength="30" tabindex="17" name="admin_repassword" value=""  />
 			</td>
 		</tr>
 		<tr>

@@ -1,3 +1,11 @@
+<?php
 //:Create information on when your site was last updated.
 //:Create information on when your site was last updated. Any page update counts.
-global $database, $wb;if (PAGE_ID>0) {	$query=$database->query("SELECT max(modified_when) FROM ".TABLE_PREFIX."pages");	$mod_details=$query->fetchRow();	return "This site was last modified on ".date("d/m/Y",$mod_details[0]). " at ".date("H:i",$mod_details[0]).".";}
+$sRetval = '';
+if (PAGE_ID > 0) {
+    $sql = 'SELECT MAX(`modified_when`) `modified` '
+         . 'FROM `'.WbDatabase::getInstance()->TablePrefix.'pages`';
+	$iModified = WbDatabase::getInstance()->getOne($sql);
+    $sRetval = "This site was last modified on ".date("d/m/Y",$iModified). " at ".date("H:i",$iModified).".";
+}
+return $sRetval;
