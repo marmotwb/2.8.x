@@ -184,6 +184,11 @@ class WbAdaptor {
 					$sKey = 'DefaultTemplate';
 					$this->_aSys['Request'][$sKey] = $sVal; 
 					break;
+				case 'TEMPLATE':
+					$sVal = trim(str_replace('\\', '/', $sVal), '/').'/';
+					$sKey = 'Template';
+					$this->_aSys['Request'][$sKey] = $sVal;
+					break;
 				case 'DEFAULT_THEME':
 					$sVal = trim(str_replace('\\', '/', $sVal), '/').'/';
 					$sKey = 'DefaultTheme';
@@ -211,6 +216,15 @@ class WbAdaptor {
 					$sKey = 'AppServicePack';
 					$this->_aSys['System'][$sKey] = $sVal; 
 					break;
+                case 'PAGE_ICON_DIR':
+                    $sKey = 'PageIconDir';
+					$sVal = trim(str_replace('\\', '/', $sVal), '/').'/';
+                    if (!isset($this->_aSys['Request']['Template'])) {
+                        $this->_aSys['Request']['Template'] = $this->_aSys['Request']['DefaultTemplate'];
+                    }
+                    $sVal = str_replace('/*/', '/'.$this->_aSys['Request']['Template'], $sVal);
+					$this->_aSys['System'][$sKey] = $sVal;
+                    break;
 				default:
 					$sVal = ($sVal == 'true' ? true : ($sVal == 'false' ? false : $sVal));
 					$sKey = str_replace(' ', '', ucwords(str_replace('_', ' ', strtolower($sKey))));
