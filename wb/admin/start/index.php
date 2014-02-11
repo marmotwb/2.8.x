@@ -15,14 +15,13 @@
  *
  */
 
-$config_file = realpath('../../config.php');
-if(file_exists($config_file) && !defined('WB_URL'))
-{
-	require_once($config_file);
+if (!defined('WB_URL')) {
+	require_once('../../config.php');
 }
-
-if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
-
+$oDb = WbDatabase::getInstance();
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\start');
+//$template->set_var($oTrans->getLangArray());
 $admin = new admin('Start','start');
 // ---------------------------------------
 //	$database = WbDatabase::getInstance();
@@ -55,28 +54,26 @@ if(defined('FINALIZE_SETUP')) {
 		closedir($handle);
 		}
 	}
-	$sql = 'DELETE FROM `'.TABLE_PREFIX.'settings` WHERE `name`=\'FINALIZE_SETUP\'';
-	if($database->query($sql)) { }
+	$sql = 'DELETE FROM `'.$oDb-TablePrefix.'settings` WHERE `name`=\'FINALIZE_SETUP\'';
+	$oDb->doQuery($sql);
 }
 // ---------------------------------------
 // check if it is neccessary to start the uograde-script
 
 $msg  = '';
-$msg .= (is_readable(WB_PATH.'/install/')) ?  $MESSAGE['START_INSTALL_DIR_EXISTS'].'<br />' : $msg;
+$msg .= (is_readable(WB_PATH.'/install/')) ?  $oTrans->MESSAGE_START_INSTALL_DIR_EXISTS.'<br />' : $msg;
 $aReplace =array( 
       'file' => '<a style="font-weight:bold;" href="'.WB_URL.'/upgrade-script.php">upgrade-script.php</a>'
     );
-$msg .= (is_readable(WB_PATH.'/upgrade-script.php') ?  replace_vars($MESSAGE['START_UPGRADE_SCRIPT_EXISTS'].'<br />',$aReplace) : '');
-//$msg .= ''.$MESSAGE['START_UPGRADE_SCRIPT_EXISTS'].'<br />';
+$msg .= (is_readable(WB_PATH.'/upgrade-script.php') ?  replace_vars($oTrans->MESSAGE_START_UPGRADE_SCRIPT_EXISTS.'<br />',$aReplace) : '');
 
 // ---------------------------------------
 // check if it is neccessary to start the uograde-script
 // ---------------------------------------
 if(($admin->get_user_id()==1) && file_exists(WB_PATH.'/upgrade-script.php')) {
 	// check if it is neccessary to start the uograde-script
-	$sql = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` WHERE `name`=\'wb_revision\'';
-	if($wb_revision=$database->get_one($sql)) {
-	}
+	$sql = 'SELECT `value` FROM `'.$oDb-TablePrefix.'settings` WHERE `name`=\'wb_revision\'';
+	$wb_revision = $oDb->getOne($sql);
 	if (version_compare($wb_revision, REVISION ) < 0) {
 echo "<p style=\"text-align:center;\"> If the <strong>upgrade script</strong> could not be start automatically.\n" .
      "Please click <a style=\"font-weight:bold;\" " .
@@ -105,15 +102,11 @@ document.location = '".WB_URL."/upgrade-script.php';
 // ---------------------------------------
 // workout to upgrade the groups system_permissions
 // ---------------------------------------
-if( ($admin->get_user_id()==1) &&
-	file_exists(ADMIN_PATH.'/groups/upgradePermissions.php') && !defined('GROUPS_UPDATED') )
+if( ($admin->get_user_id()==1) && file_exists(ADMIN_PATH.'/groups/upgradePermissions.php') && !defined('GROUPS_UPDATED') )
 {
 	// check if it is neccessary to start the uograde-script
-	$sql = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` WHERE `name`=\'wb_revision\'';
-	if($wb_revision = $database->get_one($sql)) {
-
-	}
-
+	$sql = 'SELECT `value` FROM `'.$oDb-TablePrefix.'settings` WHERE `name`=\'wb_revision\'';
+	$wb_revision = $database->get_one($sql);
 	if ((version_compare($wb_revision, '1800' )  < 0)&& !defined('GROUPS_UPDATED')) {
 		require_once (ADMIN_PATH.'/groups/upgradePermissions.php');
 		// build new or changed $sTempPermissions
@@ -140,14 +133,14 @@ if( ($admin->get_user_id()==1) &&
 /**
  * delete Outdated Confirmations
  */
-$sql = 'DELETE FROM `'.TABLE_PREFIX.'users` WHERE `confirm_timeout` BETWEEN 1 AND '.time();
-WbDatabase::getInstance()->query($sql);
+$sql = 'DELETE FROM `'.$oDb-TablePrefix.'users` WHERE `confirm_timeout` BETWEEN 1 AND '.time();
+$oDb->doQuery($sql);
 
 /**
  * delete stored ip adresses default after 60 days
  */
-$sql = 'UPDATE `'.TABLE_PREFIX.'users` SET `login_ip` = \'\' WHERE `login_when` < '.(time()-(60*84600));
-WbDatabase::getInstance()->query($sql);
+$sql = 'UPDATE `'.$oDb-TablePrefix.'users` SET `login_ip` = \'\' WHERE `login_when` < '.(time()-(60*84600));
+$oDb->doQuery($sql);
 
 // ---------------------------------------
 // Setup template object, parse vars to it, then parse it
@@ -155,19 +148,19 @@ WbDatabase::getInstance()->query($sql);
 $oTpl = new Template(dirname($admin->correct_theme_source('start.htt')),'keep');
 $oTpl->set_file('page', 'start.htt');
 $oTpl->set_block('page', 'main_block', 'main');
-
+$oTpl->set_var($oTrans->getLangArray());
 // Insert values into the template object
 $oTpl->set_var(array(
-					'WELCOME_MESSAGE' => $MESSAGE['START_WELCOME_MESSAGE'],
-					'CURRENT_USER' => $MESSAGE['START_CURRENT_USER'],
-					'DISPLAY_NAME' => $admin->get_display_name(),
+					'WELCOME_MESSAGE' => $oTrans->MESSAGE_START_WELCOME_MESSAGE,
+					'CURRENT_USER'    => $oTrans->MESSAGE_START_CURRENT_USER,
+					'DISPLAY_NAME'    => $admin->get_display_name(),
                     'DISPLAY_WARNING' => '',
-                    'WARNING' => '',
-					'ADMIN_URL' => ADMIN_URL,
-					'WB_URL' => WB_URL,
-					'THEME_URL' => THEME_URL,
-					'WB_VERSION' => WB_VERSION,
-					'NO_CONTENT' => ''
+                    'WARNING'         => '',
+					'ADMIN_URL'       => ADMIN_URL,
+					'WB_URL'          => WB_URL,
+					'THEME_URL'       => THEME_URL,
+					'WB_VERSION'      => WB_VERSION,
+					'NO_CONTENT'      => ''
 				)
 			);
 
@@ -228,35 +221,6 @@ if($admin->get_permission('preferences') != true)
 	$oTpl->parse('show_preferences', 'show_preferences_block', true);
 }
 
-
-/*
-if($admin->get_permission('pages') != true)
-{
-	$oTpl->set_var('DISPLAY_PAGES', 'display:none;');
-}
-if($admin->get_permission('media') != true)
-{
-	$oTpl->set_var('DISPLAY_MEDIA', 'display:none;');
-}
-if($admin->get_permission('addons') != true)
-{
-	$oTpl->set_var('DISPLAY_ADDONS', 'display:none;');
-}
-if($admin->get_permission('access') != true)
-{
-	$oTpl->set_var('DISPLAY_ACCESS', 'display:none;');
-}
-if($admin->get_permission('settings') != true)
-{
-	$oTpl->set_var('DISPLAY_SETTINGS', 'display:none;');
-}
-if($admin->get_permission('admintools') != true)
-{
-	$oTpl->set_var('DISPLAY_ADMINTOOLS', 'display:none;');
-}
-*/
-
-
 $oTpl->set_block('main_block', 'show_install_block', 'show_install');
 if($admin->get_user_id() != 1)
 {
@@ -280,55 +244,55 @@ if($admin->get_user_id() != 1)
 }
 
 // Insert "Add-ons" section overview (pretty complex compared to normal)
-$addons_overview = $TEXT['MANAGE'].' ';
+$addons_overview = $oTrans->TEXT_MANAGE.' ';
 $addons_count = 0;
 if($admin->get_permission('modules') == true)
 {
-	$addons_overview .= '<a href="'.ADMIN_URL.'/modules/index.php">'.$MENU['MODULES'].'</a>';
+	$addons_overview .= '<a href="'.ADMIN_URL.'/modules/index.php">'.$oTrans->MENU_MODULES.'</a>';
 	$addons_count = 1;
 }
 if($admin->get_permission('templates') == true)
 {
 	if($addons_count == 1) { $addons_overview .= ', '; }
-	$addons_overview .= '<a href="'.ADMIN_URL.'/templates/index.php">'.$MENU['TEMPLATES'].'</a>';
+	$addons_overview .= '<a href="'.ADMIN_URL.'/templates/index.php">'.$oTrans->MENU_TEMPLATES.'</a>';
 	$addons_count = 1;
 }
 if($admin->get_permission('languages') == true)
 {
 	if($addons_count == 1) { $addons_overview .= ', '; }
-	$addons_overview .= '<a href="'.ADMIN_URL.'/languages/index.php">'.$MENU['LANGUAGES'].'</a>';
+	$addons_overview .= '<a href="'.ADMIN_URL.'/languages/index.php">'.$oTrans->MENU_LANGUAGES.'</a>';
 }
 
 // Insert "Access" section overview (pretty complex compared to normal)
-$access_overview = $TEXT['MANAGE'].' ';
+$access_overview = $oTrans->TEXT_MANAGE.' ';
 $access_count = 0;
 if($admin->get_permission('users') == true) {
-	$access_overview .= '<a href="'.ADMIN_URL.'/users/index.php">'.$MENU['USERS'].'</a>';
+	$access_overview .= '<a href="'.ADMIN_URL.'/users/index.php">'.$oTrans->MENU_USERS.'</a>';
 	$access_count = 1;
 }
 if($admin->get_permission('groups') == true) {
 	if($access_count == 1) { $access_overview .= ', '; }
-	$access_overview .= '<a href="'.ADMIN_URL.'/groups/index.php">'.$MENU['GROUPS'].'</a>';
+	$access_overview .= '<a href="'.ADMIN_URL.'/groups/index.php">'.$oTrans->MENU_GROUPS.'</a>';
 	$access_count = 1;
 }
 
 // Insert section names and descriptions
 $oTpl->set_var(array(
-					'PAGES' => $MENU['PAGES'],
-					'MEDIA' => $MENU['MEDIA'],
-					'ADDONS' => $MENU['ADDONS'],
-					'ACCESS' => $MENU['ACCESS'],
-					'PREFERENCES' => $MENU['PREFERENCES'],
-					'SETTINGS' => $MENU['SETTINGS'],
-					'ADMINTOOLS' => $MENU['ADMINTOOLS'],
-					'HOME_OVERVIEW' => $OVERVIEW['START'],
-					'PAGES_OVERVIEW' => $OVERVIEW['PAGES'],
-					'MEDIA_OVERVIEW' => $OVERVIEW['MEDIA'],
-					'ADDONS_OVERVIEW' => $addons_overview,
-					'ACCESS_OVERVIEW' => $access_overview,
-					'PREFERENCES_OVERVIEW' => $OVERVIEW['PREFERENCES'],
-					'SETTINGS_OVERVIEW' => $OVERVIEW['SETTINGS'],
-					'ADMINTOOLS_OVERVIEW' => $OVERVIEW['ADMINTOOLS']
+					'PAGES'                => $oTrans->MENU_PAGES,
+					'MEDIA'                => $oTrans->MENU_MEDIA,
+					'ADDONS'               => $oTrans->MENU_ADDONS,
+					'ACCESS'               => $oTrans->MENU_ACCESS,
+					'PREFERENCES'          => $oTrans->MENU_PREFERENCES,
+					'SETTINGS'             => $oTrans->MENU_SETTINGS,
+					'ADMINTOOLS'           => $oTrans->MENU_ADMINTOOLS,
+					'HOME_OVERVIEW'        => $oTrans->OVERVIEW_START,
+					'PAGES_OVERVIEW'       => $oTrans->OVERVIEW_PAGES,
+					'MEDIA_OVERVIEW'       => $oTrans->OVERVIEW_MEDIA,
+					'ADDONS_OVERVIEW'      => $addons_overview,
+					'ACCESS_OVERVIEW'      => $access_overview,
+					'PREFERENCES_OVERVIEW' => $oTrans->OVERVIEW_PREFERENCES,
+					'SETTINGS_OVERVIEW'    => $oTrans->OVERVIEW_SETTINGS,
+					'ADMINTOOLS_OVERVIEW'  => $oTrans->OVERVIEW_ADMINTOOLS
 				)
 			);
 

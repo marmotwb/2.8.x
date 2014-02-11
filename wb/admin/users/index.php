@@ -23,19 +23,19 @@
      */
     function findStringInFileList( $sString, $sListFile)
     {
-     $aMatch = array();
-     if(is_readable($sListFile)) {
-      $aList = file($sListFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-      $aMatch = preg_grep('/'.preg_quote($sString, '/').'/i',$aList);
-     }
-     return (sizeof($aMatch)>0);
+        $aMatch = array();
+        if(is_readable($sListFile)) {
+            $aList = file($sListFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            $aMatch = preg_grep('/'.preg_quote($sString, '/').'/i',$aList);
+        }
+        return (sizeof($aMatch)>0);
     }
 
 	function admin_users_index($aActionRequest)
 	{
-		$database = WbDatabase::getInstance();
-		$mLang = Translate::getInstance();
-		$mLang->enableAddon('admin\users');
+		$oDb = WbDatabase::getInstance();
+		$oTrans = Translate::getInstance();
+		$oTrans->enableAddon('admin\\users');
 
         $sAdminPath = dirname(str_replace('\\', '/', __FILE__));
         $sAdminName = basename($sAdminPath);
@@ -96,7 +96,7 @@
     			if($user_id == 0){
     				$admin = new admin('Access', 'users');
     				msgQueue::clear();
-        			msgQueue::add($mLang->MESSAGE_GENERIC_FORGOT_OPTIONS );
+        			msgQueue::add($oTrans->MESSAGE_GENERIC_FORGOT_OPTIONS );
                     $aActionRequest['user_id'] = $user_id;
                     $aActionRequest['cancel_url'] = ADMIN_URL.'/access/index.php';
 					include($sAdminPath.'/user_list.php');
@@ -115,7 +115,7 @@
     			if( ($user_id < 2 ) )
     			{
     				// if($admin_header) { $admin->print_header(); }
-    				msgQueue::add($mLang->MESSAGE_GENERIC_SECURITY_ACCESS );
+    				msgQueue::add($oTrans->MESSAGE_GENERIC_SECURITY_ACCESS );
     			}
                 $admin_header = false;
                 if(isset($aActionRequest['BackLink'])) {
@@ -170,17 +170,17 @@ document.location = '$sBackLink';
         }
 		$admin->print_footer();
 
-    }
-
+    } // end of function admin_users_index()
+/* ************************************************************************************ */
 	if(!defined('WB_URL'))
 	{
-        $config_file = realpath('../../config.php');
-        if(file_exists($config_file) && !defined('WB_URL'))
-        {
+        $config_file = '../../config.php';
+        if(is_readable($config_file)) {
         	require($config_file);
+        } else {
+            throw new Exception('unable to read config.php');
         }
     }
-    if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 
     $requestMethod = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
     $aActionRequest = (isset(${$requestMethod})) ? ${$requestMethod} : null;

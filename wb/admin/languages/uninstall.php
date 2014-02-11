@@ -33,6 +33,8 @@ if( !$admin->checkFTAN() )
 }
 // After check print the header
 $admin->print_header();
+$oLang = Translate::getInstance();
+$oLang->enableAddon('admin\\languages');
 
 // Get language name
 if(!isset($_POST['code']) OR $_POST['code'] == "") {
@@ -44,17 +46,17 @@ if(!isset($_POST['code']) OR $_POST['code'] == "") {
 }
 // fix secunia 2010-93-2
 if (!preg_match('/^([A-Z]{2}.php)/', $file)) {
-	$admin->print_error($MESSAGE['GENERIC_FORGOT_OPTIONS']);
+	$admin->print_error($oLang->MESSAGE_GENERIC_FORGOT_OPTIONS);
 }
 
 // Check if the template exists
 if(!is_file(WB_PATH.'/languages/'.$file)) {
-	$admin->print_error($MESSAGE['GENERIC_NOT_INSTALLED']);
+	$admin->print_error($oLang->MESSAGE_GENERIC_NOT_INSTALLED);
 }
 
 // Check if the template exists
 if(!is_readable(WB_PATH.'/languages/'.$file)) {
-	$admin->print_error($MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES']);
+	$admin->print_error($oLang->MESSAGE_ADMIN_INSUFFICIENT_PRIVELLIGES);
 }
 
 // Include the WB functions file
@@ -62,18 +64,18 @@ require_once(WB_PATH.'/framework/functions.php');
 
 // Check if the language is in use
 if($code == DEFAULT_LANGUAGE OR $code == LANGUAGE) {
-	$admin->print_error($MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE']);
+	$admin->print_error($oLang->MESSAGE_GENERIC_CANNOT_UNINSTALL_IN_USE);
 } else {
 	$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` ';
 	$sql .= 'WHERE`language`=\''.$database->escapeString($code).'\'';
 	if( $database->get_one($sql) ) {
-		$admin->print_error($MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE']);
+		$admin->print_error($oLang->MESSAGE_GENERIC_CANNOT_UNINSTALL_IN_USE);
 	}
 }
 
 // Try to delete the language code
 if(!unlink(WB_PATH.'/languages/'.$file)) {
-	$admin->print_error($MESSAGE['GENERIC_CANNOT_UNINSTALL']);
+	$admin->print_error($oLang->MESSAGE_GENERIC_CANNOT_UNINSTALL);
 } else {
 	// Remove entry from DB
 	$sql  = 'DELETE FROM `'.TABLE_PREFIX.'addons` ';
@@ -81,9 +83,9 @@ if(!unlink(WB_PATH.'/languages/'.$file)) {
 	$sql .=   'AND `type`=`type`=\'language\' ';
 	if( $database->query($sql) ) {
         // Print success message
-        $admin->print_success($MESSAGE['GENERIC_UNINSTALLED']);
+        $admin->print_success($oLang->MESSAGE_GENERIC_UNINSTALLED);
     } else {
-    	$admin->print_error($MESSAGE['GENERIC_CANNOT_UNINSTALL'].'<br />'.$database->get_error());
+    	$admin->print_error($oLang->MESSAGE_GENERIC_CANNOT_UNINSTALL.'<br />'.$database->get_error());
     }
 }
 

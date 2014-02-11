@@ -15,16 +15,20 @@
  *
  */
 
-function save_preferences( &$admin, &$database)
+function save_preferences( admin $admin)
 {
-	global $MESSAGE,$TEXT;
+
+    $oDb = WbDatabase::getInstance();
+    $oTrans = Translate::getInstance();
+    $oTrans->enableAddon('admin\\preferences');
+//    $template->set_var($oTrans->getLangArray());
 	$err_msg = array();
 	$iMinPassLength = 6;
 	$bPassRequest = false;
 	$bMailHasChanged = false;
 // first check form-tan
 	if(!$admin->checkFTAN()){
-	   $err_msg[] = $MESSAGE['GENERIC_SECURITY_ACCESS'];
+	   $err_msg[] = $oTrans->MESSAGE_GENERIC_SECURITY_ACCESS;
     } else {
 // Get entered values and validate all
 	// remove any dangerouse chars from display_name
@@ -33,7 +37,7 @@ function save_preferences( &$admin, &$database)
 // check that display_name is unique in whoole system (prevents from User-faking)
     	$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` ';
     	$sql .= 'WHERE `user_id` <> '.(int)$admin->get_user_id().' AND `display_name` LIKE "'.$display_name.'"';
-    	if( $database->get_one($sql) > 0 ){ $err_msg[] = $MESSAGE['USERS_USERNAME_TAKEN'].' ('.$TEXT['DISPLAY_NAME'].')'; }
+    	if( $oDb->get_one($sql) > 0 ){ $err_msg[] = $oTrans->MESSAGE_USERS_USERNAME_TAKEN.' ('.$oTrans->TEXT_DISPLAY_NAME.')'; }
 // language must be 2 upercase letters only
     	$language         = strtoupper($admin->get_post('language'));
     	$language         = (preg_match('/^[A-Z]{2}$/', $language) ? $language : DEFAULT_LANGUAGE);
@@ -66,20 +70,20 @@ function save_preferences( &$admin, &$database)
     	if( !$admin->validate_email($email) )
     	{
     		$email = '';
-    		$err_msg[] = $MESSAGE['USERS_INVALID_EMAIL'];
+    		$err_msg[] = $oTrans->MESSAGE_USERS_INVALID_EMAIL;
     	} else {
     		if($email != '') {
     		// check that email is unique in whoole system
-    			$sql  = 'SELECT `email` FROM `'.TABLE_PREFIX.'users` ';
-    			$sql .= 'WHERE `user_id` = '.(int)$admin->get_user_id().' AND `email` LIKE "'.$email.'"';
-                $IsOldMail = $database->get_one($sql);
+    			$sql = 'SELECT `email` FROM `'.$oDb->TablePrefix.'users` '
+    			     . 'WHERE `user_id` = '.(int)$admin->get_user_id().' AND `email` LIKE \''.$email.'\'';
+                $IsOldMail = $oDb->getOne($sql);
     		// check that email is unique in whoole system
     			$email = $admin->add_slashes($email);
-    			$sql  = 'SELECT `email` FROM `'.TABLE_PREFIX.'users` ';
-    			$sql .= 'WHERE `user_id` <> '.(int)$admin->get_user_id().' AND `email` LIKE "'.$email.'"';
-                $checkMail = $database->get_one($sql);
+    			$sql = 'SELECT `email` FROM `'.$oDb->TablePrefix.'users` '
+    			     . 'WHERE `user_id` <> '.(int)$admin->get_user_id().' AND `email` LIKE \''.$email.'\'';
+                $checkMail = $oDb->getOne($sql);
 
-    			if( $checkMail == $email ){ $err_msg[] = $MESSAGE['USERS_EMAIL_TAKEN']; }
+    			if( $checkMail == $email ){ $err_msg[] = $oTrans->MESSAGE_USERS_EMAIL_TAKEN; }
                 $bMailHasChanged = ($email != $IsOldMail);
     		}
     	}
@@ -96,25 +100,25 @@ function save_preferences( &$admin, &$database)
 	        $bPassRequest = ( ( $sCurrentPassword != '') || ($sNewPassword != '') || ($sNewPasswordRetyped != '') ) ? true : false;
 	    }
 	    // Check existing password
-		$sql  = 'SELECT `password` ';
-		$sql .= 'FROM `'.TABLE_PREFIX.'users` ';
-		$sql .= 'WHERE `user_id` = '.$admin->get_user_id();
-		if ( $bPassRequest && md5($sCurrentPassword) != $database->get_one($sql) ) {
+		$sql = 'SELECT `password` '
+		     . 'FROM `'.$oDb->TablePrefix.'users` '
+		     . 'WHERE `user_id` = '.$admin->get_user_id();
+		if ( $bPassRequest && md5($sCurrentPassword) != $oDb->getOne($sql) ) {
 	// access denied
-			$err_msg[] = $MESSAGE['PREFERENCES_CURRENT_PASSWORD_INCORRECT'];
+			$err_msg[] = $oTrans->MESSAGE_PREFERENCES_CURRENT_PASSWORD_INCORRECT;
 	} else {
 	// validate new password
 			$sPwHashNew = false;
 			if( ($sNewPassword != '') || ($sNewPasswordRetyped != '') ) {
 				if(strlen($sNewPassword) < $iMinPassLength) {
-					$err_msg[] = $MESSAGE['USERS_PASSWORD_TOO_SHORT'];
+					$err_msg[] = $oTrans->MESSAGE_USERS_PASSWORD_TOO_SHORT;
 				} else {
 					if($sNewPassword != $sNewPasswordRetyped) {
-						$err_msg[] =  $MESSAGE['USERS_PASSWORD_MISMATCH'];
+						$err_msg[] =  $oTrans->MESSAGE_USERS_PASSWORD_MISMATCH;
 					} else {
 						$pattern = '/[^'.$admin->password_chars.']/';
 						if (preg_match($pattern, $sNewPassword)) {
-							$err_msg[] = $MESSAGE['PREFERENCES_INVALID_CHARS'];
+							$err_msg[] = $oTrans->MESSAGE_PREFERENCES_INVALID_CHARS;
 						} else {
 							$sPwHashNew = md5($sNewPassword);
 						}
@@ -125,20 +129,20 @@ function save_preferences( &$admin, &$database)
 	// if no validation errors, try to update the database, otherwise return errormessages
 			if(sizeof($err_msg) == 0)
 			{
-				$sql  = 'UPDATE `'.TABLE_PREFIX.'users` ';
-				$sql .= 'SET `display_name`=\''.$display_name.'\', ';
+				$sql = 'UPDATE `'.$oDb->TablePrefix.'users` '
+				     . 'SET `display_name`=\''.$display_name.'\', '
+				     .     '`language`=\''.$language.'\', '
+				     .     '`timezone`=\''.$timezone.'\', '
+				     .     '`date_format`=\''.$date_format.'\', '
+				     .     '`time_format`=\''.$time_format.'\' ';
 				if($sPwHashNew) {
 					$sql .=     '`password`=\''.$sPwHashNew.'\', ';
 				}
 				if($email != '') {
 					$sql .=     '`email`=\''.$email.'\', ';
 				}
-				$sql .=     '`language`=\''.$language.'\', ';
-				$sql .=     '`timezone`=\''.$timezone.'\', ';
-				$sql .=     '`date_format`=\''.$date_format.'\', ';
-				$sql .=     '`time_format`=\''.$time_format.'\' ';
 				$sql .= 'WHERE `user_id`='.(int)$admin->get_user_id();
-				if( $database->query($sql) )
+				if( $oDb->doQuery($sql) )
 				{
 					// update successfull, takeover values into the session
 					$_SESSION['DISPLAY_NAME'] = $display_name;
@@ -179,17 +183,14 @@ if(file_exists($config_file) && !defined('WB_URL'))
 	require_once($config_file);
 }
 
-if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
-
 // suppress to print the header, so no new FTAN will be set
 $admin = new admin('Preferences','start', false);
 
-$retval = save_preferences($admin, $database);
-if( $retval == '')
-{
+$retval = save_preferences($admin);
+if ($retval == '') {
 	// print the header
 	$admin->print_header();
-	$admin->print_success($MESSAGE['PREFERENCES_DETAILS_SAVED']);
+	$admin->print_success(Translate::getInstance()->MESSAGE_PREFERENCES_DETAILS_SAVED);
 	$admin->print_footer();
 } else {
 	// print the header

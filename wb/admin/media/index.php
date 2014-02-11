@@ -24,7 +24,10 @@ if(!defined('WB_URL'))
     	require($config_file);
     }
 }
-if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\media');
+
+//if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 
 $admin = new admin('Media', 'media');
 
@@ -37,7 +40,7 @@ include ('parameters.php');
 $template = new Template(dirname($admin->correct_theme_source('media.htt')));
 $template->set_file('page', 'media.htt');
 $template->set_block('page', 'main_block', 'main');
-
+$template->set_var($oTrans->getLangArray());
 // Include the WB functions file
 if(!function_exists('directory_list')) { require(WB_PATH.'/framework/functions.php'); }
 
@@ -95,12 +98,9 @@ if(($dirs == '') or ($dirs==$currentHome) or (!array_key_exists('dir', $_GET))) 
 
 // Insert language headings
 $template->set_var(array(
-					'HEADING_BROWSE_MEDIA' => $HEADING['BROWSE_MEDIA'],
 					'HOME_DIRECTORY' => $currentHome,
 //					'HOME_DIRECTORY' => ( $currentHome!='') ? $currentHome : $directory,
-					'DISPLAY_UP_ARROW' => $display_up_arrow, // **!
-					'HEADING_CREATE_FOLDER' => $HEADING['CREATE_FOLDER'],
-					'HEADING_UPLOAD_FILES' => $HEADING['UPLOAD_FILES']
+					'DISPLAY_UP_ARROW' => $display_up_arrow // **!
 				)
 			);
 // insert urls
@@ -115,17 +115,9 @@ $template->set_var(array(
 $template->set_var(array(
 					'MEDIA_DIRECTORY' => MEDIA_DIRECTORY,
 //					'MEDIA_DIRECTORY' => ($currentHome!='') ? MEDIA_DIRECTORY : $currentHome,
-					'TEXT_NAME' => $TEXT['TITLE'],
-					'TEXT_RELOAD' => $TEXT['RELOAD'],
-					'TEXT_TARGET_FOLDER' => $TEXT['TARGET_FOLDER'],
-					'TEXT_OVERWRITE_EXISTING' => $TEXT['OVERWRITE_EXISTING'],
-					'TEXT_FILES' => $TEXT['FILES'],
-					'TEXT_CREATE_FOLDER' => $TEXT['CREATE_FOLDER'],
-					'TEXT_UPLOAD_FILES' => $TEXT['UPLOAD_FILES'],
-					'CHANGE_SETTINGS' => $TEXT['MODIFY_SETTINGS'],
-					'OPTIONS' => $TEXT['OPTION'],
-					'TEXT_UNZIP_FILE' => $TEXT['UNZIP_FILE'],
-					'TEXT_DELETE_ZIP' => $TEXT['DELETE_ZIP'],
+					'TEXT_NAME' => $oTrans->TEXT_TITLE,
+					'CHANGE_SETTINGS' => $oTrans->TEXT_MODIFY_SETTINGS,
+					'OPTIONS' => $oTrans->TEXT_OPTION,
 					'FTAN' => $admin->getFTAN()
 				)
 			);

@@ -25,16 +25,18 @@ $admin = new admin('Access', 'access');
 $template = new Template(dirname($admin->correct_theme_source('access.htt')));
 // $template->debug = true;
 $template->set_file('page', 'access.htt');
-
 $template->set_block('page', 'main_block', 'main');
 $template->set_block('main_block', 'users_block', 'user');
 $template->set_block('main_block', 'groups_block', 'group');
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\access');
+$template->set_var($oTrans->getLangArray());
 
 // Insert values into the template object
 $template->set_var(array(
 		'ADMIN_URL' => ADMIN_URL,
 		'THEME_URL' => THEME_URL,
-		'WB_URL' => WB_URL
+		'WB_URL'    => WB_URL
 	)
 );
 
@@ -48,11 +50,11 @@ if($admin->get_permission('groups') != true) $template->set_var('DISPLAY_GROUPS'
 
 // Insert section names and descriptions
 $template->set_var(array(
-		'USERS' => $MENU['USERS'],
-		'GROUPS' => $MENU['GROUPS'],
-		'ACCESS' => $MENU['ACCESS'],
-		'USERS_OVERVIEW' => $OVERVIEW['USERS'],
-		'GROUPS_OVERVIEW' => $OVERVIEW['GROUPS'],
+		'USERS'           => $oTrans->MENU_USERS,
+		'GROUPS'          => $oTrans->MENU_GROUPS,
+		'ACCESS'          => $oTrans->MENU_ACCESS,
+		'USERS_OVERVIEW'  => $oTrans->OVERVIEW_USERS,
+		'GROUPS_OVERVIEW' => $oTrans->OVERVIEW_GROUPS,
 	)
 );
 

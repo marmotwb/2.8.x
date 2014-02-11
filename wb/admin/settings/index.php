@@ -24,20 +24,21 @@ if(!defined('WB_URL'))
     	require($config_file);
     }
 }
-if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
-
 if(isset($_GET['advanced']) && $_GET['advanced'] == 'yes') {
 	$admin = new admin('Settings', 'settings_advanced');
 } else {
 	$admin = new admin('Settings', 'settings_basic');
 }
+$oDb = WbDatabase::getInstance();
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\settings');
 
 // add new values, later in upgrade-script
 $cfg = array(
-	'wbmail_signature' => defined('WBMAIL_SIGNATURE') ? WBMAIL_SIGNATURE : '',
+	'wbmail_signature'       => (defined('WBMAIL_SIGNATURE') ? WBMAIL_SIGNATURE : ''),
 	'confirmed_registration' => (defined('CONFIRMED_REGISTRATION') ? CONFIRMED_REGISTRATION : '0'),
-	'page_extendet' => (defined('PAGE_EXTENDET') ? PAGE_EXTENDET : 'true'),
-	);
+	'page_extendet'          => (defined('PAGE_EXTENDET') ? PAGE_EXTENDET : 'true'),
+);
 db_update_key_value( 'settings', $cfg );
 
 // Include the WB functions file
@@ -55,18 +56,14 @@ $oTpl = new Template(dirname($admin->correct_theme_source('settings.htt')),'comm
 $oTpl->set_file('page',  'settings.htt');
 $oTpl->set_block('page', 'main_block', 'main');
 
-//$mLang = ModLanguage::getInstance();
-//$mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
-$mLang = Translate::getInstance();
-$mLang->enableAddon('admin\settings');
 /*-- insert all needed vars from language files ----------------------------------------*/
-$oTpl->set_var($mLang->getLangArray());
+$oTpl->set_var($oTrans->getLangArray());
 
 $oTpl->set_var('FTAN', $admin->getFTAN());
 
 // Query current settings in the db, then loop through them and print them
-$query = "SELECT * FROM `".TABLE_PREFIX."settings`";
-if($results = $database->query($query)) {
+$sql = 'SELECT * FROM `'.$oDb->TablePrefix.'settings`';
+if (($results = $oDb->doQuery($sql))) {
     while($setting = $results->fetchRow(MYSQL_ASSOC)) {
     	$setting_name = $setting['name'];
     	$setting_value = ( $setting_name != 'wbmailer_smtp_password' ) ? htmlspecialchars($setting['value']) : htmlentities($setting['value'], ENT_COMPAT, 'UTF-8');
@@ -82,7 +79,7 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
     	$oTpl->set_var('ADVANCED_FILE_PERMS_ID', 'file_perms_box');
     	$oTpl->set_var('BASIC_FILE_PERMS_ID', 'hide');
     	$oTpl->set_var('ADVANCED', 'yes');
-    	$oTpl->set_var('ADVANCED_BUTTON', '&lt;&lt; '.$mLang->TEXT_HIDE_ADVANCED);
+    	$oTpl->set_var('ADVANCED_BUTTON', '&lt;&lt; '.$oTrans->TEXT_HIDE_ADVANCED);
     	$oTpl->set_var('ADVANCED_LINK', 'index.php?advanced=no');
 
     } else {
@@ -91,7 +88,7 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
     	$oTpl->set_var('ADVANCED_FILE_PERMS_ID', 'hide');
 
     	$oTpl->set_var('ADVANCED', 'no');
-    	$oTpl->set_var('ADVANCED_BUTTON', $mLang->TEXT_SHOW_ADVANCED.' &gt;&gt;');
+    	$oTpl->set_var('ADVANCED_BUTTON', $oTrans->TEXT_SHOW_ADVANCED.' &gt;&gt;');
     	$oTpl->set_var('ADVANCED_LINK', 'index.php?advanced=yes');
     }
 
@@ -99,14 +96,13 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
 	$checked   = ' checked="checked"';
 
 	$oTpl->set_var(array(
-		'WB_URL' => WB_URL,
+		'WB_URL'    => WB_URL,
 		'THEME_URL' => THEME_URL,
 		'ADMIN_URL' => ADMIN_URL,
 	 ));
 
 //  Insert permissions values
-	if($admin->get_permission('settings_advanced') != true)
-	{
+	if ($admin->get_permission('settings_advanced') != true) {
 		$oTpl->set_var('DISPLAY_ADVANCED_BUTTON', 'hide');
 	}
 
@@ -148,19 +144,17 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
 	if(PAGE_TRASH == 'disabled')
 	{
     	$oTpl->set_var(array(
-				'PAGE_TRASH_DISABLED' => $checked,
-				'PAGE_TRASH_INLINE' => '',
-				'DISPLAY_PAGE_TRASH_SEPARATE' => 'display: none;',
-				));
-	} elseif(PAGE_TRASH == 'inline')
-	{
+            'PAGE_TRASH_DISABLED'         => $checked,
+            'PAGE_TRASH_INLINE'           => '',
+            'DISPLAY_PAGE_TRASH_SEPARATE' => 'display: none;',
+        ));
+	} elseif(PAGE_TRASH == 'inline') {
     	$oTpl->set_var(array(
-				'PAGE_TRASH_INLINE' => $checked,
-				'PAGE_TRASH_DISABLED' => '',
-				'DISPLAY_PAGE_TRASH_SEPARATE' => 'display: none;',
-				));
-	} elseif(PAGE_TRASH == 'separate')
-	{
+            'PAGE_TRASH_INLINE'           => $checked,
+            'PAGE_TRASH_DISABLED'         => '',
+            'DISPLAY_PAGE_TRASH_SEPARATE' => 'display: none;',
+        ));
+	} elseif(PAGE_TRASH == 'separate') {
 		$oTpl->set_var('PAGE_TRASH_SEPARATE', $checked);
 		$oTpl->set_var('DISPLAY_PAGE_TRASH_SEPARATE', 'display: inline;');
 	}
@@ -171,8 +165,7 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
      */
     $oTpl->set_block('main_block', 'show_checkbox_1_block', 'show_checkbox_1');
 //  Work-out if page languages feature is enabled
-	if(defined('PAGE_LANGUAGES') && PAGE_LANGUAGES == true)
-	{
+	if(defined('PAGE_LANGUAGES') && PAGE_LANGUAGES == true) {
     	$oTpl->set_var(array(
 				'PAGE_LANGUAGES_ENABLED' => $checked,
 				'PAGE_LANGUAGES_DISABLED' => '',
@@ -185,8 +178,7 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
 	}
 
 //  Work-out if page extended feature is enabled
-	if(defined('PAGE_EXTENDET') && PAGE_EXTENDET == true)
-	{
+	if(defined('PAGE_EXTENDET') && PAGE_EXTENDET == true) {
     	$oTpl->set_var(array(
 				'PAGE_EXTENDET_ENABLED' => $checked,
 				'PAGE_EXTENDET_DISABLED' => '',
@@ -199,8 +191,7 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
 	}
 
 //  Work-out if multiple menus feature is enabled
-	if(defined('MULTIPLE_MENUS') && MULTIPLE_MENUS == true)
-	{
+	if(defined('MULTIPLE_MENUS') && MULTIPLE_MENUS == true) {
     	$oTpl->set_var(array(
 				'MULTIPLE_MENUS_ENABLED' => $checked,
 				'MULTIPLE_MENUS_DISABLED' => '',
@@ -216,15 +207,14 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
      * <!-- END show_checkbox_1_block -->
      * advanced yes
      */
-    if($is_advanced)
-    {
+    if($is_advanced) {
     	$oTpl->parse('show_checkbox_1', 'show_checkbox_1_block');
     } else {
     	$oTpl->parse('show_checkbox_1', '');
     }
 
 //  Work-out if media home folder feature is enabled
-    $oTpl->set_var('TEXT_HOME_FOLDERS', $mLang->TEXT_HOME_FOLDERS);
+    $oTpl->set_var('TEXT_HOME_FOLDERS', $oTrans->TEXT_HOME_FOLDERS);
 	if(HOME_FOLDERS)
 	{
     	$oTpl->set_var(array(
@@ -363,12 +353,11 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
 
 //  Insert groups into signup list
     $oTpl->set_block('main_block', 'group_list_block', 'group_list');
-    $sql = "SELECT `group_id`, `name` FROM `".TABLE_PREFIX."groups` WHERE `group_id` != '1'";
-	if($results = $database->query($sql)) {
-    	if($results->numRows() > 0)
-    	{
-    		while($group = $results->fetchRow(MYSQL_ASSOC))
-    	    {
+    $sql = 'SELECT `group_id`, `name` FROM `'.$oDb->TablePrefix.'groups` '
+         . 'WHERE `group_id` != 1';
+	if (($results = $oDb->doQuery($sql))) {
+    	if ($results->numRows() > 0) {
+    		while($group = $results->fetchRow(MYSQL_ASSOC)) {
     			$oTpl->set_var('ID', $group['group_id']);
     			$oTpl->set_var('NAME', $group['name']);
     			if(FRONTEND_SIGNUP == $group['group_id'])
@@ -381,7 +370,7 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
     		}
     	} else {
     		$oTpl->set_var('ID', 'disabled');
-    		$oTpl->set_var('NAME', $mLang->MESSAGE_GROUPS_NO_GROUPS_FOUND);
+    		$oTpl->set_var('NAME', $oTrans->MESSAGE_GROUPS_NO_GROUPS_FOUND);
     		$oTpl->parse('group_list', 'group_list_block', true);
     	}
 	}
@@ -394,8 +383,7 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
     /**
      * <!-- END show_redirect_timer_block -->
      */
-    if($is_advanced)
-    {
+    if ($is_advanced) {
     	$oTpl->parse('show_redirect_timer', 'show_redirect_timer_block');
     } else {
     	$oTpl->parse('show_redirect_timer', '');
@@ -420,8 +408,7 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
     /**
      * <!-- END show_php_error_level_block -->
      */
-    if($is_advanced)
-    {
+    if ($is_advanced) {
     	$oTpl->parse('show_php_error_level',  'show_php_error_level_block');
     } else {
     	$oTpl->parse('show_php_error_level', '');
@@ -434,22 +421,18 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
     $oTpl->set_block('main_block', 'show_wysiwyg_block',        'show_wysiwyg');
     $oTpl->set_block('show_wysiwyg_block', 'editor_list_block', 'editor_list');
 	$file='none';
-	$module_name=$mLang->TEXT_NONE;
+	$module_name = $oTrans->TEXT_NONE;
 	$oTpl->set_var('FILE', $file);
 	$oTpl->set_var('NAME', $module_name);
 	$selected = (!defined('WYSIWYG_EDITOR') || $file == WYSIWYG_EDITOR) ? $sSelected : '';
 	$oTpl->set_var('SELECTED', $selected);
 	$oTpl->parse('editor_list', 'editor_list_block', true);
-	$sql  = 'SELECT `name`, `directory` FROM `'.TABLE_PREFIX.'addons` ';
-	$sql .= 'WHERE `type` = \'module\' ';
-	$sql .= 'AND `function` = \'wysiwyg\' ';
-	$sql .= 'ORDER BY `name`';
-	if( ($result = $database->query($sql)) && ($result->numRows() > 0) )
-	{
-		while($addon = $result->fetchRow(MYSQL_ASSOC))
-	    {
-			if( $admin->get_permission($addon['directory'],'module' ) )
-			{
+	$sql = 'SELECT `name`, `directory` FROM `'.$oDb->TablePrefix.'addons` '
+	     . 'WHERE `type` = \'module\' AND `function` = \'wysiwyg\' '
+	     . 'ORDER BY `name`';
+	if (($result = $oDb->doQuery($sql))) {
+		while ($addon = $result->fetchRow(MYSQL_ASSOC)) {
+			if ($admin->get_permission($addon['directory'],'module' )) {
 				$oTpl->set_var('FILE', $addon['directory']);
 				$oTpl->set_var('NAME', $addon['name']);
 				$selected = (!defined('WYSIWYG_EDITOR') || $addon['directory'] == WYSIWYG_EDITOR) ? $sSelected : '';
@@ -471,15 +454,12 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
 
 //  Insert language values
     $oTpl->set_block('main_block', 'language_list_block', 'language_list');
-	$sql  = 'SELECT `name`, `directory` FROM `'.TABLE_PREFIX.'addons` ';
-	$sql .= 'WHERE `type` = \'language\' ';
-	$sql .= 'AND `function` != \'theme\' ';
-	$sql .= 'ORDER BY `directory`';
-	if( ($result = $database->query($sql)) && ($result->numRows() > 0) )
-	{
+	$sql = 'SELECT `name`, `directory` FROM `'.$oDb->TablePrefix.'addons` '
+	     . 'WHERE `type` = \'language\' AND `function` != \'theme\' '
+	     . 'ORDER BY `directory`';
+	if (($result = $oDb->doQuery($sql))) {
 		while($addon = $result->fetchRow(MYSQL_ASSOC)) {
 	        $langIcons = (empty($addon['directory'])) ? 'none' : strtolower($addon['directory']);
-
 			$oTpl->set_var('CODE',        $addon['directory']);
 			$oTpl->set_var('NAME',        $addon['name']);
 			$oTpl->set_var('FLAG',        THEME_URL.'/images/flags/'.$langIcons);
@@ -494,7 +474,7 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
     $oTpl->set_block('main_block', 'show_charset_block', 'show_charset');
 	require(ADMIN_PATH.'/interface/charsets.php');
     $oTpl->set_block('show_charset_block', 'charset_list_block', 'charset_list');
-	foreach($CHARSETS AS $code => $title) {
+	foreach ($CHARSETS AS $code => $title) {
 		$oTpl->set_var('VALUE', $code);
 		$oTpl->set_var('NAME', $title);
 		if(DEFAULT_CHARSET == $code) {
@@ -507,18 +487,16 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
     /**
      * <!-- END show_charset_block -->
      */
-    if($is_advanced)
-    {
+    if ($is_advanced) {
     	$oTpl->parse('show_charset', 'show_charset_block');
     } else {
     	$oTpl->parse('show_charset', '');
     }
 
-//  nsert default timezone values
+//  insert default timezone values
 	require(ADMIN_PATH.'/interface/timezones.php');
     $oTpl->set_block('main_block', 'timezone_list_block','timezone_list');
-	foreach($TIMEZONES AS $hour_offset => $title)
-	{
+	foreach ($TIMEZONES AS $hour_offset => $title) {
 //  Make sure we dont list "System Default" as we are setting this value!
 		if($hour_offset != '-20') {
 			$oTpl->set_var('VALUE', $hour_offset);
@@ -535,7 +513,7 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
 //  Insert date format list
 	require(ADMIN_PATH.'/interface/date_formats.php');
     $oTpl->set_block('main_block', 'date_format_list_block', 'date_format_list');
-	foreach($DATE_FORMATS AS $format => $title) {
+	foreach ($DATE_FORMATS AS $format => $title) {
 		$format = str_replace('|', ' ', $format); // Add's white-spaces (not able to be stored in array key)
 		if($format != 'system_default') {
 			$oTpl->set_var('VALUE', $format);
@@ -571,17 +549,13 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
 	}
 
 // Insert templates
-    $oTpl->set_block('main_block', 'template_list_block',         'template_list');
-	$sql  = 'SELECT `name`, `directory` FROM `'.TABLE_PREFIX.'addons` ';
-	$sql .= 'WHERE `type` = \'template\' ';
-	$sql .= 'AND `function` != \'theme\' ';
-	$sql .= 'ORDER BY `name`';
-	if( ($result = $database->query($sql)) && ($result->numRows() > 0) )
-	{
-		while($addon = $result->fetchRow(MYSQL_ASSOC))
-		{
-			if( $admin->get_permission($addon['directory'],'template' ) )
-			{
+    $oTpl->set_block('main_block', 'template_list_block', 'template_list');
+	$sql = 'SELECT `name`, `directory` FROM `'.$oDb->TablePrefix.'addons` '
+	     . 'WHERE `type` = \'template\' AND `function` != \'theme\' '
+	     . 'ORDER BY `name`';
+	if (($result = $database->query($sql))) {
+		while ($addon = $result->fetchRow(MYSQL_ASSOC)) {
+			if ($admin->get_permission($addon['directory'],'template' )) {
 				$oTpl->set_var('FILE', $addon['directory']);
 				$oTpl->set_var('NAME', $addon['name']);
 				$selected = (($addon['directory'] == DEFAULT_TEMPLATE) ? $sSelected : '');
@@ -592,18 +566,13 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
 	}
 
 // Insert backend theme
-    $oTpl->set_block('main_block', 'theme_list_block',            'theme_list');
-	$sql  = 'SELECT `name`, `directory` FROM `'.TABLE_PREFIX.'addons` ';
-	$sql .= 'WHERE `type` = \'template\' ';
-	$sql .= 'AND `function` = \'theme\' ';
-	$sql .= 'ORDER BY `name`';
-
-	if( ($result = $database->query($sql)) && ($result->numRows() > 0) )
-	{
-		while($addon = $result->fetchRow(MYSQL_ASSOC))
-		{
-			if( $admin->get_permission($addon['directory'],'template' ) )
-			{
+    $oTpl->set_block('main_block', 'theme_list_block', 'theme_list');
+	$sql = 'SELECT `name`, `directory` FROM `'.$oDb->TablePrefix.'addons` '
+	     . 'WHERE `type` = \'template\' AND `function` = \'theme\' '
+	     . 'ORDER BY `name`';
+	if (($result = $database->query($sql))) {
+		while ($addon = $result->fetchRow(MYSQL_ASSOC)) {
+			if ($admin->get_permission($addon['directory'],'template' )) {
 				$oTpl->set_var('FILE', $addon['directory']);
 				$oTpl->set_var('NAME', $addon['name']);
 				$selected = (($addon['directory'] == DEFAULT_THEME) ? $sSelected : '');
@@ -646,12 +615,10 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
  *
  */
     $oTpl->set_block('main_block', 'show_search_block','show_search');
-	$query = "SELECT * FROM `".TABLE_PREFIX."search` WHERE `extra` = '' ";
-	if($results = $database->query($query))
-    {
+	$sql = 'SELECT * FROM `'.$oDb->TablePrefix.'search` WHERE `extra` = \'\'';
+	if (($results = $oDb->doQuery($sql))) {
     	// Query current settings in the db, then loop through them and print them
-    	while($setting = $results->fetchRow(MYSQL_ASSOC))
-    	{
+    	while ($setting = $results->fetchRow(MYSQL_ASSOC)) {
     		$setting_name = $setting['name'];
     		$setting_value = htmlspecialchars(($setting['value']));
     		switch($setting_name) {
@@ -700,27 +667,23 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
 	}
 
 // Insert templates for search settings
-    $oTpl->set_block('main_block', 'search_template_list_block',  'search_template_list');
+    $oTpl->set_block('main_block', 'search_template_list_block', 'search_template_list');
 	$search_template = ( ($search_template == DEFAULT_TEMPLATE) || ($search_template == '') ) ? '' : $search_template;
 	$selected = ( ($search_template != DEFAULT_TEMPLATE) ) ?  $sSelected : '';
 
 	$oTpl->set_var(array(
-	        'FILE' => '',
-			'TEXT_MODULE_ORDER' => $mLang->TEXT_MODULE_ORDER,
-	        'NAME' => $mLang->TEXT_SYSTEM_DEFAULT,
-	        'SELECTED' => $selected
-	    ));
+        'FILE'              => '',
+        'TEXT_MODULE_ORDER' => $oTrans->TEXT_MODULE_ORDER,
+        'NAME'              => $oTrans->TEXT_SYSTEM_DEFAULT,
+        'SELECTED'          => $selected
+    ));
 	$oTpl->parse('search_template_list', 'search_template_list_block', true);
-	$sql  = 'SELECT `name`, `directory` FROM `'.TABLE_PREFIX.'addons` ';
-	$sql .= 'WHERE `type` = \'template\' ';
-	$sql .= 'AND `function` = \'template\' ';
-	$sql .= 'ORDER BY `name`';
-    if( ($result = $database->query($sql)) && ($result->numRows() > 0) )
-	{
-		while($addon = $result->fetchRow(MYSQL_ASSOC))
-	    {
-			if( $admin->get_permission($addon['directory'],'template' ) )
-			{
+	$sql = 'SELECT `name`, `directory` FROM `'.$oDb->TablePrefix.'addons` '
+	     . 'WHERE `type` = \'template\' AND `function` = \'template\' '
+	     . 'ORDER BY `name`';
+    if (($result = $oDb->doQuery($sql))) {
+		while ($addon = $result->fetchRow(MYSQL_ASSOC)) {
+			if ($admin->get_permission($addon['directory'],'template' )) {
 				$oTpl->set_var('FILE', $addon['directory']);
 				$oTpl->set_var('NAME', $addon['name']);
 		        $selected = ($addon['directory'] == $search_template) ? $sSelected :  '';
@@ -732,14 +695,14 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
 
 	// Insert search select
 //    $oTpl->set_var(array(
-//		'TEXT_REGISTERED' => $mLang->TEXT_REGISTERED'],
-//		'TEXT_PUBLIC' => $mLang->TEXT_PUBLIC,
-//		'TEXT_PRIVATE' => $mLang->TEXT_PRIVATE'],
-//		'TEXT_NONE' => $mLang->TEXT_NONE'],
-//		'TEXT_MAX_EXCERPT' => $mLang->TEXT_MAX_EXCERPT'],
-//		'TEXT_TIME_LIMIT' => $mLang->TEXT_TIME_LIMIT'],
-//		'TEXT_VISIBILITY' => $mLang->TEXT_VISIBILITY'],
-//		'TEXT_SEARCH' => $mLang->TEXT_SEARCH'],
+//		'TEXT_REGISTERED' => $oTrans->TEXT_REGISTERED'],
+//		'TEXT_PUBLIC' => $oTrans->TEXT_PUBLIC,
+//		'TEXT_PRIVATE' => $oTrans->TEXT_PRIVATE'],
+//		'TEXT_NONE' => $oTrans->TEXT_NONE'],
+//		'TEXT_MAX_EXCERPT' => $oTrans->TEXT_MAX_EXCERPT'],
+//		'TEXT_TIME_LIMIT' => $oTrans->TEXT_TIME_LIMIT'],
+//		'TEXT_VISIBILITY' => $oTrans->TEXT_VISIBILITY'],
+//		'TEXT_SEARCH' => $oTrans->TEXT_SEARCH'],
 //		));
 	if(SEARCH == 'private')
 	{
@@ -768,34 +731,32 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
 				));
 	}
 
-if($is_advanced)
-{
-	$oTpl->parse('show_search', 'show_search_block');
-} else {
-	$oTpl->parse('show_search', '');
-}
+    if ($is_advanced) {
+        $oTpl->parse('show_search', 'show_search_block');
+    } else {
+        $oTpl->parse('show_search', '');
+    }
 
     $oTpl->set_block('main_block', 'show_access_block','show_access');
 //  Work-out which wbmailer routine should be checked
 	$oTpl->set_var(array(
-		'TEXT_WBMAILER_SMTP_AUTH_NOTICE' => $mLang->TEXT_REQUIRED.' '.$mLang->TEXT_WBMAILER_SMTP_AUTH,
-		'SMTP_AUTH_SELECTED' => $checked,
-		'TEXT_WBMAILER_DEFAULT_SETTINGS_NOTICE' => $mLang->TEXT_WBMAILER_DEFAULT_SETTINGS_NOTICE,
-		'TEXT_WBMAILER_DEFAULT_SENDER_MAIL' => $mLang->TEXT_WBMAILER_DEFAULT_SENDER_MAIL,
-		'TEXT_WBMAILER_DEFAULT_SENDER_NAME' => $mLang->TEXT_WBMAILER_DEFAULT_SENDER_NAME,
-		'TEXT_WBMAILER_NOTICE' => $mLang->TEXT_WBMAILER_NOTICE,
-		'TEXT_WBMAILER_FUNCTION' => $mLang->TEXT_WBMAILER_FUNCTION,
-		'TEXT_WBMAILER_SMTP_HOST' => $mLang->TEXT_WBMAILER_SMTP_HOST,
-		'TEXT_WBMAILER_PHP' => $mLang->TEXT_WBMAILER_PHP,
-		'TEXT_WBMAILER_SMTP' => $mLang->TEXT_WBMAILER_SMTP,
-		'TEXT_WBMAILER_SMTP_AUTH' => $mLang->TEXT_WBMAILER_SMTP_AUTH,
-		'TEXT_WBMAILER_SMTP_USERNAME' => $mLang->TEXT_WBMAILER_SMTP_USERNAME,
-		'TEXT_WBMAILER_SMTP_PASSWORD' => $mLang->TEXT_WBMAILER_SMTP_PASSWORD,
-		));
+		'TEXT_WBMAILER_SMTP_AUTH_NOTICE'        => $oTrans->TEXT_REQUIRED.' '.$oTrans->TEXT_WBMAILER_SMTP_AUTH,
+		'SMTP_AUTH_SELECTED'                    => $checked,
+		'TEXT_WBMAILER_DEFAULT_SETTINGS_NOTICE' => $oTrans->TEXT_WBMAILER_DEFAULT_SETTINGS_NOTICE,
+		'TEXT_WBMAILER_DEFAULT_SENDER_MAIL'     => $oTrans->TEXT_WBMAILER_DEFAULT_SENDER_MAIL,
+		'TEXT_WBMAILER_DEFAULT_SENDER_NAME'     => $oTrans->TEXT_WBMAILER_DEFAULT_SENDER_NAME,
+		'TEXT_WBMAILER_NOTICE'                  => $oTrans->TEXT_WBMAILER_NOTICE,
+		'TEXT_WBMAILER_FUNCTION'                => $oTrans->TEXT_WBMAILER_FUNCTION,
+		'TEXT_WBMAILER_SMTP_HOST'               => $oTrans->TEXT_WBMAILER_SMTP_HOST,
+		'TEXT_WBMAILER_PHP'                     => $oTrans->TEXT_WBMAILER_PHP,
+		'TEXT_WBMAILER_SMTP'                    => $oTrans->TEXT_WBMAILER_SMTP,
+		'TEXT_WBMAILER_SMTP_AUTH'               => $oTrans->TEXT_WBMAILER_SMTP_AUTH,
+		'TEXT_WBMAILER_SMTP_USERNAME'           => $oTrans->TEXT_WBMAILER_SMTP_USERNAME,
+		'TEXT_WBMAILER_SMTP_PASSWORD'           => $oTrans->TEXT_WBMAILER_SMTP_PASSWORD,
+	));
 
 	// Work-out if developer infos feature is enabled
-	if(defined('DEV_INFOS') && DEV_INFOS == true)
-	{
+	if (defined('DEV_INFOS') && DEV_INFOS == true) {
     	$oTpl->set_var(array(
 				'DEV_INFOS_ENABLED' => $checked,
 				'DEV_INFOS_DISABLED' => '',
@@ -953,7 +914,8 @@ if($is_advanced)
 	}
 	$sReadOnly = '';
 	$sPagesEditType = 'text';
-	if( $bPagesCanModify = ($database->get_one('SELECT COUNT(*) FROM `'.TABLE_PREFIX.'pages`'))!=0 ) {
+    $sql = 'SELECT COUNT(*) FROM `'.$oDb->TablePrefix.'pages`';
+	if (!($bPagesCanModify = ($oDb->getOne($sql)))) {
 		$sReadOnly = ' readonly="readonly"';
 		$sPagesEditType = 'grey bold';
 	}
@@ -974,25 +936,23 @@ if($is_advanced)
 
 // Insert language text and messages
 	$oTpl->set_var(array(
-		'TEXT_CHANGES' => $mLang->TEXT_CHANGES,
-		'TEXT_FILES' => strtoupper(substr($mLang->TEXT_FILES, 0, 1)).substr($mLang->TEXT_FILES, 1),
+		'TEXT_CHANGES' => $oTrans->TEXT_CHANGES,
+		'TEXT_FILES' => strtoupper(substr($oTrans->TEXT_FILES, 0, 1)).substr($oTrans->TEXT_FILES, 1),
 		'TEXT_WARN_PAGE_LEAVE' => '',
-		'TEXT_WORLD_WRITEABLE_FILE_PERMISSIONS' => $mLang->TEXT_WORLD_WRITEABLE_FILE_PERMISSIONS,
-		'MODE_SWITCH_WARNING' => $mLang->MESSAGE_SETTINGS_MODE_SWITCH_WARNING,
-		'WORLD_WRITEABLE_WARNING' => $mLang->MESSAGE_SETTINGS_WORLD_WRITEABLE_WARNING
+		'TEXT_WORLD_WRITEABLE_FILE_PERMISSIONS' => $oTrans->TEXT_WORLD_WRITEABLE_FILE_PERMISSIONS,
+		'MODE_SWITCH_WARNING' => $oTrans->MESSAGE_SETTINGS_MODE_SWITCH_WARNING,
+		'WORLD_WRITEABLE_WARNING' => $oTrans->MESSAGE_SETTINGS_WORLD_WRITEABLE_WARNING
 		));
 
-if($is_advanced && $admin->get_user_id()=='1')
-{
-	$oTpl->parse('show_access', 'show_access_block');
-}else {
-	$oTpl->parse('show_access' , '');
-}
+    if ($is_advanced && $admin->get_user_id()=='1') {
+        $oTpl->parse('show_access', 'show_access_block');
+    }else {
+        $oTpl->parse('show_access' , '');
+    }
 
-// Parse template objects output
-$oTpl->parse('main', 'main_block',false);
-$oTpl->pparse('output', 'page');
-//$oTpl->p('page');
-unset($oTpl);
-$mLang->disableAddon();
-$admin->print_footer();
+    // Parse template objects output
+    $oTpl->parse('main', 'main_block',false);
+    $oTpl->pparse('output', 'page');
+    //$oTpl->p('page');
+    unset($oTpl);
+    $admin->print_footer();

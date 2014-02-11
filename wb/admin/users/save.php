@@ -23,27 +23,28 @@ if(!defined('WB_URL')) {
 }
 /* -------------------------------------------------------- */
 
-	function save_user($admin, &$aActionRequest)
+	function save_user($admin, $aActionRequest)
 	{
         // Create a javascript back link
 //        $js_back = ADMIN_URL.'/users/index.php';
         unset($aActionRequest['save']);
 
         $aActionRequest['modify']= 'change';
-		$database = WbDatabase::getInstance();
-		$mLang = Translate::getInstance();
+		$oDb = WbDatabase::getInstance();
+		$oTrans = Translate::getInstance();
+        $oTrans->enableAddon('admin\\users');
         $bRetVal = 0;
     	$iMinPassLength = 6;
 
         if( !$admin->checkFTAN() )
         {
-        	msgQueue::add($mLang->MESSAGE_GENERIC_SECURITY_ACCESS);
+        	msgQueue::add($oTrans->MESSAGE_GENERIC_SECURITY_ACCESS);
             return $bRetVal;
         }
 
         // Check if user id is a valid number and doesnt equal 1
         if(!isset($aActionRequest['user_id']) OR !is_numeric($aActionRequest['user_id']) OR $aActionRequest['user_id'] == 1) {
-        	msgQueue::add('::'.$mLang->MESSAGE_GENERIC_NOT_UPGRADED);
+        	msgQueue::add('::'.$oTrans->MESSAGE_GENERIC_NOT_UPGRADED);
             return $bRetVal;
         } else {
         	$user_id = intval($aActionRequest['user_id']);
@@ -52,15 +53,14 @@ if(!defined('WB_URL')) {
 		if( ($user_id < 2 ) )
 		{
 			// if($admin_header) { $admin->print_header(); }
-        	msgQueue::add($mLang->MESSAGE_GENERIC_SECURITY_OFFENSE);
+        	msgQueue::add($oTrans->MESSAGE_GENERIC_SECURITY_OFFENSE);
             return $bRetVal;
 		}
 		// Get existing values
-        $sql  = 'SELECT * FROM `'.TABLE_PREFIX.'users` ' ;
-        $sql .= 'WHERE user_id = '.$user_id.' ';
-        $sql .=   'AND user_id != 1 ';
-
-        if($oRes = $database->query($sql)){
+        $sql = 'SELECT * FROM `'.$oDb->TablePrefix.'users` '
+             . 'WHERE `user_id`='.$user_id.' '
+             . 'AND `user_id` != 1';
+        if(($oRes = $oDb->doQuery($sql))) {
             $olduser = $oRes->fetchRow(MYSQL_ASSOC);
         }
 
@@ -83,7 +83,7 @@ if(!defined('WB_URL')) {
 
         // Check values
         if($groups_id == "") {
-        	msgQueue::add($mLang->MESSAGE_USERS_NO_GROUP);
+        	msgQueue::add($oTrans->MESSAGE_USERS_NO_GROUP);
         } else {
             $aGroups_id = explode(',', $groups_id);
             //if user is in administrator-group, get this group else just get the first one
@@ -93,35 +93,35 @@ if(!defined('WB_URL')) {
 //$admin->is_group_match($admin->get_groups_id(), '1' )
         if(!preg_match('/^[a-z]{1}[a-z0-9_-]{2,}$/i', $username))
         {
-        	msgQueue::add( $mLang->MESSAGE_USERS_NAME_INVALID_CHARS);
+        	msgQueue::add( $oTrans->MESSAGE_USERS_NAME_INVALID_CHARS);
         }
 
         if($password != "") {
         	if(strlen($password) < $iMinPassLength ) {
-        		msgQueue::add($mLang->MESSAGE['USERS_PASSWORD_TOO_SHORT']);
+        		msgQueue::add($oTrans->MESSAGE['USERS_PASSWORD_TOO_SHORT']);
         	}
 
 			$pattern = '/[^'.$admin->password_chars.']/';
 			if (preg_match($pattern, $password)) {
-				msgQueue::add($mLang->MESSAGE_PREFERENCES_INVALID_CHARS);
+				msgQueue::add($oTrans->MESSAGE_PREFERENCES_INVALID_CHARS);
         	}
 
         	if(($password != $password2) ) {
-        		msgQueue::add($mLang->MESSAGE_USERS_PASSWORD_MISMATCH);
+        		msgQueue::add($oTrans->MESSAGE_USERS_PASSWORD_MISMATCH);
         	}
         }
 // check that display_name is unique in whoole system (prevents from User-faking)
-    	$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` ';
+    	$sql  = 'SELECT COUNT(*) FROM `'.$oDb->TablePrefix.'users` ';
     	$sql .= 'WHERE `user_id` <> '.(int)$user_id.' AND `display_name` LIKE "'.$display_name.'"';
-    	if( $database->get_one($sql) > 0 ){
-            msgQueue::add($mLang->MESSAGE_USERS_USERNAME_TAKEN.' ('.$mLang->TEXT_DISPLAY_NAME.')');
-            msgQueue::add($mLang->MESSAGE_MEDIA_CANNOT_RENAME);
+    	if( $oDb->getOne($sql) > 0 ){
+            msgQueue::add($oTrans->MESSAGE_USERS_USERNAME_TAKEN.' ('.$oTrans->TEXT_DISPLAY_NAME.')');
+            msgQueue::add($oTrans->MESSAGE_MEDIA_CANNOT_RENAME);
         }
 //
 		if( ($admin->get_user_id() != '1' ) )
 		{
             if(findStringInFileList($display_name, dirname(__FILE__).'/disallowedNames')) {
-                msgQueue::add( $mLang->TEXT_ERROR.' '.$mLang->TEXT_DISPLAY_NAME.' ('.$display_name.')' );
+                msgQueue::add( $oTrans->TEXT_ERROR.' '.$oTrans->TEXT_DISPLAY_NAME.' ('.$display_name.')' );
             }
 		}
 
@@ -131,23 +131,23 @@ if(!defined('WB_URL')) {
         {
         	if($admin->validate_email($email) == false)
             {
-                msgQueue::add($mLang->MESSAGE_USERS_INVALID_EMAIL.' ('.$email.')');
+                msgQueue::add($oTrans->MESSAGE_USERS_INVALID_EMAIL.' ('.$email.')');
         	}
         } else { // e-mail must be present
-        	msgQueue::add($mLang->MESSAGE_SIGNUP_NO_EMAIL);
+        	msgQueue::add($oTrans->MESSAGE_SIGNUP_NO_EMAIL);
         }
 
-		$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` '.
+		$sql  = 'SELECT COUNT(*) FROM `'.$oDb->TablePrefix.'users` '.
                 'WHERE `email` LIKE \''.$email.'\' '.
                   'AND `user_id` <> '.(int)$user_id;
         // Check if the email already exists
-        if( ($iFoundUser = $database->get_one($sql)) != null ) {
+        if( ($iFoundUser = $oDb->getOne($sql)) != null ) {
             if($iFoundUser) {
-            	if(isset($mLang->MESSAGE_USERS_EMAIL_TAKEN))
+            	if(isset($oTrans->MESSAGE_USERS_EMAIL_TAKEN))
                 {
-            		msgQueue::add($mLang->MESSAGE_USERS_EMAIL_TAKEN.' ('.$email.')');
+            		msgQueue::add($oTrans->MESSAGE_USERS_EMAIL_TAKEN.' ('.$email.')');
             	} else {
-            		msgQueue::add($mLang->MESSAGE_USERS_INVALID_EMAIL.' ('.$email.')');
+            		msgQueue::add($oTrans->MESSAGE_USERS_INVALID_EMAIL.' ('.$email.')');
             	}
             }
         }
@@ -174,44 +174,44 @@ if(!defined('WB_URL')) {
                 $sHomeFolder = WB_PATH.MEDIA_DIRECTORY.'/home/'.( media_filename($username) );
                 if ( sizeof(createFolderProtectFile( $sHomeFolder )) )
                 {
-    //            	msgQueue::add($mLang->MESSAGE_MEDIA_DIR_NOT_MADE);
+    //            	msgQueue::add($oTrans->MESSAGE_MEDIA_DIR_NOT_MADE);
                 }
             }
 
-			$sql  = 'UPDATE `'.TABLE_PREFIX.'users` SET ';
+			$sql  = 'UPDATE `'.$oDb->TablePrefix.'users` SET ';
             // Update the database
             if($password == "") {
-                $sql .= '`group_id`     = '.intval($group_id).', '.
-                        '`groups_id`    = \''.$database->escapeString($groups_id).'\', '.
-                        '`username` = \''.$database->escapeString($username).'\', '.
+                $sql .= '`group_id` = '.intval($group_id).', '.
+                        '`groups_id` = \''.$oDb->escapeString($groups_id).'\', '.
+                        '`username` = \''.$oDb->escapeString($username).'\', '.
                         '`active` = '.intval($active).', '.
-                        '`display_name` = \''.$database->escapeString($display_name).'\', '.
-                        '`home_folder` = \''.$database->escapeString($home_folder).'\', '.
-                        '`email` = \''.$database->escapeString($email).'\' '.
+                        '`display_name` = \''.$oDb->escapeString($display_name).'\', '.
+                        '`home_folder` = \''.$oDb->escapeString($home_folder).'\', '.
+                        '`email` = \''.$oDb->escapeString($email).'\' '.
                         'WHERE `user_id` = '.intval($user_id).'';
 
             } else {
 
-                $sql .= '`group_id`     = '.intval($group_id).', '.
-                        '`groups_id`    = \''.$database->escapeString($groups_id).'\', '.
-                        '`username` = \''.$database->escapeString($username).'\', '.
+                $sql .= '`group_id` = '.intval($group_id).', '.
+                        '`groups_id` = \''.$oDb->escapeString($groups_id).'\', '.
+                        '`username` = \''.$oDb->escapeString($username).'\', '.
                         '`password` = \''.md5($password).'\', '.
                         '`active` = '.intval($active).', '.
-                        '`display_name` = \''.$database->escapeString($display_name).'\', '.
-                        '`home_folder` = \''.$database->escapeString($home_folder).'\', '.
-                        '`email` = \''.$database->escapeString($email).'\' '.
+                        '`display_name` = \''.$oDb->escapeString($display_name).'\', '.
+                        '`home_folder` = \''.$oDb->escapeString($home_folder).'\', '.
+                        '`email` = \''.$oDb->escapeString($email).'\' '.
                         'WHERE `user_id` = '.intval($user_id).'';
 
             }
-            if($database->query($sql)) {
-            	msgQueue::add($mLang->MESSAGE_USERS_SAVED, true);
+            if($oDb->doQuery($sql)) {
+            	msgQueue::add($oTrans->MESSAGE_USERS_SAVED, true);
                 $bRetVal = $user_id;
             }
-            if($database->is_error()) {
-               msgQueue::add( implode('<br />',explode(';',$database->get_error())) );
+            if($oDb->isError()) {
+               msgQueue::add( implode('<br />',explode(';',$oDb->getError())) );
             }
        } else {
-            	msgQueue::add($mLang->MESSAGE_GENERIC_NOT_UPGRADED);
+            	msgQueue::add($oTrans->MESSAGE_GENERIC_NOT_UPGRADED);
        }
 
 //        return $admin->getIDKEY($user_id);

@@ -23,20 +23,22 @@ if(!defined('WB_URL'))
     	require($config_file);
     }
 }
-if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+//if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\access');
 
 $admin = new admin('Media', 'media', false);
 // Include the WB functions file
 if(!function_exists('directory_list')) { require(WB_PATH.'/framework/functions.php'); }
 
-// check if theme language file exists for the language set by the user (e.g. DE, EN)
-if(!file_exists(THEME_PATH .'/languages/'.LANGUAGE .'.php')) {
-	// no theme language file exists for the language set by the user, include default theme language file EN.php
-	require_once(THEME_PATH .'/languages/EN.php');
-} else {
-	// a theme language file exists for the language defined by the user, load it
-	require_once(THEME_PATH .'/languages/'.LANGUAGE .'.php');
-}
+//// check if theme language file exists for the language set by the user (e.g. DE, EN)
+//if(!file_exists(THEME_PATH .'/languages/'.LANGUAGE .'.php')) {
+//	// no theme language file exists for the language set by the user, include default theme language file EN.php
+//	require_once(THEME_PATH .'/languages/EN.php');
+//} else {
+//	// a theme language file exists for the language defined by the user, load it
+//	require_once(THEME_PATH .'/languages/'.LANGUAGE .'.php');
+//}
 // Get the current homedir
 $currentHome = WB_PATH.MEDIA_DIRECTORY.$admin->get_home_folder();
 $currentHome = str_replace(WB_PATH, '', $currentHome);
@@ -96,15 +98,16 @@ $caller = "setparameter";
 $template = new Template(dirname($admin->correct_theme_source('setparameter.htt')));
 $template->set_file('page', 'setparameter.htt');
 $template->set_block('page', 'main_block', 'main');
+$template->set_var($oTrans->getLangArray());
 if ($_SESSION['GROUP_ID'] != 1) {
 	$template->set_var('DISPLAY_ADMIN', 'hide');
 }
 $template->set_var(array(
-				'TEXT_HEADER' => $TEXT['TEXT_HEADER'],
-				'SAVE_TEXT' => $TEXT['SAVE'],
-				'BACK' => $TEXT['BACK'],
-			)
-		);
+        'TEXT_HEADER' => $oTrans->TEXT_TEXT_HEADER,
+        'SAVE_TEXT' => $oTrans->TEXT_SAVE,
+        'BACK' => $oTrans->TEXT_BACK,
+    )
+);
 
 $template->set_block('main_block', 'list_block', 'list');
 $row_bg_color = '';
@@ -131,27 +134,27 @@ foreach($dirs AS $name) {
     $row_bg_color = ($row_bg_color == '#dedede') ? '#fff' : '#dedede';
 
 	$template->set_var(array(
-					'ADMIN_URL' => ADMIN_URL,
-					'THEME_URL' => THEME_URL,
-					'PATH_NAME' => $relative,
-					'WIDTH' => $TEXT['WIDTH'],
-					'HEIGHT' => $TEXT['HEIGHT'],
-					'FIELD_NAME_W' => $safepath.'-w',
-					'FIELD_NAME_H' => $safepath.'-h',
-					'CAN_EDIT_CLASS' => ($bPathCanEdit==false) ? '' : 'bold',
-					'SHOW_EDIT_CLASS' => ($bPathCanEdit==false) ? 'hide' : '',
-					'READ_ONLY_DIR' => ($bPathCanEdit==false) ? ' readonly="readonly"' : '',
-					'CUR_HEIGHT' => $cur_height,
-					'CUR_WIDTH' => $cur_width,
-					'SETTINGS' => $TEXT['SETTINGS'],
-					'ADMIN_ONLY' => $TEXT['ADMIN_ONLY'],
-					'ADMIN_ONLY_SELECTED' => isset($pathsettings['global']['admin_only']) ? $pathsettings['global']['admin_only']:'',
-					'NO_SHOW_THUMBS' => $TEXT['NO_SHOW_THUMBS'],
-					'NO_SHOW_THUMBS_SELECTED' => isset($pathsettings['global']['show_thumbs']) ? $pathsettings['global']['show_thumbs']:'',
-					'ROW_BG_COLOR' => $row_bg_color,
-					'FTAN' => $admin->getFTAN()
-				)
-		);
+            'ADMIN_URL' => ADMIN_URL,
+            'THEME_URL' => THEME_URL,
+            'PATH_NAME' => $relative,
+            'WIDTH' => $oTrans->TEXT_WIDTH,
+            'HEIGHT' => $oTrans->TEXT_HEIGHT,
+            'FIELD_NAME_W' => $safepath.'-w',
+            'FIELD_NAME_H' => $safepath.'-h',
+            'CAN_EDIT_CLASS' => ($bPathCanEdit==false) ? '' : 'bold',
+            'SHOW_EDIT_CLASS' => ($bPathCanEdit==false) ? 'hide' : '',
+            'READ_ONLY_DIR' => ($bPathCanEdit==false) ? ' readonly="readonly"' : '',
+            'CUR_HEIGHT' => $cur_height,
+            'CUR_WIDTH' => $cur_width,
+            'SETTINGS' => $oTrans->TEXT_SETTINGS,
+            'ADMIN_ONLY' => $oTrans->TEXT_ADMIN_ONLY,
+            'ADMIN_ONLY_SELECTED' => isset($pathsettings['global']['admin_only']) ? $pathsettings['global']['admin_only']:'',
+            'NO_SHOW_THUMBS' => $oTrans->TEXT_NO_SHOW_THUMBS,
+            'NO_SHOW_THUMBS_SELECTED' => isset($pathsettings['global']['show_thumbs']) ? $pathsettings['global']['show_thumbs']:'',
+            'ROW_BG_COLOR' => $row_bg_color,
+            'FTAN' => $admin->getFTAN()
+        )
+    );
 	$template->parse('list', 'list_block', true);
 }
 

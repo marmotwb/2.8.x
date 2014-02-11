@@ -36,6 +36,8 @@ if(!isset($_FILES['userfile'])) {
 	header("Location: index.php");
 	exit(0);
 }
+$oLang = Translate::getInstance();
+$oLang->enableAddon('admin\\languages');
 
 // Include the WB functions file
 require_once(WB_PATH.'/framework/functions.php');
@@ -59,18 +61,18 @@ $temp_file = $temp_dir . 'language'.$temp_string;
 // Check if language dir is writable
 if(!is_writable(WB_PATH.'/languages/')) {
 	if(file_exists($temp_file)) { unlink($temp_file); } // Remove temp file
-	$admin->print_error($MESSAGE['GENERIC_BAD_PERMISSIONS']);
+	$admin->print_error($oLang->MESSAGE_GENERIC_BAD_PERMISSIONS);
 }
 
 // Try to upload the file to the temp dir
 if(!move_uploaded_file($_FILES['userfile']['tmp_name'], $temp_file)) {
 	if(file_exists($temp_file)) { unlink($temp_file); } // Remove temp file
-	$admin->print_error($MESSAGE['GENERIC_CANNOT_UPLOAD']);
+	$admin->print_error($oLang->MESSAGE_GENERIC_CANNOT_UPLOAD);
 }
 
 // Check if uploaded file is a valid language file (no binary file etc.)
 $content = file_get_contents($temp_file);
-if (strpos($content, '<?php') === false) $admin->print_error($MESSAGE['GENERIC_INVALID_LANGUAGE_FILE']);
+if (strpos($content, '<?php') === false) $admin->print_error($oLang->MESSAGE_GENERIC_INVALID_LANGUAGE_FILE);
 
 // Remove any vars with name "language_code"
 unset($language_code);
@@ -87,7 +89,7 @@ if(!isset($language_code)) {
 	if(file_exists($temp_file)) { unlink($temp_file); } // Remove temp file
 	// Restore to correct language
 	require(WB_PATH.'/languages/'.LANGUAGE.'.php');
-	$admin->print_error($MESSAGE['GENERIC_INVALID_LANGUAGE_FILE']);
+	$admin->print_error($oLang->MESSAGE_GENERIC_INVALID_LANGUAGE_FILE);
 }
 
 // Set destination for language file
@@ -100,7 +102,7 @@ if (file_exists($language_file)) {
 	if (versionCompare($language_version, $new_language_version, '>=')) {
 		// Restore to correct language
 		require(WB_PATH . '/languages/' . LANGUAGE . '.php');
-		$admin->print_error($MESSAGE['GENERIC_ALREADY_INSTALLED']);
+		$admin->print_error($oLang->MESSAGE_GENERIC_ALREADY_INSTALLED);
 	}
 	$action="upgrade";
 	unlink($language_file);
@@ -119,9 +121,9 @@ require(WB_PATH.'/languages/'.LANGUAGE.'.php');
 
 // Print success message
 if ($action=="install") {
-	$admin->print_success($MESSAGE['GENERIC_INSTALLED']);
+	$admin->print_success($oLang->MESSAGE_GENERIC_INSTALLED);
 } else {
-	$admin->print_success($MESSAGE['GENERIC_UPGRADED']);
+	$admin->print_success($oLang->MESSAGE_GENERIC_UPGRADED);
 }
 
 // Print admin footer

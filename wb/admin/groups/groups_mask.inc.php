@@ -39,14 +39,18 @@ print_r( $_POST ); print '</pre>'; // flush ();sleep(10); die();
 //		global $TEXT, $MESSAGE, $HEADING, $MENU;
 
 		$database = WbDatabase::getInstance();
-		$mLang = Translate::getInstance();
-//		$mLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
+
+//		$oLang->setLanguage(dirname(__FILE__).'/languages/', LANGUAGE, DEFAULT_LANGUAGE);
 		include_once('upgradePermissions.php');
 		include_once(WB_PATH.'/framework/functions.php');
 	// Create new template object for the modify/remove menu
 		$tpl = new Template(dirname($admin->correct_theme_source('groups_form.htt')),'keep');
 		$tpl->set_file('page', 'groups_form.htt');
 		$tpl->debug = false; // false, true
+
+        $oLang = Translate::getInstance();
+        $oLang->enableAddon('admin\\groups');
+        $tpl->set_var($oLang->getLangArray());
 
 		$tpl->set_block('page', 'main_block', 'main');
 		$tpl->set_block('main_block', 'show_cmd_permission_block', 'show_cmd_permission');
@@ -78,7 +82,7 @@ print_r( $_POST ); print '</pre>'; // flush ();sleep(10); die();
 				}
 
 			$tpl->set_var(array(
-						'SUBMIT_TITLE' =>  ($admin->get_permission('groups_modify') == true) ? $mLang->TEXT_SAVE : $mLang->TEXT_BACK,
+						'SUBMIT_TITLE' =>  ($admin->get_permission('groups_modify') == true) ? $oLang->TEXT_SAVE : $oLang->TEXT_BACK,
 						'ACTION_HIDDEN' => ($admin->get_permission('groups_modify') == true) ? 'action_modify' : 'action_cancel',
 						'ACTION_HANDLE' => ($admin->get_permission('groups_modify') == true) ? 'action_save' : 'action_cancel',
 						'GROUP_ID' => $rec_group['group_id'],
@@ -96,10 +100,10 @@ print_r( $_POST ); print '</pre>'; // flush ();sleep(10); die();
 				$rec_group['template_permissions'] = convertArrayToString($template_permissions);
 
 				$tpl->set_var(array(
-							'SUBMIT_TITLE' =>  ($admin->get_permission('groups_modify') == true) ? $mLang->TEXT_SAVE : $mLang->TEXT_BACK,
+							'SUBMIT_TITLE' =>  ($admin->get_permission('groups_modify') == true) ? $oLang->TEXT_SAVE : $oLang->TEXT_BACK,
 							'ACTION_HANDLE' => ($admin->get_permission('groups_modify') == true) ? 'action_save' : 'action_cancel',
 							'ACTION_HIDDEN' => ($admin->get_permission('groups_modify') == true) ? 'action_modify' : 'action_cancel',
-							'TEXT_GROUPS_NAME' => $mLang->TEXT_GROUP.': ',
+							'TEXT_GROUPS_NAME' => $oLang->TEXT_GROUP.': ',
 							'FORM_NAME_GROUPMASK' => 'frm_modify_group',
 	//						'GROUPNAME_DISABLED' => ' readonly="readonly"',
 	//						'GROUPNAME_INPUT_DISABLED' => ' input_text_disabled no_input'
@@ -126,7 +130,7 @@ print_r( $_POST ); print '</pre>'; // flush ();sleep(10); die();
 			$rec_group['template_permissions'] = $template_permissions;
 
 			$tpl->set_var(array(
-						'SUBMIT_TITLE' =>  ($admin->get_permission('groups_add') == true) ? $mLang->TEXT_ADD : $mLang->TEXT_BACK,
+						'SUBMIT_TITLE' =>  ($admin->get_permission('groups_add') == true) ? $oLang->TEXT_ADD : $oLang->TEXT_BACK,
 						'ACTION_HANDLE' => ($admin->get_permission('groups_add') == true) ? 'action_save' : 'action_cancel',
 						'ACTION_HIDDEN' => ($admin->get_permission('groups_add') == true) ? 'action_modify' : 'action_cancel',
 						'TEXT_GROUPS_NAME' => '',
@@ -159,19 +163,19 @@ print_r( $_POST ); print '</pre>'; // flush ();sleep(10); die();
 		// otherwise the $rec_group object contains existing data from requested group
 		// $tpl->set_var('GROUP_ID', $group_id != 0 ? $admin->getIDKEY($group_id) : 0);
 		$tpl->set_var('GROUP_ACTION_URL', $_SERVER['SCRIPT_NAME']);
-        $header_extra = $mLang->TEXT_FILESYSTEM_PERMISSIONS.' ';
+        $header_extra = $oLang->TEXT_FILESYSTEM_PERMISSIONS.' ';
 		if( ($admin->get_permission('groups_view') == true) )
 		{
-			$tpl->set_var('GROUPS_HEADER', $header_extra.$mLang->HEADING_VIEW_GROUP );
+			$tpl->set_var('GROUPS_HEADER', $header_extra.$oLang->HEADING_VIEW_GROUP );
 			if( ($admin->get_permission('groups_modify') == true) )
 			{
-			$tpl->set_var('GROUPS_HEADER', ($group_id == 0 ? $header_extra.$mLang->HEADING_ADD_GROUP : $header_extra.$mLang->HEADING_MODIFY_GROUP) );
+			$tpl->set_var('GROUPS_HEADER', ($group_id == 0 ? $header_extra.$oLang->HEADING_ADD_GROUP : $header_extra.$oLang->HEADING_MODIFY_GROUP) );
 			}
 		}
 
 // Insert language text and messages
 		$tpl->set_var('MODULE_FUNCTION', '');
-		$tpl->set_var($mLang->getLangArray());
+		$tpl->set_var($oLang->getLangArray());
 
 // ------------------------
 // Tell the browser whether or not to show advanced options
@@ -187,14 +191,14 @@ print_r( $_POST ); print '</pre>'; // flush ();sleep(10); die();
 			setSystemCheckboxes( $tpl, $admin, isset($_POST['system_permissions']) ? $_POST['system_permissions'] : $rec_group['system_permissions'] );
 			$tpl->set_var('DISPLAY_ADVANCED', '');
 			$tpl->set_var('DISPLAY_BASIC', '');
-			$tpl->set_var('FILESYSTEM_PERMISSIONS', $mLang->TEXT_FILESYSTEM_PERMISSIONS.' ');
+			$tpl->set_var('FILESYSTEM_PERMISSIONS', $oLang->TEXT_FILESYSTEM_PERMISSIONS.' ');
 
 			$tpl->parse('advanced_permission_block', 'show_cmd_advanced_permission_block', true);
 			$tpl->parse('permission_block', 'show_cmd_manage_permission_block', true);
 
 // ------------------------
 
-		$tpl->set_var('HEADER_MODULE_FUNCTION', '<h6>'.$mLang->TEXT_MODULE_PERMISSIONS.'</h6>');
+		$tpl->set_var('HEADER_MODULE_FUNCTION', '<h6>'.$oLang->TEXT_MODULE_PERMISSIONS.'</h6>');
 // Insert values into pages module list
 		$tpl->set_block('show_cmd_permission', 'pages_module_list_block', 'module_list');
 		$sql  = 'SELECT `directory`,`name`,`function` FROM `'.TABLE_PREFIX.'addons` ';
@@ -229,7 +233,7 @@ print_r( $_POST ); print '</pre>'; // flush ();sleep(10); die();
 			}
 		}
 
-		$tpl->set_var('HEADER_MODULE_FUNCTION', '<h6>'.$mLang->TEXT_MODULE_PERMISSIONS.'</h6>');
+		$tpl->set_var('HEADER_MODULE_FUNCTION', '<h6>'.$oLang->TEXT_MODULE_PERMISSIONS.'</h6>');
 		// Insert values into pages module list
 		$tpl->set_block('show_cmd_permission', 'tools_module_list_block', 'tools_list');
 		$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';
@@ -262,7 +266,7 @@ print_r( $_POST ); print '</pre>'; // flush ();sleep(10); die();
 				$tmp_header = $addon['function'];
 			}
 		}
-		$tpl->set_var('HEADER_TEMPLATE_FUNCTION', '<h6>'.$mLang->TEXT_TEMPLATE_PERMISSIONS.'</h6>');
+		$tpl->set_var('HEADER_TEMPLATE_FUNCTION', '<h6>'.$oLang->TEXT_TEMPLATE_PERMISSIONS.'</h6>');
 		// Insert values into pages module list
 		$tpl->set_block('show_cmd_permission', 'template_list_block', 'template_list');
 		$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'addons` ';

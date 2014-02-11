@@ -35,11 +35,12 @@ $template = new Template(dirname($admin->correct_theme_source('admintools.htt'))
 // $template->debug = true;
 $template->set_file('page', 'admintools.htt');
 $template->set_block('page', 'main_block', 'main');
-
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\admintools');
+$template->set_var($oTrans->getLangArray());
 // Insert required template variables
 $template->set_var('ADMIN_URL', ADMIN_URL);
 $template->set_var('THEME_URL', THEME_URL);
-$template->set_var('HEADING_ADMINISTRATION_TOOLS', $HEADING['ADMINISTRATION_TOOLS']);
 
 // Insert tools into tool list
 $template->set_block('main_block', 'tool_list_block', 'tool_list');
@@ -78,7 +79,7 @@ if($results->numRows() > 0) {
 
 }
 
-$template->set_var('TOOL_LIST', ($bHasToolRights==false) ? $TEXT['NONE'].' '.$TEXT['MODULE_PERMISSIONS'] : '&nbsp;');
+$template->set_var('TOOL_LIST', ($bHasToolRights==false) ? $oTrans->TEXT_NONE.' '.$oTrans->TEXT_MODULE_PERMISSIONS : '&nbsp;');
 
 //template->set_var('TOOL_LIST', '<li>&nbsp;</li>');
 // Parse template objects output

@@ -24,12 +24,15 @@ $admin = new admin('Addons', 'addons');
 $template = new Template(dirname($admin->correct_theme_source('addons.htt')));
 $template->set_file('page', 'addons.htt');
 $template->set_block('page', 'main_block', 'main');
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\addons');
+$template->set_var($oTrans->getLangArray());
 
 // Insert values into the template object
 $template->set_var(array(
 		'ADMIN_URL' => ADMIN_URL,
 		'THEME_URL' => THEME_URL,
-		'WB_URL' => WB_URL
+		'WB_URL'    => WB_URL
 	)
 );
 
@@ -58,24 +61,24 @@ if(!isset($_GET['advanced']) || $admin->get_permission('modules_advanced') != tr
  *	Insert section names and descriptions
  */
 $template->set_var(array(
-	'ADDONS_OVERVIEW' => $MENU['ADDONS'],
-	'FTAN'=> $admin->getFTAN(),
-	'MODULES' => $MENU['MODULES'],
-	'TEMPLATES' => $MENU['TEMPLATES'],
-	'LANGUAGES' => $MENU['LANGUAGES'],
-	'MODULES_OVERVIEW' => $OVERVIEW['MODULES'],
-	'TEMPLATES_OVERVIEW' => $OVERVIEW['TEMPLATES'],
-	'LANGUAGES_OVERVIEW' => $OVERVIEW['LANGUAGES'],
-	'TXT_ADMIN_SETTINGS' => $TEXT['ADMIN'] . ' ' . $TEXT['SETTINGS'],
-	'MESSAGE_RELOAD_ADDONS' => $MESSAGE['ADDON_RELOAD'],
-	'TEXT_RELOAD' => $TEXT['RELOAD'],
+	'ADDONS_OVERVIEW'       => $oTrans->MENU_ADDONS,
+	'FTAN'                  => $admin->getFTAN(),
+	'MODULES'               => $oTrans->MENU_MODULES,
+	'TEMPLATES'             => $oTrans->MENU_TEMPLATES,
+	'LANGUAGES'             => $oTrans->MENU_LANGUAGES,
+	'MODULES_OVERVIEW'      => $oTrans->OVERVIEW_MODULES,
+	'TEMPLATES_OVERVIEW'    => $oTrans->OVERVIEW_TEMPLATES,
+	'LANGUAGES_OVERVIEW'    => $oTrans->OVERVIEW_LANGUAGES,
+	'TXT_ADMIN_SETTINGS'    => $oTrans->TEXT_ADMIN . ' ' . $oTrans->TEXT_SETTINGS,
+	'MESSAGE_RELOAD_ADDONS' => $oTrans->MESSAGE_ADDON_RELOAD,
+	'TEXT_RELOAD'           => $oTrans->TEXT_RELOAD,
 
-	'RELOAD_URL' => ADMIN_URL . '/addons/reload.php',
-	'URL_ADVANCED' => $admin->get_permission('modules_advanced')
-                ? '<a href="' . ADMIN_URL . '/addons/index.php?advanced">' . $TEXT['ADVANCED'] . '</a>' : '',
-	'ADVANCED_URL' => $admin->get_permission('modules_advanced') ? ADMIN_URL . '/addons/index.php' : '',
-    'TEXT_ADVANCED' => $TEXT['ADVANCED'],
-    'TEXT_EMPTY' => '&nbsp;',
+	'RELOAD_URL'            => ADMIN_URL . '/addons/reload.php',
+	'URL_ADVANCED'          => $admin->get_permission('modules_advanced')
+                               ? '<a href="' . ADMIN_URL . '/addons/index.php?advanced">' . $oTrans->TEXT_ADVANCED . '</a>' : '',
+	'ADVANCED_URL'          => $admin->get_permission('modules_advanced') ? ADMIN_URL . '/addons/index.php' : '',
+    'TEXT_ADVANCED'         => $oTrans->TEXT_ADVANCED,
+    'TEXT_EMPTY'            => '&nbsp;',
 	)
 );
 
@@ -88,19 +91,14 @@ if ( $admin->get_permission('languages') == true) { $template->parse('main_block
 // start advanced block
 if ( isset($_GET['advanced']) AND $admin->get_permission('modules_advanced') == true) {
 	$template->set_var(array(
-		'TXT_THEME_COPY_CURRENT'  => $TEXT['THEME_COPY_CURRENT'],
-		'TXT_THEME_NEW_NAME'      => $TEXT['THEME_NEW_NAME'],
-		'TXT_THEME_CURRENT'       => $TEXT['THEME_CURRENT'],
-		'TXT_THEME_START_COPY'    => $TEXT['THEME_START_COPY'],
-		'TXT_THEME_IMPORT_HTT'    => $TEXT['THEME_IMPORT_HTT'],
-		'TXT_THEME_SELECT_HTT'    => $TEXT['THEME_SELECT_HTT'],
-		'TXT_THEME_NOMORE_HTT'    => $TEXT['THEME_NOMORE_HTT'],
-		'TXT_THEME_START_IMPORT'  => $TEXT['THEME_START_IMPORT'],
-		'MESSAGE_THEME_COPY_CURRENT'               => $MESSAGE['THEME_COPY_CURRENT'],
-		'MESSAGE_THEME_ALREADY_EXISTS'             => $MESSAGE['THEME_ALREADY_EXISTS'],
-		'MESSAGE_THEME_INVALID_SOURCE_DESTINATION' => $MESSAGE['THEME_INVALID_SOURCE_DESTINATION'],
-		'MESSAGE_THEME_DESTINATION_READONLY'       => $MESSAGE['THEME_DESTINATION_READONLY'],
-		'MESSAGE_THEME_IMPORT_HTT'                 => $MESSAGE['THEME_IMPORT_HTT'],
+		'TXT_THEME_COPY_CURRENT'  => $oTrans->TEXT_THEME_COPY_CURRENT,
+		'TXT_THEME_NEW_NAME'      => $oTrans->TEXT_THEME_NEW_NAME,
+		'TXT_THEME_CURRENT'       => $oTrans->TEXT_THEME_CURRENT,
+		'TXT_THEME_START_COPY'    => $oTrans->TEXT_THEME_START_COPY,
+		'TXT_THEME_IMPORT_HTT'    => $oTrans->TEXT_THEME_IMPORT_HTT,
+		'TXT_THEME_SELECT_HTT'    => $oTrans->TEXT_THEME_SELECT_HTT,
+		'TXT_THEME_NOMORE_HTT'    => $oTrans->TEXT_THEME_NOMORE_HTT,
+		'TXT_THEME_START_IMPORT'  => $oTrans->TEXT_THEME_START_IMPORT,
 		)
 	);
 // start copy current theme
@@ -122,7 +120,7 @@ if ( isset($_GET['advanced']) AND $admin->get_permission('modules_advanced') == 
 			$sOptionList .= '<option value="'.$val.'">'.$key.'</option>'."\n";
 		}
 	}else {
-		$sOptionList = '<option value="none">'.$TEXT['THEME_NOMORE_HTT'].'</option>'."\n";
+		$sOptionList = '<option value="none">'.$oTrans->TEXT_THEME_NOMORE_HTT.'</option>'."\n";
 	}
 	$template->set_var('THEME_TEMPLATE_LIST', $sOptionList);
 // end template import

@@ -23,7 +23,9 @@ if(!defined('WB_URL'))
     	require($config_file);
     }
 }
-if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+//if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\media');
 
 $admin = new admin('Media', 'media', false);
 
@@ -47,13 +49,13 @@ if ($currentHome && stripos(WB_PATH.MEDIA_DIRECTORY.$rootlink,WB_PATH.MEDIA_DIRE
 
 // first Check to see if it contains ..
 if (!check_media_path($directory)) {
-	$admin->print_error($MESSAGE['MEDIA_DIR_DOT_DOT_SLASH'],$rootlink, false);
+	$admin->print_error($oTrans->MESSAGE_MEDIA_DIR_DOT_DOT_SLASH, $rootlink, false);
 }
 
 // Get the temp id
 $file_id = intval($admin->checkIDKEY('id', false, $_SERVER['REQUEST_METHOD']));
 if (!$file_id) {
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$dirlink, false);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_SECURITY_ACCESS, $dirlink, false);
 }
 
 // Get home folder not to show
@@ -105,7 +107,7 @@ if($handle = opendir(WB_PATH.MEDIA_DIRECTORY.'/'.$directory)) {
 }
 
 if(!isset($rename_file)) {
-	$admin->print_error($MESSAGE['MEDIA_FILE_NOT_FOUND'], $dirlink, false);
+	$admin->print_error($oTrans->MESSAGE_MEDIA_FILE_NOT_FOUND, $dirlink, false);
 }
 
 // Setup template object, parse vars to it, then parse it
@@ -114,6 +116,8 @@ $template = new Template(dirname($admin->correct_theme_source('media_rename.htt'
 $template->set_file('page', 'media_rename.htt');
 $template->set_block('page', 'main_block', 'main');
 //echo WB_PATH.'/media/'.$directory.'/'.$rename_file;
+$template->set_var($oTrans->getLangArray());
+
 if($type == 'folder') {
 	$template->set_var('DISPlAY_EXTENSION', 'hide');
 	$extension = '';
@@ -139,18 +143,6 @@ $template->set_var(array(
 					'FTAN' => $admin->getFTAN()
 				)
 			);
-
-
-// Insert language text and messages
-$template->set_var(array(
-					'TEXT_TO' => $TEXT['TO'],
-					'TEXT_RENAME' => $TEXT['RENAME'],
-					'TEXT_CANCEL' => $TEXT['CANCEL'],
-					'TEXT_UP' => $TEXT['UP'],
-					'TEXT_OVERWRITE_EXISTING' => $TEXT['OVERWRITE_EXISTING']
-				)
-			);
-
 // Parse template object
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');

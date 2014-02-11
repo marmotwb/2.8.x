@@ -55,9 +55,9 @@ class admin extends wb {
 	public function __construct($section_name= '##skip##', $section_permission = 'start', $auto_header = true, $auto_auth = true)
 	{
 		parent::__construct(SecureForm::BACKEND);
+        $this->_oTrans->enableAddon('templates\\'.$this->_oReg->DefaultTheme);
     	if( $section_name != '##skip##' )
     	{
-    		global $database;
     		// Specify the current applications name
     		$this->section_name = $section_name;
     		$this->section_permission = $section_permission;
@@ -145,7 +145,6 @@ class admin extends wb {
 		$header_template = new Template(dirname($this->correct_theme_source('header.htt')) );
 		$header_template->set_file('page', 'header.htt');
 		$header_template->set_block('page', 'header_block', 'header');
-        $this->_oTrans->enableAddon('templates\\'.$this->_oReg->DefaultTheme);
         $header_template->set_var($this->_oTrans->getLangArray());
 		if(defined('DEFAULT_CHARSET')) {
 			$charset=DEFAULT_CHARSET;
@@ -299,7 +298,6 @@ class admin extends wb {
 		$footer_template = new Template(dirname($this->correct_theme_source('footer.htt')));
 		$footer_template->set_file('page', 'footer.htt');
 		$footer_template->set_block('page', 'footer_block', 'header');
-        $this->_oTrans->enableAddon('templates\\'.$this->_oReg->DefaultTheme);
         $footer_template->set_var($this->_oTrans->getLangArray());
 		$footer_template->set_var(array(
 						'BACKEND_BODY_MODULE_JS' => $this->register_backend_modfiles_body('js'),

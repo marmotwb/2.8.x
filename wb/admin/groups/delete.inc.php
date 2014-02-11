@@ -26,6 +26,8 @@
 	{
 		$oDb = WbDatabase::getInstance();
 		$oLang = Translate::getInstance();
+  		$oLang->enableAddon('admin\\groups');
+
 	// first check form-tan
 		if (!$admin->checkFTAN() || $iGroupId <= 1) {
 			msgQueue::add($oLang->MESSAGE_GENERIC_SECURITY_OFFENSE );

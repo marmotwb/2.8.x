@@ -17,26 +17,24 @@
 if(!defined('WB_PATH'))
 {
 	require('../../config.php');
-	require_once(WB_PATH.'/framework/class.admin.php');
 }
+$oDb = WbDatabase::getInstance();
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\settings');
+
 $admin = new admin('Start', 'settings', false, false);
 
-if($admin->get_user_id() == 1)
-{
+if ($admin->get_user_id() == 1) {
 	$val = (((int)(defined('SYSTEM_LOCKED') ? SYSTEM_LOCKED : 0)) + 1) % 2;
-	$sql = 'SELECT COUNT(`setting_id`) FROM `'.TABLE_PREFIX.'settings` WHERE `name` = \'system_locked\'';
-	if($database->get_one($sql))
-	{
-		$sql = 'UPDATE ';
-		$sql_where = 'WHERE `name` = \'system_locked\'';
-	} else {
-		$sql = 'INSERT INTO ';
-		$sql_where = '';
-	}
-	$sql .= '`'.TABLE_PREFIX.'settings` ';
-	$sql .= 'SET `name` = \'system_locked\', ';
-	$sql .= '`value` = \''.$val.'\' '.$sql_where;
-	$database->query($sql);
+	$sql = 'SELECT COUNT(`setting_id`) FROM `'.$oDb->TablePrefix.'settings` '
+         . 'WHERE `name` = \'system_locked\'';
+    $bUpdate = (bool)$oDb->getOne($sql);
+    $sql = $bUpdate ? 'UPDATE ' : 'INSERT ';
+	$sql .= '`'.$oDb->TablePrefix.'settings` '
+	      . 'SET `name` = \'system_locked\', '
+	      .     '`value` = '.$val;
+    $sql .= $bUpdate ? 'WHERE `name` = \'system_locked\'' : '';
+	$oDb->doQuery($sql);
 }
 // redirect to backend
 header('Location: ' . ADMIN_URL . '/index.php');

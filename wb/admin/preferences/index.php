@@ -20,11 +20,12 @@
 //Workaround if this is first page (WBAdmin in use)
 
 // put all inside a function to prevent global vars
-function build_page( &$admin, &$database )
+function build_page( admin $admin )
 {
-//	global $HEADING, $TEXT;
-    $mLang = Translate::getInstance();
-	$oReg  = WbAdaptor::getInstance();
+	$oReg   = WbAdaptor::getInstance();
+    $oDb    = WbDatabase::getInstance();
+    $oTrans = Translate::getInstance();
+	$oTrans->enableAddon('admin\\preferences');
 	include_once(WB_PATH.'/framework/functions-utf8.php');
 	// Setup template object, parse vars to it, then parse it
 	// Setup template object, parse vars to it, then parse it
@@ -32,17 +33,13 @@ function build_page( &$admin, &$database )
 	$template = new Template(dirname($admin->correct_theme_source('preferences.htt')));
 	$template->set_file( 'page', 'preferences.htt' );
 	$template->set_block( 'page', 'main_block', 'main' );
-	$mLang = Translate::getInstance();
-//	$mLang->enableAddon('admin\preferences');
-	$template->set_var($mLang->getLangArray());
+	$template->set_var($oTrans->getLangArray());
 
 // read user-info from table users and assign it to template
-	$sql  = 'SELECT `display_name`, `username`, `email` FROM `'.TABLE_PREFIX.'users` ';
+	$sql  = 'SELECT `display_name`, `username`, `email` FROM `'.$oDb->TablePrefix.'users` ';
 	$sql .= 'WHERE `user_id` = '.(int)$admin->get_user_id();
-	if( $res_user = $database->query($sql) )
-	{
-		if( $rec_user = $res_user->fetchRow() )
-		{
+	if (($res_user = $oDb->doQuery($sql))) {
+		if (($rec_user = $res_user->fetchRow(MYSQL_ASSOC))) {
 			$template->set_var('DISPLAY_NAME', $rec_user['display_name']);
 			$template->set_var('USERNAME',     $rec_user['username']);
 			$template->set_var('EMAIL',        $rec_user['email']);
@@ -159,7 +156,6 @@ foreach( $aLangUsed as $sDirectory => $sName  )
 // Parse template for preferences form
 	$template->parse('main', 'main_block', false);
 	$output = $template->finish($template->parse('output', 'page'));
-	$mLang->disableAddon();
 
 	return $output;
 }
@@ -167,8 +163,7 @@ foreach( $aLangUsed as $sDirectory => $sName  )
 if( !(isset($admin) && is_object($admin) && (get_class($admin) == 'admin')) )
 {
     require( '../../config.php' );
-	require_once( WB_PATH.'/framework/class.admin.php' );
 	$admin = new admin('Preferences');
 }
-echo build_page($admin, $database);
+echo build_page($admin);
 $admin->print_footer();

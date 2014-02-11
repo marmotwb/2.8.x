@@ -37,7 +37,8 @@ if(defined('WB_PATH') == false)
 		include_once('upgradePermissions.php');
 		include_once(WB_PATH.'/framework/functions.php');
 		$database = WbDatabase::getInstance();
-		$mLang = Translate::getInstance();
+		$oLang = Translate::getInstance();
+		$oLang->enableAddon('admin\groups');
 	// check for valid group_id
 		$sql = '';
 
@@ -77,12 +78,12 @@ if(defined('WB_PATH') == false)
 
 			if($group_name == '')
 			{
-				msgQueue::add($mLang->MESSAGE_GROUPS_GROUP_NAME_BLANK );
+				msgQueue::add($oLang->MESSAGE_GROUPS_GROUP_NAME_BLANK );
 			} elseif($group_name != '') {
 		// check request vars and assign values to record
 				if( $database->get_one($sql) != false )
 				{
-					msgQueue::add($mLang->MESSAGE_GROUPS_GROUP_NAME_EXISTS );
+					msgQueue::add($oLang->MESSAGE_GROUPS_GROUP_NAME_EXISTS );
 				} else {
 					if( $group_id == 0 )
 					{
@@ -105,9 +106,9 @@ if(defined('WB_PATH') == false)
 				$sql .= $where;
 				if( $database->query($sql) )
 				{
-	                msgQueue::add($mLang->MESSAGE_GROUPS_SAVED ,true);
+	                msgQueue::add($oLang->MESSAGE_GROUPS_SAVED ,true);
 				} else {
-					msgQueue::add($mLang->MESSAGE_RECORD_MODIFIED_FAILED );
+					msgQueue::add($oLang->MESSAGE_RECORD_MODIFIED_FAILED );
 				}
 			}
 		} else {

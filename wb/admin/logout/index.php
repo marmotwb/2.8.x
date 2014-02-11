@@ -20,8 +20,11 @@ require('../../config.php');
 // delete remember key of current user from database
 if (isset($_SESSION['USER_ID']) && isset($database)) {
 	$table = TABLE_PREFIX . 'users';
-	$sql = "UPDATE `$table` SET `remember_key` = '' WHERE `user_id` = '" . (int) $_SESSION['USER_ID'] . "'";
-	$database->query($sql);
+    $oDb = WbDatabase::getInstance();
+	$sql = 'UPDATE `'.$oDb->TablePrefix.'users` '
+         . 'SET `remember_key`=\'\' '
+         . 'WHERE `user_id`='.(int)$_SESSION['USER_ID'];
+	$oDb->doQuery($sql);
 }
 
 // delete remember key cookie if set
