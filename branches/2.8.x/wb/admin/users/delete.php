@@ -27,6 +27,7 @@ function delete_user($admin, $aActionRequest)
 {
 	$oDb = WbDatabase::getInstance();
 	$oTrans = Translate::getInstance();
+    $oTrans->enableAddon('admin\\users');
     $aUserID = array();
     $bRetVal = false;
 
