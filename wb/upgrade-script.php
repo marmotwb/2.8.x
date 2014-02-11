@@ -34,7 +34,6 @@
  * @deprecated   
  * @description  xyz
  */
-include_once(dirname(__FILE__).'/framework/UpgradeHelper.php');
 // PHP less then 5.3.2 is prohibited ---
 if (version_compare(PHP_VERSION, '5.3.2', '<')) {
     $sMsg = '<p style="color: #ff0000;">WebsiteBaker 2.8.4 and above is not able to run with PHP-Version less then 5.3.2!!<br />'
@@ -43,60 +42,74 @@ if (version_compare(PHP_VERSION, '5.3.2', '<')) {
           . 'The very best solution is the use of PHP-5.4 and up</p>';
     die($sMsg);
 }
+// --- load UpgradeHelper ---
+if (!class_exists('UpgradeHelper', false)) {
+    require(__DIR__.'/framework/UpgradeHelper.php');
+}
 // --- delete fatal disturbing files before upgrade starts -------------------------------
 $aPreDeleteFiles = array(
 // list of files
 	dirname(__FILE__).'/framework/PasswordHash.php'
 );
-if(sizeof($aPreDeleteFiles > 0))
-{
+$sMsg = '';
+if (sizeof($aPreDeleteFiles > 0)) {
 // if there are files defined
-	$sMsg = '';
-	foreach($aPreDeleteFiles as $sFileToDelete)
-	{
+	foreach ($aPreDeleteFiles as $sFileToDelete) {
 	// iterate the list
-		if(file_exists($sFileToDelete))
-		{
-			if(!is_writeable($sFileToDelete) || !@unlink($sFileToDelete))
-			{
+		if (file_exists($sFileToDelete)) {
+			if (!is_writeable($sFileToDelete) || !@unlink($sFileToDelete)) {
 			// notice if deleting fails
 				$sMsg .= '<span style="color:red;">FAILED</span> deleting: '
 				       . $sFileToDelete.'<br />'.PHP_EOL;
 			}
 		}
 	}
-	if($sMsg) {
+	if ($sMsg) {
 	// stop script if there's an error occured
-		$sMsg = $sMsg.'<br />'.PHP_EOL.'Please delete all of the files above manually!';
-		UpgradeHelper::dieWithMessage($sMsg);
+		$sMsg .= '<br />'.PHP_EOL.'Please delete all of the files above manually!';
+		$sMsg .= '<br />'.PHP_EOL.'----------------------------------------------';
 	}
+}
+if ($sMsg) {
+// stop script if there's an error occured
+    $sMsg = $sMsg.'<br />'.PHP_EOL.'Please delete all of the files above manually!';
+    UpgradeHelper::dieWithMessage($sMsg);
 }
 unset($aPreDeleteFiles);
 $sMsg = '';
 // ---------------------------------------------------------------------------------------
 // Include config file
-$config_file = dirname(__FILE__).'/config.php';
+$config_file = __DIR__.'/config.php';
 if (is_readable($config_file) && !defined('WB_URL')) {
 	require_once($config_file);
 }
+$oDb  = WbDatabase::getInstance();
 $oReg = WbAdaptor::getInstance();
-UpgradeHelper::checkSetupFiles(dirname(__FILE__).'/');
-
-if (!class_exists('admin', false)) {
-	include(WB_PATH.'/framework/class.admin.php');
+UpgradeHelper::checkSetupFiles(str_replace('\\', '/', __DIR__).'/');
+// --- set DEFAULT_THEME and restart if needed -------------------------------------------
+if (isset($oReg->DefaultTheme) && $oReg->DefaultTheme != 'WbTheme') {
+    db_update_key_value('settings', 'default_theme', 'WbTheme');
+    $sLocation = 'Location: '.$oReg->AppUrl.filename(__FILE__);
+    header($sLocation);
+    exit;
 }
+// ---------------------------------------------------------------------------------------
+//if (!class_exists('admin', false)) {
+//	include(WB_PATH.'/framework/class.admin.php');
+//}
 $admin = new admin('Addons', 'modules', false, false);
 // solved wrong pages_directory value before creating access files
 $sql  = 'SELECT `value` FROM `'.TABLE_PREFIX.'settings` '
       . 'WHERE `name`=\'pages_directory\'';
-$sPagesDirectory = WbDatabase::getInstance()->get_one($sql);
+$sPagesDirectory = $oDb->getOne($sql);
 $sTmp = trim($sPagesDirectory, '/');
 $sTmpDir = ($sTmp == '' ? '' : '/'.$sTmp);
 if($sTmp != $sPagesDirectory) {
-	$sql = 'UPDATE `'.TABLE_PREFIX.'settings` '
-		 . 'SET `value` = \''.$sTmpDir.'\' '
+	$sql = 'UPDATE `'.$oDb->TablePrefix.'settings` '
+		 . 'SET `value`=\''.$sTmpDir.'\' '
 		 . 'WHERE `name`=\'pages_directory\' ';
-	WbDatabase::getInstance()->query($sql);
+	$oDb->doQuery($sql);
+//	WbDatabase::getInstance()->query($sql);
 }
 require_once(WB_PATH.'/framework/functions.php');
 // require_once(WB_PATH.'/framework/Database.php');
@@ -1113,15 +1126,13 @@ echo '<div style="margin-left:2em;">';
 	$iFound = 0;
 	$iLoaded = 0;
 	////delete templates
-	//$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE type = 'template'");
+	$oDb->doQuery('DELETE FROM `'.$oDb->TablePrefix.'addons` WHERE `type`=\'template\'');
 	// Load all templates
 	if( ($handle = opendir(WB_PATH.'/templates/')) ) {
 		while(false !== ($file = readdir($handle))) {
 			if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'index.php') {
-
 				$iFound++;
 				$iLoaded = (load_template(WB_PATH.'/templates/'.$file)==true) ? $iLoaded+1 : $iLoaded;
-
 			}
 		}
 		closedir($handle);

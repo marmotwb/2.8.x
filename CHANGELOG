@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+11 Feb-2014 Build 2097 Manuela v.d.Decken(DarkViper)
+# droplet >> [[SiteModified]]  typo corrected
+! upgrade-script.php >> new classes activated and little corrections
+! WbAdaptor::getWbConstants() >> PageIconDir added
 03 Feb-2014 Build 2096 Manuela v.d.Decken(DarkViper)
 + Translate::enablePrivateTable() allows to add more private language definitions
 + Translate::disablePrivateTable()
