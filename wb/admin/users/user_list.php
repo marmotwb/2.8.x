@@ -29,6 +29,7 @@ if(!defined('WB_URL')) {
         $oReg = WbAdaptor::getInstance();
 		$oDb = WbDatabase::getInstance();
 		$oTrans = Translate::getInstance();
+        $oTrans->enableAddon('admin\\users');
 
         $iUserStatus = (($admin->get_get('status') == 1) ? 0 : 1);
         unset($_GET);
@@ -179,7 +180,7 @@ if(!defined('WB_URL')) {
 
         $oTpl->set_block('main_block', 'show_add_loginname_block', 'show_add_loginname');
 		$oTpl->set_block('main_block', 'show_change_group_list_block', 'show_change_group_list');
-        $oTpl->se_var($oTrans->getLangArray());
+        $oTpl->set_var($oTrans->getLangArray());
 		$oTpl->parse('show_change_group_list', '');
 //		$oTpl->parse('show_change_group_list', 'show_change_group_list_block', true);
 
@@ -261,7 +262,7 @@ if(!defined('WB_URL')) {
         }
 
         // Include the WB functions file
-        if(!function_exists('directory_list')) { require($oReg->AppUrl.'framework/functions.php'); }
+        if(!function_exists('directory_list')) { require($oReg->AppPath.'framework/functions.php'); }
 
         // Add media folders to home folder list
         $oTpl->set_block('main_block', 'folder_list_block', 'folder_list');

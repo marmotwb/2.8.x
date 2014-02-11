@@ -87,7 +87,7 @@ $oDb  = WbDatabase::getInstance();
 $oReg = WbAdaptor::getInstance();
 UpgradeHelper::checkSetupFiles(str_replace('\\', '/', __DIR__).'/');
 // --- set DEFAULT_THEME and restart if needed -------------------------------------------
-if (isset($oReg->DefaultTheme) && $oReg->DefaultTheme != 'WbTheme') {
+if (isset($oReg->DefaultTheme) && trim($oReg->DefaultTheme, '/') != 'WbTheme') {
     db_update_key_value('settings', 'default_theme', 'WbTheme');
     $sLocation = 'Location: '.$oReg->AppUrl.basename(__FILE__);
     header($sLocation);
