@@ -28,14 +28,18 @@ function __unserialize($sObject) {  // found in php manual :-)
 	$__ret = preg_replace('!s:(\d+):"(.*?)";!e', "'s:'.strlen('$2').':\"$2\";'", $sObject );
 	return unserialize($__ret);
 }
-
+$oDb = WbDatabase::getInstance();
 $pathsettings = array( 'global' => array( 'admin_only' => false,'show_thumbs' => false ) );
 if(DEFAULT_THEME != '') {
-	$query = $database->query ( "SELECT * FROM ".TABLE_PREFIX."settings where `name`='mediasettings'" );
-	if ($query && $query->numRows() > 0) {
-		$settings = $query->fetchRow();
+	$sql = 'SELECT * FROM `'.$oDb->TablePrefix.'settings` '
+         . 'WHERE `name`=\'mediasettings\'';
+	$query = $oDb->doQuery($sql);
+    if ($query && (($settings = $query->fetchRow(MYSQL_ASSOC)))) {
 		$pathsettings = __unserialize($settings['value']);
 	} else {
-		$database->query ( "INSERT INTO ".TABLE_PREFIX."settings (`name`,`value`) VALUES ('mediasettings','')" );
+		$sql = 'INSERT INTO `'.$oDb->TablePrefix.'settings` '
+             . 'SET `name`=\'mediasettings\', '
+             .     '`value`=\'\'';
+		$oDb->doQuery($sql);
 	}
 }

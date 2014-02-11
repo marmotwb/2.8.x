@@ -59,6 +59,9 @@
 	$aErrors = array();
 // check user permissions for admintools (redirect users with wrong permissions)
 	$admin = new admin('Admintools', 'admintools', false, false);
+    $oTrans = Translate::getInstance();
+    $oTrans->enableAddon('admin\\addons');
+
 	if ($admin->get_permission('admintools'))
 	{
 		require_once(WB_PATH . '/framework/functions.php');
@@ -79,7 +82,7 @@
 				if($ct->isError()) {
 					$aErrors[] = $ct->getError();
 				}else {
-					$aMsg[] = $TEXT['THEME_COPY_CURRENT'].' :: '.$MESSAGE['GENERIC_COMPARE'];
+					$aMsg[] = $oTrans->TEXT_THEME_COPY_CURRENT.' :: '.$oTrans->MESSAGE_GENERIC_COMPARE;
 				}
 				unset($ct);
 		// ---------------------------
@@ -89,7 +92,7 @@
 				require(dirname(__FILE__).'/CopyThemeHtt.php');
 				$x = CopyThemeHtt::doImport($aFileList);
 				if(is_null($x)) {
-					$aMsg[] = $TEXT['THEME_IMPORT_HTT'].' :: '.$MESSAGE['GENERIC_COMPARE'];
+					$aMsg[] = $oTrans->TEXT_THEME_IMPORT_HTT.' :: '.$oTrans->MESSAGE_GENERIC_COMPARE;
 				}else {
 					$aErrors = array_merge($aErrors, $x);
 				}
@@ -105,25 +108,25 @@
 						case 'language':
 						// reload all addons from given type
 							if(ReloadAddonLoop($sType)) {
-								$aMsg[] = $MESSAGE['ADDON_'.strtoupper($sType).'S_RELOADED'];
+                                $aMsg[] = $oTrans->{'MESSAGE_ADDON_'.strtoupper($sType).'S_RELOADED'};
 							}else {
-								$aErrors[] = $MESSAGE['ADDON_ERROR_RELOAD'];
+								$aErrors[] = $oTrans->MESSAGE_ADDON_ERROR_RELOAD;
 							}
 							break;
 						default:
-							$aErrors[] = $MESSAGE['GENERIC_NOT_COMPARE'].' ['.$sType.']';
+							$aErrors[] = $oTrans->MESSAGE_GENERIC_NOT_COMPARE.' ['.$sType.']';
 							break;
 					}
 				}
 			}else {
 		// ---------------------------
-				$aErrors[] = $MESSAGE['ADDON_ERROR_RELOAD'];
+				$aErrors[] = $oTrans->MESSAGE_ADDON_ERROR_RELOAD;
 			}
 		}else { // invalid FTAN
-			$aErrors[] = $MESSAGE['GENERIC_SECURITY_ACCESS'];
+			$aErrors[] = $oTrans->MESSAGE_GENERIC_SECURITY_ACCESS;
 		}
 	}else { // no permission
-		$aErrors[] = $MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES'];
+		$aErrors[] = $oTrans->MESSAGE_ADMIN_INSUFFICIENT_PRIVELLIGES;
 	}
 	if(sizeof($aErrors) > 0)  {
 // output error message

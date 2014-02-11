@@ -25,6 +25,9 @@ if(!class_exists('admin', false)){
     include(WB_PATH.'/framework/class.admin.php');
     $admin = new admin('Admintools','admintools',false);
 }
+$oDb = WbDatabase::getInstance();
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\admintools');
 
 require_once(WB_PATH.'/framework/functions.php');
 
@@ -35,18 +38,18 @@ $doSave  = (isset($_POST['save_settings']) || (isset($_POST['action']) && strtol
 // test for valid tool name
 	if(preg_match('/^[a-z][a-z_\-0-9]{2,}$/i', $toolDir)) {
 	// Check if tool is installed
-		$sql = 'SELECT `name` FROM `'.TABLE_PREFIX.'addons` '.
+		$sql = 'SELECT `name` FROM `'.$oDb->TablePrefix.'addons` '.
 		       'WHERE `type`=\'module\' AND `function`=\'tool\' '.
 		              'AND `directory`=\''.$toolDir.'\'';
-		if(($toolName = $database->get_one($sql))) {
+		if(($toolName = $oDb->getOne($sql))) {
 		// create admin-object and print header if FTAN is NOT supported AND function 'save' is requested
 			$admin_header = !(is_file(WB_PATH.'/modules/'.$toolDir.'/FTAN_SUPPORTED') && $doSave);
 			$admin = new admin('admintools', 'admintools', $admin_header );
 			if(!$doSave) {
 			// show title if not function 'save' is requested
 				print '<h4><a href="'.ADMIN_URL.'/admintools/index.php" '.
-				      'title="'.$HEADING['ADMINISTRATION_TOOLS'].'">'.
-				      $HEADING['ADMINISTRATION_TOOLS'].'</a>'.
+				      'title="'.$oTrans->HEADING_ADMINISTRATION_TOOLS.'">'.
+				      $oTrans->HEADING_ADMINISTRATION_TOOLS.'</a>'.
 					  '&nbsp;&raquo;&nbsp;'.$toolName.'</h4>'."\n";
 			}
 			// include modules tool.php

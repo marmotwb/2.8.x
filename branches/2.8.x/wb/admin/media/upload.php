@@ -23,7 +23,9 @@ if(!defined('WB_URL'))
     	require($config_file);
     }
 }
-if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+//if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\media');
 
 $modulePath = dirname(__FILE__);
 
@@ -36,7 +38,7 @@ $admin = new admin('Media', 'media_upload', false);
 if( !$admin->checkFTAN() )
 {
 	$admin->print_header();
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'] );
+	$admin->print_error($oTrans->MESSAGE_GENERIC_SECURITY_ACCESS );
 }
 // After check print the header
 $admin->print_header();
@@ -55,7 +57,7 @@ $rootlink = 'index.php?dir=';
 // Check to see if target contains ../
 if (!check_media_path($target, false))
 {
-	$admin->print_error($MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH'] );
+	$admin->print_error($oTrans->MESSAGE_MEDIA_TARGET_DOT_DOT_SLASH );
 }
 
 // Create relative path of the target location for the file
@@ -200,15 +202,15 @@ if (isset($_POST['unzip']) && isset($filename1) && file_exists($filename1) ) {
 unset($list);
 
 if($sum_files == 1) {
-	$admin->print_success($sum_files.' '.$MESSAGE['MEDIA_SINGLE_UPLOADED'] );
+	$admin->print_success($sum_files.' '.$oTrans->MESSAGE_MEDIA_SINGLE_UPLOADED );
 } elseif($sum_files > 1) {
-	$admin->print_success($sum_files.' '.$MESSAGE['MEDIA_UPLOADED'] );
+	$admin->print_success($sum_files.' '.$oTrans->MESSAGE_MEDIA_UPLOADED );
 } else {
 
 	if(file_exists($relative.$filename)) {
-    	$admin->print_error($MESSAGE['MEDIA_FILE_EXISTS'] );
+    	$admin->print_error($oTrans->MESSAGE_MEDIA_FILE_EXISTS );
     } else {
-    	$admin->print_error($MESSAGE['MEDIA_NO_FILE_UPLOADED'] );
+    	$admin->print_error($oTrans->MESSAGE_MEDIA_NO_FILE_UPLOADED );
     }
 }
 

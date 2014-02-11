@@ -23,7 +23,9 @@ if(!defined('WB_URL'))
     	require($config_file);
     }
 }
-if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+//if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\media');
 // Include the WB functions file
 if(!function_exists('directory_list')) { require(WB_PATH.'/framework/functions.php'); }
 
@@ -37,7 +39,7 @@ $name = (isset(${$requestMethod}['name'])) ? ${$requestMethod}['name'] : '';
 // Check to see if name or target contains ../
 if(strstr($name, '..')) {
 	$admin->print_header();
-	$admin->print_error($MESSAGE['MEDIA_NAME_DOT_DOT_SLASH']);
+	$admin->print_error($oTrans->MESSAGE_MEDIA_NAME_DOT_DOT_SLASH);
 }
 
 // Remove bad characters
@@ -50,13 +52,13 @@ $target = (isset(${$requestMethod}['target'])) ? ${$requestMethod}['target'] : '
 if (!$admin->checkFTAN())
 {
 	$admin->print_header();
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_SECURITY_ACCESS);
 }
 // After check print the header
 $admin->print_header();
 
 if (!check_media_path($target, false)) {
-	$admin->print_error($MESSAGE['MEDIA_TARGET_DOT_DOT_SLASH']);
+	$admin->print_error($oTrans->MESSAGE_MEDIA_TARGET_DOT_DOT_SLASH);
 }
 
 // Create relative path of the new dir name
@@ -64,17 +66,17 @@ $directory = WB_PATH.$target.'/'.$name;
 
 // Check to see if the folder already exists
 if(file_exists($directory)) {
-	$admin->print_error($MESSAGE['MEDIA_DIR_EXISTS']);
+	$admin->print_error($oTrans->MESSAGE_MEDIA_DIR_EXISTS);
 }
 
 if ( sizeof(createFolderProtectFile( $directory )) )
 {
-	$admin->print_error($MESSAGE['MEDIA_DIR_NOT_MADE']);
+	$admin->print_error($oTrans->MESSAGE_MEDIA_DIR_NOT_MADE);
 } else {
 	$usedFiles = array();
     // feature freeze
 	// require_once(ADMIN_PATH.'/media/dse.php');
-	$admin->print_success($MESSAGE['MEDIA_DIR_MADE']);
+	$admin->print_success($oTrans->MESSAGE_MEDIA_DIR_MADE);
 }
 
 // Print admin

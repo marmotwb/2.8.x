@@ -17,29 +17,32 @@
 
 // Setup admin object
 require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
+//require_once(WB_PATH.'/framework/class.admin.php');
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\modules');
+
 $admin = new admin('Addons', 'modules_uninstall', false);
 if( !$admin->checkFTAN() )
 {
 	$admin->print_header();
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_SECURITY_ACCESS);
 }
 // After check print the header
 $admin->print_header();
 if(!isset($_POST['file']) OR $_POST['file'] == "") {
-	$admin->print_error($MESSAGE['GENERIC_FORGOT_OPTIONS']);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_FORGOT_OPTIONS);
 } else {
 	$file = preg_replace('/[^a-z0-9_-]/i', "", $_POST['file']);  // fix secunia 2010-92-2
 }
 
 // Check if the template exists
 if(!is_dir(WB_PATH.'/modules/'.$file)) {
-	$admin->print_error($MESSAGE['GENERIC_NOT_INSTALLED']);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_NOT_INSTALLED);
 }
 
 // Check if the template exists
 if(!is_readable(WB_PATH.'/modules/'.$file)) {
-	$admin->print_error($MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES']);
+	$admin->print_error($oTrans->MESSAGE_ADMIN_INSUFFICIENT_PRIVELLIGES);
 }
 
 /*
@@ -80,13 +83,13 @@ if ( $info->numRows() > 0) {
 	/**
 	*	Modul is in use, so we have to warn the user
 	*/
-	if (!array_key_exists("CANNOT_UNINSTALL_IN_USE_TMPL", $MESSAGE['GENERIC'])) {
+    if (!isset($oTrans->MESSAGE_GENERIC_CANNOT_UNINSTALL_IN_USE_TMPL)) {
 		$add = $info->numRows() == 1 ? "this page" : "these pages";
 		$msg_template_str  = "<br /><br />{{type}} <b>{{type_name}}</b> could not be uninstalled because it is still in use on {{pages}}";
 		$msg_template_str .= ":<br /><i>click for editing.</i><br /><br />";
 	} else {
-		$msg_template_str = $MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE_TMPL'];
-		$temp = explode(";",$MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE_TMPL_PAGES']);
+		$msg_template_str = $oTrans->MESSAGE_GENERIC_CANNOT_UNINSTALL_IN_USE_TMPL;
+		$temp = explode(";",$oTrans->MESSAGE_GENERIC_CANNOT_UNINSTALL_IN_USE_TMPL_PAGES);
 		$add = $info->numRows() == 1 ? $temp[0] : $temp[1];
 	}
 	/**
@@ -115,12 +118,12 @@ if ( $info->numRows() > 0) {
 	/**
 	*	Printing out the error-message and die().
 	*/
-	$admin->print_error(str_replace ($TEXT['FILE'], "Modul", $MESSAGE['GENERIC_CANNOT_UNINSTALL_IN_USE']).$msg.$page_names);
+	$admin->print_error(str_replace ($TEXT['FILE'], "Modul", $oTrans->MESSAGE_GENERIC_CANNOT_UNINSTALL_IN_USE).$msg.$page_names);
 }
 
 // Check if we have permissions on the directory
 if(!is_writable(WB_PATH.'/modules/'.$file)) {
-	$admin->print_error($MESSAGE['GENERIC_CANNOT_UNINSTALL']);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_CANNOT_UNINSTALL);
 }
 
 // Run the modules uninstall script if there is one
@@ -130,14 +133,14 @@ if(is_readable(WB_PATH.'/modules/'.$file.'/uninstall.php')) {
 
 // Try to delete the module dir
 if(!rm_full_dir(WB_PATH.'/modules/'.$file)) {
-	$admin->print_error($MESSAGE['GENERIC_CANNOT_UNINSTALL']);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_CANNOT_UNINSTALL);
 } else {
 	// Remove entry from DB
 	$database->query("DELETE FROM ".TABLE_PREFIX."addons WHERE directory = '".$file."' AND type = 'module'");
 }
 
 // Print success message
-$admin->print_success($MESSAGE['GENERIC_UNINSTALLED']);
+$admin->print_success($oTrans->MESSAGE_GENERIC_UNINSTALLED);
 
 // Print admin footer
 $admin->print_footer();

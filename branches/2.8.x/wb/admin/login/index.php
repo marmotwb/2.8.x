@@ -17,13 +17,11 @@
 
 // Include the configuration file
 $config_file = realpath('../../config.php');
-if(file_exists($config_file) && !defined('WB_URL'))
-{
+if(file_exists($config_file) && !defined('WB_URL')) {
 	require_once($config_file);
 }
-
-if(!class_exists('login', false)){ require_once(WB_PATH.'/framework/class.login.php'); }
-if(!class_exists('frontend', false)){ require_once(WB_PATH.'/framework/class.frontend.php'); }
+//if(!class_exists('login', false)){ require_once(WB_PATH.'/framework/class.login.php'); }
+//if(!class_exists('frontend', false)){ require_once(WB_PATH.'/framework/class.frontend.php'); }
 
 if(defined('SMART_LOGIN') AND SMART_LOGIN == 'enabled') {
 	// Generate username field name
@@ -43,33 +41,29 @@ if(defined('SMART_LOGIN') AND SMART_LOGIN == 'enabled') {
 	$username_fieldname = 'username';
 	$password_fieldname = 'password';
 }
-
 $admin = new frontend();
-
 $WarnUrl = str_replace(WB_PATH,WB_URL,$admin->correct_theme_source('warning.html'));
-
 $LoginTpl = 'loginBox.htt';
 $ThemePath = dirname($admin->correct_theme_source('loginBox.htt'));
-
 $thisApp = new Login( array(
-					'MAX_ATTEMPS' => "3",
-					'WARNING_URL' => $WarnUrl,
-					'INFO_URL' => '##',
-					'INFO_TEXT' => 'News',
-					'USERNAME_FIELDNAME' => $username_fieldname,
-					'PASSWORD_FIELDNAME' => $password_fieldname,
-					'REMEMBER_ME_OPTION' => SMART_LOGIN,
-					'MIN_USERNAME_LEN' => "2",
-					'MIN_PASSWORD_LEN' => "2",
-					'MAX_USERNAME_LEN' => "30",
-					'MAX_PASSWORD_LEN' => "30",
-					'LOGIN_URL' => ADMIN_URL."/login/index.php",
-					'DEFAULT_URL' => ADMIN_URL."/start/index.php",
-					'TEMPLATE_DIR' => $ThemePath,
-					'TEMPLATE_FILE' => $LoginTpl,
-					'FRONTEND' => false,
-					'FORGOTTEN_DETAILS_APP' => ADMIN_URL."/login/forgot/index.php",
-					'USERS_TABLE' => TABLE_PREFIX."users",
-					'GROUPS_TABLE' => TABLE_PREFIX."groups",
-			)
-		);
+        'MAX_ATTEMPS'           => '3',
+        'WARNING_URL'           => $WarnUrl,
+        'INFO_URL'              => '##',
+        'INFO_TEXT'             => 'News',
+        'USERNAME_FIELDNAME'    => $username_fieldname,
+        'PASSWORD_FIELDNAME'    => $password_fieldname,
+        'REMEMBER_ME_OPTION'    => SMART_LOGIN,
+        'MIN_USERNAME_LEN'      => '2',
+        'MIN_PASSWORD_LEN'      => '6',
+        'MAX_USERNAME_LEN'      => '30',
+        'MAX_PASSWORD_LEN'      => '30',
+        'LOGIN_URL'             => ADMIN_URL."/login/index.php",
+        'DEFAULT_URL'           => ADMIN_URL."/start/index.php",
+        'TEMPLATE_DIR'          => $ThemePath,
+        'TEMPLATE_FILE'         => $LoginTpl,
+        'FRONTEND'              => false,
+        'FORGOTTEN_DETAILS_APP' => ADMIN_URL."/login/forgot/index.php",
+        'USERS_TABLE'           => TABLE_PREFIX."users",
+        'GROUPS_TABLE'          => TABLE_PREFIX."groups",
+    )
+);

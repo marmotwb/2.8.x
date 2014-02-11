@@ -20,7 +20,8 @@
 function getInfoFromLanguageFile($sFile)
 {
 	$mRetval = array();
-	$mLang = Translate::getInstance();
+	$oLang = Translate::getInstance();
+    $oLang->enableAddon('admin\\languages');
     $oReg  = WbAdaptor::getInstance();
 	// check for valid language code
 	if(preg_match('/^([A-Z]{2}.php)/', $sFile)) {
@@ -33,13 +34,13 @@ function getInfoFromLanguageFile($sFile)
 				$mRetval['VERSION'] = $language_version;
 				$mRetval['DESIGNED_FOR'] = $language_platform;
 			}else {
-				$mRetval = $mLang->MESSAGE_ADMIN_INSUFFICIENT_PRIVELLIGES;
+				$mRetval = $oLang->MESSAGE_ADMIN_INSUFFICIENT_PRIVELLIGES;
 			}
 		}else {
-			$mRetval = $mLang->MESSAGE_GENERIC_NOT_INSTALLED;
+			$mRetval = $oLang->MESSAGE_GENERIC_NOT_INSTALLED;
 		}
 	}else {
-		$mRetval= $mLang->MESSAGE_GENERIC_FORGOT_OPTIONS;
+		$mRetval= $oLang->MESSAGE_GENERIC_FORGOT_OPTIONS;
 	}
 	return $mRetval;
 }
@@ -47,17 +48,17 @@ function getInfoFromLanguageFile($sFile)
 // Include the config code
 require('../../config.php');
 // Print admin header
-$mLang = Translate::getInstance();
-$mLang->enableAddon('admin\addons');
+$oLang = Translate::getInstance();
+$oLang->enableAddon('admin\\languages');
 require_once(WB_PATH.'/framework/class.admin.php');
-$admin = new admin('Addons', 'languages_view', false);
 if(!$admin->checkFTAN()) {
 	$admin->print_header();
-	$admin->print_error($mLang->MESSAGE_GENERIC_SECURITY_ACCESS);
+	$admin->print_error($oLang->MESSAGE_GENERIC_SECURITY_ACCESS);
 }
 // After check print the header
 $admin->print_header();
 // Get language code
+$oLang->enableAddon('admin\\languages');
 $sFile = (string)$admin->get_post('code').'.php';
 // Setup template object, parse vars to it, then parse it
 // Create new template object
@@ -65,6 +66,7 @@ $template = new Template(dirname($admin->correct_theme_source('languages_details
 // $template->debug = true;
 $template->set_file('page', 'languages_details.htt');
 $template->set_block('page', 'main_block', 'main');
+$template->set_var($oLang->getLangArray());
 //getinfo
 $aValues = getInfoFromLanguageFile($sFile);
 if(!is_array($aValues)) {
@@ -77,7 +79,7 @@ $aValues['THEME_URL'] = THEME_URL;
 // Insert values
 $template->set_var($aValues);
 /*-- insert all needed vars from language files ----------------------------------------*/
-$template->set_var($mLang->getLangArray());
+$template->set_var($oLang->getLangArray());
 
 // Parse language object
 $template->parse('main', 'main_block', false);

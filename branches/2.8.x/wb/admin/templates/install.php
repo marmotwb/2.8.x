@@ -20,13 +20,15 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 
 // Setup admin object
 require('../../config.php');
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\addons');
 require_once(WB_PATH.'/framework/class.admin.php');
 // suppress to print the header, so no new FTAN will be set
 $admin = new admin('Addons', 'templates_install', false);
 if( !$admin->checkFTAN() )
 {
 	$admin->print_header();
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_SECURITY_ACCESS);
 }
 // After check print the header
 $admin->print_header();
@@ -47,7 +49,7 @@ $temp_unzip = WB_PATH.'/temp/unzip/';
 
 // Try to upload the file to the temp dir
 if(!move_uploaded_file($_FILES['userfile']['tmp_name'], $temp_file)) {
-	$admin->print_error($MESSAGE['GENERIC_CANNOT_UPLOAD']);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_CANNOT_UPLOAD);
 }
 
 // Include the PclZip class file (thanks to
@@ -63,7 +65,7 @@ $archive = new PclZip($temp_file);
 $list = $archive->extract(PCLZIP_OPT_PATH, $temp_unzip);
 
 // Check if uploaded file is a valid Add-On zip file
-if (!($list && file_exists($temp_unzip . 'index.php'))) $admin->print_error($MESSAGE['GENERIC_INVALID_ADDON_FILE']);
+if (!($list && file_exists($temp_unzip . 'index.php'))) $admin->print_error($oTrans->MESSAGE_GENERIC_INVALID_ADDON_FILE);
 
 // Include the templates info file
 require($temp_unzip.'info.php');
@@ -78,7 +80,7 @@ rm_full_dir($temp_unzip);
 // Check if the file is valid
 if(!isset($template_directory)) {
 	if(file_exists($temp_file)) { unlink($temp_file); } // Remove temp file
-	$admin->print_error($MESSAGE['GENERIC_INVALID']);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_INVALID);
 }
 
 // Check if this module is already installed
@@ -90,18 +92,18 @@ if(is_dir(WB_PATH.'/templates/'.$template_directory)) {
 		// Version to be installed is older than currently installed version
 		if (versionCompare($template_version, $new_template_version, '>=')) {
 			if(file_exists($temp_file)) { unlink($temp_file); } // Remove temp file
-			$admin->print_error($MESSAGE['GENERIC_ALREADY_INSTALLED']);
+			$admin->print_error($oTrans->MESSAGE_GENERIC_ALREADY_INSTALLED);
 		}
 	}
-	$success_message=$MESSAGE['GENERIC_UPGRADED'];
+	$success_message=$oTrans->MESSAGE_GENERIC_UPGRADED;
 } else {
-	$success_message=$MESSAGE['GENERIC_INSTALLED'];
+	$success_message=$oTrans->MESSAGE_GENERIC_INSTALLED;
 }
 
 // Check if template dir is writable
 if(!is_writable(WB_PATH.'/templates/')) {
 	if(file_exists($temp_file)) { unlink($temp_file); } // Remove temp file
-	$admin->print_error($MESSAGE['TEMPLATES_BAD_PERMISSIONS']);
+	$admin->print_error($oTrans->MESSAGE_TEMPLATES_BAD_PERMISSIONS);
 }
 
 // Set template dir
@@ -122,7 +124,7 @@ if(isset($_POST['overwrite'])){
 	$list = $archive->extract(PCLZIP_OPT_PATH, $template_dir );
 }
 if(!$list) {
-	$admin->print_error($MESSAGE['GENERIC_CANNOT_UNZIP']);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_CANNOT_UNZIP);
 }
 
 // Delete the temp zip file

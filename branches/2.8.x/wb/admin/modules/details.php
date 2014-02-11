@@ -17,8 +17,8 @@
 
 // Include the config file
 require('../../config.php');
-$mLang = Translate::getInstance();
-$mLang->enableAddon('admin\addons');
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\modules');
 require_once(WB_PATH .'/framework/functions.php');
 require_once(WB_PATH.'/framework/class.admin.php');
 // No print admin header
@@ -26,25 +26,25 @@ $admin = new admin('Addons', 'modules_view', false);
 if( !$admin->checkFTAN() )
 {
 	$admin->print_header();
-	$admin->print_error($mLang->MESSAGE_GENERIC_SECURITY_ACCESS);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_SECURITY_ACCESS);
 }
 // After check print the header
 $admin->print_header();
 
 if(!isset($_POST['file']) OR $_POST['file'] == "") {
-	$admin->print_error($mLang->MESSAGE_GENERIC_FORGOT_OPTIONS);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_FORGOT_OPTIONS);
 } else {
 	$file = preg_replace('/[^a-z0-9_-]/i', "", $_POST['file']);  // fix secunia 2010-92-2
 }
 
 // Check if the template exists
 if(!is_dir(WB_PATH.'/modules/'.$file)) {
-	$admin->print_error($file.'::'.$mLang->MESSAGE_GENERIC_NOT_INSTALLED);
+	$admin->print_error($file.'::'.$oTrans->MESSAGE_GENERIC_NOT_INSTALLED);
 }
 
 // Check if the template exists
 if(!is_readable(WB_PATH.'/modules/'.$file)) {
-	$admin->print_error($mLang->MESSAGE_ADMIN_INSUFFICIENT_PRIVELLIGES);
+	$admin->print_error($oTrans->MESSAGE_ADMIN_INSUFFICIENT_PRIVELLIGES);
 }
 // Setup template object, parse vars to it, then parse it
 // Create new template object
@@ -52,7 +52,7 @@ $template = new Template(dirname($admin->correct_theme_source('modules_details.h
 // $template->debug = true;
 $template->set_file('page', 'modules_details.htt');
 $template->set_block('page', 'main_block', 'main');
-
+$template->set_var($oTrans->getLangArray());
 // Insert values
 $module = false;
 $sql = 'SELECT * FROM  `'.TABLE_PREFIX.'addons` '
@@ -61,9 +61,9 @@ $sql = 'SELECT * FROM  `'.TABLE_PREFIX.'addons` '
 if( ($result = $database->query($sql)) ){
 	$module = $result->fetchRow(MYSQL_ASSOC);
 }
-if(!$module) { $admin->print_error($mLang->MESSAGE_GENERIC_NOT_INSTALLED); }
+if(!$module) { $admin->print_error($oTrans->MESSAGE_GENERIC_NOT_INSTALLED); }
 /*-- insert all needed vars from language files ----------------------------------------*/
-$template->set_var($mLang->getLangArray());
+$template->set_var($oTrans->getLangArray());
 
 // check if a module description exists for the displayed backend language
 $tool_description = false;
@@ -98,28 +98,28 @@ $template->set_var(array(
 
 switch ($module['function']) {
 	case NULL:
-		$type_name = $mLang->TEXT_UNKNOWN;
+		$type_name = $oTrans->TEXT_UNKNOWN;
 		break;
 	case 'page':
-		$type_name = $mLang->TEXT_PAGE;
+		$type_name = $oTrans->TEXT_PAGE;
 		break;
 	case 'wysiwyg':
-		$type_name = $mLang->TEXT_WYSIWYG_EDITOR;
+		$type_name = $oTrans->TEXT_WYSIWYG_EDITOR;
 		break;
 	case 'tool':
-		$type_name = $mLang->TEXT_ADMINISTRATION_TOOL;
+		$type_name = $oTrans->TEXT_ADMINISTRATION_TOOL;
 		break;
 	case 'admin':
-		$type_name = $mLang->TEXT_ADMIN;
+		$type_name = $oTrans->TEXT_ADMIN;
 		break;
 	case 'administration':
-		$type_name = $mLang->TEXT_ADMINISTRATION;
+		$type_name = $oTrans->TEXT_ADMINISTRATION;
 		break;
 	case 'snippet':
-		$type_name = $mLang->TEXT_CODE_SNIPPET;
+		$type_name = $oTrans->TEXT_CODE_SNIPPET;
 		break;
 	default:
-		$type_name = $mLang->TEXT_UNKNOWN;
+		$type_name = $oTrans->TEXT_UNKNOWN;
 }
 $template->set_var('TYPE', $type_name);
 

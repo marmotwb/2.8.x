@@ -24,7 +24,9 @@
  */
 // include WB configuration file and WB admin class
 require_once('../../config.php');
-require_once('../../framework/class.admin.php');
+
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\modules');
 
 // check user permissions for admintools (redirect users with wrong permissions)
 $admin = new admin('Admintools', 'admintools', false, false);
@@ -36,7 +38,7 @@ $js_back = ADMIN_URL . '/modules/index.php?advanced';
 if( !$admin->checkFTAN() )
 {
 	$admin->print_header();
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$js_back);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_SECURITY_ACCESS, $js_back);
 }
 
 if ($admin->get_permission('admintools') == false) { die(header('Location: ../../index.php')); }
@@ -53,8 +55,8 @@ if ($referer != '' && (!(strpos($referer, $required_url) !== false || strpos($re
 // include WB functions file
 require_once(WB_PATH . '/framework/functions.php');
 
-// load WB language file
-require_once(WB_PATH . '/languages/' . LANGUAGE .'.php');
+//// load WB language file
+//require_once(WB_PATH . '/languages/' . LANGUAGE .'.php');
 
 // create Admin object with admin header
 $admin = new admin('Addons', '', true, false);
@@ -70,7 +72,7 @@ $module_dir = $mod_path;
 if (!file_exists($mod_path . '/' . $_POST['action'] . '.php'))
 {
 	$admin->print_header();
-    $admin->print_error($TEXT['NOT_FOUND'].': <tt>"'.htmlentities(basename($mod_path)).'/'.$_POST['action'].'.php"</tt> ', $js_back);
+    $admin->print_error($oTrans->TEXT_NOT_FOUND.': <tt>"'.htmlentities(basename($mod_path)).'/'.$_POST['action'].'.php"</tt> ', $js_back);
 }
 
 // include modules install.php script
@@ -78,7 +80,7 @@ require($mod_path . '/' . $_POST['action'] . '.php');
 
 // load module info into database and output status message
 load_module($mod_path, false);
-$msg = $TEXT['EXECUTE'] . ': <tt>"' . htmlentities(basename($mod_path)) . '/' . $_POST['action'] . '.php"</tt>';
+$msg = $oTrans->TEXT_EXECUTE . ': <tt>"' . htmlentities(basename($mod_path)) . '/' . $_POST['action'] . '.php"</tt>';
 
 switch ($_POST['action'])
 {

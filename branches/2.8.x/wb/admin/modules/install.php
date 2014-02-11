@@ -26,12 +26,13 @@ if(file_exists($config_file) && !defined('WB_URL'))
 	require($config_file);
 }
 
-//require_once(WB_PATH.'/framework/class.admin.php');
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\modules');
 $admin = new admin('Addons', 'modules_install', false);
 if( !$admin->checkFTAN() )
 {
 	$admin->print_header();
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_SECURITY_ACCESS);
 }
 // After check print the header
 $admin->print_header();
@@ -54,7 +55,7 @@ if(!$_FILES['userfile']['error']) {
 	// Try to upload the file to the temp dir
 	if(!move_uploaded_file($_FILES['userfile']['tmp_name'], $temp_file))
 	{
-		$admin->print_error($MESSAGE['GENERIC_BAD_PERMISSIONS']);
+		$admin->print_error($oTrans->MESSAGE_GENERIC_BAD_PERMISSIONS);
 	}
 } else {
     $iErrorMessage = ( isset($_FILES['userfile']['error']) && ( $_FILES['userfile']['error'] > 0 ) ? $_FILES['userfile']['error'] : UNKNOW_UPLOAD_ERROR );
@@ -85,8 +86,7 @@ if(!$_FILES['userfile']['error']) {
         default:
             $key = 'UNKNOW_UPLOAD_ERROR';
     }
-
-	$admin->print_error($MESSAGE[$key].'<br />'.$MESSAGE['GENERIC_CANNOT_UPLOAD']);
+    $admin->print_error($oTrans->{'MESSAGE_'.$key}.'<br />'.$oTrans->MESSAGE_GENERIC_CANNOT_UPLOAD);
 }
 
 // Include the PclZip class file (thanks to
@@ -103,7 +103,7 @@ $list = $archive->extract(PCLZIP_OPT_PATH, $temp_unzip);
 // Check if uploaded file is a valid Add-On zip file
 if (!($list && file_exists($temp_unzip . 'index.php')))
 {
-  $admin->print_error($MESSAGE['GENERIC_INVALID_ADDON_FILE']);
+  $admin->print_error($oTrans->MESSAGE_GENERIC_INVALID_ADDON_FILE);
 }
 
 // Include the modules info file
@@ -119,7 +119,7 @@ rm_full_dir($temp_unzip);
 if(!isset($module_directory))
 {
 	if(file_exists($temp_file)) { unlink($temp_file); } // Remove temp file
-	$admin->print_error($MESSAGE['GENERIC_INVALID']);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_INVALID);
 }
 
 // Check if this module is already installed
@@ -136,7 +136,7 @@ if(is_dir(WB_PATH.'/modules/'.$module_directory))
         {
 
 			if(file_exists($temp_file)) { unlink($temp_file); } // Remove temp file
-			$admin->print_error($MESSAGE['GENERIC_ALREADY_INSTALLED']);
+			$admin->print_error($oTrans->MESSAGE_GENERIC_ALREADY_INSTALLED);
 		}
 
 		$action="upgrade";
@@ -148,7 +148,7 @@ if(is_dir(WB_PATH.'/modules/'.$module_directory))
 if(!is_writable(WB_PATH.'/modules/'))
 {
 	if(file_exists($temp_file)) { unlink($temp_file); } // Remove temp file
-	$admin->print_error($MESSAGE['GENERIC_BAD_PERMISSIONS']);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_BAD_PERMISSIONS);
 }
 
 // Set module directory
@@ -166,7 +166,7 @@ if(isset($_POST['overwrite'])){
 
 if(!$list)
 {
-	$admin->print_error($MESSAGE['GENERIC_CANNOT_UNZIP']);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_CANNOT_UNZIP);
 }
 /*
 
@@ -200,12 +200,12 @@ if ($action=="install")
 {
 	// Load module info into DB
 	load_module(WB_PATH.'/modules/'.$module_directory, false);
-	$admin->print_success($MESSAGE['GENERIC_INSTALLED']);
+	$admin->print_success($oTrans->MESSAGE_GENERIC_INSTALLED);
 } elseif ($action=="upgrade")
 {
 
 	upgrade_module($module_directory, false);
-	$admin->print_success($MESSAGE['GENERIC_UPGRADED']);
+	$admin->print_success($oTrans->MESSAGE_GENERIC_UPGRADED);
 }
 
 // Print admin footer

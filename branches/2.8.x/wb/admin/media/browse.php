@@ -24,8 +24,9 @@ if(!defined('WB_URL'))
     	require($config_file);
     }
 }
-if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
-
+//if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\media');
 $admin = new admin('Media', 'media', false);
 
 $starttime = explode(" ", microtime());
@@ -35,14 +36,14 @@ $starttime = $starttime[0]+$starttime[1];
 if(!function_exists('directory_list')) { require(WB_PATH.'/framework/functions.php'); }
 include ('parameters.php');
 
-// check if theme language file exists for the language set by the user (e.g. DE, EN)
-if(!file_exists(THEME_PATH .'/languages/'.LANGUAGE .'.php')) {
-	// no theme language file exists for the language set by the user, include default theme language file EN.php
-	require_once(THEME_PATH .'/languages/EN.php');
-} else {
-	// a theme language file exists for the language defined by the user, load it
-	require_once(THEME_PATH .'/languages/'.LANGUAGE .'.php');
-}
+//// check if theme language file exists for the language set by the user (e.g. DE, EN)
+//if(!file_exists(THEME_PATH .'/languages/'.LANGUAGE .'.php')) {
+//	// no theme language file exists for the language set by the user, include default theme language file EN.php
+//	require_once(THEME_PATH .'/languages/EN.php');
+//} else {
+//	// a theme language file exists for the language defined by the user, load it
+//	require_once(THEME_PATH .'/languages/'.LANGUAGE .'.php');
+//}
 
 // Byte convert for filesize
 function byte_convert($bytes) {
@@ -127,7 +128,7 @@ function fsize($size) {
 $template = new Template(dirname($admin->correct_theme_source('media_browse.htt')));
 $template->set_file('page', 'media_browse.htt');
 $template->set_block('page', 'main_block', 'main');
-
+$template->set_var($oTrans->getLangArray());
 // Get the current dir
 //$currentHome = $admin->get_home_folder();
 $currentHome = (defined('HOME_FOLDERS') && HOME_FOLDERS) ? $admin->get_home_folder() : '';
@@ -164,12 +165,12 @@ $dir_backlink = 'browse.php?dir='.$directory;
 // Check to see if it contains ../
 if (!check_media_path($directory)) {
 	// $admin->print_header();
-	$admin->print_error($MESSAGE['MEDIA_DIR_DOT_DOT_SLASH']);
+	$admin->print_error($oTrans->MESSAGE_MEDIA_DIR_DOT_DOT_SLASH);
 }
 
 if(!file_exists(WB_PATH.MEDIA_DIRECTORY.$directory)) {
 	// $admin->print_header();
-	$admin->print_error($MESSAGE['MEDIA_DIR_DOES_NOT_EXIST']);
+	$admin->print_error($oTrans->MESSAGE_MEDIA_DIR_DOES_NOT_EXIST);
 }
 
 // Check to see if the user wanted to go up a directory into the parent folder
@@ -358,18 +359,9 @@ if( !in_array($admin->get_username(), explode('/',$directory)) ) {
 // Insert language text and messages
 $template->set_var(array(
 					'MEDIA_DIRECTORY' => MEDIA_DIRECTORY,
-					'TEXT_CURRENT_FOLDER' => $TEXT['CURRENT_FOLDER'],
-					'TEXT_RELOAD' => $TEXT['RELOAD'],
-					'TEXT_RENAME' => $TEXT['RENAME'],
-					'TEXT_DELETE' => $TEXT['DELETE'],
-					'TEXT_SIZE' => $TEXT['SIZE'],
-					'TEXT_DATE' => $TEXT['DATE'],
-					'TEXT_NAME' => $TEXT['NAME'],
-					'TEXT_TYPE' => $TEXT['TYPE'],
-					'TEXT_UP' => $TEXT['UP'],
-					'NONE_FOUND' => $MESSAGE['MEDIA_NONE_FOUND'],
-					'CHANGE_SETTINGS' => $TEXT['MODIFY_SETTINGS'],
-					'CONFIRM_DELETE' => $MESSAGE['MEDIA_CONFIRM_DELETE']
+					'NONE_FOUND' => $oTrans->MESSAGE_MEDIA_NONE_FOUND,
+					'CHANGE_SETTINGS' => $oTrans->TEXT_MODIFY_SETTINGS,
+					'CONFIRM_DELETE' => $oTrans->MESSAGE_MEDIA_CONFIRM_DELETE
 				)
 			);
 

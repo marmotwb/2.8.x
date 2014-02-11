@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+11 Feb-2014 Build 2098 Manuela v.d.Decken(DarkViper)
+! activate class Translate for all addons in admin/ (except pages/)
+! class.admin >> add translation of the current theme to Translate
 11 Feb-2014 Build 2097 Manuela v.d.Decken(DarkViper)
 # droplet >> [[SiteModified]]  typo corrected
 ! upgrade-script.php >> new classes activated and little corrections

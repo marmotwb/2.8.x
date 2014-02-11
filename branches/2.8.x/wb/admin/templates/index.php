@@ -17,7 +17,9 @@
 
 // Print admin header
 require('../../config.php');
-require_once(WB_PATH.'/framework/class.admin.php');
+$oDb = WbDatabase::getInstance();
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\addons');
 $admin = new admin('Addons', 'templates');
 
 // Setup template object, parse vars to it, then parse it
@@ -27,14 +29,15 @@ $template = new Template(dirname($admin->correct_theme_source('templates.htt')),
 $template->set_file('page', 'templates.htt');
 $template->set_block('page', 'main_block', 'main');
 $template->set_var('FTAN', $admin->getFTAN());
+/*-- insert all needed vars from language files ----------------------------------------*/
+$template->set_var($oTrans->getLangArray());
 
 // Insert values into template list
 $template->set_block('main_block', 'template_list_block', 'template_list');
-$sql = 'SELECT `directory`, `name`, `function` FROM `'.TABLE_PREFIX.'addons` '
+$sql = 'SELECT `directory`, `name`, `function` FROM `'.$oDb->TablePrefix.'addons` '
      . 'WHERE `type`=\'template\' ORDER BY `name`';
-if(($result = $database->query($sql))) {
-	while($addon = $result->fetchRow(MYSQL_ASSOC))
-	{
+if (($result = $oDb->doQuery($sql))) {
+	while ($addon = $result->fetchRow(MYSQL_ASSOC)) {
 		if ($admin->get_permission($addon['directory'],'template')==false) { continue;}
 		$template->set_var('VALUE', $addon['directory']);
 		$template->set_var('NAME', (($addon['function'] == 'theme' ? '[Theme] ' : '').$addon['name']));
@@ -53,14 +56,6 @@ if($admin->get_permission('templates_view') != true) {
 	$template->set_var('DISPLAY_LIST', 'hide');
 }
 
-//$mLang = ModLanguage::getInstance();
-//$mLang->setLanguage(ADMIN_PATH.'/addons/languages/', LANGUAGE, DEFAULT_LANGUAGE);
-$mLang = Translate::getInstance();
-$mLang->enableAddon('admin\addons');
-
-/*-- insert all needed vars from language files ----------------------------------------*/
-$template->set_var($mLang->getLangArray());
-
 // insert urls
 $template->set_var(array(
 					'ADMIN_URL' => ADMIN_URL,
@@ -72,11 +67,11 @@ $template->set_var(array(
 // Insert language text and messages
 $template->set_var(array(
 	'URL_MODULES' => $admin->get_permission('modules') ?
-		'<a href="' . ADMIN_URL . '/modules/index.php">' . $mLang->MENU_MODULES . '</a>' : '<b>'.$mLang->MENU_MODULES.'</b>',
+		'<a href="' . ADMIN_URL . '/modules/index.php">' . $oTrans->MENU_MODULES . '</a>' : '<b>'.$oTrans->MENU_MODULES.'</b>',
 	'URL_LANGUAGES' => $admin->get_permission('languages') ?
-		'<a href="' . ADMIN_URL . '/languages/index.php">' . $mLang->MENU_LANGUAGES . '</a>' : '<b>'.$mLang->MENU_LANGUAGES.'</b>',
+		'<a href="' . ADMIN_URL . '/languages/index.php">' . $oTrans->MENU_LANGUAGES . '</a>' : '<b>'.$oTrans->MENU_LANGUAGES.'</b>',
 	'URL_ADVANCED' => $admin->get_permission('modules_advanced')
-                ? '<a href="' . ADMIN_URL . '/addons/index.php?advanced">' . $mLang->TEXT_ADVANCED . '</a>' : '<b>'.$mLang->TEXT_ADVANCED.'</b>' ,
+                ? '<a href="' . ADMIN_URL . '/addons/index.php?advanced">' . $oTrans->TEXT_ADVANCED . '</a>' : '<b>'.$oTrans->TEXT_ADVANCED.'</b>' ,
 	)
 );
 
@@ -84,6 +79,6 @@ $template->set_var(array(
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');
 
-$mLang->disableAddon();
+$oTrans->disableAddon();
 // Print admin footer
 $admin->print_footer();

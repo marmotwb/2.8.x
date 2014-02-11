@@ -23,10 +23,11 @@ if(!defined('WB_URL')) {
 	throw new IllegalFileException();
 }
 /* -------------------------------------------------------- */
-function delete_user($admin, &$aActionRequest)
+function delete_user($admin, $aActionRequest)
 {
-	$database = WbDatabase::getInstance();
-	$mLang = Translate::getInstance();
+	$oDb = WbDatabase::getInstance();
+	$oTrans = Translate::getInstance();
+    $oTrans->enableAddon('admin\\users');
     $aUserID = array();
     $bRetVal = false;
 
@@ -98,14 +99,14 @@ function delete_user($admin, &$aActionRequest)
 
 		// Check if user id is a valid number and doesnt equal 1
 		if($user_id == 0){
-			msgQueue::add($mLang->MESSAGE_GENERIC_FORGOT_OPTIONS );
+			msgQueue::add($oTrans->MESSAGE_GENERIC_FORGOT_OPTIONS );
             return $bRetVal;
         }
 
 		if( ($user_id < 2 ) )
 		{
 			// if($admin_header) { $admin->print_header(); }
-			msgQueue::add($mLang->MESSAGE_GENERIC_SECURITY_ACCESS );
+			msgQueue::add($oTrans->MESSAGE_GENERIC_SECURITY_ACCESS );
             return $bRetVal;
 		}
 
@@ -114,47 +115,47 @@ function delete_user($admin, &$aActionRequest)
 
     	switch($action) :
     		case 'enable_outdated': // enable Users awaiting activation
-    			$sql  = 'SELECT `display_name` FROM `'.TABLE_PREFIX.'users` '.
+    			$sql  = 'SELECT `display_name` FROM `'.$oDb->TablePrefix.'users` '.
                         'WHERE `user_id` = '.$user_id;
-                if( ($sDisplayUser = $database->getOne($sql)) != null ) {
-            		$sql = 'UPDATE `'.TABLE_PREFIX.'users` '
+                if( ($sDisplayUser = $oDb->getOne($sql)) != null ) {
+            		$sql = 'UPDATE `'.$oDb->TablePrefix.'users` '
             		     . 'SET `active`=1, '
             		     .     '`confirm_code`=\'\', '
             		     .     '`confirm_timeout`=0 '
             		     . 'WHERE `user_id`='.$user_id;
-            		if($database->query($sql)) {
-                        msgQueue::add($mLang->MESSAGE_USERS_ADDED.' ('.$sDisplayUser.')', true);
+            		if($oDb->doQuery($sql)) {
+                        msgQueue::add($oTrans->MESSAGE_USERS_ADDED.' ('.$sDisplayUser.')', true);
                         $bRetVal = true;
                     } else {
-                        msgQueue::add($mLang->TEXT_ENABLE.$mLang->MESSAGE_GENERIC_NOT_COMPARE.' ('.$sDisplayUser.')');
+                        msgQueue::add($oTrans->TEXT_ENABLE.$oTrans->MESSAGE_GENERIC_NOT_COMPARE.' ('.$sDisplayUser.')');
                     }
                 }
         		break;
     		default: // show userlist with empty modify mask
-    			$sql  = 'SELECT `active` FROM `'.TABLE_PREFIX.'users` '.
+    			$sql  = 'SELECT `active` FROM `'.$oDb->TablePrefix.'users` '.
                         'WHERE `user_id` = '.$user_id;
-                if( ($iDeleteUser = $database->get_one($sql)) != null ) {
+                if( ($iDeleteUser = $oDb->getOne($sql)) != null ) {
                     if($iDeleteUser) {
         				// Deactivate the user
-            			$sql  = 'UPDATE `'.TABLE_PREFIX.'users` SET '.
+            			$sql  = 'UPDATE `'.$oDb->TablePrefix.'users` SET '.
                                 '`active` = 0 '.
                                 'WHERE `user_id` = '.$user_id;
-                        if( $database->query($sql) ) {
-                            msgQueue::add($mLang->TEXT_USERS_MARKED_DELETED, true);
+                        if( $oDb->doQuery($sql) ) {
+                            msgQueue::add($oTrans->TEXT_USERS_MARKED_DELETED, true);
                         }
                     } else {
 
 
-            			$sql  = 'DELETE FROM `'.TABLE_PREFIX.'users` '.
+            			$sql  = 'DELETE FROM `'.$oDb->TablePrefix.'users` '.
                                 'WHERE `user_id` = '.$user_id;
-                        if( $database->query($sql) ) {
-                            msgQueue::add($mLang->MESSAGE_USERS_DELETED, true);
+                        if( $oDb->doQuery($sql) ) {
+                            msgQueue::add($oTrans->MESSAGE_USERS_DELETED, true);
                         }
                     }
                     $bRetVal = true;
                 }
-                if($database->is_error()) {
-                    msgQueue::add( implode('<br />',explode(';',$database->get_error())) );
+                if($oDb->isError()) {
+                    msgQueue::add( implode('<br />',explode(';',$oDb->getError())) );
                     $bRetVal = false;
                }
     	endswitch; // end of switch

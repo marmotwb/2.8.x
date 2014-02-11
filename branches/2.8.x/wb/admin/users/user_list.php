@@ -26,10 +26,11 @@ if(!defined('WB_URL')) {
 
 	function show_userlist($admin, &$aActionRequest)
 	{
-		$database = WbDatabase::getInstance();
-		$mLang = Translate::getInstance();
-        $iUserStatus = 1;
-        $iUserStatus = ( ( $admin->get_get('status')==1 ) ? 0 : $iUserStatus );
+		$oDb = WbDatabase::getInstance();
+		$oTrans = Translate::getInstance();
+        $oTrans->enableAddon('admin\\users');
+
+        $iUserStatus = (($admin->get_get('status') == 1) ? 0 : 1);
         unset($_GET);
 
         // Setup template object, parse vars to it, then parse it
@@ -41,6 +42,7 @@ if(!defined('WB_URL')) {
         $oTpl->set_block('page', 'main_block', 'main');
         $oTpl->set_block("main_block", "manage_groups_block", "groups");
 
+        $oTpl->set_var($oTrans->getLangArray());
         $oTpl->set_var('ADMIN_URL', ADMIN_URL);
         $oTpl->set_var('FTAN', $admin->getFTAN());
         $oTpl->set_var('USER_STATUS', $iUserStatus );
@@ -54,28 +56,26 @@ if(!defined('WB_URL')) {
         $UserStatusActive = 'url('.THEME_URL.'/images/user.png)';
         $UserStatusInactive = 'url('.THEME_URL.'/images/user_red.png)';
 
-        $sUserTitle = ($iUserStatus == 0) ? $mLang->MENU_USERS.' '.mb_strtolower($mLang->TEXT_ACTIVE, 'UTF-8')
-                                          : $mLang->MENU_USERS.' '.mb_strtolower($mLang->TEXT_DELETED, 'UTF-8') ;
+        $sUserTitle = ($iUserStatus == 0) ? $oTrans->MENU_USERS.' '.mb_strtolower($oTrans->TEXT_ACTIVE, 'UTF-8')
+                                          : $oTrans->MENU_USERS.' '.mb_strtolower($oTrans->TEXT_DELETED, 'UTF-8') ;
 
-        $oTpl->set_var('TEXT_USERS', $sUserTitle.' '.$mLang->TEXT_SHOW );
+        $oTpl->set_var('TEXT_USERS', $sUserTitle.' '.$oTrans->TEXT_SHOW );
         $oTpl->set_var('STATUS_ICON', ( ($iUserStatus==0) ? $UserStatusActive : $UserStatusInactive) );
 
         // Get existing value from database
-        $sql  = 'SELECT `user_id`, `username`, `display_name`, `active` FROM `'.TABLE_PREFIX.'users` ' ;
-        $sql .= 'WHERE user_id != 1 ';
-        $sql .=     'AND `active` = '.$iUserStatus.' ';
-        $sql .=     'AND `confirm_code` = \'\' ';
-        $sql .= 'ORDER BY `display_name`,`username`';
-
-//        $query = "SELECT user_id, username, display_name, active FROM ".TABLE_PREFIX."users WHERE user_id != '1' ORDER BY display_name,username";
-        $oRes = $database->query($sql);
-        if($database->is_error()) {
-        	$admin->print_error($database->get_error(), 'index.php');
+        $sql = 'SELECT `user_id`, `username`, `display_name`, `active` FROM `'.$oDb->TablePrefix.'users` '
+             . 'WHERE user_id != 1 '
+             .     'AND `active` = '.$iUserStatus.' '
+             .     'AND `confirm_code` = \'\' '
+             . 'ORDER BY `display_name`,`username`';
+        $oRes = $oDb->doQuery($sql);
+        if($oDb->isError()) {
+        	$admin->print_error($oDb->getError(), 'index.php');
         }
 
-        $sUserList  = $mLang->TEXT_LIST_OPTIONS.' ';
-        $sUserList .= ($iUserStatus == 1) ? $mLang->MENU_USERS.' '.mb_strtolower($mLang->TEXT_ACTIVE, 'UTF-8')
-                                          : $mLang->MENU_USERS.' '.mb_strtolower($mLang->TEXT_DELETED, 'UTF-8') ;
+        $sUserList  = $oTrans->TEXT_LIST_OPTIONS.' ';
+        $sUserList .= ($iUserStatus == 1) ? $oTrans->MENU_USERS.' '.mb_strtolower($oTrans->TEXT_ACTIVE, 'UTF-8')
+                                          : $oTrans->MENU_USERS.' '.mb_strtolower($oTrans->TEXT_DELETED, 'UTF-8') ;
         // Insert values into the modify/remove menu
         $oTpl->set_block('main_block', 'list_block', 'list');
         if($oRes->numRows() > 0) {
@@ -93,7 +93,7 @@ if(!defined('WB_URL')) {
         	}
         } else {
         	// Insert single value to say no users were found
-        	$oTpl->set_var('NAME', $mLang->TEXT_NONE_FOUND);
+        	$oTpl->set_var('NAME', $oTrans->TEXT_NONE_FOUND);
         	$oTpl->parse('list', 'list_block', true);
         }
 
@@ -107,13 +107,12 @@ if(!defined('WB_URL')) {
         if($admin->get_permission('users_delete') != true) {
         	$oTpl->set_var('DISPLAY_DELETE', 'hide');
         }
-        $HeaderTitle  = (($iUserStatus == 1) ? $mLang->HEADING_MODIFY_ACTIVE_USER : $mLang->HEADING_MODIFY_DELETE_USER ).' ';
-        $HeaderTitle .= (($iUserStatus == 1) ? mb_strtolower($mLang->TEXT_ACTIVE, 'UTF-8')
-                                             : mb_strtolower($mLang->TEXT_INACTIVE, 'UTF-8'));
+        $HeaderTitle  = (($iUserStatus == 1) ? $oTrans->HEADING_MODIFY_ACTIVE_USER : $oTrans->HEADING_MODIFY_DELETE_USER ).' ';
+        $HeaderTitle .= (($iUserStatus == 1) ? mb_strtolower($oTrans->TEXT_ACTIVE, 'UTF-8')
+                                             : mb_strtolower($oTrans->TEXT_INACTIVE, 'UTF-8'));
         // Insert language headings
         $oTpl->set_var(array(
-        		'HEADING_MODIFY_DELETE_USER' => $HeaderTitle,
-        		'HEADING_ADD_USER' => $mLang->HEADING_ADD_USER
+        		'HEADING_MODIFY_DELETE_USER' => $HeaderTitle
         		)
         );
         // insert urls
@@ -126,11 +125,9 @@ if(!defined('WB_URL')) {
         // Insert language text and messages
         $oTpl->set_var(array(
         		'DISPLAY_WAITING_ACTIVATION' => '',
-        		'TEXT_MODIFY' => $mLang->TEXT_MODIFY,
-        		'TEXT_DELETE' => $mLang->TEXT_DELETE,
-        		'TEXT_USER_DELETE' => (($iUserStatus == 1) ? $mLang->TEXT_DEACTIVE : $mLang->TEXT_DELETE),
-        		'TEXT_MANAGE_GROUPS' => ( $admin->get_permission('groups') == true ) ? $mLang->TEXT_MANAGE_GROUPS : "**",
-        		'CONFIRM_DELETE' => (($iUserStatus == 1) ? $mLang->TEXT_ARE_YOU_SURE : $mLang->MESSAGE_USERS_CONFIRM_DELETE)
+        		'TEXT_USER_DELETE' => (($iUserStatus == 1) ? $oTrans->TEXT_DEACTIVE : $oTrans->TEXT_DELETE),
+        		'TEXT_MANAGE_GROUPS' => ( $admin->get_permission('groups') == true ) ? $oTrans->TEXT_MANAGE_GROUPS : "**",
+        		'CONFIRM_DELETE' => (($iUserStatus == 1) ? $oTrans->TEXT_ARE_YOU_SURE : $oTrans->MESSAGE_USERS_CONFIRM_DELETE)
         		)
         );
 
@@ -138,19 +135,15 @@ if(!defined('WB_URL')) {
         if($admin->ami_group_member('1')) {
                 $oTpl->set_block('show_confirmed_activation_block', 'list_confirmed_activation_block', 'list_confirmed_activation');
                 $oTpl->set_var(array(
-                		'DISPLAY_WAITING_ACTIVATION' => $mLang->MESSAGE_USERS_WAITING_ACTIVATION,
-                		'TEXT_USER_ACTIVATE' => $mLang->TEXT_ACTIVATE,
-                		'TEXT_USER_DELETE' => (($iUserStatus == 1) ? $mLang->TEXT_DEACTIVE : $mLang->TEXT_DELETE),
+                		'DISPLAY_WAITING_ACTIVATION' => $oTrans->MESSAGE_USERS_WAITING_ACTIVATION,
+                		'TEXT_USER_ACTIVATE' => $oTrans->TEXT_ACTIVATE,
+                		'TEXT_USER_DELETE' => (($iUserStatus == 1) ? $oTrans->TEXT_DEACTIVE : $oTrans->TEXT_DELETE),
                 		)
                 );
-        		$sql  = 'SELECT * FROM `'.TABLE_PREFIX.'users` ';
-        		$sql .= 'WHERE `confirm_timeout` != 0 ';
-                $sql .=   'AND `active` = 0 ';
-                $sql .=   'AND `user_id` != 1 ';
-                if( ($oRes = $database->query($sql)) ) {
+        		$sql = 'SELECT * FROM `'.$oDb->TablePrefix.'users` '
+        		     . 'WHERE `confirm_timeout` != 0 AND `active` = 0 AND `user_id` != 1 ';
+                if( ($oRes = $oDb->doQuery($sql)) ) {
                 	$oTpl->set_var('DISPLAY_DELETE', '');
-        //        	$oTpl->set_var('NAME', 'User waiting for activation');
-        //        	$oTpl->set_var('STATUS', '' );
                 	// Loop through users
                     if(($nNumRows = $oRes->numRows())) {
                     	while($aUser = $oRes->fetchRow(MYSQL_ASSOC)) {
@@ -191,43 +184,45 @@ if(!defined('WB_URL')) {
 //		$oTpl->parse('show_change_group_list', 'show_change_group_list_block', true);
 
 		$oTpl->set_var(	array(
-    			   'ACTION_URL'   => ADMIN_URL.'/users/index.php',
-    			   'FTAN'   => $admin->getFTAN(),
-    			   'DISPLAY_EXTRA'   => 'display:none;',
-    			   'ACTIVE_CHECKED'   => ' checked="checked"',
-    			   'DISABLED_CHECKED'   => '',
-    			   'NO_RIGHTS' => 'hide',
-    			   'CHANGING_GROUPS' => '',
-    			   'DISPLAY_ADD' => '',
-    			   'DISPLAY_MODIFY' => '',
-    			   'HEADING_MODIFY_USER' => '',
+    			   'ACTION_URL'           => ADMIN_URL.'/users/index.php',
+    			   'FTAN'                 => $admin->getFTAN(),
+    			   'DISPLAY_EXTRA'        => 'display:none;',
+    			   'ACTIVE_CHECKED'       => ' checked="checked"',
+    			   'DISABLED_CHECKED'     => '',
+    			   'NO_RIGHTS'            => 'hide',
+    			   'CHANGING_GROUPS'      => '',
+    			   'DISPLAY_ADD'          => '',
+    			   'DISPLAY_MODIFY'       => '',
+    			   'HEADING_MODIFY_USER'  => '',
     			   'DISPLAY_HOME_FOLDERS' => '',
-    			   'SUBMIT_TITLE' => $mLang->TEXT_ADD,
-                   'HIDE_SAVE_BACK' => 'hide',
+    			   'SUBMIT_TITLE'         => $oTrans->TEXT_ADD,
+                   'HIDE_SAVE_BACK'       => 'hide',
     			   )
 			);
 
 
         // insert urls
         $oTpl->set_var(array(
-        		'USER_ID' => '',
-        		'USERNAME' => '',
+        		'USER_ID'      => '',
+        		'USERNAME'     => '',
         		'DISPLAY_NAME' => '',
-        		'EMAIL' => '',
-        		'ADMIN_URL' => ADMIN_URL,
-        		'WB_URL' => WB_URL,
-                'SUB_ACTION' => 'add',
-                'CANCEL_URL' => $aActionRequest['cancel_url'],
-        		'THEME_URL' => THEME_URL
+        		'EMAIL'        => '',
+        		'ADMIN_URL'    => ADMIN_URL,
+        		'WB_URL'       => WB_URL,
+                'SUB_ACTION'   => 'add',
+                'CANCEL_URL'   => $aActionRequest['cancel_url'],
+        		'THEME_URL'    => THEME_URL
         		)
         );
 
         // Add groups to list
         $oTpl->set_block('main_block', 'group_list_block', 'group_list');
-        $results = $database->query("SELECT group_id, name FROM ".TABLE_PREFIX."groups WHERE group_id != '1'");
+        $sql = 'SELECT `group_id`, `name` FROM `'.$oDb->TablePrefix.'groups` '
+             . 'WHERE `group_id` != 1';
+        $results = $oDb->doQuery($sql);
         if($results->numRows() > 0) {
         	$oTpl->set_var('ID', '');
-        	$oTpl->set_var('NAME', $mLang->TEXT_PLEASE_SELECT.'...');
+        	$oTpl->set_var('NAME', $oTrans->TEXT_PLEASE_SELECT.'...');
         	$oTpl->set_var('SELECTED', ' selected="selected"');
         	$oTpl->parse('group_list', 'group_list_block', true);
         	while($group = $results->fetchRow()) {
@@ -247,7 +242,7 @@ if(!defined('WB_URL')) {
         } else {
         	if($results->numRows() == 0) {
         		$oTpl->set_var('ID', '');
-        		$oTpl->set_var('NAME', $mLang->TEXT_NONE_FOUND);
+        		$oTpl->set_var('NAME', $oTrans->TEXT_NONE_FOUND);
         		$oTpl->parse('group_list', 'group_list_block', true);
         	}
         }
@@ -258,16 +253,7 @@ if(!defined('WB_URL')) {
         }
 
         // Generate username field name
-        $username_fieldname = 'username_';
-        $salt = "abchefghjkmnpqrstuvwxyz0123456789";
-        srand((double)microtime()*1000000);
-        $i = 0;
-        while ($i <= 7) {
-        	$num = rand() % 33;
-        	$tmp = substr($salt, $num, 1);
-        	$username_fieldname = $username_fieldname . $tmp;
-        	$i++;
-        }
+		$username_fieldname = 'username_'.substr(base_convert(microtime(), 16, 36), 0, 8);
 
         // Work-out if home folder should be shown
         if(!HOME_FOLDERS) {
@@ -288,23 +274,10 @@ if(!defined('WB_URL')) {
 
         // Insert language text and messages
         $oTpl->set_var(array(
-        			'TEXT_CANCEL' => $mLang->TEXT_CANCEL,
-        			'TEXT_RESET' => $mLang->TEXT_RESET,
-        			'TEXT_ACTIVE' => $mLang->TEXT_ACTIVE,
-        			'TEXT_DISABLED' => $mLang->TEXT_DISABLED,
-        			'TEXT_PLEASE_SELECT' => $mLang->TEXT_PLEASE_SELECT,
-        			'TEXT_USERNAME' => $mLang->TEXT_USERNAME,
-        			'TEXT_PASSWORD' => $mLang->TEXT_PASSWORD,
-        			'TEXT_RETYPE_PASSWORD' => $mLang->TEXT_RETYPE_PASSWORD,
-        			'TEXT_DISPLAY_NAME' => $mLang->TEXT_DISPLAY_NAME,
-        			'TEXT_EMAIL' => $mLang->TEXT_EMAIL,
-        			'TEXT_GROUP' => $mLang->TEXT_GROUP,
-        			'TEXT_NONE' => $mLang->TEXT_NONE,
-        			'TEXT_HOME_FOLDER' => $mLang->TEXT_HOME_FOLDER,
-        			'USERNAME_FIELDNAME' => $username_fieldname,
-        			'CHANGING_PASSWORD' => $mLang->MESSAGE_USERS_CHANGING_PASSWORD
-        			)
-        	);
+            'USERNAME_FIELDNAME'   => $username_fieldname,
+            'CHANGING_PASSWORD'    => $oTrans->MESSAGE_USERS_CHANGING_PASSWORD
+            )
+        );
 
         // Parse template for add user form
         $oTpl->parse('show_modify_loginname', '', true);

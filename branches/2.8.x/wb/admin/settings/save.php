@@ -26,19 +26,16 @@ $advanced = ($_POST['advanced'] == 'yes') ? '?advanced=yes' : '';
 //require_once(WB_PATH.'/framework/class.admin.php');
 
 // Include config file
-$config_file = realpath('../../config.php');
-if(file_exists($config_file) && !defined('WB_URL'))
-{
-	require($config_file);
+if (!defined('WB_URL')) {
+	require('../../config.php');
 }
-
-if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
+$oDb = WbDatabase::getInstance();
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\settings');
 
 require_once(WB_PATH.'/framework/functions.php');
-
 // suppress to print the header, so no new FTAN will be set
-if($advanced == '')
-{
+if ($advanced == '') {
 	$admin = new admin('Settings', 'settings_basic',false);
 } else {
 	$admin = new admin('Settings', 'settings_advanced',false);
@@ -49,11 +46,11 @@ $js_back = ADMIN_URL.'/settings/index.php'.$advanced;
 if( !$admin->checkFTAN() )
 {
 	$admin->print_header();
-	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'],$js_back );
+	$admin->print_error($oTrans->MESSAGE_GENERIC_SECURITY_ACCESS, $js_back );
 }
 // After check print the header
 $admin->print_header();
-
+$oTrans->enableAddon('admin\\settings');
 // Ensure that the specified default email is formally valid
 if(isset($_POST['server_email']))
 {
@@ -63,7 +60,7 @@ if(isset($_POST['server_email']))
 //    if(false == preg_match($pattern, $_POST['server_email']))
 	if(!$admin->validate_email($_POST['server_email']))
     {
-		$admin->print_error($MESSAGE['USERS_INVALID_EMAIL'].
+		$admin->print_error($oTrans->MESSAGE_USERS_INVALID_EMAIL.
 			'<br /><strong>Email: '.htmlentities($_POST['server_email']).'</strong>', $js_back);
 	}
 }
@@ -78,8 +75,8 @@ if($admin->StripCodeFromText($admin->get_post('wbmailer_routine'))=='smtp') {
 //	$checkSmtpPassword = (isset($_POST['wbmailer_smtp_password']) && ($_POST['wbmailer_smtp_password']=='') ? false : true);
 
 	if(!$checkSmtpHost || !$checkSmtpUser || !$checkSmtpPassword) {
-		$admin->print_error($TEXT['REQUIRED'].' '.$TEXT['WBMAILER_SMTP_AUTH'].
-			'<br /><strong>'.$MESSAGE['GENERIC_FILL_IN_ALL'].'</strong>', $js_back);
+		$admin->print_error($oTrans->TEXT_REQUIRED.' '.$oTrans->TEXT_WBMAILER_SMTP_AUTH.
+			'<br /><strong>'.$oTrans->MESSAGE_GENERIC_FILL_IN_ALL.'</strong>', $js_back);
 	}
 
 }
@@ -214,13 +211,12 @@ $StripCodeFromInput = array(
 //$settings = array();
 //$old_settings = array();
 // Query current settings in the db, then loop through them to get old values
-$sql  = 'SELECT `name`, `value` FROM `'.TABLE_PREFIX.'settings`';
-$sql .= 'ORDER BY `name`';
+$sql = 'SELECT `name`, `value` FROM `'.$oDb->TablePrefix.'settings` '
+     . 'ORDER BY `name`';
 
-if($res_settings = $database->query($sql)) {
-	$iQueryStart = $database->getQueryCount;
-	while($setting = $res_settings->fetchRow(MYSQL_ASSOC))
-	{
+if (($res_settings = $oDb->doQuery($sql))) {
+	$iQueryStart = $oDb->QueryCount;
+	while ($setting = $res_settings->fetchRow(MYSQL_ASSOC)) {
 		$passed = false;
 		$setting_name = $setting['name'];
 //		$old_settings = $setting['value'];
@@ -234,11 +230,11 @@ if($res_settings = $database->query($sql)) {
 				$passed = ($value != $setting['value']);
 				break;
 			case 'string_dir_mode':
-				$value=$dir_mode;
+				$value = $dir_mode;
 				$passed = ($value != $setting['value']);
 				break;
 			case 'string_file_mode':
-				$value=$file_mode;
+				$value = $file_mode;
 	 			$passed = ($value != $setting['value']);
 				break;
 			case 'page_extension':
@@ -250,7 +246,7 @@ if($res_settings = $database->query($sql)) {
 				break;
 			case 'sec_anchor':
 				$value = $admin->StripCodeFromText($value);
-				$value=(($value=='') ? 'Sec' : $value);
+				$value = (($value=='') ? 'Sec' : $value);
 	 			$passed = ($value != $setting['value']);
 				break;
 			case 'media_directory':
@@ -259,16 +255,16 @@ if($res_settings = $database->query($sql)) {
 	 			$passed = ($value != $setting['value']);
 				break;
 			 case 'pages_directory':
-			 $sql = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'pages`';
-			  if( !($database->get_one($sql)) ) {
-			   $value = rtrim($admin->StripCodeFromText($value));
-			   $passed = ($value != $setting['value']);
-			  }
-			  $value = trim($value,'/');
-			  $value = ( ($value != '')  ? '/'.$value : '' ); 
-			  break;
+                $sql = 'SELECT COUNT(*) FROM `'.$oDb->TablePrefix.'pages`';
+                if (!($oDb->getOne($sql))) {
+                    $value = rtrim($admin->StripCodeFromText($value));
+                    $passed = ($value != $setting['value']);
+                }
+                $value = trim($value,'/');
+                $value = ( ($value != '')  ? '/'.$value : '' );
+                break;
 			default :
-				 if($value == '')  {
+				if($value == '')  {
 					$passed = ((in_array($setting_name, $allow_empty_values)) && ($value != $setting['value']));
 				} else {
 					if(in_array($setting_name, $StripCodeFromInput) ) {
@@ -283,23 +279,20 @@ if($res_settings = $database->query($sql)) {
 	    {
 	        $value = strip_tags($value);
 	    }
-		if( !in_array($setting_name, $aPreventFromUpdate) && $passed )
-//	    if ( !in_array($setting_name, $aPreventFromUpdate) && (isset($_POST[$setting_name]) || $passed == true) )
-	    {
+		if (!in_array($setting_name, $aPreventFromUpdate) && $passed) {
 	        $value = trim($database->escapeString($value));
 	        $sql = 'UPDATE `'.TABLE_PREFIX.'settings` ';
 	        $sql .= 'SET `value` = \''.($value).'\' ';
 	        $sql .= 'WHERE `name` != \'wb_version\' ';
 	        $sql .= 'AND `name` = \''.$setting_name.'\' ';
-	        if (!$database->query($sql))
-	        {
-				if($database->is_error()) {
-					$admin->print_error($database->get_error, $js_back );
+	        if (!$oDb->doQuery($sql)) {
+				if($oDb->isError()) {
+					$admin->print_error($oDb->getError, $js_back );
 				}
 	        } 
 		}
 	}
-	$iQueriesDone = $database->getQueryCount - $iQueryStart;
+	$iQueriesDone = $oDb->QueryCount - $iQueryStart;
 }
 
 /**
@@ -336,11 +329,11 @@ $allow_tags_in_fields = array(
     );
 
 // Query current search settings in the db, then loop through them and update the db with the new value
-$sql  = 'SELECT `name`, `value` FROM `'.TABLE_PREFIX.'search` ';
-$sql .= 'WHERE `extra` =  \'\' ';
-if( !($oSearch = $database->query($sql)) ) {
-    if($database->is_error()) {
-    	$admin->print_error(explode(';',$database->get_error()), $js_back );
+$sql = 'SELECT `name`, `value` FROM `'.$oDb->TablePrefix.'search` '
+     . 'WHERE `extra` =  \'\' ';
+if (!($oSearch = $oDb->doQuery($sql))) {
+    if ($oDb->isError()) {
+    	$admin->print_error(explode(';',$oDb->getError()), $js_back );
     }
 }
 
@@ -380,29 +373,24 @@ while($aSearch = $oSearch->fetchRow(MYSQL_ASSOC))
 			break;
 		default :
         	$passed = ($admin->get_post($sPostName) || in_array($sSearchName, $allow_empty_values));
-
-            if (!in_array($sSearchName, $allow_tags_in_fields))
-            {
+            if (!in_array($sSearchName, $allow_tags_in_fields)) {
                 $value = strip_tags($value);
             }
 			break;
 	}
 
-    if ( ($passed == true) )
-	{
-        $sql  = 'UPDATE `'.TABLE_PREFIX.'search` ';
-        $sql .= 'SET `value` = \''.$database->escapeString($value).'\' ';
-        $sql .= 'WHERE `name` = \''.$sSearchName.'\' ';
-        $sql .= 'AND `extra` = \'\' ';
-		$database->query($sql);
+    if (($passed == true)) {
+        $sql = 'UPDATE `'.$oDb->TablePrefix.'search` '
+             . 'SET `value` = \''.$oDb->escapeString($value).'\' '
+             . 'WHERE `name` = \''.$sSearchName.'\' AND `extra` = \'\' ';
+		$oDb->doQuery($sql);
     }
 }
 
 // Check if there was an error updating the db
-if($database->is_error()) {
-	$admin->print_error($database->get_error, $js_back );
+if($oDb->isError()) {
+	$admin->print_error($oDb->getError, $js_back );
 } else {
-//	$admin->print_success($iQueriesDone.' Queries '.$MESSAGE['SETTINGS_SAVED'], $js_back );
-	$admin->print_success($MESSAGE['SETTINGS_SAVED'], $js_back );
+	$admin->print_success($oTrans->MESSAGE_SETTINGS_SAVED, $js_back );
 }
 $admin->print_footer();

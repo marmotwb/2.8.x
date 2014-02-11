@@ -27,8 +27,8 @@ $admin = new admin('Addons', 'modules');
 // Make news post access files dir
 if(!function_exists('get_variable_content')) {require($oReg->AppPath.'framework/functions.php');}
 $oReg->getWbConstants();
-$mLang = Translate::getInstance();
-$mLang->enableAddon('admin\addons');
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\modules');
 
 // Setup template object, parse vars to it, then parse it
 // Create new template object
@@ -36,7 +36,7 @@ $template = new Template(dirname($admin->correct_theme_source('modules.htt')),'k
 // $template->debug = true;
 $template->set_file('page', 'modules.htt');
 $template->set_block('page', 'main_block', 'main');
-
+$template->set_var($oTrans->getLangArray());
 // Insert values into module list
 $template->set_block('main_block', 'module_list_block', 'module_list');
 $aAddonsList = array();
@@ -121,9 +121,6 @@ if(!$show_block || count($aModuleList) == 0 || !isset($_GET['advanced']) || $adm
 	$template->set_var('DISPLAY_MANUAL_INSTALL', 'hide');
 }
 
-/*-- insert all needed vars from language files ----------------------------------------*/
-$template->set_var($mLang->getLangArray());
-
 // insert urls
 $template->set_var(array(
 /** @todo the following 3 rtrims can be removed, after using of WB_PATH/s.o is changed in templates **/
@@ -136,14 +133,14 @@ $template->set_var(array(
 // Insert language text and messages
 $template->set_var(array(
 	'URL_TEMPLATES' => $admin->get_permission('templates')
-	                   ? '<a href="'.$oReg->AcpUrl.'templates/index.php">'.$mLang->MENU_TEMPLATES.'</a>'
-	                   : '<b>'.$mLang->MENU_TEMPLATES.'</b>',
+	                   ? '<a href="'.$oReg->AcpUrl.'templates/index.php">'.$oTrans->MENU_TEMPLATES.'</a>'
+	                   : '<b>'.$oTrans->MENU_TEMPLATES.'</b>',
 	'URL_LANGUAGES' => $admin->get_permission('languages') 
-	                   ? '<a href="'.$oReg->AcpUrl.'languages/index.php">'.$mLang->MENU_LANGUAGES.'</a>'
-	                   : '<b>'.$mLang->MENU_LANGUAGES.'</b>',
+	                   ? '<a href="'.$oReg->AcpUrl.'languages/index.php">'.$oTrans->MENU_LANGUAGES.'</a>'
+	                   : '<b>'.$oTrans->MENU_LANGUAGES.'</b>',
 	'URL_ADVANCED'  => $admin->get_permission('modules_advanced') 
-	                   ? '<a href="' . $oReg->AcpUrl.'modules/index.php?advanced">'.$mLang->TEXT_ADVANCED.'</a>'
-	                   : '<b>'.$mLang->TEXT_ADVANCED.'</b>', 'HEADING_CHANGE_TEMPLATE_NOTICE' => ''
+	                   ? '<a href="' . $oReg->AcpUrl.'modules/index.php?advanced">'.$oTrans->TEXT_ADVANCED.'</a>'
+	                   : '<b>'.$oTrans->TEXT_ADVANCED.'</b>', 'HEADING_CHANGE_TEMPLATE_NOTICE' => ''
 	)
 );
 

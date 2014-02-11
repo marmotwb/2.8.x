@@ -17,35 +17,34 @@
 
 // Include the config file
 require('../../config.php');
-$mLang = Translate::getInstance();
-$mLang->enableAddon('admin\addons');
+$oTrans = Translate::getInstance();
+$oTrans->enableAddon('admin\\addons');
 require_once(WB_PATH .'/framework/functions.php');
-require_once(WB_PATH.'/framework/class.admin.php');
 // suppress to print the header, so no new FTAN will be set
 $admin = new admin('Addons', 'templates_view', false);
 if( !$admin->checkFTAN() )
 {
 	$admin->print_header();
-	$admin->print_error($mLang->MESSAGE_GENERIC_SECURITY_ACCESS);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_SECURITY_ACCESS);
 }
 
 // After check print the header
 $admin->print_header();
 // Get template name
 if(!isset($_POST['file']) OR $_POST['file'] == "") {
-	$admin->print_error($mLang->MESSAGE_GENERIC_FORGOT_OPTIONS);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_FORGOT_OPTIONS);
 } else {
 	$file = preg_replace('/[^a-z0-9_-]/i', "", $_POST['file']);  // fix secunia 2010-92-2
 }
 
 // Check if the template exists
 if(!is_dir(WB_PATH.'/templates/'.$file)) {
-	$admin->print_error($mLang->MESSAGE_GENERIC_NOT_INSTALLED);
+	$admin->print_error($oTrans->MESSAGE_GENERIC_NOT_INSTALLED);
 }
 
 // Check if the template exists
 if(!is_readable(WB_PATH.'/templates/'.$file)) {
-	$admin->print_error($mLang->MESSAGE_ADMIN_INSUFFICIENT_PRIVELLIGES);
+	$admin->print_error($oTrans->MESSAGE_ADMIN_INSUFFICIENT_PRIVELLIGES);
 }
 // Print admin header
 //$admin = new admin('Addons', 'templates_view');
@@ -56,10 +55,14 @@ $template = new Template(dirname($admin->correct_theme_source('templates_details
 // $template->debug = true;
 $template->set_file('page', 'templates_details.htt');
 $template->set_block('page', 'main_block', 'main');
+/*-- insert all needed vars from language files ----------------------------------------*/
+$template->set_var($oTrans->getLangArray());
 $template->set_var('FTAN', $admin->getFTAN());
 
 // Insert values
-$result = $database->query("SELECT * FROM ".TABLE_PREFIX."addons WHERE type = 'template' AND directory = '$file'");
+$sql = 'SELECT * FROM `'.WbDatabase::getInstance()->TablePrefix.'addons` '
+     . 'WHERE `type` = \'template\' AND directory = \''.$file.'\'';
+$result = WbDatabase::getInstance()->doQuery($sql);
 if($result->numRows() > 0) {
 	$row = $result->fetchRow();
 }
@@ -92,10 +95,8 @@ $template->set_var(array(
       'LICENSE' => $row['license'],
     )
 );
-/*-- insert all needed vars from language files ----------------------------------------*/
-$template->set_var($mLang->getLangArray());
 
-$template->set_var('TEXT_FUNCTION', ($row['function'] == 'theme' ? $mLang->TEXT_THEME : $mLang->TEXT_TEMPLATE));
+$template->set_var('TEXT_FUNCTION', ($row['function'] == 'theme' ? $oTrans->TEXT_THEME : $oTrans->TEXT_TEMPLATE));
 // Parse template object
 $template->parse('main', 'main_block', false);
 $template->pparse('output', 'page');

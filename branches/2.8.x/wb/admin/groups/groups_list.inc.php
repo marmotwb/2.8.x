@@ -25,14 +25,15 @@ if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
  */
 	function show_grouplist($admin)
 	{
-//		global $TEXT, $MESSAGE, $MENU, $HEADING;
-		$database = WbDatabase::getInstance();
-		$mLang = Translate::getInstance();
+		$oDb = WbDatabase::getInstance();
+		$oLang = Translate::getInstance();
+		$oLang->enableAddon('admin\\groups');
 // Create new template object for the modify/remove section
 		$tpl = new Template(dirname($admin->correct_theme_source('groups_list.htt')),'keep');
 		$tpl->set_file('page', 'groups_list.htt');
 		$tpl->set_block('page', 'main_block', 'main');
 
+        $tpl->set_var($oLang->getLangArray());
 		$tpl->set_var('ACTION_URL', $_SERVER['SCRIPT_NAME']);
 		$tpl->set_var('FTAN', $admin->getFTAN());
 
@@ -40,7 +41,7 @@ if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
 		$tpl->set_block('main_block', 'show_cmd_manage_users_block', 'show_cmd_manage_users');
 		if($admin->get_permission('users') == true)
 		{
-			$tpl->set_var('TEXT_MANAGE_USERS', $mLang->TEXT_MANAGE_USERS);
+			$tpl->set_var('TEXT_MANAGE_USERS', $oLang->TEXT_MANAGE_USERS);
 			$tpl->set_var('LINK_MANAGE_USERS', ADMIN_URL.'/users/index'.PAGE_EXTENSION);
 			$tpl->parse('show_cmd_manage_users', 'show_cmd_manage_users_block', true);
 		}else { // switch off cmd_manage_groups_block
@@ -50,10 +51,10 @@ if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
 		$tpl->set_block('main_block', 'show_cmd_group_list_block', 'show_cmd_group_list');
 		if( $admin->get_permission('groups_view') == true )
 		{
-			$tpl->set_var('CONTENT_HEADER', $mLang->HEADING_VIEW_GROUPS);
+			$tpl->set_var('CONTENT_HEADER', $oLang->HEADING_VIEW_GROUPS);
 			if( ($admin->get_permission('groups_modify') == true) )
 			{
-			$tpl->set_var('CONTENT_HEADER', $mLang->HEADING_MODIFY_DELETE_GROUP);
+			$tpl->set_var('CONTENT_HEADER', $oLang->HEADING_MODIFY_DELETE_GROUP);
 			}
 		}
 
@@ -65,14 +66,14 @@ if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
 		// $tpl->set_var('GROUP_ID',   $admin->getIDKEY(0));
 		$tpl->set_var('GROUP_ID', 0);
 		$tpl->set_var('GROUP_NAME', '');
-		$tpl->set_var('GROUP_DISPLAY_NAME', $mLang->TEXT_PLEASE_SELECT.'...');
+		$tpl->set_var('GROUP_DISPLAY_NAME', $oLang->TEXT_PLEASE_SELECT.'...');
 		$tpl->set_var('CSS_GROUP_DELETED', '');
 
 		$tpl->parse('grouplist', 'grouplist_block', true);
 		$sql  = 'SELECT `group_id`, `name` ';
-		$sql .= 'FROM `'.TABLE_PREFIX.'groups` ';
+		$sql .= 'FROM `'.$oDb->TablePrefix.'groups` ';
 		$sql .= 'WHERE `group_id` > 1 ORDER BY `name` ';
-		if( ($res_groups = $database->query($sql)) != false )
+		if( ($res_groups = $oDb->doQuery($sql)) != false )
 		{
 			while($rec_group = $res_groups->fetchRow(MYSQL_ASSOC))
 			{
@@ -120,8 +121,8 @@ if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
 		{
 			$tpl->set_var('DISPLAY_ADD', '');
 			$tpl->set_var('GROUP_ACTION_URL', $_SERVER['SCRIPT_NAME']);
-			$tpl->set_var('GROUPS_HEADER', $mLang->HEADING_ADD_GROUP );
-			$tpl->set_var('SUBMIT_TITLE', $mLang->TEXT_ADD);
+			$tpl->set_var('GROUPS_HEADER', $oLang->HEADING_ADD_GROUP );
+			$tpl->set_var('SUBMIT_TITLE', $oLang->TEXT_ADD);
 			$tpl->set_var('ACTION_HANDLE', 'action_modify');
 			$tpl->set_var('ACTION_HIDDEN', 'action_add');
 			$tpl->set_var('FORM_NAME_GROUPMASK', 'frm_addnew_group');
@@ -139,9 +140,9 @@ if(defined('WB_PATH') == false) { exit("Cannot access this file directly"); }
 		);
 	// Insert language text and messages
 		$tpl->set_var(array(
-				'TEXT_MODIFY'    => ($admin->get_permission('groups_modify') == true) ? $mLang->TEXT_MODIFY : $mLang->TEXT_VIEW,
-				'TEXT_DELETE'    => $mLang->TEXT_DELETE,
-				'CONFIRM_DELETE' => $mLang->MESSAGE_GROUPS_CONFIRM_DELETE
+				'TEXT_MODIFY'    => ($admin->get_permission('groups_modify') == true) ? $oLang->TEXT_MODIFY : $oLang->TEXT_VIEW,
+				'TEXT_DELETE'    => $oLang->TEXT_DELETE,
+				'CONFIRM_DELETE' => $oLang->MESSAGE_GROUPS_CONFIRM_DELETE
 				));
 
 	// Parse template object
