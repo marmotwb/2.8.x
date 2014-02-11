@@ -33,12 +33,13 @@
 
 	function admin_users_index($aActionRequest)
 	{
+        $oReg = WbAdaptor::getInstance();
 		$oDb = WbDatabase::getInstance();
 		$oTrans = Translate::getInstance();
 		$oTrans->enableAddon('admin\\users');
 
-        $sAdminPath = dirname(str_replace('\\', '/', __FILE__));
-        $sAdminName = basename($sAdminPath);
+        $sModulePath = rtrim(dirname(str_replace('\\', '/', __FILE__)), '/').'/';
+        $sAdminName = basename($sModulePath);
         $output = '';
         $aActionRequest['requestMethod'] = '_'.strtoupper($_SERVER['REQUEST_METHOD']);
         $action = 'show';
@@ -56,20 +57,20 @@
 			case 'delete_outdated': // delete Users awaiting activation
 			case 'enable_outdated': // enable Users awaiting activation
     			$admin = new admin('Access', 'users_delete',false);
-				include($sAdminPath.'/delete.php');
+				include($sModulePath.'delete.php');
     			delete_user($admin,$aActionRequest);
-                $aActionRequest['cancel_url'] = ADMIN_URL.'/access/index.php';
+                $aActionRequest['cancel_url'] = $oReg->AcpUrl.'access/index.php';
 				$admin = new admin('Access', 'users');
-				include($sAdminPath.'/user_list.php');
+				include($sModulePath.'user_list.php');
 				$output .= show_userlist($admin, $aActionRequest);
 				break;
 			case 'add': // insert/update user
                 $admin = new admin('Access', 'users_add',false);
-				include($sAdminPath.'/add.php');
+				include($sModulePath.'add.php');
     			add_user($admin,$aActionRequest);
-                $aActionRequest['cancel_url'] = ADMIN_URL.'/access/index.php';
+                $aActionRequest['cancel_url'] = $oReg->AcpUrl.'access/index.php';
 				$admin = new admin('Access', 'users');
-				include($sAdminPath.'/user_list.php');
+				include($sModulePath.'user_list.php');
 				$output .= show_userlist($admin, $aActionRequest);
 				break;
 			case 'save': // insert/update user
@@ -80,10 +81,10 @@
                     $aActionRequest['cancel_url'] = $sBackLink;
                     $aActionRequest['BackLink'] = $sBackLink;
                 }
-     			include($sAdminPath.'/save.php');
+     			include($sModulePath.'save.php');
                 $user_id = save_user($admin, $aActionRequest);
     			$admin = new admin('Access', 'users_modify');
-     			include($sAdminPath.'/user_form.php');
+     			include($sModulePath.'user_form.php');
                 $aActionRequest['user_id'] = $user_id;
     			$output = show_usermask($admin,$aActionRequest);
 				break;
@@ -98,8 +99,8 @@
     				msgQueue::clear();
         			msgQueue::add($oTrans->MESSAGE_GENERIC_FORGOT_OPTIONS );
                     $aActionRequest['user_id'] = $user_id;
-                    $aActionRequest['cancel_url'] = ADMIN_URL.'/access/index.php';
-					include($sAdminPath.'/user_list.php');
+                    $aActionRequest['cancel_url'] = $oReg->AcpUrl.'access/index.php';
+					include($sModulePath.'user_list.php');
 					$output  = show_userlist($admin, $aActionRequest);
     				break;
                 }
@@ -107,7 +108,7 @@
     			if( ($user_id == $admin->get_user_id() ) )
     			{
                     $sQueryString = (isset($_SERVER['QUERY_STRING'])&& ($_SERVER['QUERY_STRING']!='')) ? $_SERVER['QUERY_STRING'] :  'tool=uaerat';
-                    $admin->send_header(ADMIN_URL.'/preferences/index.php?'.$sQueryString);
+                    $admin->send_header($oReg->AcpUrl.'preferences/index.php?'.$sQueryString);
     			}
 
     			$admin = new admin('Access', 'users_modify');
@@ -127,7 +128,7 @@
                     $aActionRequest['cancel_url'] = $sBackLink;
                     $aActionRequest['BackLink']   = $sBackLink;
                 }
-     			include($sAdminPath.'/user_form.php');
+     			include($sModulePath.'user_form.php');
     			$output = show_usermask($admin,$aActionRequest);
 				break;
 			default: // show userlist with empty modify mask
@@ -136,13 +137,13 @@
     			$user_id = intval($admin->checkIDKEY('user_id', 0, $_SERVER['REQUEST_METHOD']));
     			// Check if user id is a valid number and doesnt equal 1
                 $aActionRequest['user_id'] = $user_id;
-                $aActionRequest['cancel_url'] = ADMIN_URL.'/access/index.php';
+                $aActionRequest['cancel_url'] = $oReg->AcpUrl.'access/index.php';
 				if($user_id > 1) // prevent 'admin' [ID 1] from modify
 				{
-					include($sAdminPath.'/user_form.php');
+					include($sModulePath.'user_form.php');
 					$output .= show_usermask($admin, $aActionRequest);
 				} elseif($user_id == 0) { // if invalid UserID is called, fall back to 'show-mode'
-					include($sAdminPath.'/user_list.php');
+					include($sModulePath.'user_list.php');
 					$output  = show_userlist($admin, $aActionRequest);
 				}
 		endswitch; // end of switch

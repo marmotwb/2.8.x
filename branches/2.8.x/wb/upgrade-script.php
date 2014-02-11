@@ -89,7 +89,7 @@ UpgradeHelper::checkSetupFiles(str_replace('\\', '/', __DIR__).'/');
 // --- set DEFAULT_THEME and restart if needed -------------------------------------------
 if (isset($oReg->DefaultTheme) && $oReg->DefaultTheme != 'WbTheme') {
     db_update_key_value('settings', 'default_theme', 'WbTheme');
-    $sLocation = 'Location: '.$oReg->AppUrl.filename(__FILE__);
+    $sLocation = 'Location: '.$oReg->AppUrl.basename(__FILE__);
     header($sLocation);
     exit;
 }

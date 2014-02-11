@@ -4,7 +4,7 @@
 		<td align="left"><h2>{HEADING_MODIFY_DELETE_USER}</h2></td>
 		<td align="right">
 		<!-- BEGIN manage_groups_block -->
-		<form name="cmd_manage_groups" action="{ADMIN_URL}/groups/index.php" method="post">
+		<form name="cmd_manage_groups" action="{ADMIN_URL}groups/index.php" method="post">
 			{FTAN}
 			<input class="submit" type="submit" name="cmd_manage_users" value="{TEXT_MANAGE_GROUPS}" />
 		</form>

@@ -26,9 +26,9 @@ if(!defined('WB_URL')) {
 
 	function show_userlist($admin, &$aActionRequest)
 	{
+        $oReg = WbAdaptor::getInstance();
 		$oDb = WbDatabase::getInstance();
 		$oTrans = Translate::getInstance();
-        $oTrans->enableAddon('admin\\users');
 
         $iUserStatus = (($admin->get_get('status') == 1) ? 0 : 1);
         unset($_GET);
@@ -43,7 +43,7 @@ if(!defined('WB_URL')) {
         $oTpl->set_block("main_block", "manage_groups_block", "groups");
 
         $oTpl->set_var($oTrans->getLangArray());
-        $oTpl->set_var('ADMIN_URL', ADMIN_URL);
+        $oTpl->set_var('ADMIN_URL', $oReg->AcpUrl);
         $oTpl->set_var('FTAN', $admin->getFTAN());
         $oTpl->set_var('USER_STATUS', $iUserStatus );
         $oTpl->set_var('groups', '');
@@ -53,8 +53,8 @@ if(!defined('WB_URL')) {
         $oTpl->set_var('HEADING_MODIFY_USER', '');
         $oTpl->set_var('DISPLAY_HOME_FOLDERS', '');
 
-        $UserStatusActive = 'url('.THEME_URL.'/images/user.png)';
-        $UserStatusInactive = 'url('.THEME_URL.'/images/user_red.png)';
+        $UserStatusActive = 'url('.$oReg->ThemeUrl.'images/user.png)';
+        $UserStatusInactive = 'url('.$oReg->ThemeUrl.'images/user_red.png)';
 
         $sUserTitle = ($iUserStatus == 0) ? $oTrans->MENU_USERS.' '.mb_strtolower($oTrans->TEXT_ACTIVE, 'UTF-8')
                                           : $oTrans->MENU_USERS.' '.mb_strtolower($oTrans->TEXT_DELETED, 'UTF-8') ;
@@ -117,9 +117,9 @@ if(!defined('WB_URL')) {
         );
         // insert urls
         $oTpl->set_var(array(
-                'ADMIN_URL' => ADMIN_URL,
-                'WB_URL' => WB_URL,
-                'THEME_URL' => THEME_URL
+                'ADMIN_URL' => $oReg->AcpUrl,
+                'WB_URL'    => $oReg->AppUrl,
+                'THEME_URL' => $oReg->ThemeUrl
         		)
         );
         // Insert language text and messages
@@ -179,12 +179,15 @@ if(!defined('WB_URL')) {
 
         $oTpl->set_block('main_block', 'show_add_loginname_block', 'show_add_loginname');
 		$oTpl->set_block('main_block', 'show_change_group_list_block', 'show_change_group_list');
-
+        $oTpl->se_var($oTrans->getLangArray());
 		$oTpl->parse('show_change_group_list', '');
 //		$oTpl->parse('show_change_group_list', 'show_change_group_list_block', true);
 
 		$oTpl->set_var(	array(
-    			   'ACTION_URL'           => ADMIN_URL.'/users/index.php',
+                   'ADMIN_URL'            => $oReg->AcpUrl,
+                   'WB_URL'               => $oReg->AppUrl,
+                   'THEME_URL'            => $oReg->ThemeUrl,
+    			   'ACTION_URL'           => $oReg->AcpUrl.'users/index.php',
     			   'FTAN'                 => $admin->getFTAN(),
     			   'DISPLAY_EXTRA'        => 'display:none;',
     			   'ACTIVE_CHECKED'       => ' checked="checked"',
@@ -207,11 +210,8 @@ if(!defined('WB_URL')) {
         		'USERNAME'     => '',
         		'DISPLAY_NAME' => '',
         		'EMAIL'        => '',
-        		'ADMIN_URL'    => ADMIN_URL,
-        		'WB_URL'       => WB_URL,
                 'SUB_ACTION'   => 'add',
-                'CANCEL_URL'   => $aActionRequest['cancel_url'],
-        		'THEME_URL'    => THEME_URL
+                'CANCEL_URL'   => $aActionRequest['cancel_url']
         		)
         );
 
@@ -261,13 +261,13 @@ if(!defined('WB_URL')) {
         }
 
         // Include the WB functions file
-        if(!function_exists('directory_list')) { require(WB_PATH.'/framework/functions.php'); }
+        if(!function_exists('directory_list')) { require($oReg->AppUrl.'framework/functions.php'); }
 
         // Add media folders to home folder list
         $oTpl->set_block('main_block', 'folder_list_block', 'folder_list');
-        foreach(directory_list(WB_PATH.MEDIA_DIRECTORY) AS $name) {
-        	$oTpl->set_var('NAME', str_replace(WB_PATH, '', $name));
-        	$oTpl->set_var('FOLDER', str_replace(WB_PATH.MEDIA_DIRECTORY, '', $name));
+        foreach(directory_list($oReg->AppPath.$oReg->MediaDir) AS $name) {
+        	$oTpl->set_var('NAME', str_replace($oReg->AppPath, '', $name));
+        	$oTpl->set_var('FOLDER', str_replace($oReg->AppPath.$oReg->MediaDir, '', $name));
         	$oTpl->set_var('SELECTED', ' ');
         	$oTpl->parse('folder_list', 'folder_list_block', true);
         }

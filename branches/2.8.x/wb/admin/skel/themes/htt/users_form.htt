@@ -69,7 +69,7 @@ function toggle_radio(radio_on, radio_off) {
 		<select name="home_folder">
 			<option value="">{TEXT_NONE}</option>
 			<!-- BEGIN folder_list_block -->
-			<option value="{FOLDER}"{SELECTED}>{NAME}</option>
+			<option value="/{FOLDER}"{SELECTED}>/{NAME}</option>
 			<!-- END folder_list_block -->
 		</select>
 	</td>

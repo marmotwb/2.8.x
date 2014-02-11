@@ -72,7 +72,7 @@ $msg .= (is_readable(WB_PATH.'/upgrade-script.php') ?  replace_vars($oTrans->MES
 // ---------------------------------------
 if(($admin->get_user_id()==1) && file_exists(WB_PATH.'/upgrade-script.php')) {
 	// check if it is neccessary to start the uograde-script
-	$sql = 'SELECT `value` FROM `'.$oDb-TablePrefix.'settings` WHERE `name`=\'wb_revision\'';
+	$sql = 'SELECT `value` FROM `'.$oDb->TablePrefix.'settings` WHERE `name`=\'wb_revision\'';
 	$wb_revision = $oDb->getOne($sql);
 	if (version_compare($wb_revision, REVISION ) < 0) {
 echo "<p style=\"text-align:center;\"> If the <strong>upgrade script</strong> could not be start automatically.\n" .
@@ -133,13 +133,13 @@ if( ($admin->get_user_id()==1) && file_exists(ADMIN_PATH.'/groups/upgradePermiss
 /**
  * delete Outdated Confirmations
  */
-$sql = 'DELETE FROM `'.$oDb-TablePrefix.'users` WHERE `confirm_timeout` BETWEEN 1 AND '.time();
+$sql = 'DELETE FROM `'.$oDb->TablePrefix.'users` WHERE `confirm_timeout` BETWEEN 1 AND '.time();
 $oDb->doQuery($sql);
 
 /**
  * delete stored ip adresses default after 60 days
  */
-$sql = 'UPDATE `'.$oDb-TablePrefix.'users` SET `login_ip` = \'\' WHERE `login_when` < '.(time()-(60*84600));
+$sql = 'UPDATE `'.$oDb->TablePrefix.'users` SET `login_ip` = \'\' WHERE `login_when` < '.(time()-(60*84600));
 $oDb->doQuery($sql);
 
 // ---------------------------------------

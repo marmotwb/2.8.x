@@ -26,6 +26,7 @@ if(!defined('WB_URL')) {
 
 	function show_usermask($admin, &$aActionRequest)
 	{
+        $oReg = WbAdaptor::getInstance();
 		$oDb = WbDatabase::getInstance();
 		$oTrans = Translate::getInstance();
         $oTrans->enableAddon('admin\\users');
@@ -61,7 +62,7 @@ if(!defined('WB_URL')) {
     		$oTpl->parse('show_change_group_list', '');
 		}
 		$oTpl->set_var(	array(
-            'ACTION_URL'   => ADMIN_URL.'/users/index.php',
+            'ACTION_URL'           => $oReg->AcpUrl.'users/index.php',
             'SUB_ACTION'           => 'save',
             'BACK_LINK'            => (isset($aActionRequest['BackLink'])) ? $aActionRequest['BackLink'] : '',
             'CANCEL_URL'           => $aActionRequest['cancel_url'],
@@ -72,9 +73,9 @@ if(!defined('WB_URL')) {
             'USERNAME'             => $user['username'],
             'DISPLAY_NAME'         => $user['display_name'],
             'EMAIL'                => $user['email'],
-            'ADMIN_URL'            => ADMIN_URL,
-            'WB_URL'               => WB_URL,
-            'THEME_URL'            => THEME_URL
+            'ADMIN_URL'            => $oReg->AcpUrl,
+            'WB_URL'               => $oReg->AppUrl,
+            'THEME_URL'            => $oReg->ThemeUrl
             )
         );
 
@@ -146,20 +147,20 @@ if(!defined('WB_URL')) {
 		// Generate username field name
 		$username_fieldname = 'username_'.substr(base_convert(microtime(), 16, 36), 0, 8);
 		// Work-out if home folder should be shown
-		if(!HOME_FOLDERS) {
+		if(!$oReg->HomeFolders) {
 			$oTpl->set_var('DISPLAY_HOME_FOLDERS', 'display:none;');
 		}
 
 		// Include the WB functions file
-        if(!function_exists('directory_list')) { require(WB_PATH.'/framework/functions.php'); }
+        if(!function_exists('directory_list')) { require($oReg->AppPath.'framework/functions.php'); }
 
 		// Add media folders to home folder list
 		$oTpl->set_block('main_block', 'folder_list_block', 'folder_list');
-		foreach(directory_list(WB_PATH.MEDIA_DIRECTORY) AS $name)
+		foreach(directory_list($oReg->AppPath.$oReg->MediaDir) AS $name)
 	    {
-			$oTpl->set_var('NAME', str_replace(WB_PATH, '', $name));
-			$oTpl->set_var('FOLDER', str_replace(WB_PATH.MEDIA_DIRECTORY, '', $name));
-			if($user['home_folder'] == str_replace(WB_PATH.MEDIA_DIRECTORY, '', $name)) {
+			$oTpl->set_var('NAME', str_replace($oReg->AppPath, '', $name));
+			$oTpl->set_var('FOLDER', str_replace($oReg->AppPath.$oReg->MediaDir, '', $name));
+			if($user['home_folder'] == str_replace($oReg->AppPath.$oReg->MediaDir, '', $name)) {
 				$oTpl->set_var('SELECTED', ' selected="selected"');
 			} else {
 				$oTpl->set_var('SELECTED', ' ');
