@@ -581,7 +581,7 @@ require_once(WB_PATH.'/framework/class.admin.php');
 // Include WB functions file
 	require_once(WB_PATH.'/framework/functions.php');
 // Re-connect to the database, this time using in-build database class
-	require_once(WB_PATH.'/framework/class.login.php');
+//	require_once(WB_PATH.'/framework/class.login.php');
 	// Include the PclZip class file (thanks to
 	require_once(WB_PATH.'/include/pclzip/pclzip.lib.php');
 	// Install add-ons

@@ -22,8 +22,8 @@ if(file_exists($config_file) && !defined('WB_URL'))
 	require_once($config_file);
 }
 
-if(!class_exists('login', false)){ include(WB_PATH.'/framework/class.login.php'); }
-if(!class_exists('frontend', false)){ include(WB_PATH.'/framework/class.frontend.php'); }
+//if(!class_exists('login', false)){ include(WB_PATH.'/framework/class.login.php'); }
+//if(!class_exists('frontend', false)){ include(WB_PATH.'/framework/class.frontend.php'); }
 
 require_once(WB_PATH.'/framework/functions.php');
 

@@ -23,12 +23,10 @@ if(!defined('WB_PATH')) {
 /* -------------------------------------------------------- */
 define('LOGIN_CLASS_LOADED', true);
 
-// Load the other required class files if they are not already loaded
-if(!class_exists('admin', false)){ include(WB_PATH.'/framework/class.admin.php'); }
 // Get WB version
 require_once(ADMIN_PATH.'/interface/version.php');
 
-class login extends admin {
+class Login extends admin {
 	public function __construct($config_array) {
 		// Get language vars
 		global $MESSAGE, $database;
