@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}sections` (
   `section_id` int(11) NOT NULL AUTO_INCREMENT,
   `page_id` int(11) NOT NULL DEFAULT '0',
   `position` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
   `module` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
   `block` int(11) NOT NULL DEFAULT '1',
   `publ_start` int(11) NOT NULL DEFAULT '0',
@@ -119,10 +120,9 @@ CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}users` (
 --
 DROP TABLE IF EXISTS `{TABLE_PREFIX}settings`;
 CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}settings` (
-  `setting_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
+  `name` varchar(255){TABLE_COLLATION} NOT NULL,
   `value` text{TABLE_COLLATION} NOT NULL,
-  PRIMARY KEY (`setting_id`)
+  PRIMARY KEY (`name`)
 ){TABLE_ENGINE};
 --
 -- Structure of table `{TABLE_PREFIX}search`

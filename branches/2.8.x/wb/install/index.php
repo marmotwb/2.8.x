@@ -32,14 +32,15 @@
  * @since        File available since 2012-04-01
  * @description  xyz
  */
-// PHP less then 5.3.2 is prohibited ---
-if (version_compare(PHP_VERSION, '5.3.2', '<')) {
-    $sMsg = '<p style="color: #ff0000;">WebsiteBaker 2.8.4 and above is not able to run with PHP-Version less then 5.3.2!!<br />'
-          . 'Please change your PHP-Version to any kind from 5.3.2 and up!<br />'
+// PHP less then 5.4.0 is prohibited ---
+if (version_compare(PHP_VERSION, '5.4.0', '<')) {
+    $sMsg = '<p style="color: #ff0000;">WebsiteBaker 2.8.4 and above is not able to run with PHP-Version less then 5.4.0!!<br />'
+          . 'Please change your PHP-Version to any kind from 5.4.0 and up!<br />'
           . 'If you have problems to solve that, ask your hosting provider for it.<br  />'
           . 'The very best solution is the use of PHP-5.4 and up</p>';
     die($sMsg);
 }
+include(__DIR__.'/InstallHelper.php');
 // Start a session
 if(!defined('SESSION_STARTED')) {
 	session_name('wb_session_id');
@@ -203,20 +204,17 @@ function change_os(type) {
 		</tr>
 		<?php } ?>
 		<tr>
-			<td style="color: #666666;">PHP Version 5.3.2 and up</td>
-			<td>
-				<?php
-			   if (version_compare(PHP_VERSION, '5.3.2', '>='))
-			   {
-					?><font class="good">Yes</font><?php
-				} else {
-					$installFlag = false;
-					?><font class="bad">No</font><?php
-				}
-				?>
-			</td>
 			<td style="color: #666666;">PHP Session Support</td>
-			<td><?php echo $session_support; ?></td>
+			<td>
+				<?php echo $session_support; ?>
+                ?>
+			</td>
+			<td style="color: #666666;">
+                &nbsp;
+            </td>
+			<td>
+                $nbsp;
+            </td>
 		</tr>
 	<tr>
 		<td style="color: #666666;">PHP Interface</td>
@@ -226,18 +224,8 @@ function change_os(type) {
 						<?php echo $sapi ?>
 						</font>
 			</td>
-		<td style="color: #666666;">magic_quotes_gpc</td>
-			<td >
-				<?php
-						?><font class="good">
-						<?php echo $getMagicQuotesGpc ?>
-						</font>
-			</td>
-
-		</tr>
-
 		<td style="color: #666666;">Server DefaultCharset</td>
-			<td>
+			<td >
 				<?php
 					$chrval = (($e_adc != '') && (strtolower($e_adc) != 'utf-8') ? true : false);
 					if($chrval == false) {
@@ -248,18 +236,6 @@ function change_os(type) {
 					} else {
 						?><font class="bad"><?php echo $e_adc ?></font><?php
 					}
-
-				?>
-			</td>
-			<td style="color: #666666;">PHP Safe Mode</td>
-			<td>
-				<?php
-				if(ini_get('safe_mode')=='' || strpos(strtolower(ini_get('safe_mode')), 'off')!==FALSE || ini_get('safe_mode')==0) {
-					?><font class="good">Disabled</font><?php
-				} else {
-					$installFlag = false;
-					?><font class="bad">Enabled</font><?php
-				}
 				?>
 			</td>
 		</tr>
@@ -363,45 +339,26 @@ But this solution does not guarranty a correct displaying of the content from al
 			</td>
 			<td>
 				<select <?php echo field_error('default_timezone');?> tabindex="3" name="default_timezone" style="width: 100%;">
-					<?php
-					$TIMEZONES['-12'] = 'GMT - 12 Hours';
-					$TIMEZONES['-11'] = 'GMT -11 Hours';
-					$TIMEZONES['-10'] = 'GMT -10 Hours';
-					$TIMEZONES['-9'] = 'GMT -9 Hours';
-					$TIMEZONES['-8'] = 'GMT -8 Hours';
-					$TIMEZONES['-7'] = 'GMT -7 Hours';
-					$TIMEZONES['-6'] = 'GMT -6 Hours';
-					$TIMEZONES['-5'] = 'GMT -5 Hours';
-					$TIMEZONES['-4'] = 'GMT -4 Hours';
-					$TIMEZONES['-3.5'] = 'GMT -3.5 Hours';
-					$TIMEZONES['-3'] = 'GMT -3 Hours';
-					$TIMEZONES['-2'] = 'GMT -2 Hours';
-					$TIMEZONES['-1'] = 'GMT -1 Hour';
-					$TIMEZONES['0'] = 'GMT';
-					$TIMEZONES['1'] = 'GMT +1 Hour';
-					$TIMEZONES['2'] = 'GMT +2 Hours';
-					$TIMEZONES['3'] = 'GMT +3 Hours';
-					$TIMEZONES['3.5'] = 'GMT +3.5 Hours';
-					$TIMEZONES['4'] = 'GMT +4 Hours';
-					$TIMEZONES['4.5'] = 'GMT +4.5 Hours';
-					$TIMEZONES['5'] = 'GMT +5 Hours';
-					$TIMEZONES['5.5'] = 'GMT +5.5 Hours';
-					$TIMEZONES['6'] = 'GMT +6 Hours';
-					$TIMEZONES['6.5'] = 'GMT +6.5 Hours';
-					$TIMEZONES['7'] = 'GMT +7 Hours';
-					$TIMEZONES['8'] = 'GMT +8 Hours';
-					$TIMEZONES['9'] = 'GMT +9 Hours';
-					$TIMEZONES['9.5'] = 'GMT +9.5 Hours';
-					$TIMEZONES['10'] = 'GMT +10 Hours';
-					$TIMEZONES['11'] = 'GMT +11 Hours';
-					$TIMEZONES['12'] = 'GMT +12 Hours';
-					$TIMEZONES['13'] = 'GMT +13 Hours';
-					foreach($TIMEZONES AS $hour_offset => $title) {
-						?>
-							<option value="<?php echo $hour_offset; ?>"<?php if(isset($_SESSION['default_timezone']) AND $_SESSION['default_timezone'] == $hour_offset) { echo ' selected="selected"'; } elseif(!isset($_SESSION['default_timezone']) AND $hour_offset == 0) { echo ' selected="selected"'; } ?>><?php echo $title; ?></option>
-						<?php
-					}
-					?>
+<?php
+/*
+ build list of TimeZone options
+*/
+    $aZones = array(-12,-11,-10,-9,-8,-7,-6,-5,-4,-3.5,-3,-2,-1,0,1,2,3,3.5,4,4.5,5,5.5,6,6.5,7,8,9,9.5,10,11,12,13);
+    $sOutput = PHP_EOL;
+    foreach($aZones as $fOffset) {
+        $sItemTitle = 'GMT '.(($fOffset>0)?'+':'').(($fOffset==0)?'':(string)$fOffset.' Hours');
+        $sOutput .= '<option value="'.(string)$fOffset.'"';
+        if (
+            (isset($_SESSION['default_timezone']) AND $_SESSION['default_timezone'] == (string)$fOffset) ||
+            (!isset($_SESSION['default_timezone']) AND $fOffset == 0)
+        ) {
+            $sOutput .= ' selected="selected"';
+        }
+        $sOutput .= '>'.$sItemTitle.'</option>'.PHP_EOL;
+    }
+// output Timezone options
+    echo $sOutput;
+?>
 				</select>
 			</td>
 		</tr>
@@ -411,26 +368,26 @@ But this solution does not guarranty a correct displaying of the content from al
 			</td>
 			<td>
 				<select <?php echo field_error('default_language');?> tabindex="3" name="default_language" style="width: 100%;">
-					<?php
-                	$sAutoLanguage = 'EN'; // default, if no information from client available
-                	if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-                		if(preg_match('/([a-z]{2})(?:-[a-z]{2})*/i', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']), $matches)) {
-                			$sAutoLanguage = strtoupper($matches[1]);
-                		}
-                	}
-                	$sAutoLanguage = isset($_SESSION['default_language']) ? $_SESSION['default_language'] : $sAutoLanguage;
-					$DEFAULT_LANGUAGE = array(
-						'BG'=>'Bulgarian', 'CA'=>'Catalan', 'CS'=>'&#268;e&scaron;tina', 'DA'=>'Danish', 'DE'=>'Deutsch', 'EN'=>'English',
-						'ES'=>'Spanish', 'ET'=>'Eesti', 'FI'=>'Suomi', 'FR'=>'Fran&ccedil;ais',
-						'HR'=>'Hrvatski', 'HU'=>'Magyar','IT'=>'Italiano', 'LV'=>'Latviesu',
-						'NL'=>'Nederlands', 'NO'=>'Norsk', 'PL'=>'Polski', 'PT'=>'Portuguese (Brazil)', 'RU'=>'Russian', 'SE'=>'Svenska','SK'=>'Slovensky','TR'=>'Turkish'
-					);
-					foreach($DEFAULT_LANGUAGE as $lang_id => $lang_title) {
-						?>
-							<option value="<?php echo $lang_id; ?>"<?php if($sAutoLanguage == $lang_id) { echo ' selected="selected"'; }  ?> ><?php echo $lang_title; ?></option>
-						<?php
-					}
-					?>
+<?php
+/*
+ Find all available languages in /language/ folder and build option list from
+*/
+    $sLangDir = str_replace('\\', '/', dirname(__DIR__).'/languages/');
+    $aAvailableLanguages = InstallHelper::getAvailableLanguages($sLangDir);
+    $sOutput = PHP_EOL;
+    foreach ($aAvailableLanguages as $sLangCode => $sLangName) {
+        $sOutput .= '<option value="'.$sLangCode.'"';
+        if (
+            (isset($_SESSION['default_language']) AND $_SESSION['default_language'] == $sLangCode) ||
+            (!isset($_SESSION['default_language']) AND $sLangCode == 'EN')
+        ) {
+            $sOutput .= ' selected="selected"';
+        }
+        $sOutput .= '>'.$sLangName.'</option>'.PHP_EOL;
+    }
+// output Language options
+    echo $sOutput;
+?>
 				</select>
 			</td>
 		</tr>

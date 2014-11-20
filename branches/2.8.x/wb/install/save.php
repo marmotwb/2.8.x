@@ -39,6 +39,7 @@ if(!defined('DEBUG')) { define('DEBUG', true); }
 include(dirname(__DIR__).'/framework/globalExceptionHandler.php');
 include(dirname(__DIR__).'/framework/WbAutoloader.php');
 WbAutoloader::doRegister(array('admin'=>'a', 'modules'=>'m', 'templates'=>'t', 'include'=>'i'));
+include(__DIR__.'/InstallHelper.php');
 // register PHPMailer autoloader ---
 if (!function_exists('PHPMailerAutoload')) {
     require(dirname(__DIR__).'/include/phpmailer/PHPMailerAutoload.php');
@@ -261,7 +262,8 @@ if(!isset($_POST['default_timezone']) OR !is_numeric($_POST['default_timezone'])
 // End path and timezone details code
 
 // Get the default language
-$allowed_languages = array('BG','CA', 'CS', 'DA', 'DE', 'EN', 'ES', 'ET', 'FI', 'FR', 'HR', 'HU', 'IT', 'LV', 'NL', 'NO', 'PL', 'PT', 'RU','SE','SK','TR');
+$sLanguageDirectory = dirname(__DIR__).'languages/';
+$allowed_languages = array_keys(InstallHelper::getAvailableLanguages($sLanguageDirectory));
 if(!isset($_POST['default_language']) OR !in_array($_POST['default_language'], $allowed_languages)) {
 	set_error('Please select a valid default backend language','default_language');
 } else {
@@ -400,6 +402,7 @@ $sConfigContent =
 ."pass    = \"".$database_password."\"\n"
 ."host    = \"".$database_host."\"\n"
 ."port    = \"3306\"\n"
+."socket  = \"\"\n"
 ."name    = \"".$database_name."\"\n"
 ."charset = \"utf8\"\n"
 ."table_prefix = \"".$table_prefix."\"\n"
@@ -463,121 +466,70 @@ if(!file_put_contents($sSetupFile,$sConfigContent)) {
 $sSecMod = (defined('SECURE_FORM_MODULE') && SECURE_FORM_MODULE != '') ? '.'.SECURE_FORM_MODULE : '';
 $sSecMod = WB_PATH.'/framework/SecureForm'.$sSecMod.'.php';
 require_once($sSecMod);
+require(ADMIN_PATH.'/interface/version.php');
+
+/*****************************
+Begin Create Database Tables
+*****************************/
+if (is_readable(__DIR__.'/sql/install-struct.sql')) {
+    if (! $database->SqlImport(__DIR__.'/sql/install-struct.sql', TABLE_PREFIX, false)) {
+        set_error('unable to import install-struct.sql');
+    }
+}
+if (is_readable(__DIR__.'/sql/install-data.sql')) {
+    if (! $database->SqlImport(__DIR__.'/sql/install-data.sql', TABLE_PREFIX)) {
+        set_error('unable to import install-data.sql');
+    }
+}
+$sql = // additional settings from install input
+       'REPLACE INTO `'.TABLE_PREFIX.'settings` (`name`, `value`) VALUES '
+     .        '(\'wb_version\', \''.VERSION.'\'), '
+     .        '(\'website_title\', \''.$website_title.'\'), '
+     .        '(\'default_language\', \''.$default_language.'\'), '
+     .        '(\'app_name\', \'wb_'.$session_rand.'\'), '
+     .        '(\'default_timezone\', \''.$default_timezone.'\'), '
+     .        '(\'operating_system\', \''.$operating_system.'\'), '
+     .        '(\'string_file_mode\', \''.$file_mode.'\'), '
+     .        '(\'string_dir_mode\', \''.$dir_mode.'\'), '
+     .        '(\'server_email\', \''.$admin_email.'\'), '
+     .        '(\'wb_revision\', \''.REVISION.'\'), '
+     .        '(\'wb_sp\', \''.SP.'\'), '
+     .        '(\'groups_updated\', \''.time().'\')';
+if (! ($database->query($sql))) {
+    set_error('unable to write \'install presets\' into table \'settings\'');
+}
+$sql = // add the Admin user
+     'INSERT INTO `'.TABLE_PREFIX.'users` '
+    .'SET `user_id`=1, '
+    .    '`group_id`=1, '
+    .    '`groups_id`=\'1\', '
+    .    '`active`=\'1\', '
+    .    '`username`=\''.$admin_username.'\', '
+    .    '`password`=\''.md5($admin_password).'\', '
+    .    '`email`=\''.$admin_email.'\', '
+    .    '`timezone`=\''.$default_timezone.'\', '
+    .    '`language`=\''.$default_language.'\', '
+    .    '`display_name`=\'Administrator\'';
+if (! ($database->query($sql))) {
+    set_error('unable to write Administrator account into table \'users\'');
+}
+/**********************
+END OF TABLES IMPORT
+**********************/
+// initialize the system
+require_once(WB_PATH.'/framework/initialize.php');
 require_once(WB_PATH.'/framework/class.admin.php');
-
+/***********************
 // Dummy class to allow modules' install scripts to call $admin->print_error
-	class admin_dummy extends admin
-	{
-		var $error='';
-		function print_error($message, $link = 'index.php', $auto_footer = true)
-		{
-			$this->error=$message;
-		}
-	}
-
-//  core tables only structure
-	$sSqlFileName = dirname(__FILE__).'/sql/websitebaker.sql';
-	if(!$database->SqlImport($sSqlFileName,TABLE_PREFIX, false)) { set_error($database->get_error()); }
-
-	require(ADMIN_PATH.'/interface/version.php');
-
-	$sql = 'INSERT INTO `'.TABLE_PREFIX.'settings` (`name`, `value`) VALUES '
-	     . '(\'wb_version\', \''.VERSION.'\'), '
-	     . '(\'website_title\', \''.$website_title.'\'), '
-	     . '(\'website_description\', \'\'), '
-	     . '(\'website_keywords\', \'\'), '
-	     . '(\'website_header\', \'\'), '
-	     . '(\'website_footer\', \'\'), '
-	     . '(\'wysiwyg_style\', \'font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;\'), '
-	     . '(\'er_level\', \'0\'), '
-	     . '(\'default_language\', \''.$default_language.'\'), '
-	     . '(\'app_name\', \'wb_'.$session_rand.'\'), '
-	     . '(\'sec_anchor\', \'Sec\'), '
-	     . '(\'server_timezone\', \'UTC\'), '
-	     . '(\'default_timezone\', \''.$default_timezone.'\'), '
-	     . '(\'default_date_format\', \'Y-m-d\'), '
-	     . '(\'default_time_format\', \'h:i A\'), '
-	     . '(\'redirect_timer\', \'1500\'), '
-	     . '(\'home_folders\', \'false\'), '
-	     . '(\'warn_page_leave\', \'1\'), '
-	     . '(\'default_template\', \'round\'), '
-	     . '(\'default_theme\', \'WbTheme\'), '
-	     . '(\'default_charset\', \'utf-8\'), '
-	     . '(\'multiple_menus\', \'true\'), '
-	     . '(\'page_level_limit\', \'6\'), '
-	     . '(\'intro_page\', \'false\'), '
-	     . '(\'page_trash\', \'inline\'), '
-	     . '(\'homepage_redirection\', \'false\'), '
-	     . '(\'page_languages\', \'false\'), '
-	     . '(\'wysiwyg_editor\', \'fckeditor\'), '
-	     . '(\'manage_sections\', \'true\'), '
-	     . '(\'section_blocks\', \'false\'), '
-	     . '(\'smart_login\', \'false\'), '
-	     . '(\'frontend_login\', \'false\'), '
-	     . '(\'frontend_signup\', \'false\'), '
-	     . '(\'search\', \'public\'), '
-	     . '(\'page_extension\', \'.php\'), '
-	     . '(\'page_spacer\', \'-\'), '
-	     . '(\'pages_directory\', \'/pages\'), '
-	     . '(\'rename_files_on_upload\', \'ph.*?,cgi,pl,pm,exe,com,bat,pif,cmd,src,asp,aspx,js,txt\'), '
-	     . '(\'media_directory\', \'/media\'), '
-	     . '(\'operating_system\', \''.$operating_system.'\'), '
-	     . '(\'string_file_mode\', \''.$file_mode.'\'), '
-	     . '(\'string_dir_mode\', \''.$dir_mode.'\'), '
-	     . '(\'wbmailer_routine\', \'phpmail\'), '
-	     . '(\'server_email\', \''.$admin_email.'\'), '
-	     . '(\'wbmailer_default_sendername\', \'WebsiteBaker Mailer\'), '
-	     . '(\'wbmailer_smtp_host\', \'\'), '
-	     . '(\'wbmailer_smtp_auth\', \'\'), '
-	     . '(\'wbmailer_smtp_username\', \'\'), '
-	     . '(\'wbmailer_smtp_password\', \'\'), '
-	     . '(\'fingerprint_with_ip_octets\', \'2\'), '
-	     . '(\'secure_form_module\', \'\'), '
-	     . '(\'mediasettings\', \'\'), '
-	     . '(\'wb_revision\', \''.REVISION.'\'), '
- 	     . '(\'wb_sp\', \''.SP.'\'), '
-	     . '(\'page_icon_dir\', \'/templates/*/title_images\'), '
-	     . '(\'dev_infos\', \'false\'), '
-	     . '(\'groups_updated\', \''.time().'\'), '
-	     . '(\'wbmail_signature\', \'\'), '
-	     . '(\'confirmed_registration\', \'1\'), '
-	     . '(\'page_extendet\', \'true\'), '
-	     . '(\'system_locked\', \'0\'), '
-	     . '(\'password_crypt_loops\', \'12\'), '
-	     . '(\'password_hash_type\', \'false\'), '
-	     . '(\'password_length\', \'10\'), '
-		 . '(\'password_use_types\', \''.(int)0xFFFF.'\') '
-	     . '';
-	if(!$database->query($sql)) { set_error($database->get_error()); }
-
-	// Admin group
-	$full_system_permissions  = 'access,addons,admintools,admintools_view,groups,groups_add,groups_delete,'
-	                          . 'groups_modify,groups_view,languages,languages_install,languages_uninstall,'
-	                          . 'languages_view,media,media_create,media_delete,media_rename,media_upload,'
-	                          . 'media_view,modules,modules_advanced,modules_install,modules_uninstall,'
-	                          . 'modules_view,pages,pages_add,pages_add_l0,pages_delete,pages_intro,'
-	                          . 'pages_modify,pages_settings,pages_view,preferences,preferences_view,'
-	                          . 'settings,settings_advanced,settings_basic,settings_view,templates,'
-	                          . 'templates_install,templates_uninstall,templates_view,users,users_add,'
-	                          . 'users_delete,users_modify,users_view';
-	$sql = 'INSERT INTO `'.TABLE_PREFIX.'groups` '
-	     . 'SET `group_id` =1,'
-	     .     '`name`=\'Administrators\','
-		 .     '`system_permissions`=\''.$full_system_permissions.'\','
-		 .     '`module_permissions`=\'\','
-		 .     '`template_permissions`=\'\'';
-	if(!$database->query($sql)) { set_error($database->get_error()); }
-
-// Admin user
-	$insert_admin_user = "INSERT INTO `".TABLE_PREFIX."users` VALUES (1, 1, '1', 1, '$admin_username', '".md5($admin_password)."', '', 0, '', 0, 'Administrator', '$admin_email', $default_timezone, '', '', '$default_language', '', 0, '');";
-	if(!$database->query($insert_admin_user)) { set_error($database->get_error()); }
-
-// Search layout default data
-	$sSqlFileName = dirname(__FILE__).'/sql/wb_search_data.sql';
-	if(!$database->SqlImport($sSqlFileName,TABLE_PREFIX, false)) { set_error($database->get_error()); }
-
-	require_once(WB_PATH.'/framework/initialize.php');
-// 
+***********************/
+class admin_dummy extends admin
+{
+    public $error='';
+    public function print_error($message, $link = 'index.php', $auto_footer = true)
+    {
+        $this->error=$message;
+    }
+}
 // Include WB functions file
 	require_once(WB_PATH.'/framework/functions.php');
 // Re-connect to the database, this time using in-build database class
@@ -585,44 +537,32 @@ require_once(WB_PATH.'/framework/class.admin.php');
 	// Include the PclZip class file (thanks to
 	require_once(WB_PATH.'/include/pclzip/pclzip.lib.php');
 	// Install add-ons
-	if(file_exists(WB_PATH.'/install/modules')) {
-		// Unpack pre-packaged modules
-	}
-	if(file_exists(WB_PATH.'/install/templates')) {
-		// Unpack pre-packaged templates
-	}
-	if(file_exists(WB_PATH.'/install/languages')) {
-		// Unpack pre-packaged languages
-	}
-
 	$admin=new admin_dummy('Start','',false,false);
-	// Load addons into DB
-	$dirs['modules'] = WB_PATH.'/modules/';
-	$dirs['templates'] = WB_PATH.'/templates/';
-	$dirs['languages'] = WB_PATH.'/languages/';
-
-	foreach($dirs AS $type => $dir) {
-		if(($handle = opendir($dir))) {
-			while(false !== ($file = readdir($handle))) {
-				if($file != '' AND substr($file, 0, 1) != '.' AND $file != 'admin.php' AND $file != 'index.php') {
-					// Get addon type
-					if($type == 'modules') {
-						load_module($dir.'/'.$file, true);
-						// Pretty ugly hack to let modules run $admin->set_error
-						// See dummy class definition admin_dummy above
-						if ($admin->error!='') {
-							set_error($admin->error);
-						}
-					} elseif($type == 'templates') {
-						load_template($dir.'/'.$file);
-					} elseif($type == 'languages') {
-						load_language($dir.'/'.$file);
-					}
-				}
-			}
-			closedir($handle);
-		}
-	}
+// Load addons and templates into DB
+    $aScanDirs = array(
+        'module'   => dirname(__DIR__).'/modules/',
+        'template' => dirname(__DIR__).'/templates/',
+        'language' => dirname(__DIR__).'/languages/'
+    );
+    foreach ($aScanDirs as $sType => $sPath) {
+        $sCommand = 'load_'.$sType;
+        if ($sType != 'language') {
+            foreach (glob($sPath, GLOB_ONLYDIR) as $sMatchingPath) {
+                if ($sType == 'module') {
+                    $sCommand($sMatchingPath, true);
+                    if ($admin->error) { set_error($admin->error); }
+                } elseif ($sType == 'template') {
+                    $sCommand($sMatchingPath);
+                }
+            }
+        } else {
+            foreach (glob(dirname(__DIR__).'/languages/??.php') as $sMatchingPath) {
+                if (preg_match('/\/[A-Z]{2}\.php$/sU', $sMatchingPath)) {
+                    $sCommand($sMatchingPath);
+                }
+            }
+        }
+    }
 
 // Check if there was a database error
 	if($database->is_error()) {
