@@ -33,6 +33,19 @@
 
 /* -------------------------------------------------------- */
 @define('DATABASE_CLASS_LOADED', true);
+	/* define the old mysql consts for Backward compatibility */
+	if (!defined('MYSQL_ASSOC'))
+	{
+		define('MYSQL_SEEK_LAST',            -1);
+		define('MYSQL_SEEK_FIRST',            0);
+		define('MYSQL_ASSOC',                 1);
+		define('MYSQL_NUM',                   2);
+		define('MYSQL_BOTH',                  3);
+		define('MYSQL_CLIENT_COMPRESS',      32);
+		define('MYSQL_CLIENT_IGNORE_SPACE', 256);
+		define('MYSQL_CLIENT_INTERACTIVE', 1024);
+		define('MYSQL_CLIENT_SSL',         2048);
+	}
 
 class WbDatabase {
 
@@ -52,17 +65,17 @@ class WbDatabase {
  * __constructor
  *  prevent from public instancing
  */
-	private function  __construct() {}
+	final private function  __construct() {}
 /**
  * prevent from cloning
  */
-	private function __clone() {}
+	final private function __clone() {}
 /**
  * get a valid instance of this class
  * @param string $sIdentifier selector for several different instances
  * @return WbDatabase object
  */
-	public static function getInstance($sIdentifier = 'core')
+	final public static function getInstance($sIdentifier = 'core')
 	{
 		if( !isset(self::$_oInstances[$sIdentifier])) {
             $c = __CLASS__;
@@ -76,7 +89,7 @@ class WbDatabase {
  * disconnect and kills an existing instance
  * @param string $sIdentifier selector for instance to kill
  */
-	public static function killInstance($sIdentifier)
+	final public static function killInstance($sIdentifier)
 	{
 		if($sIdentifier != 'core') {
 			if( isset(self::$_oInstances[$sIdentifier])) {
@@ -105,7 +118,7 @@ class WbDatabase {
 			$username = isset($aIni['user']) ? $aIni['user'] : '';
 			$password = isset($aIni['pass']) ? $aIni['pass'] : '';
 			$hostport = isset($aIni['port']) ? $aIni['port'] : '3306';
-			$hostport = $hostport == '3306' ? '' : ':'.$hostport;
+			$hostport = $hostport == '3306' ? null : $hostport;
 			$db_name  = ltrim(isset($aIni['path']) ? $aIni['path'] : '', '/\\');
 			$sTmp = isset($aIni['query']) ? $aIni['query'] : '';
 			$aQuery = explode('&', $sTmp);
@@ -126,21 +139,14 @@ class WbDatabase {
 		} else {
 			throw new WbDatabaseException('Missing parameter: unable to connect database');
 		}
-		$this->oDbHandle = @mysql_connect($hostname.$hostport, $username, $password, true);
+		$this->oDbHandle = @mysqli_connect($hostname, $username, $password, $db_name, $hostport);
 		if (!$this->oDbHandle) {
-			throw new WbDatabaseException('unable to connect \''.$scheme.'://'.$hostname.$hostport.'\'');
+			throw new WbDatabaseException('unable to connect \''.$scheme.'://'.$hostname.':'.$hostport.'\'');
 		} else {
-			if (!@mysql_select_db($db_name, $this->oDbHandle)) {
-				throw new WbDatabaseException('unable to select database \''.$db_name.
-				                              '\' on \''.$scheme.'://'.
-				                              $hostname.$hostport.'\''
-				                             );
-			} else {
-				if ($this->sCharset) {
-					@mysql_query('SET NAMES \''.$this->sCharset.'\'', $this->oDbHandle);
-				}
-				$this->connected = true;
-			}
+            if ($this->sCharset) {
+                @mysqli_query($this->oDbHandle, 'SET NAMES \''.$this->sCharset.'\'');
+            }
+            $this->connected = true;
 		}
 		return $this->connected;
 	}
@@ -153,7 +159,7 @@ class WbDatabase {
 	public function disconnect()
 	{
 		if ($this->connected == true && $oInstance->sInstanceIdentifier != 'core') {
-			mysql_close($this->oDbHandle);
+			mysqli_close($this->oDbHandle);
 			$this->connected = false;
 			return true;
 		}
@@ -161,6 +167,7 @@ class WbDatabase {
 	}
 /**
  * Alias for doQuery()
+ * @deprecated from WB-2.8.5 and higher
  */
 	public function query($statement)
 	{
@@ -173,10 +180,10 @@ class WbDatabase {
  */
 	public function doQuery($statement) {
 		$this->iQueryCount++;
-		$mysql = new mysql();
-		$mysql->query($statement, $this->oDbHandle);
+		$mysql = new mysql($this->oDbHandle);
+		$mysql->query($statement);
 		$this->set_error($mysql->error($this->oDbHandle));
-		if ($mysql->error($this->oDbHandle)) {
+		if ($mysql->error()) {
 			return null;
 		} else {
 			return $mysql;
@@ -184,6 +191,7 @@ class WbDatabase {
 	}
 /**
  * Alias for getOne()
+ * @deprecated from WB-2.8.5 and higher
  */
 	public function get_one( $statement )
 	{
@@ -198,10 +206,11 @@ class WbDatabase {
 	public function getOne( $statement )
 	{
 		$this->iQueryCount++;
-		$fetch_row = mysql_fetch_array(mysql_query($statement, $this->oDbHandle));
+		$fetch_row = mysqli_fetch_array(mysqli_query($this->oDbHandle, $statement));
 		$result = $fetch_row[0];
-		$this->set_error(mysql_error($this->oDbHandle));
-		if (mysql_error($this->oDbHandle)) {
+		$this->set_error(null);
+		if (mysqli_error($this->oDbHandle)) {
+    		$this->set_error(mysqli_error($this->oDbHandle));
 			return null;
 		} else {
 			return $result;
@@ -209,6 +218,7 @@ class WbDatabase {
 	}
 /**
  * Alias for setError()
+ * @deprecated from WB-2.8.5 and higher
  */
 	public function set_error($message = null)
 	{
@@ -225,6 +235,7 @@ class WbDatabase {
 	}
 /**
  * Alias for isError
+ * @deprecated from WB-2.8.5 and higher
  */
 	public function is_error()
 	{
@@ -240,6 +251,7 @@ class WbDatabase {
 	}
 /**
  * Alias for getError
+ * @deprecated from WB-2.8.5 and higher
  */
 	public function get_error()
 	{
@@ -278,7 +290,7 @@ class WbDatabase {
 				break;
 			case 'LastInsertId':
 			case 'getLastInsertId': // << set deprecated
-				$retval = mysql_insert_id($this->oDbHandle);
+				$retval = $this->getLastInsertId();
 				break;
 			case 'DbName':
 			case 'getDbName': // << set deprecated
@@ -306,7 +318,7 @@ class WbDatabase {
  */
 	public function escapeString($unescaped_string)
 	{
-		return mysql_real_escape_string($unescaped_string, $this->oDbHandle);
+		return mysqli_real_escape_string($this->oDbHandle, $unescaped_string);
 	}
 /**
  * Last inserted Id
@@ -314,10 +326,11 @@ class WbDatabase {
  */	
 	public function getLastInsertId()
 	{
-		return mysql_insert_id($this->oDbHandle);
+		return mysqli_insert_id($this->oDbHandle);
 	}
 /**
  * Alias for isField()
+ * @deprecated from WB-2.8.5 and higher
  */
 	public function field_exists($table_name, $field_name)
 	{
@@ -331,11 +344,12 @@ class WbDatabase {
 	public function isField($table_name, $field_name)
 	{
 		$sql = 'DESCRIBE `'.$table_name.'` `'.$field_name.'` ';
-		$query = $this->query($sql, $this->oDbHandle);
+		$query = $this->doQuery($sql);
 		return ($query->numRows() != 0);
 	}
 /**
  * Alias for isIndex()
+ * @deprecated from WB-2.8.5 and higher
  */
 	public function index_exists($table_name, $index_name, $number_fields = 0)
 	{
@@ -352,7 +366,7 @@ class WbDatabase {
 		$number_fields = intval($number_fields);
 		$keys = 0;
 		$sql = 'SHOW INDEX FROM `'.$table_name.'`';
-		if (($res_keys = $this->doQuery($sql, $this->oDbHandle))) {
+		if (($res_keys = $this->doQuery($sql))) {
 			while (($rec_key = $res_keys->fetchRow(MYSQL_ASSOC))) {
 				if ( $rec_key['Key_name'] == $index_name ) {
 					$keys++;
@@ -368,6 +382,7 @@ class WbDatabase {
 	}
 /**
  * Alias for addField()
+ * @deprecated from WB-2.8.5 and higher
  */
 	public function field_add($table_name, $field_name, $description)
 	{
@@ -384,8 +399,8 @@ class WbDatabase {
 		if (!$this->isField($table_name, $field_name)) {
 		// add new field into a table
 			$sql = 'ALTER TABLE `'.$table_name.'` ADD '.$field_name.' '.$description.' ';
-			$query = $this->doQuery($sql, $this->oDbHandle);
-			$this->set_error(mysql_error($this->oDbHandle));
+			$query = $this->doQuery($sql);
+			$this->set_error(mysqli_error($this->oDbHandle));
 			if (!$this->isError()) {
 				return ( $this->isField($table_name, $field_name) ) ? true : false;
 			}
@@ -396,6 +411,7 @@ class WbDatabase {
 	}
 /**
  * Alias for modifyField()
+ * @deprecated from WB-2.8.5 and higher
  */
 	public function field_modify($table_name, $field_name, $description)
 	{
@@ -413,13 +429,14 @@ class WbDatabase {
 		if ($this->isField($table_name, $field_name)) {
 		// modify a existing field in a table
 			$sql  = 'ALTER TABLE `'.$table_name.'` MODIFY `'.$field_name.'` '.$description;
-			$retval = ( $this->doQuery($sql, $this->oDbHandle) ? true : false);
-			$this->setError(mysql_error());
+			$retval = ( $this->doQuery($sql) ? true : false);
+			$this->setError(mysqli_error($this->oDbHandle));
 		}
 		return $retval;
 	}
 /**
  * Alias for removeField()
+ * @deprecated from WB-2.8.5 and higher
  */
 	public function field_remove($table_name, $field_name)
 	{
@@ -442,6 +459,7 @@ class WbDatabase {
 	}
 /**
  * Alias for addIndex()
+ * @deprecated from WB-2.8.5 and higher
  */
     public function index_add($table_name, $index_name, $field_list, $index_type = 'KEY')
 	{
@@ -466,17 +484,18 @@ class WbDatabase {
         {
             $sql  = 'ALTER TABLE `'.$table_name.'` ';
             $sql .= 'DROP INDEX `'.$index_name.'`';
-            if (!$this->doQuery($sql, $this->oDbHandle)) { return false; }
+            if (!$this->doQuery($sql)) { return false; }
         }
         $sql  = 'ALTER TABLE `'.$table_name.'` ';
         $sql .= 'ADD '.$index_type.' ';
         $sql .= $index_type == 'PRIMARY' ? 'KEY ' : '`'.$index_name.'` ';
         $sql .= '( '.$field_list.' ); ';
-        if ($this->doQuery($sql, $this->oDbHandle)) { $retval = true; }
+        if ($this->doQuery($sql)) { $retval = true; }
         return $retval;
     }
 /**
  * Alias for removeIndex()
+ * @deprecated from WB-2.8.5 and higher
  */
 	public function index_remove($table_name, $index_name)
 	{
@@ -493,70 +512,158 @@ class WbDatabase {
 		if ($this->isIndex($table_name, $index_name)) {
 		// modify a existing field in a table
 			$sql  = 'ALTER TABLE `'.$table_name.'` DROP INDEX `'.$index_name.'`';
-			$retval = ( $this->doQuery($sql, $this->oDbHandle) ? true : false );
+			$retval = ( $this->doQuery($sql) ? true : false );
 		}
 		return $retval;
 	}
 /**
  * Alias for importSql()
+ * @deprecated from WB-2.8.5 and higher
  */
 	public function SqlImport($sSqlDump,
 	                          $sTablePrefix = '',
-	                          $bPreserve    = true,
+	                          $sAction      = 'install',
 	                          $sEngine      = 'MyISAM',
 	                          $sCollation   = 'utf8_unicode_ci')
 	{
 		return $this->importSql($sSqlDump, $sTablePrefix, $bPreserve, $sEngine, $sCollation);
 	}
 /**
- * Import a standard *.sql dump file
- * @param string $sSqlDump link to the sql-dumpfile
- * @param string $sTablePrefix
- * @param bool     $bPreserve   set to true will ignore all DROP TABLE statements
- * @param string   $sEngine     can be 'MyISAM' or 'InnoDB'
- * @param string   $sCollation  one of the list of available collations
- * @return boolean true if import successful
- * @description Import a standard *.sql dump file<br />
- *              The file can include placeholders TABLE_PREFIX, TABLE_COLLATION and TABLE_ENGINE
+ * Import an SQl-Dumpfile witch can include unlimited placeholders for values
+ * @param mixed  $mSqlDump      can be string with filename or array with additional vars
+ * @param string $sTablePrefix  can be used to override settings from WbDatabase object
+ * @param string $sAction       'install', 'uninstall', 'upgrade', 'repair
+ * @param string $sEngine       kind of table engine: MyIsam(default)
+ * @param string $sCollation    utf8_unicode_ci(default)
+ * @return bool  false on error
  */
-	public function importSql($sSqlDump,
-	                          $sTablePrefix = '', /* unused argument, for backward compatibility only! */
-	                          $bPreserve    = true,
-	                          $sEngine      = 'MyISAM',
-	                          $sCollation   = 'utf8_unicode_ci')
-	{
-		$sCollation = ($sCollation != '' ? $sCollation : 'utf8_unicode_ci');
-		$aCharset = preg_split('/_/', $sCollation, null, PREG_SPLIT_NO_EMPTY);
-		$sEngine = 'ENGINE='.$sEngine.' DEFAULT CHARSET='.$aCharset[0].' COLLATE='.$sCollation;
-		$sCollation = ' collate '.$sCollation;
+	public function importSql(
+        $mSqlDump,
+        $sTablePrefix = '',               // can override settings from WbDatabase object
+        $sAction      = 'install',        // skip 'DROP TABLE' statements
+        $sEngine      = 'MyISAM',         // the default table engine
+        $sCollation   = 'utf8_unicode_ci' // the default collation to use
+    )
+    {
 		$retval = true;
 		$this->error = '';
-		$aSearch  = array('{TABLE_PREFIX}','{TABLE_ENGINE}', '{TABLE_COLLATION}');
-		$aReplace = array($this->sTablePrefix, $sEngine, $sCollation);
+        // sanitize arguments
+        if (! is_string($sAction)) {
+            $sAction = $sAction ? 'repair' : 'install';
+        }
+        $aAllowedActions = array('install', 'uninstall', 'upgrade', 'repair');
+        $sAction = strtolower(preg_replace('/^.*?('.implode('|', $aAllowedActions).')(\.php)?$/iU', '$1', $sAction));
+        $sAction = (in_array($sAction, $aAllowedActions) ? $sAction : 'install');
+        $sTablePrefix = trim($sTablePrefix);
+        $aEngineTypes = array(
+            'csv'        => 'CSV',
+            'blackhole'  => 'BLACKHOLE',
+            'memory'     => 'MEMORY',
+            'myisam'     => 'MyISAM',
+            'innodb'     => 'InnoDB',
+            'archive'    => 'ARCHIVE',
+            'mrg_myisam' => 'MRG_MYISAM'
+        );
+        if (isset($aEngineTypes[strtolower($sEngine)])) {
+            $sEngine = $aEngineTypes[strtolower($sEngine)];
+        } else {
+            $sEngine = 'MyISAM';
+        }
+        // test if selected collation is available. Otherwise select 'utf8_unicode_ci'
+        $sql = 'SELECT COUNT(*) FROM `COLLATIONS` '
+             . 'WHERE `COLLATION_NAME`=\''.$sCollation.'\'';
+        $sCollation = ($this->get_one($sql) ? $sCollation : 'utf8_unicode_ci');
+        $aTmp = preg_split('/_/', $sCollation, null, PREG_SPLIT_NO_EMPTY);
+        $sCharset = $aTmp[0];
+        // define array of searches
+        $aSearch  = array(
+            '/\{TABLE_PREFIX\}/',
+            '/\{TABLE_COLLATION\}/', // deprecated from 2.8.4
+            '/\{FIELD_COLLATION\}/', // deprecated from 2.8.4
+            '/\{TABLE_ENGINE\}/',
+            '/\{TABLE_ENGINE=([a-zA-Z_0-9]*)\}/',
+            '/\{CHARSET\}/',
+            '/\{COLLATION\}/'
+        );
+        // define array of replacements
+        $aReplace = array(
+            $sTablePrefix,
+            ' COLLATE {COLLATION}', // deprecated from 2.8.4
+            ' COLLATE {COLLATION}', // deprecated from 2.8.4
+            ' {ENGINE='.$sEngine.'}',
+            ' ENGINE=$1 DEFAULT CHARSET={CHARSET} COLLATION={COLLATION}',
+            $sCharset,
+            $sCollation
+        );
+
+        if (is_array($mSqlDump)) {
+            // try to get dumpfile name
+            if (!isset($mSqlDump['sSqlDump'])) {
+                $this->error = 'missing index \'sSqlDump\' in $mSqlDump';
+                return false;
+            } else {
+            // get dumpfile name from array and then remove entry
+                $sDumpFile = (string)$mSqlDump['sSqlDump'];
+                unset($mSqlDump['sSqlDump']);
+                // import all vars and it's values from array
+                foreach ($mSqlDump as $sIndex => $sValue) {
+                    // transform varname into placeholder name ('sPageTitle' => 'PAGE_TITLE')
+                    $sIndex = strtoupper(preg_replace('/([a-z0-9])([A-Z])/', '\1_\2', ltrim($sIndex, 'a..z')));
+                    // fill search/replace arrays
+                    $aSearch[]  = '/\{'.$sIndex.'\}/';
+                    $aReplace[] = $sValue ;
+                }
+            }
+        } elseif (is_string($mSqlDump)) {
+            $sDumpFile = (string)$mSqlDump;
+        } else {
+            $this->error = 'invalid argument $mSqlDump';
+            return false;
+        }
+        if (!is_readable($sDumpFile)) {
+            $this->Error = 'unable to open \''.$sDumpFile.'\'';
+            return false;
+        }
 		$sql = '';
-		$aSql = file($sSqlDump);
-//		$aSql[0] = preg_replace('/^\xEF\xBB\xBF/', '', $aSql[0]);
+		$aSql = file($sDumpFile, FILE_SKIP_EMPTY_LINES);
+        //	remove possible ByteOrderMark
 		$aSql[0] = preg_replace('/^[\xAA-\xFF]{3}/', '', $aSql[0]);
 		while (sizeof($aSql) > 0) {
 			$sSqlLine = trim(array_shift($aSql));
 			if (!preg_match('/^[-\/]+.*/', $sSqlLine)) {
 				$sql = $sql.' '.$sSqlLine;
 				if ((substr($sql,-1,1) == ';')) {
-					$sql = trim(str_replace( $aSearch, $aReplace, $sql));
-					if (!($bPreserve && preg_match('/^\s*DROP TABLE IF EXISTS/siU', $sql))) {
-						if (!mysql_query($sql, $this->oDbHandle)) {
-							$retval = false;
-							$this->error = mysql_error($this->oDbHandle);
-							unset($aSql);
-							break;
-						}
-					}
+					$sql = trim(preg_replace($aSearch, $aReplace, $sql));
+                    $sAvailSqlObjects = 'TABLE|VIEW|INDEX|PROCEDURE|FUNCTION|TRIGGER|EVENT';
+                    switch ($sAction) {
+                        case 'uninstall': // skip CREATE; execute DROP
+                            if (preg_match('/^\s*CREATE ('.$sAvailSqlObjects.') /siU', $sql)) {
+                                $sql = '';
+                                continue; // read next statement
+                            }
+                            break;
+                        case 'upgrade': // skip DROP; execute CREATE
+                        case 'repair':  // skip DROP; execute CREATE
+                            if (preg_match('/^\s*DROP ('.$sAvailSqlObjects.') /siU', $sql)) {
+                                $sql = '';
+                                continue; // read next statement
+                            }
+                            break;
+                        default: // install:  execute DROP; execute CREATE
+                            break;
+                    }
+                    if (!$this->doQuery($sql)) {
+                        $retval = false;
+                        $this->error = $this->getError();
+                        unset($aSql);
+                        break;
+                    }
 					$sql = '';
 				}
 			}
 		}
 		return $retval;
-	}
+    } // end of function importSql()
 /**
  * retuns the type of the engine used for requested table
  * @param string $table name of the table, including prefix
@@ -565,10 +672,10 @@ class WbDatabase {
 	public function getTableEngine($table)
 	{
 		$retVal = false;
-		$mysqlVersion = mysql_get_server_info($this->oDbHandle);
+		$mysqlVersion = mysqli_get_server_info($this->oDbHandle);
 		$engineValue = (version_compare($mysqlVersion, '5.0') < 0) ? 'Type' : 'Engine';
 		$sql = 'SHOW TABLE STATUS FROM `' . $this->sDbName . '` LIKE \'' . $table . '\'';
-		if (($result = $this->doQuery($sql, $this->oDbHandle))) {
+		if (($result = $this->doQuery($sql))) {
 			if (($row = $result->fetchRow(MYSQL_ASSOC))) {
 				$retVal = $row[$engineValue];
 			}
@@ -614,28 +721,31 @@ if(!defined('MYSQL_SEEK_LAST')) { define('MYSQL_SEEK_LAST', -1); }
  */
 class mysql {
 
-	private $result = null;
+	private $result    = null;
 	private $oDbHandle = null;
+    private $error     = '';
 
+    public function __construct($oHandle)
+    {
+        $this->oDbHandle = $oHandle;
+    }
 /**
  * query sql statement
  * @param  string $statement
- * @param  object $dbHandle
  * @return object
  * @throws WbDatabaseException
  */
-	function query($statement, $dbHandle)
+	function query($sStatement)
 	{
-		$this->oDbHandle = $dbHandle;
-		$this->result = @mysql_query($statement, $this->oDbHandle);
+		$this->result = @mysqli_query($this->oDbHandle, $sStatement);
 		if ($this->result === false) {
 			if (DEBUG) {
-				throw new WbDatabaseException(mysql_error($this->oDbHandle));
+				throw new WbDatabaseException(mysqli_error($this->oDbHandle));
 			} else {
 				throw new WbDatabaseException('Error in SQL-Statement');
 			}
 		}
-		$this->error = mysql_error($this->oDbHandle);
+		$this->error = mysqli_error($this->oDbHandle);
 		return $this->result;
 	}
 /**
@@ -645,7 +755,7 @@ class mysql {
  */
 	function numRows()
 	{
-		return mysql_num_rows($this->result);
+		return mysqli_num_rows($this->result);
 	}
 /**
  * fetchRow
@@ -655,7 +765,7 @@ class mysql {
  */
 	function fetchRow($typ = MYSQL_BOTH)
 	{
-		return mysql_fetch_array($this->result, $typ);
+		return mysqli_fetch_array($this->result, $typ);
 	}
 /**
  * fetchObject
@@ -667,7 +777,7 @@ class mysql {
 	function fetchObject($sClassName = null, array $aParams = null)
 	{
 		if ($sClassName === null || class_exists($sClassName)) {
-			return mysql_fetch_object($this->result, $sClassName, $aParams);
+			return mysqli_fetch_object($this->result, $sClassName, $aParams);
 		} else {
 			throw new WbDatabaseException('Class <'.$sClassName.'> not available on request of mysql_fetch_object()');
 		}
@@ -691,7 +801,7 @@ class mysql {
 	{
 		$pmax = $this->numRows() - 1;
 		$p = (($position < 0 || $position > $pmax) ? $pmax : $position);
-		return mysql_data_seek($this->result, $p);
+		return mysqli_data_seek($this->result, $p);
 	}
 /**
  * freeResult
@@ -700,7 +810,7 @@ class mysql {
  */
 	function freeResult()
 	{
-		return mysql_free_result($this->result);
+		return mysqli_free_result($this->result);
 	}
 /** 
  * Get error
@@ -737,25 +847,17 @@ class mysql {
 			}
 		}
 		$retval = true;
-		foreach( $key as $index=>$val)
-		{
-			$index = strtolower($index);
-			$sql = 'SELECT COUNT(`setting_id`) '
-			     . 'FROM `'.$oDb->TablePrefix.$table.'` '
-			     . 'WHERE `name` = \''.$index.'\' ';
-			if ($oDb->getOne($sql)) {
-				$sql = 'UPDATE ';
-				$sql_where = 'WHERE `name` = \''.$index.'\'';
-			} else {
-				$sql = 'INSERT INTO ';
-				$sql_where = '';
-			}
-			$sql .= '`'.$oDb->TablePrefix.$table.'` ';
-			$sql .= 'SET `name` = \''.$index.'\', ';
-			$sql .= '`value` = \''.$val.'\' '.$sql_where;
+        $sNameValPairs = '';
+		foreach ($key as $index => $val) {
+            $sNameValPairs .= ', (\''.$index.'\', \''.$val.'\')';
+        }
+        $sValues = ltrim($sNameValPairs, ', ');
+        if ($sValues != '') {
+            $sql = 'REPLACE INTO `'.$oDb->TablePrefix.$table.'` (`name`, `value`) '
+                 . 'VALUES '.$sValues;
 			if (!$oDb->doQuery($sql)) {
 				$retval = false;
 			}
-		}
+        }
 		return $retval;
 	}

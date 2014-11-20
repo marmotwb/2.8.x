@@ -86,6 +86,9 @@ if (is_readable($config_file) && !defined('WB_URL')) {
 $oDb  = WbDatabase::getInstance();
 $oReg = WbAdaptor::getInstance();
 UpgradeHelper::checkSetupFiles(str_replace('\\', '/', __DIR__).'/');
+// --- modify table `settings` -----------------------------------------------------------
+$oDb->removeField($oDb->TablePrefix.'settings', 'setting_id');
+$oDb->addIndex($oDb->TablePrefix.'settings', 'PRIMARY', 'name', 'PRIMARY');
 // --- set DEFAULT_THEME and restart if needed -------------------------------------------
 if (isset($oReg->DefaultTheme) && trim($oReg->DefaultTheme, '/') != 'WbTheme') {
     db_update_key_value('settings', 'default_theme', 'WbTheme');
@@ -128,8 +131,7 @@ if(!defined('WB_SP')) { define('WB_SP',''); }
 if(!defined('WB_REVISION')) { define('WB_REVISION',''); }
 // database tables including in WB package
 $aPackage = array (
-    'settings','groups','addons','pages','sections','search','users',
-    'mod_captcha_control','mod_jsadmin','mod_menu_link','mod_output_filter','mod_wrapper','mod_wysiwyg'
+    'settings','groups','addons','pages','sections','search','users'
 );
 
 $OK            = ' <span class="ok">OK</span> ';
@@ -768,6 +770,14 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 	$aDebugMessage[] = "<span>Modify field publ_end on sections table</span>";
 	$aDebugMessage[] = ($database->field_modify($table_name, 'publ_end', $description) ? " $OK<br />" : " $FAIL!<br />");
 
+    /**********************************************************
+	 *  - Add field "title" to table sections
+	 */
+	$table_name = TABLE_PREFIX.'sections';
+	$field_name = 'title';
+	$description = "VARCHAR( 255 ) NOT NULL DEFAULT 'Section-ID 0' ";
+	add_modify_field_in_database($table_name,$field_name,$description);
+
 	if($bDebugModus) {
 		echo implode(PHP_EOL,$aDebugMessage);
 	} else {
@@ -792,12 +802,12 @@ if(version_compare(WB_REVISION, REVISION, '<='))
 	$sSystemPermissions .= 'modules,modules_advanced,modules_install,modules_uninstall,modules_view,pages,pages_add,pages_add_l0,pages_delete,pages_intro,pages_modify,pages_settings,pages_view,';
 	$sSystemPermissions .= 'preferences,preferences_view,settings,settings_advanced,settings_basic,settings_view,templates,templates_install,templates_uninstall,templates_view,users,users_add,users_delete,users_modify,users_view';
 
-	$sql  = 'UPDATE `'.TABLE_PREFIX.'groups` ';
-	$sql .= 'SET `name` = \'Administrators\', ';
-	$sql .= '`system_permissions` = \''.$sSystemPermissions.'\', ';
-	$sql .= '`module_permissions` = \''.$sModulePermissions.'\', ';
-	$sql .= '`template_permissions` = \''.$sTemplatePermissions.'\' ';
-	$sql .= 'WHERE `group_id` = \'1\' ';
+	$sql = 'UPDATE `'.TABLE_PREFIX.'groups` '
+         . 'SET `name` = \'Administrators\', '
+         .     '`system_permissions` = \''.$sSystemPermissions.'\', '
+         .     '`module_permissions` = \''.$sModulePermissions.'\', '
+         .     '`template_permissions` = \''.$sTemplatePermissions.'\' '
+         . 'WHERE `group_id` = \'1\' ';
 	$aDebugMessage[] = ($database->query($sql)) ? " $OK<br />" : " $FAIL!<br />";
 	if( ($admin->is_authenticated() == true) && ($admin->ami_group_member('1') ) ) {
 	    $_SESSION['SYSTEM_PERMISSIONS'] = array_merge($_SESSION['SYSTEM_PERMISSIONS'], explode(',', $sSystemPermissions));

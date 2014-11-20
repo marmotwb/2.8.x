@@ -11,6 +11,17 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+20 Nov-2014 Build 2104 Manuela v.d.Decken(DarkViper)
+! complete rebuild of wb/install/ - changed to use import-struct.sql
+! change class WbDatabase from mysql to msqli
+! rework of WbDatabase::importSql()
+! function db_update_key_value() optimized for speed
+! field `settings_id`removed from table `settings` and new primary key set to `name`
+! update-script extended to modify table `settings`
+23 Sep-2014 Build 2103 Dietmar Woellbrink (Luisehahne)
+! undo invalid commit
+22 Sep-2014 Build 2102 Dietmar Woellbrink (Luisehahne)
+! invalid commit
 14 Feb-2014 Build 2101 Manuela v.d.Decken(DarkViper)
 # typofix of class name in class.login and depending files
 11 Feb-2014 Build 2100 Manuela v.d.Decken(DarkViper)
