@@ -11,6 +11,9 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+24 Nov-2014 Build 2105 Manuela v.d.Decken(DarkViper)
+- removed importSql() method from class WbDatabase
++ new class SqlImport added
 20 Nov-2014 Build 2104 Manuela v.d.Decken(DarkViper)
 ! complete rebuild of wb/install/ - changed to use import-struct.sql
 ! change class WbDatabase from mysql to msqli
