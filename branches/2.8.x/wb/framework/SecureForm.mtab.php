@@ -246,7 +246,7 @@ class SecureForm {
 
 		if($as_tag == true)
 		{ // by default return a complete, hidden <input>-tag
-			return '<input type="hidden" name="'.$this->_tokenname.'" value="'.htmlspecialchars($signed).'" title="" alt="" />';
+			return '<input type="hidden" name="'.$this->_tokenname.'" value="'.htmlspecialchars($signed).'" title=" " />';
 		}else{ // return an array with raw tokenname=value
 			return $this->_tokenname.'='.$signed;
 		}
@@ -459,7 +459,7 @@ class SecureForm {
 		$fingerprint=$fpsalt;
 		if (isset($_SERVER['HTTP_USER_AGENT'])){ $fingerprint .= $_SERVER['HTTP_USER_AGENT'];}
 		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])){ $fingerprint .= $_SERVER['HTTP_ACCEPT_LANGUAGE'];}
-		if (isset($_SERVER['HTTP_ACCEPT_ENCODING'])){ $fingerprint .= $_SERVER['HTTP_ACCEPT_ENCODING'];}
+//		if (isset($_SERVER['HTTP_ACCEPT_ENCODING'])){ $fingerprint .= $_SERVER['HTTP_ACCEPT_ENCODING'];}
 		if (isset($_SERVER['HTTP_ACCEPT_CHARSET'])){ $fingerprint .= $_SERVER['HTTP_ACCEPT_CHARSET'];}
 
 		$fingerprint.= $this->_getip($this->_useipblocks);

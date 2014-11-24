@@ -154,7 +154,7 @@ class SecureForm {
 		$ftan = $this->_calcFtan($this->_FTAN);
 		if((is_string($mode) && strtolower($mode) == 'post') || ($mode === true))
 		{ // by default return a complete, hidden <input>-tag
-			return '<input type="hidden" name="'.$ftan[0].'" value="'.$ftan[1].'" title="" alt="" />';
+			return '<input type="hidden" name="'.$ftan[0].'" value="'.$ftan[1].'" title=" " />';
 		}else{ // return an string with GET params (FTAN0=FTAN1)
 			return $ftan[0].'='.$ftan[1];
 		}
