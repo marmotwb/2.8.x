@@ -5,7 +5,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- --------------------------------------------------------
 -- Database structure for WebsiteBaker core
 --
--- Replacements: {TABLE_PREFIX}, {TABLE_ENGINE}, {TABLE_COLLATION}
+-- Replacements: {TABLE_PREFIX}, {TABLE_ENGINE}, {FIELD_COLLATION}
 --
 -- --------------------------------------------------------
 --
@@ -14,15 +14,15 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 DROP TABLE IF EXISTS `{TABLE_PREFIX}addons`;
 CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}addons` (
   `addon_id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `directory` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `name` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `description` text{TABLE_COLLATION} NOT NULL,
-  `function` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `version` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `platform` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `author` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `license` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
+  `type` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `directory` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `name` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `description` text{FIELD_COLLATION} NOT NULL,
+  `function` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `version` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `platform` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `author` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `license` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
   PRIMARY KEY (addon_id)
 ){TABLE_ENGINE};
 --
@@ -31,10 +31,10 @@ CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}addons` (
 DROP TABLE IF EXISTS `{TABLE_PREFIX}groups`;
 CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}groups` (
   `group_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `system_permissions` text{TABLE_COLLATION} NOT NULL,
-  `module_permissions` text{TABLE_COLLATION} NOT NULL,
-  `template_permissions` text{TABLE_COLLATION} NOT NULL,
+  `name` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `system_permissions` text{FIELD_COLLATION} NOT NULL,
+  `module_permissions` text{FIELD_COLLATION} NOT NULL,
+  `template_permissions` text{FIELD_COLLATION} NOT NULL,
   PRIMARY KEY (`group_id`)
 ){TABLE_ENGINE};
 --
@@ -46,32 +46,32 @@ CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}pages` (
   `parent` int(11) NOT NULL DEFAULT '0',
   `root_parent` int(11) NOT NULL DEFAULT '0',
   `level` int(11) NOT NULL DEFAULT '0',
-  `link` varchar(255){TABLE_COLLATION} NOT NULL,
-  `target` varchar(7){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `page_title` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `page_icon` varchar(512){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `menu_title` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `menu_icon_0` varchar(512){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `menu_icon_1` varchar(512){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `tooltip` varchar(512){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `description` text{TABLE_COLLATION} NOT NULL,
-  `keywords` text{TABLE_COLLATION} NOT NULL,
-  `page_trail` varchar(255){TABLE_COLLATION} NOT NULL,
-  `template` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `visibility` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
+  `link` varchar(255){FIELD_COLLATION} NOT NULL,
+  `target` varchar(7){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `page_title` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `page_icon` varchar(512){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `menu_title` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `menu_icon_0` varchar(512){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `menu_icon_1` varchar(512){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `tooltip` varchar(512){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `description` text{FIELD_COLLATION} NOT NULL,
+  `keywords` text{FIELD_COLLATION} NOT NULL,
+  `page_trail` varchar(255){FIELD_COLLATION} NOT NULL,
+  `template` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `visibility` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
   `position` int(11) NOT NULL DEFAULT '0',
   `menu` int(11) NOT NULL DEFAULT '1',
-  `language` varchar(5){TABLE_COLLATION} NOT NULL DEFAULT '',
+  `language` varchar(5){FIELD_COLLATION} NOT NULL DEFAULT '',
   `page_code` int(11) NOT NULL DEFAULT '0',
   `searching` int(11) NOT NULL DEFAULT '0',
-  `admin_groups` varchar(512){TABLE_COLLATION} NOT NULL DEFAULT '1',
-  `admin_users` varchar(512){TABLE_COLLATION} NOT NULL,
-  `viewing_groups` varchar(512){TABLE_COLLATION} NOT NULL DEFAULT '1',
-  `viewing_users` varchar(512){TABLE_COLLATION} NOT NULL,
+  `admin_groups` varchar(512){FIELD_COLLATION} NOT NULL DEFAULT '1',
+  `admin_users` varchar(512){FIELD_COLLATION} NOT NULL,
+  `viewing_groups` varchar(512){FIELD_COLLATION} NOT NULL DEFAULT '1',
+  `viewing_users` varchar(512){FIELD_COLLATION} NOT NULL,
   `modified_when` int(11) NOT NULL DEFAULT '0',
   `modified_by` int(11) NOT NULL DEFAULT '0',
-  `custom01` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `custom02` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
+  `custom01` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `custom02` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
   PRIMARY KEY (`page_id`)
 ) {TABLE_ENGINE};
 --
@@ -82,8 +82,8 @@ CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}sections` (
   `section_id` int(11) NOT NULL AUTO_INCREMENT,
   `page_id` int(11) NOT NULL DEFAULT '0',
   `position` int(11) NOT NULL DEFAULT '0',
-  `title` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `module` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
+  `title` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `module` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
   `block` int(11) NOT NULL DEFAULT '1',
   `publ_start` int(11) NOT NULL DEFAULT '0',
   `publ_end` int(11) NOT NULL DEFAULT '0',
@@ -96,23 +96,23 @@ DROP TABLE IF EXISTS `{TABLE_PREFIX}users`;
 CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) NOT NULL DEFAULT '0' COMMENT 'this field is set deprecated and never used in WB',
-  `groups_id` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '0',
+  `groups_id` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '0',
   `active` int(11) NOT NULL DEFAULT '0',
-  `username` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `password` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `confirm_code` varchar(32){TABLE_COLLATION} NOT NULL DEFAULT '',
+  `username` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `password` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `confirm_code` varchar(32){FIELD_COLLATION} NOT NULL DEFAULT '',
   `confirm_timeout` int(11) NOT NULL DEFAULT '0',
-  `remember_key` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
+  `remember_key` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
   `last_reset` int(11) NOT NULL DEFAULT '0',
-  `display_name` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `email` text{TABLE_COLLATION} NOT NULL,
+  `display_name` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `email` text{FIELD_COLLATION} NOT NULL,
   `timezone` int(11) NOT NULL DEFAULT '0',
-  `date_format` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `time_format` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `language` varchar(5){TABLE_COLLATION} NOT NULL DEFAULT 'EN',
-  `home_folder` text{TABLE_COLLATION} NOT NULL,
+  `date_format` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `time_format` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `language` varchar(5){FIELD_COLLATION} NOT NULL DEFAULT 'EN',
+  `home_folder` text{FIELD_COLLATION} NOT NULL,
   `login_when` int(11) NOT NULL DEFAULT '0',
-  `login_ip` varchar(15){TABLE_COLLATION} NOT NULL DEFAULT '',
+  `login_ip` varchar(15){FIELD_COLLATION} NOT NULL DEFAULT '',
   PRIMARY KEY (`user_id`)
 ){TABLE_ENGINE};
 --
@@ -120,8 +120,8 @@ CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}users` (
 --
 DROP TABLE IF EXISTS `{TABLE_PREFIX}settings`;
 CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}settings` (
-  `name` varchar(255){TABLE_COLLATION} NOT NULL,
-  `value` text{TABLE_COLLATION} NOT NULL,
+  `name` varchar(255){FIELD_COLLATION} NOT NULL,
+  `value` text{FIELD_COLLATION} NOT NULL,
   PRIMARY KEY (`name`)
 ){TABLE_ENGINE};
 --
@@ -130,9 +130,9 @@ CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}settings` (
 DROP TABLE IF EXISTS `{TABLE_PREFIX}search`;
 CREATE TABLE IF NOT EXISTS `{TABLE_PREFIX}search` (
   `search_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255){TABLE_COLLATION} NOT NULL DEFAULT '',
-  `value` text{TABLE_COLLATION} NOT NULL,
-  `extra` text{TABLE_COLLATION} NOT NULL,
+  `name` varchar(255){FIELD_COLLATION} NOT NULL DEFAULT '',
+  `value` text{FIELD_COLLATION} NOT NULL,
+  `extra` text{FIELD_COLLATION} NOT NULL,
   PRIMARY KEY (`search_id`)
 ){TABLE_ENGINE};
 -- EndOfFile

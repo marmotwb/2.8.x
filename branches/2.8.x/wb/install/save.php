@@ -474,13 +474,13 @@ require(ADMIN_PATH.'/interface/version.php');
 /*****************************
 Begin Create Database Tables
 *****************************/
-$oSqlInst = new SqlInstall($database, __DIR__.'/sql/install-struct.sql');
+$oSqlInst = new SqlImport($database, __DIR__.'/sql/install-struct.sql');
 if ($oSqlInst) {
     if (!$oSqlInst->doImport('install')) {
         set_error($oSqlInst->getError());
     }
 }
-$oSqlInst = new SqlInstall($database, __DIR__.'/sql/install-data.sql');
+$oSqlInst = new SqlImport($database, __DIR__.'/sql/install-data.sql');
 if ($oSqlInst) {
     if (!$oSqlInst->doImport('install')) {
         set_error($oSqlInst->getError());
