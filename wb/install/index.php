@@ -207,13 +207,12 @@ function change_os(type) {
 			<td style="color: #666666;">PHP Session Support</td>
 			<td>
 				<?php echo $session_support; ?>
-                ?>
 			</td>
 			<td style="color: #666666;">
                 &nbsp;
             </td>
 			<td>
-                $nbsp;
+                &nbsp;
             </td>
 		</tr>
 	<tr>
