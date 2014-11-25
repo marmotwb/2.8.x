@@ -486,7 +486,7 @@ if ($oSqlInst) {
         set_error($oSqlInst->getError());
     }
 }
-unset $oSqlInst;
+unset($oSqlInst);
 $sql = // additional settings from install input
        'REPLACE INTO `'.TABLE_PREFIX.'settings` (`name`, `value`) VALUES '
      .        '(\'wb_version\', \''.VERSION.'\'), '

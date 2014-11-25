@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+25 Nov-2014 Build 2108 Manuela v.d.Decken(DarkViper)
+# an additional fix in install/save.php
 25 Nov-2014 Build 2107 Manuela v.d.Decken(DarkViper)
 # fixed error in finding languages/ dir, some little optimations, all in install/save.php
 24 Nov-2014 Build 2106 Manuela v.d.Decken(DarkViper)
