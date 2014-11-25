@@ -12,6 +12,8 @@ Legend:
 ===============================================================================
 
 25 Nov-2014 Build 2110 Manuela v.d.Decken(DarkViper)
+# SqlImport fixed a Typo in Search-Replace of placeholders
+25 Nov-2014 Build 2110 Manuela v.d.Decken(DarkViper)
 # install/ change old install-struct format into new one
 25 Nov-2014 Build 2109 Manuela v.d.Decken(DarkViper)
 # admin/settings/ little typofix, save settings now use official method
