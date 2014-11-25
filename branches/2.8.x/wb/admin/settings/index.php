@@ -915,7 +915,7 @@ $is_advanced = (isset($_GET['advanced']) && $_GET['advanced'] == 'yes');
 	$sReadOnly = '';
 	$sPagesEditType = 'text';
     $sql = 'SELECT COUNT(*) FROM `'.$oDb->TablePrefix.'pages`';
-	if (!($bPagesCanModify = ($oDb->getOne($sql)))) {
+	if ($oDb->getOne($sql)) {
 		$sReadOnly = ' readonly="readonly"';
 		$sPagesEditType = 'grey bold';
 	}
