@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+25 Nov-2014 Build 2107 Manuela v.d.Decken(DarkViper)
+# fixed error in finding languages/ dir, some little optimations, all in install/save.php
 24 Nov-2014 Build 2106 Manuela v.d.Decken(DarkViper)
 # fixed HTTP_ACCEPT_ENCODING problem with Chrome in SecureForm.mtab.php
 # fixed Typo in SecureForm.mtab.php and SecureForm.php
