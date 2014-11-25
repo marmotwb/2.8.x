@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+25 Nov-2014 Build 2112 Manuela v.d.Decken(DarkViper)
+! module/show_menu2/  Changed global Constants into class constants
+25 Nov-2014 Build 2111 Manuela v.d.Decken(DarkViper)
+# SqlImport fixed a Typo in Search-Replace of placeholders
 25 Nov-2014 Build 2110 Manuela v.d.Decken(DarkViper)
 # SqlImport fixed a Typo in Search-Replace of placeholders
 25 Nov-2014 Build 2110 Manuela v.d.Decken(DarkViper)

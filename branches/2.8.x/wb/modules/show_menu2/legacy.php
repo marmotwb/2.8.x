@@ -79,7 +79,7 @@ class SM2_ShowMenuFormatter
     var $currentClass;
     
     function output($aString) {
-        if ($this->flags & SM2_BUFFER) {
+        if ($this->flags & SM2::BUFFER) {
             $this->output .= $aString;
         }
         else {
@@ -149,7 +149,7 @@ function show_menu(
     $formatter->defaultClass  = $aDefaultClass;
     $formatter->currentClass  = $aCurrentClass;
     
-    $start = SM2_ROOT + $aStartLevel;
+    $start = SM2::ROOT + $aStartLevel;
     if ($aParent != 0) {
         $start = $aParent;
     }
@@ -159,17 +159,17 @@ function show_menu(
         return;
     }
     if ($aRecurse < 0) {
-        $maxLevel = SM2_ALL;
+        $maxLevel = SM2::ALL;
     }
     else {
-        $maxLevel = SM2_START + $aRecurse - 1;
+        $maxLevel = SM2::START + $aRecurse - 1;
     }
     
-    $flags = $aCollapse ? SM2_TRIM : SM2_ALL;
+    $flags = $aCollapse ? SM2::TRIM : SM2::ALL;
     
     // special case for default case
     if ($aStartLevel == 0 && $aRecurse == -1 && $aCollapse) {
-        $maxLevel = SM2_CURR + 1;
+        $maxLevel = SM2::CURR + 1;
     }
 
     show_menu2($aMenu, $start, $maxLevel, $flags, $formatter);
