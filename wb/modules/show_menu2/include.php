@@ -19,29 +19,35 @@
 // Must include code to stop this file being access directly
 if(defined('WB_PATH') == false) { die("Cannot access this file directly"); }
 
-define('SM2_ROOT',          -1000);
-define('SM2_CURR',          -2000);
-define('SM2_ALLMENU',          -1);
-define('SM2_START',          1000);
-define('SM2_MAX',            2000);
-define('SM2_ALL',          0x0001); // bit 0 (group 1) (Note: also used for max level!)
-define('SM2_TRIM',         0x0002); // bit 1 (group 1)
-define('SM2_CRUMB',        0x0004); // bit 2 (group 1)
-define('SM2_SIBLING',      0x0008); // bit 3 (group 1)
-define('SM2_NUMCLASS',     0x0010); // bit 4
-define('SM2_ALLINFO',      0x0020); // bit 5
-define('SM2_NOCACHE',      0x0040); // bit 6
-define('SM2_PRETTY',       0x0080); // bit 7
-define('SM2_ESCAPE',       0x0100); // bit 8
-define('SM2_NOESCAPE',          0); // NOOP, unnecessary with WB 2.6.7+
-define('SM2_BUFFER',       0x0200); // bit 9
-define('SM2_CURRTREE',     0x0400); // bit 10
-define('SM2_SHOWHIDDEN',   0x0800); // bit 11
-define('SM2_XHTML_STRICT', 0x1000); // bit 12
-define('SM2_NO_TITLE',     0x1001); // bit 13
-
-define('_SM2_GROUP_1',  0x000F); // exactly one flag from group 1 is required
-
+/**
+ * future replacement for the function show_menu2()
+ */
+class SM2
+{
+    const ROOT =          -1000;
+    const CURR =          -2000;
+    const ALLMENU =          -1;
+    const START =          1000;
+    const MAX =            2000;
+    const ALL =          0x0001; // bit 0 (group 1) (Note: also used for max level!)
+    const TRIM =         0x0002; // bit 1 (group 1)
+    const CRUMB =        0x0004; // bit 2 (group 1)
+    const SIBLING =      0x0008; // bit 3 (group 1)
+    const NUMCLASS =     0x0010; // bit 4
+    const ALLINFO =      0x0020; // bit 5
+    const NOCACHE =      0x0040; // bit 6
+    const PRETTY =       0x0080; // bit 7
+    const ESCAPE =       0x0100; // bit 8
+    const NOESCAPE =          0; // NOOP, unnecessary with WB 2.6.7+
+    const BUFFER =       0x0200; // bit 9
+    const CURRTREE =     0x0400; // bit 10
+    const SHOWHIDDEN =   0x0800; // bit 11
+    const XHTML_STRICT = 0x1000; // bit 12
+    const NO_TITLE =     0x2000; // bit 13
+    const _GROUP_1 =     0x000F; // exactly one flag from group 1 is required
+    const CONDITIONAL =  'if\s*\(([^\)]+)\)\s*{([^}]*)}\s*(?:else\s*{([^}]*)}\s*)?';
+    const COND_TERM =    '\s*(\w+)\s*(<|<=|==|=|=>|>|!=)\s*([\w\-]+)\s*';
+}
 
 // Implement support for page_menu and show_menu using show_menu2. If you remove
 // the comments characters from the beginning of the following include, all menu
@@ -49,11 +55,11 @@ define('_SM2_GROUP_1',  0x000F); // exactly one flag from group 1 is required
 // commented out, the original WB functions will be used.
 //include('legacy.php');
 
-// This class is the default menu formatter for sm2. If desired, you can 
-// create your own formatter class and pass the object into show_menu2 
+// This class is the default menu formatter for sm2. If desired, you can
+// create your own formatter class and pass the object into show_menu2
 // as $aItemFormat.
-define('SM2_CONDITIONAL','if\s*\(([^\)]+)\)\s*{([^}]*)}\s*(?:else\s*{([^}]*)}\s*)?');
-define('SM2_COND_TERM','\s*(\w+)\s*(<|<=|==|=|=>|>|!=)\s*([\w\-]+)\s*');
+
+
 class SM2_Formatter
 {
     var $output;
@@ -64,7 +70,7 @@ class SM2_Formatter
     var $menuClose;
     var $topItemOpen;
     var $topMenuOpen;
-    
+
     var $isFirst;
     var $page;
     var $url;
@@ -75,14 +81,14 @@ class SM2_Formatter
 
     // output the data
     function output($aString) {
-        if ($this->flags & SM2_BUFFER) {
+        if ($this->flags & SM2::BUFFER) {
             $this->output .= $aString;
         }
         else {
             echo $aString;
         }
     }
-    
+
     // set the default values for all of our formatting items
     function set($aFlags, $aItemOpen, $aItemClose, $aMenuOpen, $aMenuClose, $aTopItemOpen, $aTopMenuOpen) {
         $this->flags        = $aFlags;
@@ -98,57 +104,57 @@ class SM2_Formatter
     function initialize() {
         $this->output = '';
         $this->prettyLevel = 0;
-        if ($this->flags & SM2_PRETTY) {
+        if ($this->flags & SM2::PRETTY) {
             $this->output("\n<!-- show_menu2 -->");
         }
     }
 
-    // start a menu     
+    // start a menu
     function startList(&$aPage, &$aUrl) {
         $currClass = '';
         $currItem = $this->menuOpen;
-        
+
         // use the top level menu open if this is the first menu
         if ($this->topMenuOpen) {
             $currItem = $this->topMenuOpen;
             $currClass .= ' menu-top';
             $this->topMenuOpen = false;
         }
-        
+
         // add the numbered menu class only if requested
-        if (($this->flags & SM2_NUMCLASS) == SM2_NUMCLASS) {
+        if (($this->flags & SM2::NUMCLASS) == SM2::NUMCLASS) {
             $currClass .= ' menu-'.$aPage['level'];
         }
-        
+
         $this->prettyLevel += 1;
-        
+
         // replace all keywords in the output
-        if ($this->flags & SM2_PRETTY) {
+        if ($this->flags & SM2::PRETTY) {
             $this->output("\n".str_repeat(' ',$this->prettyLevel).
                 $this->format($aPage, $aUrl, $currItem, $currClass));
         }
         else {
             $this->output($this->format($aPage, $aUrl, $currItem, $currClass));
         }
-        
+
         $this->prettyLevel += 3;
     }
-    
+
     // start an item within the menu
     function startItem(&$aPage, &$aUrl, $aCurrSib, $aSibCount) {
         // generate our class list
         $currClass = '';
-        if (($this->flags & SM2_NUMCLASS) == SM2_NUMCLASS) {
+        if (($this->flags & SM2::NUMCLASS) == SM2::NUMCLASS) {
             $currClass .= ' menu-'.$aPage['level'];
         }
         if (array_key_exists('sm2_has_child', $aPage)) {
             // not set if false, so existence = true
             $currClass .= ' menu-expand';
         }
-        if (array_key_exists('sm2_is_curr', $aPage)) { 
+        if (array_key_exists('sm2_is_curr', $aPage)) {
             $currClass .= ' menu-current';
         }
-        elseif (array_key_exists('sm2_is_parent', $aPage)) { 
+        elseif (array_key_exists('sm2_is_parent', $aPage)) {
             // not set if false, so existence = true
             $currClass .= ' menu-parent';
         }
@@ -159,7 +165,7 @@ class SM2_Formatter
         elseif (array_key_exists('sm2_child_level',$aPage)) {
             // not set if not a child
             $currClass .= ' menu-child';
-            if (($this->flags & SM2_NUMCLASS) == SM2_NUMCLASS) {
+            if (($this->flags & SM2::NUMCLASS) == SM2::NUMCLASS) {
                 $currClass .= ' menu-child-'.($aPage['sm2_child_level']-1);
             }
         }
@@ -178,45 +184,45 @@ class SM2_Formatter
         }
 
         // replace all keywords in the output
-        if ($this->flags & SM2_PRETTY) {
+        if ($this->flags & SM2::PRETTY) {
             $this->output("\n".str_repeat(' ',$this->prettyLevel));
         }
         $this->output($this->format($aPage, $aUrl, $currItem, $currClass, $aCurrSib, $aSibCount));
     }
-    
+
     // find and replace all keywords, setting the state variables first
-    function format(&$aPage, &$aUrl, &$aCurrItem, &$aCurrClass, 
-        $aCurrSib = 0, $aSibCount = 0) 
+    function format(&$aPage, &$aUrl, &$aCurrItem, &$aCurrClass,
+        $aCurrSib = 0, $aSibCount = 0)
     {
         $this->page      = &$aPage;
         $this->url       = &$aUrl;
         $this->currClass = trim($aCurrClass);
         $this->currSib   = $aCurrSib;
         $this->sibCount  = $aSibCount;
-        
+
         $item = $this->format2($aCurrItem);
-        
+
         unset($this->page);
         unset($this->url);
         unset($this->currClass);
-        
+
         return $item;
     }
-    
+
     // find and replace all keywords
     function format2(&$aCurrItem) {
         if (!is_string($aCurrItem)) return '';
         return preg_replace_callback(
             '@\[('.
                 'a|ac|/a|li|/li|ul|/ul|menu_title|menu_icon_0|menu_icon_1|'.
-		        'page_title|page_icon|url|target|page_id|tooltip|'.
+                'page_title|page_icon|url|target|page_id|tooltip|'.
                 'parent|level|sib|sibCount|class|description|keywords|'.
-                SM2_CONDITIONAL.
+                SM2::CONDITIONAL.
             ')\]@',
             array($this, 'replace'),
             $aCurrItem);
     }
-    
+
     // replace the keywords
     function replace($aMatches) {
         $aMatch = $aMatches[1];
@@ -224,19 +230,19 @@ class SM2_Formatter
         switch ($aMatch) {
         case 'a':
             $retval = '<a href="'.$this->url.'"';
-			// break; // ignore 'break' to add the rest of <a>-tag
-		case 'ac':
-			if( substr($retval, 0, 2) != '<a'){
-				$retval = '<a href="'.$this->url.'" class="'.$this->currClass.'"';
-			}
-			if(($this->flags & SM2_NO_TITLE)) {
-				$retval .= ' title="'.$this->page['tooltip'].'"';
-			}
-			if(!($this->flags & SM2_XHTML_STRICT)) {
-				$retval .= ' target="'.$this->page['target'].'"';
-			}
-			$retval .= '>';
-			break;
+            // break; // ignore 'break' to add the rest of <a>-tag
+        case 'ac':
+            if( substr($retval, 0, 2) != '<a'){
+                $retval = '<a href="'.$this->url.'" class="'.$this->currClass.'"';
+            }
+            if(($this->flags & SM2::NO_TITLE)) {
+                $retval .= ' title="'.$this->page['tooltip'].'"';
+            }
+            if(!($this->flags & SM2::XHTML_STRICT)) {
+                $retval .= ' target="'.$this->page['target'].'"';
+            }
+            $retval .= '>';
+            break;
         case '/a':
             $retval = '</a>'; break;
         case 'li':
@@ -257,27 +263,27 @@ class SM2_Formatter
             $retval = $this->currClass; break;
         default:
             if (array_key_exists($aMatch, $this->page)) {
-                if ($this->flags & SM2_ESCAPE) {
+                if ($this->flags & SM2::ESCAPE) {
                     $retval = htmlspecialchars($this->page[$aMatch], ENT_QUOTES);
                 }
                 else {
                     $retval = $this->page[$aMatch];
                 }
             }
-            if (preg_match('/'.SM2_CONDITIONAL.'/', $aMatch, $rgMatches)) {
+            if (preg_match('/'.SM2::CONDITIONAL.'/', $aMatch, $rgMatches)) {
                 $retval = $this->replaceIf($rgMatches[1], $rgMatches[2], $rgMatches[3]);
             }
         }
         return $retval;
     }
-    
+
     // conditional replacement
     function replaceIf(&$aExpression, &$aIfValue, &$aElseValue) {
         // evaluate all of the tests in the conditional (we don't do short-circuit
         // evaluation) and replace the string test with the boolean result
         $rgTests = preg_split('/(\|\||\&\&)/', $aExpression, -1, PREG_SPLIT_DELIM_CAPTURE);
         for ($n = 0; $n < count($rgTests); $n += 2) {
-            if (preg_match('/'.SM2_COND_TERM.'/', $rgTests[$n], $rgMatches)) {
+            if (preg_match('/'.SM2::COND_TERM.'/', $rgTests[$n], $rgMatches)) {
                 $rgTests[$n] = $this->ifTest($rgMatches[1], $rgMatches[2], $rgMatches[3]);
             }
             else {
@@ -296,7 +302,7 @@ class SM2_Formatter
                 $ok = $ok && $rgTests[$n+1];
             }
         }
-        
+
         // return the formatted expression if the test succeeded
         return $ok ? $this->format2($aIfValue) : $this->format2($aElseValue);
     }
@@ -304,7 +310,7 @@ class SM2_Formatter
     // conditional test
     function ifTest(&$aKey, &$aOperator, &$aValue) {
         global $wb;
-        
+
         // find the correct operand
         $operand = false;
         switch($aKey) {
@@ -312,11 +318,11 @@ class SM2_Formatter
             // we need to wrap the class names in spaces so we can test for a unique
             // class name that will not match prefixes or suffixes. Same must be done
             // for the value we are testing.
-            $operand = " $this->currClass "; 
+            $operand = " $this->currClass ";
             break;
-		case 'target':
-			$operand = $this->page['target'];
-			break;
+        case 'target':
+            $operand = $this->page['target'];
+            break;
         case 'sib':
             $operand = $this->currSib;
             if ($aValue == 'sibCount') {
@@ -348,14 +354,14 @@ class SM2_Formatter
             return '';
         }
 
-        // do the test        
+        // do the test
         $ok = false;
-        switch ($aOperator) { 
+        switch ($aOperator) {
         case '<':
-            $ok = ($operand < $aValue); 
+            $ok = ($operand < $aValue);
             break;
         case '<=':
-            $ok = ($operand <= $aValue); 
+            $ok = ($operand <= $aValue);
             break;
         case '=':
         case '==':
@@ -364,24 +370,24 @@ class SM2_Formatter
                 $ok = strstr($operand, " $aValue ") !== FALSE;
             }
             else {
-                $ok = ($operand == $aValue); 
+                $ok = ($operand == $aValue);
             }
             if ($aOperator == '!=') {
                 $ok = !$ok;
             }
             break;
         case '>=':
-            $ok = ($operand >= $aValue); 
+            $ok = ($operand >= $aValue);
         case '>':
-            $ok = ($operand > $aValue); 
+            $ok = ($operand > $aValue);
         }
-        
+
         return $ok;
     }
-    
+
     // finish the current menu item
     function finishItem() {
-        if ($this->flags & SM2_PRETTY) {
+        if ($this->flags & SM2::PRETTY) {
             $this->output(str_repeat(' ',$this->prettyLevel).$this->itemClose);
         }
         else {
@@ -392,20 +398,20 @@ class SM2_Formatter
     // finish the current menu
     function finishList() {
         $this->prettyLevel -= 3;
-        
-        if ($this->flags & SM2_PRETTY) {
+
+        if ($this->flags & SM2::PRETTY) {
             $this->output("\n".str_repeat(' ',$this->prettyLevel).$this->menuClose."\n");
         }
         else {
             $this->output($this->menuClose);
         }
-        
+
         $this->prettyLevel -= 1;
     }
-    
+
     // cleanup the state of the formatter after everything has been output
     function finalize() {
-        if ($this->flags & SM2_PRETTY) {
+        if ($this->flags & SM2::PRETTY) {
             $this->output("\n");
         }
     }
@@ -432,9 +438,9 @@ function error_logs($error_str)
 
 function show_menu2(
     $aMenu          = 0,
-    $aStart         = SM2_ROOT,
-    $aMaxLevel      = -1999, // SM2_CURR+1
-    $aOptions       = SM2_TRIM,
+    $aStart         = SM2::ROOT,
+    $aMaxLevel      = -1999, // SM2::CURR+1
+    $aOptions       = SM2::TRIM,
     $aItemOpen      = false,
     $aItemClose     = false,
     $aMenuOpen      = false,
@@ -445,7 +451,7 @@ function show_menu2(
 {
     global $wb;
     $database = WbDatabase::getInstance();
-	$iQueryStart = $database->getQueryCount;
+    $iQueryStart = $database->getQueryCount;
     // extract the flags and set $aOptions to an array
     $flags = 0;
     if (is_int($aOptions)) {
@@ -456,19 +462,19 @@ function show_menu2(
         $flags = $aOptions['flags'];
     }
     else {
-        $flags = SM2_TRIM;
+        $flags = SM2::TRIM;
         $aOptions = array();
         @error_logs('show_menu2 error: $aOptions is invalid. No flags supplied!');
     }
-    
+
     // ensure we have our group 1 flag, we don't check for the "exactly 1" part, but
     // we do ensure that they provide at least one.
-    if (0 == ($flags & _SM2_GROUP_1)) {
+    if (0 == ($flags & SM2::_GROUP_1)) {
         @error_logs('show_menu2 error: $aOptions is invalid. No flags from group 1 supplied!');
-        $flags |= SM2_TRIM; // default to TRIM
+        $flags |= SM2::TRIM; // default to TRIM
     }
-    
-    // search page results don't have any of the page data loaded by WB, so we load it 
+
+    // search page results don't have any of the page data loaded by WB, so we load it
     // ourselves using the referrer ID as the current page
     $CURR_PAGE_ID = defined('REFERRER_ID') ? REFERRER_ID : PAGE_ID;
     if (count($wb->page) == 0 && defined('REFERRER_ID') && REFERRER_ID > 0) {
@@ -480,42 +486,42 @@ function show_menu2(
         }
         unset($result);
     }
-    
+
     // fix up the menu number to default to the menu number
     // of the current page if no menu has been supplied
     if ($aMenu == 0) {
         $aMenu = $wb->page['menu'] == '' ? 1 : $wb->page['menu'];
-    } 
+    }
 
     // Set some of the $wb->page[] settings to defaults if not set
     $pageLevel  = $wb->page['level']  == '' ? 0 : $wb->page['level'];
     $pageParent = $wb->page['parent'] == '' ? 0 : $wb->page['parent'];
-    
+
     // adjust the start level and start page ID as necessary to
     // handle the special values that can be passed in as $aStart
     $aStartLevel = 0;
-    if ($aStart < SM2_ROOT) {   // SM2_CURR+N
-        if ($aStart == SM2_CURR) {
+    if ($aStart < SM2::ROOT) {   // SM2::CURR+N
+        if ($aStart == SM2::CURR) {
             $aStartLevel = $pageLevel;
             $aStart = $pageParent;
         }
         else {
-            $aStartLevel = $pageLevel + $aStart - SM2_CURR;
-            $aStart = $CURR_PAGE_ID; 
+            $aStartLevel = $pageLevel + $aStart - SM2::CURR;
+            $aStart = $CURR_PAGE_ID;
         }
     }
-    elseif ($aStart < 0) {   // SM2_ROOT+N
-        $aStartLevel = $aStart - SM2_ROOT;
+    elseif ($aStart < 0) {   // SM2::ROOT+N
+        $aStartLevel = $aStart - SM2::ROOT;
         $aStart = 0;
     }
 
-    // we get the menu data once and store it in a global variable. This allows 
-    // multiple calls to show_menu2 in a single page with only a single call to 
+    // we get the menu data once and store it in a global variable. This allows
+    // multiple calls to show_menu2 in a single page with only a single call to
     // the database. If this variable exists, then we have already retrieved all
     // of the information and processed it, so we don't need to do it again.
-    if (($flags & SM2_NOCACHE) != 0
+    if (($flags & SM2::NOCACHE) != 0
         || !array_key_exists('show_menu2_data', $GLOBALS)
-        || !array_key_exists($aMenu, $GLOBALS['show_menu2_data'])) 
+        || !array_key_exists($aMenu, $GLOBALS['show_menu2_data']))
     {
         global $database;
 
@@ -528,7 +534,7 @@ function show_menu2(
         // if the caller wants all menus gathered together (e.g. for a sitemap)
         // then we don't limit our SQL query
         $menuLimitSql = ' AND `menu`='.$aMenu;
-        if ($aMenu == SM2_ALLMENU) {
+        if ($aMenu == SM2::ALLMENU) {
             $menuLimitSql = '';
         }
 
@@ -538,23 +544,23 @@ function show_menu2(
         // is called (i.e. where the database is loaded) then the info won't
         // exist anyhow.
         $fields  = '`parent`,`page_id`,`menu_title`,`page_title`,`link`,`target`,';
-		$fields .= '`level`,`visibility`,`viewing_groups`,`viewing_users`,';
-		$fields .= '`menu_icon_0`,`menu_icon_1`,`page_icon`,`tooltip`';
-        if ($flags & SM2_ALLINFO) {
+        $fields .= '`level`,`visibility`,`viewing_groups`,`viewing_users`,';
+        $fields .= '`menu_icon_0`,`menu_icon_1`,`page_icon`,`tooltip`';
+        if ($flags & SM2::ALLINFO) {
             $fields = '*';
         }
 
         // we request all matching rows from the database for the menu that we
         // are about to create it is cheaper for us to get everything we need
-        // from the database once and create the menu from memory then make 
-        // multiple calls to the database. 
+        // from the database once and create the menu from memory then make
+        // multiple calls to the database.
         $sql  = 'SELECT '.$fields.' FROM `'.TABLE_PREFIX.'pages` ';
-		$sql .= 'WHERE '.$wb->extra_where_sql.' '.$menuLimitSql.' ';
-		$sql .= 'ORDER BY `level` ASC, `position` ASC';
+        $sql .= 'WHERE '.$wb->extra_where_sql.' '.$menuLimitSql.' ';
+        $sql .= 'ORDER BY `level` ASC, `position` ASC';
         $sql = str_replace('hidden', 'IGNOREME', $sql); // we want the hidden pages
         $oRowset = $database->query($sql);
         if (is_object($oRowset) && $oRowset->numRows() > 0) {
-            // create an in memory array of the database data based on the item's parent. 
+            // create an in memory array of the database data based on the item's parent.
             // The array stores all elements in the correct display order.
             while ($page = $oRowset->fetchRow()) {
                 // ignore all pages that the current user is not permitted to view
@@ -563,7 +569,7 @@ function show_menu2(
                     if ($page['visibility'] == 'hidden') {
                         $page['sm2_hide'] = true;
                     }
-                    
+
                     // 2. all pages with no active sections (unless it is the top page) are ignored
                     else if (!$wb->page_is_active($page) && $page['link'] != $wb->default_link && !INTRO_PAGE) {
                         continue;
@@ -574,17 +580,17 @@ function show_menu2(
                         continue;
                     }
                 }
-				if(isset($page['page_icon']) && $page['page_icon'] != '') {
-					$page['page_icon'] = WB_URL.$page['page_icon'];
-				}
-				if(isset($page['menu_icon_0']) && $page['menu_icon_0'] != '') {
-					$page['menu_icon_0'] = WB_URL.$page['menu_icon_0'];
-				}
-				if(isset($page['menu_icon_1']) && $page['menu_icon_1'] != '') {
-					$page['menu_icon_1'] = WB_URL.$page['menu_icon_1'];
-				}
+                if(isset($page['page_icon']) && $page['page_icon'] != '') {
+                    $page['page_icon'] = WB_URL.$page['page_icon'];
+                }
+                if(isset($page['menu_icon_0']) && $page['menu_icon_0'] != '') {
+                    $page['menu_icon_0'] = WB_URL.$page['menu_icon_0'];
+                }
+                if(isset($page['menu_icon_1']) && $page['menu_icon_1'] != '') {
+                    $page['menu_icon_1'] = WB_URL.$page['menu_icon_1'];
+                }
 
-				if(!isset($page['tooltip'])) { $page['tooltip'] = $page['page_title']; }
+                if(!isset($page['tooltip'])) { $page['tooltip'] = $page['page_title']; }
                 // ensure that we have an array entry in the table to add this to
                 $idx = $page['parent'];
                 if (!array_key_exists($idx, $rgParent)) {
@@ -595,10 +601,10 @@ function show_menu2(
                 if ($page['page_id'] == $CURR_PAGE_ID) {
                     $page['sm2_is_curr'] = true;
                     $page['sm2_on_curr_path'] = true;
-                    if ($flags & SM2_SHOWHIDDEN) 
-					{ 
+                    if ($flags & SM2::SHOWHIDDEN)
+                    {
                         // show hidden pages if active and SHOWHIDDEN flag supplied
-                        unset($page['sm2_hide']); 
+                        unset($page['sm2_hide']);
                     }
                 }
 
@@ -606,17 +612,17 @@ function show_menu2(
                 if (in_array($page['page_id'], $rgCurrParents)) {
                     $page['sm2_is_parent'] = true;
                     $page['sm2_on_curr_path'] = true;
-                    if ($flags & SM2_SHOWHIDDEN) 
-					{
+                    if ($flags & SM2::SHOWHIDDEN)
+                    {
                         // show hidden pages if active and SHOWHIDDEN flag supplied
-						unset($page['sm2_hide']); // don't hide a parent page                
+                        unset($page['sm2_hide']); // don't hide a parent page
                     }
                 }
-                
-                // add the entry to the array                
+
+                // add the entry to the array
                 $rgParent[$idx][] = $page;
             }
-        }    
+        }
         unset($oRowset);
 
         // mark all elements that are siblings of any element on the current path
@@ -646,17 +652,17 @@ function show_menu2(
             }
             unset($childSet);
         }
-        
-        // mark all children of the current page. We don't do this when 
-        // $CURR_PAGE_ID is 0, as 0 is the parent of everything. 
+
+        // mark all children of the current page. We don't do this when
+        // $CURR_PAGE_ID is 0, as 0 is the parent of everything.
         // $CURR_PAGE_ID == 0 occurs on special pages like search results
         // when no referrer is available.s
         if ($CURR_PAGE_ID != 0) {
             sm2_mark_children($rgParent, $CURR_PAGE_ID, 1);
         }
-        
-        // store the complete processed menu data as a global. We don't 
-        // need to read this from the database anymore regardless of how 
+
+        // store the complete processed menu data as a global. We don't
+        // need to read this from the database anymore regardless of how
         // many menus are displayed on the same page.
         if (!array_key_exists('show_menu2_data', $GLOBALS)) {
             $GLOBALS['show_menu2_data'] = array();
@@ -665,22 +671,22 @@ function show_menu2(
         unset($rgParent);
     }
 
-    // adjust $aMaxLevel to the level number of the final level that 
+    // adjust $aMaxLevel to the level number of the final level that
     // will be displayed. That is, we display all levels <= aMaxLevel.
-    if ($aMaxLevel == SM2_ALL) {
+    if ($aMaxLevel == SM2::ALL) {
         $aMaxLevel = 1000;
     }
-    elseif ($aMaxLevel < 0) {   // SM2_CURR+N
-        $aMaxLevel += $pageLevel - SM2_CURR;
+    elseif ($aMaxLevel < 0) {   // SM2::CURR+N
+        $aMaxLevel += $pageLevel - SM2::CURR;
     }
-    elseif ($aMaxLevel >= SM2_MAX) { // SM2_MAX+N
-        $aMaxLevel += $aStartLevel - SM2_MAX;
+    elseif ($aMaxLevel >= SM2::MAX) { // SM2::MAX+N
+        $aMaxLevel += $aStartLevel - SM2::MAX;
         if ($aMaxLevel > $pageLevel) {
             $aMaxLevel = $pageLevel;
         }
     }
-    else {  // SM2_START+N
-        $aMaxLevel += $aStartLevel - SM2_START;
+    else {  // SM2::START+N
+        $aMaxLevel += $aStartLevel - SM2::START;
     }
 
     // generate the menu
@@ -693,40 +699,40 @@ function show_menu2(
                 $sm2formatter = new SM2_Formatter;
             }
             $formatter = $sm2formatter;
-            $formatter->set($flags, $aItemOpen, $aItemClose, 
+            $formatter->set($flags, $aItemOpen, $aItemClose,
                 $aMenuOpen, $aMenuClose, $aTopItemOpen, $aTopMenuOpen);
         }
-        
+
         // adjust the level until we show everything and ignore the SM2_TRIM flag.
         // Usually this will be less than the start level to disable it.
         $showAllLevel = $aStartLevel - 1;
         if (isset($aOptions['notrim'])) {
             $showAllLevel = $aStartLevel + $aOptions['notrim'];
         }
-        
+
         // display the menu
         $formatter->initialize();
         sm2_recurse(
             $GLOBALS['show_menu2_data'][$aMenu],
             $aStart,    // parent id to start displaying sub-menus
-            $aStartLevel, $showAllLevel, $aMaxLevel, $flags, 
+            $aStartLevel, $showAllLevel, $aMaxLevel, $flags,
             $formatter);
         $formatter->finalize();
-        
+
         // if we are returning something, get the data
-        if (($flags & SM2_BUFFER) != 0) {
+        if (($flags & SM2::BUFFER) != 0) {
             $retval = $formatter->getOutput();
         }
     }
 
     // clear the data if we aren't caching it
-    if (($flags & SM2_NOCACHE) != 0) {
+    if (($flags & SM2::NOCACHE) != 0) {
         unset($GLOBALS['show_menu2_data'][$aMenu]);
     }
-	if(defined('DEBUG') && (DEBUG)) {
-	    $iQueriesDone = $database->getQueryCount - $iQueryStart;
-	    return $retval."\n".'<!-- Queries: '.$iQueriesDone.' -->'."\n";
-	}
+    if(defined('DEBUG') && (DEBUG)) {
+        $iQueriesDone = $database->getQueryCount - $iQueryStart;
+        return $retval."\n".'<!-- Queries: '.$iQueriesDone.' -->'."\n";
+    }
     return $retval;
 }
 
@@ -743,33 +749,33 @@ function sm2_mark_children(&$rgParent, $aStart, $aChildLevel)
 }
 
 function sm2_recurse(
-    &$rgParent, $aStart, 
-    $aStartLevel, $aShowAllLevel, $aMaxLevel, $aFlags, 
+    &$rgParent, $aStart,
+    $aStartLevel, $aShowAllLevel, $aMaxLevel, $aFlags,
     &$aFormatter
     )
 {
     global $wb;
 
-    // on entry to this function we know that there are entries for this 
-    // parent and all entries for that parent are being displayed. We also 
+    // on entry to this function we know that there are entries for this
+    // parent and all entries for that parent are being displayed. We also
     // need to check if any of the children need to be displayed too.
     $isListOpen = false;
     $currentLevel = $wb->page['level'] == '' ? 0 : $wb->page['level'];
 
-    // get the number of siblings skipping the hidden pages so we can pass 
+    // get the number of siblings skipping the hidden pages so we can pass
     // this in and check if the item is first or last
     $sibCount = 0;
     foreach ($rgParent[$aStart] as $page) {
         if (!array_key_exists('sm2_hide', $page)) $sibCount++;
     }
-    
+
     $currSib = 0;
     foreach ($rgParent[$aStart] as $page) {
-        // skip all hidden pages 
+        // skip all hidden pages
         if (array_key_exists('sm2_hide', $page)) { // not set if false, so existence = true
             continue;
         }
-        
+
         $currSib++;
 
         // skip any elements that are lower than the maximum level
@@ -777,17 +783,17 @@ function sm2_recurse(
         if ($pageLevel > $aMaxLevel) {
             continue;
         }
-        
+
         // this affects ONLY the top level
-        if ($aStart == 0 && ($aFlags & SM2_CURRTREE)) {
+        if ($aStart == 0 && ($aFlags & SM2::CURRTREE)) {
             if (!array_key_exists('sm2_on_curr_path', $page)) { // not set if false, so existence = true
                 continue;
             }
             $sibCount = 1;
         }
-        
+
         // trim the tree as appropriate
-        if ($aFlags & SM2_SIBLING) {
+        if ($aFlags & SM2::SIBLING) {
             // parents, and siblings and children of current only
             if (!array_key_exists('sm2_on_curr_path', $page)      // not set if false, so existence = true
                 && !array_key_exists('sm2_is_sibling', $page)     // not set if false, so existence = true
@@ -795,7 +801,7 @@ function sm2_recurse(
                 continue;
             }
         }
-        else if ($aFlags & SM2_TRIM) {
+        else if ($aFlags & SM2::TRIM) {
             // parents and siblings of parents
             if ($pageLevel > $aShowAllLevel  // permit all levels to be shown
                 && !array_key_exists('sm2_on_curr_path', $page)    // not set if false, so existence = true
@@ -803,7 +809,7 @@ function sm2_recurse(
                 continue;
             }
         }
-        elseif ($aFlags & SM2_CRUMB) {
+        elseif ($aFlags & SM2::CRUMB) {
             // parents only
             if (!array_key_exists('sm2_on_curr_path', $page)    // not set if false, so existence = true
                 || array_key_exists('sm2_child_level', $page)) {  // not set if false, so existence = true
@@ -823,7 +829,7 @@ function sm2_recurse(
             else {
                 $url = $wb->page_link($page['link']);
             }
-                    
+
             // we open the list only when we absolutely need to
             if (!$isListOpen) {
                 $aFormatter->startList($page, $url);
@@ -832,16 +838,16 @@ function sm2_recurse(
 
             $aFormatter->startItem($page, $url, $currSib, $sibCount);
         }
-        
+
         // display children as appropriate
-        if ($pageLevel + 1 <= $aMaxLevel 
+        if ($pageLevel + 1 <= $aMaxLevel
             && array_key_exists('sm2_has_child', $page)) {  // not set if false, so existence = true
             sm2_recurse(
                 $rgParent, $nextParent, // parent id to start displaying sub-menus
-                $aStartLevel, $aShowAllLevel, $aMaxLevel, $aFlags, 
+                $aStartLevel, $aShowAllLevel, $aMaxLevel, $aFlags,
                 $aFormatter);
         }
-        
+
         // close the current element if appropriate
         if ($pageLevel >= $aStartLevel) {
             $aFormatter->finishItem($pageLevel, $page);
