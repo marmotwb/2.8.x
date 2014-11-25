@@ -26,15 +26,7 @@ $admin = new admin('Start', 'settings', false, false);
 
 if ($admin->get_user_id() == 1) {
 	$val = (((int)(defined('SYSTEM_LOCKED') ? SYSTEM_LOCKED : 0)) + 1) % 2;
-	$sql = 'SELECT COUNT(`setting_id`) FROM `'.$oDb->TablePrefix.'settings` '
-         . 'WHERE `name` = \'system_locked\'';
-    $bUpdate = (bool)$oDb->getOne($sql);
-    $sql = $bUpdate ? 'UPDATE ' : 'INSERT ';
-	$sql .= '`'.$oDb->TablePrefix.'settings` '
-	      . 'SET `name` = \'system_locked\', '
-	      .     '`value` = '.$val;
-    $sql .= $bUpdate ? 'WHERE `name` = \'system_locked\'' : '';
-	$oDb->doQuery($sql);
+    db_update_key_value($oDb->TablePrefix.'settings', 'system_locked', $val);
 }
 // redirect to backend
 header('Location: ' . ADMIN_URL . '/index.php');

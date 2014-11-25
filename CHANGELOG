@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+25 Nov-2014 Build 2109 Manuela v.d.Decken(DarkViper)
+# admin/settings/ little typofix, save settings now use official method
 25 Nov-2014 Build 2108 Manuela v.d.Decken(DarkViper)
 # an additional fix in install/save.php
 25 Nov-2014 Build 2107 Manuela v.d.Decken(DarkViper)
