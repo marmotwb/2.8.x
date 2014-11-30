@@ -341,5 +341,47 @@ class UpgradeHelper {
 	}
 
 
+    static public function convInfoIni2InfoPhp($sIniDir)
+    {
+        $aVarTypePrefixes = array(
+            'template' => 'template',
+            'theme'    => 'template',
+            'tool'     => 'module',
+            'page'     => 'module',
+            'snippet'  => 'module'
+        );
+        $aNeededVars = array_flip(
+            array('directory','name','function','version','platform','author','license','license_terms','description')
+        );
+        $aRetval = array();
+        $sIniDir = rtrim(str_replace('\\', '/', $sIniDir), '/').'/';
+        if (is_readable($sIniDir.'info.ini')) {
+            if (($ini = parse_ini_file($sIniDir.'info.ini', true))) {
+                if (!array_key_exists($ini['info']['type'], $aVarTypePrefixes)) {
+                    return null;
+                }
+                $aRetval['prefix'] = $aVarTypePrefixes[$ini['info']['type']];
+                $aRetval['function'] = $ini['info']['type'];
+                unset($aNeededVars['function']);
+                foreach ($ini['info'] as $sVar => $sValue) {
+                    $aRetval[$sVar] = $sValue;
+                    unset($aNeededVars[$sVar]);
+                }
+                if (isset($ini['platform']['versions'])) {
+                    $aRetval['platform'] = $ini['platform']['versions'];
+                    unset($aNeededVars['platform']);
+                }
+                if  (sizeof($aNeededVars) > 0) {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+        return $aRetval;
+    } // end of function Ini2PhpInfo
+
 } // end of class UpgradeHelper
 
