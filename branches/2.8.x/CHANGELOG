@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+01 Dec-2014 Build 2113 Manuela v.d.Decken(DarkViper)
++ framework/UpgradeHelper added new method convInfoIni2InfoPhp()
 25 Nov-2014 Build 2112 Manuela v.d.Decken(DarkViper)
 ! module/show_menu2/  Changed global Constants into class constants
 25 Nov-2014 Build 2111 Manuela v.d.Decken(DarkViper)
