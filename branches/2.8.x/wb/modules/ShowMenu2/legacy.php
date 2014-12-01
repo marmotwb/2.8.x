@@ -79,11 +79,10 @@ class SM2_ShowMenuFormatter
     var $currentClass;
     
     function output($aString) {
-        if ($this->flags & SM2::BUFFER) {
-            $this->output .= $aString;
-        }
-        else {
+        if ($this->flags & SM2::NOBUFFER) {
             echo $aString;
+        } else {
+            $this->output .= $aString;
         }
     }
     function initialize() { $this->output = ''; }
