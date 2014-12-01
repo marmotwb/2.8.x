@@ -39,7 +39,7 @@ class SM2
     const PRETTY =       0x0080; // bit 7
     const ESCAPE =       0x0100; // bit 8
     const NOESCAPE =          0; // NOOP, unnecessary with WB 2.6.7+
-    const BUFFER =       0x0200; // bit 9
+    const NOBUFFER =     0x0200; // bit 9
     const CURRTREE =     0x0400; // bit 10
     const SHOWHIDDEN =   0x0800; // bit 11
     const XHTML_STRICT = 0x1000; // bit 12
@@ -81,11 +81,10 @@ class SM2_Formatter
 
     // output the data
     function output($aString) {
-        if ($this->flags & SM2::BUFFER) {
-            $this->output .= $aString;
-        }
-        else {
+        if ($this->flags & SM2::NOBUFFER) {
             echo $aString;
+        } else {
+            $this->output .= $aString;
         }
     }
 
@@ -720,7 +719,7 @@ function show_menu2(
         $formatter->finalize();
 
         // if we are returning something, get the data
-        if (($flags & SM2::BUFFER) != 0) {
+        if (($flags & SM2::NOBUFFER) == 0) {
             $retval = $formatter->getOutput();
         }
     }

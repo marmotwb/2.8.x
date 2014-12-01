@@ -38,13 +38,13 @@ In den meisten Fällen genügt bereits der Standardaufruf ohne weitere Parameter
 von show_menu2. In diesem Fall werden die Vorgabewerte verwendet, dies erzeugt
 ein Menü das die aktuelle Seite und die Unterseiten der aktuellen Seite anzeigt:
 
-    show_menu2();
+    $sMenu = show_menu2();
 
 Bitte beachten: der Aufruf von show_menu2 ist PHP und muss normalerweise in PHP-
 Codezeichen eingeschlossen werden (ausser der Aufruf erfolgt bereits innerhalb
 von PHP Code):
 
-    <?php show_menu2(); ?>
+    <?php echo show_menu2(); ?>
 
 Dieses Vorgabe Menü erzeugt bereits ein komplettes Menü auf Listenbasis mit
 etlichen Klassen, die eine leichte Formatierung mittels CSS ermöglichen. Es wird
@@ -64,11 +64,11 @@ recht umfangreiche und unterschiedliche Menüstrukturen erzeugen. Um
 beispielsweise nur Menüpunkte aus der obersten Ebene der Menüstruktur
 darzustellen, könnte man folgenden Aufruf verwenden:
 
-    show_menu2(0, SM2_ROOT, SM2_START);
+    $sMenu = show_menu2(0, SM2_ROOT, SM2_START);
 
 Oder um beispielsweise bis zu zwei Unterebenen der aktuellen Seite anzuzeigen:
 
-    show_menu2(0, SM2_CURR+1, SM2_CURR+2);
+    $sMenu = show_menu2(0, SM2_CURR+1, SM2_CURR+2);
 
 Es gibt jede Menge Möglichkeiten, um die unterschiedlichsten Menüstrukturen zu
 erzeugen. Zahlreiche Beispiele dazu findet man auf der Demo-Website: http://
@@ -386,8 +386,7 @@ $aOptions
                     Zeilenumbrüchen in eine gut lesbare Form. Das ist besonders
                     nützlich beim Debuggen der Menüausgabe.
 
-    SM2_BUFFER      Gibt den HTML-Code nicht direkt aus, sondern speichert ihn intern
-                    zwischen und gibt ihn als kompletten String aus.
+    SM2_NOBUFFER    Gibt den HTML-Code direkt aus und speichert ihn nicht zwischen.
 
     SM2_CURRTREE    Schliesst alle anderen Toplevelmenüs von der Betrachtung aus.
                     Es werden nur Menüpunkte des aktuellen Menüzweiges dargestellt.
@@ -485,7 +484,7 @@ Um dieses Array zu verwenden, empfiehlt es sich es erst anzulegen und dann den
 $aOptions parameter mit dem angelegten Array zu beliefern:
 
     $options = array('flags' => (SM2_TRIM|...), 'notrim' => 1);
-    show_menu2(0, SM2_ROOT, SM2_CURR+1, $options);
+    $sMenu = show_menu2(0, SM2_ROOT, SM2_CURR+1, $options);
 
 
 
