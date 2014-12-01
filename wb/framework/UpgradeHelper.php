@@ -340,7 +340,11 @@ class UpgradeHelper {
 		return $aRetval;
 	}
 
-
+/**
+ * import info.ini as 'old style' variables
+ * @param string $sIniDir the directory where the info.ini is located
+ * @return array of settings or null on error
+ */
     static public function convInfoIni2InfoPhp($sIniDir)
     {
         $aVarTypePrefixes = array(
@@ -351,7 +355,10 @@ class UpgradeHelper {
             'snippet'  => 'module'
         );
         $aNeededVars = array_flip(
-            array('directory','name','function','version','platform','author','license','license_terms','description')
+            array(
+                'directory','name','function','version','platform','platform_versions',
+                'platform_minPHP','author','license','license_terms','description'
+            )
         );
         $aRetval = array();
         $sIniDir = rtrim(str_replace('\\', '/', $sIniDir), '/').'/';
@@ -370,6 +377,14 @@ class UpgradeHelper {
                 if (isset($ini['platform']['versions'])) {
                     $aRetval['platform'] = $ini['platform']['versions'];
                     unset($aNeededVars['platform']);
+                }
+                if (isset($ini['platform']['versions'])) {
+                    $aRetval['platform_versions'] = $ini['platform']['versions'];
+                    unset($aNeededVars['platform_versions']);
+                }
+                if (isset($ini['platform']['minPHP'])) {
+                    $aRetval['platform_minPHP'] = $ini['platform']['minPHP'];
+                    unset($aNeededVars['platform_minPHP']);
                 }
                 if  (sizeof($aNeededVars) > 0) {
                     return null;

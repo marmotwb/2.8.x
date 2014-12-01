@@ -11,6 +11,11 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+01 Dec-2014 Build 2114 Manuela v.d.Decken(DarkViper)
++ framework/UpgradeHelper additiona vars to method convInfoIni2InfoPhp()
+! module/show_menu2/ the directoryname of this 'Snippet' has been changed to ShowMenu2.
+- show_menu2: The Flag SM2::BUFFER has been removed
++ show_menu2: The Flag SM2::NOBUFFER was added
 01 Dec-2014 Build 2113 Manuela v.d.Decken(DarkViper)
 + framework/UpgradeHelper added new method convInfoIni2InfoPhp()
 25 Nov-2014 Build 2112 Manuela v.d.Decken(DarkViper)
