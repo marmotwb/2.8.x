@@ -697,9 +697,3 @@ $MESSAGE['THEME_IMPORT_HTT']                 = 'Import additional templates into
 
 $MESSAGE['SIGNUP2_NEW_USER'] = 'A new user would be registered';
 $MESSAGE['SIGNUP2_SUBJECT_NEW_USER'] = 'Many thanks for your registration';
-
-/* include old languages format */
-if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
-{
-	include(WB_PATH.'/languages/old.format.inc.php');
-}

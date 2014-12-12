@@ -691,10 +691,3 @@ $OVERVIEW['START'] = 'Panel administracyjny';
 $OVERVIEW['TEMPLATES'] = 'Zmien wyglad swojej strony za pomoca szablonÃÂ³w...';
 $OVERVIEW['USERS'] = 'Zarzadzaj uzytkownikami mogacymi logowac sie do WebsiteBakera...';
 $OVERVIEW['VIEW'] = 'Podglad witryny w nowym oknie...';
-
-/* include old languages format */
-if(file_exists(WB_PATH.'/languages/old.format.inc.php'))
-{
-	include(WB_PATH.'/languages/old.format.inc.php');
-}
-
