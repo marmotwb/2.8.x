@@ -11,6 +11,10 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+01 Dec-2014 Build 2116 Manuela v.d.Decken(DarkViper)
+! recoded main language files into utf-8
+- removed old array structure (see deprecated list #2 from 2010)
+01 Dec-2014 Build 2115 Manuela v.d.Decken(DarkViper)
 01 Dec-2014 Build 2114 Manuela v.d.Decken(DarkViper)
 + framework/UpgradeHelper additiona vars to method convInfoIni2InfoPhp()
 ! module/show_menu2/ the directoryname of this 'Snippet' has been changed to ShowMenu2.
