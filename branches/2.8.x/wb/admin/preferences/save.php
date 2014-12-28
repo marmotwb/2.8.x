@@ -35,9 +35,9 @@ function save_preferences( admin $admin)
         $display_name = $admin->add_slashes(strip_tags($admin->StripCodeFromText($admin->get_post('display_name'),true)));
     	$display_name = ( $display_name == '' ? $admin->get_display_name() : $display_name );
 // check that display_name is unique in whoole system (prevents from User-faking)
-    	$sql  = 'SELECT COUNT(*) FROM `'.TABLE_PREFIX.'users` ';
+    	$sql  = 'SELECT COUNT(*) FROM `'.$oDb->TablePrefix.'users` ';
     	$sql .= 'WHERE `user_id` <> '.(int)$admin->get_user_id().' AND `display_name` LIKE "'.$display_name.'"';
-    	if( $oDb->get_one($sql) > 0 ){ $err_msg[] = $oTrans->MESSAGE_USERS_USERNAME_TAKEN.' ('.$oTrans->TEXT_DISPLAY_NAME.')'; }
+    	if( $oDb->getOne($sql) > 0 ){ $err_msg[] = $oTrans->MESSAGE_USERS_USERNAME_TAKEN.' ('.$oTrans->TEXT_DISPLAY_NAME.')'; }
 // language must be 2 upercase letters only
     	$language         = strtoupper($admin->get_post('language'));
     	$language         = (preg_match('/^[A-Z]{2}$/', $language) ? $language : DEFAULT_LANGUAGE);
@@ -134,16 +134,15 @@ function save_preferences( admin $admin)
 				     .     '`language`=\''.$language.'\', '
 				     .     '`timezone`=\''.$timezone.'\', '
 				     .     '`date_format`=\''.$date_format.'\', '
-				     .     '`time_format`=\''.$time_format.'\' ';
-				if($sPwHashNew) {
-					$sql .=     '`password`=\''.$sPwHashNew.'\', ';
+				     .     '`time_format`=\''.$time_format.'\'';
+				if ($sPwHashNew) {
+					$sql .=     ', `password`=\''.$sPwHashNew.'\'';
 				}
-				if($email != '') {
-					$sql .=     '`email`=\''.$email.'\', ';
+				if ($email != '') {
+					$sql .=     ', `email`=\''.$email.'\'';
 				}
-				$sql .= 'WHERE `user_id`='.(int)$admin->get_user_id();
-				if( $oDb->doQuery($sql) )
-				{
+				$sql .= ' WHERE `user_id`='.(int)$admin->get_user_id();
+				if ($oDb->doQuery($sql)) {
 					// update successfull, takeover values into the session
 					$_SESSION['DISPLAY_NAME'] = $display_name;
 					$_SESSION['LANGUAGE'] = $language;
