@@ -11,6 +11,8 @@ Legend:
 ! = Update/Change
 ===============================================================================
 
+28 Dec-2014 Build 2117 Manuela v.d.Decken(DarkViper)
+! framework/SqlImport updatet for new phpMAdmin field formats
 01 Dec-2014 Build 2116 Manuela v.d.Decken(DarkViper)
 ! recoded main language files into utf-8
 - removed old array structure (see deprecated list #2 from 2010)
