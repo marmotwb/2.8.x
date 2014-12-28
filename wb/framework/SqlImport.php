@@ -206,20 +206,22 @@ class SqlImport {
         /* ***  ATTENTION:: Do Not Change The Order Of Search-Replace Statements !! *** */
         // define basic array of searches
         $aSearch[] = '/\{TABLE_PREFIX\}/';                                        /* step 0 */
-        $aSearch[] = '/\{FIELD_COLLATION\}/';                                     /* step 1 */
-        $aSearch[] = '/\{TABLE_ENGINE\}/';                                        /* step 2 */
-        $aSearch[] = '/\{TABLE_ENGINE=([a-zA-Z_0-9]*)\}/';                        /* step 3 */
-        $aSearch[] = '/\{CHARSET\}/';                                             /* step 4 */
-        $aSearch[] = '/\{COLLATION\}/';                                           /* step 5 */
+        $aSearch[] = '/\{FIELD_CHARSET\}/';                                       /* step 1 */
+        $aSearch[] = '/\{FIELD_COLLATION\}/';                                     /* step 2 */
+        $aSearch[] = '/\{TABLE_ENGINE\}/';                                        /* step 3 */
+        $aSearch[] = '/\{TABLE_ENGINE=([a-zA-Z_0-9]*)\}/';                        /* step 4 */
+        $aSearch[] = '/\{CHARSET\}/';                                             /* step 5 */
+        $aSearch[] = '/\{COLLATION\}/';                                           /* step 6 */
         // get from addReplacements
         $aReplace = $this->aReplacements['value'];
         // define basic array of replacements
         $aReplace[] = $this->sTablePrefix;                                        /* step 0 */
-        $aReplace[] = ' COLLATE {COLLATION}';                                     /* step 1 */
-        $aReplace[] = ' {TABLE_ENGINE='.$this->sEngine.'}';                       /* step 2 */
-        $aReplace[] = ' ENGINE=$1 DEFAULT CHARSET={CHARSET} COLLATE={COLLATION}'; /* step 3 */
-        $aReplace[] = $sCharset;                                                  /* step 4 */
-        $aReplace[] = $this->sCollation;                                          /* step 5 */
+        $aReplace[] = ' CHARACTER SET {CHARSET}';                                 /* step 1 */
+        $aReplace[] = ' COLLATE {COLLATION}';                                     /* step 2 */
+        $aReplace[] = ' {TABLE_ENGINE='.$this->sEngine.'}';                       /* step 3 */
+        $aReplace[] = ' ENGINE=$1 DEFAULT CHARSET={CHARSET} COLLATE={COLLATION}'; /* step 4 */
+        $aReplace[] = $sCharset;                                                  /* step 5 */
+        $aReplace[] = $this->sCollation;                                          /* step 6 */
 
         $sql = ''; // buffer for statements
         $aSql = file($this->sStructFile, FILE_SKIP_EMPTY_LINES|FILE_IGNORE_NEW_LINES);
