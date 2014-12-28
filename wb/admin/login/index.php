@@ -16,9 +16,9 @@
  */
 
 // Include the configuration file
-$config_file = realpath('../../config.php');
-if(file_exists($config_file) && !defined('WB_URL')) {
-	require_once($config_file);
+$sStartFile = dirname(dirname(__DIR__)).'/framework/initialize.php';
+if (!defined('SYSTEM_RUN')) {
+	require($sStartFile);
 }
 //if(!class_exists('login', false)){ require_once(WB_PATH.'/framework/class.login.php'); }
 //if(!class_exists('frontend', false)){ require_once(WB_PATH.'/framework/class.frontend.php'); }
@@ -54,7 +54,7 @@ $thisApp = new Login( array(
         'PASSWORD_FIELDNAME'    => $password_fieldname,
         'REMEMBER_ME_OPTION'    => SMART_LOGIN,
         'MIN_USERNAME_LEN'      => '2',
-        'MIN_PASSWORD_LEN'      => '6',
+        'MIN_PASSWORD_LEN'      => '3',
         'MAX_USERNAME_LEN'      => '30',
         'MAX_PASSWORD_LEN'      => '30',
         'LOGIN_URL'             => ADMIN_URL."/login/index.php",
