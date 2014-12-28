@@ -43,8 +43,7 @@ if(isset($_POST['email']) && is_string($_POST['email']) && $_POST['email'] != ""
 		} else {
 			$old_pass = $results_array['password'];
 			// Generate a random password then update the database with it
-            $oPassword = new Password();
-            $new_pass = $oPassword->createNew(8, Password::PW_USE_ALL);
+            $new_pass = Password::createNew(10, Password::PW_USE_ALL);
 			$sql = 'UPDATE `'.$oDb->TablePrefix.'users` '
                  . 'SET `password`=\''.md5($new_pass).'\', '
                  .     '`last_reset`='.time().' '
